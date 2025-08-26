@@ -332,6 +332,118 @@ function safetyBufferYards(hazardRisk: number, pinPos: PinPos): number {
   return base + (pinPos === "front" || pinPos === "back" ? 1.5 : 0);
 }
 
+function recommend(input: ShotInput) {
+  const candidates = makeCandidates(input);
+  const evals: CandidateEval[] = [];
+  for (const bucket of candidates) {
+    for (const plan of bucket.plans) {
+      // Filter out absurd plans (e.g., LW for 230y attack)
+      if (plan.targetCarry > input.ppm.clubs[plan.club].total * 1.15) continue;
+      evals.push(
+        evaluateCandidate(plan.club, plan.targetCarry, plan.aim, plan.shape, input)
+      );
+    }
+  }
+  evals.sort((a, b) => a.expStrokes - b.expStrokes);
+  const best = evals[0];
+  let backup = evals.find(e => e.club !== best.club);
+  const adj = evals.filter(e => e.club !== best.club && Math.abs(clubIndex(e.club) - clubIndex(best.club)) === 1);
+  if (adj.length && backup) {
+    const bestAdj = adj.reduce((m, e) => (e.expStrokes < m.expStrokes ? e : m), adj[0]);
+    const EPS = 0.03; // favor adjacent club if within 0.03 strokes
+    if (bestAdj.expStrokes <= backup.expStrokes + EPS) {
+      backup = bestAdj;
+    }
+  }
+  return { best, backup, list: evals };
+}
+
+// ---------- Tiny self-test harness (runs in UI) ----------
+
+type TestResult = { name: string; pass: boolean; got?: number | string; expected?: string };
+
+function approx(a: number, b: number, tol = 1e-3) { return Math.abs(a - b) <= tol; }
+
+function runSelfTests(): TestResult[] {
+  const results: TestResult[] = [];
+
+  // erf(0)=0
+  const e0 = erf(0);
+  results.push({ name: "erf(0) = 0", pass: approx(e0, 0), got: e0, expected: "≈ 0" });
+
+  // erf symmetry
+  const e1 = erf(1), em1 = erf(-1);
+  results.push({ name: "erf symmetry", pass: approx(e1, -em1), got: `${e1.toFixed(6)} & ${em1.toFixed(6)}`, expected: "erf(1) = -erf(-1)" });
+
+  // Φ(0)=0.5
+  const p0 = phiCDF(0);
+  results.push({ name: "Phi(0) = 0.5", pass: approx(p0, 0.5, 1e-6), got: p0, expected: "0.5" });
+
+  // Tail prob at buffer=0 is 1 (two-sided)
+  const t0 = probabilityTailRiskBeyond(0, 10);
+  results.push({ name: "TailProb buffer=0 => 1", pass: approx(t0, 1, 1e-6), got: t0, expected: "1" });
+
+  // Monotonic tail: larger buffer => smaller probability
+  const tSmall = probabilityTailRiskBeyond(5, 10);
+  const tLarge = probabilityTailRiskBeyond(10, 10);
+  results.push({ name: "Tail decreases with buffer", pass: tLarge < tSmall, got: `${tSmall.toFixed(3)} -> ${tLarge.toFixed(3)}`, expected: "decreasing" });
+
+  // Hazard penalty increases with hazardRisk
+  const hp1 = hazardPenalty(1.0, 1, 0.2);
+  const hp5 = hazardPenalty(1.0, 5, 0.2);
+  results.push({ name: "Hazard penalty grows with risk", pass: hp5 > hp1, got: `${hp1.toFixed(3)} -> ${hp5.toFixed(3)}`, expected: ">" });
+
+  // Fairway geometry sanity
+  const pIn0 = pWithinFairway(5, 0);
+  results.push({ name: "Fairway width 0 => P(in)=0", pass: approx(pIn0, 0, 1e-6), got: pIn0, expected: "0" });
+  const pInWide = pWithinFairway(5, 1000);
+  results.push({ name: "Very wide fairway => P(in)≈1", pass: approx(pInWide, 1, 1e-3), got: pInWide.toFixed(4), expected: "≈1" });
+  const pOverFar = pBeyondThreshold(200, 10, 1000);
+  results.push({ name: "Far hazard => P(over)≈0", pass: approx(pOverFar, 0, 1e-6), got: pOverFar, expected: "≈0" });
+
+  // Band probability sanity
+  const pBandFar = pBand(220, 12, 400, 430);
+  results.push({ name: "Band far away => ≈0", pass: approx(pBandFar, 0, 1e-6), got: pBandFar.toFixed(6), expected: "≈0" });
+  const pBandInside = pBand(255, 12, 250, 265);
+  results.push({ name: "Band around mean => sizable", pass: pBandInside > 0.3, got: pBandInside.toFixed(3), expected: "> 0.3" });
+
+  // One-sided miss shrinks with width
+  const missTight = pMissSide(10, 25, 'right');
+  const missWide = pMissSide(10, 60, 'right');
+  results.push({ name: "One-sided miss drops as width grows", pass: missWide < missTight, got: `${missTight.toFixed(3)} -> ${missWide.toFixed(3)}`, expected: "decreasing" });
+
+  // Driver width applies only to Driver (sanity)
+  const qTest: Questionnaire = { lie: "tee", stance: "flat", pinPos: "middle", hazardRisk: 3, requiredShape: "any", confidence: 3, fairwayWidthAtDriverYds: 15, hazardSide: null, hazardStartYds: null, hazardClearYds: null };
+  const penD = teeGeometryPenalty("D", 260, 12, 12, qTest, 1).penalty;
+  const pen3W = teeGeometryPenalty("3W", 240, 12, 12, qTest, 1).penalty;
+  results.push({ name: "Driver width penalty > 3W", pass: penD > pen3W, got: `${penD.toFixed(3)} vs ${pen3W.toFixed(3)}`, expected: ">" });
+
+  // NEW: Layup should beat Driver when right hazard 250–265y and 15y fairway
+  const ppm = defaultPPM;
+  const env = defaultEnv;
+  const qHaz: Questionnaire = {
+    lie: "tee",
+    stance: "flat",
+    pinPos: "middle",
+    hazardRisk: 4,
+    requiredShape: "any",
+    confidence: 3,
+    fairwayWidthAtDriverYds: 15,
+    hazardSide: "right",
+    hazardStartYds: 250,
+    hazardClearYds: 265,
+  };
+  const distanceToHole = 420;
+  const driverTarget = adjustCarry(ppm, "D", env, "tee");
+  const layTarget = layupTargetBeforeHazard(qHaz, 15)!;
+  const input: ShotInput = { distanceToHole, ppm, env, q: qHaz };
+  const evalDriver = evaluateCandidate("D", driverTarget, -5, ppm.preferredShape, input);
+  const evalLay = evaluateCandidate("5W", layTarget, -5, "straight", input);
+  results.push({ name: "Hazard scenario: Layup beats Driver", pass: evalLay.expStrokes < evalDriver.expStrokes, got: `${evalDriver.expStrokes.toFixed(2)} vs ${evalLay.expStrokes.toFixed(2)}`, expected: "layup < driver" });
+
+  return results;
+}
+
 // ---------- UI ----------
 
 function CaddyAIV2() {

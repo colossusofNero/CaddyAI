@@ -479,7 +479,7 @@ function makeCandidates(input: ShotInput): {
   if (q.lie === "tee") {
     const canShapeShots = ppm.handicap <= 8;
     
-    // High handicap players should avoid driver in tight situations
+    for (const [club, baseCarry] of Object.entries(ppm.clubs)) {
     const teeClubs = canShapeShots(ppm.handicap) 
       ? (["D", "3W", "3H", "5W"] as ClubId[])
       : (q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 25) 

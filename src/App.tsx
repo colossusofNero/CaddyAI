@@ -132,6 +132,12 @@ interface Course {
 
 interface Hazard {
   id: string;
+  type: "bunker" | "water" | "greenside_bunker";
+  side: "left" | "right" | "FL" | "FR" | "BL" | "BR";
+  startYards: number;
+  clearYards: number;
+}
+
 interface ShotPlan {
   club: ClubId;
   description: string;

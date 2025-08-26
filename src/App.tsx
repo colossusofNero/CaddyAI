@@ -959,6 +959,71 @@ function CaddyAIV2() {
 
           {/* Right Column - Recommendations and Options */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Wind Strategy Alert */}
+            {(() => {
+              const windSpeed = env.windSpeed;
+              const windDir = env.windDir;
+              const shotShape = ppm.normalShot;
+              const isRightHanded = ppm.dominantHand === 'R';
+              
+              if (windSpeed >= 15 && (windDir === 'cross_L_to_R' || windDir === 'cross_R_to_L')) {
+                let strategy = '';
+                let severity = 'WARNING';
+                
+                if (windSpeed >= 20) {
+                  severity = 'CRITICAL';
+                }
+                
+                // Right-handed draw in L-R wind
+                if (isRightHanded && shotShape === 'draw' && windDir === 'cross_L_to_R') {
+                  const aimAdjust = Math.round(windSpeed * 0.8);
+                  strategy = `${severity}: Draw fights L-R wind! Aim ${aimAdjust}y RIGHT of target OR take 1-2 extra clubs and swing at 80%`;
+                }
+                // Right-handed fade in R-L wind  
+                else if (isRightHanded && shotShape === 'fade' && windDir === 'cross_R_to_L') {
+                  const aimAdjust = Math.round(windSpeed * 0.8);
+                  strategy = `${severity}: Fade fights R-L wind! Aim ${aimAdjust}y LEFT of target OR take 1-2 extra clubs and swing at 80%`;
+                }
+                // Wind helping shot shape
+                else if ((isRightHanded && shotShape === 'draw' && windDir === 'cross_R_to_L') ||
+                         (isRightHanded && shotShape === 'fade' && windDir === 'cross_L_to_R')) {
+                  strategy = `${severity}: Wind amplifies your ${shotShape}! Aim for center and expect extra curve`;
+                }
+                // Left-handed logic (opposite)
+                else if (!isRightHanded && shotShape === 'draw' && windDir === 'cross_R_to_L') {
+                  const aimAdjust = Math.round(windSpeed * 0.8);
+                  strategy = `${severity}: Draw fights R-L wind! Aim ${aimAdjust}y LEFT of target OR take 1-2 extra clubs and swing at 80%`;
+                }
+                else if (!isRightHanded && shotShape === 'fade' && windDir === 'cross_L_to_R') {
+                  const aimAdjust = Math.round(windSpeed * 0.8);
+                  strategy = `${severity}: Fade fights L-R wind! Aim ${aimAdjust}y RIGHT of target OR take 1-2 extra clubs and swing at 80%`;
+                }
+                
+                if (strategy) {
+                  return (
+                    <div className={`p-4 rounded-lg border-l-4 mb-6 ${
+                      severity === 'CRITICAL' 
+                        ? 'bg-red-50 border-red-500 text-red-800' 
+                        : 'bg-yellow-50 border-yellow-500 text-yellow-800'
+                    }`}>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0">
+                          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div className="ml-3">
+                          <h3 className="text-sm font-medium">Wind Strategy</h3>
+                          <p className="text-sm mt-1">{strategy}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              }
+              return null;
+            })()}
+
             {/* Recommendations */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <h3 className="font-semibold text-gray-800 mb-4">Recommendations</h3>

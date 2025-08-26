@@ -118,3 +118,980 @@ interface Environment {
   windSpeed: number;      // mph
   windDir: "head" | "tail" | "cross_R_to_L" | "cross_L_to_R";
 }
+
+interface Course {
+  distanceToHole: number;     // yards
+  elevation: number;          // feet (+ uphill, - downhill)
+  temperature: number;        // °F
+  altitude: number;           // feet above sea level
+  lie: Lie;
+  stance: Stance;
+  pinPos: PinPos;
+  fairwayWidth?: number | null; // yards (null = unknown/irrelevant)
+}
+
+interface Hazard {
+  side: "left" | "right";
+  startYards: number;
+  clearYards: number;
+}
+
+interface ShotPlan {
+  club: ClubId;
+  description: string;
+  expectedCarry: number;
+  expectedTotal: number;
+  riskScore: number;
+  expectedStrokes: number;
+  pSuccess: number;
+  pHazard: number;
+  pFairway: number;
+  reasoning: string;
+  isLayup?: boolean;
+}
+
+// ---------- Default PPM ----------
+
+const DEFAULT_PPM: PPM = {
+  dominantHand: "R",
+  handicap: 15,
+  normalShot: "draw",
+  ballFlight: "mid",
+  isSetup: false,
+  clubs: {
+    D: { carry: 240, total: 260, sigCarry: 15, sigLat: 20, confidence: 0.7 },
+    "3W": { carry: 220, total: 235, sigCarry: 12, sigLat: 18, confidence: 0.75 },
+    "5W": { carry: 200, total: 215, sigCarry: 10, sigLat: 16, confidence: 0.8 },
+    "3H": { carry: 185, total: 195, sigCarry: 8, sigLat: 14, confidence: 0.85 },
+    "4i": { carry: 170, total: 180, sigCarry: 8, sigLat: 12, confidence: 0.8 },
+    "5i": { carry: 160, total: 170, sigCarry: 7, sigLat: 11, confidence: 0.85 },
+    "6i": { carry: 150, total: 158, sigCarry: 6, sigLat: 10, confidence: 0.9 },
+    "7i": { carry: 140, total: 148, sigCarry: 6, sigLat: 9, confidence: 0.9 },
+    "8i": { carry: 130, total: 136, sigCarry: 5, sigLat: 8, confidence: 0.95 },
+    "9i": { carry: 120, total: 125, sigCarry: 5, sigLat: 7, confidence: 0.95 },
+    PW: { carry: 110, total: 114, sigCarry: 4, sigLat: 6, confidence: 0.95 },
+    GW: { carry: 100, total: 103, sigCarry: 4, sigLat: 5, confidence: 0.95 },
+    SW: { carry: 85, total: 88, sigCarry: 3, sigLat: 4, confidence: 0.9 },
+    LW: { carry: 70, total: 72, sigCarry: 3, sigLat: 4, confidence: 0.85 }
+  }
+};
+
+// ---------- Environmental adjustments ----------
+
+function adjustForConditions(baseCarry: number, baseSigma: number, env: Environment, course: Course): [number, number] {
+  let carry = baseCarry;
+  let sigma = baseSigma;
+
+  // Temperature: +1y per 10°F above 70°F, -1y per 10°F below
+  const tempAdj = (course.temperature - 70) / 10;
+  carry += tempAdj;
+
+  // Altitude: +2% per 1000ft
+  const altAdj = (course.altitude / 1000) * 0.02;
+  carry *= (1 + altAdj);
+
+  // Elevation: +1y per 3ft uphill, -1y per 3ft downhill
+  const elevAdj = course.elevation / 3;
+  carry += elevAdj;
+
+  // Wind: head/tail affects carry, cross affects sigma
+  if (env.windDir === "head") {
+    carry -= env.windSpeed * 0.8;
+  } else if (env.windDir === "tail") {
+    carry += env.windSpeed * 0.6;
+  } else if (env.windDir === "cross_R_to_L" || env.windDir === "cross_L_to_R") {
+    sigma += env.windSpeed * 0.3;
+  }
+
+  // Lie conditions
+  const lieFactors = {
+    tee: 1.0,
+    fairway: 1.0,
+    light_rough: 0.95,
+    heavy_rough: 0.85,
+    sand: 0.8,
+    recovery: 0.7
+  };
+  carry *= lieFactors[course.lie];
+
+  // Stance adjustments
+  if (course.stance === "ball_above") carry *= 0.95;
+  if (course.stance === "ball_below") carry *= 1.05;
+  if (course.stance === "uphill") carry *= 1.1;
+  if (course.stance === "downhill") carry *= 0.9;
+
+  return [Math.max(carry, 10), Math.max(sigma, 1)];
+}
+
+// ---------- Risk appetite ----------
+
+function getRiskAppetite(handicap: number, confidence: number): number {
+  // Lower handicap + higher confidence = more aggressive
+  const baseRisk = Math.max(0.1, Math.min(0.9, 1 - (handicap / 30)));
+  const confAdj = (confidence - 3) * 0.1; // confidence 1-5, neutral at 3
+  return Math.max(0.1, Math.min(0.9, baseRisk + confAdj));
+}
+
+// ---------- Strokes-to-hole model (toy version) ----------
+
+function strokesFromDistance(yards: number, lie: Lie): number {
+  // Simplified model - replace with real strokes gained data
+  const baseLookup = [
+    [0, 2.1], [50, 2.3], [100, 2.6], [150, 2.9], [200, 3.2],
+    [250, 3.6], [300, 4.0], [350, 4.4], [400, 4.8], [450, 5.2], [500, 5.6]
+  ];
+  
+  let base = 5.6;
+  for (let i = 0; i < baseLookup.length - 1; i++) {
+    const [d1, s1] = baseLookup[i];
+    const [d2, s2] = baseLookup[i + 1];
+    if (yards >= d1 && yards <= d2) {
+      base = s1 + (s2 - s1) * (yards - d1) / (d2 - d1);
+      break;
+    }
+  }
+
+  // Lie penalty
+  const liePenalties = {
+    tee: 0, fairway: 0, light_rough: 0.2, heavy_rough: 0.5, sand: 0.8, recovery: 1.2
+  };
+  
+  return base + liePenalties[lie];
+}
+
+// ---------- Shot planning logic ----------
+
+function planShot(
+  club: ClubId,
+  ppm: PPM,
+  env: Environment,
+  course: Course,
+  hazard: Hazard | null,
+  confidence: number
+): ShotPlan {
+  const spec = ppm.clubs[club];
+  const [adjCarry, adjSigCarry] = adjustForConditions(spec.carry, spec.sigCarry, env, course);
+  const [, adjSigLat] = adjustForConditions(spec.total, spec.sigLat, env, course);
+  
+  // Expected total distance (carry + roll, adjusted for conditions)
+  const rollFactor = course.lie === "tee" ? 1.08 : (course.lie === "fairway" ? 1.05 : 1.0);
+  const expectedTotal = adjCarry * rollFactor;
+  
+  // Risk calculations
+  let pHazard = 0;
+  let pFairway = 1;
+  
+  if (hazard) {
+    // Probability of landing in hazard band
+    pHazard = pBand(expectedTotal, adjSigCarry, hazard.startYards, hazard.clearYards);
+    
+    // Adjust for lateral dispersion if hazard is on preferred miss side
+    const prefersRight = (ppm.dominantHand === "R" && ppm.normalShot === "fade") || 
+                        (ppm.dominantHand === "L" && ppm.normalShot === "draw");
+    const hazardOnPrefSide = (hazard.side === "right" && prefersRight) || 
+                            (hazard.side === "left" && !prefersRight);
+    
+    if (hazardOnPrefSide) {
+      const lateralRisk = pMissSide(adjSigLat, course.fairwayWidth, hazard.side);
+      pHazard = Math.min(1, pHazard + lateralRisk * 0.3);
+    }
+  }
+  
+  // Fairway hit probability (only matters for driver on tee)
+  if (course.lie === "tee" && club === "D" && course.fairwayWidth) {
+    pFairway = pWithinFairway(adjSigLat, course.fairwayWidth);
+  }
+  
+  // Success probability (avoid hazard + reasonable accuracy)
+  const pSuccess = (1 - pHazard) * Math.max(0.5, pFairway) * spec.confidence;
+  
+  // Expected strokes calculation
+  const remainingYards = Math.max(0, course.distanceToHole - expectedTotal);
+  const nextLie: Lie = pSuccess > 0.7 ? "fairway" : "light_rough";
+  const baseStrokes = 1 + strokesFromDistance(remainingYards, nextLie);
+  
+  // Penalties for hazards and misses
+  const hazardPenalty = pHazard * 1.5; // stroke and distance
+  const roughPenalty = (1 - pFairway) * 0.3;
+  
+  const expectedStrokes = baseStrokes + hazardPenalty + roughPenalty;
+  
+  // Risk score (0-100, lower is better)
+  const riskScore = Math.round(pHazard * 50 + (1 - pSuccess) * 30 + (1 - spec.confidence) * 20);
+  
+  // Generate description and reasoning
+  let description = `${club}`;
+  if (expectedTotal < course.distanceToHole - 20) {
+    description += ` (${Math.round(expectedTotal)}y, leaves ${Math.round(remainingYards)}y)`;
+  } else {
+    description += ` (${Math.round(expectedTotal)}y)`;
+  }
+  
+  let reasoning = `${Math.round(pSuccess * 100)}% success rate. `;
+  if (pHazard > 0.1) {
+    reasoning += `${Math.round(pHazard * 100)}% hazard risk. `;
+  }
+  if (course.lie === "tee" && club === "D" && course.fairwayWidth) {
+    reasoning += `${Math.round(pFairway * 100)}% fairway hit rate.`;
+  }
+  
+  return {
+    club,
+    description,
+    expectedCarry: Math.round(adjCarry),
+    expectedTotal: Math.round(expectedTotal),
+    riskScore,
+    expectedStrokes: Math.round(expectedStrokes * 10) / 10,
+    pSuccess: Math.round(pSuccess * 100) / 100,
+    pHazard: Math.round(pHazard * 100) / 100,
+    pFairway: Math.round(pFairway * 100) / 100,
+    reasoning
+  };
+}
+
+// ---------- Voice command parsing ----------
+
+function parseVoiceCommand(text: string): Partial<{ 
+  hazard: Hazard; 
+  fairwayWidth: number; 
+  distance: number; 
+  wind: { speed: number; dir: Environment['windDir'] };
+  lie: Lie;
+  confidence: number;
+}> {
+  const lower = text.toLowerCase();
+  const result: any = {};
+  
+  // Hazard parsing: "hazard right 250 clear 265" or "right bunker 250 to 265"
+  const hazardMatch = lower.match(/(?:hazard\s+)?(left|right)(?:\s+(?:bunker|water|trees?))?\s+(\d+)(?:\s+(?:clear|to)\s+(\d+))?/);
+  if (hazardMatch) {
+    const [, side, start, clear] = hazardMatch;
+    result.hazard = {
+      side: side as "left" | "right",
+      startYards: parseInt(start),
+      clearYards: clear ? parseInt(clear) : parseInt(start) + 15
+    };
+  }
+  
+  // Fairway width: "fairway width 20" or "fairway narrows to 15"
+  const fairwayMatch = lower.match(/fairway\s+(?:width|narrows\s+to)\s+(\d+)/);
+  if (fairwayMatch) {
+    result.fairwayWidth = parseInt(fairwayMatch[1]);
+  }
+  
+  // Distance: "distance 275" or "275 yards"
+  const distMatch = lower.match(/(?:distance\s+)?(\d+)(?:\s+yards?)?/);
+  if (distMatch && !hazardMatch && !fairwayMatch) {
+    result.distance = parseInt(distMatch[1]);
+  }
+  
+  // Wind: "wind 15 left to right" or "crosswind 20"
+  const windMatch = lower.match(/(?:wind|crosswind)\s+(\d+)(?:\s+(head|tail|left\s+to\s+right|right\s+to\s+left))?/);
+  if (windMatch) {
+    const [, speed, direction] = windMatch;
+    let dir: Environment['windDir'] = "cross_L_to_R";
+    if (direction) {
+      if (direction.includes("head")) dir = "head";
+      else if (direction.includes("tail")) dir = "tail";
+      else if (direction.includes("right to left")) dir = "cross_R_to_L";
+      else if (direction.includes("left to right")) dir = "cross_L_to_R";
+    }
+    result.wind = { speed: parseInt(speed), dir };
+  }
+  
+  // Lie: "lie fairway" or "in the rough"
+  if (lower.includes("fairway")) result.lie = "fairway";
+  else if (lower.includes("rough")) result.lie = "light_rough";
+  else if (lower.includes("sand") || lower.includes("bunker")) result.lie = "sand";
+  
+  // Confidence: "confidence 4" or "feeling good" (5) or "not confident" (2)
+  const confMatch = lower.match(/confidence\s+([1-5])/);
+  if (confMatch) {
+    result.confidence = parseInt(confMatch[1]);
+  } else if (lower.includes("feeling good") || lower.includes("confident")) {
+    result.confidence = 4;
+  } else if (lower.includes("not confident") || lower.includes("struggling")) {
+    result.confidence = 2;
+  }
+  
+  return result;
+}
+
+// ---------- Main App Component ----------
+
+export default function App() {
+  // State management
+  const [ppm, setPPM] = useState<PPM>(() => {
+    const saved = localStorage.getItem('caddyai-ppm');
+    return saved ? { ...DEFAULT_PPM, ...JSON.parse(saved) } : DEFAULT_PPM;
+  });
+  
+  const [env, setEnv] = useState<Environment>({
+    windSpeed: 5,
+    windDir: "head"
+  });
+  
+  const [course, setCourse] = useState<Course>({
+    distanceToHole: 275,
+    elevation: 0,
+    temperature: 75,
+    altitude: 0,
+    lie: "tee",
+    stance: "flat",
+    pinPos: "middle",
+    fairwayWidth: null
+  });
+  
+  const [hazard, setHazard] = useState<Hazard | null>(null);
+  const [confidence, setConfidence] = useState(3);
+  const [showSettings, setShowSettings] = useState(false);
+  const [editingPPM, setEditingPPM] = useState(false);
+  
+  // Voice chat integration
+  const voice = useVoiceChat();
+  
+  // Save PPM to localStorage
+  useEffect(() => {
+    localStorage.setItem('caddyai-ppm', JSON.stringify(ppm));
+  }, [ppm]);
+  
+  // Voice command handling
+  const handleVoiceResult = (transcript: string) => {
+    const parsed = parseVoiceCommand(transcript);
+    
+    if (parsed.hazard) setHazard(parsed.hazard);
+    if (parsed.fairwayWidth) setCourse(prev => ({ ...prev, fairwayWidth: parsed.fairwayWidth }));
+    if (parsed.distance) setCourse(prev => ({ ...prev, distanceToHole: parsed.distance }));
+    if (parsed.wind) setEnv(prev => ({ ...prev, ...parsed.wind }));
+    if (parsed.lie) setCourse(prev => ({ ...prev, lie: parsed.lie }));
+    if (parsed.confidence) setConfidence(parsed.confidence);
+    
+    // Auto-speak recommendations for "what's the play" type queries
+    if (transcript.toLowerCase().includes("what") && transcript.toLowerCase().includes("play")) {
+      setTimeout(() => {
+        const plans = getRecommendations();
+        if (plans.length > 0) {
+          voice.speak(`I recommend ${plans[0].description}. ${plans[0].reasoning}`);
+        }
+      }, 500);
+    }
+  };
+  
+  // Shot planning calculations
+  const getRecommendations = useMemo(() => {
+    return (): ShotPlan[] => {
+      const riskAppetite = getRiskAppetite(ppm.handicap, confidence);
+      const plans: ShotPlan[] = [];
+      
+      // Test all clubs
+      for (const club of CLUB_ORDER) {
+        const plan = planShot(club, ppm, env, course, hazard, confidence);
+        
+        // Skip clubs that are way too short or too long
+        if (plan.expectedTotal < course.distanceToHole * 0.3) continue;
+        if (plan.expectedTotal > course.distanceToHole * 1.3) continue;
+        
+        plans.push(plan);
+      }
+      
+      // Add layup options if there's a hazard and we're on the tee
+      if (hazard && course.lie === "tee") {
+        const layupDistance = Math.max(100, hazard.startYards - 20);
+        
+        for (const club of CLUB_ORDER) {
+          const spec = ppm.clubs[club];
+          const [adjCarry] = adjustForConditions(spec.carry, spec.sigCarry, env, course);
+          
+          if (Math.abs(adjCarry - layupDistance) < 15) {
+            const layupPlan = planShot(club, ppm, env, course, null, confidence);
+            layupPlan.description += " (layup)";
+            layupPlan.isLayup = true;
+            layupPlan.reasoning = `Safe layup to ${layupDistance}y, avoids ${hazard.side} hazard.`;
+            plans.push(layupPlan);
+          }
+        }
+      }
+      
+      // Sort by expected strokes, then by risk
+      plans.sort((a, b) => {
+        const strokeDiff = a.expectedStrokes - b.expectedStrokes;
+        if (Math.abs(strokeDiff) > 0.1) return strokeDiff;
+        return a.riskScore - b.riskScore;
+      });
+      
+      return plans.slice(0, 6); // Top 6 options
+    };
+  }, [ppm, env, course, hazard, confidence]);
+  
+  const recommendations = getRecommendations();
+  const primary = recommendations[0];
+  const backup = recommendations[1];
+  
+  // Crosswind strategy warning
+  const getCrosswindWarning = () => {
+    if (env.windSpeed < 15) return null;
+    
+    const isRightHanded = ppm.dominantHand === "R";
+    const hitsDraw = ppm.normalShot === "draw";
+    const hitsfade = ppm.normalShot === "fade";
+    const windLtoR = env.windDir === "cross_L_to_R";
+    const windRtoL = env.windDir === "cross_R_to_L";
+    
+    // Draw fights L-to-R wind, Fade fights R-to-L wind
+    const drawFightsWind = hitsDraw && windLtoR;
+    const fadeFightsWind = hitsfade && windRtoL;
+    
+    if (drawFightsWind || fadeFightsWind) {
+      const aimDirection = windLtoR ? "RIGHT" : "LEFT";
+      const shotShape = hitsDraw ? "Draw" : "Fade";
+      const windDirection = windLtoR ? "L-R" : "R-L";
+      
+      return `CRITICAL: ${shotShape} fights ${windDirection} wind! Aim 20y ${aimDirection} of target OR take 1-2 extra clubs and swing at 80%`;
+    }
+    
+    return null;
+  };
+  
+  const crosswindWarning = getCrosswindWarning();
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Target className="w-8 h-8 text-emerald-600" />
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              CaddyAI v2.3
+            </h1>
+          </div>
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            Hazard-Aware Golf Shot Planner
+          </p>
+        </div>
+
+        {/* Voice Controls */}
+        {voice.supported && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <Mic className="w-5 h-5" />
+                Voice Commands
+              </h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => voice.listening ? voice.stop() : voice.start(handleVoiceResult)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    voice.listening
+                      ? 'bg-red-500 hover:bg-red-600 text-white'
+                      : 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                  }`}
+                >
+                  {voice.listening ? (
+                    <>
+                      <MicOff className="w-4 h-4 inline mr-2" />
+                      Stop
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="w-4 h-4 inline mr-2" />
+                      Listen
+                    </>
+                  )}
+                </button>
+                {primary && (
+                  <button
+                    onClick={() => voice.speak(`I recommend ${primary.description}. ${primary.reasoning}`)}
+                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+                  >
+                    <Volume2 className="w-4 h-4 inline mr-2" />
+                    Speak
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            {voice.listening && (
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 mb-4">
+                <p className="text-emerald-800 dark:text-emerald-200 font-medium">
+                  🎤 Listening... Try: "hazard right 250 clear 265" or "fairway width 15"
+                </p>
+              </div>
+            )}
+            
+            {voice.transcript && (
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 mb-4">
+                <p className="text-gray-700 dark:text-gray-300">
+                  <strong>Heard:</strong> "{voice.transcript}"
+                </p>
+              </div>
+            )}
+            
+            {voice.error && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+                <p className="text-red-800 dark:text-red-200">
+                  <strong>Error:</strong> {voice.error}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Course Conditions */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <Flag className="w-5 h-5" />
+            Course Conditions
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Distance to Hole (yards)
+              </label>
+              <input
+                type="number"
+                value={course.distanceToHole}
+                onChange={(e) => setCourse(prev => ({ ...prev, distanceToHole: parseInt(e.target.value) || 0 }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Wind Speed (mph)
+              </label>
+              <input
+                type="number"
+                value={env.windSpeed}
+                onChange={(e) => setEnv(prev => ({ ...prev, windSpeed: parseInt(e.target.value) || 0 }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Wind Direction
+              </label>
+              <select
+                value={env.windDir}
+                onChange={(e) => setEnv(prev => ({ ...prev, windDir: e.target.value as Environment['windDir'] }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="head">Headwind</option>
+                <option value="tail">Tailwind</option>
+                <option value="cross_L_to_R">Left to Right</option>
+                <option value="cross_R_to_L">Right to Left</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Lie
+              </label>
+              <select
+                value={course.lie}
+                onChange={(e) => setCourse(prev => ({ ...prev, lie: e.target.value as Lie }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="tee">Tee</option>
+                <option value="fairway">Fairway</option>
+                <option value="light_rough">Light Rough</option>
+                <option value="heavy_rough">Heavy Rough</option>
+                <option value="sand">Sand</option>
+                <option value="recovery">Recovery</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Fairway Width (yards)
+              </label>
+              <input
+                type="number"
+                value={course.fairwayWidth || ''}
+                onChange={(e) => setCourse(prev => ({ ...prev, fairwayWidth: e.target.value ? parseInt(e.target.value) : null }))}
+                placeholder="Optional"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Confidence (1-5)
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="5"
+                value={confidence}
+                onChange={(e) => setConfidence(parseInt(e.target.value) || 3)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Hazard Information */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Hazard Information
+          </h2>
+          
+          {hazard ? (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-medium text-red-800 dark:text-red-200">
+                  {hazard.side.charAt(0).toUpperCase() + hazard.side.slice(1)} Hazard
+                </h3>
+                <button
+                  onClick={() => setHazard(null)}
+                  className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-red-700 dark:text-red-300">
+                Starts at {hazard.startYards} yards, clear at {hazard.clearYards} yards
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Hazard Side
+                </label>
+                <select
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      setHazard(prev => ({ 
+                        side: e.target.value as "left" | "right",
+                        startYards: prev?.startYards || 200,
+                        clearYards: prev?.clearYards || 220
+                      }));
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="">No hazard</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Starts (yards)
+                </label>
+                <input
+                  type="number"
+                  value={hazard?.startYards || ''}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (value && hazard) {
+                      setHazard(prev => prev ? { ...prev, startYards: value } : null);
+                    }
+                  }}
+                  disabled={!hazard}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Clear (yards)
+                </label>
+                <input
+                  type="number"
+                  value={hazard?.clearYards || ''}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (value && hazard) {
+                      setHazard(prev => prev ? { ...prev, clearYards: value } : null);
+                    }
+                  }}
+                  disabled={!hazard}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Crosswind Warning */}
+        {crosswindWarning && (
+          <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-6 mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <Wind className="w-6 h-6 text-red-600" />
+              <h2 className="text-xl font-bold text-red-800 dark:text-red-200">
+                ⚠️ CRITICAL Wind Strategy
+              </h2>
+            </div>
+            <p className="text-red-700 dark:text-red-300 text-lg font-medium">
+              {crosswindWarning}
+            </p>
+          </div>
+        )}
+
+        {/* Recommendations */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Shot Recommendations
+          </h2>
+          
+          {recommendations.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+              No suitable shots found. Check your distance and conditions.
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {/* Primary Recommendation */}
+              {primary && (
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5" />
+                      Primary: {primary.description}
+                    </h3>
+                    <div className="text-right">
+                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
+                        Risk: {primary.riskScore}/100
+                      </div>
+                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
+                        Expected: {primary.expectedStrokes} strokes
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-emerald-700 dark:text-emerald-300 mb-2">
+                    {primary.reasoning}
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pSuccess * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pHazard * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pFairway * 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Backup Recommendation */}
+              {backup && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                      <ArrowRight className="w-5 h-5" />
+                      Backup: {backup.description}
+                    </h3>
+                    <div className="text-right">
+                      <div className="text-sm text-blue-600 dark:text-blue-400">
+                        Risk: {backup.riskScore}/100
+                      </div>
+                      <div className="text-sm text-blue-600 dark:text-blue-400">
+                        Expected: {backup.expectedStrokes} strokes
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-blue-700 dark:text-blue-300 mb-2">
+                    {backup.reasoning}
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pSuccess * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pHazard * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pFairway * 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Other Options */}
+              {recommendations.slice(2).length > 0 && (
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
+                    Other Options:
+                  </h4>
+                  <div className="space-y-2">
+                    {recommendations.slice(2).map((plan, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                        <div>
+                          <span className="font-medium text-gray-700 dark:text-gray-300">
+                            {plan.description}
+                          </span>
+                          {plan.isLayup && (
+                            <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
+                              Layup
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-right text-sm">
+                          <div className="text-gray-600 dark:text-gray-400">
+                            {plan.expectedStrokes} strokes
+                          </div>
+                          <div className="text-gray-500 dark:text-gray-500">
+                            Risk: {plan.riskScore}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Player Settings */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              <User className="w-5 h-5" />
+              Player Profile
+            </h2>
+            <button
+              onClick={() => setEditingPPM(!editingPPM)}
+              className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+            >
+              {editingPPM ? (
+                <>
+                  <Save className="w-4 h-4" />
+                  Save
+                </>
+              ) : (
+                <>
+                  <Edit3 className="w-4 h-4" />
+                  Edit
+                </>
+              )}
+            </button>
+          </div>
+          
+          {editingPPM ? (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Handicap
+                  </label>
+                  <input
+                    type="number"
+                    value={ppm.handicap}
+                    onChange={(e) => setPPM(prev => ({ ...prev, handicap: parseInt(e.target.value) || 0 }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Dominant Hand
+                  </label>
+                  <select
+                    value={ppm.dominantHand}
+                    onChange={(e) => setPPM(prev => ({ ...prev, dominantHand: e.target.value as Hand }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="R">Right</option>
+                    <option value="L">Left</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Natural Shot
+                  </label>
+                  <select
+                    value={ppm.normalShot}
+                    onChange={(e) => setPPM(prev => ({ ...prev, normalShot: e.target.value as NormalShot }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="draw">Draw</option>
+                    <option value="fade">Fade</option>
+                    <option value="straight">Straight</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Ball Flight
+                  </label>
+                  <select
+                    value={ppm.ballFlight}
+                    onChange={(e) => setPPM(prev => ({ ...prev, ballFlight: e.target.value as BallFlight }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="low">Low</option>
+                    <option value="mid">Mid</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
+                  Club Distances (Carry)
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                  {CLUB_ORDER.map(club => (
+                    <div key={club}>
+                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {club}
+                      </label>
+                      <input
+                        type="number"
+                        value={ppm.clubs[club].carry}
+                        onChange={(e) => {
+                          const carry = parseInt(e.target.value) || 0;
+                          setPPM(prev => ({
+                            ...prev,
+                            clubs: {
+                              ...prev.clubs,
+                              [club]: { ...prev.clubs[club], carry, total: carry * 1.05 }
+                            }
+                          }));
+                        }}
+                        className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div>
+                <span className="text-gray-600 dark:text-gray-400">Handicap:</span>
+                <span className="ml-2 font-medium">{ppm.handicap}</span>
+              </div>
+              <div>
+                <span className="text-gray-600 dark:text-gray-400">Hand:</span>
+                <span className="ml-2 font-medium">{ppm.dominantHand === "R" ? "Right" : "Left"}</span>
+              </div>
+              <div>
+                <span className="text-gray-600 dark:text-gray-400">Shot:</span>
+                <span className="ml-2 font-medium capitalize">{ppm.normalShot}</span>
+              </div>
+              <div>
+                <span className="text-gray-600 dark:text-gray-400">Flight:</span>
+                <span className="ml-2 font-medium capitalize">{ppm.ballFlight}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

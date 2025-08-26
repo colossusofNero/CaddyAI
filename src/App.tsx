@@ -694,6 +694,7 @@ function CaddyAIV2() {
   const [env, setEnv] = useState<Environment>(defaultEnv);
   const [q, setQ] = useState<Questionnaire>(defaultQ);
   const [distance, setDistance] = useState(152);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   const input: ShotInput = { distanceToHole: distance, ppm, env, q };
   const recommendation = useMemo(() => recommend(input), [input]);
@@ -714,7 +715,10 @@ function CaddyAIV2() {
               {ppm.dominantHand === "R" ? "Right" : "Left"}-handed, {ppm.handicap} HCP, {ppm.normalShot} shape, {ppm.ballFlight} ball flight
             </p>
           </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+          <button 
+            onClick={() => setShowProfileModal(true)}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors"
+          >
             <Edit3 size={16} />
             Edit Profile
           </button>
@@ -1029,6 +1033,140 @@ function CaddyAIV2() {
             </div>
           </div>
         </div>
+
+        {/* Profile Edit Modal */}
+        {showProfileModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Edit Player Profile</h2>
+                <button
+                  onClick={() => setShowProfileModal(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-6 space-y-6">
+                {/* Basic Info */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Dominant Hand</label>
+                    <select
+                      value={ppm.dominantHand}
+                      onChange={(e) => setPpm({...ppm, dominantHand: e.target.value as Hand})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="R">Right</option>
+                      <option value="L">Left</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Handicap</label>
+                    <input
+                      type="number"
+                      value={ppm.handicap}
+                      onChange={(e) => setPpm({...ppm, handicap: Number(e.target.value)})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      min="0"
+                      max="36"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Natural Shot Shape</label>
+                    <select
+                      value={ppm.normalShot}
+                      onChange={(e) => setPpm({...ppm, normalShot: e.target.value as NormalShot})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="draw">Draw</option>
+                      <option value="fade">Fade</option>
+                      <option value="straight">Straight</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Ball Flight</label>
+                    <select
+                      value={ppm.ballFlight}
+                      onChange={(e) => setPpm({...ppm, ballFlight: e.target.value as BallFlight})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <option value="low">Low</option>
+                      <option value="mid">Mid</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Club Distances */}
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Club Distances</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(ppm.clubs).map(([clubId, spec]) => (
+                      <div key={clubId} className="flex items-center space-x-3">
+                        <label className="w-8 text-sm font-medium text-gray-700">{clubId}</label>
+                        <div className="flex-1">
+                          <input
+                            type="number"
+                            value={spec.carry}
+                            onChange={(e) => setPpm({
+                              ...ppm,
+                              clubs: {
+                                ...ppm.clubs,
+                                [clubId]: { ...spec, carry: Number(e.target.value) }
+                              }
+                            })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                            placeholder="Carry yds"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <input
+                            type="number"
+                            value={spec.total}
+                            onChange={(e) => setPpm({
+                              ...ppm,
+                              clubs: {
+                                ...ppm.clubs,
+                                [clubId]: { ...spec, total: Number(e.target.value) }
+                              }
+                            })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                            placeholder="Total yds"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end p-6 border-t border-gray-200 space-x-3">
+                <button
+                  onClick={() => setShowProfileModal(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setPpm({...ppm, isSetup: true});
+                    setShowProfileModal(false);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors"
+                >
+                  Save Profile
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -601,6 +601,7 @@ export default function App() {
                   Hazard Side
                 </label>
                 <select
+                 value={hazard?.side || ''}
                   onChange={(e) => {
                     if (e.target.value) {
                       setHazard(prev => ({ 
@@ -608,6 +609,8 @@ export default function App() {
                         startYards: prev?.startYards || 200,
                         clearYards: prev?.clearYards || 220
                       }));
+                   } else {
+                     setHazard(null);
                     }
                   }}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
@@ -624,14 +627,15 @@ export default function App() {
                 </label>
                 <input
                   type="number"
-                  value={hazard?.startYards || ''}
+                 value={hazard?.startYards || 200}
                   onChange={(e) => {
                     const value = parseInt(e.target.value);
-                    if (value && hazard) {
+                   if (hazard) {
                       setHazard(prev => prev ? { ...prev, startYards: value } : null);
                     }
                   }}
                   disabled={!hazard}
+                 placeholder="200"
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 />
               </div>
@@ -642,14 +646,15 @@ export default function App() {
                 </label>
                 <input
                   type="number"
-                  value={hazard?.clearYards || ''}
+                 value={hazard?.clearYards || 220}
                   onChange={(e) => {
                     const value = parseInt(e.target.value);
-                    if (value && hazard) {
+                   if (hazard) {
                       setHazard(prev => prev ? { ...prev, clearYards: value } : null);
                     }
                   }}
                   disabled={!hazard}
+                 placeholder="220"
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 />
               </div>

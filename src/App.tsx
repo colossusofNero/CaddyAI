@@ -268,11 +268,27 @@ function stanceDispersionBoost(stance: Stance): { lat: number; carry: number } {
 // ---------- Risk appetite model ----------
 
 function riskLambda(handicap: number, confidence: number): number {
-  // Higher lambda => more conservative (more penalty weight)
-  // 0.8 to 1.5 typical range
-  const base = 1.1 + (handicap - 5) * 0.01; // +0.01 per handicap above 5
-  const confAdj = 1.0 + (3 - confidence) * 0.05; // if confidence < 3, more conservative
-  return Math.min(1.5, Math.max(0.8, base * confAdj));
+  // Higher lambda => more conservative (exponential handicap effect)
+  // Low handicap (0-5): 0.8-1.0 (aggressive)
+  // Mid handicap (10-15): 1.2-1.6 (moderate)  
+  // High handicap (20+): 2.0+ (very conservative)
+  const handicapFactor = Math.pow(1.08, Math.max(0, handicap - 2)); // exponential growth
+  const base = 0.8 + handicapFactor * 0.15;
+  const confAdj = 1.0 + (3 - confidence) * 0.08; // confidence still matters
+  return Math.min(3.0, Math.max(0.8, base * confAdj));
+}
+
+function canShapeShots(handicap: number): boolean {
+  // Only low handicap players can reliably shape shots
+  return handicap <= 8;
+}
+
+function shotShapeReliability(handicap: number): number {
+  // How reliably can player execute intended shot shape (0-1)
+  if (handicap <= 5) return 0.9;   // scratch players very reliable
+  if (handicap <= 10) return 0.7;  // single digit decent
+  if (handicap <= 15) return 0.4;  // mid handicap inconsistent
+  return 0.1; // high handicap rarely shapes shots successfully
 }
 
 // ---------- Strokes-to-hole model (toy; replace with real SG table) ----------
@@ -351,10 +367,13 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
   const reasons: string[] = [];
   let penalty = 0;
 
+  // High handicap players get extra penalty for risky shots
+  const handicapRiskMultiplier = q.confidence <= 2 ? 1.5 : 1.0;
+
   // Driver-specific fairway width penalty
   if (club === "D" && q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 30) {
     const pMiss = 1 - pWithinFairway(sigLat, q.fairwayWidthAtDriverYds);
-    const widthPenalty = pMiss * 0.3 * lambda;
+    const widthPenalty = pMiss * 0.3 * lambda * handicapRiskMultiplier;
     penalty += widthPenalty;
     reasons.push(`narrow fairway (${q.fairwayWidthAtDriverYds}y)`);
   }
@@ -363,7 +382,7 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
   if (q.hazardSide && q.hazardStartYds && q.hazardClearYds) {
     const pInBand = pBand(targetCarry, sigCarry, q.hazardStartYds, q.hazardClearYds);
     if (pInBand > 0.05) {
-      const bandPenalty = hazardPenalty(pInBand, q.hazardRisk, lambda);
+      const bandPenalty = hazardPenalty(pInBand, q.hazardRisk, lambda) * handicapRiskMultiplier;
       penalty += bandPenalty;
       reasons.push(`${q.hazardSide} hazard ${q.hazardStartYds}-${q.hazardClearYds}y`);
     }
@@ -412,8 +431,15 @@ function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: num
   }
   
   // Confidence penalty
-  const confidencePenalty = (5 - q.confidence) * 0.02 * lambda;
+  const confidencePenalty = (5 - q.confidence) * 0.03 * lambda;
   expStrokes += confidencePenalty;
+  
+  // High handicap penalty for aggressive shots
+  if (ppm.handicap > 15 && targetCarry > pmp.clubs[club].carry * 0.9) {
+    const aggressionPenalty = 0.15 * lambda;
+    expStrokes += aggressionPenalty;
+    reasons.push("high handicap + aggressive distance");
+  }
   
   // Tee geometry penalties (for tee shots)
   if (q.lie === "tee") {
@@ -452,10 +478,23 @@ function makeCandidates(input: ShotInput): {
   // If on the tee: offer normal tee-ball carries for common tee clubs
   if (q.lie === "tee") {
     const teePlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
-    (["D", "3W", "3H", "5W"] as ClubId[]).forEach((club) => {
+    
+    // High handicap players should avoid driver in tight situations
+    const teeClubs = canShapeShots(ppm.handicap) 
+      ? (["D", "3W", "3H", "5W"] as ClubId[])
+      : (q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 25) 
+        ? (["3W", "5W", "3H"] as ClubId[]) // skip driver for high handicap + narrow fairway
+        : (["D", "3W", "3H", "5W"] as ClubId[]);
+        
+    teeClubs.forEach((club) => {
       const targetCarry = Math.max(0, adjustCarry(ppm, club, env, q.lie));
       const aim = q.hazardSide === "right" ? -5 : q.hazardSide === "left" ? 5 : 0;
-      const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
+      
+      // High handicap players can't reliably shape shots
+      const shape = q.requiredShape === "any" 
+        ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
+        : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
+        
       teePlans.push({ club, targetCarry, aim, shape });
     });
     options.push({ label: "Tee-ball options (attack)", plans: teePlans });
@@ -476,17 +515,23 @@ function makeCandidates(input: ShotInput): {
   const centerPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 10);
-    const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
+    const shape = q.requiredShape === "any" 
+      ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
+      : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
     centerPlans.push({ club, targetCarry, aim: 0, shape });
   });
   options.push({ label: "Center attack (filtered)", plans: centerPlans });
 
   // Front-safe: hedge extra short when front is dangerous
   const shortPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
-  const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0);
+  // High handicap players need much larger safety buffers
+  const handicapSafetyBonus = ppm.handicap > 15 ? 8 : pmp.handicap > 10 ? 4 : 0;
+  const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0) + handicapSafetyBonus;
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 20 - shortBias);
-    const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
+    const shape = q.requiredShape === "any" 
+      ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
+      : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
     shortPlans.push({ club, targetCarry, aim: 0, shape });
   });
   options.push({ label: "Front-safe", plans: shortPlans });
@@ -497,7 +542,9 @@ function makeCandidates(input: ShotInput): {
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     layWindows.forEach((leave) => {
       const targetCarry = Math.max(0, distanceToHole - leave);
-      const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
+      const shape = q.requiredShape === "any" 
+        ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
+        : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
       layPlansApproach.push({ club, targetCarry, aim: 0, shape });
     });
   });

@@ -622,15 +622,203 @@ function runSelfTests(): TestResult[] {
 
 function CaddyAIV2() {
   const [distance, setDistance] = useState(152);
-  const [ppm, setPPM] = useState<PPM>(defaultPPM);
+  const [ppm, setPPM] = useState<PPM>(() => {
+    const saved = localStorage.getItem('caddy-ppm');
+    return saved ? JSON.parse(saved) : defaultPPM;
+  });
   const [env, setEnv] = useState<Environment>(defaultEnv);
   const [q, setQ] = useState<Questionnaire>(defaultQ);
+  const [showPPMSetup, setShowPPMSetup] = useState(false);
+  const [tempPPM, setTempPPM] = useState<PPM>(ppm);
+
+  // Save PPM to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('caddy-ppm', JSON.stringify(ppm));
+  }, [ppm]);
 
   const { best, backup, list } = useMemo(() => recommend({ distanceToHole: distance, ppm, env, q }), [distance, ppm, env, q]);
   const tests = useMemo(() => runSelfTests(), []);
 
+  const handleSavePPM = () => {
+    setPPM({ ...tempPPM, isSetup: true });
+    setShowPPMSetup(false);
+  };
+
+  const handleSkipPPM = () => {
+    setPPM({ ...defaultPPM, isSetup: true });
+    setShowPPMSetup(false);
+  };
+
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
+      {/* PPM Setup Modal */}
+      {showPPMSetup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900">Player Profile Setup</h2>
+              <p className="text-gray-600 mt-2">Configure your personal playing characteristics for accurate recommendations</p>
+            </div>
+            
+            <div className="p-6 space-y-6">
+              {/* Basic Info */}
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Dominant Hand</label>
+                  <select
+                    value={tempPPM.dominantHand}
+                    onChange={(e) => setTempPPM({ ...tempPPM, dominantHand: e.target.value as Hand })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="R">Right-handed</option>
+                    <option value="L">Left-handed</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Handicap</label>
+                  <input
+                    type="number"
+                    value={tempPPM.handicap}
+                    onChange={(e) => setTempPPM({ ...tempPPM, handicap: Number(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    min="0"
+                    max="36"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Normal Shot Shape</label>
+                  <select
+                    value={tempPPM.normalShot}
+                    onChange={(e) => setTempPPM({ ...tempPPM, normalShot: e.target.value as NormalShot })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="draw">Draw</option>
+                    <option value="fade">Fade</option>
+                    <option value="straight">Straight</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Ball Flight</label>
+                  <select
+                    value={tempPPM.ballFlight}
+                    onChange={(e) => setTempPPM({ ...tempPPM, ballFlight: e.target.value as BallFlight })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="low">Low</option>
+                    <option value="mid">Mid</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Club Distances */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Club Distances (yards)</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {(Object.keys(tempPPM.clubs) as ClubId[]).map((club) => (
+                    <div key={club} className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">{club}</label>
+                      <div className="space-y-1">
+                        <input
+                          type="number"
+                          placeholder="Carry"
+                          value={tempPPM.clubs[club].carry}
+                          onChange={(e) => setTempPPM({
+                            ...tempPPM,
+                            clubs: {
+                              ...tempPPM.clubs,
+                              [club]: { ...tempPPM.clubs[club], carry: Number(e.target.value) }
+                            }
+                          })}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                        <input
+                          type="number"
+                          placeholder="Total"
+                          value={tempPPM.clubs[club].total}
+                          onChange={(e) => setTempPPM({
+                            ...tempPPM,
+                            clubs: {
+                              ...tempPPM.clubs,
+                              [club]: { ...tempPPM.clubs[club], total: Number(e.target.value) }
+                            }
+                          })}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-6 border-t border-gray-200 flex justify-between">
+              <button
+                onClick={handleSkipPPM}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                Skip for Now
+              </button>
+              <button
+                onClick={handleSavePPM}
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Save Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Profile Status */}
+      {!ppm.isSetup && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-medium text-yellow-800">Profile Not Configured</h3>
+              <p className="text-yellow-700">Set up your player profile for more accurate recommendations</p>
+            </div>
+            <button
+              onClick={() => {
+                setTempPPM(ppm);
+                setShowPPMSetup(true);
+              }}
+              className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors"
+            >
+              Setup Profile
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Profile Summary */}
+      {ppm.isSetup && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-medium text-green-800">Player Profile</h3>
+              <p className="text-green-700">
+                {ppm.dominantHand === "R" ? "Right" : "Left"}-handed, {ppm.handicap} HCP, 
+                {ppm.normalShot} shape, {ppm.ballFlight} ball flight
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setTempPPM(ppm);
+                setShowPPMSetup(true);
+              }}
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+            >
+              Edit Profile
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         {/* Distance Input */}
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -813,6 +1001,47 @@ function CaddyAIV2() {
             </div>
           </div>
         </div>
+
+        {/* Quick Club Adjustments */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4">Quick Club Adjustments</h2>
+          <p className="text-sm text-gray-600 mb-4">Adjust key clubs for today's conditions</p>
+          <div className="grid grid-cols-5 gap-4">
+            {(["D", "7i", "PW", "GW", "SW"] as ClubId[]).map((club) => (
+              <div key={club} className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 text-center">{club}</label>
+                <div className="space-y-1">
+                  <input
+                    type="number"
+                    placeholder="Carry"
+                    value={ppm.clubs[club].carry}
+                    onChange={(e) => setPPM({
+                      ...ppm,
+                      clubs: {
+                        ...ppm.clubs,
+                        [club]: { ...ppm.clubs[club], carry: Number(e.target.value) }
+                      }
+                    })}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Total"
+                    value={ppm.clubs[club].total}
+                    onChange={(e) => setPPM({
+                      ...ppm,
+                      clubs: {
+                        ...ppm.clubs,
+                        [club]: { ...ppm.clubs[club], total: Number(e.target.value) }
+                      }
+                    })}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Recommendations */}
@@ -876,7 +1105,7 @@ function CaddyAIV2() {
         {/* All Options */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-lg font-semibold mb-3">All Options</h3>
-          <div className="space-y-2 max-h-96 overflow-y-auto">
+          <div className="space-y-2 max-h-80 overflow-y-auto">
             {list.map((candidate, i) => (
               <div key={i} className="p-3 bg-gray-50 rounded border text-sm">
                 <div className="font-medium">{candidate.club}</div>
@@ -885,6 +1114,11 @@ function CaddyAIV2() {
                   Strokes: {candidate.expStrokes.toFixed(2)}, 
                   Leave: {Math.round(candidate.leaveYds)}y
                 </div>
+                {candidate.reasons.length > 0 && (
+                  <div className="text-xs text-gray-500 mt-1">
+                    {candidate.reasons.join("; ")}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -905,6 +1139,7 @@ function CaddyAIV2() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

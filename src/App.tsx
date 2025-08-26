@@ -332,6 +332,113 @@ function safetyBufferYards(hazardRisk: number, pinPos: PinPos): number {
   return base + (pinPos === "front" || pinPos === "back" ? 1.5 : 0);
 }
 
+// ---------- Helper functions for evaluation ----------
+
+function hazardPenalty(probability: number, hazardRisk: number, lambda: number): number {
+  // Penalty for hazard risk based on probability and risk level
+  const basePenalty = 0.5 + hazardRisk * 0.2; // 0.7 to 1.5 strokes
+  return probability * basePenalty * lambda;
+}
+
+function probabilityTailRiskBeyond(buffer: number, sigma: number): number {
+  // Two-sided tail probability beyond buffer distance
+  if (sigma <= 0) return buffer <= 0 ? 1 : 0;
+  const z = buffer / sigma;
+  return 2 * (1 - phiCDF(z));
+}
+
+function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number, sigLat: number, q: Questionnaire, lambda: number): { penalty: number; reasons: string[] } {
+  const reasons: string[] = [];
+  let penalty = 0;
+
+  // Driver-specific fairway width penalty
+  if (club === "D" && q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 30) {
+    const pMiss = 1 - pWithinFairway(sigLat, q.fairwayWidthAtDriverYds);
+    const widthPenalty = pMiss * 0.3 * lambda;
+    penalty += widthPenalty;
+    reasons.push(`narrow fairway (${q.fairwayWidthAtDriverYds}y)`);
+  }
+
+  // Hazard band penalty
+  if (q.hazardSide && q.hazardStartYds && q.hazardClearYds) {
+    const pInBand = pBand(targetCarry, sigCarry, q.hazardStartYds, q.hazardClearYds);
+    if (pInBand > 0.05) {
+      const bandPenalty = hazardPenalty(pInBand, q.hazardRisk, lambda);
+      penalty += bandPenalty;
+      reasons.push(`${q.hazardSide} hazard ${q.hazardStartYds}-${q.hazardClearYds}y`);
+    }
+  }
+
+  return { penalty, reasons };
+}
+
+function layupTargetBeforeHazard(q: Questionnaire, buffer: number): number | null {
+  if (!q.hazardStartYds) return null;
+  return Math.max(0, q.hazardStartYds - buffer);
+}
+
+function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: number, intendedShape: Shape, input: ShotInput): CandidateEval {
+  const { distanceToHole, ppm, env, q } = input;
+  
+  // Get adjusted club performance
+  const actualCarry = adjustCarry(ppm, club, env, q.lie);
+  const actualTotal = adjustTotal(ppm, club, env, q.lie);
+  const { sigCarry, sigLat } = dispersion(ppm, club, env, q.stance);
+  
+  // Calculate expected landing position
+  const expectedCarry = Math.min(actualCarry, targetCarry);
+  const leaveYds = Math.max(0, distanceToHole - actualTotal);
+  
+  // Determine resulting lie
+  let leaveLie: Lie = "fairway";
+  if (leaveYds > 200) leaveLie = "fairway";
+  else if (leaveYds > 100) leaveLie = "fairway";
+  else if (leaveYds > 50) leaveLie = "fairway";
+  else leaveLie = "fairway"; // simplified for now
+  
+  // Base strokes to hole
+  let expStrokes = 1 + expectedStrokesToHole(leaveYds, leaveLie);
+  
+  // Risk adjustments
+  const lambda = riskLambda(ppm.handicap, q.confidence);
+  const reasons: string[] = [];
+  
+  // Distance control penalty
+  const distanceError = Math.abs(expectedCarry - targetCarry);
+  if (distanceError > 10) {
+    const distancePenalty = (distanceError / 100) * lambda;
+    expStrokes += distancePenalty;
+    reasons.push(`distance control (${Math.round(distanceError)}y off)`);
+  }
+  
+  // Confidence penalty
+  const confidencePenalty = (5 - q.confidence) * 0.02 * lambda;
+  expStrokes += confidencePenalty;
+  
+  // Tee geometry penalties (for tee shots)
+  if (q.lie === "tee") {
+    const { penalty, reasons: teeReasons } = teeGeometryPenalty(club, targetCarry, sigCarry, sigLat, q, lambda);
+    expStrokes += penalty;
+    reasons.push(...teeReasons);
+  }
+  
+  // General hazard risk
+  const tailRisk = probabilityTailRiskBeyond(10, sigCarry);
+  const hazardPen = hazardPenalty(tailRisk, q.hazardRisk, lambda);
+  expStrokes += hazardPen;
+  
+  return {
+    club,
+    targetCarry,
+    intendedShape,
+    aimLateralYds,
+    expStrokes,
+    leaveYds,
+    leaveLie,
+    reasons
+  };
+}
+
 function makeCandidates(input: ShotInput): {
   label: string;
   plans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }>;
@@ -348,7 +455,7 @@ function makeCandidates(input: ShotInput): {
     (["D", "3W", "3H", "5W"] as ClubId[]).forEach((club) => {
       const targetCarry = Math.max(0, adjustCarry(ppm, club, env, q.lie));
       const aim = q.hazardSide === "right" ? -5 : q.hazardSide === "left" ? 5 : 0;
-      const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+      const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
       teePlans.push({ club, targetCarry, aim, shape });
     });
     options.push({ label: "Tee-ball options (attack)", plans: teePlans });
@@ -369,7 +476,7 @@ function makeCandidates(input: ShotInput): {
   const centerPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 10);
-    const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+    const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
     centerPlans.push({ club, targetCarry, aim: 0, shape });
   });
   options.push({ label: "Center attack (filtered)", plans: centerPlans });
@@ -379,7 +486,7 @@ function makeCandidates(input: ShotInput): {
   const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0);
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 20 - shortBias);
-    const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+    const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
     shortPlans.push({ club, targetCarry, aim: 0, shape });
   });
   options.push({ label: "Front-safe", plans: shortPlans });
@@ -390,7 +497,7 @@ function makeCandidates(input: ShotInput): {
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     layWindows.forEach((leave) => {
       const targetCarry = Math.max(0, distanceToHole - leave);
-      const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+      const shape = q.requiredShape === "any" ? ppm.normalShot : q.requiredShape;
       layPlansApproach.push({ club, targetCarry, aim: 0, shape });
     });
   });
@@ -504,7 +611,7 @@ function runSelfTests(): TestResult[] {
   const driverTarget = adjustCarry(ppm, "D", env, "tee");
   const layTarget = layupTargetBeforeHazard(qHaz, 15)!;
   const input: ShotInput = { distanceToHole, ppm, env, q: qHaz };
-  const evalDriver = evaluateCandidate("D", driverTarget, -5, ppm.preferredShape, input);
+  const evalDriver = evaluateCandidate("D", driverTarget, -5, ppm.normalShot, input);
   const evalLay = evaluateCandidate("5W", layTarget, -5, "straight", input);
   results.push({ name: "Hazard scenario: Layup beats Driver", pass: evalLay.expStrokes < evalDriver.expStrokes, got: `${evalDriver.expStrokes.toFixed(2)} vs ${evalLay.expStrokes.toFixed(2)}`, expected: "layup < driver" });
 

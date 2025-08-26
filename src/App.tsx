@@ -112,7 +112,7 @@ interface PPM {
 
 interface Environment {
   windSpeed: number;      // mph
-  windDir: "head" | "tail" | "cross_left" | "cross_right"; // relative to target line
+  windDir: "head" | "tail" | "cross_R_to_L" | "cross_L_to_R"; // relative to target line
   temperatureF: number;   // ambient temp
   referenceTempF: number; // baseline, usually 70F
   elevationFt: number;    // +uphill to target, negative is downhill

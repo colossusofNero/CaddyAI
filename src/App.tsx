@@ -331,3 +331,297 @@ function safetyBufferYards(hazardRisk: number, pinPos: PinPos): number {
   const base = 3 + hazardRisk * 1.5; // 4.5..10.5 yards
   return base + (pinPos === "front" || pinPos === "back" ? 1.5 : 0);
 }
+
+// ---------- UI ----------
+
+function CaddyAIV2() {
+  const [distance, setDistance] = useState(152);
+  const [ppm, setPPM] = useState<PPM>(defaultPPM);
+  const [env, setEnv] = useState<Environment>(defaultEnv);
+  const [q, setQ] = useState<Questionnaire>(defaultQ);
+
+  const { best, backup, list } = useMemo(() => recommend({ distanceToHole: distance, ppm, env, q }), [distance, ppm, env, q]);
+  const tests = useMemo(() => runSelfTests(), []);
+
+  return (
+    <div className="w-full max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-2 space-y-6">
+        {/* Distance Input */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Flag className="w-5 h-5" />
+            Distance to Hole
+          </h2>
+          <div className="flex items-center gap-4">
+            <input
+              type="number"
+              value={distance}
+              onChange={(e) => setDistance(Number(e.target.value))}
+              className="w-24 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              min="10"
+              max="600"
+            />
+            <span className="text-gray-600">yards</span>
+          </div>
+        </div>
+
+        {/* Environment */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Wind className="w-5 h-5" />
+            Environment
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Wind Speed (mph)</label>
+              <input
+                type="number"
+                value={env.windSpeed}
+                onChange={(e) => setEnv({ ...env, windSpeed: Number(e.target.value) })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                min="0"
+                max="40"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Wind Direction</label>
+              <select
+                value={env.windDir}
+                onChange={(e) => setEnv({ ...env, windDir: e.target.value as Environment["windDir"] })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="head">Headwind</option>
+                <option value="tail">Tailwind</option>
+                <option value="cross_left">Cross Left</option>
+                <option value="cross_right">Cross Right</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Temperature (°F)</label>
+              <input
+                type="number"
+                value={env.temperatureF}
+                onChange={(e) => setEnv({ ...env, temperatureF: Number(e.target.value) })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                min="20"
+                max="120"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Elevation (ft)</label>
+              <input
+                type="number"
+                value={env.elevationFt}
+                onChange={(e) => setEnv({ ...env, elevationFt: Number(e.target.value) })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                min="-200"
+                max="200"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Questionnaire */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4">Shot Context</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Lie</label>
+              <select
+                value={q.lie}
+                onChange={(e) => setQ({ ...q, lie: e.target.value as Lie })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="tee">Tee</option>
+                <option value="fairway">Fairway</option>
+                <option value="light_rough">Light Rough</option>
+                <option value="heavy_rough">Heavy Rough</option>
+                <option value="sand">Sand</option>
+                <option value="recovery">Recovery</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Pin Position</label>
+              <select
+                value={q.pinPos}
+                onChange={(e) => setQ({ ...q, pinPos: e.target.value as PinPos })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="front">Front</option>
+                <option value="middle">Middle</option>
+                <option value="back">Back</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Hazard Risk (1-5)</label>
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value={q.hazardRisk}
+                onChange={(e) => setQ({ ...q, hazardRisk: Number(e.target.value) as Questionnaire["hazardRisk"] })}
+                className="w-full"
+              />
+              <div className="text-center text-sm text-gray-600">{q.hazardRisk}</div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Confidence (1-5)</label>
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value={q.confidence}
+                onChange={(e) => setQ({ ...q, confidence: Number(e.target.value) as Questionnaire["confidence"] })}
+                className="w-full"
+              />
+              <div className="text-center text-sm text-gray-600">{q.confidence}</div>
+            </div>
+          </div>
+
+          {/* Tee Strategy Inputs */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <h3 className="text-lg font-medium mb-3">Tee Strategy (Optional)</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Fairway Width at Driver (yds)</label>
+                <input
+                  type="number"
+                  value={q.fairwayWidthAtDriverYds || ""}
+                  onChange={(e) => setQ({ ...q, fairwayWidthAtDriverYds: e.target.value ? Number(e.target.value) : null })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g., 25"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Hazard Side</label>
+                <select
+                  value={q.hazardSide || ""}
+                  onChange={(e) => setQ({ ...q, hazardSide: e.target.value ? e.target.value as "left" | "right" : null })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">None</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Hazard Start (yds)</label>
+                <input
+                  type="number"
+                  value={q.hazardStartYds || ""}
+                  onChange={(e) => setQ({ ...q, hazardStartYds: e.target.value ? Number(e.target.value) : null })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g., 250"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Hazard Clear (yds)</label>
+                <input
+                  type="number"
+                  value={q.hazardClearYds || ""}
+                  onChange={(e) => setQ({ ...q, hazardClearYds: e.target.value ? Number(e.target.value) : null })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g., 265"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recommendations */}
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4">Recommendations</h2>
+          
+          {best && (
+            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle2 className="w-5 h-5 text-green-600" />
+                <span className="font-semibold text-green-800">Primary: {best.club}</span>
+              </div>
+              <div className="text-sm text-gray-700 space-y-1">
+                <div>Carry: {Math.round(best.targetCarry)} yds</div>
+                <div>Aim: {best.aimLateralYds === 0 ? "Center" : `${Math.abs(best.aimLateralYds)}y ${best.aimLateralYds > 0 ? "right" : "left"}`}</div>
+                <div>Expected strokes: {best.expStrokes.toFixed(2)}</div>
+                <div>Leave: {Math.round(best.leaveYds)} yds ({best.leaveLie})</div>
+              </div>
+              {best.reasons.length > 0 && (
+                <div className="mt-2 text-xs text-gray-600">
+                  {best.reasons.join("; ")}
+                </div>
+              )}
+            </div>
+          )}
+
+          {backup && (
+            <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowRight className="w-5 h-5 text-blue-600" />
+                <span className="font-semibold text-blue-800">Backup: {backup.club}</span>
+              </div>
+              <div className="text-sm text-gray-700 space-y-1">
+                <div>Carry: {Math.round(backup.targetCarry)} yds</div>
+                <div>Aim: {backup.aimLateralYds === 0 ? "Center" : `${Math.abs(backup.aimLateralYds)}y ${backup.aimLateralYds > 0 ? "right" : "left"}`}</div>
+                <div>Expected strokes: {backup.expStrokes.toFixed(2)}</div>
+                <div>Leave: {Math.round(backup.leaveYds)} yds ({backup.leaveLie})</div>
+              </div>
+              {backup.reasons.length > 0 && (
+                <div className="mt-2 text-xs text-gray-600">
+                  {backup.reasons.join("; ")}
+                </div>
+              )}
+            </div>
+          )}
+
+          {!best && (
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <XCircle className="w-5 h-5 text-gray-600" />
+                <span className="font-semibold text-gray-800">No clear recommendation</span>
+              </div>
+              <div className="text-sm text-gray-600">
+                Consider adjusting your approach or seeking course management advice.
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* All Options */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold mb-3">All Options</h3>
+          <div className="space-y-2 max-h-96 overflow-y-auto">
+            {list.map((candidate, i) => (
+              <div key={i} className="p-3 bg-gray-50 rounded border text-sm">
+                <div className="font-medium">{candidate.club}</div>
+                <div className="text-gray-600">
+                  Carry: {Math.round(candidate.targetCarry)}y, 
+                  Strokes: {candidate.expStrokes.toFixed(2)}, 
+                  Leave: {Math.round(candidate.leaveYds)}y
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Self Tests */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold mb-3">Self Tests</h3>
+          <div className="space-y-2">
+            {tests.map((test, i) => (
+              <div key={i} className={`p-2 rounded text-sm ${test.pass ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}>
+                <div className="flex items-center gap-2">
+                  {test.pass ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                  <span className="font-medium">{test.name}</span>
+                </div>
+                {!test.pass && <div className="mt-1 text-xs">{test.error}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default CaddyAIV2;

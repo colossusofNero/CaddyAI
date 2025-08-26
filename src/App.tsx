@@ -769,8 +769,8 @@ function CaddyAIV2() {
                   >
                     <option value="head">Headwind</option>
                     <option value="tail">Tailwind</option>
-                    <option value="cross_left">Cross Left</option>
-                    <option value="cross_right">Cross Right</option>
+                    <option value="cross_L_to_R">Cross L to R</option>
+                    <option value="cross_R_to_L">Cross R to L</option>
                   </select>
                 </div>
                 <div>

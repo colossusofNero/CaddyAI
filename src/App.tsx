@@ -117,3 +117,4 @@ interface PPM {
 interface Environment {
   windSpeed: number;      // mph
   windDir: "head" | "tail" | "cross_R_to_L" | "cross_L_to_R";
+}

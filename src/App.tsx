@@ -265,17 +265,17 @@ function stanceDispersionBoost(stance: Stance): { lat: number; carry: number } {
   }
 }
 
-// ---------- Risk appetite model ----------
+// ---------- Enhanced Risk appetite model with exponential handicap effect ----------
 
 function riskLambda(handicap: number, confidence: number): number {
-  // Higher lambda => more conservative (exponential handicap effect)
+  // Exponential handicap effect - much more conservative for high handicap
   // Low handicap (0-5): 0.8-1.0 (aggressive)
   // Mid handicap (10-15): 1.2-1.6 (moderate)  
   // High handicap (20+): 2.0+ (very conservative)
-  const handicapFactor = Math.pow(1.08, Math.max(0, handicap - 2)); // exponential growth
-  const base = 0.8 + handicapFactor * 0.15;
-  const confAdj = 1.0 + (3 - confidence) * 0.08; // confidence still matters
-  return Math.min(3.0, Math.max(0.8, base * confAdj));
+  const handicapFactor = Math.pow(1.12, Math.max(0, handicap - 2)); // stronger exponential growth
+  const base = 0.8 + handicapFactor * 0.18; // increased multiplier
+  const confAdj = 1.0 + (3 - confidence) * 0.12; // confidence penalty increased
+  return Math.min(3.5, Math.max(0.8, base * confAdj)); // higher max lambda
 }
 
 function canShapeShots(handicap: number): boolean {
@@ -289,6 +289,20 @@ function shotShapeReliability(handicap: number): number {
   if (handicap <= 10) return 0.7;  // single digit decent
   if (handicap <= 15) return 0.4;  // mid handicap inconsistent
   return 0.1; // high handicap rarely shapes shots successfully
+}
+
+function handicapSafetyBuffer(handicap: number): number {
+  // Extra safety buffer for high handicap players
+  if (handicap > 15) return 8;  // +8 yards safety
+  if (handicap > 10) return 4;  // +4 yards safety
+  return 0;
+}
+
+function handicapRiskMultiplier(handicap: number, confidence: number): number {
+  // Risk multiplier for hazardous situations
+  const base = handicap > 15 ? 1.8 : handicap > 10 ? 1.3 : 1.0;
+  const confPenalty = confidence <= 2 ? 1.5 : 1.0;
+  return base * confPenalty;
 }
 
 // ---------- Strokes-to-hole model (toy; replace with real SG table) ----------
@@ -368,7 +382,7 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
   let penalty = 0;
 
   // High handicap players get extra penalty for risky shots
-  const handicapRiskMultiplier = q.confidence <= 2 ? 1.5 : 1.0;
+  const handicapRiskMultiplier = handicapRiskMultiplier(12, q.confidence); // using default handicap for now
 
   // Driver-specific fairway width penalty
   if (club === "D" && q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 30) {
@@ -394,6 +408,24 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
 function layupTargetBeforeHazard(q: Questionnaire, buffer: number): number | null {
   if (!q.hazardStartYds) return null;
   return Math.max(0, q.hazardStartYds - buffer);
+}
+
+function findBestClubForDistance(ppm: PPM, targetDistance: number, env: Environment, lie: Lie): ClubId {
+  // Find the club whose adjusted carry distance best matches the target
+  let bestClub: ClubId = "7i";
+  let bestDiff = Infinity;
+  
+  for (const club of CLUB_ORDER) {
+    const adjustedCarry = adjustCarry(ppm, club, env, lie);
+    const diff = Math.abs(adjustedCarry - targetDistance);
+    
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestClub = club;
+    }
+  }
+  
+  return bestClub;
 }
 
 function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: number, intendedShape: Shape, input: ShotInput): CandidateEval {
@@ -431,14 +463,21 @@ function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: num
   }
   
   // Confidence penalty
-  const confidencePenalty = (5 - q.confidence) * 0.03 * lambda;
+  const confidencePenalty = (5 - q.confidence) * 0.05 * lambda; // increased penalty
   expStrokes += confidencePenalty;
   
   // High handicap penalty for aggressive shots
   if (ppm.handicap > 15 && targetCarry > ppm.clubs[club].carry * 0.9) {
-    const aggressionPenalty = 0.15 * lambda;
+    const aggressionPenalty = 0.25 * lambda; // increased penalty
     expStrokes += aggressionPenalty;
     reasons.push("high handicap + aggressive distance");
+  }
+  
+  // High handicap penalty for trying to shape shots
+  if (ppm.handicap > 8 && intendedShape !== "straight") {
+    const shapePenalty = 0.2 * lambda;
+    expStrokes += shapePenalty;
+    reasons.push("high handicap + shot shaping");
   }
   
   // Tee geometry penalties (for tee shots)
@@ -479,10 +518,11 @@ function makeCandidates(input: ShotInput): {
   if (q.lie === "tee") {
     const teePlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
     
-    const teeClubs = canShapeShots(ppm.handicap) 
-      ? (["D", "3W", "3H", "5W"] as ClubId[])
-      : (q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 25) 
-        ? (["3W", "5W", "3H"] as ClubId[]) // skip driver for high handicap + narrow fairway
+    // High handicap players should avoid driver on narrow fairways
+    const teeClubs = (ppm.handicap > 15 && q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 25) 
+      ? (["3W", "5W", "3H"] as ClubId[]) // skip driver for high handicap + narrow fairway
+      : canShapeShots(ppm.handicap) 
+        ? (["D", "3W", "3H", "5W"] as ClubId[])
         : (["D", "3W", "3H", "5W"] as ClubId[]);
         
     teeClubs.forEach((club) => {
@@ -510,24 +550,44 @@ function makeCandidates(input: ShotInput): {
     }
   }
 
-  // Center attack: aim to carry to ~10y short of hole (allowing for roll)
+  // Center attack: find best club for target distance accounting for lie penalty
   const centerPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
-  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
+  const targetDistance = Math.max(0, distanceToHole - 10);
+  const bestClub = findBestClubForDistance(ppm, targetDistance, env, q.lie);
+  
+  // Add the best club and adjacent clubs
+  const bestIndex = clubIndex(bestClub);
+  const clubsToTry = [
+    bestIndex > 0 ? CLUB_ORDER[bestIndex - 1] : null,
+    bestClub,
+    bestIndex < CLUB_ORDER.length - 1 ? CLUB_ORDER[bestIndex + 1] : null
+  ].filter(Boolean) as ClubId[];
+  
+  clubsToTry.forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 10);
     const shape = q.requiredShape === "any" 
       ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
       : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
     centerPlans.push({ club, targetCarry, aim: 0, shape });
   });
-  options.push({ label: "Center attack (filtered)", plans: centerPlans });
+  options.push({ label: "Center attack (lie-adjusted)", plans: centerPlans });
 
   // Front-safe: hedge extra short when front is dangerous
   const shortPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
-  // High handicap players need much larger safety buffers
-  const handicapSafetyBonus = ppm.handicap > 15 ? 8 : ppm.handicap > 10 ? 4 : 0;
+  const handicapSafetyBonus = handicapSafetyBuffer(ppm.handicap);
   const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0) + handicapSafetyBonus;
-  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
-    const targetCarry = Math.max(0, distanceToHole - 20 - shortBias);
+  const shortTargetDistance = Math.max(0, distanceToHole - 20 - shortBias);
+  const shortBestClub = findBestClubForDistance(ppm, shortTargetDistance, env, q.lie);
+  
+  const shortBestIndex = clubIndex(shortBestClub);
+  const shortClubsToTry = [
+    shortBestIndex > 0 ? CLUB_ORDER[shortBestIndex - 1] : null,
+    shortBestClub,
+    shortBestIndex < CLUB_ORDER.length - 1 ? CLUB_ORDER[shortBestIndex + 1] : null
+  ].filter(Boolean) as ClubId[];
+  
+  shortClubsToTry.forEach((club) => {
+    const targetCarry = shortTargetDistance;
     const shape = q.requiredShape === "any" 
       ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
       : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
@@ -538,14 +598,13 @@ function makeCandidates(input: ShotInput): {
   // Preferred lay-up windows for approaches
   const layWindows = [80, 95, 110];
   const layPlansApproach: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
-  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
-    layWindows.forEach((leave) => {
-      const targetCarry = Math.max(0, distanceToHole - leave);
-      const shape = q.requiredShape === "any" 
-        ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
-        : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
-      layPlansApproach.push({ club, targetCarry, aim: 0, shape });
-    });
+  layWindows.forEach((leave) => {
+    const layTargetDistance = Math.max(0, distanceToHole - leave);
+    const layBestClub = findBestClubForDistance(ppm, layTargetDistance, env, q.lie);
+    const shape = q.requiredShape === "any" 
+      ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
+      : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");
+    layPlansApproach.push({ club: layBestClub, targetCarry: layTargetDistance, aim: 0, shape });
   });
   options.push({ label: "Lay-up windows (approach)", plans: layPlansApproach });
 
@@ -630,7 +689,7 @@ function runSelfTests(): TestResult[] {
 
 // ---------- Main App Component ----------
 
-export default function App() {
+function CaddyAIV2() {
   const [ppm, setPpm] = useState<PPM>(defaultPPM);
   const [env, setEnv] = useState<Environment>(defaultEnv);
   const [q, setQ] = useState<Questionnaire>(defaultQ);
@@ -725,6 +784,64 @@ export default function App() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Wind Direction
+                </label>
+                <select
+                  value={env.windDir}
+                  onChange={(e) => setEnv({...env, windDir: e.target.value as Environment["windDir"]})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="head">Headwind</option>
+                  <option value="tail">Tailwind</option>
+                  <option value="cross_left">Cross Left</option>
+                  <option value="cross_right">Cross Right</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Temperature (°F)
+                </label>
+                <input
+                  type="number"
+                  value={env.temperatureF}
+                  onChange={(e) => setEnv({...env, temperatureF: Number(e.target.value)})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Pin Position
+                </label>
+                <select
+                  value={q.pinPos}
+                  onChange={(e) => setQ({...q, pinPos: e.target.value as PinPos})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                  <option value="front">Front</option>
+                  <option value="middle">Middle</option>
+                  <option value="back">Back</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Hazard Risk (1-5)
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={q.hazardRisk}
+                  onChange={(e) => setQ({...q, hazardRisk: Number(e.target.value) as 1|2|3|4|5})}
+                  className="w-full"
+                />
+                <div className="text-sm text-gray-500 text-center">{q.hazardRisk}</div>
+              </div>
             </div>
 
             {/* Recommendations */}
@@ -748,6 +865,9 @@ export default function App() {
                     </div>
                     <div className="text-sm text-green-600">
                       Expected strokes: {recommendation.best.expStrokes.toFixed(2)}
+                    </div>
+                    <div className="text-sm text-green-600">
+                      Adjusted carry: {Math.round(adjustCarry(ppm, recommendation.best.club, env, q.lie))}y
                     </div>
                     {recommendation.best.reasons.length > 0 && (
                       <div className="text-xs text-green-500 mt-2">
@@ -775,9 +895,33 @@ export default function App() {
                       <div className="text-sm text-blue-600">
                         Expected strokes: {recommendation.backup.expStrokes.toFixed(2)}
                       </div>
+                      <div className="text-sm text-blue-600">
+                        Adjusted carry: {Math.round(adjustCarry(ppm, recommendation.backup.club, env, q.lie))}y
+                      </div>
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Club Performance Display */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-700 mb-2">Club Performance (Current Conditions)</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                  {CLUB_ORDER.slice(0, 8).map((club) => {
+                    const baseCarry = ppm.clubs[club].carry;
+                    const adjustedCarry = adjustCarry(ppm, club, env, q.lie);
+                    const penalty = Math.round((1 - adjustedCarry / baseCarry) * 100);
+                    return (
+                      <div key={club} className="text-center p-2 bg-white rounded border">
+                        <div className="font-semibold">{club}</div>
+                        <div className="text-gray-600">{Math.round(adjustedCarry)}y</div>
+                        {penalty > 0 && (
+                          <div className="text-red-500 text-xs">-{penalty}%</div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Self-Test Results */}
@@ -805,3 +949,5 @@ export default function App() {
     </div>
   );
 }
+
+export default CaddyAIV2;

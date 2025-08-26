@@ -127,14 +127,11 @@ interface Course {
   stance: Stance;
   pinPos: PinPos;
   fairwayWidth?: number | null; // yards (null = unknown/irrelevant)
+  hazards: Hazard[];
 }
 
 interface Hazard {
-  side: "left" | "right";
-  startYards: number;
-  clearYards: number;
-}
-
+  id: string;
 interface ShotPlan {
   club: ClubId;
   description: string;
@@ -265,7 +262,7 @@ function planShot(
   ppm: PPM,
   env: Environment,
   course: Course,
-  hazard: Hazard | null,
+  hazards: Hazard[],
   confidence: number
 ): ShotPlan {
   const spec = ppm.clubs[club];
@@ -280,20 +277,38 @@ function planShot(
   let pHazard = 0;
   let pFairway = 1;
   
-  if (hazard) {
-    // Probability of landing in hazard band
-    pHazard = pBand(expectedTotal, adjSigCarry, hazard.startYards, hazard.clearYards);
+  // Calculate hazard risks for all hazards
+  for (const hazard of hazards) {
+    let hazardRisk = 0;
     
-    // Adjust for lateral dispersion if hazard is on preferred miss side
-    const prefersRight = (ppm.dominantHand === "R" && ppm.normalShot === "fade") || 
-                        (ppm.dominantHand === "L" && ppm.normalShot === "draw");
-    const hazardOnPrefSide = (hazard.side === "right" && prefersRight) || 
-                            (hazard.side === "left" && !prefersRight);
-    
-    if (hazardOnPrefSide) {
-      const lateralRisk = pMissSide(adjSigLat, course.fairwayWidth, hazard.side);
-      pHazard = Math.min(1, pHazard + lateralRisk * 0.3);
+    if (hazard.type === "greenside_bunker") {
+      // Greenside bunkers only matter if we're close to the green
+      const remainingYards = Math.max(0, course.distanceToHole - expectedTotal);
+      if (remainingYards < 50) {
+        hazardRisk = 0.1; // 10% risk of short-side issues
+      }
+    } else {
+      // Regular bunkers and water
+      hazardRisk = pBand(expectedTotal, adjSigCarry, hazard.startYards, hazard.clearYards);
+      
+      // Adjust for lateral dispersion if hazard is on preferred miss side
+      const prefersRight = (ppm.dominantHand === "R" && ppm.normalShot === "fade") || 
+                          (ppm.dominantHand === "L" && ppm.normalShot === "draw");
+      const hazardOnPrefSide = (hazard.side === "right" && prefersRight) || 
+                              (hazard.side === "left" && !prefersRight);
+      
+      if (hazardOnPrefSide) {
+        const lateralRisk = pMissSide(adjSigLat, course.fairwayWidth, hazard.side as "left" | "right");
+        hazardRisk = Math.min(1, hazardRisk + lateralRisk * 0.3);
+      }
+      
+      // Water is more penalizing than bunkers
+      if (hazard.type === "water") {
+        hazardRisk *= 1.5;
+      }
     }
+    
+    pHazard = Math.min(1, pHazard + hazardRisk);
   }
   
   // Fairway hit probability (only matters for driver on tee)
@@ -370,10 +385,10 @@ export default function App() {
     lie: "tee",
     stance: "flat",
     pinPos: "middle",
-    fairwayWidth: null
+    fairwayWidth: null,
+    hazards: []
   });
   
-  const [hazard, setHazard] = useState<Hazard | null>(null);
   const [confidence, setConfidence] = useState(3);
   const [showSettings, setShowSettings] = useState(false);
   const [editingPPM, setEditingPPM] = useState(false);
@@ -394,7 +409,7 @@ export default function App() {
        // Skip driver unless on tee
        if (club === "D" && course.lie !== "tee") continue;
        
-        const plan = planShot(club, ppm, env, course, hazard, confidence);
+        const plan = planShot(club, ppm, env, course, course.hazards, confidence);
         
         // Skip clubs that are way too short or too long
         if (plan.expectedTotal < course.distanceToHole * 0.3) continue;
@@ -404,18 +419,22 @@ export default function App() {
       }
       
       // Add layup options if there's a hazard and we're on the tee
-      if (hazard && course.lie === "tee") {
-        const layupDistance = Math.max(100, hazard.startYards - 20);
+      const mainHazards = course.hazards.filter(h => h.type !== "greenside_bunker");
+      if (mainHazards.length > 0 && course.lie === "tee") {
+        const firstHazard = mainHazards[0];
+        const layupDistance = Math.max(100, firstHazard.startYards - 20);
+        const firstHazard = mainHazards[0];
+        const layupDistance = Math.max(100, firstHazard.startYards - 20);
         
         for (const club of CLUB_ORDER) {
           const spec = ppm.clubs[club];
           const [adjCarry] = adjustForConditions(spec.carry, spec.sigCarry, env, course);
           
           if (Math.abs(adjCarry - layupDistance) < 15) {
-            const layupPlan = planShot(club, ppm, env, course, null, confidence);
+            const layupPlan = planShot(club, ppm, env, course, [], confidence);
             layupPlan.description += " (layup)";
             layupPlan.isLayup = true;
-            layupPlan.reasoning = `Safe layup to ${layupDistance}y, avoids ${hazard.side} hazard.`;
+            layupPlan.reasoning = `Safe layup to ${layupDistance}y, avoids ${firstHazard.side} hazard.`;
             plans.push(layupPlan);
           }
         }
@@ -430,11 +449,37 @@ export default function App() {
       
       return plans.slice(0, 6); // Top 6 options
     };
-  }, [ppm, env, course, hazard, confidence]);
+  }, [ppm, env, course, confidence]);
   
   const recommendations = getRecommendations();
   const primary = recommendations[0];
   const backup = recommendations[1];
+  
+  // Helper functions for hazard management
+  const addHazard = () => {
+    const newHazard: Hazard = {
+      id: crypto.randomUUID(),
+      type: "bunker",
+      side: "left",
+      startYards: 200,
+      clearYards: 220
+    };
+    setCourse(prev => ({ ...prev, hazards: [...prev.hazards, newHazard] }));
+  };
+  
+  const updateHazard = (id: string, updates: Partial<Hazard>) => {
+    setCourse(prev => ({
+      ...prev,
+      hazards: prev.hazards.map(h => h.id === id ? { ...h, ...updates } : h)
+    }));
+  };
+  
+  const removeHazard = (id: string) => {
+    setCourse(prev => ({
+      ...prev,
+      hazards: prev.hazards.filter(h => h.id !== id)
+    }));
+  };
   
   // Crosswind strategy warning
   const getCrosswindWarning = () => {
@@ -580,67 +625,83 @@ export default function App() {
             Hazard Information
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Hazard Side
-              </label>
-              <select
-                value={hazard?.side || ''}
-                onChange={(e) => {
-                  if (e.target.value) {
-                    setHazard(prev => ({ 
-                      side: e.target.value as "left" | "right",
-                      startYards: prev?.startYards || 200,
-                      clearYards: prev?.clearYards || 220
-                    }));
-                  } else {
-                    setHazard(null);
-                  }
-                }}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-              >
-                <option value="">No hazard</option>
-                <option value="left">Left</option>
-                <option value="right">Right</option>
-              </select>
-            </div>
+          <div className="space-y-4">
+            {course.hazards.map((hazard, index) => (
+              <div key={hazard.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Type
+                  </label>
+                  <select
+                    value={hazard.type}
+                    onChange={(e) => updateHazard(hazard.id, { type: e.target.value as Hazard['type'] })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="bunker">Bunker</option>
+                    <option value="water">Water</option>
+                    <option value="greenside_bunker">Greenside Bunker</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Side/Position
+                  </label>
+                  <select
+                    value={hazard.side}
+                    onChange={(e) => updateHazard(hazard.id, { side: e.target.value as Hazard['side'] })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="FL">Front Left</option>
+                    <option value="FR">Front Right</option>
+                    <option value="BL">Back Left</option>
+                    <option value="BR">Back Right</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Starts (yards)
+                  </label>
+                  <input
+                    type="number"
+                    value={hazard.startYards}
+                    onChange={(e) => updateHazard(hazard.id, { startYards: parseInt(e.target.value) || 0 })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Clear (yards)
+                  </label>
+                  <input
+                    type="number"
+                    value={hazard.clearYards}
+                    onChange={(e) => updateHazard(hazard.id, { clearYards: parseInt(e.target.value) || 0 })}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                
+                <div className="flex items-end">
+                  <button
+                    onClick={() => removeHazard(hazard.id)}
+                    className="w-full px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Starts (yards)
-              </label>
-              <input
-                type="number"
-                value={hazard?.startYards || ''}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value) || 0;
-                  if (hazard) {
-                    setHazard(prev => prev ? { ...prev, startYards: value } : null);
-                  }
-                }}
-                placeholder="200"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Clear (yards)
-              </label>
-              <input
-                type="number"
-                value={hazard?.clearYards || ''}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value) || 0;
-                  if (hazard) {
-                    setHazard(prev => prev ? { ...prev, clearYards: value } : null);
-                  }
-                }}
-                placeholder="220"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
+            <button
+              onClick={addHazard}
+              className="w-full px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium transition-colors"
+            >
+              Add Hazard
+            </button>
           </div>
         </div>
 

@@ -14,7 +14,7 @@ Notes:
 */
 
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import { ArrowRight, Flag, Wind, CheckCircle2, XCircle, Mic, MicOff, Volume2 } from "lucide-react";
+import { ArrowRight, Flag, Wind, CheckCircle2, XCircle } from "lucide-react";
 
 // ---------- Math helpers (erf, normal CDF Φ) ----------
 
@@ -646,119 +646,6 @@ function runSelfTests(): TestResult[] {
 }
 
 // ---------- Voice chat (STT + TTS) ----------
-function useVoiceChat() {
-  const [supported, setSupported] = useState(false);
-  const [listening, setListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const recRef = useRef<any | null>(null);
-  const onResultRef = useRef<((text: string) => void) | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return;
-    setSupported(true);
-    const rec = new SR();
-    rec.lang = "en-US";
-    rec.interimResults = false;
-    rec.maxAlternatives = 1;
-    rec.onresult = (e: any) => {
-      try {
-        const t = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : "";
-        setTranscript(t);
-        if (onResultRef.current) onResultRef.current(t);
-      } catch {}
-    };
-    rec.onerror = (e: any) => { setError(String((e && e.error) || "speech error")); };
-    rec.onend = () => setListening(false);
-    recRef.current = rec;
-  }, []);
-
-  const start = (onResult?: (text: string) => void) => {
-    onResultRef.current = onResult || null;
-    setTranscript("");
-    setError(null);
-    try { if (recRef.current) recRef.current.start(); setListening(true); } catch {}
-  };
-  const stop = () => { try { if (recRef.current) recRef.current.stop(); } catch {}; setListening(false); };
-  const speak = (text: string) => {
-    if (typeof window === "undefined" || !(window as any).speechSynthesis) return;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US"; u.rate = 1; u.pitch = 1;
-    (window as any).speechSynthesis.cancel();
-    (window as any).speechSynthesis.speak(u);
-  };
-  return { supported, listening, transcript, error, start, stop, speak };
-}
-
-function parseVoiceCommand(text: string, q: Questionnaire) {
-  const t = text.toLowerCase();
-  const words = t.split(' ').filter(Boolean);
-  const upd: Partial<Questionnaire> = {};
-  let distance: number | null = null;
-  let action: "speakRec" | null = null;
-
-  // Hazard side + numbers (start, clear)
-  if (t.indexOf('hazard') >= 0) {
-    if (t.indexOf('left') >= 0) upd.hazardSide = 'left';
-    if (t.indexOf('right') >= 0) upd.hazardSide = 'right';
-    const nums = words.map(w => parseFloat(w)).filter(n => Number.isFinite(n)) as number[];
-    if (nums.length >= 1) upd.hazardStartYds = nums[0];
-    if (nums.length >= 2) upd.hazardClearYds = nums[1];
-  }
-  // Fairway width at driver
-  if (t.indexOf('fairway') >= 0 && (t.indexOf('width') >= 0 || t.indexOf('narrows') >= 0 || t.indexOf('narrow') >= 0)) {
-    const n = words.map(w => parseFloat(w)).find(n => Number.isFinite(n));
-    if (typeof n === 'number') upd.fairwayWidthAtDriverYds = n;
-  }
-  // Distance command
-  const di = words.indexOf('distance');
-  if (di >= 0) {
-    const n = parseFloat(words[di+1] || '');
-    if (Number.isFinite(n)) distance = n;
-  }
-  // Lie
-  const li = words.indexOf('lie');
-  if (li >= 0) {
-    const next = (words[li+1] || '');
-    const map: any = { 'light': 'light_rough', 'heavy': 'heavy_rough', 'tee': 'tee', 'fairway': 'fairway', 'sand': 'sand', 'bunker': 'sand', 'recovery': 'recovery' };
-    upd.lie = (map[next] || upd.lie) as Lie;
-  }
-  // Pin position
-  const pi = words.indexOf('pin');
-  if (pi >= 0) {
-    const next = (words[pi+1] || '');
-    if (next === 'front' || next === 'middle' || next === 'back') upd.pinPos = next as PinPos;
-  }
-  // Confidence
-  const ci = words.indexOf('confidence');
-  if (ci >= 0) {
-    const n = parseFloat(words[ci+1] || '');
-    if (Number.isFinite(n)) upd.confidence = Math.max(1, Math.min(5, Math.round(n))) as Questionnaire['confidence'];
-  }
-
-  if (t.indexOf("what's the play") >= 0 || t.indexOf('whats the play') >= 0 || t.indexOf('recommend') >= 0 || t.indexOf('what should i hit') >= 0) action = 'speakRec';
-
-  return { upd, distance, action };
-}
-
-function describeRecommendation(best?: CandidateEval, backup?: CandidateEval | null, q?: Questionnaire) {
-  let s = '';
-  if (q) {
-    if (q.hazardSide && q.hazardStartYds) s += `There is a ${q.hazardSide} hazard starting at ${Math.round(q.hazardStartYds)} yards. `;
-    if (q.hazardSide && q.hazardClearYds) s += `To clear it we need to land at ${Math.round(q.hazardClearYds)} yards. `;
-    if (q.fairwayWidthAtDriverYds) s += `The fairway narrows to about ${Math.round(q.fairwayWidthAtDriverYds)} yards at driver length. `;
-  }
-  if (best) {
-    const aim = best.aimLateralYds === 0 ? 'center' : `${Math.abs(best.aimLateralYds)} yards ${best.aimLateralYds > 0 ? 'right' : 'left'}`;
-    s += `Primary is ${best.club}, aim ${aim}, carry ${Math.round(best.targetCarry)}. `;
-  } else {
-    s += 'No clear primary recommendation. ';
-  }
-  if (backup) s += `Backup is ${backup.club}.`;
-  return s;
-}
 
 // ---------- UI ----------
 
@@ -779,25 +666,6 @@ export default function CaddyAIV2() {
   const onVoiceResult = (text: string) => {
     const { upd, distance: dist, action } = parseVoiceCommand(text, q);
     if (Object.keys(upd).length) setQ({ ...q, ...upd });
-    if (dist != null && !Number.isNaN(dist)) setDistance(Math.round(dist));
-    if (action === 'speakRec') {
-      voice.speak(describeRecommendation(best, backup, { ...q, ...upd }));
-    }
-  };
-
-  // Show PPM setup if not configured
-  useEffect(() => {
-    if (!ppm.isSetup) {
-      setShowPPMSetup(true);
-    }
-  }, [ppm.isSetup]);
-
-  useEffect(() => {
-    if (autoSpeak && best) {
-      voice.speak(describeRecommendation(best, backup, q));
-    }
-  }, [autoSpeak, best?.club, best?.targetCarry, best?.aimLateralYds, backup?.club, q.hazardSide, q.hazardStartYds, q.hazardClearYds, q.fairwayWidthAtDriverYds]);
-
   return (
     <div className="w-full max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* PPM Setup Modal */}
@@ -986,47 +854,6 @@ export default function CaddyAIV2() {
         </section>
         )}
 
-        {/* Voice Caddie (STT + TTS) */}
-        <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-sm font-semibold">Voice Caddie</div>
-              <div className="text-xs text-gray-600">Tap the mic and say: "hazard right 250 clear 265", "fairway width 15", "set distance 152", or "what's the play?"</div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                className={`px-3 py-2 rounded-xl shadow border ${voice.listening ? 'bg-rose-600 text-white border-rose-700' : 'bg-white text-gray-800'}`}
-                onClick={() => voice.listening ? voice.stop() : voice.start(onVoiceResult)}
-                title={voice.listening ? 'Stop listening' : 'Start listening'}
-              >
-                {voice.listening ? <MicOff size={18}/> : <Mic size={18}/>} {voice.listening ? 'Stop' : 'Speak'}
-              </button>
-              <button
-                className="px-3 py-2 rounded-xl shadow border bg-white text-gray-800"
-                onClick={() => voice.speak(describeRecommendation(best, backup, q))}
-                title="Read current recommendation"
-              >
-                <Volume2 size={18}/> Read Rec
-              </button>
-              <label className="flex items-center gap-1 text-xs text-gray-600 ml-2">
-                <input type="checkbox" checked={autoSpeak} onChange={(e)=> setAutoSpeak(e.target.checked)} />
-                Auto-read updates
-              </label>
-            </div>
-          </div>
-          {voice.supported ? (
-            <div className="mt-2 text-sm text-gray-800">
-              {voice.transcript ? (
-                <div className="p-2 rounded bg-emerald-50 text-emerald-800">Heard: "{voice.transcript}"</div>
-              ) : (
-                <div className="text-gray-500 text-xs">Mic off. Examples: "lie fairway", "pin front", "confidence 4".</div>
-              )}
-              {voice.error && <div className="text-rose-600 text-xs mt-1">Voice error: {voice.error}</div>}
-            </div>
-          ) : (
-            <div className="mt-2 text-xs text-gray-600">Voice not supported in this browser. Chrome desktop/Android work best. iOS Safari requires a tap to start audio.</div>
-          )}
-        </section>
 
         {/* Core inputs */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4">

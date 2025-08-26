@@ -15,8 +15,7 @@ Notes:
 
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { ArrowRight, Flag, Wind, CheckCircle2, XCircle, User, Edit3 } from "lucide-react";
-import { Target, Mic, MicOff, Volume2, Settings, Save, X } from 'lucide-react';
-import { useVoiceChat } from './hooks/useVoiceChat';
+import { Target, Settings, Save, X } from 'lucide-react';
 
 // ========================================
 
@@ -349,74 +348,6 @@ function planShot(
   };
 }
 
-// ---------- Voice command parsing ----------
-
-function parseVoiceCommand(text: string): Partial<{ 
-  hazard: Hazard; 
-  fairwayWidth: number; 
-  distance: number; 
-  wind: { speed: number; dir: Environment['windDir'] };
-  lie: Lie;
-  confidence: number;
-}> {
-  const lower = text.toLowerCase();
-  const result: any = {};
-  
-  // Hazard parsing: "hazard right 250 clear 265" or "right bunker 250 to 265"
-  const hazardMatch = lower.match(/(?:hazard\s+)?(left|right)(?:\s+(?:bunker|water|trees?))?\s+(\d+)(?:\s+(?:clear|to)\s+(\d+))?/);
-  if (hazardMatch) {
-    const [, side, start, clear] = hazardMatch;
-    result.hazard = {
-      side: side as "left" | "right",
-      startYards: parseInt(start),
-      clearYards: clear ? parseInt(clear) : parseInt(start) + 15
-    };
-  }
-  
-  // Fairway width: "fairway width 20" or "fairway narrows to 15"
-  const fairwayMatch = lower.match(/fairway\s+(?:width|narrows\s+to)\s+(\d+)/);
-  if (fairwayMatch) {
-    result.fairwayWidth = parseInt(fairwayMatch[1]);
-  }
-  
-  // Distance: "distance 275" or "275 yards"
-  const distMatch = lower.match(/(?:distance\s+)?(\d+)(?:\s+yards?)?/);
-  if (distMatch && !hazardMatch && !fairwayMatch) {
-    result.distance = parseInt(distMatch[1]);
-  }
-  
-  // Wind: "wind 15 left to right" or "crosswind 20"
-  const windMatch = lower.match(/(?:wind|crosswind)\s+(\d+)(?:\s+(head|tail|left\s+to\s+right|right\s+to\s+left))?/);
-  if (windMatch) {
-    const [, speed, direction] = windMatch;
-    let dir: Environment['windDir'] = "cross_L_to_R";
-    if (direction) {
-      if (direction.includes("head")) dir = "head";
-      else if (direction.includes("tail")) dir = "tail";
-      else if (direction.includes("right to left")) dir = "cross_R_to_L";
-      else if (direction.includes("left to right")) dir = "cross_L_to_R";
-    }
-    result.wind = { speed: parseInt(speed), dir };
-  }
-  
-  // Lie: "lie fairway" or "in the rough"
-  if (lower.includes("fairway")) result.lie = "fairway";
-  else if (lower.includes("rough")) result.lie = "light_rough";
-  else if (lower.includes("sand") || lower.includes("bunker")) result.lie = "sand";
-  
-  // Confidence: "confidence 4" or "feeling good" (5) or "not confident" (2)
-  const confMatch = lower.match(/confidence\s+([1-5])/);
-  if (confMatch) {
-    result.confidence = parseInt(confMatch[1]);
-  } else if (lower.includes("feeling good") || lower.includes("confident")) {
-    result.confidence = 4;
-  } else if (lower.includes("not confident") || lower.includes("struggling")) {
-    result.confidence = 2;
-  }
-  
-  return result;
-}
-
 // ---------- Main App Component ----------
 
 export default function App() {
@@ -447,35 +378,10 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [editingPPM, setEditingPPM] = useState(false);
   
-  // Voice chat integration
-  const voice = useVoiceChat();
-  
   // Save PPM to localStorage
   useEffect(() => {
     localStorage.setItem('caddyai-ppm', JSON.stringify(ppm));
   }, [ppm]);
-  
-  // Voice command handling
-  const handleVoiceResult = (transcript: string) => {
-    const parsed = parseVoiceCommand(transcript);
-    
-    if (parsed.hazard) setHazard(parsed.hazard);
-    if (parsed.fairwayWidth) setCourse(prev => ({ ...prev, fairwayWidth: parsed.fairwayWidth }));
-    if (parsed.distance) setCourse(prev => ({ ...prev, distanceToHole: parsed.distance }));
-    if (parsed.wind) setEnv(prev => ({ ...prev, ...parsed.wind }));
-    if (parsed.lie) setCourse(prev => ({ ...prev, lie: parsed.lie }));
-    if (parsed.confidence) setConfidence(parsed.confidence);
-    
-    // Auto-speak recommendations for "what's the play" type queries
-    if (transcript.toLowerCase().includes("what") && transcript.toLowerCase().includes("play")) {
-      setTimeout(() => {
-        const plans = getRecommendations();
-        if (plans.length > 0) {
-          voice.speak(`I recommend ${plans[0].description}. ${plans[0].reasoning}`);
-        }
-      }, 500);
-    }
-  };
   
   // Shot planning calculations
   const getRecommendations = useMemo(() => {
@@ -569,73 +475,6 @@ export default function App() {
             Hazard-Aware Golf Shot Planner
           </p>
         </div>
-
-        {/* Voice Controls */}
-        {voice.supported && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                <Mic className="w-5 h-5" />
-                Voice Commands
-              </h2>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => voice.listening ? voice.stop() : voice.start(handleVoiceResult)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    voice.listening
-                      ? 'bg-red-500 hover:bg-red-600 text-white'
-                      : 'bg-emerald-500 hover:bg-emerald-600 text-white'
-                  }`}
-                >
-                  {voice.listening ? (
-                    <>
-                      <MicOff className="w-4 h-4 inline mr-2" />
-                      Stop
-                    </>
-                  ) : (
-                    <>
-                      <Mic className="w-4 h-4 inline mr-2" />
-                      Listen
-                    </>
-                  )}
-                </button>
-                {primary && (
-                  <button
-                    onClick={() => voice.speak(`I recommend ${primary.description}. ${primary.reasoning}`)}
-                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
-                  >
-                    <Volume2 className="w-4 h-4 inline mr-2" />
-                    Speak
-                  </button>
-                )}
-              </div>
-            </div>
-            
-            {voice.listening && (
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 mb-4">
-                <p className="text-emerald-800 dark:text-emerald-200 font-medium">
-                  🎤 Listening... Try: "hazard right 250 clear 265" or "fairway width 15"
-                </p>
-              </div>
-            )}
-            
-            {voice.transcript && (
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 mb-4">
-                <p className="text-gray-700 dark:text-gray-300">
-                  <strong>Heard:</strong> "{voice.transcript}"
-                </p>
-              </div>
-            )}
-            
-            {voice.error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
-                <p className="text-red-800 dark:text-red-200">
-                  <strong>Error:</strong> {voice.error}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Course Conditions */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">

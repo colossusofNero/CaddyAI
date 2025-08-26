@@ -78,6 +78,8 @@ function pMissSide(sigLat: number, widthYds: number | null | undefined, side: "l
 type Hand = "R" | "L";
 type Shape = "draw" | "fade" | "straight" | "any";
 type Lie = "tee" | "fairway" | "light_rough" | "heavy_rough" | "sand" | "recovery";
+type BallFlight = "low" | "mid" | "high";
+type NormalShot = "draw" | "fade" | "straight";
 
 type Stance = "flat" | "ball_above" | "ball_below" | "uphill" | "downhill";
 
@@ -102,9 +104,10 @@ interface ClubSpec {
 interface PPM {
   dominantHand: Hand;
   handicap: number;           // e.g., 12
-  preferredShape: Exclude<Shape, "any">;
-  trajectory: "low" | "mid" | "high";
+  normalShot: NormalShot;     // natural ball flight
+  ballFlight: BallFlight;     // trajectory preference
   clubs: Record<ClubId, ClubSpec>;
+  isSetup: boolean;           // whether PPM has been configured
 }
 
 interface Environment {
@@ -154,8 +157,9 @@ interface CandidateEval {
 const defaultPPM: PPM = {
   dominantHand: "R",
   handicap: 12,
-  preferredShape: "draw",
-  trajectory: "mid",
+  normalShot: "draw",
+  ballFlight: "mid",
+  isSetup: false,
   clubs: {
     D:   { carry: 240, total: 260, sigCarry: 12, sigLat: 15, confidence: 0.8 },
     "3W":{ carry: 220, total: 235, sigCarry: 10, sigLat: 14, confidence: 0.8 },
@@ -237,10 +241,10 @@ function lieCarryPenaltyPct(lie: Lie): number {
   switch (lie) {
     case "tee": return 0;
     case "fairway": return 0;
-    case "light_rough": return 0.03;
-    case "heavy_rough": return 0.07;
-    case "sand": return 0.05;
-    case "recovery": return 0.12;
+    case "light_rough": return 0.05;  // 5%
+    case "heavy_rough": return 0.10;  // 10%
+    case "sand": return 0.08;         // 8%
+    case "recovery": return 0.15;     // 15%
   }
 }
 
@@ -385,6 +389,24 @@ function layupTargetBeforeHazard(q: Questionnaire, bufferYds = 15): number | nul
   return Math.max(0, q.hazardStartYds - bufferYds);
 }
 
+// Find the best club for target distance considering lie penalty
+function recommendClubForDistance(targetCarry: number, ppm: PPM, env: Environment, lie: Lie): ClubId {
+  const clubs = Object.keys(ppm.clubs) as ClubId[];
+  let bestClub: ClubId = "7i";
+  let bestDiff = Infinity;
+  
+  for (const club of clubs) {
+    const adjustedCarry = adjustCarry(ppm, club, env, lie);
+    const diff = Math.abs(adjustedCarry - targetCarry);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestClub = club;
+    }
+  }
+  
+  return bestClub;
+}
+
 function evaluateCandidate(
   club: ClubId,
   targetCarry: number, // target carry to landing zone center
@@ -471,7 +493,7 @@ function makeCandidates(input: ShotInput): { label: string; plans: Array<{ club:
   const centerPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 10); // assume some roll-out toward pin
-    centerPlans.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape });
+    centerPlans.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.normalShot : q.requiredShape });
   });
   options.push({ label: "Center attack (filtered)", plans: centerPlans });
 
@@ -480,7 +502,7 @@ function makeCandidates(input: ShotInput): { label: string; plans: Array<{ club:
   const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0);
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     const targetCarry = Math.max(0, distanceToHole - 20 - shortBias);
-    shortPlans.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape });
+    shortPlans.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.normalShot : q.requiredShape });
   });
   options.push({ label: "Front-safe", plans: shortPlans });
 
@@ -490,7 +512,7 @@ function makeCandidates(input: ShotInput): { label: string; plans: Array<{ club:
   (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
     lays.forEach((leave) => {
       const targetCarry = Math.max(0, distanceToHole - leave);
-      layPlansApproach.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape });
+      layPlansApproach.push({ club, targetCarry, aim: 0, shape: q.requiredShape === "any" ? ppm.normalShot : q.requiredShape });
     });
   });
   options.push({ label: "Lay-up windows (approach)", plans: layPlansApproach });
@@ -501,6 +523,19 @@ function makeCandidates(input: ShotInput): { label: string; plans: Array<{ club:
 function recommend(input: ShotInput) {
   const candidates = makeCandidates(input);
   const evals: CandidateEval[] = [];
+  
+  // For approach shots, also consider the optimal club for the distance
+  if (input.q.lie !== "tee") {
+    const optimalClub = recommendClubForDistance(input.distanceToHole - 10, input.ppm, input.env, input.q.lie);
+    const optimalPlan = {
+      club: optimalClub,
+      targetCarry: input.distanceToHole - 10,
+      aim: 0,
+      shape: input.q.requiredShape === "any" ? input.ppm.normalShot : input.q.requiredShape
+    };
+    evals.push(evaluateCandidate(optimalPlan.club, optimalPlan.targetCarry, optimalPlan.aim, optimalPlan.shape, input));
+  }
+  
   for (const bucket of candidates) {
     for (const plan of bucket.plans) {
       // Filter out absurd plans (e.g., LW for 230y attack)
@@ -730,6 +765,7 @@ function describeRecommendation(best?: CandidateEval, backup?: CandidateEval | n
 export default function CaddyAIV2() {
   const [distance, setDistance] = useState(152);
   const [ppm, setPPM] = useState<PPM>(defaultPPM);
+  const [showPPMSetup, setShowPPMSetup] = useState(false);
   const [env, setEnv] = useState<Environment>(defaultEnv);
   const [q, setQ] = useState<Questionnaire>(defaultQ);
 
@@ -749,6 +785,13 @@ export default function CaddyAIV2() {
     }
   };
 
+  // Show PPM setup if not configured
+  useEffect(() => {
+    if (!ppm.isSetup) {
+      setShowPPMSetup(true);
+    }
+  }, [ppm.isSetup]);
+
   useEffect(() => {
     if (autoSpeak && best) {
       voice.speak(describeRecommendation(best, backup, q));
@@ -757,6 +800,145 @@ export default function CaddyAIV2() {
 
   return (
     <div className="w-full max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* PPM Setup Modal */}
+      {showPPMSetup && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-4">Player Profile Setup</h2>
+              <p className="text-gray-600 mb-6">Let's set up your player profile for more accurate recommendations.</p>
+              
+              <div className="space-y-6">
+                {/* Basic Info */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Dominant Hand</label>
+                    <select 
+                      value={ppm.dominantHand} 
+                      onChange={(e) => setPPM({...ppm, dominantHand: e.target.value as Hand})}
+                      className="w-full rounded-xl border p-3"
+                    >
+                      <option value="R">Right-handed</option>
+                      <option value="L">Left-handed</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Handicap</label>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      max="36" 
+                      value={ppm.handicap}
+                      onChange={(e) => setPPM({...ppm, handicap: parseInt(e.target.value) || 0})}
+                      className="w-full rounded-xl border p-3"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Normal Shot Shape</label>
+                    <select 
+                      value={ppm.normalShot} 
+                      onChange={(e) => setPPM({...ppm, normalShot: e.target.value as NormalShot})}
+                      className="w-full rounded-xl border p-3"
+                    >
+                      <option value="draw">Draw (curves left for RH)</option>
+                      <option value="fade">Fade (curves right for RH)</option>
+                      <option value="straight">Straight</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Ball Flight</label>
+                    <select 
+                      value={ppm.ballFlight} 
+                      onChange={(e) => setPPM({...ppm, ballFlight: e.target.value as BallFlight})}
+                      className="w-full rounded-xl border p-3"
+                    >
+                      <option value="low">Low trajectory</option>
+                      <option value="mid">Mid trajectory</option>
+                      <option value="high">High trajectory</option>
+                    </select>
+                  </div>
+                </div>
+                
+                {/* Club Distances */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Club Distances (yards)</h3>
+                  <p className="text-sm text-gray-600 mb-4">Enter your typical carry and total distances for each club.</p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(Object.keys(ppm.clubs) as ClubId[]).map((club) => (
+                      <div key={club} className="flex items-center gap-3">
+                        <div className="w-12 text-sm font-medium">{club}</div>
+                        <div className="flex gap-2 flex-1">
+                          <div>
+                            <label className="text-xs text-gray-500">Carry</label>
+                            <input 
+                              type="number" 
+                              value={ppm.clubs[club].carry}
+                              onChange={(e) => setPPM({
+                                ...ppm, 
+                                clubs: {
+                                  ...ppm.clubs, 
+                                  [club]: {
+                                    ...ppm.clubs[club], 
+                                    carry: parseFloat(e.target.value) || 0
+                                  }
+                                }
+                              })}
+                              className="w-full rounded-lg border p-2 text-sm"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-xs text-gray-500">Total</label>
+                            <input 
+                              type="number" 
+                              value={ppm.clubs[club].total}
+                              onChange={(e) => setPPM({
+                                ...ppm, 
+                                clubs: {
+                                  ...ppm.clubs, 
+                                  [club]: {
+                                    ...ppm.clubs[club], 
+                                    total: parseFloat(e.target.value) || 0
+                                  }
+                                }
+                              })}
+                              className="w-full rounded-lg border p-2 text-sm"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 mt-8">
+                <button
+                  onClick={() => {
+                    setPPM({...ppm, isSetup: true});
+                    setShowPPMSetup(false);
+                  }}
+                  className="flex-1 px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700"
+                >
+                  Save Profile
+                </button>
+                <button
+                  onClick={() => setShowPPMSetup(false)}
+                  className="px-6 py-3 bg-gray-200 text-gray-800 rounded-xl font-medium hover:bg-gray-300"
+                >
+                  Skip for Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="lg:col-span-2 space-y-6">
         <header className="flex items-center gap-3">
           <Flag className="text-emerald-600" />
@@ -1005,8 +1187,33 @@ export default function CaddyAIV2() {
         </section>
 
         <section className="p-4 bg-white/80 rounded-2xl shadow">
-          <h3 className="font-semibold mb-2">Player Model (PPM)</h3>
-          <div className="text-xs text-gray-600 mb-3">Quick tweak: adjust a couple of clubs to roughly match your game.</div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold">Player Model (PPM)</h3>
+            <button
+              onClick={() => setShowPPMSetup(true)}
+              className="px-3 py-1 bg-emerald-600 text-white rounded-lg text-sm hover:bg-emerald-700"
+            >
+              Setup Profile
+            </button>
+          </div>
+          
+          {!ppm.isSetup && (
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg mb-3">
+              <p className="text-sm text-amber-800">⚠️ Profile not set up. Click "Setup Profile" for better recommendations.</p>
+            </div>
+          )}
+          
+          <div className="text-xs text-gray-600 mb-3">
+            {ppm.isSetup ? (
+              <div>
+                <div><strong>Hand:</strong> {ppm.dominantHand === 'R' ? 'Right' : 'Left'} | <strong>HC:</strong> {ppm.handicap} | <strong>Shape:</strong> {ppm.normalShot} | <strong>Flight:</strong> {ppm.ballFlight}</div>
+                <div className="mt-1">Quick adjust distances for today's conditions:</div>
+              </div>
+            ) : (
+              "Quick tweak: adjust distances to roughly match your game."
+            )}
+          </div>
+          
           {CLUB_ORDER.map((club) => (
             <div key={club} className="grid grid-cols-5 gap-2 items-center mb-2">
               <div className="col-span-1 text-sm font-medium">{club}</div>
@@ -1028,6 +1235,8 @@ export default function CaddyAIV2() {
             <li>Tee-ball model uses hazard side + band (start/clear) and fairway width (Driver only).</li>
             <li>Automatic pre-hazard layup considered when warranted.</li>
             <li>Replace the toy E[strokes] with SG tables for more realism.</li>
+            <li>Lie penalties: Light rough -5%, Heavy rough -10%, Sand -8%, Recovery -15%.</li>
+            <li>Algorithm suggests club-up automatically when lie reduces distance.</li>
           </ul>
         </section>
 

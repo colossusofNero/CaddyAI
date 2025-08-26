@@ -9,7 +9,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "ios:add": "npx cap add ios",
+    "ios:open": "npx cap open ios",
+    "ios:sync": "npx cap copy ios && npx cap sync ios",
+    "ios:run": "npm run build && npm run ios:sync && npx cap open ios"
   },
   "dependencies": {
     "@capacitor-community/speech-recognition": "^7.0.1",

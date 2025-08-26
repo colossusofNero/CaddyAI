@@ -623,3 +623,4 @@ function runSelfTests(): TestResult[] {
 
   // Band probability sanity
   const pBandFar = pBand(220, 10, 1000, 1010);
+}

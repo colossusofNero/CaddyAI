@@ -243,7 +243,7 @@ function lieCarryPenaltyPct(lie: Lie): number {
     case "fairway": return 0;
     case "light_rough": return 0.05;  // 5%
     case "heavy_rough": return 0.10;  // 10%
-    case "sand": return 0.08;         // 8%
+    case "sand": return 0.15;         // 15%
     case "recovery": return 0.15;     // 15%
   }
 }

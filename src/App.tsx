@@ -332,6 +332,73 @@ function safetyBufferYards(hazardRisk: number, pinPos: PinPos): number {
   return base + (pinPos === "front" || pinPos === "back" ? 1.5 : 0);
 }
 
+function makeCandidates(input: ShotInput): {
+  label: string;
+  plans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }>;
+}[] {
+  const { distanceToHole, ppm, q, env } = input;
+  const options: {
+    label: string;
+    plans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }>;
+  }[] = [];
+
+  // If on the tee: offer normal tee-ball carries for common tee clubs
+  if (q.lie === "tee") {
+    const teePlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+    (["D", "3W", "3H", "5W"] as ClubId[]).forEach((club) => {
+      const targetCarry = Math.max(0, adjustCarry(ppm, club, env, q.lie));
+      const aim = q.hazardSide === "right" ? -5 : q.hazardSide === "left" ? 5 : 0;
+      const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+      teePlans.push({ club, targetCarry, aim, shape });
+    });
+    options.push({ label: "Tee-ball options (attack)", plans: teePlans });
+
+    // If hazard band is provided, add a pre-hazard layup target
+    const layTarget = layupTargetBeforeHazard(q, 15);
+    if (layTarget !== null) {
+      const layPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+      (["3W", "5W", "3H", "4i", "5i"] as ClubId[]).forEach((club) => {
+        const aim = q.hazardSide === "right" ? -5 : 5;
+        layPlans.push({ club, targetCarry: layTarget, aim, shape: "straight" });
+      });
+      options.push({ label: "Tee layup before hazard", plans: layPlans });
+    }
+  }
+
+  // Center attack: aim to carry to ~10y short of hole (allowing for roll)
+  const centerPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
+    const targetCarry = Math.max(0, distanceToHole - 10);
+    const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+    centerPlans.push({ club, targetCarry, aim: 0, shape });
+  });
+  options.push({ label: "Center attack (filtered)", plans: centerPlans });
+
+  // Front-safe: hedge extra short when front is dangerous
+  const shortPlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+  const shortBias = safetyBufferYards(q.hazardRisk, q.pinPos) + (q.pinPos === "front" ? 4 : 0);
+  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
+    const targetCarry = Math.max(0, distanceToHole - 20 - shortBias);
+    const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+    shortPlans.push({ club, targetCarry, aim: 0, shape });
+  });
+  options.push({ label: "Front-safe", plans: shortPlans });
+
+  // Preferred lay-up windows for approaches
+  const layWindows = [80, 95, 110];
+  const layPlansApproach: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+  (Object.keys(ppm.clubs) as ClubId[]).forEach((club) => {
+    layWindows.forEach((leave) => {
+      const targetCarry = Math.max(0, distanceToHole - leave);
+      const shape = q.requiredShape === "any" ? ppm.preferredShape : q.requiredShape;
+      layPlansApproach.push({ club, targetCarry, aim: 0, shape });
+    });
+  });
+  options.push({ label: "Lay-up windows (approach)", plans: layPlansApproach });
+
+  return options;
+}
+
 function recommend(input: ShotInput) {
   const candidates = makeCandidates(input);
   const evals: CandidateEval[] = [];

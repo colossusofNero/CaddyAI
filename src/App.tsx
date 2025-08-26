@@ -391,6 +391,9 @@ export default function App() {
       
       // Test all clubs
       for (const club of CLUB_ORDER) {
+       // Skip driver unless on tee
+       if (club === "D" && course.lie !== "tee") continue;
+       
         const plan = planShot(club, ppm, env, course, hazard, confidence);
         
         // Skip clubs that are way too short or too long

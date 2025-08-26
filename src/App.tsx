@@ -577,89 +577,68 @@ export default function App() {
             Hazard Information
           </h2>
           
-          {hazard ? (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium text-red-800 dark:text-red-200">
-                  {hazard.side.charAt(0).toUpperCase() + hazard.side.slice(1)} Hazard
-                </h3>
-                <button
-                  onClick={() => setHazard(null)}
-                  className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <p className="text-red-700 dark:text-red-300">
-                Starts at {hazard.startYards} yards, clear at {hazard.clearYards} yards
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Hazard Side
+              </label>
+              <select
+                value={hazard?.side || ''}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setHazard(prev => ({ 
+                      side: e.target.value as "left" | "right",
+                      startYards: prev?.startYards || 200,
+                      clearYards: prev?.clearYards || 220
+                    }));
+                  } else {
+                    setHazard(null);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="">No hazard</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Hazard Side
-                </label>
-                <select
-                 value={hazard?.side || ''}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      setHazard(prev => ({ 
-                        side: e.target.value as "left" | "right",
-                        startYards: prev?.startYards || 200,
-                        clearYards: prev?.clearYards || 220
-                      }));
-                   } else {
-                     setHazard(null);
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="">No hazard</option>
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Starts (yards)
-                </label>
-                <input
-                  type="number"
-                 value={hazard?.startYards || 200}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                   if (hazard) {
-                      setHazard(prev => prev ? { ...prev, startYards: value } : null);
-                    }
-                  }}
-                  disabled={!hazard}
-                 placeholder="200"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Clear (yards)
-                </label>
-                <input
-                  type="number"
-                 value={hazard?.clearYards || 220}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                   if (hazard) {
-                      setHazard(prev => prev ? { ...prev, clearYards: value } : null);
-                    }
-                  }}
-                  disabled={!hazard}
-                 placeholder="220"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                />
-              </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Starts (yards)
+              </label>
+              <input
+                type="number"
+                value={hazard?.startYards || ''}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value) || 0;
+                  if (hazard) {
+                    setHazard(prev => prev ? { ...prev, startYards: value } : null);
+                  }
+                }}
+                placeholder="200"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
             </div>
-          )}
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Clear (yards)
+              </label>
+              <input
+                type="number"
+                value={hazard?.clearYards || ''}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value) || 0;
+                  if (hazard) {
+                    setHazard(prev => prev ? { ...prev, clearYards: value } : null);
+                  }
+                }}
+                placeholder="220"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Crosswind Warning */}

@@ -564,7 +564,7 @@ function makeCandidates(input: ShotInput): {
   ].filter(Boolean) as ClubId[];
   
   clubsToTry.forEach((club) => {
-    const targetCarry = Math.max(0, distanceToHole - 10);
+    const targetCarry = targetDistance;
     const shape = q.requiredShape === "any" 
       ? (canShapeShots(ppm.handicap) ? ppm.normalShot : "straight")
       : (canShapeShots(ppm.handicap) ? q.requiredShape : "straight");

@@ -437,8 +437,8 @@ function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: num
   const { sigCarry, sigLat } = dispersion(ppm, club, env, q.stance);
   
   // Calculate expected landing position
-  const expectedCarry = Math.min(actualCarry, targetCarry);
-  const leaveYds = Math.max(0, distanceToHole - actualTotal);
+  const expectedCarry = actualCarry;
+  const leaveYds = Math.max(0, distanceToHole - expectedCarry);
   
   // Determine resulting lie
   let leaveLie: Lie = "fairway";
@@ -455,9 +455,9 @@ function evaluateCandidate(club: ClubId, targetCarry: number, aimLateralYds: num
   const reasons: string[] = [];
   
   // Distance control penalty
-  const distanceError = Math.abs(expectedCarry - targetCarry);
+  const distanceError = Math.abs(expectedCarry - distanceToHole);
   if (distanceError > 10) {
-    const distancePenalty = (distanceError / 100) * lambda;
+    const distancePenalty = (distanceError / 50) * lambda; // increased penalty for distance mismatch
     expStrokes += distancePenalty;
     reasons.push(`distance control (${Math.round(distanceError)}y off)`);
   }

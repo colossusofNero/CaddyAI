@@ -221,10 +221,10 @@ function elevationPercentDelta(env: Environment) {
 
 function windYardDelta(env: Environment, nominalCarry: number) {
   // Rule-of-thumb: ~0.3 yd of effect per mph at ~200y. Scale linearly with distance.
-  // Tail adds, head subtracts. Crosswind handled separately via dispersion.
+  // Head subtracts full effect, tail adds only 1/3 benefit. Crosswind handled separately via dispersion.
   const factorAt200 = 0.3; // yd/mph
   const scale = nominalCarry / 200;
-  if (env.windDir === "tail") return +factorAt200 * env.windSpeed * scale;
+  if (env.windDir === "tail") return +factorAt200 * env.windSpeed * scale * (1/3); // tailwind gives 1/3 benefit
   if (env.windDir === "head") return -factorAt200 * env.windSpeed * scale;
   return 0;
 }

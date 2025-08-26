@@ -15,7 +15,7 @@ Notes:
 
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { ArrowRight, Flag, Wind, CheckCircle2, XCircle, User, Edit3 } from "lucide-react";
-import { Target, Mic, MicOff, Volume2, Settings, User, Edit3, Save, X } from 'lucide-react';
+import { Target, Mic, MicOff, Volume2, Settings, Save, X } from 'lucide-react';
 import { useVoiceChat } from './hooks/useVoiceChat';
 
 // ========================================

@@ -622,4 +622,4 @@ function runSelfTests(): TestResult[] {
   results.push({ name: "Far hazard => P(over)≈0", pass: approx(pOverFar, 0, 1e-6), got: pOverFar, expected: "≈0" });
 
   // Band probability sanity
-  const pBandFar = pBand(220
+  const pBandFar = pBand(220, 10, 1000, 1010);

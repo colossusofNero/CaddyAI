@@ -477,7 +477,7 @@ function makeCandidates(input: ShotInput): {
 
   // If on the tee: offer normal tee-ball carries for common tee clubs
   if (q.lie === "tee") {
-    const teePlans: Array<{ club: ClubId; targetCarry: number; aim: number; shape: Shape }> = [];
+    const canShapeShots = ppm.handicap <= 8;
     
     // High handicap players should avoid driver in tight situations
     const teeClubs = canShapeShots(ppm.handicap) 

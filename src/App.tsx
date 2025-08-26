@@ -283,18 +283,21 @@ function planShot(
   let pHazard = 0;
   let pFairway = 1;
   
-  // Calculate hazard risks for all hazards
+  // Calculate hazard risks - water must be avoided at all costs
   for (const hazard of hazards) {
     let hazardRisk = 0;
     
     if (hazard.type === "greenside_bunker") {
-      // Greenside bunkers only matter if we're close to the green
+      // Greenside bunkers matter when approaching the green
       const remainingYards = Math.max(0, course.distanceToHole - expectedTotal);
-      if (remainingYards < 50) {
-        hazardRisk = 0.1; // 10% risk of short-side issues
+      if (remainingYards < 80) {
+        // Higher risk if pin position aligns with bunker position
+        const pinRisk = (hazard.side.includes('F') && course.pinPos === 'front') ||
+                       (hazard.side.includes('B') && course.pinPos === 'back') ? 0.2 : 0.1;
+        hazardRisk = pinRisk;
       }
     } else {
-      // Regular bunkers and water
+      // Calculate distance-based risk for bunkers and water
       hazardRisk = pBand(expectedTotal, adjSigCarry, hazard.startYards, hazard.clearYards);
       
       // Adjust for lateral dispersion if hazard is on preferred miss side
@@ -308,13 +311,14 @@ function planShot(
         hazardRisk = Math.min(1, hazardRisk + lateralRisk * 0.3);
       }
       
-      // Water is more penalizing than bunkers
+      // Water must be avoided at all costs - massive penalty
       if (hazard.type === "water") {
-        hazardRisk *= 1.5;
+        hazardRisk *= 3.0; // Triple the risk for water
       }
     }
     
-    pHazard = Math.min(1, pHazard + hazardRisk);
+    // Multiple hazards compound risk significantly
+    pHazard = Math.min(1, pHazard + hazardRisk * (1 + pHazard * 0.5));
   }
   
   // Fairway hit probability (only matters for driver on tee)
@@ -427,10 +431,11 @@ export default function App() {
       // Add layup options if there's a hazard and we're on the tee
       const mainHazards = course.hazards.filter(h => h.type !== "greenside_bunker");
       if (mainHazards.length > 0 && course.lie === "tee") {
-        const firstHazard = mainHazards[0];
-        const layupDistance = Math.max(100, firstHazard.startYards - 20);
-        const firstHazard = mainHazards[0];
-        const layupDistance = Math.max(100, firstHazard.startYards - 20);
+        // Find the earliest hazard to determine layup distance
+        const earliestHazard = mainHazards.reduce((earliest, current) => 
+          current.startYards < earliest.startYards ? current : earliest
+        );
+        const layupDistance = Math.max(100, earliestHazard.startYards - 20);
         
         for (const club of CLUB_ORDER) {
           const spec = ppm.clubs[club];
@@ -440,7 +445,7 @@ export default function App() {
             const layupPlan = planShot(club, ppm, env, course, [], confidence);
             layupPlan.description += " (layup)";
             layupPlan.isLayup = true;
-            layupPlan.reasoning = `Safe layup to ${layupDistance}y, avoids ${firstHazard.side} hazard.`;
+            layupPlan.reasoning = `Safe layup to ${layupDistance}y, avoids ${earliestHazard.side} ${earliestHazard.type}.`;
             plans.push(layupPlan);
           }
         }

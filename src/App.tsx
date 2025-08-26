@@ -14,7 +14,7 @@ Notes:
 */
 
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import { ArrowRight, Flag, Wind, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowRight, Flag, Wind, CheckCircle2, XCircle, User, Edit3 } from "lucide-react";
 
 // ---------- Math helpers (erf, normal CDF Φ) ----------
 
@@ -156,7 +156,7 @@ interface CandidateEval {
 
 const defaultPPM: PPM = {
   dominantHand: "R",
-  handicap: 12,
+  handicap: 15,
   normalShot: "draw",
   ballFlight: "mid",
   isSetup: false,
@@ -195,10 +195,10 @@ const defaultQ: Questionnaire = {
   hazardRisk: 3,
   requiredShape: "any",
   confidence: 3,
-  fairwayWidthAtDriverYds: null,
+  fairwayWidthAtDriverYds: 25,
   hazardSide: null,
-  hazardStartYds: null,
-  hazardClearYds: null,
+  hazardStartYds: 250,
+  hazardClearYds: 260,
 };
 
 // ---------- Physics-ish adjustments (kept simple & explainable) ----------
@@ -382,12 +382,12 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
   let penalty = 0;
 
   // High handicap players get extra penalty for risky shots
-  const handicapRiskMultiplier = handicapRiskMultiplier(12, q.confidence); // using default handicap for now
+  const handicapRiskMult = handicapRiskMultiplier(12, q.confidence); // using default handicap for now
 
   // Driver-specific fairway width penalty
   if (club === "D" && q.fairwayWidthAtDriverYds && q.fairwayWidthAtDriverYds < 30) {
     const pMiss = 1 - pWithinFairway(sigLat, q.fairwayWidthAtDriverYds);
-    const widthPenalty = pMiss * 0.3 * lambda * handicapRiskMultiplier;
+    const widthPenalty = pMiss * 0.3 * lambda * handicapRiskMult;
     penalty += widthPenalty;
     reasons.push(`narrow fairway (${q.fairwayWidthAtDriverYds}y)`);
   }
@@ -396,7 +396,7 @@ function teeGeometryPenalty(club: ClubId, targetCarry: number, sigCarry: number,
   if (q.hazardSide && q.hazardStartYds && q.hazardClearYds) {
     const pInBand = pBand(targetCarry, sigCarry, q.hazardStartYds, q.hazardClearYds);
     if (pInBand > 0.05) {
-      const bandPenalty = hazardPenalty(pInBand, q.hazardRisk, lambda) * handicapRiskMultiplier;
+      const bandPenalty = hazardPenalty(pInBand, q.hazardRisk, lambda) * handicapRiskMult;
       penalty += bandPenalty;
       reasons.push(`${q.hazardSide} hazard ${q.hazardStartYds}-${q.hazardClearYds}y`);
     }
@@ -693,254 +693,338 @@ function CaddyAIV2() {
   const [ppm, setPpm] = useState<PPM>(defaultPPM);
   const [env, setEnv] = useState<Environment>(defaultEnv);
   const [q, setQ] = useState<Questionnaire>(defaultQ);
-  const [distance, setDistance] = useState(150);
+  const [distance, setDistance] = useState(152);
 
   const input: ShotInput = { distanceToHole: distance, ppm, env, q };
   const recommendation = useMemo(() => recommend(input), [input]);
   const testResults = useMemo(() => runSelfTests(), []);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="flex items-center gap-3 mb-6">
-            <Flag className="w-8 h-8 text-green-600" />
-            <h1 className="text-3xl font-bold text-gray-800">CaddyAI v2.3</h1>
-            <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-              Hazard-Aware Layup Logic + Conversational Tee Geometry
-            </span>
-          </div>
+  const allOptions = useMemo(() => {
+    return recommendation.list.slice(0, 10); // Show top 10 options
+  }, [recommendation.list]);
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Input Controls */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-700">Shot Setup</h2>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Distance to Hole (yards)
-                </label>
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Player Profile Header */}
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-green-800 mb-1">Player Profile</h2>
+            <p className="text-green-600 text-sm">
+              {ppm.dominantHand === "R" ? "Right" : "Left"}-handed, {ppm.handicap} HCP, {ppm.normalShot} shape, {ppm.ballFlight} ball flight
+            </p>
+          </div>
+          <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+            <Edit3 size={16} />
+            Edit Profile
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Inputs */}
+          <div className="space-y-6">
+            {/* Distance to Hole */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Flag size={18} className="text-gray-600" />
+                <h3 className="font-semibold text-gray-800">Distance to Hole</h3>
+              </div>
+              <div className="flex items-center gap-2">
                 <input
                   type="number"
                   value={distance}
                   onChange={(e) => setDistance(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-20 px-3 py-2 border border-gray-300 rounded-md text-center font-mono"
                 />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Handicap
-                </label>
-                <input
-                  type="number"
-                  value={ppm.handicap}
-                  onChange={(e) => setPpm({...ppm, handicap: Number(e.target.value)})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Lie
-                </label>
-                <select
-                  value={q.lie}
-                  onChange={(e) => setQ({...q, lie: e.target.value as Lie})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="tee">Tee</option>
-                  <option value="fairway">Fairway</option>
-                  <option value="light_rough">Light Rough</option>
-                  <option value="heavy_rough">Heavy Rough</option>
-                  <option value="sand">Sand</option>
-                  <option value="recovery">Recovery</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Confidence (1-5)
-                </label>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  value={q.confidence}
-                  onChange={(e) => setQ({...q, confidence: Number(e.target.value) as 1|2|3|4|5})}
-                  className="w-full"
-                />
-                <div className="text-sm text-gray-500 text-center">{q.confidence}</div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Wind Speed (mph)
-                </label>
-                <input
-                  type="number"
-                  value={env.windSpeed}
-                  onChange={(e) => setEnv({...env, windSpeed: Number(e.target.value)})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Wind Direction
-                </label>
-                <select
-                  value={env.windDir}
-                  onChange={(e) => setEnv({...env, windDir: e.target.value as Environment["windDir"]})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="head">Headwind</option>
-                  <option value="tail">Tailwind</option>
-                  <option value="cross_left">Cross Left</option>
-                  <option value="cross_right">Cross Right</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Temperature (°F)
-                </label>
-                <input
-                  type="number"
-                  value={env.temperatureF}
-                  onChange={(e) => setEnv({...env, temperatureF: Number(e.target.value)})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Pin Position
-                </label>
-                <select
-                  value={q.pinPos}
-                  onChange={(e) => setQ({...q, pinPos: e.target.value as PinPos})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                  <option value="front">Front</option>
-                  <option value="middle">Middle</option>
-                  <option value="back">Back</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Hazard Risk (1-5)
-                </label>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  value={q.hazardRisk}
-                  onChange={(e) => setQ({...q, hazardRisk: Number(e.target.value) as 1|2|3|4|5})}
-                  className="w-full"
-                />
-                <div className="text-sm text-gray-500 text-center">{q.hazardRisk}</div>
+                <span className="text-gray-600">yards</span>
               </div>
             </div>
 
-            {/* Recommendations */}
-            <div className="lg:col-span-2 space-y-4">
-              <h2 className="text-xl font-semibold text-gray-700">Recommendations</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Primary Recommendation */}
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle2 className="w-5 h-5 text-green-600" />
-                    <h3 className="font-semibold text-green-800">Primary Choice</h3>
+            {/* Environment */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Wind size={18} className="text-gray-600" />
+                <h3 className="font-semibold text-gray-800">Environment</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">Wind Speed (mph)</label>
+                  <input
+                    type="number"
+                    value={env.windSpeed}
+                    onChange={(e) => setEnv({...env, windSpeed: Number(e.target.value)})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">Wind Direction</label>
+                  <select
+                    value={env.windDir}
+                    onChange={(e) => setEnv({...env, windDir: e.target.value as Environment["windDir"]})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  >
+                    <option value="head">Headwind</option>
+                    <option value="tail">Tailwind</option>
+                    <option value="cross_left">Cross Left</option>
+                    <option value="cross_right">Cross Right</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">Temperature (°F)</label>
+                  <input
+                    type="number"
+                    value={env.temperatureF}
+                    onChange={(e) => setEnv({...env, temperatureF: Number(e.target.value)})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">Elevation (ft)</label>
+                  <input
+                    type="number"
+                    value={env.elevationFt}
+                    onChange={(e) => setEnv({...env, elevationFt: Number(e.target.value)})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Shot Context */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-3">Shot Context</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Lie</label>
+                    <select
+                      value={q.lie}
+                      onChange={(e) => setQ({...q, lie: e.target.value as Lie})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    >
+                      <option value="tee">Tee</option>
+                      <option value="fairway">Fairway</option>
+                      <option value="light_rough">Light Rough</option>
+                      <option value="heavy_rough">Heavy Rough</option>
+                      <option value="sand">Sand</option>
+                      <option value="recovery">Recovery</option>
+                    </select>
                   </div>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-green-700">{recommendation.best.club}</div>
-                    <div className="text-sm text-green-600">
-                      Target: {Math.round(recommendation.best.targetCarry)}y carry
-                    </div>
-                    <div className="text-sm text-green-600">
-                      Leave: {Math.round(recommendation.best.leaveYds)}y
-                    </div>
-                    <div className="text-sm text-green-600">
-                      Expected strokes: {recommendation.best.expStrokes.toFixed(2)}
-                    </div>
-                    <div className="text-sm text-green-600">
-                      Adjusted carry: {Math.round(adjustCarry(ppm, recommendation.best.club, env, q.lie))}y
-                    </div>
-                    {recommendation.best.reasons.length > 0 && (
-                      <div className="text-xs text-green-500 mt-2">
-                        Factors: {recommendation.best.reasons.join(", ")}
-                      </div>
-                    )}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Pin Position</label>
+                    <select
+                      value={q.pinPos}
+                      onChange={(e) => setQ({...q, pinPos: e.target.value as PinPos})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    >
+                      <option value="front">Front</option>
+                      <option value="middle">Middle</option>
+                      <option value="back">Back</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-2">Hazard Risk (1-5)</label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={q.hazardRisk}
+                    onChange={(e) => setQ({...q, hazardRisk: Number(e.target.value) as 1|2|3|4|5})}
+                    className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer slider"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1</span>
+                    <span className="font-medium">{q.hazardRisk}</span>
+                    <span>5</span>
                   </div>
                 </div>
 
-                {/* Backup Recommendation */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-2">Confidence (1-5)</label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={q.confidence}
+                    onChange={(e) => setQ({...q, confidence: Number(e.target.value) as 1|2|3|4|5})}
+                    className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer slider"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>1</span>
+                    <span className="font-medium">{q.confidence}</span>
+                    <span>5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tee Strategy */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-3">Tee Strategy (Optional)</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Fairway Width at Driver (yds)</label>
+                    <input
+                      type="number"
+                      value={q.fairwayWidthAtDriverYds || ""}
+                      onChange={(e) => setQ({...q, fairwayWidthAtDriverYds: e.target.value ? Number(e.target.value) : null})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      placeholder="25"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Hazard Side</label>
+                    <select
+                      value={q.hazardSide || ""}
+                      onChange={(e) => setQ({...q, hazardSide: e.target.value ? e.target.value as "left" | "right" : null})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                    >
+                      <option value="">None</option>
+                      <option value="left">Left</option>
+                      <option value="right">Right</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Hazard Start (yds)</label>
+                    <input
+                      type="number"
+                      value={q.hazardStartYds || ""}
+                      onChange={(e) => setQ({...q, hazardStartYds: e.target.value ? Number(e.target.value) : null})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      placeholder="250"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Hazard Clear (yds)</label>
+                    <input
+                      type="number"
+                      value={q.hazardClearYds || ""}
+                      onChange={(e) => setQ({...q, hazardClearYds: e.target.value ? Number(e.target.value) : null})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                      placeholder="260"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Club Adjustments */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-2">Quick Club Adjustments</h3>
+              <p className="text-sm text-gray-600 mb-3">Adjust key clubs for today's conditions</p>
+              <div className="grid grid-cols-5 gap-3">
+                {["D", "7i", "PW", "GW", "SW"].map((club) => {
+                  const clubId = club as ClubId;
+                  const baseCarry = ppm.clubs[clubId].carry;
+                  const adjustedCarry = adjustCarry(ppm, clubId, env, q.lie);
+                  return (
+                    <div key={club} className="text-center">
+                      <div className="font-semibold text-sm text-gray-700 mb-1">{club}</div>
+                      <input
+                        type="number"
+                        value={Math.round(baseCarry)}
+                        onChange={(e) => {
+                          const newCarry = Number(e.target.value);
+                          setPpm({
+                            ...ppm,
+                            clubs: {
+                              ...ppm.clubs,
+                              [clubId]: { ...ppm.clubs[clubId], carry: newCarry }
+                            }
+                          });
+                        }}
+                        className="w-full px-2 py-1 border border-gray-300 rounded text-xs text-center"
+                      />
+                      <input
+                        type="number"
+                        value={Math.round(adjustedCarry)}
+                        readOnly
+                        className="w-full px-2 py-1 border border-gray-200 rounded text-xs text-center bg-gray-50 mt-1"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Recommendations and Options */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Recommendations */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-4">Recommendations</h3>
+              
+              <div className="space-y-3">
+                {/* Primary */}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span className="font-semibold text-green-800">Primary: {recommendation.best.club}</span>
+                  </div>
+                  <div className="text-sm text-green-700 space-y-1">
+                    <div>Carry: {Math.round(adjustCarry(ppm, recommendation.best.club, env, q.lie))} yds</div>
+                    <div>Aim: Center</div>
+                    <div>Expected strokes: {recommendation.best.expStrokes.toFixed(2)}</div>
+                    <div>Leave: {Math.round(recommendation.best.leaveYds)} yds (fairway)</div>
+                  </div>
+                </div>
+
+                {/* Backup */}
                 {recommendation.backup && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <ArrowRight className="w-5 h-5 text-blue-600" />
-                      <h3 className="font-semibold text-blue-800">Backup Option</h3>
+                      <ArrowRight size={14} className="text-blue-600" />
+                      <span className="font-semibold text-blue-800">Backup: {recommendation.backup.club}</span>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-2xl font-bold text-blue-700">{recommendation.backup.club}</div>
-                      <div className="text-sm text-blue-600">
-                        Target: {Math.round(recommendation.backup.targetCarry)}y carry
-                      </div>
-                      <div className="text-sm text-blue-600">
-                        Leave: {Math.round(recommendation.backup.leaveYds)}y
-                      </div>
-                      <div className="text-sm text-blue-600">
-                        Expected strokes: {recommendation.backup.expStrokes.toFixed(2)}
-                      </div>
-                      <div className="text-sm text-blue-600">
-                        Adjusted carry: {Math.round(adjustCarry(ppm, recommendation.backup.club, env, q.lie))}y
-                      </div>
+                    <div className="text-sm text-blue-700 space-y-1">
+                      <div>Carry: {Math.round(adjustCarry(ppm, recommendation.backup.club, env, q.lie))} yds</div>
+                      <div>Aim: Center</div>
+                      <div>Expected strokes: {recommendation.backup.expStrokes.toFixed(2)}</div>
+                      <div>Leave: {Math.round(recommendation.backup.leaveYds)} yds (fairway)</div>
                     </div>
                   </div>
                 )}
               </div>
+            </div>
 
-              {/* Club Performance Display */}
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-700 mb-2">Club Performance (Current Conditions)</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                  {CLUB_ORDER.slice(0, 8).map((club) => {
-                    const baseCarry = ppm.clubs[club].carry;
-                    const adjustedCarry = adjustCarry(ppm, club, env, q.lie);
-                    const penalty = Math.round((1 - adjustedCarry / baseCarry) * 100);
-                    return (
-                      <div key={club} className="text-center p-2 bg-white rounded border">
-                        <div className="font-semibold">{club}</div>
-                        <div className="text-gray-600">{Math.round(adjustedCarry)}y</div>
-                        {penalty > 0 && (
-                          <div className="text-red-500 text-xs">-{penalty}%</div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Self-Test Results */}
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-700 mb-2">System Self-Tests</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {testResults.map((test, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      {test.pass ? (
-                        <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-red-500" />
-                      )}
-                      <span className={test.pass ? "text-green-700" : "text-red-700"}>
-                        {test.name}
-                      </span>
+            {/* All Options */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-4">All Options</h3>
+              <div className="max-h-64 overflow-y-auto space-y-2">
+                {allOptions.map((option, index) => (
+                  <div key={index} className="flex items-center justify-between py-2 px-3 hover:bg-gray-50 rounded border-b border-gray-100 last:border-b-0">
+                    <div className="font-semibold text-gray-800">{option.club}</div>
+                    <div className="text-sm text-gray-600">
+                      Carry: {Math.round(adjustCarry(ppm, option.club, env, q.lie))}y, 
+                      Strokes: {option.expStrokes.toFixed(2)}, 
+                      Leave: {Math.round(option.leaveYds)}y
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Self Tests */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-800 mb-4">Self Tests</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {testResults.slice(0, 6).map((test, index) => (
+                  <div key={index} className="flex items-center gap-2 text-sm">
+                    {test.pass ? (
+                      <CheckCircle2 size={16} className="text-green-500 flex-shrink-0" />
+                    ) : (
+                      <XCircle size={16} className="text-red-500 flex-shrink-0" />
+                    )}
+                    <span className={test.pass ? "text-green-700" : "text-red-700"}>
+                      {test.name}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

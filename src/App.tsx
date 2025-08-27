@@ -538,6 +538,19 @@ export default function App() {
   const onVoiceResult = async (text: string) => {
     console.log('🎤 Voice input received:', text);
     
+    // Simple local parsing first - more reliable
+    const distanceMatch = text.toLowerCase().match(/(?:distance|yards?)\s*(\d+)/);
+    if (distanceMatch) {
+      const newDistance = parseInt(distanceMatch[1]);
+      console.log('✅ Local parsing: Setting distance to', newDistance);
+      setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
+      if (voice.speak) {
+        voice.speak(`Got it, ${newDistance} yards to the pin.`);
+      }
+      return; // Exit early - don't need API for simple distance
+    }
+
+    // Only use API for complex commands
     try {
       const response = await fetch('/api/interpret', {
         method: 'POST',
@@ -561,7 +574,7 @@ export default function App() {
       
       if (!response.ok) {
         console.error('API response not ok:', response.status, response.statusText);
-        throw new Error(`API error: ${response.status}`);
+        throw new Error(`API error: ${response.status} - ${await response.text()}`);
       }
       
       const result = await response.json();
@@ -602,16 +615,7 @@ export default function App() {
     } catch (e) {
       console.error('Voice command error:', e);
       
-      // Simple fallback for distance commands
-      const distanceMatch = text.toLowerCase().match(/(?:distance|yards?)\s*(\d+)/);
-      if (distanceMatch) {
-        const newDistance = parseInt(distanceMatch[1]);
-        console.log('Fallback: Setting distance to', newDistance);
-        setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
-        if (voice.speak) {
-          voice.speak(`Got it, ${newDistance} yards to the pin.`);
-        }
-      }
+      voice.speak?.("Sorry, I didn't understand that command.");
     }
   };
   

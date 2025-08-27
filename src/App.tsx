@@ -720,42 +720,6 @@ export default function App() {
                   </div>
                 </div>
               )}
-              
-              {/* Other Options */}
-              {recommendations.slice(2).length > 0 && (
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
-                    Other Options:
-                  </h4>
-                  <div className="space-y-2">
-                    {recommendations.slice(2).map((plan, index) => (
-                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
-                        <div>
-                          <span className="font-medium text-gray-700 dark:text-gray-300">
-                            {plan.description}
-                          </span>
-                          {plan.isLayup && (
-                            <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
-                              Layup
-                            </span>
-                          )}
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            Aim: {getAimPoint(plan, course, env, ppm)}
-                          </div>
-                        </div>
-                        <div className="text-right text-sm">
-                          <div className="text-gray-600 dark:text-gray-400">
-                            {plan.expectedStrokes} strokes
-                          </div>
-                          <div className="text-gray-500 dark:text-gray-500">
-                            Risk: {plan.riskScore}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -1009,6 +973,42 @@ export default function App() {
             </button>
           </div>
         </div>
+
+        {/* Other Options - Moved below Hazard Information */}
+        {recommendations.slice(2).length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              Other Options
+            </h2>
+            <div className="space-y-3">
+              {recommendations.slice(2).map((plan, index) => (
+                <div key={index} className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                  <div>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      {plan.description}
+                    </span>
+                    {plan.isLayup && (
+                      <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
+                        Layup
+                      </span>
+                    )}
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      Aim: {getAimPoint(plan, course, env, ppm)}
+                    </div>
+                  </div>
+                  <div className="text-right text-sm">
+                    <div className="text-gray-600 dark:text-gray-400">
+                      {plan.expectedStrokes} strokes
+                    </div>
+                    <div className="text-gray-500 dark:text-gray-500">
+                      Risk: {plan.riskScore}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Crosswind Warning */}
         {crosswindWarning && (

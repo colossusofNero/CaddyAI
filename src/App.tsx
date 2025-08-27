@@ -691,6 +691,65 @@ export default function App() {
           </p>
         </div>
 
+        {/* Voice Chat Interface */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            🎤 Voice Caddie
+          </h2>
+          
+          <div className="text-center">
+            {voice.supported ? (
+              <div className="space-y-4">
+                <button
+                  onClick={() => voice.listening ? voice.stop() : voice.start(onVoiceResult)}
+                  disabled={!voice.supported}
+                  className={`w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl transition-all ${
+                    voice.listening 
+                      ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
+                      : 'bg-emerald-500 hover:bg-emerald-600'
+                  }`}
+                >
+                  🎤
+                </button>
+                
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {voice.listening ? 'Listening...' : 'Click to speak to your caddie'}
+                  </p>
+                  
+                  {voice.transcript && (
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        <strong>You said:</strong> "{voice.transcript}"
+                      </p>
+                    </div>
+                  )}
+                  
+                  {voice.error && (
+                    <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-3">
+                      <p className="text-sm text-red-600 dark:text-red-400">
+                        <strong>Error:</strong> {voice.error}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    Try saying: "Distance 275", "Bunker right at 250", "Fairway width 15", "What's the play?"
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500 dark:text-gray-400 mb-2">
+                  Voice recognition not supported in this browser
+                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  Try Chrome or Edge for voice features
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
         {/* Shot Recommendations - Moved to Top */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">

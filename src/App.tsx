@@ -603,6 +603,75 @@ export default function App() {
             
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Stance
+              </label>
+              <select
+                value={course.stance}
+                onChange={(e) => setCourse(prev => ({ ...prev, stance: e.target.value as Stance }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="flat">Flat</option>
+                <option value="ball_above">Ball Above Feet</option>
+                <option value="ball_below">Ball Below Feet</option>
+                <option value="uphill">Uphill</option>
+                <option value="downhill">Downhill</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Pin Position
+              </label>
+              <select
+                value={course.pinPos}
+                onChange={(e) => setCourse(prev => ({ ...prev, pinPos: e.target.value as PinPos }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="front">Front</option>
+                <option value="middle">Middle</option>
+                <option value="back">Back</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Temperature (°F)
+              </label>
+              <input
+                type="number"
+                value={course.temperature}
+                onChange={(e) => setCourse(prev => ({ ...prev, temperature: parseInt(e.target.value) || 75 }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Elevation (feet)
+              </label>
+              <input
+                type="number"
+                value={course.elevation}
+                onChange={(e) => setCourse(prev => ({ ...prev, elevation: parseInt(e.target.value) || 0 }))}
+                placeholder="+ uphill, - downhill"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Altitude (feet above sea level)
+              </label>
+              <input
+                type="number"
+                value={course.altitude}
+                onChange={(e) => setCourse(prev => ({ ...prev, altitude: parseInt(e.target.value) || 0 }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Fairway Width (yards)
               </label>
               <input

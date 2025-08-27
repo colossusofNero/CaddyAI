@@ -658,74 +658,148 @@ function useVoiceChat() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-function useVoiceChat() {
-  const isNative = typeof window !== 'undefined' && (window as any).Capacitor?.isNativePlatform?.();
-
-  const [supported, setSupported] = useState(false);
-  const [listening, setListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  // Web SR references
-  const recRef = useRef<any | null>(null);
-  const onResultRef = useRef<((t: string) => void) | null>(null);
-  const stopRef = useRef<null | (() => Promise<void> | void)>(null);
-
-  useEffect(() => {
-    if (isNative) {
-      setSupported(true); // Use native plugin on iOS
-      return;
-    }
-    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return; // Unsupported on Safari/iOS WebView
+    if (!SR) return;
     setSupported(true);
     const rec = new SR();
-    rec.lang = 'en-US';
+    rec.lang = "en-US";
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onresult = (e: any) => {
-      try {
-        const t = e?.results?.[0]?.[0]?.transcript ?? '';
-        setTranscript(t);
-        onResultRef.current?.(t);
-      } catch {}
+      const t = e?.results?.[0]?.[0]?.transcript ?? "";
+      setTranscript(t);
+      onResultRef.current?.(t);
     };
-    rec.onerror = (e: any) => setError(String(e?.error || 'speech error'));
+    rec.onerror = (e: any) => setError(String(e?.error || "speech error"));
     rec.onend = () => setListening(false);
     recRef.current = rec;
-  }, [isNative]);
+  }, []);
 
-  const start = async (onResult?: (t: string) => void) => {
+  const start = (onResult?: (text: string) => void) => {
     onResultRef.current = onResult || null;
-    setTranscript('');
+    setTranscript("");
     setError(null);
-
-    if (isNative) {
-      try {
-        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-        const has = await SpeechRecognition.hasPermission();
-        if (!has) await SpeechRecognition.requestPermission();
-        await SpeechRecognition.start({ language: 'en-US', partialResults: false, popup: false });
-        const sub = await SpeechRecognition.addListener('partialResults', (e: any) => {
-          const t = Array.isArray(e?.value) ? e.value.join(' ') : (e?.matches?.[0] ?? '');
-          if (t) {
-            setTranscript(t);
-            onResultRef.current?.(t);
-          }
-        });
-        stopRef.current = async () => { await SpeechRecognition.stop(); await sub.remove(); };
-        setListening(true);
-      } catch (err: any) {
-        setError(err?.message || 'native speech error');
-      }
-      return;
-    }
-
-    // Web path
     try {
       recRef.current?.start();
       setListening(true);
-      stopRef.current = () => recRef.current?.stop();
+    } catch (err: any) {
+      setError(err?.message || "start error");
+    }
+  };
+
+  const stop = () => {
+    try {
+      recRef.current?.stop();
+    } catch {}
+    setListening(false);
+  };
+
+  const speak = (text: string) => {
+    if (!text || typeof text !== "string") return;
+    try {
+      window.speechSynthesis?.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      u.pitch = 1;
+      u.volume = 0.8;
+      window.speechSynthesis?.speak(u);
+    } catch (err) {
+      console.error("Speech synthesis error:", err);
+    }
+  };
+
+  return { supported, listening, transcript, error, start, stop, speak };
+}
+
+function parseVoiceCommand(text: string, q: Questionnaire) {
+  const t = text.toLowerCase();
+  const words = t.split(' ').filter(Boolean);
+  const upd: Partial<Questionnaire> = {};
+  let distance: number | null = null;
+  let action: "speakRec" | null = null;
+
+  console.log('🎤 Parsing voice command:', text);
+
+  // Distance command - multiple patterns
+  const distanceMatch = t.match(/(?:distance|yards?)\s*(\d+)/);
+  if (distanceMatch) {
+    distance = parseInt(distanceMatch[1]);
+    console.log('✅ Found distance:', distance);
+  }
+
+  // Hazard side + numbers (start, clear)
+  if (t.indexOf('hazard') >= 0 || t.indexOf('bunker') >= 0 || t.indexOf('water') >= 0) {
+    if (t.indexOf('left') >= 0) upd.hazardSide = 'left';
+    if (t.indexOf('right') >= 0) upd.hazardSide = 'right';
+    const nums = words.map(w => parseFloat(w)).filter(n => Number.isFinite(n)) as number[];
+    if (nums.length >= 1) upd.hazardStartYds = nums[0];
+    if (nums.length >= 2) upd.hazardClearYds = nums[1];
+    console.log('✅ Found hazard:', upd);
+  }
+
+  // Fairway width at driver
+  if (t.indexOf('fairway') >= 0 && (t.indexOf('width') >= 0 || t.indexOf('narrows') >= 0 || t.indexOf('narrow') >= 0)) {
+    const n = words.map(w => parseFloat(w)).find(n => Number.isFinite(n));
+    if (typeof n === 'number') {
+      upd.fairwayWidthAtDriverYds = n;
+      console.log('✅ Found fairway width:', n);
+    }
+  }
+
+  // Wind commands
+  const windMatch = t.match(/wind\s*(\d+)(?:\s*mph)?\s*(head|tail|left|right)?/);
+  if (windMatch) {
+    console.log('✅ Found wind command:', windMatch);
+  }
+
+  // Lie
+  const li = words.indexOf('lie');
+  if (li >= 0) {
+    const next = (words[li+1] || '');
+    const map: any = { 'light': 'light_rough', 'heavy': 'heavy_rough', 'tee': 'tee', 'fairway': 'fairway', 'sand': 'sand', 'bunker': 'sand', 'recovery': 'recovery' };
+    upd.lie = (map[next] || upd.lie) as Lie;
+  }
+
+  // Pin position
+  const pi = words.indexOf('pin');
+  if (pi >= 0) {
+    const next = (words[pi+1] || '');
+    if (next === 'front' || next === 'middle' || next === 'back') upd.pinPos = next as PinPos;
+  }
+
+  // Confidence
+  const ci = words.indexOf('confidence');
+  if (ci >= 0) {
+    const n = parseFloat(words[ci+1] || '');
+    if (Number.isFinite(n)) upd.confidence = Math.max(1, Math.min(5, Math.round(n))) as Questionnaire['confidence'];
+  }
+
+  if (t.indexOf("what's the play") >= 0 || t.indexOf('whats the play') >= 0 || t.indexOf('recommend') >= 0 || t.indexOf('what should i hit') >= 0) {
+    action = 'speakRec';
+    console.log('✅ Found recommendation request');
+  }
+
+  console.log('🎤 Parse result:', { upd, distance, action });
+  return { upd, distance, action };
+}
+
+function describeRecommendation(best?: CandidateEval, backup?: CandidateEval | null, q?: Questionnaire) {
+  let s = '';
+  if (q) {
+    if (q.hazardSide && q.hazardStartYds) s += `There is a ${q.hazardSide} hazard starting at ${Math.round(q.hazardStartYds)} yards. `;
+    if (q.hazardSide && q.hazardClearYds) s += `To clear it we need to land at ${Math.round(q.hazardClearYds)} yards. `;
+    if (q.fairwayWidthAtDriverYds) s += `The fairway narrows to about ${Math.round(q.fairwayWidthAtDriverYds)} yards at driver length. `;
+  }
+  if (best) {
+    const aim = best.aimLateralYds === 0 ? 'center' : `${Math.abs(best.aimLateralYds)} yards ${best.aimLateralYds > 0 ? 'right' : 'left'}`;
+    s += `Primary is ${best.club}, aim ${aim}, carry ${Math.round(best.targetCarry)}. `;
+  } else {
+    s += 'No clear primary recommendation. ';
+  }
+  if (backup) s += `Backup is ${backup.club}.`;
+  return s;
+}
+
 // ---------- UI ----------
 
 export default function CaddyAIV2() {
@@ -759,40 +833,9 @@ export default function CaddyAIV2() {
   const approxClubsUp = liePctUI > 0 ? Math.max(1, Math.round(liePctUI / 0.08)) : 0;
 
   const onVoiceResult = async (text: string) => {
-    console.log('🎤 Voice heard:', text);
+    console.log('🎤 Voice result received:', text);
     
-    // Try local parsing first for simple commands
     const { upd, distance: dist, action } = parseVoiceCommand(text, q);
-    console.log('🔍 Local parsing result:', { upd, dist, action });
-    
-    // Handle simple distance updates immediately
-    if (dist != null && !Number.isNaN(dist)) {
-      console.log('✅ Setting distance locally:', dist);
-      setDistance(Math.round(dist));
-      voice.speak(`Got it, ${Math.round(dist)} yards to the pin`);
-      return;
-    }
-      console.log('🤖 Trying GPT API for complex command...');
-    
-    // Handle other simple updates
-    if (Object.keys(upd).length > 0) {
-      console.log('✅ Updating questionnaire locally:', upd);
-      
-      setQ({ ...q, ...upd });
-      voice.speak('Updated');
-    }
-      
-    
-    // Handle recommendation requests
-    if (action === 'speakRec') {
-      
-      const { best: bestNext, backup: backupNext } = recommend({ distanceToHole: distance, ppm, env, q });
-      
-      voice.speak(describeRecommendation(bestNext, backupNext, q));
-      return;
-    }
-    
-    // For complex commands, try GPT API
     
     let updated = false;
     
@@ -818,8 +861,11 @@ export default function CaddyAIV2() {
         ppm, 
         env, 
         q: nextQ 
-      console.error('🚨 GPT API failed, already handled locally:', e);
-      voice.speak("I heard you, but couldn't process that complex command");
+      });
+      
+      setTimeout(() => {
+        voice.speak(describeRecommendation(bestNext, backupNext, nextQ));
+      }, updated ? 1000 : 0); // Delay if we just updated something
     }
   };
 
@@ -1125,9 +1171,9 @@ export default function CaddyAIV2() {
             <div key={club} className="grid grid-cols-5 gap-2 items-center mb-2">
               <div className="col-span-1 text-sm font-medium">{club}</div>
               <input type="number" className="col-span-2 rounded-lg border p-1 text-xs" value={ppm.clubs[club as ClubId].carry}
-                     onChange={(e)=> setPPM({ ...ppm, clubs: { ...ppm.clubs, [club as ClubId]: { ...ppm.clubs[club as ClubId], carry: parseFloat(e.target.value || '0') } } }) } />
+                     onChange={(e)=> setPPM({ ...ppm, clubs: { ...ppm.clubs, [club as ClubId]: { ...ppm.clubs[club as ClubId], carry: parseFloat(e.target.value || '0') } } })} />
               <input type="number" className="col-span-2 rounded-lg border p-1 text-xs" value={ppm.clubs[club as ClubId].total}
-                     onChange={(e)=> setPPM({ ...ppm, clubs: { ...ppm.clubs, [club as ClubId]: { ...ppm.clubs[club as ClubId], total: parseFloat(e.target.value || '0') } } }) } />
+                     onChange={(e)=> setPPM({ ...ppm, clubs: { ...ppm.clubs, [club as ClubId]: { ...ppm.clubs[club as ClubId], total: parseFloat(e.target.value || '0') } } })} />
             </div>
           ))}
           <div className="text-[10px] text-gray-500 mt-2">Fields: carry / total (yds)</div>

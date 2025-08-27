@@ -554,33 +554,38 @@ export default function App() {
       console.log('API Response:', result); // Debug log
       
       // Apply updates from API response
-      if (result.updates) {
-        if (result.updates.distance != null) {
+      if (result?.updates) {
+        if (typeof result.updates.distance === 'number') {
+          console.log('Updating distance to:', result.updates.distance);
           setCourse(prev => ({ ...prev, distanceToHole: result.updates.distance }));
         }
         
         if (result.updates.q) {
+          console.log('Updating course with:', result.updates.q);
           setCourse(prev => ({ ...prev, ...result.updates.q }));
         }
         
         if (result.updates.env) {
+          console.log('Updating environment with:', result.updates.env);
           setEnv(prev => ({ ...prev, ...result.updates.env }));
         }
       }
       
       // Speak the response
-      if (result.speak && voice.speak) {
+      if (result?.speak && voice.speak) {
         console.log('🔊 About to speak:', result.speak);
         voice.speak(result.speak);
       }
     } catch (e) {
       console.error('Voice command error:', e);
-      // Fallback to the local keyword parser if the API call fails
-      const { upd, distance: dist, action } = parseVoiceCommand(text, course);
-      if (Object.keys(upd).length) setCourse({ ...course, ...upd });
-      if (dist != null && !Number.isNaN(dist)) setCourse(prev => ({ ...prev, distanceToHole: Math.round(dist) }));
-      if (action === 'speakRec') {
-        voice.speak(describeRecommendation(primary, backup, { ...course, ...upd }));
+      
+      // Simple fallback for distance commands
+      const distanceMatch = text.toLowerCase().match(/distance\s+(\d+)/);
+      if (distanceMatch) {
+        const newDistance = parseInt(distanceMatch[1]);
+        console.log('Fallback: Setting distance to', newDistance);
+        setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
+        voice.speak(`Got it, ${newDistance} yards to the pin.`);
       }
     }
   };

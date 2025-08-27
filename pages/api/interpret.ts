@@ -92,9 +92,26 @@ If a value isn't present, omit it. "speak" is one short sentence a human caddie 
 
   const data = await r.json();
   // Try to read parsed JSON from chat completions API
-  const parsed =
-    data?.choices?.[0]?.message?.parsed ??
-    (data?.choices?.[0]?.message?.content ? JSON.parse(data.choices[0].message.content) : { updates: {}, speak: "" });
+  let parsed;
+  try {
+    // First try the structured output
+    parsed = data?.choices?.[0]?.message?.parsed;
+    
+    // If not available, try parsing the content
+    if (!parsed && data?.choices?.[0]?.message?.content) {
+      parsed = JSON.parse(data.choices[0].message.content);
+    }
+    
+    // Fallback
+    if (!parsed) {
+      parsed = { updates: {}, speak: "I didn't understand that command." };
+    }
+  } catch (error) {
+    console.error('API parsing error:', error);
+    parsed = { updates: {}, speak: "Sorry, I had trouble processing that." };
+  }
+
+  console.log('API sending response:', parsed);
 
   return new Response(JSON.stringify(parsed), { headers: { "Content-Type": "application/json" } });
 }

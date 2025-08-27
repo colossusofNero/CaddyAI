@@ -661,30 +661,30 @@ function useVoiceChat() {
     if (!SR) return;
     setSupported(true);
     const rec = new SR();
-    rec.lang = "en-US";
+    rec.lang = 'en-US';
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onresult = (e: any) => {
       try {
-        const t = e?.results?.[0]?.[0]?.transcript ?? "";
+        const t = e?.results?.[0]?.[0]?.transcript ?? '';
         setTranscript(t);
         onResultRef.current?.(t);
       } catch {}
     };
-    rec.onerror = (e: any) => setError(String(e?.error || "speech error"));
+    rec.onerror = (e: any) => setError(String(e?.error || 'speech error'));
     rec.onend = () => setListening(false);
     recRef.current = rec;
   }, []);
 
-  const start = (onResult?: (text: string) => void) => {
+  const start = async (onResult?: (t: string) => void) => {
     onResultRef.current = onResult || null;
-    setTranscript("");
+    setTranscript('');
     setError(null);
     try {
       recRef.current?.start();
       setListening(true);
     } catch (err: any) {
-      setError(err?.message || "start error");
+      setError(err?.message || 'start error');
     }
   };
 
@@ -692,117 +692,100 @@ function useVoiceChat() {
     try {
       recRef.current?.stop();
     } catch {}
-    setListening(false);
   };
 
   const speak = (text: string) => {
-    if (!text || typeof text !== "string") return;
-    try {
-      window.speechSynthesis?.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-US";
-      u.rate = 0.9;
-      u.pitch = 1;
-      u.volume = 0.8;
-      u.onstart = () => console.log("🔊 Speech started:", text);
-      u.onend = () => console.log("🔊 Speech ended");
-      u.onerror = (e) => console.error("🔊 Speech error:", e);
-      window.speechSynthesis?.speak(u);
-    } catch (err) {
-      console.error("🔊 Speech synthesis error:", err);
-    }
+    if (typeof window === "undefined" || !('speechSynthesis' in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.9;
+    u.pitch = 1.0;
+    speechSynthesis.speak(u);
   };
 
   return { supported, listening, transcript, error, start, stop, speak };
 }
 
-function parseVoiceCommand(text: string, q: Questionnaire) {
+// Simple voice command parser
+function parseVoiceCommand(text: string, currentQ: Questionnaire): { upd: Partial<Questionnaire>; distance: number | null; action: string | null } {
   const t = text.toLowerCase();
-  const words = t.split(' ').filter(Boolean);
   const upd: Partial<Questionnaire> = {};
   let distance: number | null = null;
-  let action: "speakRec" | null = null;
+  let action: string | null = null;
 
-  console.log('🎤 Parsing voice command:', text);
+  // Distance patterns
+  const distMatch = t.match(/(?:distance|yards?|yds?)\s*(?:is\s*)?(\d+)/);
+  if (distMatch) distance = parseInt(distMatch[1], 10);
 
-  // Distance command - multiple patterns
-  const distanceMatch = t.match(/(?:distance|yards?)\s*(\d+)/);
-  if (distanceMatch) {
-    distance = parseInt(distanceMatch[1]);
-    console.log('✅ Found distance:', distance);
-  }
-
-  // Hazard side + numbers (start, clear)
-  if (t.indexOf('hazard') >= 0 || t.indexOf('bunker') >= 0 || t.indexOf('water') >= 0) {
-    if (t.indexOf('left') >= 0) upd.hazardSide = 'left';
-    if (t.indexOf('right') >= 0) upd.hazardSide = 'right';
-    const nums = words.map(w => parseFloat(w)).filter(n => Number.isFinite(n)) as number[];
-    if (nums.length >= 1) upd.hazardStartYds = nums[0];
-    if (nums.length >= 2) upd.hazardClearYds = nums[1];
-    console.log('✅ Found hazard:', upd);
-  }
-
-  // Fairway width at driver
-  if (t.indexOf('fairway') >= 0 && (t.indexOf('width') >= 0 || t.indexOf('narrows') >= 0 || t.indexOf('narrow') >= 0)) {
-    const n = words.map(w => parseFloat(w)).find(n => Number.isFinite(n));
-    if (typeof n === 'number') {
-      upd.fairwayWidthAtDriverYds = n;
-      console.log('✅ Found fairway width:', n);
-    }
-  }
-
-  // Wind commands
-  const windMatch = t.match(/wind\s*(\d+)(?:\s*mph)?\s*(head|tail|left|right)?/);
-  if (windMatch) {
-    console.log('✅ Found wind command:', windMatch);
-  }
-
-  // Lie
-  const li = words.indexOf('lie');
-  if (li >= 0) {
-    const next = (words[li+1] || '');
-    const map: any = { 'light': 'light_rough', 'heavy': 'heavy_rough', 'tee': 'tee', 'fairway': 'fairway', 'sand': 'sand', 'bunker': 'sand', 'recovery': 'recovery' };
-    upd.lie = (map[next] || upd.lie) as Lie;
-  }
+  // Lie patterns
+  if (t.includes('tee')) upd.lie = 'tee';
+  else if (t.includes('fairway')) upd.lie = 'fairway';
+  else if (t.includes('light rough')) upd.lie = 'light_rough';
+  else if (t.includes('heavy rough')) upd.lie = 'heavy_rough';
+  else if (t.includes('sand')) upd.lie = 'sand';
+  else if (t.includes('recovery')) upd.lie = 'recovery';
 
   // Pin position
-  const pi = words.indexOf('pin');
-  if (pi >= 0) {
-    const next = (words[pi+1] || '');
-    if (next === 'front' || next === 'middle' || next === 'back') upd.pinPos = next as PinPos;
-  }
+  if (t.includes('front pin') || t.includes('pin front')) upd.pinPos = 'front';
+  else if (t.includes('back pin') || t.includes('pin back')) upd.pinPos = 'back';
+  else if (t.includes('middle pin') || t.includes('pin middle')) upd.pinPos = 'middle';
+
+  // Hazard side
+  if (t.includes('hazard right') || t.includes('right hazard')) upd.hazardSide = 'right';
+  else if (t.includes('hazard left') || t.includes('left hazard')) upd.hazardSide = 'left';
+
+  // Hazard distances
+  const hazardStartMatch = t.match(/(?:hazard|bunker).*?(?:starts?|begins?).*?(\d+)/);
+  if (hazardStartMatch) upd.hazardStartYds = parseInt(hazardStartMatch[1], 10);
+
+  const clearMatch = t.match(/(?:clear|carry).*?(\d+)/);
+  if (clearMatch) upd.hazardClearYds = parseInt(clearMatch[1], 10);
+
+  // Fairway width
+  const widthMatch = t.match(/(?:fairway|width).*?(\d+)/);
+  if (widthMatch) upd.fairwayWidthAtDriverYds = parseInt(widthMatch[1], 10);
 
   // Confidence
-  const ci = words.indexOf('confidence');
-  if (ci >= 0) {
-    const n = parseFloat(words[ci+1] || '');
-    if (Number.isFinite(n)) upd.confidence = Math.max(1, Math.min(5, Math.round(n))) as Questionnaire['confidence'];
-  }
+  const confMatch = t.match(/confidence\s*(\d)/);
+  if (confMatch) upd.confidence = parseInt(confMatch[1], 10) as 1 | 2 | 3 | 4 | 5;
 
-  if (t.indexOf("what's the play") >= 0 || t.indexOf('whats the play') >= 0 || t.indexOf('recommend') >= 0 || t.indexOf('what should i hit') >= 0) {
+  // Risk
+  const riskMatch = t.match(/(?:risk|hazard risk)\s*(\d)/);
+  if (riskMatch) upd.hazardRisk = parseInt(riskMatch[1], 10) as 1 | 2 | 3 | 4 | 5;
+
+  // Action requests
+  if (t.includes('what') && (t.includes('play') || t.includes('recommend') || t.includes('club'))) {
     action = 'speakRec';
-    console.log('✅ Found recommendation request');
   }
 
-  console.log('🎤 Parse result:', { upd, distance, action });
   return { upd, distance, action };
 }
 
-function describeRecommendation(best?: CandidateEval, backup?: CandidateEval | null, q?: Questionnaire) {
-  let s = '';
-  if (q) {
-    if (q.hazardSide && q.hazardStartYds) s += `There is a ${q.hazardSide} hazard starting at ${Math.round(q.hazardStartYds)} yards. `;
-    if (q.hazardSide && q.hazardClearYds) s += `To clear it we need to land at ${Math.round(q.hazardClearYds)} yards. `;
-    if (q.fairwayWidthAtDriverYds) s += `The fairway narrows to about ${Math.round(q.fairwayWidthAtDriverYds)} yards at driver length. `;
+function describeRecommendation(best: CandidateEval | undefined, backup: CandidateEval | undefined, q: Questionnaire): string {
+  if (!best) return "No clear recommendation right now.";
+  
+  let desc = `I recommend the ${best.club}`;
+  
+  if (best.aimLateralYds !== 0) {
+    const side = best.aimLateralYds > 0 ? 'right' : 'left';
+    desc += `, aiming ${Math.abs(best.aimLateralYds)} yards ${side}`;
   }
-  if (best) {
-    const aim = best.aimLateralYds === 0 ? 'center' : `${Math.abs(best.aimLateralYds)} yards ${best.aimLateralYds > 0 ? 'right' : 'left'}`;
-    s += `Primary is ${best.club}, aim ${aim}, carry ${Math.round(best.targetCarry)}. `;
-  } else {
-    s += 'No clear primary recommendation. ';
+  
+  if (best.intendedShape !== 'straight') {
+    desc += `, with a ${best.intendedShape}`;
   }
-  if (backup) s += `Backup is ${backup.club}.`;
-  return s;
+  
+  desc += `. Target carry is ${Math.round(best.targetCarry)} yards.`;
+  
+  if (backup) {
+    desc += ` Backup option is the ${backup.club}.`;
+  }
+  
+  // Add context about hazards
+  if (q.lie === 'tee' && q.hazardSide && q.hazardStartYds) {
+    desc += ` This accounts for the ${q.hazardSide} side hazard starting at ${q.hazardStartYds} yards.`;
+  }
+  
+  return desc;
 }
 
 // ---------- UI ----------
@@ -858,7 +841,7 @@ export default function CaddyAIV2() {
       setQ({ ...q, ...upd });
       voice.speak('Updated');
     }
-      
+    
     // Handle recommendation requests
     if (action === 'speakRec') {
       const { best: bestNext, backup: backupNext } = recommend({ distanceToHole: distance, ppm, env, q });

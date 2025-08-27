@@ -625,7 +625,7 @@ export default function App() {
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-6">
                   {/* Club and Shot Details */}
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
+                    <h3 className="text-3xl font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
                       <CheckCircle2 className="w-6 h-6" />
                       Primary: {primary.description}
                     </h3>
@@ -640,14 +640,14 @@ export default function App() {
                   </div>
                   
                   {/* Aim Point Section - Below Club Recommendation */}
-                  <div className="text-center mb-4 p-3 bg-emerald-100 dark:bg-emerald-800/30 rounded-lg">
-                    <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-200 mb-2">
+                  <div className="text-center mb-4 p-3 bg-emerald-50 dark:bg-emerald-900/10 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                    <h4 className="text-base font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
                       🎯 AIM POINT
                     </h4>
-                    <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-2">
+                    <div className="text-xl font-bold text-emerald-800 dark:text-emerald-200 mb-2">
                       {getAimPoint(primary, course, env, ppm)}
                     </div>
-                    <p className="text-emerald-700 dark:text-emerald-300">
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400">
                       {getAimPointReasoning(primary, course, env, ppm)}
                     </p>
                   </div>
@@ -677,7 +677,7 @@ export default function App() {
               {backup && (
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                    <h3 className="text-2xl font-bold text-blue-800 dark:text-blue-200 flex items-center gap-2">
                       <ArrowRight className="w-5 h-5" />
                       Backup: {backup.description}
                     </h3>
@@ -692,11 +692,11 @@ export default function App() {
                   </div>
                   
                   {/* Backup Aim Point - Below Club Recommendation */}
-                  <div className="text-center mb-2 p-3 bg-blue-100 dark:bg-blue-800/30 rounded-lg">
-                    <h4 className="text-base font-bold text-blue-800 dark:text-blue-200 mb-1">
+                  <div className="text-center mb-2 p-2 bg-blue-50 dark:bg-blue-900/10 rounded border border-blue-200 dark:border-blue-800">
+                    <h4 className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
                       🎯 Backup Aim Point
                     </h4>
-                    <div className="text-lg font-bold text-blue-900 dark:text-blue-100">
+                    <div className="text-base font-semibold text-blue-800 dark:text-blue-200">
                       {getAimPoint(backup, course, env, ppm)}
                     </div>
                   </div>

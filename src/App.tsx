@@ -538,84 +538,71 @@ export default function App() {
   const onVoiceResult = async (text: string) => {
     console.log('🎤 Voice input received:', text);
     
-    // Simple local parsing first - more reliable
+    // Local parsing for common commands
     const distanceMatch = text.toLowerCase().match(/(?:distance|yards?)\s*(\d+)/);
     if (distanceMatch) {
       const newDistance = parseInt(distanceMatch[1]);
       console.log('✅ Local parsing: Setting distance to', newDistance);
       setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
-      if (voice.speak) {
-        voice.speak(`Got it, ${newDistance} yards to the pin.`);
-      }
-      return; // Exit early - don't need API for simple distance
+      voice.speak(`Got it, ${newDistance} yards to the pin.`);
+      return;
     }
 
-    // Only use API for complex commands
-    try {
-      const response = await fetch('/api/interpret', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text,
-          state: { 
-            distance: course.distanceToHole, 
-            q: {
-              distanceToHole: course.distanceToHole,
-              lie: course.lie,
-              stance: course.stance,
-              pinPos: course.pinPos,
-              fairwayWidth: course.fairwayWidth,
-              hazards: course.hazards
-            }, 
-            env 
-          }
-        })
-      });
+    // Parse other common commands locally
+    const lowerText = text.toLowerCase();
+    
+    // Fairway width
+    const fairwayMatch = lowerText.match(/fairway\s*(?:width)?\s*(\d+)/);
+    if (fairwayMatch) {
+      const width = parseInt(fairwayMatch[1]);
+      setCourse(prev => ({ ...prev, fairwayWidth: width }));
+      voice.speak(`Fairway width set to ${width} yards.`);
+      return;
+    }
+    
+    // Wind commands
+    const windMatch = lowerText.match(/wind\s*(\d+)(?:\s*mph)?\s*(head|tail|left|right)?/);
+    if (windMatch) {
+      const speed = parseInt(windMatch[1]);
+      let direction: Environment['windDir'] = 'head';
       
-      if (!response.ok) {
-        console.error('API response not ok:', response.status, response.statusText);
-        throw new Error(`API error: ${response.status} - ${await response.text()}`);
+      if (windMatch[2]) {
+        const dir = windMatch[2];
+        if (dir === 'tail') direction = 'tail';
+        else if (dir === 'left') direction = 'cross_L_to_R';
+        else if (dir === 'right') direction = 'cross_R_to_L';
       }
       
-      const result = await response.json();
-      console.log('API Response:', result); // Debug log
+      setEnv(prev => ({ ...prev, windSpeed: speed, windDir: direction }));
+      voice.speak(`Wind set to ${speed} mph ${direction.replace('_', ' ')}.`);
+      return;
+    }
+    
+    // Hazard commands
+    const hazardMatch = lowerText.match(/(bunker|water|hazard)\s*(left|right)\s*(?:at\s*)?(\d+)(?:\s*(?:to|clear)\s*(\d+))?/);
+    if (hazardMatch) {
+      const type = hazardMatch[1] === 'water' ? 'water' : 'bunker';
+      const side = hazardMatch[2] as 'left' | 'right';
+      const start = parseInt(hazardMatch[3]);
+      const clear = hazardMatch[4] ? parseInt(hazardMatch[4]) : start + 20;
       
-      // Apply updates from API response
-      if (result?.updates) {
-        // Handle distance update (check both locations)
-        const newDistance = result.updates.distance || result.updates.course?.distanceToHole;
-        if (typeof newDistance === 'number') {
-          console.log('Updating distance to:', newDistance);
-          setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
-        }
-        
-        // Handle course updates
-        if (result.updates.course) {
-          console.log('Updating course with:', result.updates.course);
-          setCourse(prev => ({ 
-            ...prev, 
-            ...result.updates.course,
-            distanceToHole: result.updates.course.distanceToHole || prev.distanceToHole,
-            fairwayWidth: result.updates.course.fairwayWidth || prev.fairwayWidth
-          }));
-        }
-        
-        // Handle environment updates
-        if (result.updates.env) {
-          console.log('Updating environment with:', result.updates.env);
-          setEnv(prev => ({ ...prev, ...result.updates.env }));
-        }
-      }
+      const newHazard: Hazard = {
+        id: crypto.randomUUID(),
+        type,
+        side,
+        startYards: start,
+        clearYards: clear
+      };
       
-      // Speak the response
-      if (result?.speak && voice.speak) {
-        console.log('🔊 About to speak:', result.speak);
-        voice.speak(result.speak);
-      }
-    } catch (e) {
-      console.error('Voice command error:', e);
-      
-      voice.speak?.("Sorry, I didn't understand that command.");
+      setCourse(prev => ({ ...prev, hazards: [...prev.hazards, newHazard] }));
+      voice.speak(`Added ${type} ${side} from ${start} to ${clear} yards.`);
+      return;
+    }
+    
+    // Default response for unrecognized commands
+    voice.speak("I didn't understand that. Try saying 'Distance 125', 'Fairway width 20', or 'Bunker right at 250'.");
+  };
+
     }
   };
   

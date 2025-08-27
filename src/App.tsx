@@ -658,108 +658,49 @@ function useVoiceChat() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-function useVoiceChat() {
-  const isNative = typeof window !== 'undefined' && (window as any).Capacitor?.isNativePlatform?.();
-
-  const [supported, setSupported] = useState(false);
-  const [listening, setListening] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  // Web SR references
-  const recRef = useRef<any | null>(null);
-  const onResultRef = useRef<((t: string) => void) | null>(null);
-  const stopRef = useRef<null | (() => Promise<void> | void)>(null);
-
-  useEffect(() => {
-    if (isNative) {
-      setSupported(true); // Use native plugin on iOS
-      return;
-    }
-    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return; // Unsupported on Safari/iOS WebView
+    if (!SR) return;
     setSupported(true);
     const rec = new SR();
-    rec.lang = 'en-US';
+    rec.lang = "en-US";
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onresult = (e: any) => {
       try {
-        const t = e?.results?.[0]?.[0]?.transcript ?? '';
+        const t = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : "";
         setTranscript(t);
-        onResultRef.current?.(t);
+        if (onResultRef.current) onResultRef.current(t);
       } catch {}
     };
-    rec.onerror = (e: any) => setError(String(e?.error || 'speech error'));
+    rec.onerror = (e: any) => { setError(String((e && e.error) || "speech error")); };
     rec.onend = () => setListening(false);
     recRef.current = rec;
-  }, [isNative]);
+  }, []);
 
-  const start = async (onResult?: (t: string) => void) => {
+  const start = (onResult?: (text: string) => void) => {
     onResultRef.current = onResult || null;
-    setTranscript('');
+    setTranscript("");
     setError(null);
-
-    if (isNative) {
-      try {
-        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
-        const has = await SpeechRecognition.hasPermission();
-        if (!has) await SpeechRecognition.requestPermission();
-        await SpeechRecognition.start({ language: 'en-US', partialResults: false, popup: false });
-        const sub = await SpeechRecognition.addListener('partialResults', (e: any) => {
-          const t = Array.isArray(e?.value) ? e.value.join(' ') : (e?.matches?.[0] ?? '');
-          if (t) {
-            setTranscript(t);
-            onResultRef.current?.(t);
-          }
-        });
-        stopRef.current = async () => { await SpeechRecognition.stop(); await sub.remove(); };
-        setListening(true);
-      } catch (err: any) {
-        setError(err?.message || 'native speech error');
-      }
-      return;
-    }
-
-    // Web path
-    try {
-      recRef.current?.start();
-      setListening(true);
-      stopRef.current = () => recRef.current?.stop();
-    } catch (err: any) {
-      setError(err?.message || 'web speech error');
-    }
+    try { if (recRef.current) recRef.current.start(); setListening(true); } catch {}
   };
-
-  const stop = async () => {
-    try { await stopRef.current?.(); } catch {}
-    setListening(false);
-  };
-
+  const stop = () => { try { if (recRef.current) recRef.current.stop(); } catch {}; setListening(false); };
   const speak = (text: string) => {
-    if (!text || typeof text !== 'string') return;
-    
+    if (typeof window === "undefined" || !(window as any).speechSynthesis) return;
+    console.log('🔊 About to speak:', text);
     try {
-      // Cancel any ongoing speech
-      window.speechSynthesis?.cancel();
-      
+      (window as any).speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US';
-      u.rate = 0.9;
+      u.lang = "en-US"; 
+      u.rate = 0.9; 
       u.pitch = 1;
       u.volume = 0.8;
-      
-      // Add event listeners for debugging
       u.onstart = () => console.log('🔊 Speech started:', text);
       u.onend = () => console.log('🔊 Speech ended');
       u.onerror = (e) => console.error('🔊 Speech error:', e);
-      
-      window.speechSynthesis?.speak(u);
+      (window as any).speechSynthesis.speak(u);
     } catch (err) {
       console.error('🔊 Speech synthesis error:', err);
     }
   };
-
   return { supported, listening, transcript, error, start, stop, speak };
 }
 
@@ -885,9 +826,37 @@ export default function CaddyAIV2() {
   const approxClubsUp = liePctUI > 0 ? Math.max(1, Math.round(liePctUI / 0.08)) : 0;
 
   const onVoiceResult = async (text: string) => {
-    console.log('🎤 Voice result received:', text);
+    console.log('🎤 Voice heard:', text);
     
+    // Always try local parsing first for simple commands
     const { upd, distance: dist, action } = parseVoiceCommand(text, q);
+    let hasLocalUpdate = false;
+    
+    if (Object.keys(upd).length) {
+      setQ({ ...q, ...upd });
+      hasLocalUpdate = true;
+      console.log('🎤 Local update applied:', upd);
+    }
+    if (dist != null && !Number.isNaN(dist)) {
+      setDistance(Math.round(dist));
+      hasLocalUpdate = true;
+      console.log('🎤 Distance updated locally:', dist);
+      voice.speak(`Got it, ${dist} yards to the pin`);
+    }
+    
+    // If we handled it locally, skip API for simple commands
+    if (hasLocalUpdate && (text.toLowerCase().includes('distance') || text.toLowerCase().includes('fairway width'))) {
+      if (action === 'speakRec') {
+        const { best: bestNext, backup: backupNext } = recommend({ distanceToHole: (dist ?? distance), ppm, env, q: { ...q, ...upd } });
+        voice.speak(describeRecommendation(bestNext, backupNext, { ...q, ...upd }));
+      }
+      return;
+    }
+      console.error('🤖 GPT API failed, using local parsing:', e);
+      // Local parsing already applied above
+    // Try GPT for complex commands
+    
+    // Handle "what's the play" action
     
     let updated = false;
     

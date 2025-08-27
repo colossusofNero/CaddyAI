@@ -536,17 +536,31 @@ export default function App() {
   const crosswindWarning = getCrosswindWarning();
   
   const onVoiceResult = async (text: string) => {
+    console.log('🎤 Voice input received:', text);
+    
     try {
       const response = await fetch('/api/interpret', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text,
-          state: { distance: course.distanceToHole, course, env }
+          state: { 
+            distance: course.distanceToHole, 
+            q: {
+              distanceToHole: course.distanceToHole,
+              lie: course.lie,
+              stance: course.stance,
+              pinPos: course.pinPos,
+              fairwayWidth: course.fairwayWidth,
+              hazards: course.hazards
+            }, 
+            env 
+          }
         })
       });
       
       if (!response.ok) {
+        console.error('API response not ok:', response.status, response.statusText);
         throw new Error(`API error: ${response.status}`);
       }
       
@@ -562,12 +576,23 @@ export default function App() {
         
         if (result.updates.q) {
           console.log('Updating course with:', result.updates.q);
-          setCourse(prev => ({ ...prev, ...result.updates.q }));
+          setCourse(prev => ({ 
+            ...prev, 
+            ...result.updates.q,
+            // Handle specific field mappings
+            distanceToHole: result.updates.q.distanceToHole || prev.distanceToHole,
+            fairwayWidth: result.updates.q.fairwayWidthAtDriverYds || result.updates.q.fairwayWidth || prev.fairwayWidth
+          }));
         }
         
         if (result.updates.env) {
           console.log('Updating environment with:', result.updates.env);
-          setEnv(prev => ({ ...prev, ...result.updates.env }));
+          setEnv(prev => ({ 
+            ...prev, 
+            ...result.updates.env,
+            // Handle field mapping differences
+            windDir: result.updates.env.windDir?.replace('cross_left', 'cross_L_to_R')?.replace('cross_right', 'cross_R_to_L') || prev.windDir
+          }));
         }
       }
       
@@ -585,7 +610,9 @@ export default function App() {
         const newDistance = parseInt(distanceMatch[1]);
         console.log('Fallback: Setting distance to', newDistance);
         setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
-        voice.speak(`Got it, ${newDistance} yards to the pin.`);
+        if (voice.speak) {
+          voice.speak(`Got it, ${newDistance} yards to the pin.`);
+        }
       }
     }
   };

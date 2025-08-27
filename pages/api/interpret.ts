@@ -112,6 +112,23 @@ If a value isn't present, omit it. "speak" is one short sentence a human caddie 
   }
 
   console.log('API sending response:', parsed);
+    parsed = data?.choices?.[0]?.message?.parsed;
+    
+    // If not available, try parsing the content
+    if (!parsed && data?.choices?.[0]?.message?.content) {
+      parsed = JSON.parse(data.choices[0].message.content);
+    }
+    
+    // Fallback
+    if (!parsed) {
+      parsed = { updates: {}, speak: "I didn't understand that command." };
+    }
+  } catch (error) {
+    console.error('API parsing error:', error);
+    parsed = { updates: {}, speak: "Sorry, I had trouble processing that." };
+  }
+
+  console.log('API sending response:', parsed);
 
   return new Response(JSON.stringify(parsed), { headers: { "Content-Type": "application/json" } });
 }

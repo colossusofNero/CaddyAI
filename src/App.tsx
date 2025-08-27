@@ -410,12 +410,8 @@ export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
 
   const gpt = useGptCaddie({
-    distance: course.distanceToHole, 
-    q: course, 
-    env,
-    setDistance: (d: number) => setCourse(prev => ({ ...prev, distanceToHole: d })), 
-    setQ: setCourse, 
-    setEnv,
+    distance, q, env,
+    setDistance, setQ, setEnv,
     speak: voice.speak
   });
   
@@ -540,11 +536,11 @@ export default function App() {
       await gpt.interpretAndApply(text);   // GPT extracts & updates + speaks
     } catch (e) {
       // Fallback to the local keyword parser if the API call fails
-      const { upd, distance: dist, action } = parseVoiceCommand(text, course);
-      if (Object.keys(upd).length) setCourse({ ...course, ...upd });
-      if (dist != null && !Number.isNaN(dist)) setCourse(prev => ({ ...prev, distanceToHole: Math.round(dist) }));
+      const { upd, distance: dist, action } = parseVoiceCommand(text, q);
+      if (Object.keys(upd).length) setQ({ ...q, ...upd });
+      if (dist != null && !Number.isNaN(dist)) setDistance(Math.round(dist));
       if (action === 'speakRec') {
-        voice.speak(describeRecommendation(primary, backup, { ...course, ...upd }));
+        voice.speak(describeRecommendation(best, backup, { ...q, ...upd }));
       }
     }
   };
@@ -682,7 +678,9 @@ export default function App() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Target className="w-8 h-8 text-emerald-600" />
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-wh
+  )
+}ite">
               CaddyAI v2.3
             </h1>
           </div>
@@ -1040,34 +1038,4 @@ export default function App() {
                 <div className="flex items-end">
                   <button
                     onClick={() => removeHazard(hazard.id)}
-                    className="w-full px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-            
-            <button
-              onClick={addHazard}
-              className="w-full px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-            >
-              Add Hazard
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Helper functions that were referenced but not defined
-function parseVoiceCommand(text: string, course: Course): { upd: Partial<Course>, distance: number | null, action: string | null } {
-  // Simple voice command parser - implement as needed
-  return { upd: {}, distance: null, action: null };
-}
-
-function describeRecommendation(primary: ShotPlan | undefined, backup: ShotPlan | undefined, course: Course): string {
-  if (!primary) return "No recommendations available";
-  return `Primary recommendation: ${primary.description}. ${primary.reasoning}`;
-}
+                    className="w-full px-3 py-2 bg-re

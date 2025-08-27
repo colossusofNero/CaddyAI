@@ -665,9 +665,11 @@ function useVoiceChat() {
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onresult = (e: any) => {
-      const t = e?.results?.[0]?.[0]?.transcript ?? "";
-      setTranscript(t);
-      onResultRef.current?.(t);
+      try {
+        const t = e?.results?.[0]?.[0]?.transcript ?? "";
+        setTranscript(t);
+        onResultRef.current?.(t);
+      } catch {}
     };
     rec.onerror = (e: any) => setError(String(e?.error || "speech error"));
     rec.onend = () => setListening(false);
@@ -702,9 +704,12 @@ function useVoiceChat() {
       u.rate = 0.9;
       u.pitch = 1;
       u.volume = 0.8;
+      u.onstart = () => console.log("🔊 Speech started:", text);
+      u.onend = () => console.log("🔊 Speech ended");
+      u.onerror = (e) => console.error("🔊 Speech error:", e);
       window.speechSynthesis?.speak(u);
     } catch (err) {
-      console.error("Speech synthesis error:", err);
+      console.error("🔊 Speech synthesis error:", err);
     }
   };
 
@@ -833,10 +838,35 @@ export default function CaddyAIV2() {
   const approxClubsUp = liePctUI > 0 ? Math.max(1, Math.round(liePctUI / 0.08)) : 0;
 
   const onVoiceResult = async (text: string) => {
-    console.log('🎤 Voice result received:', text);
+    console.log('🎤 Voice heard:', text);
     
+    // Try local parsing first for simple commands
     const { upd, distance: dist, action } = parseVoiceCommand(text, q);
+    console.log('🔍 Local parsing result:', { upd, dist, action });
     
+    // Handle simple distance updates immediately
+    if (dist != null && !Number.isNaN(dist)) {
+      console.log('✅ Setting distance locally:', dist);
+      setDistance(Math.round(dist));
+      voice.speak(`Got it, ${Math.round(dist)} yards to the pin`);
+      return;
+    }
+    
+    // Handle other simple updates
+    if (Object.keys(upd).length > 0) {
+      console.log('✅ Updating questionnaire locally:', upd);
+      setQ({ ...q, ...upd });
+      voice.speak('Updated');
+    }
+      
+    // Handle recommendation requests
+    if (action === 'speakRec') {
+      const { best: bestNext, backup: backupNext } = recommend({ distanceToHole: distance, ppm, env, q });
+      voice.speak(describeRecommendation(bestNext, backupNext, q));
+      return;
+    }
+    
+    // For complex commands, try GPT API
     let updated = false;
     
     if (Object.keys(upd).length) {
@@ -862,10 +892,7 @@ export default function CaddyAIV2() {
         env, 
         q: nextQ 
       });
-      
-      setTimeout(() => {
-        voice.speak(describeRecommendation(bestNext, backupNext, nextQ));
-      }, updated ? 1000 : 0); // Delay if we just updated something
+      voice.speak(describeRecommendation(bestNext, backupNext, nextQ));
     }
   };
 

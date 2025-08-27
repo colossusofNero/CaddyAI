@@ -519,6 +519,79 @@ export default function App() {
   
   const crosswindWarning = getCrosswindWarning();
   
+  // Helper functions for aim point calculation
+  const getAimPoint = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {
+    const hazards = course.hazards;
+    const mainHazards = hazards.filter(h => h.type !== "greenside_bunker");
+    
+    // Base aim point
+    let aimPoint = "CENTER OF FAIRWAY";
+    
+    // Adjust for hazards
+    if (mainHazards.length > 0) {
+      const relevantHazards = mainHazards.filter(h => 
+        plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
+      );
+      
+      if (relevantHazards.length > 0) {
+        const leftHazards = relevantHazards.filter(h => h.side === "left");
+        const rightHazards = relevantHazards.filter(h => h.side === "right");
+        
+        if (leftHazards.length > 0 && rightHazards.length === 0) {
+          aimPoint = "RIGHT SIDE OF FAIRWAY";
+        } else if (rightHazards.length > 0 && leftHazards.length === 0) {
+          aimPoint = "LEFT SIDE OF FAIRWAY";
+        } else if (leftHazards.length > 0 && rightHazards.length > 0) {
+          aimPoint = "NARROW CENTER LINE";
+        }
+      }
+    }
+    
+    // Adjust for wind
+    if (env.windSpeed >= 10) {
+      if (env.windDir === "cross_L_to_R") {
+        aimPoint += " (Aim 10y LEFT for wind)";
+      } else if (env.windDir === "cross_R_to_L") {
+        aimPoint += " (Aim 10y RIGHT for wind)";
+      }
+    }
+    
+    // Adjust for natural shot shape
+    const naturalMiss = ppm.normalShot === "draw" ? "left" : ppm.normalShot === "fade" ? "right" : "straight";
+    if (naturalMiss !== "straight" && !aimPoint.includes("wind")) {
+      const compensation = naturalMiss === "draw" ? "slightly right" : "slightly left";
+      aimPoint += ` (favor ${compensation} for ${ppm.normalShot})`;
+    }
+    
+    return aimPoint;
+  };
+  
+  const getAimPointReasoning = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {
+    const hazards = course.hazards.filter(h => h.type !== "greenside_bunker");
+    let reasoning = "";
+    
+    if (hazards.length > 0) {
+      const relevantHazards = hazards.filter(h => 
+        plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
+      );
+      
+      if (relevantHazards.length > 0) {
+        const hazardSides = relevantHazards.map(h => h.side).join(", ");
+        reasoning += `Avoiding ${hazardSides} hazard(s). `;
+      }
+    }
+    
+    if (env.windSpeed >= 10) {
+      reasoning += `${env.windSpeed}mph ${env.windDir.replace('_', ' ')} wind compensation. `;
+    }
+    
+    if (ppm.normalShot !== "straight") {
+      reasoning += `Account for natural ${ppm.normalShot} ball flight.`;
+    }
+    
+    return reasoning || "Optimal target line for this shot.";
+  };
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -533,6 +606,157 @@ export default function App() {
           <p className="text-gray-600 dark:text-gray-300 text-lg">
             Hazard-Aware Golf Shot Planner
           </p>
+        </div>
+
+        {/* Shot Recommendations - Moved to Top */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            🎯 Shot Recommendations
+          </h2>
+          
+          {recommendations.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+              No suitable shots found. Check your distance and conditions.
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {/* Primary Recommendation with Prominent Aim Point */}
+              {primary && (
+                <div className="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-6">
+                  {/* Large Aim Point Section */}
+                  <div className="text-center mb-6 p-4 bg-emerald-100 dark:bg-emerald-800/30 rounded-lg">
+                    <h3 className="text-2xl font-bold text-emerald-800 dark:text-emerald-200 mb-2">
+                      🎯 AIM POINT
+                    </h3>
+                    <div className="text-3xl font-bold text-emerald-900 dark:text-emerald-100 mb-2">
+                      {getAimPoint(primary, course, env, ppm)}
+                    </div>
+                    <p className="text-emerald-700 dark:text-emerald-300 text-lg">
+                      {getAimPointReasoning(primary, course, env, ppm)}
+                    </p>
+                  </div>
+                  
+                  {/* Club and Shot Details */}
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
+                      <CheckCircle2 className="w-6 h-6" />
+                      Primary: {primary.description}
+                    </h3>
+                    <div className="text-right">
+                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
+                        Risk: {primary.riskScore}/100
+                      </div>
+                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
+                        Expected: {primary.expectedStrokes} strokes
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-emerald-700 dark:text-emerald-300 mb-4 text-lg">
+                    {primary.reasoning}
+                  </p>
+                  
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pSuccess * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pHazard * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
+                      <span className="ml-1 font-medium">{Math.round(primary.pFairway * 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Backup Recommendation with Aim Point */}
+              {backup && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  {/* Backup Aim Point */}
+                  <div className="text-center mb-4 p-3 bg-blue-100 dark:bg-blue-800/30 rounded-lg">
+                    <h4 className="text-lg font-bold text-blue-800 dark:text-blue-200 mb-1">
+                      🎯 Backup Aim Point
+                    </h4>
+                    <div className="text-xl font-bold text-blue-900 dark:text-blue-100">
+                      {getAimPoint(backup, course, env, ppm)}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                      <ArrowRight className="w-5 h-5" />
+                      Backup: {backup.description}
+                    </h3>
+                    <div className="text-right">
+                      <div className="text-sm text-blue-600 dark:text-blue-400">
+                        Risk: {backup.riskScore}/100
+                      </div>
+                      <div className="text-sm text-blue-600 dark:text-blue-400">
+                        Expected: {backup.expectedStrokes} strokes
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-blue-700 dark:text-blue-300 mb-2">
+                    {backup.reasoning}
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pSuccess * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pHazard * 100)}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
+                      <span className="ml-1 font-medium">{Math.round(backup.pFairway * 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Other Options */}
+              {recommendations.slice(2).length > 0 && (
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
+                    Other Options:
+                  </h4>
+                  <div className="space-y-2">
+                    {recommendations.slice(2).map((plan, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                        <div>
+                          <span className="font-medium text-gray-700 dark:text-gray-300">
+                            {plan.description}
+                          </span>
+                          {plan.isLayup && (
+                            <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
+                              Layup
+                            </span>
+                          )}
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            Aim: {getAimPoint(plan, course, env, ppm)}
+                          </div>
+                        </div>
+                        <div className="text-right text-sm">
+                          <div className="text-gray-600 dark:text-gray-400">
+                            {plan.expectedStrokes} strokes
+                          </div>
+                          <div className="text-gray-500 dark:text-gray-500">
+                            Risk: {plan.riskScore}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Course Conditions */}
@@ -799,128 +1023,6 @@ export default function App() {
             </p>
           </div>
         )}
-
-        {/* Recommendations */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Shot Recommendations
-          </h2>
-          
-          {recommendations.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-              No suitable shots found. Check your distance and conditions.
-            </p>
-          ) : (
-            <div className="space-y-4">
-              {/* Primary Recommendation */}
-              {primary && (
-                <div className="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5" />
-                      Primary: {primary.description}
-                    </h3>
-                    <div className="text-right">
-                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
-                        Risk: {primary.riskScore}/100
-                      </div>
-                      <div className="text-sm text-emerald-600 dark:text-emerald-400">
-                        Expected: {primary.expectedStrokes} strokes
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-emerald-700 dark:text-emerald-300 mb-2">
-                    {primary.reasoning}
-                  </p>
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
-                      <span className="ml-1 font-medium">{Math.round(primary.pSuccess * 100)}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
-                      <span className="ml-1 font-medium">{Math.round(primary.pHazard * 100)}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
-                      <span className="ml-1 font-medium">{Math.round(primary.pFairway * 100)}%</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              {/* Backup Recommendation */}
-              {backup && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
-                      <ArrowRight className="w-5 h-5" />
-                      Backup: {backup.description}
-                    </h3>
-                    <div className="text-right">
-                      <div className="text-sm text-blue-600 dark:text-blue-400">
-                        Risk: {backup.riskScore}/100
-                      </div>
-                      <div className="text-sm text-blue-600 dark:text-blue-400">
-                        Expected: {backup.expectedStrokes} strokes
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-blue-700 dark:text-blue-300 mb-2">
-                    {backup.reasoning}
-                  </p>
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Success:</span>
-                      <span className="ml-1 font-medium">{Math.round(backup.pSuccess * 100)}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Hazard:</span>
-                      <span className="ml-1 font-medium">{Math.round(backup.pHazard * 100)}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400">Fairway:</span>
-                      <span className="ml-1 font-medium">{Math.round(backup.pFairway * 100)}%</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              {/* Other Options */}
-              {recommendations.slice(2).length > 0 && (
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
-                    Other Options:
-                  </h4>
-                  <div className="space-y-2">
-                    {recommendations.slice(2).map((plan, index) => (
-                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
-                        <div>
-                          <span className="font-medium text-gray-700 dark:text-gray-300">
-                            {plan.description}
-                          </span>
-                          {plan.isLayup && (
-                            <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
-                              Layup
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-right text-sm">
-                          <div className="text-gray-600 dark:text-gray-400">
-                            {plan.expectedStrokes} strokes
-                          </div>
-                          <div className="text-gray-500 dark:text-gray-500">
-                            Risk: {plan.riskScore}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
 
         {/* Player Settings */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">

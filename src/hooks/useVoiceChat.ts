@@ -80,12 +80,27 @@ export function useVoiceChat() {
   };
 
   const speak = (text: string) => {
+    if (!text || typeof text !== 'string') return;
+    
     try {
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US'; u.rate = 1; u.pitch = 1;
+      // Cancel any ongoing speech
       window.speechSynthesis?.cancel();
+      
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.9;
+      u.pitch = 1;
+      u.volume = 0.8;
+      
+      // Add event listeners for debugging
+      u.onstart = () => console.log('🔊 Speech started:', text);
+      u.onend = () => console.log('🔊 Speech ended');
+      u.onerror = (e) => console.error('🔊 Speech error:', e);
+      
       window.speechSynthesis?.speak(u);
-    } catch {}
+    } catch (err) {
+      console.error('🔊 Speech synthesis error:', err);
+    }
   };
 
   return { supported, listening, transcript, error, start, stop, speak };

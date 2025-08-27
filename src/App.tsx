@@ -570,6 +570,7 @@ export default function App() {
       
       // Speak the response
       if (result.speak && voice.speak) {
+        console.log('🔊 About to speak:', result.speak);
         voice.speak(result.speak);
       }
     } catch (e) {

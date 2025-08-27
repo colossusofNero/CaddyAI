@@ -537,8 +537,43 @@ export default function App() {
   
   const onVoiceResult = async (text: string) => {
     try {
-      await gpt.interpretAndApply(text);   // GPT extracts & updates + speaks
+      const response = await fetch('/api/interpret', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text,
+          state: { distance: course.distanceToHole, course, env }
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('API Response:', result); // Debug log
+      
+      // Apply updates from API response
+      if (result.updates) {
+        if (result.updates.distance != null) {
+          setCourse(prev => ({ ...prev, distanceToHole: result.updates.distance }));
+        }
+        
+        if (result.updates.q) {
+          setCourse(prev => ({ ...prev, ...result.updates.q }));
+        }
+        
+        if (result.updates.env) {
+          setEnv(prev => ({ ...prev, ...result.updates.env }));
+        }
+      }
+      
+      // Speak the response
+      if (result.speak && voice.speak) {
+        voice.speak(result.speak);
+      }
     } catch (e) {
+      console.error('Voice command error:', e);
       // Fallback to the local keyword parser if the API call fails
       const { upd, distance: dist, action } = parseVoiceCommand(text, course);
       if (Object.keys(upd).length) setCourse({ ...course, ...upd });

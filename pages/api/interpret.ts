@@ -24,20 +24,18 @@ export default async function handler(req: Request) {
           additionalProperties: false,
           properties: {
             distance: { type: ["number","null"] },
-            q: {
+            course: {
               type: "object",
               additionalProperties: false,
               properties: {
+                distanceToHole: { type: ["number","null"] },
                 lie: { enum: ["tee","fairway","light_rough","heavy_rough","sand","recovery"] },
                 stance: { enum: ["flat","ball_above","ball_below","uphill","downhill"] },
                 pinPos: { enum: ["front","middle","back"] },
-                hazardRisk: { type: "number", minimum: 1, maximum: 5 },
-                requiredShape: { enum: ["any","draw","fade","straight"] },
-                confidence: { type: "number", minimum: 1, maximum: 5 },
-                fairwayWidthAtDriverYds: { type: ["number","null"] },
-                hazardSide: { enum: ["left","right",null] },
-                hazardStartYds: { type: ["number","null"] },
-                hazardClearYds: { type: ["number","null"] }
+                fairwayWidth: { type: ["number","null"] },
+                temperature: { type: ["number","null"] },
+                elevation: { type: ["number","null"] },
+                altitude: { type: ["number","null"] }
               }
             },
             env: {
@@ -45,11 +43,7 @@ export default async function handler(req: Request) {
               additionalProperties: false,
               properties: {
                 windSpeed: { type: "number" },
-                windDir: { enum: ["head","tail","cross_left","cross_right"] },
-                temperatureF: { type: "number" },
-                elevationFt: { type: "number" },
-                altitudeFt: { type: "number" },
-                greenFirm: { enum: ["soft","medium","firm"] }
+                windDir: { enum: ["head","tail","cross_L_to_R","cross_R_to_L"] }
               }
             }
           }
@@ -61,10 +55,18 @@ export default async function handler(req: Request) {
   } as const;
 
   const sys =
-`You are a concise golf caddie. Only output the JSON that matches the schema.
-Read free-form speech like: "bunker right at 250, need 265 to clear; fairway 15; what's the play?"
-Extract values conservatively. Units: yards for distance, feet for elevation.
-If a value isn't present, omit it. "speak" is one short sentence a human caddie would say.`;
+`You are a golf caddie assistant. Parse voice commands and extract golf course information.
+
+Examples:
+- "Distance 125" → set distance to 125 yards
+- "275 yards" → set distance to 275 yards  
+- "Fairway width 15" → set fairway width to 15 yards
+- "Wind 10 mph headwind" → set wind speed 10, direction head
+- "Bunker right at 250" → add hazard info
+
+For distance commands, put the number in BOTH "distance" and "course.distanceToHole".
+Always provide a short, helpful response in "speak".
+Only include fields that are mentioned. Units: yards for distance, mph for wind.`;
 
   const body = {
     model: "gpt-4o-mini",
@@ -91,24 +93,38 @@ If a value isn't present, omit it. "speak" is one short sentence a human caddie 
   }
 
   const data = await r.json();
-  // Try to read parsed JSON from chat completions API
+  
+  console.log('OpenAI API response:', JSON.stringify(data, null, 2));
+  
   let parsed;
   try {
-    // First try the structured output
     parsed = data?.choices?.[0]?.message?.parsed;
-    
-    // If not available, try parsing the content
     if (!parsed && data?.choices?.[0]?.message?.content) {
       parsed = JSON.parse(data.choices[0].message.content);
     }
-    
-    // Fallback
     if (!parsed) {
-      parsed = { updates: {}, speak: "I didn't understand that command." };
+      throw new Error('No parsed response');
     }
   } catch (error) {
-    console.error('API parsing error:', error);
-    parsed = { updates: {}, speak: "Sorry, I had trouble processing that." };
+    console.error('OpenAI parsing error:', error);
+    
+    // Simple fallback for distance commands
+    const distanceMatch = text.toLowerCase().match(/(?:distance|yards?)\s*(\d+)/);
+    if (distanceMatch) {
+      const distance = parseInt(distanceMatch[1]);
+      parsed = {
+        updates: {
+          distance: distance,
+          course: { distanceToHole: distance }
+        },
+        speak: `Got it, ${distance} yards to the pin.`
+      };
+    } else {
+      parsed = { 
+        updates: {}, 
+        speak: "I didn't catch that. Try saying 'Distance 125' or 'Fairway width 15'." 
+      };
+    }
   }
 
   console.log('API sending response:', parsed);

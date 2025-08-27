@@ -569,30 +569,28 @@ export default function App() {
       
       // Apply updates from API response
       if (result?.updates) {
-        if (typeof result.updates.distance === 'number') {
-          console.log('Updating distance to:', result.updates.distance);
-          setCourse(prev => ({ ...prev, distanceToHole: result.updates.distance }));
+        // Handle distance update (check both locations)
+        const newDistance = result.updates.distance || result.updates.course?.distanceToHole;
+        if (typeof newDistance === 'number') {
+          console.log('Updating distance to:', newDistance);
+          setCourse(prev => ({ ...prev, distanceToHole: newDistance }));
         }
         
-        if (result.updates.q) {
-          console.log('Updating course with:', result.updates.q);
+        // Handle course updates
+        if (result.updates.course) {
+          console.log('Updating course with:', result.updates.course);
           setCourse(prev => ({ 
             ...prev, 
-            ...result.updates.q,
-            // Handle specific field mappings
-            distanceToHole: result.updates.q.distanceToHole || prev.distanceToHole,
-            fairwayWidth: result.updates.q.fairwayWidthAtDriverYds || result.updates.q.fairwayWidth || prev.fairwayWidth
+            ...result.updates.course,
+            distanceToHole: result.updates.course.distanceToHole || prev.distanceToHole,
+            fairwayWidth: result.updates.course.fairwayWidth || prev.fairwayWidth
           }));
         }
         
+        // Handle environment updates
         if (result.updates.env) {
           console.log('Updating environment with:', result.updates.env);
-          setEnv(prev => ({ 
-            ...prev, 
-            ...result.updates.env,
-            // Handle field mapping differences
-            windDir: result.updates.env.windDir?.replace('cross_left', 'cross_L_to_R')?.replace('cross_right', 'cross_R_to_L') || prev.windDir
-          }));
+          setEnv(prev => ({ ...prev, ...result.updates.env }));
         }
       }
       
@@ -605,7 +603,7 @@ export default function App() {
       console.error('Voice command error:', e);
       
       // Simple fallback for distance commands
-      const distanceMatch = text.toLowerCase().match(/distance\s+(\d+)/);
+      const distanceMatch = text.toLowerCase().match(/(?:distance|yards?)\s*(\d+)/);
       if (distanceMatch) {
         const newDistance = parseInt(distanceMatch[1]);
         console.log('Fallback: Setting distance to', newDistance);

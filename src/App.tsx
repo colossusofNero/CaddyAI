@@ -623,19 +623,6 @@ export default function App() {
               {/* Primary Recommendation with Prominent Aim Point */}
               {primary && (
                 <div className="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-6">
-                  {/* Large Aim Point Section */}
-                  <div className="text-center mb-6 p-4 bg-emerald-100 dark:bg-emerald-800/30 rounded-lg">
-                    <h3 className="text-2xl font-bold text-emerald-800 dark:text-emerald-200 mb-2">
-                      🎯 AIM POINT
-                    </h3>
-                    <div className="text-3xl font-bold text-emerald-900 dark:text-emerald-100 mb-2">
-                      {getAimPoint(primary, course, env, ppm)}
-                    </div>
-                    <p className="text-emerald-700 dark:text-emerald-300 text-lg">
-                      {getAimPointReasoning(primary, course, env, ppm)}
-                    </p>
-                  </div>
-                  
                   {/* Club and Shot Details */}
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
@@ -650,6 +637,19 @@ export default function App() {
                         Expected: {primary.expectedStrokes} strokes
                       </div>
                     </div>
+                  </div>
+                  
+                  {/* Aim Point Section - Below Club Recommendation */}
+                  <div className="text-center mb-4 p-3 bg-emerald-100 dark:bg-emerald-800/30 rounded-lg">
+                    <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-200 mb-2">
+                      🎯 AIM POINT
+                    </h4>
+                    <div className="text-2xl font-bold text-emerald-900 dark:text-emerald-100 mb-2">
+                      {getAimPoint(primary, course, env, ppm)}
+                    </div>
+                    <p className="text-emerald-700 dark:text-emerald-300">
+                      {getAimPointReasoning(primary, course, env, ppm)}
+                    </p>
                   </div>
                   
                   <p className="text-emerald-700 dark:text-emerald-300 mb-4 text-lg">
@@ -676,16 +676,6 @@ export default function App() {
               {/* Backup Recommendation with Aim Point */}
               {backup && (
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                  {/* Backup Aim Point */}
-                  <div className="text-center mb-4 p-3 bg-blue-100 dark:bg-blue-800/30 rounded-lg">
-                    <h4 className="text-lg font-bold text-blue-800 dark:text-blue-200 mb-1">
-                      🎯 Backup Aim Point
-                    </h4>
-                    <div className="text-xl font-bold text-blue-900 dark:text-blue-100">
-                      {getAimPoint(backup, course, env, ppm)}
-                    </div>
-                  </div>
-                  
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2">
                       <ArrowRight className="w-5 h-5" />
@@ -700,6 +690,17 @@ export default function App() {
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Backup Aim Point - Below Club Recommendation */}
+                  <div className="text-center mb-2 p-3 bg-blue-100 dark:bg-blue-800/30 rounded-lg">
+                    <h4 className="text-base font-bold text-blue-800 dark:text-blue-200 mb-1">
+                      🎯 Backup Aim Point
+                    </h4>
+                    <div className="text-lg font-bold text-blue-900 dark:text-blue-100">
+                      {getAimPoint(backup, course, env, ppm)}
+                    </div>
+                  </div>
+                  
                   <p className="text-blue-700 dark:text-blue-300 mb-2">
                     {backup.reasoning}
                   </p>

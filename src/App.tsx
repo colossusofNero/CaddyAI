@@ -658,49 +658,108 @@ function useVoiceChat() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return;
+function useVoiceChat() {
+  const isNative = typeof window !== 'undefined' && (window as any).Capacitor?.isNativePlatform?.();
+
+  const [supported, setSupported] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  // Web SR references
+  const recRef = useRef<any | null>(null);
+  const onResultRef = useRef<((t: string) => void) | null>(null);
+  const stopRef = useRef<null | (() => Promise<void> | void)>(null);
+
+  useEffect(() => {
+    if (isNative) {
+      setSupported(true); // Use native plugin on iOS
+      return;
+    }
+    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) return; // Unsupported on Safari/iOS WebView
     setSupported(true);
     const rec = new SR();
-    rec.lang = "en-US";
+    rec.lang = 'en-US';
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onresult = (e: any) => {
       try {
-        const t = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : "";
+        const t = e?.results?.[0]?.[0]?.transcript ?? '';
         setTranscript(t);
-        if (onResultRef.current) onResultRef.current(t);
+        onResultRef.current?.(t);
       } catch {}
     };
-    rec.onerror = (e: any) => { setError(String((e && e.error) || "speech error")); };
+    rec.onerror = (e: any) => setError(String(e?.error || 'speech error'));
     rec.onend = () => setListening(false);
     recRef.current = rec;
-  }, []);
+  }, [isNative]);
 
-  const start = (onResult?: (text: string) => void) => {
+  const start = async (onResult?: (t: string) => void) => {
     onResultRef.current = onResult || null;
-    setTranscript("");
+    setTranscript('');
     setError(null);
-    try { if (recRef.current) recRef.current.start(); setListening(true); } catch {}
-  };
-  const stop = () => { try { if (recRef.current) recRef.current.stop(); } catch {}; setListening(false); };
-  const speak = (text: string) => {
-    if (typeof window === "undefined" || !(window as any).speechSynthesis) return;
-    console.log('🔊 About to speak:', text);
+
+    if (isNative) {
+      try {
+        const { SpeechRecognition } = await import('@capacitor-community/speech-recognition');
+        const has = await SpeechRecognition.hasPermission();
+        if (!has) await SpeechRecognition.requestPermission();
+        await SpeechRecognition.start({ language: 'en-US', partialResults: false, popup: false });
+        const sub = await SpeechRecognition.addListener('partialResults', (e: any) => {
+          const t = Array.isArray(e?.value) ? e.value.join(' ') : (e?.matches?.[0] ?? '');
+          if (t) {
+            setTranscript(t);
+            onResultRef.current?.(t);
+          }
+        });
+        stopRef.current = async () => { await SpeechRecognition.stop(); await sub.remove(); };
+        setListening(true);
+      } catch (err: any) {
+        setError(err?.message || 'native speech error');
+      }
+      return;
+    }
+
+    // Web path
     try {
-      (window as any).speechSynthesis.cancel();
+      recRef.current?.start();
+      setListening(true);
+      stopRef.current = () => recRef.current?.stop();
+    } catch (err: any) {
+      setError(err?.message || 'web speech error');
+    }
+  };
+
+  const stop = async () => {
+    try { await stopRef.current?.(); } catch {}
+    setListening(false);
+  };
+
+  const speak = (text: string) => {
+    if (!text || typeof text !== 'string') return;
+    
+    try {
+      // Cancel any ongoing speech
+      window.speechSynthesis?.cancel();
+      
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-US"; 
-      u.rate = 0.9; 
+      u.lang = 'en-US';
+      u.rate = 0.9;
       u.pitch = 1;
       u.volume = 0.8;
+      
+      // Add event listeners for debugging
       u.onstart = () => console.log('🔊 Speech started:', text);
       u.onend = () => console.log('🔊 Speech ended');
       u.onerror = (e) => console.error('🔊 Speech error:', e);
-      (window as any).speechSynthesis.speak(u);
+      
+      window.speechSynthesis?.speak(u);
     } catch (err) {
       console.error('🔊 Speech synthesis error:', err);
     }
   };
+
   return { supported, listening, transcript, error, start, stop, speak };
 }
 

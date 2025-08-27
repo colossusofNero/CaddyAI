@@ -1038,4 +1038,8 @@ export default function App() {
                 <div className="flex items-end">
                   <button
                     onClick={() => removeHazard(hazard.id)}
-                    className="w-full px-3 py-2 bg-re
+                    className="w-full px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>

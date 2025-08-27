@@ -16,6 +16,9 @@ Notes:
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { ArrowRight, Flag, Wind, CheckCircle2, XCircle, User, Edit3 } from "lucide-react";
 import { Target, Settings, Save, X } from 'lucide-react';
+import { useVoiceChat } from './hooks/useVoiceChat';
+import { useTheme } from './hooks/useTheme';
+import { useGptCaddie } from './hooks/useGptCaddie';
 
 // ========================================
 
@@ -403,6 +406,15 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [editingPPM, setEditingPPM] = useState(false);
   
+  const voice = useVoiceChat();
+  const { theme, toggle: toggleTheme } = useTheme();
+
+  const gpt = useGptCaddie({
+    distance, q, env,
+    setDistance, setQ, setEnv,
+    speak: voice.speak
+  });
+  
   // Save PPM to localStorage
   useEffect(() => {
     localStorage.setItem('caddyai-ppm', JSON.stringify(ppm));
@@ -518,6 +530,20 @@ export default function App() {
   };
   
   const crosswindWarning = getCrosswindWarning();
+  
+  const onVoiceResult = async (text: string) => {
+    try {
+      await gpt.interpretAndApply(text);   // GPT extracts & updates + speaks
+    } catch (e) {
+      // Fallback to the local keyword parser if the API call fails
+      const { upd, distance: dist, action } = parseVoiceCommand(text, q);
+      if (Object.keys(upd).length) setQ({ ...q, ...upd });
+      if (dist != null && !Number.isNaN(dist)) setDistance(Math.round(dist));
+      if (action === 'speakRec') {
+        voice.speak(describeRecommendation(best, backup, { ...q, ...upd }));
+      }
+    }
+  };
   
   // Helper functions for aim point calculation
   const getAimPoint = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {
@@ -1010,211 +1036,4 @@ export default function App() {
                 <div className="flex items-end">
                   <button
                     onClick={() => removeHazard(hazard.id)}
-                    className="w-full px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-            
-            <button
-              onClick={addHazard}
-              className="w-full px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium transition-colors"
-            >
-              Add Hazard
-            </button>
-          </div>
-        </div>
-
-        {/* Other Options - Moved below Hazard Information */}
-        {recommendations.slice(2).length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              Other Options
-            </h2>
-            <div className="space-y-3">
-              {recommendations.slice(2).map((plan, index) => (
-                <div key={index} className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
-                  <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">
-                      {plan.description}
-                    </span>
-                    {plan.isLayup && (
-                      <span className="ml-2 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs rounded">
-                        Layup
-                      </span>
-                    )}
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      Aim: {getAimPoint(plan, course, env, ppm)}
-                    </div>
-                  </div>
-                  <div className="text-right text-sm">
-                    <div className="text-gray-600 dark:text-gray-400">
-                      {plan.expectedStrokes} strokes
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-500">
-                      Risk: {plan.riskScore}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Crosswind Warning */}
-        {crosswindWarning && (
-          <div className="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-6 mb-6">
-            <div className="flex items-center gap-3 mb-3">
-              <Wind className="w-6 h-6 text-red-600" />
-              <h2 className="text-xl font-bold text-red-800 dark:text-red-200">
-                ⚠️ CRITICAL Wind Strategy
-              </h2>
-            </div>
-            <p className="text-red-700 dark:text-red-300 text-lg font-medium">
-              {crosswindWarning}
-            </p>
-          </div>
-        )}
-
-        {/* Player Settings */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-              <User className="w-5 h-5" />
-              Player Profile
-            </h2>
-            <button
-              onClick={() => setEditingPPM(!editingPPM)}
-              className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
-            >
-              {editingPPM ? (
-                <>
-                  <Save className="w-4 h-4" />
-                  Save
-                </>
-              ) : (
-                <>
-                  <Edit3 className="w-4 h-4" />
-                  Edit
-                </>
-              )}
-            </button>
-          </div>
-          
-          {editingPPM ? (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Handicap
-                  </label>
-                  <input
-                    type="number"
-                    value={ppm.handicap}
-                    onChange={(e) => setPPM(prev => ({ ...prev, handicap: parseInt(e.target.value) || 0 }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Dominant Hand
-                  </label>
-                  <select
-                    value={ppm.dominantHand}
-                    onChange={(e) => setPPM(prev => ({ ...prev, dominantHand: e.target.value as Hand }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="R">Right</option>
-                    <option value="L">Left</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Natural Shot
-                  </label>
-                  <select
-                    value={ppm.normalShot}
-                    onChange={(e) => setPPM(prev => ({ ...prev, normalShot: e.target.value as NormalShot }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="draw">Draw</option>
-                    <option value="fade">Fade</option>
-                    <option value="straight">Straight</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Ball Flight
-                  </label>
-                  <select
-                    value={ppm.ballFlight}
-                    onChange={(e) => setPPM(prev => ({ ...prev, ballFlight: e.target.value as BallFlight }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="low">Low</option>
-                    <option value="mid">Mid</option>
-                    <option value="high">High</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
-                  Club Distances (Carry)
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                  {CLUB_ORDER.map(club => (
-                    <div key={club}>
-                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        {club}
-                      </label>
-                      <input
-                        type="number"
-                        value={ppm.clubs[club].carry}
-                        onChange={(e) => {
-                          const carry = parseInt(e.target.value) || 0;
-                          setPPM(prev => ({
-                            ...prev,
-                            clubs: {
-                              ...prev.clubs,
-                              [club]: { ...prev.clubs[club], carry, total: carry * 1.05 }
-                            }
-                          }));
-                        }}
-                        className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700 dark:text-white"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600 dark:text-gray-400">Handicap:</span>
-                <span className="ml-2 font-medium">{ppm.handicap}</span>
-              </div>
-              <div>
-                <span className="text-gray-600 dark:text-gray-400">Hand:</span>
-                <span className="ml-2 font-medium">{ppm.dominantHand === "R" ? "Right" : "Left"}</span>
-              </div>
-              <div>
-                <span className="text-gray-600 dark:text-gray-400">Shot:</span>
-                <span className="ml-2 font-medium capitalize">{ppm.normalShot}</span>
-              </div>
-              <div>
-                <span className="text-gray-600 dark:text-gray-400">Flight:</span>
-                <span className="ml-2 font-medium capitalize">{ppm.ballFlight}</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+                    className="w-full px-3 py-2 bg-re

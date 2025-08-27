@@ -632,7 +632,6 @@ export default function App() {
           reasoning += `Avoiding ${hazardSides} hazard(s). `;
         }
       }
-      }
     }
     
     if (env.windSpeed >= 10) {

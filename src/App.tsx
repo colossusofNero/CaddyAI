@@ -410,8 +410,12 @@ export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
 
   const gpt = useGptCaddie({
-    distance, q, env,
-    setDistance, setQ, setEnv,
+    distance: course.distanceToHole, 
+    q: course, 
+    env,
+    setDistance: (d: number) => setCourse(prev => ({ ...prev, distanceToHole: d })), 
+    setQ: setCourse, 
+    setEnv,
     speak: voice.speak
   });
   
@@ -536,11 +540,11 @@ export default function App() {
       await gpt.interpretAndApply(text);   // GPT extracts & updates + speaks
     } catch (e) {
       // Fallback to the local keyword parser if the API call fails
-      const { upd, distance: dist, action } = parseVoiceCommand(text, q);
-      if (Object.keys(upd).length) setQ({ ...q, ...upd });
-      if (dist != null && !Number.isNaN(dist)) setDistance(Math.round(dist));
+      const { upd, distance: dist, action } = parseVoiceCommand(text, course);
+      if (Object.keys(upd).length) setCourse({ ...course, ...upd });
+      if (dist != null && !Number.isNaN(dist)) setCourse(prev => ({ ...prev, distanceToHole: Math.round(dist) }));
       if (action === 'speakRec') {
-        voice.speak(describeRecommendation(best, backup, { ...q, ...upd }));
+        voice.speak(describeRecommendation(primary, backup, { ...course, ...upd }));
       }
     }
   };
@@ -678,9 +682,7 @@ export default function App() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Target className="w-8 h-8 text-emerald-600" />
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-wh
-  )
-}ite">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               CaddyAI v2.3
             </h1>
           </div>
@@ -1043,3 +1045,18 @@ export default function App() {
                     <X className="w-4 h-4" />
                   </button>
                 </div>
+              </div>
+            ))}
+            
+            <button
+              onClick={addHazard}
+              className="w-full px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+            >
+              Add Hazard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

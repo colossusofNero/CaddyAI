@@ -602,9 +602,6 @@ export default function App() {
     // Default response for unrecognized commands
     voice.speak("I didn't understand that. Try saying 'Distance 125', 'Fairway width 20', or 'Bunker right at 250'.");
   };
-
-    }
-  };
   
   // Helper functions for aim point calculation
   const getAimPoint = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {

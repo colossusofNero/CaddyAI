@@ -523,26 +523,64 @@ export default function App() {
   const getAimPoint = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {
     const hazards = course.hazards;
     const mainHazards = hazards.filter(h => h.type !== "greenside_bunker");
+    const greensideBunkers = hazards.filter(h => h.type === "greenside_bunker");
     
-    // Base aim point
-    let aimPoint = "CENTER OF FAIRWAY";
+    // Check if this shot can reach the green (within 20 yards of hole)
+    const canReachGreen = plan.expectedTotal >= course.distanceToHole - 20;
     
-    // Adjust for hazards
-    if (mainHazards.length > 0) {
-      const relevantHazards = mainHazards.filter(h => 
-        plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
-      );
+    // Base aim point - different for green vs fairway shots
+    let aimPoint = canReachGreen ? "CENTER OF GREEN" : "CENTER OF FAIRWAY";
+    
+    if (canReachGreen) {
+      // Green-targeting logic
       
-      if (relevantHazards.length > 0) {
-        const leftHazards = relevantHazards.filter(h => h.side === "left");
-        const rightHazards = relevantHazards.filter(h => h.side === "right");
+      // First, adjust for pin position
+      if (course.pinPos === "front") {
+        aimPoint = "FRONT OF GREEN";
+      } else if (course.pinPos === "back") {
+        aimPoint = "BACK OF GREEN";
+      } else {
+        aimPoint = "CENTER OF GREEN";
+      }
+      
+      // Adjust for greenside bunkers
+      if (greensideBunkers.length > 0) {
+        const frontBunkers = greensideBunkers.filter(h => h.side.includes('F'));
+        const backBunkers = greensideBunkers.filter(h => h.side.includes('B'));
+        const leftBunkers = greensideBunkers.filter(h => h.side.includes('L'));
+        const rightBunkers = greensideBunkers.filter(h => h.side.includes('R'));
         
-        if (leftHazards.length > 0 && rightHazards.length === 0) {
-          aimPoint = "RIGHT SIDE OF FAIRWAY";
-        } else if (rightHazards.length > 0 && leftHazards.length === 0) {
-          aimPoint = "LEFT SIDE OF FAIRWAY";
-        } else if (leftHazards.length > 0 && rightHazards.length > 0) {
-          aimPoint = "NARROW CENTER LINE";
+        // Avoid bunkers based on pin position
+        if (course.pinPos === "front" && frontBunkers.length > 0) {
+          aimPoint = "CENTER OF GREEN (avoid front bunkers)";
+        } else if (course.pinPos === "back" && backBunkers.length > 0) {
+          aimPoint = "CENTER OF GREEN (avoid back bunkers)";
+        } else if (leftBunkers.length > 0 && rightBunkers.length === 0) {
+          aimPoint = "RIGHT SIDE OF GREEN";
+        } else if (rightBunkers.length > 0 && leftBunkers.length === 0) {
+          aimPoint = "LEFT SIDE OF GREEN";
+        } else if (leftBunkers.length > 0 && rightBunkers.length > 0) {
+          aimPoint = "CENTER OF GREEN (bunkers both sides)";
+        }
+      }
+    } else {
+      // Fairway-targeting logic (existing logic)
+      if (mainHazards.length > 0) {
+        const relevantHazards = mainHazards.filter(h => 
+          plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
+        );
+        
+        if (relevantHazards.length > 0) {
+          const leftHazards = relevantHazards.filter(h => h.side === "left");
+          const rightHazards = relevantHazards.filter(h => h.side === "right");
+          
+          if (leftHazards.length > 0 && rightHazards.length === 0) {
+            aimPoint = "RIGHT SIDE OF FAIRWAY";
+          } else if (rightHazards.length > 0 && leftHazards.length === 0) {
+            aimPoint = "LEFT SIDE OF FAIRWAY";
+          } else if (leftHazards.length > 0 && rightHazards.length > 0) {
+            aimPoint = "NARROW CENTER LINE";
+          }
         }
       }
     }
@@ -567,17 +605,33 @@ export default function App() {
   };
   
   const getAimPointReasoning = (plan: ShotPlan, course: Course, env: Environment, ppm: PPM): string => {
-    const hazards = course.hazards.filter(h => h.type !== "greenside_bunker");
+    const mainHazards = course.hazards.filter(h => h.type !== "greenside_bunker");
+    const greensideBunkers = course.hazards.filter(h => h.type === "greenside_bunker");
+    const canReachGreen = plan.expectedTotal >= course.distanceToHole - 20;
     let reasoning = "";
     
-    if (hazards.length > 0) {
-      const relevantHazards = hazards.filter(h => 
-        plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
-      );
+    if (canReachGreen) {
+      reasoning += `Targeting green (${plan.expectedTotal}y carry). `;
       
-      if (relevantHazards.length > 0) {
-        const hazardSides = relevantHazards.map(h => h.side).join(", ");
-        reasoning += `Avoiding ${hazardSides} hazard(s). `;
+      if (course.pinPos !== "middle") {
+        reasoning += `Pin is ${course.pinPos}. `;
+      }
+      
+      if (greensideBunkers.length > 0) {
+        const bunkerPositions = greensideBunkers.map(h => h.side).join(", ");
+        reasoning += `Avoiding ${bunkerPositions} greenside bunkers. `;
+      }
+    } else {
+      if (mainHazards.length > 0) {
+        const relevantHazards = mainHazards.filter(h => 
+          plan.expectedTotal >= h.startYards - 20 && plan.expectedTotal <= h.clearYards + 20
+        );
+        
+        if (relevantHazards.length > 0) {
+          const hazardSides = relevantHazards.map(h => h.side).join(", ");
+          reasoning += `Avoiding ${hazardSides} hazard(s). `;
+        }
+      }
       }
     }
     

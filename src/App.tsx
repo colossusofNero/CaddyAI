@@ -90,39 +90,6 @@ export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
   const { supported: voiceSupported, listening, transcript, start: startListening, stop: stopListening, speak } = useVoiceChat();
   
-  // Golf state
-  const [distance, setDistance] = useState(152);
-  const [ppm] = useState<PPM>(defaultPPM);
-  const [q, setQ] = useState({
-    lie: 'fairway',
-    stance: 'flat',
-    pinPos: 'middle',
-    hazardRisk: 3,
-    requiredShape: 'any',
-    confidence: 3,
-    fairwayWidthAtDriverYds: null,
-    hazardSide: null,
-    hazardStartYds: null,
-    hazardClearYds: null
-  });
-  const [env, setEnv] = useState({
-    windSpeed: 0,
-    windDir: 'head',
-    temperatureF: 75,
-    elevationFt: 0,
-    altitudeFt: 0,
-    greenFirm: 'medium'
-  });
-  
-  // GPT integration
-  const gpt = useGptCaddie({
-    distance, q, env,
-    setDistance, setQ, setEnv,
-    speak,
-    recommend: ({ distanceToHole, q, env }) => recommend({ distanceToHole, ppm, env, q }),
-    describe: describeRecommendation
-  });
-  
   // Mock state for GPT integration
   const [distance, setDistance] = useState(152);
   const [q, setQ] = useState({
@@ -143,6 +110,7 @@ export default function App() {
     temperatureF: 85,
     elevationFt: 0,
     altitudeFt: 0,
+  });
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -295,21 +263,11 @@ export default function App() {
     }
   };
 
-  const onVoiceResult = async (text: string) => {
-    try { 
-      await gpt.interpretAndApply(text); 
-    } catch (error) {
-      console.error('GPT interpretation failed:', error);
-      // Fallback to regular chat
-      handleSendMessage(text);
-    }
-  };
-
   const toggleVoice = async () => {
     if (listening) {
       await stopListening();
     } else {
-      await startListening(onVoiceResult);
+      await startListening(handleVoiceResult);
     }
   };
 

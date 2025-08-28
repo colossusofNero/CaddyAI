@@ -14,6 +14,17 @@ interface PPM {
   };
 }
 
+type HazardType = 'bunker' | 'greenside' | 'water';
+type HazardSide = 'left' | 'right' | 'front_left' | 'front_right' | 'back_left' | 'back_right';
+
+interface Hazard {
+  type: HazardType;
+  side: HazardSide;
+  startYds: number;
+  clearYds: number;
+  risk: number; // 1-5
+}
+
 const defaultPPM: PPM = {
   PW: { carry: 100, total: 105 },
   '9i': { carry: 115, total: 120 },
@@ -39,7 +50,7 @@ interface Conversation {
   updatedAt: Date;
 }
 
-// Simple AI responses for typed chat (unrelated to GPT wrapper logic)
+// Typed chat filler (kept simple)
 const AI_RESPONSES = [
   "Based on the conditions, I'd recommend a 7-iron with a slight draw. The wind is helping, so club down one.",
   "That's a tough pin position. I'd suggest aiming for the center of the green with an 8-iron for safety.",
@@ -51,7 +62,7 @@ const AI_RESPONSES = [
   "With the crosswind, aim a little left and let the wind bring it back. 8-iron should be perfect.",
 ];
 
-// --- Math-based recommendation engine (robust to PPM edits)
+// --- Recommendation engine (supports multiple hazards + “water avoid at all cost”)
 const recommend = ({
   distanceToHole,
   ppm,
@@ -63,14 +74,8 @@ const recommend = ({
   q: any;
   env: any;
 }) => {
-  // Derive available clubs from PPM (prevents mismatches if PPM is edited)
-  const clubs = Object.keys(ppm).filter(
-    (k) => ppm[k] && Number.isFinite(ppm[k].carry)
-  );
-
-  if (clubs.length === 0) {
-    return { best: undefined, backup: undefined, list: [] as any[] };
-  }
+  const clubs = Object.keys(ppm).filter((k) => ppm[k] && Number.isFinite(ppm[k].carry));
+  if (clubs.length === 0) return { best: undefined, backup: undefined, list: [] as any[] };
 
   const liePenalty =
     q?.lie === 'light_rough' ? 0.05 :
@@ -78,40 +83,80 @@ const recommend = ({
     q?.lie === 'sand'        ? 0.05 :
     q?.lie === 'recovery'    ? 0.12 : 0;
 
-  const elevAdj = (env?.elevationFt || 0) / 3; // ~1 yd per 3 ft
+  const elevAdj = (env?.elevationFt || 0) / 3; // ~1 yd per 3 ft of elevation
   const windAdj =
     env?.windDir === 'head' ? +(env?.windSpeed || 0) * 0.5 :
     env?.windDir === 'tail' ? -(env?.windSpeed || 0) * 0.3 : 0;
 
   const targetEff = (Number(distanceToHole) || 0) + elevAdj + windAdj;
 
-  const hazardPenalty = (carry: number) => {
-    const hs = q?.hazardStartYds, hc = q?.hazardClearYds;
-    if (hs == null || hc == null) return 0;
-    const min = Math.min(hs, hc);
-    const max = Math.max(hs, hc);
-    const inBand = carry >= min && carry < max;
-    return inBand ? 0.25 * (q?.hazardRisk || 0) : 0;
+  // Backward-compat: map any legacy single hazard fields to the new array
+  const legacyHazards: Hazard[] = (q?.hazardStartYds != null && q?.hazardClearYds != null)
+    ? [{
+        type: 'bunker',
+        side: (q?.hazardSide ?? 'right') as HazardSide,
+        startYds: Number(q.hazardStartYds) || 0,
+        clearYds: Number(q.hazardClearYds) || 0,
+        risk: Number(q?.hazardRisk ?? 3) || 3
+      }]
+    : [];
+
+  const hazards: Hazard[] = Array.isArray(q?.hazards) ? q.hazards : legacyHazards;
+
+  const hazardImpact = (carry: number) => {
+    let penalty = 0;
+    let disqualify = false;
+    const notes: string[] = [];
+
+    for (const hz of hazards) {
+      const min = Math.min(hz.startYds, hz.clearYds);
+      const max = Math.max(hz.startYds, hz.clearYds);
+      const inBand = carry >= min && carry < max;
+
+      const tagSide = {
+        left: 'left', right: 'right',
+        front_left: 'front-left', front_right: 'front-right',
+        back_left: 'back-left', back_right: 'back-right'
+      }[hz.side];
+
+      // Notes for the card
+      notes.push(`${hz.type === 'water' ? 'Water' : hz.type === 'greenside' ? 'Greenside bunker' : 'Bunker'} ${tagSide} ${min}-${max}y`);
+
+      if (hz.type === 'water') {
+        // Avoid at all cost: if carry lands in water band, disqualify this club
+        if (inBand) disqualify = true;
+        // no additional penalty if it clears; the strategic penalty is in disqualification only
+      } else if (hz.type === 'greenside') {
+        // Only matters near the green (approach context)
+        const nearGreen = targetEff <= 60 || distanceToHole <= 60;
+        if (nearGreen && inBand) penalty += 0.20 * (hz.risk || 3);
+      } else {
+        // Regular bunker penalty scales with risk (1-5)
+        if (inBand) penalty += 0.25 * (hz.risk || 3);
+      }
+    }
+
+    return { penalty, disqualify, notes };
   };
 
   const items = clubs.map((club) => {
     const carryBase = Number(ppm[club]?.carry);
-    if (!Number.isFinite(carryBase)) {
-      return null; // skip bad entry
-    }
+    if (!Number.isFinite(carryBase)) return null;
+
     const baseCarry = carryBase * (1 - liePenalty);
+    const { penalty, disqualify, notes: hzNotes } = hazardImpact(baseCarry);
+    if (disqualify) return null; // water band in play → reject club
+
     const leaveYds = Math.max(0, targetEff - baseCarry);
     const miss = Math.abs(baseCarry - targetEff);
-    const e = 2.5 + 0.004 * miss + hazardPenalty(baseCarry);
+
+    const e = 2.5 + 0.004 * miss + penalty;
 
     const notes: string[] = [];
-    if (q?.hazardSide && q?.hazardStartYds != null && q?.hazardClearYds != null) {
-      notes.push(`There is a ${q.hazardSide} hazard at ${q.hazardStartYds}y; need ${q.hazardClearYds}y to clear.`);
-      if (baseCarry < q.hazardClearYds) notes.push('This club may not reliably clear the hazard.');
-    }
     if (liePenalty > 0) notes.push(`Lie reduces carry by ${(liePenalty * 100).toFixed(0)}%.`);
     if (env?.windDir === 'head' && env?.windSpeed > 0) notes.push(`Headwind adds ~${(env.windSpeed * 0.5).toFixed(0)}y.`);
     if (env?.windDir === 'tail' && env?.windSpeed > 0) notes.push(`Tailwind saves ~${(env.windSpeed * 0.3).toFixed(0)}y.`);
+    notes.push(...hzNotes);
 
     return {
       club,
@@ -120,13 +165,9 @@ const recommend = ({
       leaveYds: Math.max(0, Math.round(leaveYds)),
       notes
     };
-  }).filter(Boolean) as Array<{
-    club: string; carry: number; expectedStrokes: number; leaveYds: number; notes: string[];
-  }>;
+  }).filter(Boolean) as Array<{ club: string; carry: number; expectedStrokes: number; leaveYds: number; notes: string[] }>;
 
-  if (items.length === 0) {
-    return { best: undefined, backup: undefined, list: [] as any[] };
-  }
+  if (items.length === 0) return { best: undefined, backup: undefined, list: [] as any[] };
 
   items.sort((a, b) => a.expectedStrokes - b.expectedStrokes);
   const best = items[0];
@@ -137,26 +178,25 @@ const recommend = ({
 // Spoken summary used by GPT wrapper
 const describeRecommendation = (best: any, backup: any, q: any) => {
   if (!best) return 'I need more information to make a recommendation.';
-  const hazardText = q?.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';
-  return `I recommend ${best.club} for ${best.carry} yards carry.${hazardText} Backup option is ${
-    backup?.club || 'one less club'
-  }.`;
+  const warns: string[] = [];
+  if (Array.isArray(q?.hazards)) {
+    const water = q.hazards.find((h: Hazard) => h.type === 'water');
+    if (water) warns.push('Water is in play—commit to the line and distance.');
+  }
+  const tail = warns.length ? ` ${warns.join(' ')}` : '';
+  return `I recommend ${best.club} for ${best.carry} yards carry. Backup option is ${backup?.club || 'one less club'}.${tail}`;
 };
 
 // --- Mock typed chat replies (unrelated to GPT wrapper)
 async function generateAIResponse(messages: Message[]): Promise<string> {
-  await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000));
+  await new Promise((resolve) => setTimeout(resolve, 500 + Math.random() * 1000));
   const lastMessage = messages[messages.length - 1];
-
   const lower = lastMessage.content.toLowerCase();
   if (lower.includes('hello') || lower.includes('hi')) {
-    return "Hello! I'm your AI golf caddie. I'm here to help you make the best shot decisions on the course. What's your situation?";
+    return "Hello! I'm your AI golf caddie. What's your situation?";
   }
   if (lower.includes('help')) {
-    return "I can help you with club selection, reading greens, course management, and shot strategy. Just describe your lie, distance, and conditions, and I'll give you my recommendation.";
-  }
-  if (lower.includes('distance') || lower.includes('yard')) {
-    return AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
+    return "Tell me your lie, distance, wind, and hazards. I’ll advise club + aim.";
   }
   return AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
 }
@@ -168,14 +208,7 @@ function generateConversationTitle(firstMessage: string): string {
 
 export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
-  const {
-    supported: voiceSupported,
-    listening,
-    transcript,
-    start: startListening,
-    stop: stopListening,
-    speak
-  } = useVoiceChat();
+  const { supported: voiceSupported, listening, transcript, start: startListening, stop: stopListening, speak } = useVoiceChat();
 
   // Golf state
   const [distance, setDistance] = useState(152);
@@ -184,37 +217,31 @@ export default function App() {
     lie: 'fairway',
     stance: 'flat',
     pinPos: 'middle',
-    hazardRisk: 3,
     requiredShape: 'any',
     confidence: 3,
     fairwayWidthAtDriverYds: null as number | null,
-    hazardSide: null as 'left' | 'right' | null,
-    hazardStartYds: null as number | null,
-    hazardClearYds: null as number | null
+    // New multi-hazard model:
+    hazards: [] as Hazard[],
   });
   const [env, setEnv] = useState({
     windSpeed: 0,
-    windDir: 'head',
+    windDir: 'head', // 'head' | 'tail' | 'cross_left' | 'cross_right' (UI just uses head/tail in math here)
     temperatureF: 75,
     elevationFt: 0,
     altitudeFt: 0,
     greenFirm: 'medium'
   });
 
-  // Compute recommendations for visual cards
+  // Compute recommendations FIRST (so "Your Caddie Says" can render first)
   const { best, backup, list } = useMemo(
     () => recommend({ distanceToHole: distance, ppm, env, q }),
     [distance, ppm, env, q]
   );
 
-  // GPT integration (voice wrapper): updates state and then speaks THIS app's recs
+  // GPT wrapper: updates state and then speaks THIS app's recs
   const gpt = useGptCaddie({
-    distance,
-    q,
-    env,
-    setDistance,
-    setQ,
-    setEnv,
+    distance, q, env,
+    setDistance, setQ, setEnv,
     speak,
     recommend: ({ distanceToHole, q, env }) => recommend({ distanceToHole, ppm, env, q }),
     describe: describeRecommendation
@@ -231,14 +258,9 @@ export default function App() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const currentConversation = currentConversationId
-    ? conversations.find((c) => c.id === currentConversationId)
-    : null;
+  const currentConversation = currentConversationId ? conversations.find((c) => c.id === currentConversationId) : null;
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); };
   useEffect(scrollToBottom, [currentConversation?.messages]);
 
   // Auto-resize textarea
@@ -250,14 +272,12 @@ export default function App() {
     }
   }, [message]);
 
-  // Close sidebar on ESC
+  // Close sidebar on ESC + lock scroll when open
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSidebarOpen(false); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
-
-  // Lock body scroll when sidebar open
   useEffect(() => {
     if (sidebarOpen) document.body.classList.add('overflow-hidden');
     else document.body.classList.remove('overflow-hidden');
@@ -272,35 +292,20 @@ export default function App() {
       createdAt: new Date(),
       updatedAt: new Date()
     };
-
     setConversations((prev) => [newConversation, ...prev]);
     setCurrentConversationId(newConversation.id);
     setSidebarOpen(false);
     return newConversation;
   };
 
-  const selectConversation = (id: string) => {
-    setCurrentConversationId(id);
-    setSidebarOpen(false);
-  };
-
+  const selectConversation = (id: string) => { setCurrentConversationId(id); setSidebarOpen(false); };
   const deleteConversation = (id: string) => {
     setConversations((prev) => prev.filter((c) => c.id !== id));
-    if (currentConversationId === id) {
-      setCurrentConversationId(null);
-    }
+    if (currentConversationId === id) setCurrentConversationId(null);
   };
 
-  const addMessage = (
-    conversationId: string,
-    messageData: Omit<Message, 'id' | 'timestamp'>
-  ) => {
-    const newMessage: Message = {
-      ...messageData,
-      id: crypto.randomUUID(),
-      timestamp: new Date()
-    };
-
+  const addMessage = (conversationId: string, messageData: Omit<Message, 'id' | 'timestamp'>) => {
+    const newMessage: Message = { ...messageData, id: crypto.randomUUID(), timestamp: new Date() };
     setConversations((prev) =>
       prev.map((conversation) => {
         if (conversation.id === conversationId) {
@@ -309,113 +314,55 @@ export default function App() {
             messages: [...conversation.messages, newMessage],
             updatedAt: new Date()
           };
-
-          // Update title based on first user message
           if (conversation.messages.length === 0 && messageData.role === 'user') {
             updatedConversation.title = generateConversationTitle(messageData.content);
           }
-
           return updatedConversation;
         }
         return conversation;
       })
     );
-
     return newMessage;
   };
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
-
     let conversationId = currentConversationId;
+    if (!conversationId) conversationId = createConversation().id;
 
-    // Create new conversation if none exists
-    if (!conversationId) {
-      const newConversation = createConversation();
-      conversationId = newConversation.id;
-    }
+    addMessage(conversationId, { content, role: 'user' });
 
-    // Add user message
-    addMessage(conversationId, {
-      content,
-      role: 'user'
-    });
-
-    // Generate AI response (typed chat only; voice uses GPT wrapper)
     setIsLoading(true);
     try {
       const messages = currentConversation?.messages || [];
-      const response = await generateAIResponse([
-        ...messages,
-        { id: 'temp', content, role: 'user', timestamp: new Date() }
-      ]);
-
-      // Add AI response
-      addMessage(conversationId, {
-        content: response,
-        role: 'assistant'
-      });
-
-      // Speak the response (typed chat)
-      if (voiceSupported) {
-        speak(response);
-      }
+      const response = await generateAIResponse([...messages, { id: 'temp', content, role: 'user', timestamp: new Date() }]);
+      addMessage(conversationId, { content: response, role: 'assistant' });
+      if (voiceSupported) speak(response);
     } catch (error) {
       console.error('Error generating AI response:', error);
-      addMessage(conversationId, {
-        content:
-          "I'm sorry, I encountered an error while processing your message. Please try again.",
-        role: 'assistant'
-      });
+      addMessage(conversationId, { content: "I'm sorry, I hit an error. Try again.", role: 'assistant' });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (message.trim() && !isLoading) {
-      handleSendMessage(message.trim());
-      setMessage('');
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (message.trim() && !isLoading) { handleSendMessage(message.trim()); setMessage(''); } };
+  const handleKeyPress = (e: React.KeyboardEvent) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e as any); } };
 
   const onVoiceResult = async (text: string) => {
-    try {
-      await gpt.interpretAndApply(text); // fills state + speaks our app's recs
-    } catch (error) {
-      console.error('GPT interpretation failed:', error);
-      // Fallback to regular chat path
-      handleSendMessage(text);
-    }
+    try { await gpt.interpretAndApply(text); } // fills state + speaks our app's recs
+    catch (error) { console.error('GPT interpretation failed:', error); handleSendMessage(text); }
   };
-
-  const toggleVoice = async () => {
-    if (listening) {
-      await stopListening();
-    } else {
-      await startListening(onVoiceResult);
-    }
-  };
+  const toggleVoice = async () => { if (listening) await stopListening(); else await startListening(onVoiceResult); };
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Overlay (click to close) */}
+      {/* Overlay */}
       {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={() => setSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar (off-canvas on all sizes) */}
+      {/* Sidebar */}
       <aside
         id="sidebar"
         role="dialog"
@@ -426,28 +373,18 @@ export default function App() {
         }`}
       >
         <div className="flex flex-col h-full p-4">
-          {/* Sidebar header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Golf Caddie AI</h1>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              aria-label="Close conversations menu"
-              className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
+            <button onClick={() => setSidebarOpen(false)} aria-label="Close conversations menu" className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
               <X size={20} />
             </button>
           </div>
 
-          {/* New Conversation */}
-          <button
-            onClick={createConversation}
-            className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center transition-colors"
-          >
+          <button onClick={createConversation} className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center transition-colors">
             <Plus size={16} className="mr-2" />
             New Conversation
           </button>
 
-          {/* Conversations List */}
           <div className="flex-1 overflow-y-auto">
             <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wider">
               Recent Conversations
@@ -477,13 +414,8 @@ export default function App() {
                         </p>
                       </div>
                     </div>
-
-                    {/* Delete */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteConversation(conversation.id);
-                      }}
+                      onClick={(e) => { e.stopPropagation(); deleteConversation(conversation.id); }}
                       className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-opacity"
                       aria-label="Delete conversation"
                     >
@@ -495,69 +427,54 @@ export default function App() {
             </div>
           </div>
 
-          {/* Settings */}
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="w-full justify-start mt-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center transition-colors"
-          >
+          <button onClick={() => setSettingsOpen(true)} className="w-full justify-start mt-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center transition-colors">
             <Settings size={16} className="mr-2" />
             Settings
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="flex-1 flex flex-col h-screen">
-        {/* Top bar (always visible) */}
+        {/* Top bar */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-30">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open conversations menu"
-            aria-expanded={sidebarOpen}
-            aria-controls="sidebar"
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
+          <button onClick={() => setSidebarOpen(true)} aria-label="Open conversations menu" aria-expanded={sidebarOpen} aria-controls="sidebar" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <Menu size={20} />
           </button>
           <h1 className="font-semibold text-gray-900 dark:text-white">Golf Caddie AI</h1>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
+          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <Volume2 size={20} />
           </button>
         </div>
 
-        {/* Planner: controls + visual recommendations */}
+        {/* Planner: YOUR CADDIE SAYS FIRST */}
         <section className="p-4">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
-              <Controls
-                distance={distance}
-                setDistance={setDistance}
-                q={q}
-                setQ={setQ}
-                env={env}
-                setEnv={setEnv}
-              />
-            </div>
-            <div className="lg:col-span-2">
-              <Recommendations
-                best={best}
-                backup={backup ?? undefined}
-                list={list}
-                onUseBest={() => {
-                  if (!best) return;
-                  setDistance(Math.max(0, best.leaveYds));
-                  setQ({ ...q, lie: q.lie === 'tee' ? 'fairway' : q.lie });
-                }}
-                onUseBackup={() => {
-                  if (!backup) return;
-                  setDistance(Math.max(0, backup.leaveYds));
-                  setQ({ ...q, lie: q.lie === 'tee' ? 'fairway' : q.lie });
-                }}
-              />
-            </div>
+          <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6">
+            <Recommendations
+              best={best}
+              backup={backup ?? undefined}
+              list={list} // not rendered as “Other Good Options” anymore
+              onUseBest={() => {
+                if (!best) return;
+                setDistance(Math.max(0, best.leaveYds));
+                setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
+              }}
+              onUseBackup={() => {
+                if (!backup) return;
+                setDistance(Math.max(0, backup.leaveYds));
+                setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
+              }}
+            />
+
+            {/* Controls after recommendations */}
+            <Controls
+              distance={distance}
+              setDistance={setDistance}
+              q={q}
+              setQ={setQ}
+              env={env}
+              setEnv={setEnv}
+            />
           </div>
         </section>
 
@@ -567,44 +484,28 @@ export default function App() {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center max-w-md">
                 <Bot size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">
-                  Welcome to Golf Caddie AI
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  Your personal AI golf assistant is ready to help with club selection, course strategy, and shot advice.
-                </p>
-                <div className="text-xs text-gray-400 dark:text-gray-500">
-                  Try saying: "I'm 150 yards out, pin is back, slight breeze helping"
-                </div>
+                <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2">Welcome to Golf Caddie AI</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Tell me your lie, distance, wind, and hazards; I’ll advise club + aim.</p>
+                <div className="text-xs text-gray-400 dark:text-gray-500">Try: “Bunker right 250 to 270, water left 220 to 240, 152 yards, slight headwind.”</div>
               </div>
             </div>
           ) : (
             <>
               {currentConversation.messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex items-start space-x-3 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
-                >
-                  {/* Avatar */}
-                  <div
-                    className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      msg.role === 'user'
-                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'
-                    }`}
-                  >
+                <div key={msg.id} className={`flex items-start space-x-3 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                    msg.role === 'user'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'
+                  }`}>
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
-
-                  {/* Bubble */}
                   <div className={`flex-1 max-w-[80%] ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                    <div
-                      className={`inline-block p-4 rounded-2xl ${
-                        msg.role === 'user'
-                          ? 'bg-blue-600 text-white rounded-tr-sm'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-tl-sm'
-                      }`}
-                    >
+                    <div className={`inline-block p-4 rounded-2xl ${
+                      msg.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-tr-sm'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-tl-sm'
+                    }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                     </div>
                     <div className="mt-1">
@@ -615,8 +516,6 @@ export default function App() {
                   </div>
                 </div>
               ))}
-
-              {/* Loading indicator */}
               {isLoading && (
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center">
@@ -640,7 +539,6 @@ export default function App() {
         {/* Input */}
         <footer className="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
           <form onSubmit={handleSubmit} className="flex items-end space-x-3">
-            {/* Voice */}
             {voiceSupported && (
               <button
                 type="button"
@@ -655,8 +553,6 @@ export default function App() {
                 {listening ? <MicOff size={18} /> : <Mic size={18} />}
               </button>
             )}
-
-            {/* Textarea */}
             <div className="flex-1 relative">
               <textarea
                 ref={textareaRef}
@@ -674,8 +570,6 @@ export default function App() {
                 </div>
               )}
             </div>
-
-            {/* Send */}
             <button
               type="submit"
               disabled={!message.trim() || isLoading || listening}

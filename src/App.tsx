@@ -1005,65 +1005,6 @@ export default function CaddyAIV2() {
               <option value="fairway">Fairway</option>
               <option value="light_rough">Light Rough</option>
               <option value="heavy_rough">Heavy Rough</option>
-              <option value="sand">Sand</option>
-              <option value="recovery">Recovery</option>
-            </select>
-            {q.lie !== 'tee' && q.lie !== 'fairway' && (
-              <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 rounded-lg p-2">
-                Lie effect: −{(lieCarryPenaltyPct(q.lie) * 100).toFixed(0)}% carry.
-                <span className="ml-1">Suggest club up ~{approxClubsUp} club{approxClubsUp > 1 ? 's' : ''}.</span>
-              </div>
-            )}
-
-            <label className="text-sm font-medium mt-4 block">Stance</label>
-            <select value={q.stance} onChange={(e) => setQ({ ...q, stance: e.target.value as Stance })} className="mt-2 w-full rounded-xl border p-2">
-              <option value="flat">Flat</option>
-              <option value="ball_above">Ball Above Feet</option>
-              <option value="ball_below">Ball Below Feet</option>
-              <option value="uphill">Uphill</option>
-              <option value="downhill">Downhill</option>
-            </select>
-
-            <label className="text-sm font-medium mt-4 block">Hazard Risk (1-5)</label>
-            <input type="range" min={1} max={5} value={q.hazardRisk} onChange={(e) => setQ({ ...q, hazardRisk: Number(e.target.value) as Questionnaire["hazardRisk"] })} className="mt-2 w-full" />
-            <div className="text-xs text-gray-600">Perceived danger: {q.hazardRisk}</div>
-          </div>
-
-          <div className="p-4 bg-white/70 rounded-2xl shadow">
-            <div className="flex items-center gap-2">
-              <Wind className="text-sky-600" />
-              <label className="text-sm font-medium">Wind</label>
-            </div>
-            <input type="number" min={0} value={env.windSpeed} onChange={(e) => setEnv({ ...env, windSpeed: parseFloat(e.target.value || "0") })} className="mt-2 w-full rounded-xl border p-2" />
-            <select value={env.windDir} onChange={(e) => setEnv({ ...env, windDir: e.target.value as Environment["windDir"] })} className="mt-2 w-full rounded-xl border p-2">
-              <option value="head">Headwind</option>
-              <option value="tail">Tailwind</option>
-              <option value="cross_left">Cross (Left to Right)</option>
-              <option value="cross_right">Cross (Right to Left)</option>
-            </select>
-
-            <label className="text-sm font-medium mt-4 block">Elevation to Target (ft)</label>
-            <input type="number" value={env.elevationFt} onChange={(e) => setEnv({ ...env, elevationFt: parseFloat(e.target.value || "0") })} className="mt-2 w-full rounded-xl border p-2" />
-
-            <label className="text-sm font-medium mt-4 block">Air Temp (°F)</label>
-            <input type="number" value={env.temperatureF} onChange={(e) => setEnv({ ...env, temperatureF: parseFloat(e.target.value || "0") })} className="mt-2 w-full rounded-xl border p-2" />
-
-            <label className="text-sm font-medium mt-4 block">Altitude (ft ASL)</label>
-            <input type="number" value={env.altitudeFt} onChange={(e) => setEnv({ ...env, altitudeFt: parseFloat(e.target.value || "0") })} className="mt-2 w-full rounded-xl border p-2" />
-
-            <label className="text-sm font-medium mt-4 block">Green Firmness</label>
-            <select value={env.greenFirm} onChange={(e) => setEnv({ ...env, greenFirm: e.target.value as Environment["greenFirm"] })} className="mt-2 w-full rounded-xl border p-2">
-              <option value="soft">Soft</option>
-              <option value="medium">Medium</option>
-              <option value="firm">Firm</option>
-            </select>
-
-            <label className="text-sm font-medium mt-4 block">Moment Confidence (1-5)</label>
-            <input type="range" min={1} max={5} value={q.confidence} onChange={(e) => setQ({ ...q, confidence: Number(e.target.value) as Questionnaire["confidence"] })} className="mt-2 w-full" />
-            <div className="text-xs text-gray-600">Confidence: {q.confidence}</div>
-          </div>
-        </section>
-
       </div>
 
       <aside className="space-y-6">

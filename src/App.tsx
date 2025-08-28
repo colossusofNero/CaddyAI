@@ -4,6 +4,23 @@ import { useVoiceChat } from './hooks/useVoiceChat';
 import { useGptCaddie } from './hooks/useGptCaddie';
 import { useTheme } from './hooks/useTheme';
 
+interface PPM {
+  [club: string]: {
+    carry: number;
+    total: number;
+  };
+}
+
+const defaultPPM: PPM = {
+  'PW': { carry: 100, total: 105 },
+  '9i': { carry: 115, total: 120 },
+  '8i': { carry: 130, total: 135 },
+  '7i': { carry: 145, total: 150 },
+  '6i': { carry: 160, total: 165 },
+  '5i': { carry: 175, total: 180 },
+  '4i': { carry: 190, total: 195 }
+};
+
 interface Message {
   id: string;
   content: string;
@@ -32,7 +49,7 @@ const AI_RESPONSES = [
 ];
 
 // Mock golf calculation functions for GPT integration
-const mockRecommend = ({ distanceToHole, q, env }: { distanceToHole: number; q: any; env: any }) => {
+const recommend = ({ distanceToHole, ppm, q, env }: { distanceToHole: number; ppm: PPM; q: any; env: any }) => {
   const clubs = ['PW', '9i', '8i', '7i', '6i', '5i', '4i'];
   const baseIndex = Math.max(0, Math.min(6, Math.floor((distanceToHole - 100) / 20)));
   
@@ -50,7 +67,7 @@ const mockRecommend = ({ distanceToHole, q, env }: { distanceToHole: number; q: 
   };
 };
 
-const mockDescribe = (best: any, backup: any, q: any) => {
+const describeRecommendation = (best: any, backup: any, q: any) => {
   if (!best) return "I need more information to make a recommendation.";
   
   const hazardText = q.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';

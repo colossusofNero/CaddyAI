@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Mic, MicOff, Volume2, Send, MessageSquare, Settings, Plus, X, Menu, User, Bot, Loader2 } from 'lucide-react';
 import { useVoiceChat } from './hooks/useVoiceChat';
 import { useGptCaddie } from './hooks/useGptCaddie';
 import { useTheme } from './hooks/useTheme';
+
+import Controls from './components/Controls';
+import Recommendations from './components/Recommendations';
 
 interface PPM {
   [club: string]: {
@@ -12,7 +15,7 @@ interface PPM {
 }
 
 const defaultPPM: PPM = {
-  'PW': { carry: 100, total: 105 },
+  PW: { carry: 100, total: 105 },
   '9i': { carry: 115, total: 120 },
   '8i': { carry: 130, total: 135 },
   '7i': { carry: 145, total: 150 },
@@ -36,7 +39,7 @@ interface Conversation {
   updatedAt: Date;
 }
 
-// Simple AI responses for golf caddie
+// Simple AI responses for typed chat (unrelated to GPT wrapper logic)
 const AI_RESPONSES = [
   "Based on the conditions, I'd recommend a 7-iron with a slight draw. The wind is helping, so club down one.",
   "That's a tough pin position. I'd suggest aiming for the center of the green with an 8-iron for safety.",
@@ -48,53 +51,111 @@ const AI_RESPONSES = [
   "With the crosswind, aim a little left and let the wind bring it back. 8-iron should be perfect.",
 ];
 
-// Mock golf calculation functions for GPT integration
-const recommend = ({ distanceToHole, ppm, q, env }: { distanceToHole: number; ppm: PPM; q: any; env: any }) => {
+// --- Math-based recommendation engine (kept simple but responds to lie/wind/elevation/hazard band)
+const recommend = ({
+  distanceToHole,
+  ppm,
+  q,
+  env
+}: {
+  distanceToHole: number;
+  ppm: PPM;
+  q: any;
+  env: any;
+}) => {
   const clubs = ['PW', '9i', '8i', '7i', '6i', '5i', '4i'];
-  const baseIndex = Math.max(0, Math.min(6, Math.floor((distanceToHole - 100) / 20)));
-  
-  return {
-    best: {
-      club: clubs[baseIndex],
-      carry: distanceToHole - 5,
-      expectedStrokes: 2.5 + (q.hazardRisk || 0) * 0.1
-    },
-    backup: {
-      club: clubs[Math.max(0, baseIndex - 1)],
-      carry: distanceToHole - 15,
-      expectedStrokes: 2.6 + (q.hazardRisk || 0) * 0.1
+
+  const liePenalty = (() => {
+    switch (q.lie) {
+      case 'light_rough':
+        return 0.05;
+      case 'heavy_rough':
+        return 0.1;
+      case 'sand':
+        return 0.05;
+      case 'recovery':
+        return 0.12;
+      default:
+        return 0;
     }
+  })();
+
+  const elevAdj = (env.elevationFt || 0) / 3; // ~1 yd per 3 ft
+  const windAdj =
+    env.windDir === 'head'
+      ? +(env.windSpeed || 0) * 0.5
+      : env.windDir === 'tail'
+      ? -(env.windSpeed || 0) * 0.3
+      : 0;
+
+  const targetEff = distanceToHole + elevAdj + windAdj;
+
+  const hazardPenalty = (carry: number) => {
+    if (q.hazardStartYds == null || q.hazardClearYds == null) return 0;
+    const min = Math.min(q.hazardStartYds, q.hazardClearYds);
+    const max = Math.max(q.hazardStartYds, q.hazardClearYds);
+    const inBand = carry >= min && carry < max;
+    // scale with perceived risk (1-5)
+    return inBand ? 0.25 * (q.hazardRisk || 0) : 0;
   };
+
+  const items = clubs.map((club) => {
+    const baseCarry = ppm[club].carry * (1 - liePenalty);
+    const leaveYds = Math.max(0, targetEff - baseCarry);
+    const miss = Math.abs(baseCarry - targetEff);
+    const e = 2.5 + 0.004 * miss + hazardPenalty(baseCarry);
+
+    const notes: string[] = [];
+    if (q.hazardSide && q.hazardStartYds != null && q.hazardClearYds != null) {
+      notes.push(
+        `There is a ${q.hazardSide} hazard at ${q.hazardStartYds}y; need ${q.hazardClearYds}y to clear.`
+      );
+      if (baseCarry < q.hazardClearYds) notes.push('This club may not reliably clear the hazard.');
+    }
+    if (liePenalty > 0) notes.push(`Lie reduces carry by ${(liePenalty * 100).toFixed(0)}%.`);
+    if (env.windDir === 'head' && env.windSpeed > 0)
+      notes.push(`Headwind adds ~${(env.windSpeed * 0.5).toFixed(0)}y.`);
+    if (env.windDir === 'tail' && env.windSpeed > 0)
+      notes.push(`Tailwind saves ~${(env.windSpeed * 0.3).toFixed(0)}y.`);
+
+    return {
+      club,
+      carry: Math.round(baseCarry),
+      expectedStrokes: e,
+      leaveYds: Math.max(0, Math.round(leaveYds)),
+      notes
+    };
+  });
+
+  items.sort((a, b) => a.expectedStrokes - b.expectedStrokes);
+  const best = items[0];
+  const backup = items[1] || null;
+  return { best, backup, list: items };
 };
 
 const describeRecommendation = (best: any, backup: any, q: any) => {
-  if (!best) return "I need more information to make a recommendation.";
-  
+  if (!best) return 'I need more information to make a recommendation.';
   const hazardText = q.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';
-  return `I recommend ${best.club} for ${best.carry} yards carry.${hazardText} Backup option is ${backup?.club || 'one less club'}.`;
+  return `I recommend ${best.club} for ${best.carry} yards carry.${hazardText} Backup option is ${
+    backup?.club || 'one less club'
+  }.`;
 };
 
+// --- Mock typed chat replies (unrelated to GPT wrapper)
 async function generateAIResponse(messages: Message[]): Promise<string> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-  
+  await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000));
   const lastMessage = messages[messages.length - 1];
-  
-  if (lastMessage.content.toLowerCase().includes('hello') || 
-      lastMessage.content.toLowerCase().includes('hi')) {
+
+  const lower = lastMessage.content.toLowerCase();
+  if (lower.includes('hello') || lower.includes('hi')) {
     return "Hello! I'm your AI golf caddie. I'm here to help you make the best shot decisions on the course. What's your situation?";
   }
-  
-  if (lastMessage.content.toLowerCase().includes('help')) {
+  if (lower.includes('help')) {
     return "I can help you with club selection, reading greens, course management, and shot strategy. Just describe your lie, distance, and conditions, and I'll give you my recommendation.";
   }
-  
-  if (lastMessage.content.toLowerCase().includes('distance') || 
-      lastMessage.content.toLowerCase().includes('yard')) {
+  if (lower.includes('distance') || lower.includes('yard')) {
     return AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
   }
-  
-  // Return a random golf-specific response
   return AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
 }
 
@@ -105,8 +166,15 @@ function generateConversationTitle(firstMessage: string): string {
 
 export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
-  const { supported: voiceSupported, listening, transcript, start: startListening, stop: stopListening, speak } = useVoiceChat();
-  
+  const {
+    supported: voiceSupported,
+    listening,
+    transcript,
+    start: startListening,
+    stop: stopListening,
+    speak
+  } = useVoiceChat();
+
   // Golf state
   const [distance, setDistance] = useState(152);
   const [ppm] = useState<PPM>(defaultPPM);
@@ -117,10 +185,10 @@ export default function App() {
     hazardRisk: 3,
     requiredShape: 'any',
     confidence: 3,
-    fairwayWidthAtDriverYds: null,
-    hazardSide: null,
-    hazardStartYds: null,
-    hazardClearYds: null
+    fairwayWidthAtDriverYds: null as number | null,
+    hazardSide: null as 'left' | 'right' | null,
+    hazardStartYds: null as number | null,
+    hazardClearYds: null as number | null
   });
   const [env, setEnv] = useState({
     windSpeed: 0,
@@ -130,50 +198,39 @@ export default function App() {
     altitudeFt: 0,
     greenFirm: 'medium'
   });
-  
-  // GPT integration
+
+  // Compute recommendations for visual cards
+  const { best, backup, list } = useMemo(
+    () => recommend({ distanceToHole: distance, ppm, env, q }),
+    [distance, ppm, env, q]
+  );
+
+  // GPT integration (voice wrapper): updates state and then speaks THIS app's recs
   const gpt = useGptCaddie({
-    distance, q, env,
-    setDistance, setQ, setEnv,
+    distance,
+    q,
+    env,
+    setDistance,
+    setQ,
+    setEnv,
     speak,
     recommend: ({ distanceToHole, q, env }) => recommend({ distanceToHole, ppm, env, q }),
     describe: describeRecommendation
   });
-  
-  // Mock state for GPT integration
-  const [distance2, setDistance2] = useState(152);
-  const [q2, setQ2] = useState({
-    lie: 'fairway',
-    stance: 'flat',
-    pinPos: 'middle',
-    hazardRisk: 3,
-    requiredShape: 'any',
-    confidence: 3,
-    fairwayWidthAtDriverYds: null,
-    hazardSide: null,
-    hazardStartYds: null,
-    hazardClearYds: null
-  });
-  const [env2, setEnv2] = useState({
-    windSpeed: 6,
-    windDir: 'head',
-    temperatureF: 85,
-    elevationFt: 0,
-    altitudeFt: 0,
-    greenFirm: 'medium'
-  });
+
+  // Chat state
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
-  
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const currentConversation = currentConversationId 
-    ? conversations.find(c => c.id === currentConversationId) 
+  const currentConversation = currentConversationId
+    ? conversations.find((c) => c.id === currentConversationId)
     : null;
 
   const scrollToBottom = () => {
@@ -200,7 +257,7 @@ export default function App() {
       updatedAt: new Date()
     };
 
-    setConversations(prev => [newConversation, ...prev]);
+    setConversations((prev) => [newConversation, ...prev]);
     setCurrentConversationId(newConversation.id);
     setSidebarOpen(false);
     return newConversation;
@@ -212,36 +269,41 @@ export default function App() {
   };
 
   const deleteConversation = (id: string) => {
-    setConversations(prev => prev.filter(c => c.id !== id));
+    setConversations((prev) => prev.filter((c) => c.id !== id));
     if (currentConversationId === id) {
       setCurrentConversationId(null);
     }
   };
 
-  const addMessage = (conversationId: string, messageData: Omit<Message, 'id' | 'timestamp'>) => {
+  const addMessage = (
+    conversationId: string,
+    messageData: Omit<Message, 'id' | 'timestamp'>
+  ) => {
     const newMessage: Message = {
       ...messageData,
       id: crypto.randomUUID(),
       timestamp: new Date()
     };
 
-    setConversations(prev => prev.map(conversation => {
-      if (conversation.id === conversationId) {
-        const updatedConversation = {
-          ...conversation,
-          messages: [...conversation.messages, newMessage],
-          updatedAt: new Date()
-        };
+    setConversations((prev) =>
+      prev.map((conversation) => {
+        if (conversation.id === conversationId) {
+          const updatedConversation = {
+            ...conversation,
+            messages: [...conversation.messages, newMessage],
+            updatedAt: new Date()
+          };
 
-        // Update title based on first user message
-        if (conversation.messages.length === 0 && messageData.role === 'user') {
-          updatedConversation.title = generateConversationTitle(messageData.content);
+          // Update title based on first user message
+          if (conversation.messages.length === 0 && messageData.role === 'user') {
+            updatedConversation.title = generateConversationTitle(messageData.content);
+          }
+
+          return updatedConversation;
         }
-
-        return updatedConversation;
-      }
-      return conversation;
-    }));
+        return conversation;
+      })
+    );
 
     return newMessage;
   };
@@ -250,7 +312,7 @@ export default function App() {
     if (!content.trim()) return;
 
     let conversationId = currentConversationId;
-    
+
     // Create new conversation if none exists
     if (!conversationId) {
       const newConversation = createConversation();
@@ -263,7 +325,7 @@ export default function App() {
       role: 'user'
     });
 
-    // Generate AI response
+    // Generate AI response (typed chat only; voice uses GPT wrapper)
     setIsLoading(true);
     try {
       const messages = currentConversation?.messages || [];
@@ -278,14 +340,15 @@ export default function App() {
         role: 'assistant'
       });
 
-      // Speak the response
+      // Speak the response (typed chat)
       if (voiceSupported) {
         speak(response);
       }
     } catch (error) {
       console.error('Error generating AI response:', error);
       addMessage(conversationId, {
-        content: "I'm sorry, I encountered an error while processing your message. Please try again.",
+        content:
+          "I'm sorry, I encountered an error while processing your message. Please try again.",
         role: 'assistant'
       });
     } finally {
@@ -308,18 +371,12 @@ export default function App() {
     }
   };
 
-  const handleVoiceResult = (transcript: string) => {
-    if (transcript.trim()) {
-      handleSendMessage(transcript.trim());
-    }
-  };
-
   const onVoiceResult = async (text: string) => {
-    try { 
-      await gpt.interpretAndApply(text); 
+    try {
+      await gpt.interpretAndApply(text); // fills state + speaks our app's recs
     } catch (error) {
       console.error('GPT interpretation failed:', error);
-      // Fallback to regular chat
+      // Fallback to regular chat path
       handleSendMessage(text);
     }
   };
@@ -336,22 +393,22 @@ export default function App() {
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       {/* Mobile backdrop */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 lg:relative lg:translate-x-0 transition-transform duration-300 ${
-        sidebarOpen ? 'translate-x-0 w-80' : '-translate-x-full w-0 lg:w-80'
-      }`}>
+      <div
+        className={`fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 lg:relative lg:translate-x-0 transition-transform duration-300 ${
+          sidebarOpen ? 'translate-x-0 w-80' : '-translate-x-full w-0 lg:w-80'
+        }`}
+      >
         <div className="flex flex-col h-full p-4">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Golf Caddie AI
-            </h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Golf Caddie AI</h1>
             <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -376,9 +433,7 @@ export default function App() {
             </h2>
             <div className="space-y-2">
               {conversations.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                  No conversations yet
-                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">No conversations yet</p>
               ) : (
                 conversations.map((conversation) => (
                   <div
@@ -401,7 +456,7 @@ export default function App() {
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* Delete button */}
                     <button
                       onClick={(e) => {
@@ -444,8 +499,41 @@ export default function App() {
             onClick={toggleTheme}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            {theme === 'dark' ? <Volume2 size={20} /> : <Volume2 size={20} />}
+            <Volume2 size={20} />
           </button>
+        </div>
+
+        {/* Planner: controls + visual recommendations */}
+        <div className="p-4">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1">
+              <Controls
+                distance={distance}
+                setDistance={setDistance}
+                q={q}
+                setQ={setQ}
+                env={env}
+                setEnv={setEnv}
+              />
+            </div>
+            <div className="lg:col-span-2">
+              <Recommendations
+                best={best}
+                backup={backup ?? undefined}
+                list={list}
+                onUseBest={() => {
+                  if (!best) return;
+                  setDistance(Math.max(0, best.leaveYds));
+                  setQ({ ...q, lie: q.lie === 'tee' ? 'fairway' : q.lie });
+                }}
+                onUseBackup={() => {
+                  if (!backup) return;
+                  setDistance(Math.max(0, backup.leaveYds));
+                  setQ({ ...q, lie: q.lie === 'tee' ? 'fairway' : q.lie });
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Messages */}
@@ -467,12 +555,10 @@ export default function App() {
             </div>
           ) : (
             <>
-              {currentConversation.messages.map((msg, index) => (
+              {currentConversation.messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex items-start space-x-3 ${
-                    msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                  }`}
+                  className={`flex items-start space-x-3 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
                 >
                   {/* Avatar */}
                   <div
@@ -494,16 +580,11 @@ export default function App() {
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-tl-sm'
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {msg.content}
-                      </p>
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                     </div>
                     <div className="mt-1">
                       <span className="text-xs text-gray-400 dark:text-gray-500">
-                        {msg.timestamp.toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
+                        {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                   </div>
@@ -520,9 +601,7 @@ export default function App() {
                     <div className="inline-block p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm">
                       <div className="flex items-center space-x-2">
                         <Loader2 size={16} className="animate-spin text-gray-500" />
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                          Caddie is thinking...
-                        </span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">Caddie is thinking...</span>
                       </div>
                     </div>
                   </div>
@@ -560,7 +639,7 @@ export default function App() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={listening ? "Listening..." : "Ask your golf caddie... (Shift+Enter for new line)"}
+                placeholder={listening ? 'Listening...' : 'Ask your golf caddie... (Shift+Enter for new line)'}
                 disabled={isLoading || listening}
                 rows={1}
                 className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm dark:text-white placeholder-gray-500 dark:placeholder-gray-400"

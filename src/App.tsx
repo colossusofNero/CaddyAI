@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Volume2, Send, MessageSquare, Settings, Plus, X, Menu, User, Bot, Loader2 } from 'lucide-react';
 import { useVoiceChat } from './hooks/useVoiceChat';
+import { useGptCaddie } from './hooks/useGptCaddie';
 import { useTheme } from './hooks/useTheme';
 
 interface Message {
@@ -29,6 +30,32 @@ const AI_RESPONSES = [
   "The green is running fast today. I'd take a 7-iron and land it short, let it release to the pin.",
   "With the crosswind, aim a little left and let the wind bring it back. 8-iron should be perfect.",
 ];
+
+// Mock golf calculation functions for GPT integration
+const mockRecommend = ({ distanceToHole, q, env }: { distanceToHole: number; q: any; env: any }) => {
+  const clubs = ['PW', '9i', '8i', '7i', '6i', '5i', '4i'];
+  const baseIndex = Math.max(0, Math.min(6, Math.floor((distanceToHole - 100) / 20)));
+  
+  return {
+    best: {
+      club: clubs[baseIndex],
+      carry: distanceToHole - 5,
+      expectedStrokes: 2.5 + (q.hazardRisk || 0) * 0.1
+    },
+    backup: {
+      club: clubs[Math.max(0, baseIndex - 1)],
+      carry: distanceToHole - 15,
+      expectedStrokes: 2.6 + (q.hazardRisk || 0) * 0.1
+    }
+  };
+};
+
+const mockDescribe = (best: any, backup: any, q: any) => {
+  if (!best) return "I need more information to make a recommendation.";
+  
+  const hazardText = q.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';
+  return `I recommend ${best.club} for ${best.carry} yards carry.${hazardText} Backup option is ${backup?.club || 'one less club'}.`;
+};
 
 async function generateAIResponse(messages: Message[]): Promise<string> {
   // Simulate API delay
@@ -63,6 +90,59 @@ export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
   const { supported: voiceSupported, listening, transcript, start: startListening, stop: stopListening, speak } = useVoiceChat();
   
+  // Golf state
+  const [distance, setDistance] = useState(152);
+  const [ppm] = useState<PPM>(defaultPPM);
+  const [q, setQ] = useState({
+    lie: 'fairway',
+    stance: 'flat',
+    pinPos: 'middle',
+    hazardRisk: 3,
+    requiredShape: 'any',
+    confidence: 3,
+    fairwayWidthAtDriverYds: null,
+    hazardSide: null,
+    hazardStartYds: null,
+    hazardClearYds: null
+  });
+  const [env, setEnv] = useState({
+    windSpeed: 0,
+    windDir: 'head',
+    temperatureF: 75,
+    elevationFt: 0,
+    altitudeFt: 0,
+    greenFirm: 'medium'
+  });
+  
+  // GPT integration
+  const gpt = useGptCaddie({
+    distance, q, env,
+    setDistance, setQ, setEnv,
+    speak,
+    recommend: ({ distanceToHole, q, env }) => recommend({ distanceToHole, ppm, env, q }),
+    describe: describeRecommendation
+  });
+  
+  // Mock state for GPT integration
+  const [distance, setDistance] = useState(152);
+  const [q, setQ] = useState({
+    lie: 'fairway',
+    stance: 'flat',
+    pinPos: 'middle',
+    hazardRisk: 3,
+    requiredShape: 'any',
+    confidence: 3,
+    fairwayWidthAtDriverYds: null,
+    hazardSide: null,
+    hazardStartYds: null,
+    hazardClearYds: null
+  });
+  const [env, setEnv] = useState({
+    windSpeed: 6,
+    windDir: 'head',
+    temperatureF: 85,
+    elevationFt: 0,
+    altitudeFt: 0,
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -215,11 +295,21 @@ export default function App() {
     }
   };
 
+  const onVoiceResult = async (text: string) => {
+    try { 
+      await gpt.interpretAndApply(text); 
+    } catch (error) {
+      console.error('GPT interpretation failed:', error);
+      // Fallback to regular chat
+      handleSendMessage(text);
+    }
+  };
+
   const toggleVoice = async () => {
     if (listening) {
       await stopListening();
     } else {
-      await startListening(handleVoiceResult);
+      await startListening(onVoiceResult);
     }
   };
 

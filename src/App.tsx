@@ -450,21 +450,21 @@ export default function App() {
         {/* Planner: YOUR CADDIE SAYS FIRST */}
         <section className="p-4">
           <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6">
-            <Recommendations
-              best={best}
-              backup={backup ?? undefined}
-              list={list} // not rendered as “Other Good Options” anymore
-              onUseBest={() => {
-                if (!best) return;
-                setDistance(Math.max(0, best.leaveYds));
-                setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
-              }}
-              onUseBackup={() => {
-                if (!backup) return;
-                setDistance(Math.max(0, backup.leaveYds));
-                setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
-              }}
-            />
+           <Recommendations
+          best={best}
+          backup={backup ?? undefined}
+          onUseBest={() => {
+            if (!best) return;
+            setDistance(Math.max(0, best.leaveYds));
+            setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
+          }}
+          onUseBackup={() => {
+            if (!backup) return;
+            setDistance(Math.max(0, backup.leaveYds));
+            setQ((prev: any) => ({ ...prev, lie: prev.lie === 'tee' ? 'fairway' : prev.lie }));
+          }}
+        />
+
 
             {/* Controls after recommendations */}
             <Controls

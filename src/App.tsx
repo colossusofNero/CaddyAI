@@ -51,7 +51,7 @@ const AI_RESPONSES = [
   "With the crosswind, aim a little left and let the wind bring it back. 8-iron should be perfect.",
 ];
 
-// --- Math-based recommendation engine (kept simple but responds to lie/wind/elevation/hazard band)
+// --- Math-based recommendation engine (robust to PPM edits)
 const recommend = ({
   distanceToHole,
   ppm,
@@ -63,60 +63,55 @@ const recommend = ({
   q: any;
   env: any;
 }) => {
-  const clubs = ['PW', '9i', '8i', '7i', '6i', '5i', '4i'];
+  // Derive available clubs from PPM (prevents mismatches if PPM is edited)
+  const clubs = Object.keys(ppm).filter(
+    (k) => ppm[k] && Number.isFinite(ppm[k].carry)
+  );
 
-  const liePenalty = (() => {
-    switch (q.lie) {
-      case 'light_rough':
-        return 0.05;
-      case 'heavy_rough':
-        return 0.1;
-      case 'sand':
-        return 0.05;
-      case 'recovery':
-        return 0.12;
-      default:
-        return 0;
-    }
-  })();
+  if (clubs.length === 0) {
+    return { best: undefined, backup: undefined, list: [] as any[] };
+  }
 
-  const elevAdj = (env.elevationFt || 0) / 3; // ~1 yd per 3 ft
+  const liePenalty =
+    q?.lie === 'light_rough' ? 0.05 :
+    q?.lie === 'heavy_rough' ? 0.10 :
+    q?.lie === 'sand'        ? 0.05 :
+    q?.lie === 'recovery'    ? 0.12 : 0;
+
+  const elevAdj = (env?.elevationFt || 0) / 3; // ~1 yd per 3 ft
   const windAdj =
-    env.windDir === 'head'
-      ? +(env.windSpeed || 0) * 0.5
-      : env.windDir === 'tail'
-      ? -(env.windSpeed || 0) * 0.3
-      : 0;
+    env?.windDir === 'head' ? +(env?.windSpeed || 0) * 0.5 :
+    env?.windDir === 'tail' ? -(env?.windSpeed || 0) * 0.3 : 0;
 
-  const targetEff = distanceToHole + elevAdj + windAdj;
+  const targetEff = (Number(distanceToHole) || 0) + elevAdj + windAdj;
 
   const hazardPenalty = (carry: number) => {
-    if (q.hazardStartYds == null || q.hazardClearYds == null) return 0;
-    const min = Math.min(q.hazardStartYds, q.hazardClearYds);
-    const max = Math.max(q.hazardStartYds, q.hazardClearYds);
+    const hs = q?.hazardStartYds, hc = q?.hazardClearYds;
+    if (hs == null || hc == null) return 0;
+    const min = Math.min(hs, hc);
+    const max = Math.max(hs, hc);
     const inBand = carry >= min && carry < max;
-    // scale with perceived risk (1-5)
-    return inBand ? 0.25 * (q.hazardRisk || 0) : 0;
+    return inBand ? 0.25 * (q?.hazardRisk || 0) : 0;
   };
 
   const items = clubs.map((club) => {
-    const baseCarry = ppm[club].carry * (1 - liePenalty);
+    const carryBase = Number(ppm[club]?.carry);
+    if (!Number.isFinite(carryBase)) {
+      return null; // skip bad entry
+    }
+    const baseCarry = carryBase * (1 - liePenalty);
     const leaveYds = Math.max(0, targetEff - baseCarry);
     const miss = Math.abs(baseCarry - targetEff);
     const e = 2.5 + 0.004 * miss + hazardPenalty(baseCarry);
 
     const notes: string[] = [];
-    if (q.hazardSide && q.hazardStartYds != null && q.hazardClearYds != null) {
-      notes.push(
-        `There is a ${q.hazardSide} hazard at ${q.hazardStartYds}y; need ${q.hazardClearYds}y to clear.`
-      );
+    if (q?.hazardSide && q?.hazardStartYds != null && q?.hazardClearYds != null) {
+      notes.push(`There is a ${q.hazardSide} hazard at ${q.hazardStartYds}y; need ${q.hazardClearYds}y to clear.`);
       if (baseCarry < q.hazardClearYds) notes.push('This club may not reliably clear the hazard.');
     }
     if (liePenalty > 0) notes.push(`Lie reduces carry by ${(liePenalty * 100).toFixed(0)}%.`);
-    if (env.windDir === 'head' && env.windSpeed > 0)
-      notes.push(`Headwind adds ~${(env.windSpeed * 0.5).toFixed(0)}y.`);
-    if (env.windDir === 'tail' && env.windSpeed > 0)
-      notes.push(`Tailwind saves ~${(env.windSpeed * 0.3).toFixed(0)}y.`);
+    if (env?.windDir === 'head' && env?.windSpeed > 0) notes.push(`Headwind adds ~${(env.windSpeed * 0.5).toFixed(0)}y.`);
+    if (env?.windDir === 'tail' && env?.windSpeed > 0) notes.push(`Tailwind saves ~${(env.windSpeed * 0.3).toFixed(0)}y.`);
 
     return {
       club,
@@ -125,17 +120,24 @@ const recommend = ({
       leaveYds: Math.max(0, Math.round(leaveYds)),
       notes
     };
-  });
+  }).filter(Boolean) as Array<{
+    club: string; carry: number; expectedStrokes: number; leaveYds: number; notes: string[];
+  }>;
+
+  if (items.length === 0) {
+    return { best: undefined, backup: undefined, list: [] as any[] };
+  }
 
   items.sort((a, b) => a.expectedStrokes - b.expectedStrokes);
   const best = items[0];
-  const backup = items[1] || null;
+  const backup = items[1];
   return { best, backup, list: items };
 };
 
+// Spoken summary used by GPT wrapper
 const describeRecommendation = (best: any, backup: any, q: any) => {
   if (!best) return 'I need more information to make a recommendation.';
-  const hazardText = q.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';
+  const hazardText = q?.hazardSide ? ` Watch the ${q.hazardSide} hazard.` : '';
   return `I recommend ${best.club} for ${best.carry} yards carry.${hazardText} Backup option is ${
     backup?.club || 'one less club'
   }.`;
@@ -247,6 +249,20 @@ export default function App() {
       textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
     }
   }, [message]);
+
+  // Close sidebar on ESC
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSidebarOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  // Lock body scroll when sidebar open
+  useEffect(() => {
+    if (sidebarOpen) document.body.classList.add('overflow-hidden');
+    else document.body.classList.remove('overflow-hidden');
+    return () => document.body.classList.remove('overflow-hidden');
+  }, [sidebarOpen]);
 
   const createConversation = () => {
     const newConversation: Conversation = {
@@ -391,33 +407,38 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Mobile backdrop */}
+      {/* Overlay (click to close) */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <div
-        className={`fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 lg:relative lg:translate-x-0 transition-transform duration-300 ${
-          sidebarOpen ? 'translate-x-0 w-80' : '-translate-x-full w-0 lg:w-80'
+      {/* Sidebar (off-canvas on all sizes) */}
+      <aside
+        id="sidebar"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Recent conversations"
+        className={`fixed left-0 top-0 h-screen w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 transition-transform duration-300 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full p-4">
-          {/* Header */}
+          {/* Sidebar header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Golf Caddie AI</h1>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              aria-label="Close conversations menu"
+              className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <X size={20} />
             </button>
           </div>
 
-          {/* New Conversation Button */}
+          {/* New Conversation */}
           <button
             onClick={createConversation}
             className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center transition-colors"
@@ -443,7 +464,7 @@ export default function App() {
                         ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
                         : 'hover:bg-gray-50 dark:hover:bg-gray-800'
                     }`}
-                    onClick={() => selectConversation(conversation.id)}
+                    onClick={() => { selectConversation(conversation.id); setSidebarOpen(false); }}
                   >
                     <div className="flex items-start space-x-3">
                       <MessageSquare size={16} className="mt-0.5 text-gray-400 dark:text-gray-500" />
@@ -457,13 +478,14 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Delete button */}
+                    {/* Delete */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         deleteConversation(conversation.id);
                       }}
                       className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-opacity"
+                      aria-label="Delete conversation"
                     >
                       <X size={12} />
                     </button>
@@ -473,7 +495,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Settings Button */}
+          {/* Settings */}
           <button
             onClick={() => setSettingsOpen(true)}
             className="w-full justify-start mt-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center transition-colors"
@@ -482,14 +504,17 @@ export default function App() {
             Settings
           </button>
         </div>
-      </div>
+      </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col h-screen">
-        {/* Mobile header */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <main className="flex-1 flex flex-col h-screen">
+        {/* Top bar (always visible) */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-30">
           <button
             onClick={() => setSidebarOpen(true)}
+            aria-label="Open conversations menu"
+            aria-expanded={sidebarOpen}
+            aria-controls="sidebar"
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <Menu size={20} />
@@ -504,7 +529,7 @@ export default function App() {
         </div>
 
         {/* Planner: controls + visual recommendations */}
-        <div className="p-4">
+        <section className="p-4">
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
               <Controls
@@ -534,10 +559,10 @@ export default function App() {
               />
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+        <section className="flex-1 overflow-y-auto p-4 space-y-6">
           {!currentConversation || currentConversation.messages.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center max-w-md">
@@ -571,7 +596,7 @@ export default function App() {
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
 
-                  {/* Message Content */}
+                  {/* Bubble */}
                   <div className={`flex-1 max-w-[80%] ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                     <div
                       className={`inline-block p-4 rounded-2xl ${
@@ -607,16 +632,15 @@ export default function App() {
                   </div>
                 </div>
               )}
-
               <div ref={messagesEndRef} />
             </>
           )}
-        </div>
+        </section>
 
         {/* Input */}
-        <div className="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
+        <footer className="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
           <form onSubmit={handleSubmit} className="flex items-end space-x-3">
-            {/* Voice button */}
+            {/* Voice */}
             {voiceSupported && (
               <button
                 type="button"
@@ -632,7 +656,7 @@ export default function App() {
               </button>
             )}
 
-            {/* Message input */}
+            {/* Textarea */}
             <div className="flex-1 relative">
               <textarea
                 ref={textareaRef}
@@ -651,7 +675,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Send button */}
+            {/* Send */}
             <button
               type="submit"
               disabled={!message.trim() || isLoading || listening}
@@ -660,8 +684,8 @@ export default function App() {
               <Send size={16} />
             </button>
           </form>
-        </div>
-      </div>
+        </footer>
+      </main>
     </div>
   );
 }

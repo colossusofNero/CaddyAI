@@ -1005,33 +1005,77 @@ export default function CaddyAIV2() {
               <option value="fairway">Fairway</option>
               <option value="light_rough">Light Rough</option>
               <option value="heavy_rough">Heavy Rough</option>
+              <option value="sand">Sand</option>
+              <option value="recovery">Recovery</option>
+            </select>
+
+            <label className="text-sm font-medium mt-4 block">Stance</label>
+            <select value={q.stance} onChange={(e) => setQ({ ...q, stance: e.target.value as Stance })} className="mt-2 w-full rounded-xl border p-2">
+              <option value="flat">Flat</option>
+              <option value="ball_above">Ball Above Feet</option>
+              <option value="ball_below">Ball Below Feet</option>
+              <option value="uphill">Uphill</option>
+              <option value="downhill">Downhill</option>
+            </select>
+
+            {approxClubsUp > 0 && (
+              <div className="mt-3 p-2 bg-amber-50 rounded-lg text-xs text-amber-800">
+                💡 Lie reduces carry ~{(liePctUI * 100).toFixed(0)}%. Consider clubbing up ~{approxClubsUp}.
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 bg-white/70 rounded-2xl shadow">
+            <label className="text-sm font-medium">Hazard Risk</label>
+            <select value={q.hazardRisk} onChange={(e) => setQ({ ...q, hazardRisk: parseInt(e.target.value) as 1 | 2 | 3 | 4 | 5 })} className="mt-2 w-full rounded-xl border p-2">
+              <option value={1}>1 - Minimal</option>
+              <option value={2}>2 - Low</option>
+              <option value={3}>3 - Moderate</option>
+              <option value={4}>4 - High</option>
+              <option value={5}>5 - Severe</option>
+            </select>
+
+            <label className="text-sm font-medium mt-4 block">Confidence</label>
+            <select value={q.confidence} onChange={(e) => setQ({ ...q, confidence: parseInt(e.target.value) as 1 | 2 | 3 | 4 | 5 })} className="mt-2 w-full rounded-xl border p-2">
+              <option value={1}>1 - Shaky</option>
+              <option value={2}>2 - Uncertain</option>
+              <option value={3}>3 - Normal</option>
+              <option value={4}>4 - Confident</option>
+              <option value={5}>5 - Dialed In</option>
+            </select>
+          </div>
+        </section>
+
+        {/* Environment */}
+        <section className="p-4 bg-white/80 rounded-2xl shadow">
+          <h3 className="font-semibold mb-2 flex items-center gap-2"><Wind className="text-blue-600"/> Environment</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+            <div>
+              <label className="text-xs font-medium">Wind (mph)</label>
+              <input className="mt-1 w-full rounded-lg border p-2" type="number" min={0} max={40} value={env.windSpeed} onChange={(e)=> setEnv({ ...env, windSpeed: parseFloat(e.target.value || '0') })} />
+            </div>
+            <div>
+              <label className="text-xs font-medium">Wind Direction</label>
+              <select className="mt-1 w-full rounded-lg border p-2" value={env.windDir} onChange={(e)=> setEnv({ ...env, windDir: e.target.value as Environment['windDir'] })}>
+                <option value="head">Head</option>
+                <option value="tail">Tail</option>
+                <option value="cross_left">Cross Left</option>
+                <option value="cross_right">Cross Right</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium">Temp (°F)</label>
+              <input className="mt-1 w-full rounded-lg border p-2" type="number" min={20} max={120} value={env.temperatureF} onChange={(e)=> setEnv({ ...env, temperatureF: parseFloat(e.target.value || '70') })} />
+            </div>
+            <div>
+              <label className="text-xs font-medium">Elevation (ft)</label>
+              <input className="mt-1 w-full rounded-lg border p-2" type="number" min={-100} max={100} value={env.elevationFt} onChange={(e)=> setEnv({ ...env, elevationFt: parseFloat(e.target.value || '0') })} />
+            </div>
+          </div>
+        </section>
       </div>
 
       <aside className="space-y-6">
-        {(best || backup) && (
-          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
-            <h3 className="font-semibold mb-2">Next Shot</h3>
-            <div className="text-sm text-gray-700">
-              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
-              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
-            </div>
-            <div className="flex gap-2 mt-3">
-              {best && (
-                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
-                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
-                  Use Primary → Next
-                </button>
-              )}
-              {backup && (
-                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
-                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
-                  Use Backup → Next
-                </button>
-              )}
-            </div>
-          </section>
-        )}
-
         {(best || backup) && (
           <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
             <h3 className="font-semibold mb-2">Next Shot</h3>
@@ -1156,64 +1200,6 @@ export default function CaddyAIV2() {
           <div className="text-[10px] text-gray-500 mt-2">Fields: carry / total (yds)</div>
         </section>
 
-        <section className="p-4 bg-white/80 rounded-2xl shadow">
-          <h3 className="font-semibold mb-2">Model Notes</h3>
-          <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
-            <li>Distances adjust for temp, altitude, elevation, wind, lie & stance.</li>
-            <li>Risk scales with handicap & current confidence.</li>
-            <li>Front pins: extra short-side buffer; back pins: long buffer.</li>
-            <li>Tee-ball model uses hazard side + band (start/clear) and fairway width (Driver only).</li>
-            <li>Automatic pre-hazard layup considered when warranted.</li>
-            <li>Replace the toy E[strokes] with SG tables for more realism.</li>
-          </ul>
-        </section>
-
-        <section className="p-4 bg-white/80 rounded-2xl shadow">
-          <h3 className="font-semibold mb-2">Self-tests</h3>
-          <div className="space-y-2 text-sm">
-            {tests.map((t, i) => (
-              <div key={i} className={`flex items-start gap-2 p-2 rounded-lg ${t.pass ? 'bg-emerald-50' : 'bg-rose-50'}`}>
-                {t.pass ? <CheckCircle2 className="text-emerald-600 mt-0.5"/> : <XCircle className="text-rose-600 mt-0.5"/>}
-                <div>
-                  <div className="font-medium">{t.name}</div>
-                  {!t.pass && (
-                    <div className="text-xs text-gray-600">got: {String(t.got)} · expected: {t.expected}</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-[10px] text-gray-500 mt-2">These sanity checks run in-browser and help guard the risk math.</div>
-        </section>
-        <section className="p-4 bg-white/80 rounded-2xl shadow">
-          <h3 className="font-semibold mb-2">Model Notes</h3>
-          <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
-            <li>Distances adjust for temp, altitude, elevation, wind, lie & stance.</li>
-            <li>Risk scales with handicap & current confidence.</li>
-            <li>Front pins: extra short-side buffer; back pins: long buffer.</li>
-            <li>Tee-ball model uses hazard side + band (start/clear) and fairway width (Driver only).</li>
-            <li>Automatic pre-hazard layup considered when warranted.</li>
-            <li>Replace the toy E[strokes] with SG tables for more realism.</li>
-          </ul>
-        </section>
-
-        <section className="p-4 bg-white/80 rounded-2xl shadow">
-          <h3 className="font-semibold mb-2">Self-tests</h3>
-          <div className="space-y-2 text-sm">
-            {tests.map((t, i) => (
-              <div key={i} className={`flex items-start gap-2 p-2 rounded-lg ${t.pass ? 'bg-emerald-50' : 'bg-rose-50'}`}>
-                {t.pass ? <CheckCircle2 className="text-emerald-600 mt-0.5"/> : <XCircle className="text-rose-600 mt-0.5"/>}
-                <div>
-                  <div className="font-medium">{t.name}</div>
-                  {!t.pass && (
-                    <div className="text-xs text-gray-600">got: {String(t.got)} · expected: {t.expected}</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-[10px] text-gray-500 mt-2">These sanity checks run in-browser and help guard the risk math.</div>
-        </section>
         <section className="p-4 bg-white/80 rounded-2xl shadow">
           <h3 className="font-semibold mb-2">Model Notes</h3>
           <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">

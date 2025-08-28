@@ -1076,30 +1076,7 @@ export default function CaddyAIV2() {
       </div>
 
       <aside className="space-y-6">
-        {(best || backup) && (
-          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
-            <h3 className="font-semibold mb-2">Next Shot</h3>
-            <div className="text-sm text-gray-700">
-              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
-              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
-            </div>
-            <div className="flex gap-2 mt-3">
-              {best && (
-                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
-                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
-                  Use Primary → Next
-                </button>
-              )}
-              {backup && (
-                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
-                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
-                  Use Backup → Next
-                </button>
-              )}
-            </div>
-          </section>
-        )}
-
+        {/* Recommendation - MOVED TO TOP */}
         <section className="p-4 bg-gradient-to-br from-emerald-50 to-white rounded-2xl shadow">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2"><ArrowRight className="text-emerald-600"/> Your Caddie Says</h2>
           {(best || backup) ? (
@@ -1135,6 +1112,30 @@ export default function CaddyAIV2() {
             <div className="text-sm text-gray-600">No feasible plan; consider laying up aggressively.</div>
           )}
         </section>
+
+        {(best || backup) && (
+          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
+            <h3 className="font-semibold mb-2">Next Shot</h3>
+            <div className="text-sm text-gray-700">
+              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
+              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
+            </div>
+            <div className="flex gap-2 mt-3">
+              {best && (
+                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
+                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
+                  Use Primary → Next
+                </button>
+              )}
+              {backup && (
+                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
+                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
+                  Use Backup → Next
+                </button>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="p-4 bg-white/80 rounded-2xl shadow">
           <h3 className="font-semibold mb-2">Other Good Options</h3>

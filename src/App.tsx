@@ -1067,14 +1067,62 @@ export default function CaddyAIV2() {
       </div>
 
       <aside className="space-y-6">
+        {(best || backup) && (
+          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
+            <h3 className="font-semibold mb-2">Next Shot</h3>
+            <div className="text-sm text-gray-700">
+              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
+              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
+            </div>
+            <div className="flex gap-2 mt-3">
+              {best && (
+                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
+                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
+                  Use Primary → Next
+                </button>
+              )}
+              {backup && (
+                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
+                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
+                  Use Backup → Next
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
+        {(best || backup) && (
+          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
+            <h3 className="font-semibold mb-2">Next Shot</h3>
+            <div className="text-sm text-gray-700">
+              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
+              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
+            </div>
+            <div className="flex gap-2 mt-3">
+              {best && (
+                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
+                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
+                  Use Primary → Next
+                </button>
+              )}
+              {backup && (
+                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
+                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
+                  Use Backup → Next
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
         <section className="p-4 bg-gradient-to-br from-emerald-50 to-white rounded-2xl shadow">
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2"><ArrowRight className="text-emerald-600"/> Your Caddie Says</h2>
           {(best || backup) ? (
-            <div className="grid grid-cols-1 gap-4 text-sm">
+            <div className="space-y-4 text-sm">
               {best && (
                 <div className="p-4 rounded-xl bg-white shadow-inner border border-emerald-100">
                   <div className="text-xs uppercase tracking-wide text-emerald-600">Primary</div>
-                  <div className="text-2xl font-bold text-emerald-700">{best.club}</div>
+                  <div className="text-3xl font-bold text-emerald-700">{best.club}</div>
                   <div className="mt-1 text-gray-700">Aim: {best.aimLateralYds > 0 ? `${Math.abs(best.aimLateralYds)}y R` : best.aimLateralYds < 0 ? `${Math.abs(best.aimLateralYds)}y L` : "Center"}</div>
                   <div className="text-gray-700">Target carry: {best.targetCarry.toFixed(0)} yds</div>
                   <div className="text-gray-700">Shape: {best.intendedShape}</div>
@@ -1102,30 +1150,6 @@ export default function CaddyAIV2() {
             <div className="text-sm text-gray-600">No feasible plan; consider laying up aggressively.</div>
           )}
         </section>
-
-        {(best || backup) && (
-          <section className="p-4 bg-white/90 rounded-2xl shadow border border-emerald-100">
-            <h3 className="font-semibold mb-2">Next Shot</h3>
-            <div className="text-sm text-gray-700">
-              {best && (<div>Primary leaves about <b>{Math.round(best.leaveYds)}y</b> (~{best.leaveLie}).</div>)}
-              {backup && (<div>Backup leaves about <b>{Math.round(backup.leaveYds)}y</b> (~{backup.leaveLie}).</div>)}
-            </div>
-            <div className="flex gap-2 mt-3">
-              {best && (
-                <button className="px-3 py-2 rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700"
-                  onClick={() => { setDistance(Math.round(best.leaveYds)); setQ({ ...q, lie: best.leaveLie, stance: "flat" }); }}>
-                  Use Primary → Next
-                </button>
-              )}
-              {backup && (
-                <button className="px-3 py-2 rounded-xl bg-gray-700 text-white shadow hover:bg-gray-800"
-                  onClick={() => { setDistance(Math.round(backup.leaveYds)); setQ({ ...q, lie: backup.leaveLie, stance: "flat" }); }}>
-                  Use Backup → Next
-                </button>
-              )}
-            </div>
-          </section>
-        )}
 
         <section className="p-4 bg-white/80 rounded-2xl shadow">
           <h3 className="font-semibold mb-2">Other Good Options</h3>
@@ -1191,6 +1215,35 @@ export default function CaddyAIV2() {
           <div className="text-[10px] text-gray-500 mt-2">Fields: carry / total (yds)</div>
         </section>
 
+        <section className="p-4 bg-white/80 rounded-2xl shadow">
+          <h3 className="font-semibold mb-2">Model Notes</h3>
+          <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
+            <li>Distances adjust for temp, altitude, elevation, wind, lie & stance.</li>
+            <li>Risk scales with handicap & current confidence.</li>
+            <li>Front pins: extra short-side buffer; back pins: long buffer.</li>
+            <li>Tee-ball model uses hazard side + band (start/clear) and fairway width (Driver only).</li>
+            <li>Automatic pre-hazard layup considered when warranted.</li>
+            <li>Replace the toy E[strokes] with SG tables for more realism.</li>
+          </ul>
+        </section>
+
+        <section className="p-4 bg-white/80 rounded-2xl shadow">
+          <h3 className="font-semibold mb-2">Self-tests</h3>
+          <div className="space-y-2 text-sm">
+            {tests.map((t, i) => (
+              <div key={i} className={`flex items-start gap-2 p-2 rounded-lg ${t.pass ? 'bg-emerald-50' : 'bg-rose-50'}`}>
+                {t.pass ? <CheckCircle2 className="text-emerald-600 mt-0.5"/> : <XCircle className="text-rose-600 mt-0.5"/>}
+                <div>
+                  <div className="font-medium">{t.name}</div>
+                  {!t.pass && (
+                    <div className="text-xs text-gray-600">got: {String(t.got)} · expected: {t.expected}</div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-[10px] text-gray-500 mt-2">These sanity checks run in-browser and help guard the risk math.</div>
+        </section>
         <section className="p-4 bg-white/80 rounded-2xl shadow">
           <h3 className="font-semibold mb-2">Model Notes</h3>
           <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">

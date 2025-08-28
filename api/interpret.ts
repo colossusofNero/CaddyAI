@@ -1,28 +1,24 @@
-// api/interpret.ts — Vercel serverless (Node 20)
-// Requires: OPENAI_API_KEY in Vercel Project Settings
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const SYSTEM_PROMPT = `
-You are a concise golf caddie that ONLY returns JSON.
-Extract variables from free speech (yards/elevation in feet):
-- updates.distance (number, yards) if present
-- updates.q: { lie, stance, pinPos, hazardRisk, requiredShape, confidence,
-               fairwayWidthAtDriverYds, hazardSide, hazardStartYds, hazardClearYds }
+You are a concise golf caddie that ONLY returns JSON: { "updates": {...}, "speak": "..." }.
+Extract variables from free speech (yards, elevation feet). If not said, omit.
+updates.distance (yards, number)
+updates.q.{ lie, stance, pinPos, hazardRisk, requiredShape, confidence, fairwayWidthAtDriverYds, hazardSide, hazardStartYds, hazardClearYds }
   lie: tee|fairway|light_rough|heavy_rough|sand|recovery
   stance: flat|ball_above|ball_below|uphill|downhill
   pinPos: front|middle|back
   requiredShape: any|draw|fade|straight
   hazardSide: left|right|null
-- updates.env: { windSpeed, windDir, temperatureF, elevationFt, altitudeFt, greenFirm }
+updates.env.{ windSpeed, windDir, temperatureF, elevationFt, altitudeFt, greenFirm }
   windDir: head|tail|cross_left|cross_right
   greenFirm: soft|medium|firm
-"speak" is one short caddie sentence for the golfer.
+"speak" is one short, human caddie sentence.
 
-Examples:
-- "bunker right at 250, need 265 to clear; fairway 15" =>
-  {"updates":{"q":{"hazardSide":"right","hazardStartYds":250,"hazardClearYds":265,"fairwayWidthAtDriverYds":15}},"speak":"Right bunker 250–265, fairway tight at driver."}
-Return ONLY JSON with keys {updates, speak}.
+Example:
+"bunker right at 250, need 265 to clear; fairway 15"
+=> {"updates":{"q":{"hazardSide":"right","hazardStartYds":250,"hazardClearYds":265,"fairwayWidthAtDriverYds":15}},"speak":"Right bunker 250–265, fairway tight at driver."}
+Return ONLY JSON.
 `;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -43,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
-          ...(state ? [{ role: 'system', content: `context: ${JSON.stringify(state).slice(0, 2000)}` }] : []),
+          ...(state ? [{ role: 'system', content: `context: ${JSON.stringify(state).slice(0,2000)}` }] : []),
           { role: 'user', content: text }
         ]
       })

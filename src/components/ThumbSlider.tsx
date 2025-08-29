@@ -21,7 +21,10 @@ export default function ThumbSlider({
   unit = "",
   ariaLabel,
 }: Props) {
-  const pct = Math.max(0, Math.min(100, ((value - min) / (max - min || 1)) * 100));
+  const pctNum = Math.max(0, Math.min(100, ((value - min) / (max - min || 1)) * 100));
+  const style: React.CSSProperties = {};
+  // Set CSS var in a way that TS/Rollup are happy with
+  (style as any)["--pct"] = `${pctNum}%`;
 
   return (
     <div className="w-full">
@@ -43,7 +46,7 @@ export default function ThumbSlider({
         aria-label={ariaLabel || label}
         onChange={(e) => onChange(Number(e.target.value))}
         className="thumb-range w-full"
-        style={{ ["--pct" as any]: `${pct}%` }}
+        style={style}
       />
     </div>
   );

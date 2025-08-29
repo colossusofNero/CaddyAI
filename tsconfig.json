@@ -3,10 +3,17 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx"
   },
+  "include": ["src/**/*"],
   "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.app.json" }
+    { "path": "./tsconfig.node.json" }
   ]
 }

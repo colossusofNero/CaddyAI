@@ -2,74 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================ */
-/* Big, thumb-friendly slider   */
-/* Filled track + mobile-ready  */
-/* ============================ */
+/* Big, thumb-friendly slider — no gradients/vars to avoid bundler quirks */
 .thumb-range {
-  /* Hard-coded colors to keep this bulletproof */
-  --track: #e5e7eb;  /* gray-200 */
-  --fill:  #2563eb;  /* blue-600 */
-  --pct: 0%;
-
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 16px;                 /* THICK track */
+  height: 16px;                 /* thick track */
   border-radius: 9999px;        /* pill */
   outline: none;
   cursor: pointer;
-  touch-action: pan-y;          /* play nice with vertical scrolling */
+  touch-action: pan-y;
   padding-block: 14px;          /* bigger tap target */
-  background-clip: content-box; /* keep visual track at 16px */
-
-  /* Default background so non-WebKit gets something even without progress */
-  background:
-    linear-gradient(var(--fill), var(--fill)) 0/var(--pct) 100% no-repeat,
-    var(--track);
+  background-clip: content-box; /* keep visual track 16px */
+  background: #e5e7eb;         /* gray-200 */
 }
 
-/* WebKit (iOS Safari, Chrome) uses the track pseudo-element */
+/* WebKit (iOS Safari, Chrome) */
 .thumb-range::-webkit-slider-runnable-track {
   height: 16px;
   border-radius: 9999px;
-  background:
-    linear-gradient(var(--fill), var(--fill)) 0/var(--pct) 100% no-repeat,
-    var(--track);
+  background: #e5e7eb;
 }
-
 .thumb-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 40px; height: 40px;    /* BIG thumb for iPhone */
+  width: 40px; height: 40px;   /* big thumb */
   border-radius: 9999px;
-  background: var(--fill);
-  border: 4px solid #fff;       /* nice ring */
+  background: #2563eb;         /* blue-600 */
+  border: 4px solid #fff;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  margin-top: -12px;            /* center thumb on 16px track */
+  margin-top: -12px;           /* center on 16px track */
   transition: transform 120ms ease;
 }
-
 @media (hover: hover) {
   .thumb-range:hover::-webkit-slider-thumb { transform: scale(1.04); }
 }
 
-/* Firefox track + progress fill */
+/* Firefox */
 .thumb-range::-moz-range-track {
   height: 16px;
   border-radius: 9999px;
-  background: var(--track);
-}
-.thumb-range::-moz-range-progress {
-  height: 16px;
-  border-radius: 9999px;
-  background: var(--fill);
+  background: #e5e7eb;
 }
 .thumb-range::-moz-range-thumb {
   width: 40px; height: 40px;
   border: 4px solid #fff;
   border-radius: 9999px;
-  background: var(--fill);
+  background: #2563eb;
   box-shadow: 0 1px 2px rgba(0,0,0,.2);
   transition: transform 120ms ease;
 }

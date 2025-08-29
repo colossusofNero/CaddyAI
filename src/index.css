@@ -107,3 +107,69 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.8; }
 }
+/* Big, thumb-friendly slider */
+.thumb-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;                 /* THICK track */
+  background: #e5e7eb;          /* gray-200 */
+  border-radius: 9999px;        /* pill */
+  outline: none;
+  cursor: pointer;
+  touch-action: pan-y;          /* play nice with vertical scrolling */
+}
+
+/* WebKit (iOS Safari, Chrome) */
+.thumb-range::-webkit-slider-runnable-track {
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+}
+.thumb-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;                  /* BIG thumb for iPhone */
+  height: 40px;
+  border-radius: 9999px;
+  background: #2563eb;          /* blue-600 */
+  border: 4px solid white;      /* nice ring */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  margin-top: -12px;            /* center thumb on 16px track */
+  transition: transform 120ms ease;
+}
+.thumb-range:focus::-webkit-slider-thumb {
+  outline: 3px solid #93c5fd;   /* blue-300 focus ring */
+  outline-offset: 2px;
+}
+@media (hover: hover) {
+  .thumb-range:hover::-webkit-slider-thumb {
+    transform: scale(1.04);
+  }
+}
+
+/* Firefox */
+.thumb-range::-moz-range-track {
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+}
+.thumb-range::-moz-range-thumb {
+  width: 40px;
+  height: 40px;
+  border: 4px solid white;
+  border-radius: 9999px;
+  background: #2563eb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: transform 120ms ease;
+}
+.thumb-range:focus::-moz-range-thumb {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Make it feel tappable even if someone misses slightly */
+.thumb-range {
+  padding-block: 14px;          /* fakes a taller tap area */
+  background-clip: content-box; /* keep visual track at 16px */
+}

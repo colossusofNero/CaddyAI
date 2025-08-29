@@ -7,7 +7,7 @@ type Props = {
   min?: number;
   max?: number;
   step?: number;
-  unit?: string; // e.g., "yds"
+  unit?: string;
   ariaLabel?: string;
 };
 
@@ -31,7 +31,6 @@ export default function ThumbSlider({
           {value} {unit}
         </div>
       </div>
-
       <input
         type="range"
         min={min}

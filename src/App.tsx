@@ -10,7 +10,7 @@ import { useTheme } from './hooks/useTheme';
 import Controls from './components/Controls';
 import Recommendations from './components/Recommendations';
 
-import PlayerProfileModal from './components/PlayerProfileModal';
+import { PlayerProfileModal } from './components/PlayerProfileModal';
 import { usePlayerProfiles } from './hooks/usePlayerProfiles';
 
 // ---- Local types to align with controls/reco ----

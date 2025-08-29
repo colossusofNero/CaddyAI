@@ -1,6 +1,12 @@
+Below are clean, known-good versions of the files to **remove slider code** and get you back to a stable build.
+
+---
+
+## `src/components/Controls.tsx` (no slider imports; numeric inputs only)
+
+```tsx
 // src/components/Controls.tsx
 import React, { useState } from 'react';
-import ThumbSlider from "./ThumbSlider";
 
 type HazardType = 'bunker' | 'greenside' | 'water';
 type HazardSide = 'left' | 'right' | 'front_left' | 'front_right' | 'back_left' | 'back_right';
@@ -64,19 +70,17 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
       {/* Distance & Environment */}
       <div className="p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
         <h3 className="font-semibold mb-3">Shot Setup</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Distance slider */}
-          <ThumbSlider
-            label="Distance to target"
-            unit="yds"
-            min={0}
-            max={600}
-            step={1}
-            value={distance}
-            onChange={setDistance}
-          />
+        <div className="grid grid-cols-2 gap-3">
+          <label className="text-sm text-gray-600 dark:text-gray-300">
+            Distance to target (yds)
+            <input
+              type="number"
+              value={distance}
+              onChange={(e) => setDistance(numberOr(e.target.value, distance))}
+              className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+            />
+          </label>
 
-          {/* Lie select */}
           <label className="text-sm text-gray-600 dark:text-gray-300">
             Lie
             <select
@@ -93,18 +97,16 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
             </select>
           </label>
 
-          {/* Wind speed slider */}
-          <ThumbSlider
-            label="Wind speed"
-            unit="mph"
-            min={0}
-            max={40}
-            step={1}
-            value={env.windSpeed}
-            onChange={(v) => setEnv((prev: any) => ({ ...prev, windSpeed: v }))}
-          />
+          <label className="text-sm text-gray-600 dark:text-gray-300">
+            Wind speed (mph)
+            <input
+              type="number"
+              value={env.windSpeed}
+              onChange={(e) => setEnv((prev: any) => ({ ...prev, windSpeed: numberOr(e.target.value, prev.windSpeed) }))}
+              className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+            />
+          </label>
 
-          {/* Wind direction select */}
           <label className="text-sm text-gray-600 dark:text-gray-300">
             Wind direction
             <select
@@ -119,39 +121,26 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
             </select>
           </label>
 
-          {/* Elevation slider (negative to positive) */}
-          <ThumbSlider
-            label="Elevation change"
-            unit="ft"
-            min={-150}
-            max={150}
-            step={1}
-            value={env.elevationFt}
-            onChange={(v) => setEnv((prev: any) => ({ ...prev, elevationFt: v }))}
-          />
-
-          {/* Fairway width (optional) */}
-          <div className="md:col-span-1">
-            <ThumbSlider
-              label="Fairway @ driver (optional)"
-              unit="yds"
-              min={0}
-              max={80}
-              step={1}
-              value={q.fairwayWidthAtDriverYds ?? 0}
-              onChange={(v) => updateQ({ fairwayWidthAtDriverYds: v })}
+          <label className="text-sm text-gray-600 dark:text-gray-300">
+            Elevation change (ft)
+            <input
+              type="number"
+              value={env.elevationFt}
+              onChange={(e) => setEnv((prev: any) => ({ ...prev, elevationFt: numberOr(e.target.value, prev.elevationFt) }))}
+              className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
             />
-            <div className="mt-1 flex items-center justify-between text-xs">
-              <span className="text-gray-500 dark:text-gray-400">Set to 0 if not applicable</span>
-              <button
-                type="button"
-                onClick={() => updateQ({ fairwayWidthAtDriverYds: null })}
-                className="text-gray-600 dark:text-gray-300 underline hover:text-gray-900"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
+          </label>
+
+          <label className="text-sm text-gray-600 dark:text-gray-300">
+            Fairway @ driver (yds)
+            <input
+              type="number"
+              value={q.fairwayWidthAtDriverYds ?? ''}
+              onChange={(e) => updateQ({ fairwayWidthAtDriverYds: e.target.value === '' ? null : numberOr(e.target.value, q.fairwayWidthAtDriverYds ?? 0) })}
+              placeholder="(optional)"
+              className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+            />
+          </label>
         </div>
       </div>
 
@@ -170,10 +159,9 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
         {hazards.length === 0 ? (
           <div className="text-sm text-gray-500 dark:text-gray-400">No hazards added.</div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {hazards.map((hz, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-6 gap-3 items-start border border-gray-200 dark:border-gray-700 rounded-xl p-3">
-                {/* Type */}
+              <div key={i} className="grid grid-cols-1 md:grid-cols-6 gap-3 items-end border border-gray-200 dark:border-gray-700 rounded-xl p-3">
                 <label className="text-sm text-gray-600 dark:text-gray-300 md:col-span-1">
                   Type
                   <select
@@ -187,7 +175,6 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
                   </select>
                 </label>
 
-                {/* Side */}
                 <label className="text-sm text-gray-600 dark:text-gray-300 md:col-span-1">
                   Side
                   <select
@@ -204,51 +191,40 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
                   </select>
                 </label>
 
-                {/* Start (yds) slider */}
-                <div className="md:col-span-2">
-                  <ThumbSlider
-                    label="Start (enters play)"
-                    unit="yds"
-                    min={0}
-                    max={500}
-                    step={1}
+                <label className="text-sm text-gray-600 dark:text-gray-300 md:col-span-1">
+                  Start (yds)
+                  <input
+                    type="number"
                     value={hz.startYds}
-                    onChange={(v) => updateHazard(i, { startYds: v })}
+                    onChange={(e) => updateHazard(i, { startYds: numberOr(e.target.value, hz.startYds) })}
+                    className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border"
                   />
-                </div>
+                </label>
 
-                {/* Clear (yds) slider */}
-                <div className="md:col-span-2">
-                  <ThumbSlider
-                    label="Clear (carry past)"
-                    unit="yds"
-                    min={0}
-                    max={500}
-                    step={1}
+                <label className="text-sm text-gray-600 dark:text-gray-300 md:col-span-1">
+                  Clear (yds)
+                  <input
+                    type="number"
                     value={hz.clearYds}
-                    onChange={(v) => updateHazard(i, { clearYds: v })}
+                    onChange={(e) => updateHazard(i, { clearYds: numberOr(e.target.value, hz.clearYds) })}
+                    className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border"
                   />
-                </div>
+                </label>
 
-                {/* Risk slider */}
-                <div className="md:col-span-3">
-                  <ThumbSlider
-                    label="Risk"
-                    unit="/5"
+                <label className="text-sm text-gray-600 dark:text-gray-300 md:col-span-1">
+                  Risk (1-5)
+                  <input
+                    type="number"
                     min={1}
                     max={5}
-                    step={1}
                     value={hz.risk}
-                    onChange={(v) => updateHazard(i, { risk: Math.max(1, Math.min(5, v)) })}
+                    onChange={(e) => updateHazard(i, { risk: Math.max(1, Math.min(5, numberOr(e.target.value, hz.risk))) })}
+                    className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border"
                   />
-                </div>
+                </label>
 
-                {/* Remove button */}
-                <div className="md:col-span-3 flex md:justify-end">
-                  <button
-                    onClick={() => removeHazard(i)}
-                    className="mt-2 px-3 py-2 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/40"
-                  >
+                <div className="md:col-span-1 flex md:justify-end">
+                  <button onClick={() => removeHazard(i)} className="px-3 py-2 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/40">
                     Remove
                   </button>
                 </div>
@@ -302,3 +278,117 @@ export default function Controls({ distance, setDistance, q, setQ, env, setEnv, 
     </div>
   );
 }
+```
+
+---
+
+## `src/index.css` (reset — Tailwind + theme tokens only, **no .thumb-range**)
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+
+  * { border-color: hsl(var(--border)); }
+  body { @apply bg-background text-foreground; }
+}
+
+/* Optional small helpers */
+.scrollbar-thin { scrollbar-width: thin; }
+.scrollbar-thin::-webkit-scrollbar { width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+
+.animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+```
+
+---
+
+## `src/main.tsx` (extensionless import)
+
+```tsx
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+```
+
+---
+
+## Delete this file (to fully remove slider code)
+
+* `src/components/ThumbSlider.tsx` (delete the file)
+
+---
+
+## Quick command checklist
+
+```bash
+# from repo root
+# 1) delete the slider component (if it exists)
+git rm src/components/ThumbSlider.tsx || rm -f src/components/ThumbSlider.tsx
+
+# 2) replace Controls.tsx + index.css + main.tsx with the versions above
+# (copy/paste contents, then)
+git add src/components/Controls.tsx src/index.css src/main.tsx
+
+git commit -m "reset: remove slider components, restore numeric inputs, fix imports"
+
+git push
+```
+
+If any other imports include `.ts` or `.tsx` in the path, make them extensionless (e.g., `import X from './Thing'`).

@@ -2,15 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Optional small helpers */
-.animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
-@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-
 /* ============================ */
 /* Big, thumb-friendly slider   */
 /* Filled track + mobile-ready  */
 /* ============================ */
 .thumb-range {
+  /* Hard-coded colors to keep this bulletproof */
+  --track: #e5e7eb;  /* gray-200 */
+  --fill:  #2563eb;  /* blue-600 */
+  --pct: 0%;
+
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -22,40 +23,38 @@
   padding-block: 14px;          /* bigger tap target */
   background-clip: content-box; /* keep visual track at 16px */
 
-  /* Hard-coded colors to avoid any var issues */
-  --track: #e5e7eb;             /* gray-200 */
-  --fill:  #2563eb;             /* blue-600 */
-
-  /* Filled portion via gradient */
+  /* Default background so non-WebKit gets something even without progress */
   background:
-    linear-gradient(var(--fill), var(--fill)) 0/var(--pct, 0%) 100% no-repeat,
+    linear-gradient(var(--fill), var(--fill)) 0/var(--pct) 100% no-repeat,
     var(--track);
 }
 
-/* WebKit (iOS Safari, Chrome) */
+/* WebKit (iOS Safari, Chrome) uses the track pseudo-element */
 .thumb-range::-webkit-slider-runnable-track {
   height: 16px;
   border-radius: 9999px;
   background:
-    linear-gradient(var(--fill), var(--fill)) 0/var(--pct, 0%) 100% no-repeat,
+    linear-gradient(var(--fill), var(--fill)) 0/var(--pct) 100% no-repeat,
     var(--track);
 }
+
 .thumb-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 40px; height: 40px;   /* BIG thumb for iPhone */
+  width: 40px; height: 40px;    /* BIG thumb for iPhone */
   border-radius: 9999px;
   background: var(--fill);
-  border: 4px solid #fff;      /* nice ring */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  margin-top: -12px;           /* center thumb on 16px track */
+  border: 4px solid #fff;       /* nice ring */
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  margin-top: -12px;            /* center thumb on 16px track */
   transition: transform 120ms ease;
 }
+
 @media (hover: hover) {
   .thumb-range:hover::-webkit-slider-thumb { transform: scale(1.04); }
 }
 
-/* Firefox */
+/* Firefox track + progress fill */
 .thumb-range::-moz-range-track {
   height: 16px;
   border-radius: 9999px;
@@ -64,13 +63,13 @@
 .thumb-range::-moz-range-progress {
   height: 16px;
   border-radius: 9999px;
-  background: var(--fill);      /* filled part */
+  background: var(--fill);
 }
 .thumb-range::-moz-range-thumb {
   width: 40px; height: 40px;
   border: 4px solid #fff;
   border-radius: 9999px;
   background: var(--fill);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
   transition: transform 120ms ease;
 }

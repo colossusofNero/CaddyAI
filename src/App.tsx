@@ -1,3 +1,4 @@
+// src/App.tsx
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Mic, MicOff, Volume2, Send, MessageSquare, Settings, Plus, X, Menu, User, Bot, Loader2,
@@ -10,41 +11,19 @@ import { useTheme } from './hooks/useTheme';
 import Controls from './components/Controls';
 import Recommendations from './components/Recommendations';
 
+import PlayerProfileModal from './components/PlayerProfileModal'; // <-- default import
 import { usePlayerProfiles } from './hooks/usePlayerProfiles';
-// Import modal in a way that tolerates either export style (default or named)
-import * as PPMModal from './components/PlayerProfileModal';
-// @ts-ignore: tolerate both export styles across branches
-const PlayerProfileModal = (PPMModal as any).default ?? (PPMModal as any).PlayerProfileModal;
 
-// ---- Local types to align with controls/reco ----
+// ---- Local types
 type HazardType = 'bunker' | 'greenside' | 'water';
 type HazardSide = 'left' | 'right' | 'front_left' | 'front_right' | 'back_left' | 'back_right';
-type Hazard = {
-  type: HazardType;
-  side: HazardSide;
-  startYds: number;
-  clearYds: number;
-  risk: number; // 1-5
-};
-
+type Hazard = { type: HazardType; side: HazardSide; startYds: number; clearYds: number; risk: number; };
 type PPM = Record<string, { carry: number; total: number }>;
 
-interface Message {
-  id: string;
-  content: string;
-  role: 'user' | 'assistant';
-  timestamp: Date;
-}
+interface Message { id: string; content: string; role: 'user' | 'assistant'; timestamp: Date; }
+interface Conversation { id: string; title: string; messages: Message[]; createdAt: Date; updatedAt: Date; }
 
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Simple typed-chat filler (voice uses the GPT wrapper)
+// --- dummy responses (typed chat)
 const AI_RESPONSES = [
   "Based on the conditions, I'd recommend a 7-iron with a slight draw. The wind is helping, so club down one.",
   "That's a tough pin position. I'd suggest aiming for the center of the green with an 8-iron for safety.",
@@ -65,15 +44,8 @@ const recommend = ({
 }: {
   distanceToHole: number;
   ppm: PPM;
-  q: {
-    lie: string;
-    hazards?: Hazard[];
-  };
-  env: {
-    windSpeed: number;
-    windDir: 'head' | 'tail' | 'cross_left' | 'cross_right';
-    elevationFt: number;
-  };
+  q: { lie: string; hazards?: Hazard[]; };
+  env: { windSpeed: number; windDir: 'head' | 'tail' | 'cross_left' | 'cross_right'; elevationFt: number; };
 }) => {
   const clubs = Object.keys(ppm).filter((k) => ppm[k] && Number.isFinite(ppm[k].carry));
   if (clubs.length === 0) return { best: undefined as any, backup: undefined as any };
@@ -84,7 +56,7 @@ const recommend = ({
     q?.lie === 'sand'        ? 0.05 :
     q?.lie === 'recovery'    ? 0.12 : 0;
 
-  const elevAdj = (env?.elevationFt || 0) / 3; // ~1 yd per 3 ft
+  const elevAdj = (env?.elevationFt || 0) / 3;
   const windAdj =
     env?.windDir === 'head' ? +(env?.windSpeed || 0) * 0.5 :
     env?.windDir === 'tail' ? -(env?.windSpeed || 0) * 0.3 : 0;
@@ -93,44 +65,25 @@ const recommend = ({
   const hazards: Hazard[] = Array.isArray(q?.hazards) ? q!.hazards! : [];
 
   const hazardImpact = (carry: number) => {
-    let penalty = 0;
-    let disqualify = false;
-    const notes: string[] = [];
-
+    let penalty = 0; let disqualify = false; const notes: string[] = [];
     for (const hz of hazards) {
       const min = Math.min(hz.startYds, hz.clearYds);
       const max = Math.max(hz.startYds, hz.clearYds);
       const inBand = carry >= min && carry < max;
-
-      const tagSide = {
-        left: 'left', right: 'right',
-        front_left: 'front-left', front_right: 'front-right',
-        back_left: 'back-left', back_right: 'back-right',
-      }[hz.side];
-
+      const tagSide = { left: 'left', right: 'right', front_left: 'front-left', front_right: 'front-right', back_left: 'back-left', back_right: 'back-right' }[hz.side];
       notes.push(`${hz.type === 'water' ? 'Water' : hz.type === 'greenside' ? 'Greenside bunker' : 'Bunker'} ${tagSide} ${min}-${max}y`);
-
-      if (hz.type === 'water') {
-        if (inBand) disqualify = true; // avoid at all cost
-      } else if (hz.type === 'greenside') {
-        const nearGreen = targetEff <= 60 || distanceToHole <= 60;
-        if (nearGreen && inBand) penalty += 0.20 * (hz.risk || 3);
-      } else {
-        if (inBand) penalty += 0.25 * (hz.risk || 3);
-      }
+      if (hz.type === 'water') { if (inBand) disqualify = true; }
+      else if (hz.type === 'greenside') { const nearGreen = targetEff <= 60 || distanceToHole <= 60; if (nearGreen && inBand) penalty += 0.20 * (hz.risk || 3); }
+      else { if (inBand) penalty += 0.25 * (hz.risk || 3); }
     }
-
     return { penalty, disqualify, notes };
   };
 
   const items = clubs.map((club) => {
-    const carryBase = Number(ppm[club]?.carry);
-    if (!Number.isFinite(carryBase)) return null;
-
+    const carryBase = Number(ppm[club]?.carry); if (!Number.isFinite(carryBase)) return null;
     const baseCarry = carryBase * (1 - liePenalty);
     const { penalty, disqualify, notes: hzNotes } = hazardImpact(baseCarry);
     if (disqualify) return null;
-
     const leaveYds = Math.max(0, targetEff - baseCarry);
     const miss = Math.abs(baseCarry - targetEff);
     const e = 2.5 + 0.004 * miss + penalty;
@@ -141,21 +94,12 @@ const recommend = ({
     if (env?.windDir === 'tail' && env?.windSpeed > 0) notes.push(`Tailwind saves ~${(env.windSpeed * 0.3).toFixed(0)}y.`);
     notes.push(...hzNotes);
 
-    return {
-      club,
-      carry: Math.round(baseCarry),
-      expectedStrokes: e,
-      leaveYds: Math.max(0, Math.round(leaveYds)),
-      notes,
-    };
+    return { club, carry: Math.round(baseCarry), expectedStrokes: e, leaveYds: Math.max(0, Math.round(leaveYds)), notes };
   }).filter(Boolean) as Array<{ club: string; carry: number; expectedStrokes: number; leaveYds: number; notes: string[] }>;
 
   if (items.length === 0) return { best: undefined as any, backup: undefined as any };
-
   items.sort((a, b) => a.expectedStrokes - b.expectedStrokes);
-  const best = items[0];
-  const backup = items[1];
-  return { best, backup };
+  return { best: items[0], backup: items[1] };
 };
 
 // Spoken line for GPT voice wrapper
@@ -179,7 +123,6 @@ async function generateAIResponse(messages: Message[]): Promise<string> {
   if (lower.includes('help')) return "Tell me your lie, distance, wind, and hazards. I’ll advise club + aim.";
   return AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
 }
-
 function generateConversationTitle(firstMessage: string): string {
   const words = firstMessage.split(' ').slice(0, 4);
   return words.join(' ') + (firstMessage.split(' ').length > 4 ? '...' : '');
@@ -223,13 +166,13 @@ export default function App() {
     greenFirm: 'medium',
   });
 
-  // ---- Compute recs first (so “Your Caddie Says” renders first)
+  // ---- Compute recs first
   const { best, backup } = useMemo(
     () => recommend({ distanceToHole: distance, ppm: activeProfile?.ppm || {}, env, q }),
     [distance, activeProfile?.ppm, env, q]
   );
 
-  // ---- GPT wrapper: fills state + speaks our app’s recs
+  // ---- GPT wrapper
   const gpt = useGptCaddie({
     distance, q, env,
     setDistance, setQ, setEnv,
@@ -244,7 +187,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [settingsOpen, setSettingsOpen] = useState(false); // placeholder, no modal rendered
+  const [settingsOpen, setSettingsOpen] = useState(false); // placeholder
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -317,10 +260,8 @@ export default function App() {
   // ---- Chat send
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
-
     let conversationId = currentConversationId;
     if (!conversationId) conversationId = createConversation().id;
-
     addMessage(conversationId, { content, role: 'user' });
 
     setIsLoading(true);
@@ -340,7 +281,7 @@ export default function App() {
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (message.trim() && !isLoading) { handleSendMessage(message.trim()); setMessage(''); } };
   const handleKeyPress = (e: React.KeyboardEvent) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(e as any); } };
 
-  // ---- Voice input → GPT wrapper → fills state & speaks recs
+  // ---- Voice input
   const onVoiceResult = async (text: string) => {
     try { await gpt.interpretAndApply(text); }
     catch (error) { console.error('GPT interpretation failed:', error); handleSendMessage(text); }
@@ -358,34 +299,23 @@ export default function App() {
         role="dialog"
         aria-modal="true"
         aria-label="Recent conversations"
-        className={`fixed left-0 top-0 h-screen w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 transition-transform duration-300 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed left-0 top-0 h-screen w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="flex flex-col h-full p-4">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Golf Caddie AI</h1>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              aria-label="Close conversations menu"
-              className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
+            <button onClick={() => setSidebarOpen(false)} aria-label="Close conversations menu" className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
               <X size={20} />
             </button>
           </div>
 
-          <button
-            onClick={createConversation}
-            className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center transition-colors"
-          >
+          <button onClick={createConversation} className="w-full mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center transition-colors">
             <Plus size={16} className="mr-2" />
             New Conversation
           </button>
 
           <div className="flex-1 overflow-y-auto">
-            <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wider">
-              Recent Conversations
-            </h2>
+            <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wider">Recent Conversations</h2>
             <div className="space-y-2">
               {conversations.length === 0 ? (
                 <p className="text-sm text-gray-500 dark:text-gray-400 italic">No conversations yet</p>
@@ -420,10 +350,7 @@ export default function App() {
             </div>
           </div>
 
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="w-full justify-start mt-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center transition-colors"
-          >
+          <button onClick={() => setSettingsOpen(true)} className="w-full justify-start mt-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center transition-colors">
             <Settings size={16} className="mr-2" />
             Settings
           </button>
@@ -434,13 +361,7 @@ export default function App() {
       <main className="flex-1 flex flex-col h-screen">
         {/* Top bar */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-30">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open conversations menu"
-            aria-expanded={sidebarOpen}
-            aria-controls="sidebar"
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
+          <button onClick={() => setSidebarOpen(true)} aria-label="Open conversations menu" aria-expanded={sidebarOpen} aria-controls="sidebar" className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
             <Menu size={20} />
           </button>
           <h1 className="font-semibold text-gray-900 dark:text-white">Golf Caddie AI</h1>
@@ -458,7 +379,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Planner: Your Caddie Says (first) + Controls */}
+        {/* Planner */}
         <section className="p-4">
           <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6">
             <Recommendations
@@ -508,23 +429,19 @@ export default function App() {
             <>
               {currentConversation.messages.map((msg) => (
                 <div key={msg.id} className={`flex items-start space-x-3 ${msg.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  <div
-                    className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      msg.role === 'user'
-                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'
-                    }`}
-                  >
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                    msg.role === 'user'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300'
+                  }`}>
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
                   <div className={`flex-1 max-w-[80%] ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-                    <div
-                      className={`inline-block p-4 rounded-2xl ${
-                        msg.role === 'user'
-                          ? 'bg-blue-600 text-white rounded-tr-sm'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-tl-sm'
-                      }`}
-                    >
+                    <div className={`inline-block p-4 rounded-2xl ${
+                      msg.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-tr-sm'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-tl-sm'
+                    }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                     </div>
                     <div className="mt-1">
@@ -601,16 +518,19 @@ export default function App() {
       </main>
 
       {/* Player Profile Modal */}
-      <PlayerProfileModal
-        isOpen={profileOpen}
-        onClose={() => setProfileOpen(false)}
-        profiles={profiles}
-        current={activeProfile}
-        selectProfile={selectProfile}
-        createProfile={createProfile}
-        deleteProfile={deleteProfile}
-        updateProfile={updateProfile}
-      />
+      {/** Guard so React never tries to render an undefined component */}
+      {PlayerProfileModal && (
+        <PlayerProfileModal
+          isOpen={profileOpen}
+          onClose={() => setProfileOpen(false)}
+          profiles={profiles}
+          current={activeProfile}
+          selectProfile={selectProfile}
+          createProfile={createProfile}
+          deleteProfile={deleteProfile}
+          updateProfile={updateProfile}
+        />
+      )}
     </div>
   );
 }

@@ -1,153 +1,294 @@
-// src/hooks/usePlayerProfiles.ts
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+import type {
+  PlayerProfile,
+  Handed,
+  ShotShape,
+  Flight,
+} from "../hooks/usePlayerProfiles";
+import { X, Plus, Trash2, Check } from "lucide-react";
 
-export type Handed = "right" | "left";
-export type ShotShape = "draw" | "fade" | "straight";
-export type Flight = "low" | "mid" | "high";
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
 
-export type ClubSpec = { carry: number; total: number };
-export type PPM = Record<string, ClubSpec>;
+  profiles: PlayerProfile[];
+  current?: PlayerProfile;
 
-export type PlayerProfile = {
-  id: string;
-  name: string;
-  handed: Handed;
-  shotShape: ShotShape;
-  flight: Flight;
-  handicap: number;
-  ppm: PPM;
+  selectProfile: (id: string) => void;
+  createProfile: (template?: Partial<PlayerProfile>) => string;
+  deleteProfile: (id: string) => void;
+  updateProfile: (patch: Partial<PlayerProfile>) => void;
 };
 
-const STORAGE_KEY = "caddie_profiles_v1";
-const STORAGE_CURRENT_KEY = "caddie_current_profile_v1";
-
-function safeParse<T>(raw: string | null, fallback: T): T {
-  if (!raw) return fallback;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function uuid() {
-  // lightweight id
-  return Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
-
-const defaultPPM: PPM = {
-  Driver: { carry: 245, total: 265 },
-  "3w": { carry: 225, total: 240 },
-  "5w": { carry: 210, total: 225 },
-  "4i": { carry: 190, total: 195 },
-  "5i": { carry: 175, total: 180 },
-  "6i": { carry: 160, total: 165 },
-  "7i": { carry: 145, total: 150 },
-  "8i": { carry: 130, total: 135 },
-  "9i": { carry: 115, total: 120 },
-  PW: { carry: 100, total: 105 },
-  GW: { carry: 85, total: 90 },
-  SW: { carry: 70, total: 75 },
-  LW: { carry: 55, total: 60 },
-};
-
-const defaultProfile: PlayerProfile = {
-  id: uuid(),
-  name: "My Profile",
-  handed: "right",
-  shotShape: "straight",
-  flight: "mid",
-  handicap: 10,
-  ppm: defaultPPM,
-};
-
-export function usePlayerProfiles() {
-  const [profiles, setProfiles] = useState<PlayerProfile[]>(() =>
-    safeParse<PlayerProfile[]>(
-      typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null,
-      [defaultProfile]
-    )
+export default function PlayerProfileModal({
+  isOpen,
+  onClose,
+  profiles,
+  current,
+  selectProfile,
+  createProfile,
+  deleteProfile,
+  updateProfile,
+}: Props) {
+  // Local editable form state mirrors the current profile
+  const [name, setName] = useState(current?.name ?? "");
+  const [handed, setHanded] = useState<Handed>(current?.handed ?? "right");
+  const [shotShape, setShotShape] = useState<ShotShape>(
+    (current?.shotShape as ShotShape) ?? "straight"
   );
-
-  const [currentId, setCurrentId] = useState<string>(() => {
-    const saved = typeof window !== "undefined" ? localStorage.getItem(STORAGE_CURRENT_KEY) : null;
-    const parsed = saved ?? "";
-    const exists = profiles.find((p) => p.id === parsed);
-    return exists ? parsed : profiles[0]?.id;
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
-  }, [profiles]);
-
-  useEffect(() => {
-    if (currentId) localStorage.setItem(STORAGE_CURRENT_KEY, currentId);
-  }, [currentId]);
-
-  const current = useMemo(
-    () => profiles.find((p) => p.id === currentId) ?? profiles[0],
-    [profiles, currentId]
+  const [flight, setFlight] = useState<Flight>(
+    (current?.flight as Flight) ?? "mid"
   );
+  const [handicap, setHandicap] = useState<number>(current?.handicap ?? 10);
 
-  function selectProfile(id: string) {
-    if (profiles.find((p) => p.id === id)) setCurrentId(id);
-  }
+  // Sync local state when the selected profile changes or when modal opens
+  useEffect(() => {
+    if (!current) return;
+    setName(current.name);
+    setHanded(current.handed);
+    setShotShape(current.shotShape);
+    setFlight(current.flight);
+    setHandicap(current.handicap);
+  }, [current?.id, isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function createProfile(template?: Partial<PlayerProfile>) {
-    const p: PlayerProfile = {
-      ...defaultProfile,
-      id: uuid(),
-      name: template?.name || `Profile ${profiles.length + 1}`,
-      handed: template?.handed ?? defaultProfile.handed,
-      shotShape: template?.shotShape ?? defaultProfile.shotShape,
-      flight: template?.flight ?? defaultProfile.flight,
-      handicap: template?.handicap ?? defaultProfile.handicap,
-      ppm: template?.ppm ?? defaultPPM,
+  // Handle overlay click and ESC
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
     };
-    setProfiles((prev) => [p, ...prev]);
-    setCurrentId(p.id);
-    return p.id;
-  }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
-  function deleteProfile(id: string) {
-    setProfiles((prev) => prev.filter((p) => p.id !== id));
-    if (currentId === id) {
-      const remaining = profiles.filter((p) => p.id !== id);
-      setCurrentId(remaining[0]?.id || "");
-    }
-  }
-
-  function updateProfile(patch: Partial<PlayerProfile>) {
-    if (!current) return;
-    setProfiles((prev) =>
-      prev.map((p) => (p.id === current.id ? { ...p, ...patch, id: p.id } : p))
-    );
-  }
-
-  function updateClub(club: string, spec: Partial<ClubSpec>) {
-    if (!current) return;
-    setProfiles((prev) =>
-      prev.map((p) =>
-        p.id === current.id
-          ? { ...p, ppm: { ...p.ppm, [club]: { ...p.ppm[club], ...spec } } }
-          : p
-      )
-    );
-  }
-
-  function setPPM(next: PPM) {
-    updateProfile({ ppm: next });
-  }
-
-  return {
-    profiles,
-    current,
-    currentId,
-    selectProfile,
-    createProfile,
-    deleteProfile,
-    updateProfile,
-    updateClub,
-    setPPM,
+  const onSave = () => {
+    // Persist editable fields into the current profile
+    updateProfile({
+      name,
+      handed,
+      shotShape,
+      flight,
+      handicap: Number.isFinite(handicap) ? handicap : 10,
+    });
+    onClose();
   };
+
+  const onCreate = () => {
+    const id = createProfile();
+    selectProfile(id);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profile-title"
+      aria-describedby="profile-desc"
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal */}
+      <div className="relative z-10 w-full max-w-4xl mx-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div>
+            <h2
+              id="profile-title"
+              className="text-lg font-semibold text-gray-900 dark:text-white"
+            >
+              Player profile
+            </h2>
+            <p
+              id="profile-desc"
+              className="text-sm text-gray-500 dark:text-gray-400"
+            >
+              Select, create, or edit your profile details.
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+          {/* Profiles list */}
+          <aside className="md:col-span-1 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 p-3">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Profiles
+              </h3>
+              <button
+                onClick={onCreate}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-gray-900 text-white text-xs hover:bg-black"
+              >
+                <Plus size={14} />
+                New
+              </button>
+            </div>
+            <div className="space-y-1 max-h-[50vh] overflow-y-auto pr-1">
+              {profiles.map((p) => {
+                const active = p.id === current?.id;
+                return (
+                  <div
+                    key={p.id}
+                    className={`group flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer border ${
+                      active
+                        ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+                        : "border-transparent hover:bg-gray-50 dark:hover:bg-gray-800"
+                    }`}
+                    onClick={() => selectProfile(p.id)}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      {active ? (
+                        <Check
+                          size={14}
+                          className="text-blue-600 dark:text-blue-400 shrink-0"
+                        />
+                      ) : (
+                        <span className="w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600 shrink-0" />
+                      )}
+                      <span className="text-sm text-gray-800 dark:text-gray-200 truncate">
+                        {p.name}
+                      </span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (confirm(`Delete profile "${p.name}"?`)) {
+                          deleteProfile(p.id);
+                        }
+                      }}
+                      className="opacity-70 hover:opacity-100 text-red-500 p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
+                      aria-label={`Delete ${p.name}`}
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                );
+              })}
+              {profiles.length === 0 && (
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  No profiles yet.
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* Editor */}
+          <section className="md:col-span-2 p-4">
+            {current ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSave();
+                }}
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <label className="text-sm text-gray-700 dark:text-gray-300">
+                    Name
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                      placeholder="My Profile"
+                    />
+                  </label>
+
+                  <label className="text-sm text-gray-700 dark:text-gray-300">
+                    Handicap
+                    <input
+                      type="number"
+                      value={Number.isFinite(handicap) ? handicap : 10}
+                      onChange={(e) =>
+                        setHandicap(
+                          Number.isFinite(Number(e.target.value))
+                            ? Number(e.target.value)
+                            : 10
+                        )
+                      }
+                      className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                    />
+                  </label>
+
+                  <label className="text-sm text-gray-700 dark:text-gray-300">
+                    Handed
+                    <select
+                      value={handed}
+                      onChange={(e) => setHanded(e.target.value as Handed)}
+                      className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                    >
+                      <option value="right">Right</option>
+                      <option value="left">Left</option>
+                    </select>
+                  </label>
+
+                  <label className="text-sm text-gray-700 dark:text-gray-300">
+                    Preferred shot shape
+                    <select
+                      value={shotShape}
+                      onChange={(e) =>
+                        setShotShape(e.target.value as ShotShape)
+                      }
+                      className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                    >
+                      <option value="straight">Straight</option>
+                      <option value="draw">Draw</option>
+                      <option value="fade">Fade</option>
+                    </select>
+                  </label>
+
+                  <label className="text-sm text-gray-700 dark:text-gray-300">
+                    Typical flight
+                    <select
+                      value={flight}
+                      onChange={(e) => setFlight(e.target.value as Flight)}
+                      className="mt-1 w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                    >
+                      <option value="low">Low</option>
+                      <option value="mid">Mid</option>
+                      <option value="high">High</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Select or create a profile to edit.
+              </div>
+            )}
+          </section>
+        </div>
+      </div>
+    </div>
+  );
 }

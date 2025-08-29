@@ -7,7 +7,7 @@ type Props = {
   min?: number;
   max?: number;
   step?: number;
-  unit?: string; // e.g., "yds"
+  unit?: string;
   ariaLabel?: string;
 };
 

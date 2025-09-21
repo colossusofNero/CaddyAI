@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddyai-api
+spec:
+  template:
+    spec:
+      containers:
+      - name: caddyai-api
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddyai-voice
+spec:
+  template:
+    spec:
+      nodeSelector:
+        node.kubernetes.io/instance-type: t3.medium
+      containers:
+      - name: caddyai-voice
+        env:
+        - name: CUDA_VISIBLE_DEVICES
+          value: ""
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"

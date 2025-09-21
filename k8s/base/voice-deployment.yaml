@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddyai-voice
+  labels:
+    app: caddyai-voice
+    component: voice-processing
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: voice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: caddyai-voice
+  template:
+    metadata:
+      labels:
+        app: caddyai-voice
+        component: voice-processing
+        version: v1
+    spec:
+      serviceAccountName: caddyai-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 2000
+      nodeSelector:
+        node.kubernetes.io/instance-type: g4dn.xlarge
+      containers:
+      - name: caddyai-voice
+        image: caddyai-voice:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: caddyai-secrets
+              key: redis-url
+        - name: MODEL_CACHE_DIR
+          value: "/app/models"
+        - name: TEMP_DIR
+          value: "/app/temp"
+        - name: AWS_REGION
+          value: "us-east-1"
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: 1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
+          timeoutSeconds: 10
+          periodSeconds: 30
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - name: models
+          mountPath: /app/models
+        - name: temp
+          mountPath: /app/temp
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: caddyai-models-pvc
+      - name: temp
+        emptyDir:
+          sizeLimit: 10Gi
+      - name: logs
+        emptyDir: {}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - caddyai-voice
+              topologyKey: kubernetes.io/hostname

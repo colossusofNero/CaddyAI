@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: caddyai-staging
+
+namespace: caddyai-staging
+
+resources:
+  - ../../base
+  - ingress.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+
+configMapGenerator:
+  - name: caddyai-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=info
+      - NODE_ENV=staging
+      - ENABLE_VOICE_ANALYTICS=true
+
+secretGenerator:
+  - name: caddyai-secrets
+    behavior: merge
+    literals:
+      - database-url=postgresql://caddyai:caddyai123@caddyai-postgres-staging:5432/caddyai_staging
+      - redis-url=redis://caddyai-redis-staging:6379
+
+images:
+  - name: caddyai
+    newName: YOUR_ECR_REGISTRY/caddyai
+    newTag: IMAGE_TAG
+  - name: caddyai-voice
+    newName: YOUR_ECR_REGISTRY/caddyai-voice
+    newTag: IMAGE_TAG
+
+replicas:
+  - name: caddyai-api
+    count: 2
+  - name: caddyai-voice
+    count: 1
+
+commonLabels:
+  environment: staging
+
+commonAnnotations:
+  environment: staging
+  managed-by: kustomize

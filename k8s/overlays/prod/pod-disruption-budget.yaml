@@ -1,0 +1,25 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: caddyai-api-pdb
+  labels:
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: pod-disruption-budget
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: caddyai-api
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: caddyai-voice-pdb
+  labels:
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: pod-disruption-budget
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: caddyai-voice

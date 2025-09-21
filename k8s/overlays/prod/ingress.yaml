@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caddyai-prod-ingress
+  labels:
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: ingress
+  annotations:
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID"
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=300,routing.http2.enabled=true
+    alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:us-east-1:ACCOUNT_ID:regional/webacl/caddyai-prod-waf/WAF_ID"
+    alb.ingress.kubernetes.io/shield-advanced-protection: "true"
+spec:
+  rules:
+  - host: api.caddyai.com
+    http:
+      paths:
+      - path: /voice
+        pathType: Prefix
+        backend:
+          service:
+            name: caddyai-voice
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: caddyai-api
+            port:
+              number: 80
+  - host: caddyai.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: caddyai-api
+            port:
+              number: 80

@@ -1,0 +1,39 @@
+# Development Dockerfile with hot reload
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install development dependencies
+RUN npm install -g nodemon
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev)
+RUN npm install
+
+# Create logs directory
+RUN mkdir -p logs
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S caddyai -u 1001
+
+# Change ownership
+RUN chown -R caddyai:nodejs /app
+
+# Switch to non-root user
+USER caddyai
+
+# Expose port and debug port
+EXPOSE 3001 9229
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3001/health', (res) => { \
+    if (res.statusCode === 200) process.exit(0); else process.exit(1); \
+  }).on('error', () => process.exit(1));"
+
+# Start with nodemon for hot reload
+CMD ["npm", "run", "dev"]

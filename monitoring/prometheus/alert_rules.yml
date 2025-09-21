@@ -1,0 +1,157 @@
+# CaddyAI Prometheus Alert Rules
+groups:
+  - name: caddyai-api-alerts
+    rules:
+      - alert: CaddyAI_API_High_Error_Rate
+        expr: rate(http_requests_total{job="caddyai-api",status=~"5.."}[5m]) / rate(http_requests_total{job="caddyai-api"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          service: caddyai-api
+        annotations:
+          summary: "CaddyAI API high error rate"
+          description: "CaddyAI API error rate is {{ $value | humanizePercentage }} for more than 2 minutes"
+
+      - alert: CaddyAI_API_High_Response_Time
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="caddyai-api"}[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: caddyai-api
+        annotations:
+          summary: "CaddyAI API high response time"
+          description: "CaddyAI API 95th percentile response time is {{ $value }}s for more than 5 minutes"
+
+      - alert: CaddyAI_API_Down
+        expr: up{job="caddyai-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: caddyai-api
+        annotations:
+          summary: "CaddyAI API is down"
+          description: "CaddyAI API instance {{ $labels.instance }} is down"
+
+      - alert: CaddyAI_API_High_Memory_Usage
+        expr: container_memory_usage_bytes{pod=~"caddyai-api-.*"} / container_spec_memory_limit_bytes{pod=~"caddyai-api-.*"} > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: caddyai-api
+        annotations:
+          summary: "CaddyAI API high memory usage"
+          description: "CaddyAI API pod {{ $labels.pod }} memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: CaddyAI_API_High_CPU_Usage
+        expr: rate(container_cpu_usage_seconds_total{pod=~"caddyai-api-.*"}[5m]) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          service: caddyai-api
+        annotations:
+          summary: "CaddyAI API high CPU usage"
+          description: "CaddyAI API pod {{ $labels.pod }} CPU usage is {{ $value | humanizePercentage }}"
+
+  - name: caddyai-voice-alerts
+    rules:
+      - alert: CaddyAI_Voice_Processing_Failure_Rate
+        expr: rate(voice_processing_failures_total[5m]) / rate(voice_processing_requests_total[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: critical
+          service: caddyai-voice
+        annotations:
+          summary: "CaddyAI Voice processing failure rate high"
+          description: "Voice processing failure rate is {{ $value | humanizePercentage }} for more than 3 minutes"
+
+      - alert: CaddyAI_Voice_Queue_Length_High
+        expr: voice_processing_queue_length > 50
+        for: 5m
+        labels:
+          severity: warning
+          service: caddyai-voice
+        annotations:
+          summary: "CaddyAI Voice processing queue length high"
+          description: "Voice processing queue length is {{ $value }} for more than 5 minutes"
+
+      - alert: CaddyAI_Voice_Processing_Latency_High
+        expr: histogram_quantile(0.95, rate(voice_processing_duration_seconds_bucket[5m])) > 30
+        for: 5m
+        labels:
+          severity: warning
+          service: caddyai-voice
+        annotations:
+          summary: "CaddyAI Voice processing latency high"
+          description: "Voice processing 95th percentile latency is {{ $value }}s for more than 5 minutes"
+
+      - alert: CaddyAI_Voice_GPU_Utilization_High
+        expr: nvidia_gpu_utilization_percent > 90
+        for: 10m
+        labels:
+          severity: warning
+          service: caddyai-voice
+        annotations:
+          summary: "CaddyAI Voice GPU utilization high"
+          description: "GPU utilization is {{ $value }}% for more than 10 minutes"
+
+      - alert: CaddyAI_Voice_Down
+        expr: up{job="caddyai-voice"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: caddyai-voice
+        annotations:
+          summary: "CaddyAI Voice service is down"
+          description: "CaddyAI Voice service instance {{ $labels.instance }} is down"
+
+  - name: infrastructure-alerts
+    rules:
+      - alert: Kubernetes_Node_NotReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 10m
+        labels:
+          severity: critical
+          service: kubernetes
+        annotations:
+          summary: "Kubernetes node not ready"
+          description: "Node {{ $labels.node }} is not ready for more than 10 minutes"
+
+      - alert: Kubernetes_Pod_CrashLooping
+        expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          service: kubernetes
+        annotations:
+          summary: "Kubernetes pod crash looping"
+          description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is crash looping"
+
+      - alert: Kubernetes_PV_Usage_High
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: kubernetes
+        annotations:
+          summary: "Kubernetes persistent volume usage high"
+          description: "PV {{ $labels.persistentvolumeclaim }} usage is {{ $value | humanizePercentage }}"
+
+      - alert: Database_Connection_High
+        expr: pg_stat_activity_count > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "Database connection count high"
+          description: "Database connection count is {{ $value }}"
+
+      - alert: Redis_Memory_Usage_High
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: redis
+        annotations:
+          summary: "Redis memory usage high"
+          description: "Redis memory usage is {{ $value | humanizePercentage }}"

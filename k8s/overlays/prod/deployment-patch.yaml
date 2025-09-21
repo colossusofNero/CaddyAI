@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddyai-api
+spec:
+  template:
+    spec:
+      containers:
+      - name: caddyai-api
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: caddyai-secrets
+              key: new-relic-license-key
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddyai-voice
+spec:
+  template:
+    spec:
+      nodeSelector:
+        node.kubernetes.io/instance-type: g4dn.xlarge
+      containers:
+      - name: caddyai-voice
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+            nvidia.com/gpu: 1
+        env:
+        - name: CUDA_VISIBLE_DEVICES
+          value: "0"

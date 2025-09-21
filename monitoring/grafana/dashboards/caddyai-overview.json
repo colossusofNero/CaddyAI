@@ -1,0 +1,186 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CaddyAI Overview Dashboard",
+    "tags": ["caddyai", "overview"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "API Request Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{job=\"caddyai-api\"}[5m])",
+            "legendFormat": "{{instance}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "horizontal",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "id": 2,
+        "title": "API Response Time (95th percentile)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"caddyai-api\"}[5m]))",
+            "legendFormat": "95th percentile"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0},
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "horizontal",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Voice Processing Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(voice_processing_success_total[5m]) / rate(voice_processing_requests_total[5m]) * 100",
+            "legendFormat": "Success Rate %"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "horizontal",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Active Users",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "active_users_total",
+            "legendFormat": "Active Users"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "horizontal",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "id": 5,
+        "title": "Request Rate Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{job=\"caddyai-api\"}[5m])",
+            "legendFormat": "{{method}} {{status}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "yAxes": [
+          {
+            "label": "Requests/sec",
+            "show": true
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Voice Processing Metrics",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(voice_processing_requests_total[5m])",
+            "legendFormat": "Processing Rate"
+          },
+          {
+            "expr": "voice_processing_queue_length",
+            "legendFormat": "Queue Length"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "yAxes": [
+          {
+            "label": "Count",
+            "show": true
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Error Rate by Service",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status=~\"5..\"}[5m])",
+            "legendFormat": "{{job}} errors"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "yAxes": [
+          {
+            "label": "Errors/sec",
+            "show": true
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Resource Usage",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(container_cpu_usage_seconds_total{pod=~\"caddyai-.*\"}[5m])",
+            "legendFormat": "{{pod}} CPU"
+          },
+          {
+            "expr": "container_memory_usage_bytes{pod=~\"caddyai-.*\"} / 1024 / 1024",
+            "legendFormat": "{{pod}} Memory (MB)"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 24},
+        "yAxes": [
+          {
+            "label": "Usage",
+            "show": true
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "version": 0
+  }
+}

@@ -1,0 +1,55 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: caddyai-prod
+
+namespace: caddyai-prod
+
+resources:
+  - ../../base
+  - ingress.yaml
+  - network-policy.yaml
+  - pod-disruption-budget.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - hpa-patch.yaml
+
+configMapGenerator:
+  - name: caddyai-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=warn
+      - NODE_ENV=production
+      - ENABLE_VOICE_ANALYTICS=true
+      - ENABLE_REAL_TIME_TRANSCRIPTION=true
+      - TRACING_ENABLED=true
+
+secretGenerator:
+  - name: caddyai-secrets
+    behavior: merge
+    literals:
+      - database-url=postgresql://caddyai:caddyai123@caddyai-postgres-prod:5432/caddyai_prod
+      - redis-url=redis://caddyai-redis-prod:6379
+
+images:
+  - name: caddyai
+    newName: YOUR_ECR_REGISTRY/caddyai
+    newTag: IMAGE_TAG
+  - name: caddyai-voice
+    newName: YOUR_ECR_REGISTRY/caddyai-voice
+    newTag: IMAGE_TAG
+
+replicas:
+  - name: caddyai-api
+    count: 3
+  - name: caddyai-voice
+    count: 2
+
+commonLabels:
+  environment: production
+
+commonAnnotations:
+  environment: production
+  managed-by: kustomize

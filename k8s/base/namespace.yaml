@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: caddyai
+  labels:
+    name: caddyai
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: namespace
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: caddyai-dev
+  labels:
+    name: caddyai-dev
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: namespace
+    environment: development
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: caddyai-staging
+  labels:
+    name: caddyai-staging
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: namespace
+    environment: staging
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: caddyai-prod
+  labels:
+    name: caddyai-prod
+    app.kubernetes.io/name: caddyai
+    app.kubernetes.io/component: namespace
+    environment: production

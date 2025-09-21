@@ -1,0 +1,199 @@
+# Docker Compose for CaddyAI Development Environment
+version: '3.8'
+
+services:
+  # API Service
+  caddyai-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: caddyai-api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://caddyai:caddyai123@postgres:5432/caddyai_dev
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-jwt-secret-key
+      - AWS_REGION=us-east-1
+      - VOICE_SERVICE_URL=http://caddyai-voice:8000
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./logs:/app/logs
+      - ./src:/app/src:ro
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Voice Processing Service
+  caddyai-voice:
+    build:
+      context: ./voice-processing
+      dockerfile: Dockerfile
+    container_name: caddyai-voice
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MODEL_CACHE_DIR=/app/models
+      - TEMP_DIR=/app/temp
+      - AWS_REGION=us-east-1
+    depends_on:
+      - redis
+    volumes:
+      - ./voice-processing/models:/app/models
+      - ./voice-processing/temp:/app/temp
+      - ./voice-processing/logs:/app/logs
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2'
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: caddyai-postgres
+    environment:
+      - POSTGRES_DB=caddyai_dev
+      - POSTGRES_USER=caddyai
+      - POSTGRES_PASSWORD=caddyai123
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U caddyai -d caddyai_dev"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching and queues
+  redis:
+    image: redis:7-alpine
+    container_name: caddyai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # NGINX Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: caddyai-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - caddyai-api
+      - caddyai-voice
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: caddyai-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: caddyai-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning:ro
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: caddyai-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - caddyai-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  caddyai-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

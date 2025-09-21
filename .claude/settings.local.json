@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Read(//c/Users/scott/Claude_Code/**)",
+      "WebSearch",
+      "Bash(python:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

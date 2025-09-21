@@ -1,0 +1,367 @@
+# CaddyAI CI/CD Pipeline
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: caddyai
+  EKS_CLUSTER_NAME: caddyai
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run build --if-present
+
+    - name: Run tests
+      run: |
+        npm test
+        npm run test:coverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Run security audit
+      run: npm audit --audit-level=high
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Run type checking
+      run: npm run type-check
+
+  voice-processing-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        pip install -r voice-processing/requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Run voice processing tests
+      run: |
+        cd voice-processing
+        pytest --cov=./ --cov-report=xml
+
+    - name: Upload voice processing coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./voice-processing/coverage.xml
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  build-and-push:
+    needs: [test, voice-processing-test, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push Docker images
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        platforms: linux/amd64,linux/arm64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build and push voice processing image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./voice-processing
+        file: ./voice-processing/Dockerfile
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}-voice:${{ github.sha }}
+        platforms: linux/amd64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-dev:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment: development
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}-dev
+
+    - name: Deploy to development
+      run: |
+        sed -i 's|IMAGE_TAG|${{ github.sha }}|g' k8s/overlays/dev/kustomization.yaml
+        kubectl apply -k k8s/overlays/dev
+
+    - name: Wait for deployment
+      run: |
+        kubectl rollout status deployment/caddyai-api -n caddyai-dev --timeout=600s
+        kubectl rollout status deployment/caddyai-voice -n caddyai-dev --timeout=600s
+
+    - name: Run smoke tests
+      run: |
+        kubectl run smoke-test --image=curlimages/curl --rm -i --restart=Never -- \
+          curl -f http://caddyai-api.caddyai-dev.svc.cluster.local/health
+
+  deploy-staging:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}-staging
+
+    - name: Deploy to staging
+      run: |
+        sed -i 's|IMAGE_TAG|${{ github.sha }}|g' k8s/overlays/staging/kustomization.yaml
+        kubectl apply -k k8s/overlays/staging
+
+    - name: Wait for deployment
+      run: |
+        kubectl rollout status deployment/caddyai-api -n caddyai-staging --timeout=600s
+        kubectl rollout status deployment/caddyai-voice -n caddyai-staging --timeout=600s
+
+    - name: Run integration tests
+      run: |
+        npm run test:integration:staging
+
+    - name: Performance tests
+      run: |
+        npm run test:performance:staging
+
+  deploy-production:
+    needs: [build-and-push, deploy-staging]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}-prod
+
+    - name: Blue-Green Deployment
+      run: |
+        # Create green deployment
+        sed -i 's|IMAGE_TAG|${{ github.sha }}|g' k8s/overlays/prod/kustomization.yaml
+        sed -i 's|app: caddyai|app: caddyai-green|g' k8s/overlays/prod/kustomization.yaml
+        kubectl apply -k k8s/overlays/prod
+
+    - name: Wait for green deployment
+      run: |
+        kubectl rollout status deployment/caddyai-api-green -n caddyai-prod --timeout=600s
+        kubectl rollout status deployment/caddyai-voice-green -n caddyai-prod --timeout=600s
+
+    - name: Health check on green
+      run: |
+        kubectl run health-check --image=curlimages/curl --rm -i --restart=Never -- \
+          curl -f http://caddyai-api-green.caddyai-prod.svc.cluster.local/health
+
+    - name: Switch traffic to green
+      run: |
+        kubectl patch service caddyai-api -n caddyai-prod -p '{"spec":{"selector":{"app":"caddyai-green"}}}'
+        kubectl patch service caddyai-voice -n caddyai-prod -p '{"spec":{"selector":{"app":"caddyai-green"}}}'
+
+    - name: Monitor deployment
+      run: |
+        sleep 60
+        # Check error rates and response times
+        echo "Monitoring new deployment..."
+
+    - name: Clean up blue deployment
+      run: |
+        kubectl delete deployment caddyai-api -n caddyai-prod --ignore-not-found
+        kubectl delete deployment caddyai-voice -n caddyai-prod --ignore-not-found
+        kubectl label deployment caddyai-api-green -n caddyai-prod app=caddyai
+        kubectl label deployment caddyai-voice-green -n caddyai-prod app=caddyai
+
+  infrastructure-plan:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.0
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Terraform Plan
+      working-directory: infrastructure/terraform
+      run: |
+        terraform init
+        terraform plan -var-file=environments/dev/terraform.tfvars
+
+  infrastructure-apply:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: infrastructure
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.0
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Terraform Apply
+      working-directory: infrastructure/terraform
+      run: |
+        terraform init
+        terraform apply -auto-approve -var-file=environments/prod/terraform.tfvars
+
+  notify-deployment:
+    needs: [deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Notify Slack
+      if: success()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: success
+        text: "🚀 CaddyAI deployed successfully to production!"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Notify Slack on failure
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        text: "❌ CaddyAI deployment failed!"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1540,3 +1540,19 @@ Build the GPS distance detection feature?
 Add more advanced features like shot tracking history?
 
 The entire app is ready to build - you just need to copy the code and run the setup commands!
+### Journal Entry – 2025-09-20
+**Topic:** Testing & Package Configuration Cleanup
+
+**Completed**
+- Fixed invalid `package.json` (duplicate scripts/stray braces).
+- Switched Jest to `react-native` preset; added `transformIgnorePatterns`.
+- Added testing libs: `@testing-library/react-native`, `@testing-library/jest-native`, `@types/jest`.
+- Added `babel.config.js` with `react-native-reanimated` plugin.
+- Added `jest/setup.js` to extend matchers and silence RN animation warnings.
+- Introduced minimal CI workflow to run tests on PR/push.
+- Added example test (`tests/CaddyAICalculator.test.js`) to validate harness.
+
+**Impact**
+- Working RN test harness; CI-ready.
+- Unblocked future unit tests for calculator/voice modules.
+

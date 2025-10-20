@@ -7,15 +7,13 @@
  */
 
 import { useState } from 'react';
-import { MapPin } from 'lucide-react';
-import type { Scorecard, TeeBox } from '@/types/course';
+import type { Scorecard, Hole } from '@/types/course';
 
 interface ScorecardWidgetProps {
   scorecard: Scorecard;
   selectedTeeBox?: string;
   onTeeBoxChange?: (teeBox: string) => void;
   onHoleSelect?: (holeNumber: number) => void;
-  compact?: boolean;
 }
 
 const TEE_BOX_COLORS: Record<string, string> = {
@@ -31,7 +29,6 @@ export default function ScorecardWidget({
   selectedTeeBox,
   onTeeBoxChange,
   onHoleSelect,
-  compact = false,
 }: ScorecardWidgetProps) {
   const [activeTeeBox, setActiveTeeBox] = useState(
     selectedTeeBox || scorecard.teeBoxes[0]?.name || 'blue'
@@ -73,7 +70,7 @@ export default function ScorecardWidget({
       return sum + (yardage?.yardage || 0);
     }, 0);
 
-  const renderHoleRow = (hole: any, index: number) => (
+  const renderHoleRow = (hole: Hole, index: number) => (
     <tr
       key={hole.id}
       className={`border-b border-gray-700 hover:bg-[#1E293B] cursor-pointer transition-colors ${

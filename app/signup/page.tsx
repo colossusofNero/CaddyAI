@@ -57,7 +57,7 @@ export default function SignupPage() {
       setTimeout(() => {
         router.push('/dashboard');
       }, 2000);
-    } catch (error) {
+    } catch {
       // Error is handled by useAuth
     } finally {
       setIsLoading(false);
@@ -71,7 +71,7 @@ export default function SignupPage() {
       clearError();
       await signInWithGoogle();
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       // Error is handled by useAuth
     } finally {
       setGoogleLoading(false);

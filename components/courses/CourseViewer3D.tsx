@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Home, Maximize2 } from 'lucide-react';
 import { igolfService } from '@/services/igolfService';
-import type { IGolf3DViewerInstance } from '@/types/course';
+import type { IGolf3DViewerInstance, IGolf3DViewerConfig } from '@/types/course';
 
 interface CourseViewer3DProps {
   courseId: string;
@@ -22,7 +22,7 @@ interface CourseViewer3DProps {
 declare global {
   interface Window {
     IGolfViewer: {
-      init: (config: any) => IGolf3DViewerInstance;
+      init: (config: IGolf3DViewerConfig) => IGolf3DViewerInstance;
     };
   }
 }
@@ -86,10 +86,11 @@ export default function CourseViewer3D({
         setError(null);
 
         const viewer = window.IGolfViewer.init({
-          containerId: containerRef.current?.id,
+          apiKey: process.env.NEXT_PUBLIC_IGOLF_API_KEY || '',
+          containerId: containerRef.current?.id || '',
           courseId,
-          initialHole: currentHole,
           options: {
+            initialHole: currentHole,
             showControls: true,
             autoRotate: false,
             height,
@@ -100,9 +101,9 @@ export default function CourseViewer3D({
         viewerRef.current = viewer;
         console.log('[3D Viewer] Initialized successfully');
         setIsLoading(false);
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('[3D Viewer] Initialization failed:', error);
-        setError(error.message || 'Failed to initialize viewer');
+        setError(error instanceof Error ? error.message : 'Failed to initialize viewer');
         setIsLoading(false);
       }
     };
@@ -115,7 +116,7 @@ export default function CourseViewer3D({
         viewerRef.current = null;
       }
     };
-  }, [scriptLoaded, courseId, height]);
+  }, [scriptLoaded, courseId, height, currentHole]);
 
   const goToHole = (holeNumber: number) => {
     if (viewerRef.current && holeNumber >= 1 && holeNumber <= 18) {

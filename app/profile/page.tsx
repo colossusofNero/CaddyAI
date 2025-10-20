@@ -263,7 +263,7 @@ export default function ProfilePage() {
                     required
                   />
                   <p className="mt-1 text-sm text-text-muted">
-                    {Math.floor(height / 12)}'{height % 12}"
+                    {Math.floor(height / 12)}&apos;{height % 12}&quot;
                   </p>
                 </div>
 

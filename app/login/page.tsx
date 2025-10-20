@@ -29,7 +29,7 @@ export default function LoginPage() {
   const { signIn, signInWithGoogle, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [, setShowResetPassword] = useState(false);
 
   const {
     register,
@@ -46,7 +46,7 @@ export default function LoginPage() {
       clearError();
       await signIn(data.email, data.password);
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       // Error is handled by useAuth
     } finally {
       setIsLoading(false);
@@ -60,7 +60,7 @@ export default function LoginPage() {
       clearError();
       await signInWithGoogle();
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       // Error is handled by useAuth
     } finally {
       setGoogleLoading(false);

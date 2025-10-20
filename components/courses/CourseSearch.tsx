@@ -6,8 +6,9 @@
  * Search for golf courses by name or location
  */
 
-import { useState, useEffect } from 'react';
-import { Search, MapPin, Heart, Star } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { Search, MapPin, Heart } from 'lucide-react';
 import { igolfService } from '@/services/igolfService';
 import { firebaseService } from '@/services/firebaseService';
 import type { Course } from '@/types/course';
@@ -30,14 +31,7 @@ export default function CourseSearch({
   const [error, setError] = useState<string | null>(null);
   const [useLocation, setUseLocation] = useState(false);
 
-  // Load favorite courses
-  useEffect(() => {
-    if (userId && showFavorites) {
-      loadFavorites();
-    }
-  }, [userId, showFavorites]);
-
-  const loadFavorites = async () => {
+  const loadFavorites = useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -46,7 +40,14 @@ export default function CourseSearch({
     } catch (error) {
       console.error('Failed to load favorites:', error);
     }
-  };
+  }, [userId]);
+
+  // Load favorite courses
+  useEffect(() => {
+    if (userId && showFavorites) {
+      loadFavorites();
+    }
+  }, [userId, showFavorites, loadFavorites]);
 
   const handleSearch = async () => {
     if (!searchQuery.trim() && !useLocation) return;
@@ -77,9 +78,9 @@ export default function CourseSearch({
       }
 
       setCourses(result);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Search failed:', error);
-      setError(error.message || 'Failed to search courses');
+      setError(error instanceof Error ? error.message : 'Failed to search courses');
     } finally {
       setIsLoading(false);
     }
@@ -179,12 +180,13 @@ export default function CourseSearch({
               >
                 <div className="flex gap-4 p-4">
                   {/* Course Image */}
-                  <div className="w-32 h-24 bg-[#0B1220] rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="w-32 h-24 bg-[#0B1220] rounded-lg overflow-hidden flex-shrink-0 relative">
                     {course.thumbnailUrl ? (
-                      <img
+                      <Image
                         src={course.thumbnailUrl}
                         alt={course.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-600">
@@ -258,7 +260,7 @@ export default function CourseSearch({
         <div className="text-center py-12 text-gray-400">
           <Search className="w-16 h-16 mx-auto mb-4 opacity-50" />
           <p className="text-lg">Search for golf courses to get started</p>
-          <p className="text-sm mt-2">Try searching by course name or use "Near Me"</p>
+          <p className="text-sm mt-2">Try searching by course name or use &quot;Near Me&quot;</p>
         </div>
       )}
     </div>

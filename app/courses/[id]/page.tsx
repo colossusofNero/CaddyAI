@@ -56,9 +56,9 @@ export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
         setCourse(courseData);
         setScorecard(scorecardData);
         setIsFavorite(favoriteStatus);
-      } catch (error: any) {
+      } catch (error) {
         console.error('Failed to load course:', error);
-        setError(error.message || 'Failed to load course details');
+        setError(error instanceof Error ? error.message : 'Failed to load course details');
       } finally {
         setIsLoading(false);
       }

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(npm run build:*)",
+      "Read(//c/Users/scott/Claude_Code/**)",
+      "Bash(readlink:*)",
+      "Bash(awk:*)",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "Bash(mv:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

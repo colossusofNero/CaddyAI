@@ -1,0 +1,112 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function: Check if user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper function: Check if user owns the document
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Favorite Courses Collection
+    // Document ID format: {userId}_{courseId}
+    match /favoriteCourses/{docId} {
+      // Allow read if user is authenticated and owns the document
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Allow create if user is authenticated and creating their own favorite
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'courseId', 'courseName', 'location', 'addedAt'])
+        && request.resource.data.userId is string
+        && request.resource.data.courseId is string
+        && request.resource.data.courseName is string
+        && request.resource.data.location is string
+        && request.resource.data.addedAt is string;
+
+      // Allow update if user owns the document
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId; // Prevent userId changes
+
+      // Allow delete if user owns the document
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Active Rounds Collection
+    // Document ID is the userId
+    match /activeRounds/{userId} {
+      // Allow read if user is accessing their own round
+      allow read: if isOwner(userId);
+
+      // Allow create if user is creating their own round
+      allow create: if isOwner(userId)
+        && request.resource.data.userId == userId
+        && request.resource.data.keys().hasAll(['userId', 'courseId', 'courseName', 'currentHole', 'startedAt', 'holes'])
+        && request.resource.data.currentHole is int
+        && request.resource.data.currentHole >= 1
+        && request.resource.data.currentHole <= 18;
+
+      // Allow update if user owns the round
+      allow update: if isOwner(userId)
+        && request.resource.data.userId == resource.data.userId // Prevent userId changes
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['userId'])); // Prevent userId modification
+
+      // Allow delete if user owns the round
+      allow delete: if isOwner(userId);
+    }
+
+    // Shots Collection (from mobile app integration)
+    // Shared with React Native mobile app
+    match /shots/{shotId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'roundId', 'holeNumber', 'clubUsed', 'timestamp']);
+
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Rounds Collection (from mobile app integration)
+    // Shared with React Native mobile app
+    match /rounds/{roundId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'startTime', 'date']);
+
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // User Profiles Collection (shared across platforms)
+    match /userProfiles/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
+    // Club Management Collection (shared across platforms)
+    match /clubDistances/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+  }
+}

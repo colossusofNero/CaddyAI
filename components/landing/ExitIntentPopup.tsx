@@ -174,7 +174,7 @@ export function ExitIntentPopup() {
             </div>
             <h3 className="text-2xl font-bold text-text-primary mb-2">Check Your Email!</h3>
             <p className="text-text-secondary mb-6">
-              We've sent your free Club Distance Calculator to <span className="text-primary font-medium">{email}</span>
+              We&apos;ve sent your free Club Distance Calculator to <span className="text-primary font-medium">{email}</span>
             </p>
             <p className="text-sm text-text-secondary">
               This window will close automatically...

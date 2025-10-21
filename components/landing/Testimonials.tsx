@@ -68,7 +68,7 @@ export function Testimonials() {
           Loved by Golfers of All Levels
         </h2>
         <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-          Join thousands of players who've improved their game with CaddyAI
+          Join thousands of players who&apos;ve improved their game with CaddyAI
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export function Testimonials() {
                 </div>
               </div>
             </div>
-            <p className="text-text-secondary text-sm mb-4">"{testimonial.quote}"</p>
+            <p className="text-text-secondary text-sm mb-4">&ldquo;{testimonial.quote}&rdquo;</p>
             <div className="inline-flex items-center gap-2 bg-success bg-opacity-10 text-success px-3 py-1 rounded-full text-xs font-medium">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />

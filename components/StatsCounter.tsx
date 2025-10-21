@@ -8,7 +8,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import { fadeInUp } from '@/lib/animations';
 
 interface StatItem {
   value: number;

@@ -37,7 +37,6 @@ export function StatCounter({
       setHasAnimated(true);
 
       const startTime = Date.now() + delay;
-      const increment = endValue / (duration / 16);
 
       const timer = setInterval(() => {
         const elapsed = Date.now() - startTime;

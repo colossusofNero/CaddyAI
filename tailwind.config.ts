@@ -6,99 +6,148 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: ['class', '[data-theme="dark"]'], // Enable dark mode with class or data-theme attribute
   theme: {
     extend: {
       colors: {
-        // CaddyAI Brand Colors - REDESIGNED (Level 1 Design System)
+        // CaddyAI Design System - Using CSS Variables
+        // This allows for dynamic theming and dark mode support
+
         primary: {
-          DEFAULT: '#1B5E20', // Deep forest green - premium brand color
-          50: '#E8F5E9',
-          100: '#C8E6C9',
-          200: '#A5D6A7',
-          300: '#81C784',
-          400: '#66BB6A',
-          500: '#1B5E20', // Main brand color
-          600: '#164E1A',
-          700: '#113E14',
-          800: '#0C2E0E',
-          900: '#061F07',
+          DEFAULT: 'var(--color-primary)',
+          50: 'var(--color-primary-50)',
+          100: 'var(--color-primary-100)',
+          200: 'var(--color-primary-200)',
+          300: 'var(--color-primary-300)',
+          400: 'var(--color-primary-400)',
+          500: 'var(--color-primary-500)',
+          600: 'var(--color-primary-600)',
+          700: 'var(--color-primary-700)',
+          800: 'var(--color-primary-800)',
+          900: 'var(--color-primary-900)',
         },
         secondary: {
-          DEFAULT: '#76FF03', // Vibrant tech green - energy & innovation
-          50: '#F1F8E9',
-          100: '#DCEDC8',
-          200: '#C5E1A5',
-          300: '#AED581',
-          400: '#9CCC65',
-          500: '#76FF03', // High-energy accent
-          600: '#64DD17',
-          700: '#558B2F',
-          800: '#33691E',
-          900: '#1B5E20',
+          DEFAULT: 'var(--color-secondary)',
+          50: 'var(--color-secondary-50)',
+          100: 'var(--color-secondary-100)',
+          200: 'var(--color-secondary-200)',
+          300: 'var(--color-secondary-300)',
+          400: 'var(--color-secondary-400)',
+          500: 'var(--color-secondary-500)',
+          600: 'var(--color-secondary-600)',
+          700: 'var(--color-secondary-700)',
+          800: 'var(--color-secondary-800)',
+          900: 'var(--color-secondary-900)',
         },
         accent: {
-          DEFAULT: '#2196F3', // Sky blue - clarity & intelligence
-          50: '#E3F2FD',
-          100: '#BBDEFB',
-          200: '#90CAF9',
-          300: '#64B5F6',
-          400: '#42A5F5',
-          500: '#2196F3', // Main accent
-          600: '#1E88E5',
-          700: '#1976D2',
-          800: '#1565C0',
-          900: '#0D47A1',
+          DEFAULT: 'var(--color-accent)',
+          50: 'var(--color-accent-50)',
+          100: 'var(--color-accent-100)',
+          200: 'var(--color-accent-200)',
+          300: 'var(--color-accent-300)',
+          400: 'var(--color-accent-400)',
+          500: 'var(--color-accent-500)',
+          600: 'var(--color-accent-600)',
+          700: 'var(--color-accent-700)',
+          800: 'var(--color-accent-800)',
+          900: 'var(--color-accent-900)',
         },
         neutral: {
-          DEFAULT: '#607D8B', // Warm gray for text
-          50: '#FAFAFA', // Off-white background
-          100: '#F5F5F5',
-          200: '#EEEEEE',
-          300: '#E0E0E0',
-          400: '#BDBDBD',
-          500: '#9E9E9E',
-          600: '#757575',
-          700: '#607D8B', // Body text
-          800: '#455A64', // Headings
-          900: '#263238', // Dark text
-        },
-        background: {
-          DEFAULT: '#FAFAFA', // Light mode - off-white
-          light: '#FFFFFF',   // Pure white for cards
-          dark: '#0B1220',    // Dark mode option
-          'dark-light': '#1E293B',
-        },
-        text: {
-          primary: '#263238',  // Dark charcoal for headings
-          secondary: '#607D8B', // Body text gray
-          muted: '#9E9E9E',    // Muted gray
+          DEFAULT: 'var(--color-neutral)',
+          50: 'var(--color-neutral-50)',
+          100: 'var(--color-neutral-100)',
+          200: 'var(--color-neutral-200)',
+          300: 'var(--color-neutral-300)',
+          400: 'var(--color-neutral-400)',
+          500: 'var(--color-neutral-500)',
+          600: 'var(--color-neutral-600)',
+          700: 'var(--color-neutral-700)',
+          800: 'var(--color-neutral-800)',
+          900: 'var(--color-neutral-900)',
         },
         gold: {
-          DEFAULT: '#FFC107', // Premium features
-          400: '#FFD54F',
-          500: '#FFC107',
-          600: '#FFB300',
+          DEFAULT: 'var(--color-gold)',
+          50: 'var(--color-gold-50)',
+          100: 'var(--color-gold-100)',
+          200: 'var(--color-gold-200)',
+          300: 'var(--color-gold-300)',
+          400: 'var(--color-gold-400)',
+          500: 'var(--color-gold-500)',
+          600: 'var(--color-gold-600)',
+          700: 'var(--color-gold-700)',
+          800: 'var(--color-gold-800)',
+          900: 'var(--color-gold-900)',
         },
-        success: '#D32F2F', // Golf flag red
-        warning: '#FFA726',
-        error: '#F44336',
-        info: '#2196F3',
+        // Semantic colors
+        success: 'var(--color-success)',
+        warning: 'var(--color-warning)',
+        error: 'var(--color-error)',
+        info: 'var(--color-info)',
+
+        // Background colors
+        background: {
+          DEFAULT: 'var(--color-background)',
+          alt: 'var(--color-background-alt)',
+          elevated: 'var(--color-background-elevated)',
+          muted: 'var(--color-background-muted)',
+        },
+
+        // Foreground/Text colors (semantic names)
+        foreground: {
+          DEFAULT: 'var(--color-foreground)',
+          secondary: 'var(--color-foreground-secondary)',
+          muted: 'var(--color-foreground-muted)',
+        },
+
+        // Legacy text color mappings (for backward compatibility)
+        text: {
+          primary: 'var(--color-foreground)',
+          secondary: 'var(--color-foreground-secondary)',
+          muted: 'var(--color-foreground-muted)',
+        },
+
+        // Border colors
+        border: {
+          DEFAULT: 'var(--color-border)',
+          muted: 'var(--color-border-muted)',
+        },
+
+        // Component-specific colors
+        card: {
+          DEFAULT: 'var(--color-card-bg)',
+          border: 'var(--color-card-border)',
+        },
+        input: {
+          DEFAULT: 'var(--color-input-bg)',
+          border: 'var(--color-input-border)',
+          focus: 'var(--color-input-focus)',
+        },
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
-        // Design System Fonts
-        heading: ['Inter', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        body: ['Open Sans', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        display: ['Montserrat', 'var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      },
+      fontSize: {
+        // Typography Scale - Design System
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['1rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
       },
       borderRadius: {
         'xl': '1rem',
         '2xl': '1.5rem',
       },
       boxShadow: {
-        'card': '0 8px 24px rgba(0, 0, 0, 0.25)',
-        'primary': '0 4px 12px rgba(5, 161, 70, 0.3)',
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+        xl: 'var(--shadow-xl)',
+        card: 'var(--shadow-card)',
+        primary: 'var(--shadow-primary)',
       },
     },
   },

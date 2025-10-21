@@ -107,18 +107,18 @@ export function Hero({
               </span>
             </motion.div>
 
-            {/* Title - 72px Inter Bold (desktop), 48px mobile */}
+            {/* Title - Mobile-first responsive sizing */}
             <motion.h1
               variants={staggerItem}
-              className="font-sans text-5xl sm:text-6xl lg:text-7xl xl:text-[72px] font-bold text-white mb-6 leading-[1.1] tracking-tight"
+              className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[72px] font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight"
             >
               {title}
             </motion.h1>
 
-            {/* Subtitle - 18px Inter */}
+            {/* Subtitle - Mobile-optimized (min 16px for iOS) */}
             <motion.p
               variants={staggerItem}
-              className="font-sans text-lg sm:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed"
+              className="font-sans text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed"
             >
               {subtitle}
             </motion.p>

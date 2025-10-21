@@ -86,7 +86,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="font-heading text-4xl lg:text-5xl font-semibold text-neutral-900 mb-4"
+              className="font-sans text-4xl lg:text-5xl font-semibold text-neutral-900 mb-4"
             >
               What Makes CaddyAI
               <br />
@@ -97,7 +97,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-body text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto"
+              className="font-sans text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto"
             >
               Three core features that work together to transform your game
             </motion.p>

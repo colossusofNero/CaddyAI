@@ -70,11 +70,11 @@ export function StatCounter({
       transition={{ delay: delay / 1000 }}
       className={`text-center ${className}`}
     >
-      <div className="font-heading font-bold text-4xl lg:text-5xl text-primary mb-2">
+      <div className="font-sans font-bold text-4xl lg:text-5xl text-primary mb-2">
         {formatNumber(count)}{suffix}
       </div>
       {label && (
-        <div className="font-body text-sm text-neutral-600">
+        <div className="font-sans text-sm text-neutral-600">
           {label}
         </div>
       )}

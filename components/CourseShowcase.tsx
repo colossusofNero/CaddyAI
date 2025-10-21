@@ -65,7 +65,7 @@ export function CourseShowcase() {
 
           <motion.h2
             variants={staggerItem}
-            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-text-primary mb-6"
+            className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-text-primary mb-6"
           >
             Play the World's Best Courses
           </motion.h2>
@@ -117,7 +117,7 @@ export function CourseShowcase() {
 
               {/* Course Info */}
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                <h3 className="text-xl font-heading font-bold mb-2 group-hover:text-secondary transition-colors">
+                <h3 className="text-xl font-sans font-bold mb-2 group-hover:text-secondary transition-colors">
                   {course.name}
                 </h3>
                 <div className="flex items-center justify-between text-sm">

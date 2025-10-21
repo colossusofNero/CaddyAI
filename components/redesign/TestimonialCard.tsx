@@ -72,20 +72,20 @@ export function TestimonialCard({
         </div>
 
         <div className="flex-1">
-          <h4 className="font-heading font-semibold text-neutral-900 text-base">
+          <h4 className="font-sans font-semibold text-neutral-900 text-base">
             {author}
           </h4>
-          <p className="font-body text-sm text-neutral-600">
+          <p className="font-sans text-sm text-neutral-600">
             {role}
           </p>
-          <p className="font-body text-xs text-neutral-500">
+          <p className="font-sans text-xs text-neutral-500">
             {location}
           </p>
         </div>
       </div>
 
       {/* Quote */}
-      <blockquote className="font-body text-lg text-neutral-700 leading-relaxed mb-6 flex-1">
+      <blockquote className="font-sans text-lg text-neutral-700 leading-relaxed mb-6 flex-1">
         &ldquo;{quote}&rdquo;
       </blockquote>
 

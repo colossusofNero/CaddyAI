@@ -1,46 +1,242 @@
 @import "tailwindcss";
 
-/* Google Fonts - Design System Typography */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Open+Sans:wght@400;600&family=Montserrat:wght@700;800&display=swap');
-
 :root {
-  /* Light Mode (Primary) */
-  --background: #FAFAFA;
-  --foreground: #263238;
+  /* ============================================
+     CaddyAI Design System - Color Tokens
+     Using OKLCH for perceptually uniform colors
+     ============================================ */
 
-  /* Design System Colors */
-  --color-primary: #1B5E20;
-  --color-secondary: #76FF03;
-  --color-accent: #2196F3;
-  --color-neutral: #607D8B;
-  --color-gold: #FFC107;
+  /* Primary - Golf Course Green (Forest) */
+  --color-primary-50: oklch(0.97 0.02 145);
+  --color-primary-100: oklch(0.93 0.04 145);
+  --color-primary-200: oklch(0.85 0.06 145);
+  --color-primary-300: oklch(0.75 0.08 145);
+  --color-primary-400: oklch(0.65 0.10 145);
+  --color-primary-500: oklch(0.45 0.12 145);  /* Main brand #1B5E20 */
+  --color-primary-600: oklch(0.40 0.11 145);
+  --color-primary-700: oklch(0.35 0.10 145);
+  --color-primary-800: oklch(0.28 0.08 145);
+  --color-primary-900: oklch(0.20 0.06 145);
+  --color-primary: var(--color-primary-500);
+
+  /* Secondary - Vibrant Tech Green */
+  --color-secondary-50: oklch(0.97 0.02 130);
+  --color-secondary-100: oklch(0.93 0.04 130);
+  --color-secondary-200: oklch(0.88 0.08 130);
+  --color-secondary-300: oklch(0.83 0.12 130);
+  --color-secondary-400: oklch(0.78 0.16 130);
+  --color-secondary-500: oklch(0.85 0.25 130);  /* Vibrant #76FF03 */
+  --color-secondary-600: oklch(0.75 0.22 130);
+  --color-secondary-700: oklch(0.65 0.18 130);
+  --color-secondary-800: oklch(0.55 0.14 130);
+  --color-secondary-900: oklch(0.45 0.12 130);
+  --color-secondary: var(--color-secondary-500);
+
+  /* Accent - Sky Blue */
+  --color-accent-50: oklch(0.97 0.02 240);
+  --color-accent-100: oklch(0.93 0.04 240);
+  --color-accent-200: oklch(0.87 0.08 240);
+  --color-accent-300: oklch(0.80 0.12 240);
+  --color-accent-400: oklch(0.72 0.16 240);
+  --color-accent-500: oklch(0.64 0.18 240);  /* Main accent #2196F3 */
+  --color-accent-600: oklch(0.58 0.17 240);
+  --color-accent-700: oklch(0.52 0.16 240);
+  --color-accent-800: oklch(0.46 0.14 240);
+  --color-accent-900: oklch(0.38 0.12 240);
+  --color-accent: var(--color-accent-500);
+
+  /* Neutral - Warm Gray */
+  --color-neutral-50: oklch(0.99 0 0);
+  --color-neutral-100: oklch(0.97 0 0);
+  --color-neutral-200: oklch(0.94 0 0);
+  --color-neutral-300: oklch(0.89 0 0);
+  --color-neutral-400: oklch(0.78 0 0);
+  --color-neutral-500: oklch(0.65 0 0);
+  --color-neutral-600: oklch(0.52 0 0);
+  --color-neutral-700: oklch(0.48 0.01 240);  /* Body text #607D8B */
+  --color-neutral-800: oklch(0.38 0.02 240);  /* Headings #455A64 */
+  --color-neutral-900: oklch(0.25 0.02 240);  /* Dark text #263238 */
+  --color-neutral: var(--color-neutral-700);
+
+  /* Gold - Premium accent */
+  --color-gold-50: oklch(0.97 0.02 80);
+  --color-gold-100: oklch(0.93 0.04 80);
+  --color-gold-200: oklch(0.88 0.08 80);
+  --color-gold-300: oklch(0.83 0.12 80);
+  --color-gold-400: oklch(0.78 0.14 80);
+  --color-gold-500: oklch(0.73 0.15 80);  /* #FFC107 */
+  --color-gold-600: oklch(0.68 0.14 80);
+  --color-gold-700: oklch(0.58 0.12 80);
+  --color-gold-800: oklch(0.48 0.10 80);
+  --color-gold-900: oklch(0.38 0.08 80);
+  --color-gold: var(--color-gold-500);
+
+  /* Semantic Colors - Light Mode */
+  --color-success: oklch(0.55 0.15 145);  /* Green for success */
+  --color-warning: oklch(0.70 0.15 60);   /* Orange for warnings */
+  --color-error: oklch(0.55 0.22 25);     /* Red for errors */
+  --color-info: var(--color-accent-500);   /* Blue for info */
+
+  /* Background Colors - Light Mode */
+  --color-background: oklch(0.99 0 0);     /* Off-white #FAFAFA */
+  --color-background-alt: oklch(1 0 0);    /* Pure white */
+  --color-background-elevated: oklch(1 0 0);
+  --color-background-muted: oklch(0.97 0 0);
+
+  /* Foreground/Text Colors - Light Mode */
+  --color-foreground: var(--color-neutral-900);
+  --color-foreground-secondary: var(--color-neutral-700);
+  --color-foreground-muted: var(--color-neutral-500);
+
+  /* Border Colors - Light Mode */
+  --color-border: oklch(0.89 0 0);
+  --color-border-muted: oklch(0.94 0 0);
+
+  /* Component-specific variables */
+  --color-card-bg: var(--color-background-alt);
+  --color-card-border: var(--color-border-muted);
+  --color-input-bg: var(--color-background-alt);
+  --color-input-border: var(--color-border);
+  --color-input-focus: var(--color-primary);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.1), 0 2px 4px -1px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -2px oklch(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 10px 10px -5px oklch(0 0 0 / 0.04);
+  --shadow-card: 0 8px 24px oklch(0 0 0 / 0.12);
+  --shadow-primary: 0 4px 12px oklch(0.45 0.12 145 / 0.3);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark Mode Theme */
+[data-theme="dark"] {
+  /* Primary - Lighter for dark backgrounds */
+  --color-primary-50: oklch(0.20 0.06 145);
+  --color-primary-100: oklch(0.28 0.08 145);
+  --color-primary-200: oklch(0.35 0.10 145);
+  --color-primary-300: oklch(0.40 0.11 145);
+  --color-primary-400: oklch(0.45 0.12 145);
+  --color-primary-500: oklch(0.55 0.14 145);  /* Lighter for dark mode */
+  --color-primary-600: oklch(0.65 0.16 145);
+  --color-primary-700: oklch(0.75 0.18 145);
+  --color-primary-800: oklch(0.85 0.20 145);
+  --color-primary-900: oklch(0.93 0.22 145);
+
+  /* Background Colors - Dark Mode */
+  --color-background: oklch(0.18 0.01 240);      /* Dark blue-gray #0B1220 */
+  --color-background-alt: oklch(0.22 0.01 240);  /* Slightly lighter */
+  --color-background-elevated: oklch(0.25 0.01 240);
+  --color-background-muted: oklch(0.15 0.01 240);
+
+  /* Foreground/Text Colors - Dark Mode */
+  --color-foreground: oklch(0.95 0 0);
+  --color-foreground-secondary: oklch(0.75 0.01 240);
+  --color-foreground-muted: oklch(0.55 0.01 240);
+
+  /* Border Colors - Dark Mode */
+  --color-border: oklch(0.30 0.01 240);
+  --color-border-muted: oklch(0.25 0.01 240);
+
+  /* Component-specific - Dark Mode */
+  --color-card-bg: var(--color-background-alt);
+  --color-card-border: var(--color-border-muted);
+  --color-input-bg: var(--color-background-muted);
+  --color-input-border: var(--color-border);
+
+  /* Shadows - Dark Mode (more subtle) */
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.4), 0 2px 4px -1px oklch(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -2px oklch(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.6), 0 10px 10px -5px oklch(0 0 0 / 0.5);
+  --shadow-card: 0 8px 24px oklch(0 0 0 / 0.4);
+  --shadow-primary: 0 4px 12px oklch(0.55 0.14 145 / 0.4);
 }
 
+/* Auto dark mode based on system preference */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    /* Apply dark theme variables when no explicit theme is set */
+    --color-primary-500: oklch(0.55 0.14 145);
+    --color-background: oklch(0.18 0.01 240);
+    --color-background-alt: oklch(0.22 0.01 240);
+    --color-background-elevated: oklch(0.25 0.01 240);
+    --color-background-muted: oklch(0.15 0.01 240);
+    --color-foreground: oklch(0.95 0 0);
+    --color-foreground-secondary: oklch(0.75 0.01 240);
+    --color-foreground-muted: oklch(0.55 0.01 240);
+    --color-border: oklch(0.30 0.01 240);
+    --color-border-muted: oklch(0.25 0.01 240);
+    --color-card-bg: var(--color-background-alt);
+    --color-input-bg: var(--color-background-muted);
   }
 }
 
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --font-sans: var(--font-inter);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.7;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typography Scale - All using Inter */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight: 600;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
   line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.25rem; /* 36px / 4xl */
+}
+
+h2 {
+  font-size: 1.875rem; /* 30px / 3xl */
+}
+
+h3 {
+  font-size: 1.5rem; /* 24px / 2xl */
+}
+
+h4 {
+  font-size: 1.25rem; /* 20px / xl */
+}
+
+/* Body text utilities */
+.text-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.text-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+.text-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+/* Caption utilities */
+.text-caption {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+.text-caption-xs {
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 500;
 }

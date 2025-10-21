@@ -36,11 +36,11 @@ export function TrustBadge({
         <Icon className="w-6 h-6 text-primary" />
       </div>
       <div className="flex flex-col">
-        <span className="font-heading font-semibold text-neutral-900 text-sm">
+        <span className="font-sans font-semibold text-neutral-900 text-sm">
           {label}
         </span>
         {sublabel && (
-          <span className="font-body text-xs text-neutral-600">
+          <span className="font-sans text-xs text-neutral-600">
             {sublabel}
           </span>
         )}

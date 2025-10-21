@@ -8,6 +8,7 @@
 
 import { motion } from 'framer-motion';
 import { LucideIcon, ArrowRight } from 'lucide-react';
+import { IconWithGradient } from '@/components/ui/Icon';
 import { fadeInUp } from '@/lib/animations';
 
 export interface FeatureCardProps {
@@ -46,18 +47,23 @@ export function FeatureCard({
             rotate: 360,
             transition: { duration: 0.6, ease: 'easeInOut' },
           }}
-          className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:shadow-xl group-hover:shadow-primary/40 transition-all duration-300"
+          className="mb-6"
         >
-          <Icon className="w-10 h-10 text-white" />
+          <IconWithGradient
+            icon={Icon}
+            size="lg"
+            rounded={false}
+            className="group-hover:shadow-xl group-hover:shadow-primary/40 transition-all duration-300"
+          />
         </motion.div>
 
         {/* Title */}
-        <h3 className="font-heading text-2xl font-semibold text-neutral-900 mb-4">
+        <h3 className="font-sans text-2xl font-semibold text-neutral-900 mb-4">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="font-body text-neutral-700 leading-relaxed mb-6 min-h-[80px]">
+        <p className="font-sans text-neutral-700 leading-relaxed mb-6 min-h-[80px]">
           {description}
         </p>
 
@@ -66,7 +72,7 @@ export function FeatureCard({
           <motion.a
             href={href}
             whileHover={{ x: 4 }}
-            className="inline-flex items-center gap-2 font-heading font-semibold text-primary hover:text-primary-600 transition-colors"
+            className="inline-flex items-center gap-2 font-sans font-semibold text-primary hover:text-primary-600 transition-colors"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4" />

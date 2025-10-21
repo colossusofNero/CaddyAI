@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { IconWithBackground, Icon, iconConfig } from '@/components/ui/Icon';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
 
 interface CTASectionProps {
@@ -78,7 +79,7 @@ export function CTASection({
               className="flex justify-center mb-6"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
-                <Sparkles className="w-4 h-4 text-primary" />
+                <Icon icon={Sparkles} {...iconConfig.badge} />
                 <span className="text-sm font-medium text-primary">
                   Limited Time Offer
                 </span>
@@ -109,7 +110,7 @@ export function CTASection({
               <Link href={primaryCTA.href}>
                 <Button size="lg" className="w-full sm:w-auto min-w-[200px] group">
                   {primaryCTA.text}
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               {secondaryCTA && (
@@ -132,9 +133,13 @@ export function CTASection({
                 className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 pt-8 border-t border-secondary-700"
               >
                 <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Target className="w-6 h-6 text-primary" />
-                  </div>
+                  <IconWithBackground
+                    icon={Target}
+                    size="md"
+                    backgroundVariant="primary"
+                    variant="white"
+                    className="flex-shrink-0"
+                  />
                   <div>
                     <p className="font-bold text-text-primary">AI-Powered</p>
                     <p className="text-sm text-text-muted">
@@ -144,9 +149,13 @@ export function CTASection({
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                  <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <TrendingUp className="w-6 h-6 text-accent" />
-                  </div>
+                  <IconWithBackground
+                    icon={TrendingUp}
+                    size="md"
+                    backgroundVariant="accent"
+                    variant="white"
+                    className="flex-shrink-0"
+                  />
                   <div>
                     <p className="font-bold text-text-primary">Track Progress</p>
                     <p className="text-sm text-text-muted">
@@ -156,9 +165,13 @@ export function CTASection({
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-6 h-6 text-primary" />
-                  </div>
+                  <IconWithBackground
+                    icon={Sparkles}
+                    size="md"
+                    backgroundVariant="primary"
+                    variant="white"
+                    className="flex-shrink-0"
+                  />
                   <div>
                     <p className="font-bold text-text-primary">Free to Start</p>
                     <p className="text-sm text-text-muted">No Credit Card</p>

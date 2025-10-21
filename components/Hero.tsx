@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { ChevronDown, Play, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Icon, iconConfig } from '@/components/ui/Icon';
 import { fadeIn, fadeInUp, staggerContainer, staggerItem, bounce } from '@/lib/animations';
 
 interface HeroProps {
@@ -100,24 +101,24 @@ export function Hero({
               variants={staggerItem}
               className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/30 rounded-full mb-6 backdrop-blur-sm"
             >
-              <Sparkles className="w-4 h-4 text-secondary" />
+              <Icon icon={Sparkles} {...iconConfig.badge} variant="secondary" />
               <span className="text-sm font-semibold text-white">
                 AI-Powered Golf Assistant
               </span>
             </motion.div>
 
-            {/* Title - 72px Montserrat Bold (desktop), 48px mobile */}
+            {/* Title - 72px Inter Bold (desktop), 48px mobile */}
             <motion.h1
               variants={staggerItem}
-              className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-[72px] font-bold text-white mb-6 leading-[1.1] tracking-tight"
+              className="font-sans text-5xl sm:text-6xl lg:text-7xl xl:text-[72px] font-bold text-white mb-6 leading-[1.1] tracking-tight"
             >
               {title}
             </motion.h1>
 
-            {/* Subtitle - 18px Open Sans */}
+            {/* Subtitle - 18px Inter */}
             <motion.p
               variants={staggerItem}
-              className="font-body text-lg sm:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed"
+              className="font-sans text-lg sm:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed"
             >
               {subtitle}
             </motion.p>
@@ -141,7 +142,7 @@ export function Hero({
                   size="lg"
                   className="w-full sm:w-auto min-w-[200px] group border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
                 >
-                  <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  <Icon icon={Play} {...iconConfig.button} className="mr-2 group-hover:scale-110 transition-transform" />
                   Watch Demo
                 </Button>
               </Link>
@@ -150,7 +151,7 @@ export function Hero({
             {/* Stat Ticker - Design System: "Join 50,000+ golfers | 2M+ shots analyzed" */}
             <motion.div
               variants={staggerItem}
-              className="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-white/80 font-body"
+              className="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-white/80 font-sans"
             >
               <span className="font-semibold">Join 50,000+ golfers</span>
               <span className="text-white/40">|</span>
@@ -231,7 +232,7 @@ export function Hero({
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 p-2 rounded-full hover:bg-primary/10 transition-colors cursor-pointer group"
         aria-label="Scroll to features"
       >
-        <ChevronDown className="w-8 h-8 text-primary group-hover:text-primary-400 transition-colors" />
+        <Icon icon={ChevronDown} size="lg" variant="primary" className="group-hover:text-primary-400 transition-colors" />
       </motion.button>
     </section>
   );

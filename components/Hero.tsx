@@ -23,7 +23,7 @@ interface HeroProps {
 
 export function Hero({
   videoSrc = '/videos/golf-hero.mp4',
-  fallbackImage = '/images/hero-fallback.jpg',
+  fallbackImage = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=2070&auto=format&fit=crop',
   title = 'Your AI Caddy in Your Pocket',
   subtitle = 'Make every shot count with real-time club recommendations powered by AI',
 }: HeroProps) {
@@ -67,42 +67,19 @@ export function Hero({
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-background-light"
     >
-      {/* Video Background */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        {!videoError && (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            onError={() => setVideoError(true)}
-            onLoadedData={() => setIsVideoLoaded(true)}
-            className={`w-full h-full object-cover transition-opacity duration-1000 ${
-              isVideoLoaded ? 'opacity-30' : 'opacity-0'
-            }`}
-            aria-hidden="true"
-          >
-            <source src={videoSrc} type="video/mp4" />
-          </video>
-        )}
-
-        {/* Fallback Image */}
-        {(videoError || !isVideoLoaded) && (
-          <div className="relative w-full h-full">
-            <Image
-              src={fallbackImage}
-              alt=""
-              fill
-              priority
-              className="object-cover opacity-30"
-              onError={() => {
-                // If image also fails, show gradient background
-                const img = document.querySelector('[alt=""]') as HTMLElement;
-                if (img) img.style.display = 'none';
-              }}
-            />
-          </div>
-        )}
+        {/* Beautiful Golf Course Background */}
+        <div className="relative w-full h-full">
+          <Image
+            src={fallbackImage}
+            alt="Beautiful golf course aerial view"
+            fill
+            priority
+            className="object-cover opacity-40"
+            unoptimized
+          />
+        </div>
 
         {/* Gradient Overlay - Design System: 135deg green-to-blue */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-primary/60 to-accent/60" />

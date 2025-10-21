@@ -6,6 +6,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -40,8 +41,18 @@ export function CTASection({
 }: CTASectionProps) {
   return (
     <section id="cta" className="relative py-20 lg:py-32 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2070&auto=format&fit=crop"
+          alt="Golfer on course"
+          fill
+          className="object-cover opacity-20"
+          unoptimized
+        />
+      </div>
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background-light to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background-light to-background opacity-90" />
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000" />

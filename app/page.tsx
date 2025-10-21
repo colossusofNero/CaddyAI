@@ -16,6 +16,7 @@ import { StatsCounter, defaultStats } from '@/components/StatsCounter';
 import { CTASection } from '@/components/CTASection';
 import { Footer } from '@/components/Footer';
 import { SocialProofSection } from '@/components/redesign/SocialProofSection';
+import { CourseShowcase } from '@/components/CourseShowcase';
 import { motion } from 'framer-motion';
 import {
   Target,
@@ -221,6 +222,9 @@ export default function LandingPage() {
           <TestimonialSlider />
         </div>
       </section>
+
+      {/* Course Showcase Section */}
+      <CourseShowcase />
 
       {/* CTA Section */}
       <CTASection />

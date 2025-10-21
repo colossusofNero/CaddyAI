@@ -52,8 +52,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={clsx(
-              'w-full px-4 py-2.5 rounded-lg',
+              'w-full px-4 rounded-lg',
+              'h-11 sm:h-12', // Touch-optimized: 44px -> 48px (WCAG 2.1 AAA)
               'bg-secondary border-2 border-secondary-700',
+              'text-base', // Minimum 16px to prevent zoom on iOS
               'text-text-primary placeholder:text-text-muted',
               'focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20',
               'transition-all duration-200',

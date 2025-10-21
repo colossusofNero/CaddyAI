@@ -42,10 +42,11 @@ export function Button({
       'bg-error text-white hover:bg-red-600 active:bg-red-700 focus:ring-error',
   };
 
+  // Touch-optimized sizes (WCAG 2.1 Level AAA: min 44px)
   const sizes = {
-    sm: 'text-sm px-3 py-1.5',
-    md: 'text-base px-4 py-2.5',
-    lg: 'text-lg px-6 py-3',
+    sm: 'text-sm px-4 h-10', // 40px height (for secondary actions)
+    md: 'text-base px-6 h-11 sm:h-12', // 44px -> 48px (meets touch target)
+    lg: 'text-lg px-8 h-12 sm:h-14', // 48px -> 56px (spacious for primary actions)
   };
 
   return (

@@ -12,6 +12,7 @@ import {
   signUp,
   signIn,
   signInWithGoogle,
+  signInWithApple,
   signOut,
   resetPassword,
   onAuthStateChange,
@@ -27,6 +28,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, displayName?: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  signInWithApple: () => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   clearError: () => void;
@@ -112,6 +114,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Apple sign in method
+  const handleSignInWithApple = async () => {
+    try {
+      setError(null);
+      setLoading(true);
+      await signInWithApple();
+      // User state will be updated by onAuthStateChange
+    } catch (err: any) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Sign out method
   const handleSignOut = async () => {
     try {
@@ -151,6 +168,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signUp: handleSignUp,
     signIn: handleSignIn,
     signInWithGoogle: handleSignInWithGoogle,
+    signInWithApple: handleSignInWithApple,
     signOut: handleSignOut,
     resetPassword: handleResetPassword,
     clearError,

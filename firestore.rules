@@ -108,5 +108,74 @@ service cloud.firestore {
       allow update: if isOwner(userId);
       allow delete: if isOwner(userId);
     }
+
+    // Courses Collection - Read-only for all authenticated users
+    match /courses/{courseId} {
+      // Anyone authenticated can read course data
+      allow read: if isSignedIn();
+
+      // Only admins can write (implement admin check in production)
+      allow write: if false;
+    }
+
+    // Course Holes Collection - Read-only for all authenticated users
+    match /courseHoles/{holeId} {
+      // Anyone authenticated can read hole data
+      allow read: if isSignedIn();
+
+      // Only admins can write
+      allow write: if false;
+    }
+
+    // Course Favorites Collection
+    // Document ID format: {userId}_{courseId}
+    match /courseFavorites/{docId} {
+      // Allow read if user is authenticated and owns the document
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Allow create if user is authenticated and creating their own favorite
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['userId', 'courseId', 'courseName', 'location', 'addedAt', 'timesPlayed'])
+        && request.resource.data.userId is string
+        && request.resource.data.courseId is string
+        && request.resource.data.courseName is string
+        && request.resource.data.location is string
+        && request.resource.data.addedAt is int
+        && request.resource.data.timesPlayed is int;
+
+      // Allow update if user owns the document
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId; // Prevent userId changes
+
+      // Allow delete if user owns the document
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Course Reviews Collection
+    match /courseReviews/{reviewId} {
+      // Anyone authenticated can read reviews
+      allow read: if isSignedIn();
+
+      // Users can create reviews for courses they've played
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.keys().hasAll(['courseId', 'userId', 'userName', 'rating', 'difficulty', 'condition', 'value', 'playedDate', 'createdAt', 'helpful'])
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.difficulty is int
+        && request.resource.data.difficulty >= 1
+        && request.resource.data.difficulty <= 5;
+
+      // Users can update their own reviews
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+
+      // Users can delete their own reviews
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
   }
 }

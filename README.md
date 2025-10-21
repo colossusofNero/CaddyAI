@@ -160,16 +160,45 @@ function Dashboard() {
 
 ## 🧪 Testing
 
-Testing suite coming soon. Planned coverage:
-- Unit tests (Jest + React Testing Library)
-- Integration tests
-- E2E tests (Playwright)
+Comprehensive testing suite with unit, integration, and E2E tests:
+
+### Unit Tests
+- Jest + React Testing Library
+- 80%+ code coverage target
+- Component tests for all UI elements
+- Utility function tests
+
+### End-to-End Tests
+- Playwright for cross-browser testing
+- Mobile and desktop viewports
+- Critical user flows
 
 ```bash
-# Tests will be available soon
-npm test           # Run unit tests
-npm run test:e2e   # Run E2E tests
+# Run all unit tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+
+# Run E2E tests
+npm run test:e2e
+
+# Run E2E tests with UI
+npm run test:e2e:ui
+
+# Debug E2E tests
+npm run test:e2e:debug
 ```
+
+### Test Coverage
+- UI Components: Button, Card, Input
+- Authentication flows
+- Course search and navigation
+- Responsive design across devices
+- Accessibility compliance (WCAG 2.1 AA)
 
 ## 📦 Deployment
 

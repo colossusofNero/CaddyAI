@@ -83,9 +83,9 @@ export function Footer() {
     <footer className="relative bg-background-light border-t border-secondary-700">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Brand Column - Full width on mobile */}
+          <div className="md:col-span-2 lg:col-span-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -131,8 +131,8 @@ export function Footer() {
             </motion.div>
           </div>
 
-          {/* Links Columns */}
-          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Links Columns - 2 columns on mobile/tablet, 4 on desktop */}
+          <div className="md:col-span-2 lg:col-span-8 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {footerSections.map((section, index) => (
               <motion.div
                 key={section.title}
@@ -141,15 +141,16 @@ export function Footer() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <h3 className="font-bold text-text-primary mb-4">
+                <h3 className="font-bold text-text-primary mb-3 text-base">
                   {section.title}
                 </h3>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm text-text-secondary hover:text-primary transition-colors"
+                        className="inline-block py-1 text-sm text-text-secondary hover:text-primary transition-colors touch-manipulation"
+                        style={{ minHeight: '32px' }}
                       >
                         {link.label}
                       </Link>
@@ -165,7 +166,7 @@ export function Footer() {
         <div className="border-t border-secondary-700 my-8 lg:my-12" />
 
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
           {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -182,8 +183,9 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-secondary-800 hover:bg-primary border border-secondary-700 hover:border-primary rounded-lg flex items-center justify-center transition-all group"
+                  className="w-11 h-11 bg-secondary-800 hover:bg-primary border border-secondary-700 hover:border-primary rounded-lg flex items-center justify-center transition-all group touch-manipulation"
                   aria-label={social.label}
+                  style={{ minWidth: '44px', minHeight: '44px' }}
                 >
                   <Icon className="w-5 h-5 text-text-secondary group-hover:text-white transition-colors" />
                 </a>

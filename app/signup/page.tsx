@@ -33,9 +33,10 @@ type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signUp, signInWithGoogle, error: authError, clearError } = useAuth();
+  const { signUp, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const {
@@ -75,6 +76,20 @@ export default function SignupPage() {
       // Error is handled by useAuth
     } finally {
       setGoogleLoading(false);
+    }
+  };
+
+  // Handle Apple Sign-In
+  const handleAppleSignIn = async () => {
+    try {
+      setAppleLoading(true);
+      clearError();
+      await signInWithApple();
+      router.push('/dashboard');
+    } catch {
+      // Error is handled by useAuth
+    } finally {
+      setAppleLoading(false);
     }
   };
 
@@ -238,7 +253,7 @@ export default function SignupPage() {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                disabled={isLoading || googleLoading || showSuccess}
+                disabled={isLoading || googleLoading || appleLoading || showSuccess}
               >
                 Create Account
               </Button>
@@ -264,7 +279,7 @@ export default function SignupPage() {
                 variant="outline"
                 fullWidth
                 loading={googleLoading}
-                disabled={isLoading || googleLoading || showSuccess}
+                disabled={isLoading || googleLoading || appleLoading || showSuccess}
                 onClick={handleGoogleSignIn}
                 className="border-2 border-neutral-300 hover:border-primary hover:bg-primary/5"
                 icon={
@@ -296,7 +311,9 @@ export default function SignupPage() {
                 type="button"
                 variant="outline"
                 fullWidth
-                disabled={isLoading || googleLoading || showSuccess}
+                loading={appleLoading}
+                disabled={isLoading || googleLoading || appleLoading || showSuccess}
+                onClick={handleAppleSignIn}
                 className="border-2 border-neutral-900 bg-neutral-900 text-white hover:bg-neutral-800"
                 icon={
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

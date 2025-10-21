@@ -26,9 +26,10 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
-  const { signIn, signInWithGoogle, error: authError, clearError } = useAuth();
+  const { signIn, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const [, setShowResetPassword] = useState(false);
 
   const {
@@ -64,6 +65,20 @@ export default function LoginPage() {
       // Error is handled by useAuth
     } finally {
       setGoogleLoading(false);
+    }
+  };
+
+  // Handle Apple Sign-In
+  const handleAppleSignIn = async () => {
+    try {
+      setAppleLoading(true);
+      clearError();
+      await signInWithApple();
+      router.push('/dashboard');
+    } catch {
+      // Error is handled by useAuth
+    } finally {
+      setAppleLoading(false);
     }
   };
 
@@ -165,7 +180,7 @@ export default function LoginPage() {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                disabled={isLoading || googleLoading}
+                disabled={isLoading || googleLoading || appleLoading}
               >
                 Sign In
               </Button>
@@ -191,7 +206,7 @@ export default function LoginPage() {
                 variant="outline"
                 fullWidth
                 loading={googleLoading}
-                disabled={isLoading || googleLoading}
+                disabled={isLoading || googleLoading || appleLoading}
                 onClick={handleGoogleSignIn}
                 className="border-2 border-neutral-300 hover:border-primary hover:bg-primary/5"
                 icon={
@@ -223,7 +238,9 @@ export default function LoginPage() {
                 type="button"
                 variant="outline"
                 fullWidth
-                disabled={isLoading || googleLoading}
+                loading={appleLoading}
+                disabled={isLoading || googleLoading || appleLoading}
+                onClick={handleAppleSignIn}
                 className="border-2 border-neutral-900 bg-neutral-900 text-white hover:bg-neutral-800"
                 icon={
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

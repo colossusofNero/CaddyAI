@@ -29,7 +29,20 @@
       "Read(//c/Users/scott/**)",
       "Bash(rm:*)",
       "WebFetch(domain:caddyai-edygz5le3-rcg-valuation.vercel.app)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(find:*)",
+      "Bash(dir C:UsersscottClaude_Codecaddyai-websrc /B)",
+      "Bash(npx playwright install)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:coverage:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq npm*\")",
+      "Bash(cmd /c \"rmdir /s /q .next 2>nul || echo Cleaned\")",
+      "Bash(dir:*)",
+      "Bash(npm run build:test:*)",
+      "Bash(npm run lint)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

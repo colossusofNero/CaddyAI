@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - CaddyAI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #0f766e 0%, #059669 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 24px;
+      padding: 48px 32px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 24px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #6b7280;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #fee2e2;
+      color: #991b1b;
+      border-radius: 999px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    .status.online {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    button {
+      background: #0f766e;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #115e59;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .offline-courses {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .offline-courses h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    .course-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .course-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #1f2937;
+      transition: all 0.2s;
+    }
+
+    .course-item:hover {
+      background: #f3f4f6;
+      transform: translateX(4px);
+    }
+
+    .course-icon {
+      width: 40px;
+      height: 40px;
+      background: #0f766e;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .course-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .course-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .course-location {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">⛳</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry, you can still access downloaded courses!</p>
+
+    <div id="status" class="status">
+      <span class="dot"></span>
+      <span id="status-text">Offline</span>
+    </div>
+
+    <button onclick="location.reload()">Try Again</button>
+
+    <div class="offline-courses">
+      <h2>Available Offline Courses</h2>
+      <div id="course-list" class="course-list">
+        <p style="color: #6b7280; font-size: 14px;">No courses downloaded yet</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check connection status
+    function updateStatus() {
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('status-text');
+
+      if (navigator.onLine) {
+        status.classList.add('online');
+        statusText.textContent = 'Back Online!';
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      } else {
+        status.classList.remove('online');
+        statusText.textContent = 'Offline';
+      }
+    }
+
+    // Listen for connection changes
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+
+    // Initial status check
+    updateStatus();
+
+    // Load offline courses from IndexedDB
+    async function loadOfflineCourses() {
+      try {
+        const db = await new Promise((resolve, reject) => {
+          const request = indexedDB.open('CaddyAI_Offline', 1);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+
+        const transaction = db.transaction(['courses'], 'readonly');
+        const store = transaction.objectStore('courses');
+        const courses = await new Promise((resolve, reject) => {
+          const request = store.getAll();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+
+        const courseList = document.getElementById('course-list');
+
+        if (courses.length === 0) {
+          courseList.innerHTML = '<p style="color: #6b7280; font-size: 14px;">No courses downloaded yet</p>';
+          return;
+        }
+
+        courseList.innerHTML = courses.map(data => `
+          <a href="/courses/${data.course.id}" class="course-item">
+            <div class="course-icon">⛳</div>
+            <div class="course-info">
+              <div class="course-name">${data.course.name}</div>
+              <div class="course-location">${data.course.location.city}, ${data.course.location.state}</div>
+            </div>
+          </a>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading offline courses:', error);
+      }
+    }
+
+    // Load courses on page load
+    loadOfflineCourses();
+  </script>
+</body>
+</html>

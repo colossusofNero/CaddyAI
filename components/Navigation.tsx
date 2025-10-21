@@ -168,12 +168,13 @@ export function Navigation() {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Touch-optimized (44px min) */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-text-primary hover:text-primary transition-colors"
+              className="lg:hidden p-3 -mr-3 text-text-primary hover:text-primary transition-colors touch-manipulation"
               aria-label="Toggle menu"
               aria-expanded={isMobileMenuOpen}
+              style={{ minWidth: '44px', minHeight: '44px' }}
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -223,11 +224,12 @@ export function Navigation() {
                           handleSmoothScroll(e, link.href);
                           setIsMobileMenuOpen(false);
                         }}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-colors ${
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-colors touch-manipulation ${
                           isLinkActive(link.href)
                             ? 'text-primary bg-primary/10'
                             : 'text-text-secondary hover:text-text-primary hover:bg-secondary-800'
                         }`}
+                        style={{ minHeight: '48px' }}
                       >
                         {link.label}
                       </Link>

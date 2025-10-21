@@ -3,6 +3,34 @@
  * Matches the structure used in React Native app (CaddyAI_rn)
  */
 
+export interface UserProfile {
+  id: string;
+  email?: string | null;
+  name?: string | null;
+  shotShape: 'draw' | 'fade' | 'straight' | 'variable';
+  handedness: 'left' | 'right';
+  clubSet: string;
+  clubs: string[];
+  skillLevel: 'beginner' | 'intermediate' | 'advanced';
+  preferences: {
+    units: 'metric' | 'imperial';
+    voiceEnabled: boolean;
+    notifications: boolean;
+  };
+  onboardingCompletedAt?: string | null;
+  onboardingDuration?: number | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ClubSetDefinition {
+  id: string;
+  name: string;
+  description: string;
+  clubs: string[];
+  skillLevel: 'beginner' | 'intermediate' | 'advanced';
+}
+
 export interface PlayerProfile {
   // Core Profile (5 questions)
   dominantHand: 'Right' | 'Left';

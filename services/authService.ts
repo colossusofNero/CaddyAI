@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  OAuthProvider,
   signOut as firebaseSignOut,
   onAuthStateChanged,
   User,
@@ -91,6 +92,37 @@ export async function signInWithGoogle(): Promise<User> {
     return user;
   } catch (error: any) {
     console.error('Google sign in error:', error);
+    throw new Error(getAuthErrorMessage(error.code));
+  }
+}
+
+/**
+ * Sign in with Apple
+ */
+export async function signInWithApple(): Promise<User> {
+  try {
+    const provider = new OAuthProvider('apple.com');
+    provider.addScope('email');
+    provider.addScope('name');
+    provider.setCustomParameters({
+      // Optional: specify locale
+      locale: 'en'
+    });
+
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    // Check if user metadata exists, create if not
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (!userDoc.exists()) {
+      await createUserMetadata(user);
+    } else {
+      await updateLastLogin(user.uid);
+    }
+
+    return user;
+  } catch (error: any) {
+    console.error('Apple sign in error:', error);
     throw new Error(getAuthErrorMessage(error.code));
   }
 }

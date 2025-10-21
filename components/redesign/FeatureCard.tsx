@@ -39,14 +39,14 @@ export function FeatureCard({
       }}
       className="h-full"
     >
-      <div className="h-full bg-white rounded-2xl p-8 border border-neutral-200 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group cursor-pointer">
+      <div className="h-full bg-gradient-to-br from-white via-white to-primary/5 rounded-2xl p-8 border border-primary/10 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 group cursor-pointer">
         {/* Icon Container with Gradient Background */}
         <motion.div
           whileHover={{
             rotate: 360,
             transition: { duration: 0.6, ease: 'easeInOut' },
           }}
-          className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+          className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mb-6 shadow-md group-hover:shadow-xl group-hover:shadow-primary/40 transition-all duration-300"
         >
           <Icon className="w-10 h-10 text-white" />
         </motion.div>

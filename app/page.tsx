@@ -102,7 +102,7 @@ export default function LandingPage() {
             </motion.p>
           </div>
 
-          <FeatureGrid columns={3}>
+          <FeatureGrid>
             {features.map((feature, index) => (
               <FeatureCard key={feature.title} {...feature} index={index} />
             ))}

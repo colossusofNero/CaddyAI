@@ -88,6 +88,9 @@ export async function createProfile(
     updatedAt: serverTimestamp(),
   };
 
+  if (!db) {
+    throw new Error('Firestore is not initialized');
+  }
   await setDoc(doc(db, 'profiles', userId), profile);
 
   return {
@@ -102,6 +105,10 @@ export async function createProfile(
  */
 export async function getProfile(userId: string): Promise<UserProfile | null> {
   try {
+    if (!db) {
+      console.error('Firestore is not initialized');
+      return null;
+    }
     const profileDoc = await getDoc(doc(db, 'profiles', userId));
 
     if (!profileDoc.exists()) {
@@ -139,6 +146,9 @@ export async function updateProfile(
   updates: Partial<UserProfile>
 ): Promise<void> {
   try {
+    if (!db) {
+      throw new Error('Firestore is not initialized');
+    }
     await updateDoc(doc(db, 'profiles', userId), {
       ...updates,
       updatedAt: serverTimestamp(),

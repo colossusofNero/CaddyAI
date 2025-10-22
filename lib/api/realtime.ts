@@ -22,6 +22,11 @@ export function subscribeToActiveGolfersCount(
   callback: (count: number) => void
 ): Unsubscribe {
   try {
+    if (!db) {
+      console.error('[RealtimeAPI] Firestore not initialized');
+      callback(0);
+      return () => {};
+    }
     const activeRoundsRef = collection(db, 'activeRounds');
     const now = Date.now();
     const fiveMinutesAgo = now - 5 * 60 * 1000; // 5 minutes
@@ -60,6 +65,11 @@ export function subscribeToOnlineGolfersAtCourse(
   callback: (golfers: OnlineGolfer[]) => void
 ): Unsubscribe {
   try {
+    if (!db) {
+      console.error('[RealtimeAPI] Firestore not initialized');
+      callback([]);
+      return () => {};
+    }
     const activeRoundsRef = collection(db, 'activeRounds');
     const now = Date.now();
     const fiveMinutesAgo = now - 5 * 60 * 1000;
@@ -118,6 +128,11 @@ export function subscribeToActiveRound(
   callback: (round: ActiveRound | null) => void
 ): Unsubscribe {
   try {
+    if (!db) {
+      console.error('[RealtimeAPI] Firestore not initialized');
+      callback(null);
+      return () => {};
+    }
     const activeRoundsRef = collection(db, 'activeRounds');
     const q = query(activeRoundsRef, where('userId', '==', userId));
 
@@ -172,6 +187,11 @@ export function subscribeToCoursReounds(
   callback: (count: number) => void
 ): Unsubscribe {
   try {
+    if (!db) {
+      console.error('[RealtimeAPI] Firestore not initialized');
+      callback(0);
+      return () => {};
+    }
     const roundsRef = collection(db, 'rounds');
     const q = query(
       roundsRef,
@@ -204,6 +224,10 @@ export function subscribeToCoursReounds(
  */
 export async function updateLastActivity(userId: string): Promise<void> {
   try {
+    if (!db) {
+      console.error('[RealtimeAPI] Firestore not initialized');
+      return;
+    }
     const { doc, updateDoc, Timestamp } = await import('firebase/firestore');
     const activeRoundRef = doc(db, 'activeRounds', userId);
 

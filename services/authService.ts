@@ -30,6 +30,9 @@ export async function signUp(
   displayName?: string
 ): Promise<User> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
@@ -56,6 +59,9 @@ export async function signUp(
  */
 export async function signIn(email: string, password: string): Promise<User> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
     // Update last login time
@@ -73,6 +79,9 @@ export async function signIn(email: string, password: string): Promise<User> {
  */
 export async function signInWithGoogle(): Promise<User> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
       prompt: 'select_account'
@@ -82,6 +91,9 @@ export async function signInWithGoogle(): Promise<User> {
     const user = userCredential.user;
 
     // Check if user metadata exists, create if not
+    if (!db) {
+      throw new Error('Firestore is not initialized');
+    }
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
       await createUserMetadata(user);
@@ -101,6 +113,9 @@ export async function signInWithGoogle(): Promise<User> {
  */
 export async function signInWithApple(): Promise<User> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     const provider = new OAuthProvider('apple.com');
     provider.addScope('email');
     provider.addScope('name');
@@ -113,6 +128,9 @@ export async function signInWithApple(): Promise<User> {
     const user = userCredential.user;
 
     // Check if user metadata exists, create if not
+    if (!db) {
+      throw new Error('Firestore is not initialized');
+    }
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
       await createUserMetadata(user);
@@ -132,6 +150,9 @@ export async function signInWithApple(): Promise<User> {
  */
 export async function signOut(): Promise<void> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     await firebaseSignOut(auth);
   } catch (error: any) {
     console.error('Sign out error:', error);
@@ -144,6 +165,9 @@ export async function signOut(): Promise<void> {
  */
 export async function resetPassword(email: string): Promise<void> {
   try {
+    if (!auth) {
+      throw new Error('Authentication is not initialized');
+    }
     await sendPasswordResetEmail(auth, email);
   } catch (error: any) {
     console.error('Password reset error:', error);
@@ -155,6 +179,10 @@ export async function resetPassword(email: string): Promise<void> {
  * Subscribe to auth state changes
  */
 export function onAuthStateChange(callback: (user: User | null) => void) {
+  if (!auth) {
+    console.warn('[Auth] Firebase Auth is not initialized');
+    return () => {}; // Return no-op unsubscribe function
+  }
   return onAuthStateChanged(auth, callback);
 }
 
@@ -173,6 +201,9 @@ export function getCurrentUser(): User | null {
  * Create user metadata document in Firestore
  */
 async function createUserMetadata(user: User): Promise<void> {
+  if (!db) {
+    throw new Error('Firestore is not initialized');
+  }
   const userMetadata: UserMetadata = {
     userId: user.uid,
     email: user.email,
@@ -197,6 +228,10 @@ async function createUserMetadata(user: User): Promise<void> {
  */
 async function updateLastLogin(userId: string): Promise<void> {
   try {
+    if (!db) {
+      console.error('Firestore is not initialized');
+      return;
+    }
     await setDoc(
       doc(db, 'users', userId),
       {
@@ -215,6 +250,10 @@ async function updateLastLogin(userId: string): Promise<void> {
  */
 export async function getUserMetadata(userId: string): Promise<UserMetadata | null> {
   try {
+    if (!db) {
+      console.error('Firestore is not initialized');
+      return null;
+    }
     const userDoc = await getDoc(doc(db, 'users', userId));
 
     if (!userDoc.exists()) {

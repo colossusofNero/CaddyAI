@@ -46,6 +46,16 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Debug: Log what we actually have (will be visible in browser console)
+if (typeof window !== 'undefined') {
+  console.log('[Firebase Config Debug]', {
+    hasApiKey: !!firebaseConfig.apiKey,
+    hasAuthDomain: !!firebaseConfig.authDomain,
+    hasProjectId: !!firebaseConfig.projectId,
+    apiKeyPrefix: firebaseConfig.apiKey?.substring(0, 10),
+  });
+}
+
 // Check if Firebase is configured
 export const isFirebaseConfigured = validateFirebaseConfig();
 

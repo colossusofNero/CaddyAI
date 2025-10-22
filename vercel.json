@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd caddyai-web && npm run build",
+  "devCommand": "cd caddyai-web && npm run dev",
+  "installCommand": "cd caddyai-web && npm install",
+  "outputDirectory": "caddyai-web/.next",
+  "framework": "nextjs"
+}

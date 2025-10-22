@@ -1,0 +1,271 @@
+{
+  "courses": [
+    {
+      "id": "pebble-beach-golf-links",
+      "name": "Pebble Beach Golf Links",
+      "location": {
+        "address": "1700 17-Mile Drive",
+        "city": "Pebble Beach",
+        "state": "CA",
+        "country": "USA",
+        "postalCode": "93953",
+        "latitude": 36.5673,
+        "longitude": -121.9490
+      },
+      "contact": {
+        "phone": "(831) 622-8723",
+        "website": "https://www.pebblebeach.com"
+      },
+      "holes": 18,
+      "designer": "Jack Neville & Douglas Grant",
+      "yearBuilt": 1919,
+      "courseType": "resort",
+      "teeBoxes": [
+        {
+          "color": "black",
+          "name": "Championship",
+          "rating": 75.5,
+          "slope": 145,
+          "yardage": 7040,
+          "par": 72
+        },
+        {
+          "color": "blue",
+          "name": "Blue",
+          "rating": 73.8,
+          "slope": 142,
+          "yardage": 6828,
+          "par": 72
+        },
+        {
+          "color": "white",
+          "name": "White",
+          "rating": 71.6,
+          "slope": 137,
+          "yardage": 6467,
+          "par": 72
+        },
+        {
+          "color": "red",
+          "name": "Red",
+          "rating": 73.6,
+          "slope": 135,
+          "yardage": 5812,
+          "par": 72
+        }
+      ],
+      "rating": {
+        "average": 4.9,
+        "count": 15234,
+        "difficulty": 4.8
+      },
+      "pricing": {
+        "weekday": 595,
+        "weekend": 595,
+        "currency": "USD"
+      },
+      "amenities": {
+        "drivingRange": true,
+        "puttingGreen": true,
+        "chippingArea": true,
+        "proShop": true,
+        "restaurant": true,
+        "cartRental": true,
+        "clubRental": true,
+        "lockers": true
+      },
+      "images": [
+        "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1200"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=800",
+      "description": "Pebble Beach Golf Links is widely regarded as one of the most beautiful courses in the world. Located on the rugged Pacific coastline, it features stunning ocean views and challenging holes including the iconic par 3 7th hole.",
+      "features": ["Ocean views", "Historic course", "Links style", "PGA Tour venue"],
+      "createdAt": 1704067200000,
+      "updatedAt": 1704067200000
+    },
+    {
+      "id": "st-andrews-old-course",
+      "name": "St Andrews Old Course",
+      "location": {
+        "address": "Pilmour Links",
+        "city": "St Andrews",
+        "state": "Fife",
+        "country": "Scotland",
+        "postalCode": "KY16 9SF",
+        "latitude": 56.3467,
+        "longitude": -2.8062
+      },
+      "contact": {
+        "phone": "+44 1334 466666",
+        "website": "https://www.standrews.com"
+      },
+      "holes": 18,
+      "designer": "Natural Evolution",
+      "yearBuilt": 1400,
+      "courseType": "public",
+      "teeBoxes": [
+        {
+          "color": "black",
+          "name": "Championship",
+          "rating": 75.3,
+          "slope": 139,
+          "yardage": 7297,
+          "par": 72
+        },
+        {
+          "color": "white",
+          "name": "Medal",
+          "rating": 72.1,
+          "slope": 133,
+          "yardage": 6721,
+          "par": 72
+        },
+        {
+          "color": "red",
+          "name": "Ladies",
+          "rating": 74.5,
+          "slope": 131,
+          "yardage": 5917,
+          "par": 73
+        }
+      ],
+      "rating": {
+        "average": 4.8,
+        "count": 8921,
+        "difficulty": 4.6
+      },
+      "pricing": {
+        "weekday": 280,
+        "weekend": 280,
+        "currency": "GBP"
+      },
+      "amenities": {
+        "drivingRange": true,
+        "puttingGreen": true,
+        "chippingArea": true,
+        "proShop": true,
+        "restaurant": true,
+        "cartRental": false,
+        "clubRental": true,
+        "lockers": true
+      },
+      "images": [
+        "https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=1200"
+      ],
+      "thumbnailUrl": "https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=800",
+      "description": "The Old Course at St Andrews is the oldest golf course in the world and is considered the 'Home of Golf'. With its iconic Swilcan Bridge and challenging Road Hole, it's a must-play for any serious golfer.",
+      "features": ["Historic", "Links style", "Natural terrain", "Open Championship venue"],
+      "createdAt": 1704067200000,
+      "updatedAt": 1704067200000
+    }
+  ],
+  "holes": [
+    {
+      "id": "pebble-beach-hole-7",
+      "courseId": "pebble-beach-golf-links",
+      "holeNumber": 7,
+      "par": 3,
+      "handicap": 17,
+      "yardages": {
+        "black": 106,
+        "blue": 106,
+        "white": 106,
+        "red": 94
+      },
+      "geometry": {
+        "teeBoxes": [
+          { "lat": 36.5680, "lng": -121.9495 },
+          { "lat": 36.5681, "lng": -121.9495 },
+          { "lat": 36.5681, "lng": -121.9496 },
+          { "lat": 36.5680, "lng": -121.9496 }
+        ],
+        "fairway": [],
+        "green": [
+          { "lat": 36.5685, "lng": -121.9502 },
+          { "lat": 36.5686, "lng": -121.9502 },
+          { "lat": 36.5686, "lng": -121.9504 },
+          { "lat": 36.5685, "lng": -121.9504 }
+        ],
+        "greenCenter": { "lat": 36.5685, "lng": -121.9503 },
+        "bunkers": [
+          [
+            { "lat": 36.5684, "lng": -121.9501 },
+            { "lat": 36.5685, "lng": -121.9501 },
+            { "lat": 36.5684, "lng": -121.9502 }
+          ]
+        ],
+        "water": [
+          [
+            { "lat": 36.5682, "lng": -121.9498 },
+            { "lat": 36.5685, "lng": -121.9500 },
+            { "lat": 36.5687, "lng": -121.9506 },
+            { "lat": 36.5680, "lng": -121.9506 }
+          ]
+        ]
+      },
+      "dogleg": "none",
+      "waterHazards": 1,
+      "bunkers": 2,
+      "description": "The iconic 7th hole at Pebble Beach is one of the most photographed holes in golf. This short par 3 plays over the Pacific Ocean to a tiny green surrounded by bunkers.",
+      "tips": "Club selection is critical - the hole often plays shorter due to wind. Aim for the center of the green.",
+      "createdAt": 1704067200000,
+      "updatedAt": 1704067200000
+    },
+    {
+      "id": "st-andrews-hole-17",
+      "courseId": "st-andrews-old-course",
+      "holeNumber": 17,
+      "par": 4,
+      "handicap": 1,
+      "yardages": {
+        "black": 495,
+        "white": 455,
+        "red": 415
+      },
+      "geometry": {
+        "teeBoxes": [
+          { "lat": 56.3475, "lng": -2.8070 },
+          { "lat": 56.3476, "lng": -2.8070 },
+          { "lat": 56.3476, "lng": -2.8071 },
+          { "lat": 56.3475, "lng": -2.8071 }
+        ],
+        "fairway": [
+          { "lat": 56.3476, "lng": -2.8070 },
+          { "lat": 56.3480, "lng": -2.8065 },
+          { "lat": 56.3485, "lng": -2.8062 },
+          { "lat": 56.3483, "lng": -2.8058 },
+          { "lat": 56.3478, "lng": -2.8060 }
+        ],
+        "green": [
+          { "lat": 56.3486, "lng": -2.8060 },
+          { "lat": 56.3487, "lng": -2.8060 },
+          { "lat": 56.3487, "lng": -2.8062 },
+          { "lat": 56.3486, "lng": -2.8062 }
+        ],
+        "greenCenter": { "lat": 56.3486, "lng": -2.8061 },
+        "bunkers": [
+          [
+            { "lat": 56.3485, "lng": -2.8060 },
+            { "lat": 56.3486, "lng": -2.8059 },
+            { "lat": 56.3485, "lng": -2.8059 }
+          ]
+        ],
+        "water": [],
+        "outOfBounds": [
+          [
+            { "lat": 56.3487, "lng": -2.8063 },
+            { "lat": 56.3488, "lng": -2.8063 },
+            { "lat": 56.3488, "lng": -2.8059 }
+          ]
+        ]
+      },
+      "dogleg": "none",
+      "waterHazards": 0,
+      "bunkers": 1,
+      "description": "The legendary Road Hole, often considered one of the toughest par 4s in golf. The green is narrow and angled, with the famous Road Hole bunker guarding the front left and the road behind.",
+      "tips": "Drive it left of the Old Course Hotel. Second shot must avoid the deep Road Hole bunker. Be careful not to go long - the road and wall are out of bounds.",
+      "createdAt": 1704067200000,
+      "updatedAt": 1704067200000
+    }
+  ]
+}

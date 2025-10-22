@@ -45,7 +45,9 @@
       "Bash(npx tsc:*)",
       "Bash(git checkout:*)",
       "Bash(git pull:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(node scripts/site-check.js:*)"
     ],
     "deny": [],
     "ask": []

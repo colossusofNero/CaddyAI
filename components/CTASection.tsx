@@ -49,7 +49,7 @@ export function CTASection({
           alt="Golfer on course"
           fill
           className="object-cover opacity-20"
-          unoptimized
+          sizes="100vw"
         />
       </div>
       {/* Background Effects */}

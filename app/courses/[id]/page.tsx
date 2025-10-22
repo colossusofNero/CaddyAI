@@ -454,14 +454,14 @@ export default function CourseDetailPage() {
                 </h3>
                 <div className="text-center mb-6">
                   <div className="text-5xl font-bold text-text-primary mb-2">
-                    {course.rating.toFixed(1)}
+                    {course.rating.average.toFixed(1)}
                   </div>
                   <div className="flex items-center justify-center gap-1 mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-5 h-5 ${
-                          i < Math.round(course.rating)
+                          i < Math.round(course.rating.average)
                             ? 'text-gold fill-gold'
                             : 'text-gray-300'
                         }`}
@@ -469,7 +469,7 @@ export default function CourseDetailPage() {
                     ))}
                   </div>
                   <div className="text-sm text-text-secondary">
-                    Based on {course.reviewCount || 0} reviews
+                    Based on {course.rating.count || 0} reviews
                   </div>
                 </div>
               </div>

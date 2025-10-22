@@ -14,7 +14,7 @@ import {
   calculateDistanceInfo,
   getAccuracyLevel,
 } from '@/services/gpsService';
-import { GPSPosition, DistanceInfo, CourseHoleExtended } from '@/types/courseExtended';
+import { GPSPosition, DistanceInfo, CourseHoleExtended } from '@/src/types/courseExtended';
 
 interface UseGPSOptions {
   enableTracking?: boolean;

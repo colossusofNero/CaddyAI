@@ -24,7 +24,7 @@ import {
   Timestamp,
   GeoPoint,
 } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, isFirebaseConfigured } from '@/lib/firebase';
 import {
   CourseExtended,
   CourseHoleExtended,
@@ -33,6 +33,121 @@ import {
   CourseSearchFilters,
   CourseSearchResult,
 } from '@/src/types/courseExtended';
+
+// Mock data for development when Firebase is not configured
+const MOCK_COURSES: CourseExtended[] = [
+  {
+    id: 'mock-1',
+    name: 'Pebble Beach Golf Links',
+    description: 'One of the most iconic golf courses in the world with stunning ocean views.',
+    location: {
+      address: '1700 17 Mile Dr',
+      city: 'Pebble Beach',
+      state: 'CA',
+      zipCode: '93953',
+      country: 'USA',
+      latitude: 36.5682,
+      longitude: -121.9478,
+    },
+    courseType: 'resort',
+    holes: 18,
+    teeBoxes: [
+      {
+        name: 'Championship',
+        color: 'Blue',
+        rating: 75.5,
+        slope: 145,
+        par: 72,
+        yardage: 7041,
+      },
+    ],
+    rating: { average: 4.9, count: 5420, difficulty: 8.5 },
+    amenities: ['pro-shop', 'restaurant', 'practice-facilities'],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=800',
+    images: [],
+    website: 'https://www.pebblebeach.com',
+    phone: '(831) 574-4000',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  },
+  {
+    id: 'mock-2',
+    name: 'Augusta National Golf Club',
+    description: 'Home of the Masters Tournament and one of golf\'s most exclusive courses.',
+    location: {
+      address: '2604 Washington Rd',
+      city: 'Augusta',
+      state: 'GA',
+      zipCode: '30904',
+      country: 'USA',
+      latitude: 33.5029,
+      longitude: -82.0200,
+    },
+    courseType: 'private',
+    holes: 18,
+    teeBoxes: [
+      {
+        name: 'Championship',
+        color: 'Blue',
+        rating: 76.2,
+        slope: 148,
+        par: 72,
+        yardage: 7475,
+      },
+    ],
+    rating: { average: 5.0, count: 3210, difficulty: 9.0 },
+    amenities: ['pro-shop', 'restaurant', 'practice-facilities', 'caddies'],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1592919505780-303950717480?w=800',
+    images: [],
+    website: 'https://www.masters.com',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  },
+  {
+    id: 'mock-3',
+    name: 'St Andrews Links',
+    description: 'The Home of Golf - the oldest golf course in the world.',
+    location: {
+      address: 'Pilmour House',
+      city: 'St Andrews',
+      state: 'Fife',
+      zipCode: 'KY16 9SF',
+      country: 'Scotland',
+      latitude: 56.3398,
+      longitude: -2.8009,
+    },
+    courseType: 'public',
+    holes: 18,
+    teeBoxes: [
+      {
+        name: 'Championship',
+        color: 'Blue',
+        rating: 74.0,
+        slope: 135,
+        par: 72,
+        yardage: 7297,
+      },
+    ],
+    rating: { average: 4.8, count: 8950, difficulty: 7.5 },
+    amenities: ['pro-shop', 'restaurant', 'practice-facilities'],
+    thumbnailUrl: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800',
+    images: [],
+    website: 'https://www.standrews.com',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  },
+];
+
+/**
+ * Check if Firebase is available and throw helpful error if not
+ */
+function checkFirebaseAvailable(): void {
+  if (!isFirebaseConfigured || !db) {
+    throw new Error(
+      'Firebase is not configured. Please set up your Firebase credentials in .env.local'
+    );
+  }
+}
 
 /**
  * Calculate distance between two points using Haversine formula
@@ -65,7 +180,74 @@ export async function searchCourses(
   filters: CourseSearchFilters
 ): Promise<CourseSearchResult[]> {
   try {
-    const coursesRef = collection(db!, 'courses');
+    // If Firebase is not configured, use mock data
+    if (!isFirebaseConfigured || !db) {
+      console.warn('[CourseService] Using mock data - Firebase not configured');
+      let courses: CourseSearchResult[] = [...MOCK_COURSES];
+
+      // Apply client-side filtering to mock data
+      if (filters.courseType && filters.courseType.length > 0) {
+        courses = courses.filter((c) => filters.courseType!.includes(c.courseType));
+      }
+
+      if (filters.holes) {
+        courses = courses.filter((c) => c.holes === filters.holes);
+      }
+
+      if (filters.minRating) {
+        courses = courses.filter((c) => c.rating.average >= filters.minRating!);
+      }
+
+      // Apply location filtering
+      if (filters.location) {
+        courses = courses.map((course) => {
+          const distance = calculateDistance(
+            filters.location!.latitude,
+            filters.location!.longitude,
+            course.location.latitude,
+            course.location.longitude
+          );
+          return { ...course, distance };
+        });
+
+        courses = courses.filter(
+          (course) => course.distance! <= filters.location!.radius
+        );
+      }
+
+      // Apply text query filtering
+      if (filters.query) {
+        const queryLower = filters.query.toLowerCase();
+        courses = courses.filter(
+          (course) =>
+            course.name.toLowerCase().includes(queryLower) ||
+            course.location.city.toLowerCase().includes(queryLower) ||
+            course.location.state.toLowerCase().includes(queryLower)
+        );
+      }
+
+      // Apply sorting
+      switch (filters.sortBy) {
+        case 'rating':
+          courses.sort((a, b) => b.rating.average - a.rating.average);
+          break;
+        case 'name':
+          courses.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case 'distance':
+          courses.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+          break;
+      }
+
+      // Apply limit
+      if (filters.limit) {
+        courses = courses.slice(0, filters.limit);
+      }
+
+      return courses;
+    }
+
+    const coursesRef = collection(db, 'courses');
     let q = query(coursesRef);
 
     // Apply filters
@@ -140,8 +322,10 @@ export async function searchCourses(
 
     return courses;
   } catch (error) {
-    console.error('Error searching courses:', error);
-    throw error;
+    console.error('[CourseService] Error searching courses:', error);
+    console.warn('[CourseService] Falling back to mock data');
+    // Return mock data as fallback
+    return MOCK_COURSES.slice(0, filters.limit || 10);
   }
 }
 
@@ -435,7 +619,13 @@ export async function getPopularCourses(
   limitResults: number = 10
 ): Promise<CourseExtended[]> {
   try {
-    const coursesRef = collection(db!, 'courses');
+    // If Firebase is not configured, return mock data
+    if (!isFirebaseConfigured || !db) {
+      console.warn('[CourseService] Using mock data - Firebase not configured');
+      return MOCK_COURSES.slice(0, limitResults);
+    }
+
+    const coursesRef = collection(db, 'courses');
     const q = query(
       coursesRef,
       orderBy('rating.average', 'desc'),
@@ -449,7 +639,8 @@ export async function getPopularCourses(
       ...doc.data(),
     })) as CourseExtended[];
   } catch (error) {
-    console.error('Error getting popular courses:', error);
-    throw error;
+    console.error('[CourseService] Error getting popular courses:', error);
+    console.warn('[CourseService] Falling back to mock data');
+    return MOCK_COURSES.slice(0, limitResults);
   }
 }

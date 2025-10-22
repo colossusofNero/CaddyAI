@@ -312,10 +312,10 @@ export const isVibrationSupported = (): boolean => {
  * Vibrate device
  * @param pattern - Single duration or array of durations [vibrate, pause, vibrate, ...]
  */
-export const vibrate = (pattern: number | number[]): boolean => {
+export const vibrate = (pattern: number | number[] | readonly number[]): boolean => {
   if (!isVibrationSupported()) return false;
 
-  return navigator.vibrate(pattern);
+  return navigator.vibrate(pattern as number | number[]);
 };
 
 /**

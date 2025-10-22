@@ -1,0 +1,1587 @@
+{
+  "timestamp": "2025-10-22T16:57:10.621Z",
+  "baseUrl": "http://localhost:3000",
+  "summary": {
+    "total": 13,
+    "passed": 9,
+    "failed": 3,
+    "warnings": 1
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "path": "/",
+      "url": "http://localhost:3000/",
+      "status": "failed",
+      "errors": [
+        "Console Error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "warnings": [
+        "5 broken images found"
+      ],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:11.509Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:11.588Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:11.588Z"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "timestamp": "2025-10-22T16:57:11.874Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:15.514Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1504,
+        "metrics": {
+          "layoutCount": 14,
+          "scriptDuration": 0.370608
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\home.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "brokenImages": [
+        "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1593111774240-d529f12cb0ee?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2070&auto=format&fit=crop"
+      ],
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Start Free Trial →"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Watch Demo"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started Free"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "View Pricing"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        }
+      ]
+    },
+    {
+      "name": "About",
+      "path": "/about",
+      "url": "http://localhost:3000/about",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:16.265Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /about. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:16.376Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /about. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:16.376Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:20.618Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1424,
+        "metrics": {
+          "layoutCount": 12,
+          "scriptDuration": 0.300522
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\about.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started Free"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "View Pricing"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "path": "/features",
+      "url": "http://localhost:3000/features",
+      "status": "warning",
+      "errors": [],
+      "warnings": [
+        "1 broken images found"
+      ],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:21.479Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /features. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:21.603Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /features. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:21.603Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:25.736Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1545,
+        "metrics": {
+          "layoutCount": 12,
+          "scriptDuration": 0.362137
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\features.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "brokenImages": [
+        "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2070&auto=format&fit=crop"
+      ],
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/features#ai-selection",
+          "text": "AI-Powered Club SelectionOur advanced AI analyzes "
+        },
+        {
+          "href": "http://localhost:3000/features#shot-patterns",
+          "text": "Personalized Shot PatternsTrack your shot dispersi"
+        },
+        {
+          "href": "http://localhost:3000/features#weather",
+          "text": "Real-Time Weather IntegrationAutomatic weather dat"
+        },
+        {
+          "href": "http://localhost:3000/features#elevation",
+          "text": "Elevation AdjustmentsPrecise elevation calculation"
+        },
+        {
+          "href": "http://localhost:3000/features#analytics",
+          "text": "Performance AnalyticsDetailed statistics and insig"
+        },
+        {
+          "href": "http://localhost:3000/features#courses",
+          "text": "15,000+ Course DatabaseAccess detailed course info"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started Free"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "View Pricing"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        }
+      ]
+    },
+    {
+      "name": "Pricing",
+      "path": "/pricing",
+      "url": "http://localhost:3000/pricing",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:26.657Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /pricing. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:26.761Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /pricing. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:26.761Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:30.941Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1582,
+        "metrics": {
+          "layoutCount": 12,
+          "scriptDuration": 0.304914
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\pricing.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started Free"
+        },
+        {
+          "href": "http://localhost:3000/signup?plan=pro",
+          "text": "Start Pro Trial"
+        },
+        {
+          "href": "http://localhost:3000/signup?plan=tour",
+          "text": "Start Tour Trial"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "Contact Sales →"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "path": "/courses",
+      "url": "http://localhost:3000/courses",
+      "status": "failed",
+      "errors": [
+        "Console Error: Error getting popular courses: JSHandle@error",
+        "Console Error: Error loading courses: JSHandle@error"
+      ],
+      "warnings": [
+        "No <nav> element found"
+      ],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:31.595Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /courses. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:31.681Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /courses. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:31.681Z"
+        },
+        {
+          "type": "error",
+          "text": "Error getting popular courses: JSHandle@error",
+          "timestamp": "2025-10-22T16:57:32.018Z"
+        },
+        {
+          "type": "error",
+          "text": "Error loading courses: JSHandle@error",
+          "timestamp": "2025-10-22T16:57:32.018Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:35.884Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1178,
+        "metrics": {
+          "layoutCount": 25,
+          "scriptDuration": 0.269482
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\courses.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": false,
+        "hasFooter": false,
+        "hasMain": false
+      },
+      "links": []
+    },
+    {
+      "name": "Careers",
+      "path": "/careers",
+      "url": "http://localhost:3000/careers",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:36.654Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /careers. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:36.758Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /careers. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:36.758Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:40.397Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1409,
+        "metrics": {
+          "layoutCount": 8,
+          "scriptDuration": 0.297605
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\careers.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        },
+        {
+          "href": "http://localhost:3000/tutorials",
+          "text": "Tutorials"
+        }
+      ]
+    },
+    {
+      "name": "Press",
+      "path": "/press",
+      "url": "http://localhost:3000/press",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:41.151Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /press. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:41.258Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /press. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:41.258Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:45.384Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1406,
+        "metrics": {
+          "layoutCount": 9,
+          "scriptDuration": 0.297946
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\press.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "mailto:press@caddyai.com",
+          "text": "press@caddyai.com"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        }
+      ]
+    },
+    {
+      "name": "Documentation",
+      "path": "/docs",
+      "url": "http://localhost:3000/docs",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:46.216Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /docs. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:46.323Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /docs. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:46.323Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:50.495Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1491,
+        "metrics": {
+          "layoutCount": 9,
+          "scriptDuration": 0.296949
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\documentation.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        },
+        {
+          "href": "http://localhost:3000/tutorials",
+          "text": "Tutorials"
+        }
+      ]
+    },
+    {
+      "name": "Privacy Policy",
+      "path": "/privacy",
+      "url": "http://localhost:3000/privacy",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:51.492Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /privacy. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:51.597Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /privacy. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:51.597Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:57:55.730Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1520,
+        "metrics": {
+          "layoutCount": 10,
+          "scriptDuration": 0.287144
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\privacy-policy.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "mailto:privacy@caddyai.com",
+          "text": "privacy@caddyai.com"
+        },
+        {
+          "href": "mailto:privacy@caddyai.com",
+          "text": "privacy@caddyai.com"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        }
+      ]
+    },
+    {
+      "name": "Terms of Service",
+      "path": "/terms",
+      "url": "http://localhost:3000/terms",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:57:56.672Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /terms. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:56.789Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /terms. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:57:56.789Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:58:00.945Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1487,
+        "metrics": {
+          "layoutCount": 9,
+          "scriptDuration": 0.298872
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\terms-of-service.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "mailto:legal@caddyai.com",
+          "text": "legal@caddyai.com"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        }
+      ]
+    },
+    {
+      "name": "Cookie Policy",
+      "path": "/cookies",
+      "url": "http://localhost:3000/cookies",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:58:01.864Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /cookies. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:01.970Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /cookies. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:01.970Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:58:06.153Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1535,
+        "metrics": {
+          "layoutCount": 10,
+          "scriptDuration": 0.286553
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\cookie-policy.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "mailto:privacy@caddyai.com",
+          "text": "privacy@caddyai.com"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        }
+      ]
+    },
+    {
+      "name": "Integrations",
+      "path": "/integrations",
+      "url": "http://localhost:3000/integrations",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "consoleMessages": [
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:58:07.077Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /integrations. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:07.181Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /integrations. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:07.181Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:58:11.307Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 200,
+        "loadTime": 1551,
+        "metrics": {
+          "layoutCount": 9,
+          "scriptDuration": 0.295194
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\integrations.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": true,
+      "structure": {
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "links": [
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About"
+        },
+        {
+          "href": "http://localhost:3000/login",
+          "text": "Sign In"
+        },
+        {
+          "href": "http://localhost:3000/signup",
+          "text": "Get Started"
+        },
+        {
+          "href": "http://localhost:3000/",
+          "text": "CaddyAI"
+        },
+        {
+          "href": "mailto:support@caddyai.com",
+          "text": "support@caddyai.com"
+        },
+        {
+          "href": "tel:+18005551234",
+          "text": "1-800-555-1234"
+        },
+        {
+          "href": "http://localhost:3000/features",
+          "text": "Features"
+        },
+        {
+          "href": "http://localhost:3000/pricing",
+          "text": "Pricing"
+        },
+        {
+          "href": "http://localhost:3000/download",
+          "text": "Download App"
+        },
+        {
+          "href": "http://localhost:3000/integrations",
+          "text": "Integrations"
+        },
+        {
+          "href": "http://localhost:3000/about",
+          "text": "About Us"
+        },
+        {
+          "href": "http://localhost:3000/careers",
+          "text": "Careers"
+        },
+        {
+          "href": "http://localhost:3000/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "http://localhost:3000/press",
+          "text": "Press Kit"
+        },
+        {
+          "href": "http://localhost:3000/help",
+          "text": "Help Center"
+        },
+        {
+          "href": "http://localhost:3000/community",
+          "text": "Community"
+        },
+        {
+          "href": "http://localhost:3000/tutorials",
+          "text": "Tutorials"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "path": "/contact",
+      "url": "http://localhost:3000/contact",
+      "status": "failed",
+      "errors": [
+        "Console Error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "HTTP Status: 404"
+      ],
+      "warnings": [
+        "Page has very little content",
+        "No <nav> element found"
+      ],
+      "consoleMessages": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "timestamp": "2025-10-22T16:58:12.533Z"
+        },
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+          "timestamp": "2025-10-22T16:58:12.867Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:12.941Z"
+        },
+        {
+          "type": "warn",
+          "text": "%c%s%c  ⚠ Unsupported metadata themeColor is configured in metadata export in /_not-found. Please move it to viewport export instead.\nRead more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server  ",
+          "timestamp": "2025-10-22T16:58:12.941Z"
+        },
+        {
+          "type": "log",
+          "text": "[Fast Refresh] rebuilding",
+          "timestamp": "2025-10-22T16:58:17.027Z"
+        }
+      ],
+      "networkErrors": [],
+      "performance": {
+        "httpStatus": 404,
+        "loadTime": 2190,
+        "metrics": {
+          "layoutCount": 8,
+          "scriptDuration": 0.249373
+        }
+      },
+      "accessibility": {},
+      "screenshot": "C:\\Users\\scott\\Claude_Code\\caddyai\\test-results\\screenshots\\contact.png",
+      "title": "Your AI Golf Caddy | CaddyAI",
+      "hasContent": false,
+      "structure": {
+        "hasNav": false,
+        "hasFooter": false,
+        "hasMain": false
+      },
+      "links": []
+    }
+  ]
+}

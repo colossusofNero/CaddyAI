@@ -1,5 +1,13 @@
 // Google Analytics 4 Configuration and Tracking
 
+// Type definitions for analytics
+declare global {
+  interface Window {
+    gtag: (...args: unknown[]) => void;
+    dataLayer: unknown[];
+  }
+}
+
 // Add GA4 measurement ID to environment variables
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || '';
 
@@ -222,14 +230,3 @@ export const identifyUser = (userId: string, properties?: {
     }
   }
 };
-
-// Declare gtag type for TypeScript
-declare global {
-  interface Window {
-    gtag: (
-      command: string,
-      targetId: string | Date,
-      config?: Record<string, any>
-    ) => void;
-  }
-}

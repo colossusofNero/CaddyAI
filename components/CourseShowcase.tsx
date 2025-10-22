@@ -101,7 +101,7 @@ export function CourseShowcase() {
                   alt={course.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  unoptimized
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />

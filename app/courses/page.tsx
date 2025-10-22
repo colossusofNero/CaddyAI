@@ -14,7 +14,7 @@ import {
   getNearbyCourses,
   getPopularCourses,
 } from '@/services/courseService';
-import { CourseSearchResult, CourseSearchFilters } from '@/types/courseExtended';
+import { CourseSearchResult, CourseSearchFilters } from '@/src/types/courseExtended';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function CoursesPage() {

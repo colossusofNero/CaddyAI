@@ -13,7 +13,7 @@ import {
   removeFavoriteCourse,
   isCourseInFavorites,
 } from '@/services/courseService';
-import { CourseFavoriteExtended, CourseExtended } from '@/types/courseExtended';
+import { CourseFavoriteExtended, CourseExtended } from '@/src/types/courseExtended';
 import { useAuth } from './useAuth';
 
 interface UseFavoritesReturn {

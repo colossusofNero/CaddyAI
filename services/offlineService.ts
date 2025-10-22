@@ -4,7 +4,7 @@
  * Handles offline course data caching and synchronization
  */
 
-import { CourseExtended, CourseHoleExtended, OfflineCourseData } from '@/types/courseExtended';
+import { CourseExtended, CourseHoleExtended, OfflineCourseData } from '@/src/types/courseExtended';
 
 const DB_NAME = 'CaddyAI_Offline';
 const DB_VERSION = 1;

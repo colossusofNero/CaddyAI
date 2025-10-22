@@ -8,11 +8,9 @@
 import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-// Type definitions for analytics
+// Extended type definitions for Hotjar
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
     hj?: (...args: unknown[]) => void;
     _hjSettings?: { hjid: number; hjsv: number };
   }

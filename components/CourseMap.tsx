@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CourseHoleExtended } from '@/types/courseExtended';
+import { CourseHoleExtended } from '@/src/types/courseExtended';
 
 // Fix for default marker icons in Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -21,7 +21,7 @@ L.Icon.Default.mergeOptions({
 
 interface CourseMapProps {
   hole: CourseHoleExtended;
-  userPosition?: { lat: number; lng: number };
+  userPosition?: { lat: number; lng: number } | null;
   className?: string;
 }
 

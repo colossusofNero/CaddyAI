@@ -1,11 +1,14 @@
 /**
  * Extended Course Types
  * Additional types for course details, holes, and reviews
+ *
+ * NOTE: This is deprecated. Use @/src/types/courseExtended instead.
  */
 
-import { Course } from './course';
-
-export interface CourseExtended extends Course {
+export interface CourseExtended {
+  id: string;
+  name: string;
+  location: string;
   holes?: CourseHoleExtended[];
   reviews?: CourseReview[];
   rating?: number;

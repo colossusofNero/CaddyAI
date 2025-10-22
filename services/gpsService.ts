@@ -10,7 +10,7 @@ import {
   CourseHoleExtended,
   LatLng,
   Shot,
-} from '@/types/courseExtended';
+} from '@/src/types/courseExtended';
 
 /**
  * Calculate distance between two points using Haversine formula

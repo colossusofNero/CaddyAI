@@ -14,6 +14,14 @@ const inter = Inter({
   preload: true,
 });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#1B5E20',
+};
+
 export const metadata: Metadata = {
   ...generatePageMetadata({
     title: "Your AI Golf Caddy",
@@ -27,13 +35,6 @@ export const metadata: Metadata = {
       'smart golf caddy',
     ],
   }),
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
-  themeColor: '#1B5E20',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

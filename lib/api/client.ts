@@ -75,6 +75,9 @@ export class ApiClient {
    */
   protected async getDocument<T>(collectionName: string, documentId: string): Promise<T | null> {
     try {
+      if (!db) {
+        throw this.createError('firestore/not-initialized', 'Firestore is not initialized. Please check your Firebase configuration.');
+      }
       const docRef = doc(db, collectionName, documentId);
       const docSnap = await getDoc(docRef);
 
@@ -97,6 +100,9 @@ export class ApiClient {
     constraints: QueryConstraint[] = []
   ): Promise<T[]> {
     try {
+      if (!db) {
+        throw this.createError('firestore/not-initialized', 'Firestore is not initialized. Please check your Firebase configuration.');
+      }
       const collectionRef = collection(db, collectionName);
       const q = query(collectionRef, ...constraints);
       const snapshot = await getDocs(q);
@@ -117,6 +123,9 @@ export class ApiClient {
     documentId?: string
   ): Promise<T> {
     try {
+      if (!db) {
+        throw this.createError('firestore/not-initialized', 'Firestore is not initialized. Please check your Firebase configuration.');
+      }
       const id = documentId || doc(collection(db, collectionName)).id;
       const docRef = doc(db, collectionName, id);
       const serializedData = this.serializeDoc({ ...data, id });
@@ -139,6 +148,9 @@ export class ApiClient {
     data: Partial<T>
   ): Promise<void> {
     try {
+      if (!db) {
+        throw this.createError('firestore/not-initialized', 'Firestore is not initialized. Please check your Firebase configuration.');
+      }
       const docRef = doc(db, collectionName, documentId);
       const serializedData = this.serializeDoc(data);
 
@@ -154,6 +166,9 @@ export class ApiClient {
    */
   protected async deleteDocument(collectionName: string, documentId: string): Promise<void> {
     try {
+      if (!db) {
+        throw this.createError('firestore/not-initialized', 'Firestore is not initialized. Please check your Firebase configuration.');
+      }
       const docRef = doc(db, collectionName, documentId);
       await deleteDoc(docRef);
     } catch (error) {

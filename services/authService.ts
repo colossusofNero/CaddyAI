@@ -162,6 +162,10 @@ export function onAuthStateChange(callback: (user: User | null) => void) {
  * Get current user
  */
 export function getCurrentUser(): User | null {
+  if (!auth) {
+    console.warn('[Auth] Firebase Auth is not initialized');
+    return null;
+  }
   return auth.currentUser;
 }
 

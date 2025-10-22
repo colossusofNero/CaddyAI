@@ -32,6 +32,9 @@ export class ApiClient {
    * Get current user ID with auth check
    */
   protected getCurrentUserId(): string {
+    if (!auth) {
+      throw this.createError('auth/not-initialized', 'Firebase Auth is not initialized. Please check your Firebase configuration.');
+    }
     const user = auth.currentUser;
     if (!user) {
       throw this.createError('auth/not-authenticated', 'User not authenticated');

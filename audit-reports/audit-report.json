@@ -1,0 +1,315 @@
+{
+  "timestamp": "2025-10-23T02:33:56.908Z",
+  "siteUrl": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app",
+  "summary": {
+    "totalPages": 10,
+    "workingPages": 10,
+    "brokenPages": 0,
+    "consoleErrors": 27,
+    "consoleWarnings": 0,
+    "firebaseInitialized": false
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "path": "/",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/",
+      "status": 200,
+      "loadTime": 1109,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 24,
+        "links": 35,
+        "forms": 0,
+        "images": 6
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": true
+      }
+    },
+    {
+      "name": "Features",
+      "path": "/features",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/features",
+      "status": 200,
+      "loadTime": 764,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 5,
+        "links": 39,
+        "forms": 0,
+        "images": 1
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": true
+      }
+    },
+    {
+      "name": "Courses",
+      "path": "/courses",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/courses",
+      "status": 200,
+      "loadTime": 939,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 4,
+        "links": 0,
+        "forms": 1,
+        "images": 0
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": false
+      }
+    },
+    {
+      "name": "About",
+      "path": "/about",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/about",
+      "status": 200,
+      "loadTime": 743,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 5,
+        "links": 33,
+        "forms": 0,
+        "images": 1
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": true
+      }
+    },
+    {
+      "name": "Pricing",
+      "path": "/pricing",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/pricing",
+      "status": 200,
+      "loadTime": 744,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 13,
+        "links": 35,
+        "forms": 0,
+        "images": 0
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": true
+      }
+    },
+    {
+      "name": "Download",
+      "path": "/download",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/download",
+      "status": 200,
+      "loadTime": 841,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 31,
+        "links": 35,
+        "forms": 0,
+        "images": 0
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": true
+      }
+    },
+    {
+      "name": "Login",
+      "path": "/login",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/login",
+      "status": 200,
+      "loadTime": 749,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 4,
+        "links": 3,
+        "forms": 1,
+        "images": 0
+      },
+      "features": [
+        "Email/Password Form"
+      ],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": false
+      }
+    },
+    {
+      "name": "Signup",
+      "path": "/signup",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/signup",
+      "status": 200,
+      "loadTime": 743,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 3,
+        "links": 3,
+        "forms": 1,
+        "images": 0
+      },
+      "features": [
+        "Email/Password Form"
+      ],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": false
+      }
+    },
+    {
+      "name": "Profile",
+      "path": "/profile",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/profile",
+      "status": 200,
+      "loadTime": 722,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 4,
+        "links": 3,
+        "forms": 1,
+        "images": 0
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": false
+      }
+    },
+    {
+      "name": "Dashboard",
+      "path": "/dashboard",
+      "url": "https://caddyai-2dc3o72xb-rcg-valuation.vercel.app/dashboard",
+      "status": 200,
+      "loadTime": 761,
+      "errors": [],
+      "warnings": [],
+      "elements": {
+        "buttons": 4,
+        "links": 3,
+        "forms": 1,
+        "images": 0
+      },
+      "features": [],
+      "design": {
+        "colors": {
+          "background": "oklch(0.99 0 0)",
+          "color": "oklch(0.25 0.02 240)"
+        },
+        "hasHero": false,
+        "hasCTA": false
+      }
+    }
+  ],
+  "functionality": {
+    "working": [
+      "Login Form Present",
+      "Signup Form Present"
+    ],
+    "broken": [],
+    "missing": []
+  },
+  "design": {
+    "colors": [],
+    "images": {
+      "total": 8,
+      "broken": [],
+      "missingAlt": []
+    },
+    "issues": []
+  },
+  "firebase": {
+    "initialized": false,
+    "services": {
+      "auth": false,
+      "firestore": false,
+      "storage": false
+    },
+    "errors": []
+  },
+  "appParity": {
+    "implemented": [],
+    "missing": [
+      "authentication: Sign Up",
+      "authentication: Login",
+      "authentication: Password Reset",
+      "authentication: Profile Creation",
+      "profile: User Profile View",
+      "profile: Handicap Display",
+      "profile: Shot Shape Selection",
+      "profile: Profile Editing",
+      "clubs: Club List (26 clubs)",
+      "clubs: Distance Input",
+      "clubs: Club Selection",
+      "clubs: Distance Tracking",
+      "courses: Course Search",
+      "courses: Favorite Courses",
+      "courses: Played Courses History",
+      "courses: Course Details",
+      "rounds: Start Round",
+      "rounds: Active Round Tracking",
+      "rounds: Hole Navigation",
+      "rounds: Score Entry",
+      "rounds: Round History",
+      "statistics: Round Statistics",
+      "statistics: Club Usage Stats",
+      "statistics: Performance Trends",
+      "statistics: Distance Analytics"
+    ],
+    "partial": []
+  }
+}

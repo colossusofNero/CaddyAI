@@ -1,0 +1,1432 @@
+[
+  {
+    "issueId": 1,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "about:blank",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: about:blank\n\n**Description**:\nServer error (500) for: http://localhost:3000/signup\n\n**Your Task**:\n1. Navigate to the file(s) responsible for about:blank\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to about:blank\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 2,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 3,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 4,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 5,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Authentication System Error",
+    "location": "/signup",
+    "prompt": "**Issue**: Authentication System Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: /signup\n\n**Description**:\nNo element found for selector: input[name=\"displayName\"]\n\n**Your Task**:\n1. Navigate to the file(s) responsible for /signup\n2. Identify the root cause of the issue: Authentication System Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to /signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 6,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nServer error (500) for: http://localhost:3000/\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 7,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 8,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 9,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 11,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 12,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 16,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/\n\n**Description**:\nServer error (500) for: http://localhost:3000/about\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 17,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/about\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/about\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/about\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 18,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/about\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/about\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/about\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 19,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/about\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/about\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/about\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 21,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/about\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/about\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/about\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 22,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/about\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/about\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/about\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 26,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/about",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/about\n\n**Description**:\nServer error (500) for: http://localhost:3000/features\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/about\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/about\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 27,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/features\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/features\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/features\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 28,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/features\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/features\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/features\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 29,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/features\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/features\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/features\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 31,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/features\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/features\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/features\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 32,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/features\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/features\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/features\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 36,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/features",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/features\n\n**Description**:\nServer error (500) for: http://localhost:3000/pricing\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/features\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/features\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 37,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/pricing\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/pricing\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 38,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/pricing\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/pricing\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 39,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/pricing\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/pricing\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 41,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/pricing\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/pricing\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 42,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/pricing\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/pricing\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 46,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/pricing",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/pricing\n\n**Description**:\nServer error (500) for: http://localhost:3000/download\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/pricing\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/pricing\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 47,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/download\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/download\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/download\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 48,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/download\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/download\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/download\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 49,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/download\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/download\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/download\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 51,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/download\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/download\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/download\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 52,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/download\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/download\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/download\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 56,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/download",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/download\n\n**Description**:\nServer error (500) for: http://localhost:3000/courses\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/download\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/download\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 57,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/courses\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/courses\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/courses\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 58,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/courses\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/courses\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/courses\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 59,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/courses\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/courses\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/courses\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 61,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/courses\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/courses\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/courses\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 62,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/courses\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/courses\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/courses\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 66,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/courses",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/courses\n\n**Description**:\nServer error (500) for: http://localhost:3000/blog\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/courses\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/courses\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 67,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/blog\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/blog\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/blog\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 68,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/blog\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/blog\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/blog\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 69,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/blog\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/blog\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/blog\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 71,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/blog\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/blog\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/blog\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 72,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/blog\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/blog\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/blog\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 76,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/blog",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/blog\n\n**Description**:\nServer error (500) for: http://localhost:3000/tutorials\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/blog\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/blog\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 77,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/tutorials\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/tutorials\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 78,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/tutorials\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/tutorials\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 79,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/tutorials\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/tutorials\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 81,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/tutorials\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/tutorials\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 82,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/tutorials\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/tutorials\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 86,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/tutorials",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/tutorials\n\n**Description**:\nServer error (500) for: http://localhost:3000/community\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/tutorials\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/tutorials\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 87,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/community\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/community\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/community\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 88,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/community\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/community\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/community\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 89,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/community\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/community\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/community\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 91,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/community\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/community\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/community\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 92,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/community\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/community\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/community\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 96,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/community",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/community\n\n**Description**:\nServer error (500) for: http://localhost:3000/docs\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/community\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/community\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 97,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/docs\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/docs\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/docs\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 98,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/docs\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/docs\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/docs\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 99,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/docs\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/docs\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/docs\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 101,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/docs\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/docs\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/docs\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 102,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/docs\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/docs\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/docs\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 106,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/docs",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/docs\n\n**Description**:\nServer error (500) for: http://localhost:3000/help\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/docs\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/docs\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 107,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/help\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/help\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/help\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 108,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/help\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/help\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/help\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 109,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/help\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/help\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/help\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 111,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/help\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/help\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/help\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 112,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/help\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/help\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/help\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 116,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/help",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/help\n\n**Description**:\nServer error (500) for: http://localhost:3000/contact\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/help\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/help\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 117,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/contact\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/contact\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/contact\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 118,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/contact\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/contact\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/contact\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 119,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/contact\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/contact\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/contact\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 121,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/contact\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/contact\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/contact\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 122,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/contact\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/contact\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/contact\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 126,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/contact",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/contact\n\n**Description**:\nServer error (500) for: http://localhost:3000/weather-demo\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/contact\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/contact\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 127,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/weather-demo\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/weather-demo\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 128,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/weather-demo\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/weather-demo\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 129,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/weather-demo\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/weather-demo\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 131,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/weather-demo\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/weather-demo\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 132,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/weather-demo\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/weather-demo\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 136,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/weather-demo",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/weather-demo\n\n**Description**:\nServer error (500) for: http://localhost:3000/integrations\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/weather-demo\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/weather-demo\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 137,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/integrations\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/integrations\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 138,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/integrations\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/integrations\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 139,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/integrations\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/integrations\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 141,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/integrations\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/integrations\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 142,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/integrations\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/integrations\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 146,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/integrations",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/integrations\n\n**Description**:\nServer error (500) for: http://localhost:3000/press\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/integrations\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/integrations\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 147,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/press\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/press\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/press\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 148,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/press\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/press\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/press\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 149,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/press\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/press\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/press\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 151,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/press\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/press\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/press\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 152,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/press\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/press\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/press\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 156,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/press",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/press\n\n**Description**:\nServer error (500) for: http://localhost:3000/careers\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/press\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/press\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 157,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/careers\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/careers\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/careers\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 158,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/careers\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/careers\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/careers\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 159,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/careers\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/careers\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/careers\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 161,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/careers\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/careers\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/careers\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 162,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/careers\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/careers\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/careers\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 166,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/careers",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/careers\n\n**Description**:\nServer error (500) for: http://localhost:3000/terms\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/careers\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/careers\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 167,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/terms\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/terms\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/terms\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 168,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/terms\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/terms\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/terms\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 169,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/terms\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/terms\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/terms\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 171,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/terms\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/terms\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/terms\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 172,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/terms\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/terms\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/terms\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 176,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/terms",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/terms\n\n**Description**:\nServer error (500) for: http://localhost:3000/privacy\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/terms\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/terms\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 177,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/privacy\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/privacy\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 178,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/privacy\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/privacy\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 179,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/privacy\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/privacy\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 181,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/privacy\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/privacy\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 182,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/privacy\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/privacy\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 186,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/privacy",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/privacy\n\n**Description**:\nServer error (500) for: http://localhost:3000/cookies\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/privacy\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/privacy\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 187,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/cookies\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/cookies\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 188,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/cookies\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/cookies\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 189,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/cookies\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/cookies\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 191,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/cookies\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/cookies\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 192,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/cookies\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/cookies\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 196,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/cookies",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/cookies\n\n**Description**:\nServer error (500) for: http://localhost:3000/gdpr\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/cookies\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/cookies\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 197,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/gdpr\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/gdpr\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 198,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/gdpr\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/gdpr\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 199,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/gdpr\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/gdpr\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 201,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/gdpr\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/gdpr\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 202,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/gdpr\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/gdpr\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 206,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/gdpr",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/gdpr\n\n**Description**:\nServer error (500) for: http://localhost:3000/login\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/gdpr\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/gdpr\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 207,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 208,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 209,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 211,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/login\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/login\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/login\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 212,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/login\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/login\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/login\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 214,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Missing Authentication Form",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Missing Authentication Form\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\n/login page is missing the authentication form\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Missing Authentication Form\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 215,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Missing Form Fields",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Missing Form Fields\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nAuthentication form is missing email or password fields\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Missing Form Fields\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 216,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Missing Submit Button",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Missing Submit Button\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nAuthentication form is missing submit button\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Missing Submit Button\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 221,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/login",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/login\n\n**Description**:\nServer error (500) for: http://localhost:3000/signup\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/login\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/login\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 222,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 223,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Server Error",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Server Error\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nServer error (500) for: http://localhost:3000/favicon.ico\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Server Error\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 224,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Console Error Detected",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Console Error Detected\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nFailed to load resource: the server responded with a status of 500 (Internal Server Error)\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Console Error Detected\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 226,
+    "severity": "High",
+    "category": "Accessibility",
+    "title": "Missing H1 Element",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Missing H1 Element\n\n**Severity**: High\n**Category**: Accessibility (WCAG Compliance)\n**Location**: http://localhost:3000/signup\n\n**Description**:\nPage is missing an H1 heading for proper document structure\n\n**Your Task**:\n1. Locate the components/elements in http://localhost:3000/signup\n2. Add appropriate ARIA attributes, labels, and semantic HTML\n3. Ensure keyboard navigation works properly\n4. Test with screen reader tools (if available)\n5. Verify color contrast meets WCAG AA standards (4.5:1 for normal text)\n\n**WCAG Guidelines**:\n- All images must have descriptive alt text\n- Form inputs must have associated labels\n- Interactive elements must be keyboard accessible\n- Color contrast must meet minimum ratios\n- Semantic HTML should be used (header, nav, main, footer)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/signup\n3. Test keyboard navigation (Tab, Enter, Escape)\n4. Inspect elements for ARIA attributes\n5. Check browser DevTools Accessibility panel\n\n**Success Criteria**:\n- All accessibility issues resolved\n- WCAG AA compliance achieved\n- Keyboard navigation works\n- Screen reader compatible",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 227,
+    "severity": "High",
+    "category": "SEO",
+    "title": "Missing Page Title",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Missing Page Title\n\n**Severity**: High\n**Category**: SEO\n**Location**: http://localhost:3000/signup\n\n**Description**:\nPage is missing a <title> tag\n\n**Your Task**:\n1. Add missing SEO meta tags to http://localhost:3000/signup\n2. Use Next.js Metadata API (if using App Router)\n3. Ensure proper Open Graph and Twitter Card tags\n4. Add structured data (JSON-LD) where appropriate\n5. Verify canonical URLs\n6. Check robots.txt and sitemap.xml\n\n**SEO Requirements**:\n- Title tag (50-60 characters)\n- Meta description (150-160 characters)\n- Open Graph tags (og:title, og:description, og:image, og:url)\n- Twitter Card tags\n- Canonical URL\n- Proper heading hierarchy (H1 > H2 > H3)\n\n**Testing Steps**:\n1. Run `npm run dev`\n2. Navigate to http://localhost:3000/signup\n3. View page source and check meta tags\n4. Use Chrome DevTools > Elements > head\n5. Test with Facebook Sharing Debugger\n6. Test with Twitter Card Validator\n\n**Success Criteria**:\n- All required meta tags present\n- Social sharing preview looks good\n- Search engines can properly index page\n- Lighthouse SEO score > 95",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 229,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Missing Authentication Form",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Missing Authentication Form\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\n/signup page is missing the authentication form\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Missing Authentication Form\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 230,
+    "severity": "Critical",
+    "category": "Functionality",
+    "title": "Missing Form Fields",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Missing Form Fields\n\n**Severity**: Critical\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nAuthentication form is missing email or password fields\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Missing Form Fields\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  },
+  {
+    "issueId": 231,
+    "severity": "High",
+    "category": "Functionality",
+    "title": "Missing Submit Button",
+    "location": "http://localhost:3000/signup",
+    "prompt": "**Issue**: Missing Submit Button\n\n**Severity**: High\n**Category**: Functionality\n**Location**: http://localhost:3000/signup\n\n**Description**:\nAuthentication form is missing submit button\n\n**Your Task**:\n1. Navigate to the file(s) responsible for http://localhost:3000/signup\n2. Identify the root cause of the issue: Missing Submit Button\n3. Implement a fix that resolves the issue\n4. Ensure the fix doesn't break existing functionality\n5. Add error handling if appropriate\n6. Test the fix manually by running the dev server\n7. Consider adding automated tests to prevent regression\n\n**Testing Steps**:\n1. Run `npm run dev` to start the development server\n2. Navigate to http://localhost:3000/signup\n3. Verify the issue is resolved\n4. Test related functionality to ensure no regressions\n\n**Success Criteria**:\n- Issue is fully resolved\n- No console errors\n- Related functionality still works\n- Code follows project conventions",
+    "files": [],
+    "testSteps": []
+  }
+]

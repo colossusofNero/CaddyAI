@@ -43,42 +43,81 @@ export default function LoginPage() {
   // Handle email/password login
   const onSubmit = async (data: LoginFormData) => {
     try {
+      console.log('[Login Debug] Form submitted');
+      console.log('[Login Debug] Email:', data.email);
       setIsLoading(true);
       clearError();
+
+      console.log('[Login Debug] Calling signIn...');
       await signIn(data.email, data.password);
+      console.log('[Login Debug] signIn successful, redirecting to dashboard...');
+
       router.push('/dashboard');
-    } catch {
+    } catch (error: any) {
+      console.error('[Login Debug] Login failed:', {
+        message: error?.message,
+        name: error?.name,
+        stack: error?.stack,
+        error
+      });
       // Error is handled by useAuth
     } finally {
       setIsLoading(false);
+      console.log('[Login Debug] Login attempt complete');
     }
   };
 
   // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
+      console.log('[Login Debug] Google sign-in button clicked');
       setGoogleLoading(true);
       clearError();
+
+      console.log('[Login Debug] Calling signInWithGoogle...');
       await signInWithGoogle();
+      console.log('[Login Debug] Google sign-in successful, redirecting to dashboard...');
+
       router.push('/dashboard');
-    } catch {
+    } catch (error: any) {
+      console.error('[Login Debug] Google sign-in failed:', {
+        message: error?.message,
+        name: error?.name,
+        code: error?.code,
+        stack: error?.stack,
+        error
+      });
       // Error is handled by useAuth
     } finally {
       setGoogleLoading(false);
+      console.log('[Login Debug] Google sign-in attempt complete');
     }
   };
 
   // Handle Apple Sign-In
   const handleAppleSignIn = async () => {
     try {
+      console.log('[Login Debug] Apple sign-in button clicked');
       setAppleLoading(true);
       clearError();
+
+      console.log('[Login Debug] Calling signInWithApple...');
       await signInWithApple();
+      console.log('[Login Debug] Apple sign-in successful, redirecting to dashboard...');
+
       router.push('/dashboard');
-    } catch {
+    } catch (error: any) {
+      console.error('[Login Debug] Apple sign-in failed:', {
+        message: error?.message,
+        name: error?.name,
+        code: error?.code,
+        stack: error?.stack,
+        error
+      });
       // Error is handled by useAuth
     } finally {
       setAppleLoading(false);
+      console.log('[Login Debug] Apple sign-in attempt complete');
     }
   };
 

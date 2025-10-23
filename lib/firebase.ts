@@ -58,15 +58,41 @@ let storage: FirebaseStorage | undefined;
 
 if (isFirebaseConfigured) {
   try {
+    console.log('[Firebase Debug] Starting Firebase initialization...');
+    console.log('[Firebase Debug] Config present:', {
+      apiKey: !!firebaseConfig.apiKey,
+      authDomain: firebaseConfig.authDomain,
+      projectId: firebaseConfig.projectId,
+      storageBucket: firebaseConfig.storageBucket,
+      messagingSenderId: !!firebaseConfig.messagingSenderId,
+      appId: !!firebaseConfig.appId
+    });
+
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    console.log('[Firebase Debug] Firebase app initialized:', app.name);
+
     auth = getAuth(app);
+    console.log('[Firebase Debug] Firebase Auth initialized:', !!auth);
+
     db = getFirestore(app);
+    console.log('[Firebase Debug] Firestore initialized:', !!db);
+
     storage = getStorage(app);
-    console.log('[Firebase] Successfully initialized');
-  } catch (error) {
+    console.log('[Firebase Debug] Storage initialized:', !!storage);
+
+    console.log('[Firebase] Successfully initialized all services');
+  } catch (error: any) {
+    console.error('[Firebase Debug] Initialization error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name,
+      stack: error.stack,
+      fullError: error
+    });
     console.error('[Firebase] Initialization error:', error);
   }
 } else {
+  console.error('[Firebase Debug] CRITICAL: Firebase configuration is missing or invalid!');
   console.warn('[Firebase] Running in offline mode - Firebase services unavailable');
 }
 

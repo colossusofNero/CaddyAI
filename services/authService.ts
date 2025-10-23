@@ -59,17 +59,33 @@ export async function signUp(
  */
 export async function signIn(email: string, password: string): Promise<User> {
   try {
+    console.log('[Auth Debug] Starting signIn...');
+    console.log('[Auth Debug] Email:', email);
+    console.log('[Auth Debug] Auth initialized:', !!auth);
+
     if (!auth) {
+      console.error('[Auth Debug] CRITICAL: Firebase Auth is not initialized!');
       throw new Error('Authentication is not initialized');
     }
+
+    console.log('[Auth Debug] Calling signInWithEmailAndPassword...');
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log('[Auth Debug] Sign in successful, user:', userCredential.user.uid);
 
     // Update last login time
+    console.log('[Auth Debug] Updating last login...');
     await updateLastLogin(userCredential.user.uid);
+    console.log('[Auth Debug] Last login updated');
 
     return userCredential.user;
   } catch (error: any) {
-    console.error('Sign in error:', error);
+    console.error('[Auth Debug] Sign in error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name,
+      stack: error.stack,
+      fullError: error
+    });
     throw new Error(getAuthErrorMessage(error.code));
   }
 }
@@ -79,31 +95,51 @@ export async function signIn(email: string, password: string): Promise<User> {
  */
 export async function signInWithGoogle(): Promise<User> {
   try {
+    console.log('[Auth Debug] Starting Google sign in...');
+    console.log('[Auth Debug] Auth initialized:', !!auth);
+
     if (!auth) {
+      console.error('[Auth Debug] CRITICAL: Firebase Auth is not initialized!');
       throw new Error('Authentication is not initialized');
     }
+
+    console.log('[Auth Debug] Creating Google provider...');
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
       prompt: 'select_account'
     });
 
+    console.log('[Auth Debug] Opening Google sign-in popup...');
     const userCredential = await signInWithPopup(auth, provider);
     const user = userCredential.user;
+    console.log('[Auth Debug] Google sign in successful, user:', user.uid);
 
     // Check if user metadata exists, create if not
     if (!db) {
+      console.error('[Auth Debug] CRITICAL: Firestore is not initialized!');
       throw new Error('Firestore is not initialized');
     }
+
+    console.log('[Auth Debug] Checking user metadata...');
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
+      console.log('[Auth Debug] Creating new user metadata...');
       await createUserMetadata(user);
     } else {
+      console.log('[Auth Debug] Updating last login...');
       await updateLastLogin(user.uid);
     }
+    console.log('[Auth Debug] Google sign in complete');
 
     return user;
   } catch (error: any) {
-    console.error('Google sign in error:', error);
+    console.error('[Auth Debug] Google sign in error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name,
+      stack: error.stack,
+      fullError: error
+    });
     throw new Error(getAuthErrorMessage(error.code));
   }
 }
@@ -113,9 +149,15 @@ export async function signInWithGoogle(): Promise<User> {
  */
 export async function signInWithApple(): Promise<User> {
   try {
+    console.log('[Auth Debug] Starting Apple sign in...');
+    console.log('[Auth Debug] Auth initialized:', !!auth);
+
     if (!auth) {
+      console.error('[Auth Debug] CRITICAL: Firebase Auth is not initialized!');
       throw new Error('Authentication is not initialized');
     }
+
+    console.log('[Auth Debug] Creating Apple provider...');
     const provider = new OAuthProvider('apple.com');
     provider.addScope('email');
     provider.addScope('name');
@@ -124,23 +166,37 @@ export async function signInWithApple(): Promise<User> {
       locale: 'en'
     });
 
+    console.log('[Auth Debug] Opening Apple sign-in popup...');
     const userCredential = await signInWithPopup(auth, provider);
     const user = userCredential.user;
+    console.log('[Auth Debug] Apple sign in successful, user:', user.uid);
 
     // Check if user metadata exists, create if not
     if (!db) {
+      console.error('[Auth Debug] CRITICAL: Firestore is not initialized!');
       throw new Error('Firestore is not initialized');
     }
+
+    console.log('[Auth Debug] Checking user metadata...');
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
+      console.log('[Auth Debug] Creating new user metadata...');
       await createUserMetadata(user);
     } else {
+      console.log('[Auth Debug] Updating last login...');
       await updateLastLogin(user.uid);
     }
+    console.log('[Auth Debug] Apple sign in complete');
 
     return user;
   } catch (error: any) {
-    console.error('Apple sign in error:', error);
+    console.error('[Auth Debug] Apple sign in error details:', {
+      message: error.message,
+      code: error.code,
+      name: error.name,
+      stack: error.stack,
+      fullError: error
+    });
     throw new Error(getAuthErrorMessage(error.code));
   }
 }

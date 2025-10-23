@@ -5,7 +5,7 @@
  * Uses Firestore's real-time listeners to keep data in sync
  */
 
-import { db } from '@/src/lib/firebase';
+import { db } from '@/lib/firebase';
 import {
   collection,
   doc,

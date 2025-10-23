@@ -152,6 +152,7 @@ export default function ProfilePage() {
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="sr-only">Edit Your Golf Profile</h1>
         <form onSubmit={handleSubmit}>
           {/* Success Message */}
           {success && (
@@ -179,13 +180,14 @@ export default function ProfilePage() {
               <div className="space-y-6">
                 {/* Dominant Hand */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label id="dominant-hand-label" className="block text-sm font-medium text-text-primary mb-2">
                     Dominant Hand
                   </label>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4" role="group" aria-labelledby="dominant-hand-label">
                     <button
                       type="button"
                       onClick={() => setDominantHand('right')}
+                      aria-pressed={dominantHand === 'right'}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         dominantHand === 'right'
                           ? 'border-primary bg-primary bg-opacity-10 text-primary'
@@ -197,6 +199,7 @@ export default function ProfilePage() {
                     <button
                       type="button"
                       onClick={() => setDominantHand('left')}
+                      aria-pressed={dominantHand === 'left'}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         dominantHand === 'left'
                           ? 'border-primary bg-primary bg-opacity-10 text-primary'
@@ -227,15 +230,16 @@ export default function ProfilePage() {
 
                 {/* Shot Shape */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label id="shot-shape-label" className="block text-sm font-medium text-text-primary mb-2">
                     Typical Shot Shape
                   </label>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4" role="group" aria-labelledby="shot-shape-label">
                     {(['draw', 'straight', 'fade'] as const).map((shape) => (
                       <button
                         key={shape}
                         type="button"
                         onClick={() => setTypicalShotShape(shape)}
+                        aria-pressed={typicalShotShape === shape}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           typicalShotShape === shape
                             ? 'border-primary bg-primary bg-opacity-10 text-primary'
@@ -317,15 +321,16 @@ export default function ProfilePage() {
 
                 {/* Play Frequency */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label id="play-frequency-label" className="block text-sm font-medium text-text-primary mb-2">
                     Play Frequency
                   </label>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4" role="group" aria-labelledby="play-frequency-label">
                     {(['weekly', 'monthly', 'occasionally', 'rarely'] as const).map((freq) => (
                       <button
                         key={freq}
                         type="button"
                         onClick={() => setPlayFrequency(freq)}
+                        aria-pressed={playFrequency === freq}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           playFrequency === freq
                             ? 'border-primary bg-primary bg-opacity-10 text-primary'
@@ -367,15 +372,16 @@ export default function ProfilePage() {
 
                 {/* Strength Level */}
                 <div>
-                  <label className="block text-sm font-medium text-text-primary mb-2">
+                  <label id="strength-level-label" className="block text-sm font-medium text-text-primary mb-2">
                     Strength Level
                   </label>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4" role="group" aria-labelledby="strength-level-label">
                     {(['low', 'medium', 'high'] as const).map((level) => (
                       <button
                         key={level}
                         type="button"
                         onClick={() => setStrengthLevel(level)}
+                        aria-pressed={strengthLevel === level}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           strengthLevel === level
                             ? 'border-primary bg-primary bg-opacity-10 text-primary'

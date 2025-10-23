@@ -172,6 +172,7 @@ export default function ClubsPage() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="sr-only">Manage Your Golf Clubs</h1>
         <form onSubmit={handleSubmit}>
           {/* Success Message */}
           {success && (
@@ -203,25 +204,29 @@ export default function ClubsPage() {
                   >
                     {/* Club Name */}
                     <div>
-                      <label className="block text-xs font-medium text-text-muted mb-1">
+                      <label htmlFor={`club-name-${index}`} className="block text-xs font-medium text-text-muted mb-1">
                         Club Name
                       </label>
                       <Input
+                        id={`club-name-${index}`}
                         value={club.name}
                         onChange={(e) => updateClub(index, 'name', e.target.value)}
                         placeholder="e.g., Driver"
+                        aria-label={`Name for club ${index + 1}`}
                         required
                       />
                     </div>
 
                     {/* Takeback */}
                     <div>
-                      <label className="block text-xs font-medium text-text-muted mb-1">
+                      <label htmlFor={`takeback-${index}`} className="block text-xs font-medium text-text-muted mb-1">
                         Takeback
                       </label>
                       <select
+                        id={`takeback-${index}`}
                         value={club.takeback}
                         onChange={(e) => updateClub(index, 'takeback', e.target.value)}
+                        aria-label={`Takeback for ${club.name}`}
                         className="w-full px-3 py-2 bg-secondary border border-secondary-700 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                       >
                         <option value="Full">Full</option>
@@ -236,12 +241,14 @@ export default function ClubsPage() {
 
                     {/* Face */}
                     <div>
-                      <label className="block text-xs font-medium text-text-muted mb-1">
+                      <label htmlFor={`face-${index}`} className="block text-xs font-medium text-text-muted mb-1">
                         Face
                       </label>
                       <select
+                        id={`face-${index}`}
                         value={club.face}
                         onChange={(e) => updateClub(index, 'face', e.target.value)}
+                        aria-label={`Face position for ${club.name}`}
                         className="w-full px-3 py-2 bg-secondary border border-secondary-700 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                       >
                         <option value="Square">Square</option>
@@ -255,15 +262,17 @@ export default function ClubsPage() {
 
                     {/* Carry Distance */}
                     <div>
-                      <label className="block text-xs font-medium text-text-muted mb-1">
+                      <label htmlFor={`carry-${index}`} className="block text-xs font-medium text-text-muted mb-1">
                         Carry (yards)
                       </label>
                       <Input
+                        id={`carry-${index}`}
                         type="number"
                         min="0"
                         max="400"
                         value={club.carryYards}
                         onChange={(e) => updateClub(index, 'carryYards', Number(e.target.value))}
+                        aria-label={`Carry distance in yards for ${club.name}`}
                         required
                       />
                     </div>
@@ -273,6 +282,7 @@ export default function ClubsPage() {
                       <button
                         type="button"
                         onClick={() => removeClub(index)}
+                        aria-label={`Remove ${club.name} from club list`}
                         className="w-full md:w-auto px-4 py-2 bg-red-500 bg-opacity-10 text-red-500 rounded-lg hover:bg-opacity-20 transition-colors flex items-center justify-center gap-2"
                       >
                         <Trash2 className="w-4 h-4" />

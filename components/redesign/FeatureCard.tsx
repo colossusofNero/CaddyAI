@@ -52,6 +52,7 @@ export function FeatureCard({
           <IconWithGradient
             icon={Icon}
             size="lg"
+            variant="white"
             rounded={false}
             className="group-hover:shadow-xl group-hover:shadow-primary/40 transition-all duration-300"
           />

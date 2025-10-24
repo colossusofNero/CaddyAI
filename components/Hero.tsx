@@ -77,13 +77,13 @@ export function Hero({
             alt="Beautiful golf course aerial view"
             fill
             priority
-            className="object-cover opacity-40"
+            className="object-cover opacity-25"
             sizes="100vw"
           />
         </div>
 
         {/* Gradient Overlay - Design System: 135deg green-to-blue */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-primary/60 to-accent/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-primary/40 to-accent/40" />
       </div>
 
       {/* Content Container */}
@@ -201,16 +201,39 @@ export function Hero({
                       </span>
                     </div>
 
-                    {/* Mock Content */}
+                    {/* Golf Course UI */}
                     <div className="space-y-3">
-                      <div className="bg-secondary-800 rounded-2xl p-4">
-                        <div className="h-3 bg-primary w-32 rounded mb-2" />
-                        <div className="h-2 bg-text-muted/30 w-full rounded" />
-                        <div className="h-2 bg-text-muted/30 w-3/4 rounded mt-2" />
+                      {/* Hole Information */}
+                      <div className="bg-secondary-800 rounded-2xl p-4 space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-primary text-sm font-bold">HOLE 7</span>
+                          <span className="text-text-muted text-xs">Par 4</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-white">385 yds</span>
+                          <div className="bg-accent/20 px-3 py-1 rounded-lg">
+                            <span className="text-accent text-xs font-semibold">↗ 15 mph</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="bg-secondary-800 rounded-2xl p-4">
-                        <div className="h-3 bg-accent w-24 rounded mb-2" />
-                        <div className="h-2 bg-text-muted/30 w-full rounded" />
+
+                      {/* Club Recommendation */}
+                      <div className="bg-gradient-to-br from-primary to-primary-600 rounded-2xl p-4 shadow-lg">
+                        <div className="text-white text-xs mb-1 opacity-90">RECOMMENDED</div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-white text-2xl font-bold">7 Iron</span>
+                          <div className="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xl">⛳</span>
+                          </div>
+                        </div>
+                        <div className="text-white/80 text-xs mt-2">150 yds to pin</div>
+                      </div>
+
+                      {/* Course Map Preview */}
+                      <div className="bg-secondary-800 rounded-2xl p-3">
+                        <div className="bg-primary/10 rounded-lg h-20 flex items-center justify-center">
+                          <span className="text-primary text-xs font-semibold">Course Map</span>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -108,7 +108,7 @@ export function CTASection({
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
               <Link href={primaryCTA.href}>
-                <Button size="lg" className="w-full sm:w-auto min-w-[200px] group">
+                <Button size="lg" className="w-full sm:w-auto min-w-[200px] group bg-primary hover:bg-primary-600 text-white">
                   {primaryCTA.text}
                   <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -132,7 +132,7 @@ export function CTASection({
                 variants={staggerItem}
                 className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 pt-8 border-t border-secondary-700"
               >
-                <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                <div className="bg-secondary-700/50 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                   <IconWithBackground
                     icon={Target}
                     size="md"
@@ -148,7 +148,7 @@ export function CTASection({
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                <div className="bg-secondary-700/50 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                   <IconWithBackground
                     icon={TrendingUp}
                     size="md"
@@ -164,7 +164,7 @@ export function CTASection({
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                <div className="bg-secondary-700/50 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                   <IconWithBackground
                     icon={Sparkles}
                     size="md"

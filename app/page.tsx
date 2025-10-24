@@ -18,6 +18,7 @@ import { Footer } from '@/components/Footer';
 import { SocialProofSection } from '@/components/redesign/SocialProofSection';
 import { CourseShowcase } from '@/components/CourseShowcase';
 import { motion } from 'framer-motion';
+import { Icon } from '@/components/ui/Icon';
 import {
   Target,
   BarChart3,
@@ -25,6 +26,8 @@ import {
   Brain,
   TrendingUp,
   Zap,
+  UserPlus,
+  Map,
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -156,18 +159,21 @@ export default function LandingPage() {
             {[
               {
                 step: '1',
+                icon: UserPlus,
                 title: 'Create Your Profile',
                 description:
                   'Answer a few quick questions about your game and add your club distances.',
               },
               {
                 step: '2',
+                icon: Map,
                 title: 'Hit the Course',
                 description:
                   'Open CaddyAI on your phone and let it track conditions automatically.',
               },
               {
                 step: '3',
+                icon: Target,
                 title: 'Play Smarter',
                 description:
                   'Receive instant, personalized club recommendations for every shot.',
@@ -181,10 +187,8 @@ export default function LandingPage() {
                 transition={{ delay: index * 0.2 }}
                 className="text-center"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-primary">
-                  <span className="text-3xl font-bold text-white">
-                    {item.step}
-                  </span>
+                <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
+                  <Icon icon={item.icon} className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-text-primary mb-3">
                   {item.title}

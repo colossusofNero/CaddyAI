@@ -30,7 +30,7 @@ const testimonials: TestimonialCardProps[] = [
     role: "Club Champion",
     location: "Texas",
     avatar: "",
-    rating: 5,
+    rating: 4,
     verified: true,
   },
   {
@@ -47,6 +47,9 @@ const testimonials: TestimonialCardProps[] = [
 export function SocialProofSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [golfersOnCourse, setGolfersOnCourse] = useState(
+    Math.floor(Math.random() * (30000 - 20000) + 20000)
+  );
 
   // Auto-rotate testimonials every 5 seconds
   useEffect(() => {
@@ -58,6 +61,15 @@ export function SocialProofSection() {
 
     return () => clearInterval(timer);
   }, [isAutoPlaying]);
+
+  // Update golfers counter every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGolfersOnCourse(Math.floor(Math.random() * (30000 - 20000) + 20000));
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handlePrevious = () => {
     setIsAutoPlaying(false);
@@ -236,7 +248,7 @@ export function SocialProofSection() {
             Golfers currently on the course:
           </motion.p>
           <StatCounter
-            endValue={25482}
+            endValue={golfersOnCourse}
             suffix=""
             duration={2000}
             delay={200}

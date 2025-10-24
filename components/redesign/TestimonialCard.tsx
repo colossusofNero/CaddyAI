@@ -96,8 +96,8 @@ export function TestimonialCard({
             key={i}
             className={`w-5 h-5 ${
               i < rating
-                ? 'text-gold-500 fill-gold-500'
-                : 'text-neutral-300 fill-neutral-300'
+                ? 'text-yellow-400 fill-yellow-400'
+                : 'text-gray-300 fill-gray-300'
             }`}
           />
         ))}

@@ -108,7 +108,7 @@ export function CTASection({
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
               <Link href={primaryCTA.href}>
-                <Button size="lg" className="w-full sm:w-auto min-w-[200px] group bg-primary hover:bg-primary-600 text-white">
+                <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group">
                   {primaryCTA.text}
                   <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

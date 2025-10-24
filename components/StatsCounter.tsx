@@ -93,13 +93,13 @@ function AnimatedStat({ stat, index }: { stat: StatItem; index: number }) {
       className="text-center"
     >
       <div className="mb-2">
-        <span className="text-4xl lg:text-5xl xl:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-400">
+        <span className="text-4xl lg:text-5xl xl:text-6xl font-bold text-primary">
           {stat.prefix}
           {displayValue}
           {stat.suffix}
         </span>
       </div>
-      <p className="text-text-secondary text-sm lg:text-base font-medium">
+      <p className="text-neutral-700 text-sm lg:text-base font-medium">
         {stat.label}
       </p>
     </motion.div>

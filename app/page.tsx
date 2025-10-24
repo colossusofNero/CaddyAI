@@ -187,8 +187,8 @@ export default function LandingPage() {
                 transition={{ delay: index * 0.2 }}
                 className="text-center"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
-                  <Icon icon={item.icon} className="w-10 h-10 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/30">
+                  <Icon icon={item.icon} className="w-10 h-10 text-primary" />
                 </div>
                 <h3 className="text-2xl font-bold text-text-primary mb-3">
                   {item.title}

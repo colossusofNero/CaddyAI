@@ -28,15 +28,13 @@ export function StatCounter({
   className = '',
 }: StatCounterProps) {
   const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   useEffect(() => {
-    if (isInView && !hasAnimated) {
-      setHasAnimated(true);
-
+    if (isInView) {
       const startTime = Date.now() + delay;
+      const startValue = count; // Start from current value
 
       const timer = setInterval(() => {
         const elapsed = Date.now() - startTime;
@@ -49,13 +47,13 @@ export function StatCounter({
         } else {
           const progress = elapsed / duration;
           const easeOutQuad = 1 - Math.pow(1 - progress, 3);
-          setCount(Math.floor(endValue * easeOutQuad));
+          setCount(Math.floor(startValue + (endValue - startValue) * easeOutQuad));
         }
       }, 16);
 
       return () => clearInterval(timer);
     }
-  }, [isInView, hasAnimated, endValue, duration, delay]);
+  }, [isInView, endValue, duration, delay]);
 
   const formatNumber = (num: number): string => {
     return num.toLocaleString('en-US');

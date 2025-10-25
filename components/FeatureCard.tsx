@@ -17,6 +17,7 @@ interface FeatureCardProps {
   title: string;
   description: string;
   href?: string;
+  onClick?: (e: React.MouseEvent) => void;
   index?: number;
 }
 
@@ -25,6 +26,7 @@ export function FeatureCard({
   title,
   description,
   href,
+  onClick,
   index = 0,
 }: FeatureCardProps) {
   const card = (
@@ -106,7 +108,15 @@ export function FeatureCard({
     </motion.div>
   );
 
-  // Wrap in Link if href is provided
+  // Wrap in Link if href is provided, or add onClick handler
+  if (onClick) {
+    return (
+      <div onClick={onClick} className="block h-full">
+        {card}
+      </div>
+    );
+  }
+
   if (href) {
     return (
       <Link href={href} className="block h-full">

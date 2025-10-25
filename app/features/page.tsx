@@ -5,11 +5,13 @@
 
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { FeatureCard, FeatureGrid } from '@/components/FeatureCard';
 import { CTASection } from '@/components/CTASection';
 import { StatsCounter, defaultStats } from '@/components/StatsCounter';
+import { AIClubSelectionModal } from '@/components/AIClubSelectionModal';
 import { motion } from 'framer-motion';
 import {
   Target,
@@ -28,6 +30,30 @@ import {
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function FeaturesPage() {
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+
+  // Check for #ai-selection hash and open modal
+  useEffect(() => {
+    const checkHash = () => {
+      if (window.location.hash === '#ai-selection') {
+        setIsAIModalOpen(true);
+      }
+    };
+
+    // Check on mount
+    checkHash();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
+
+  const handleAIFeatureClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsAIModalOpen(true);
+    window.location.hash = 'ai-selection';
+  };
+
   const coreFeatures = [
     {
       icon: Brain,
@@ -35,6 +61,7 @@ export default function FeaturesPage() {
       description:
         'Our advanced AI analyzes distance, wind, elevation, and your personal shot history to recommend the perfect club for every situation.',
       href: '#ai-selection',
+      onClick: handleAIFeatureClick,
     },
     {
       icon: Target,
@@ -221,6 +248,18 @@ export default function FeaturesPage() {
       <CTASection />
 
       <Footer />
+
+      {/* AI Club Selection Modal */}
+      <AIClubSelectionModal
+        isOpen={isAIModalOpen}
+        onClose={() => {
+          setIsAIModalOpen(false);
+          // Remove hash when closing
+          if (window.location.hash === '#ai-selection') {
+            history.pushState('', document.title, window.location.pathname + window.location.search);
+          }
+        }}
+      />
     </div>
   );
 }

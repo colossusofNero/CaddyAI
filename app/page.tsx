@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigation } from '@/components/Navigation';
@@ -17,8 +17,10 @@ import { CTASection } from '@/components/CTASection';
 import { Footer } from '@/components/Footer';
 import { SocialProofSection } from '@/components/redesign/SocialProofSection';
 import { CourseShowcase } from '@/components/CourseShowcase';
+import { AIClubSelectionModal } from '@/components/AIClubSelectionModal';
 import { motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
+import { Button } from '@/components/ui/Button';
 import {
   Target,
   BarChart3,
@@ -28,11 +30,13 @@ import {
   Zap,
   UserPlus,
   Map,
+  Sparkles,
 } from 'lucide-react';
 
 export default function LandingPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   // Redirect authenticated users to dashboard
   useEffect(() => {
@@ -111,6 +115,38 @@ export default function LandingPage() {
               <FeatureCard key={feature.title} {...feature} index={index} />
             ))}
           </FeatureGrid>
+        </div>
+      </section>
+
+      {/* AI Club Selection CTA */}
+      <section className="py-16 bg-gradient-to-b from-white to-background-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-primary to-primary-600 rounded-3xl p-8 lg:p-12 shadow-2xl"
+          >
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+                Try AI Powered Club Selection
+              </h2>
+              <p className="text-lg lg:text-xl text-white/90 mb-8">
+                Experience our intelligent voice assistant that helps you choose the perfect club for any shot. Select your skill level and describe your shot to get instant, personalized recommendations.
+              </p>
+              <Button
+                size="lg"
+                onClick={() => setIsAIModalOpen(true)}
+                className="bg-white text-primary hover:bg-white/90 font-semibold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+              >
+                <Sparkles className="w-5 h-5 mr-2" />
+                Launch AI Assistant
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -234,6 +270,12 @@ export default function LandingPage() {
       <CTASection />
 
       <Footer />
+
+      {/* AI Club Selection Modal */}
+      <AIClubSelectionModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+      />
     </div>
   );
 }

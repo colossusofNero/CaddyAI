@@ -57,6 +57,11 @@ export default function RootLayout({
       <head>
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateMobileAppSchema()} />
+        <script
+          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+          async
+          type="text/javascript"
+        />
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-[#0B1220] text-white`}

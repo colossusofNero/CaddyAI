@@ -21,6 +21,7 @@ export type SubscriptionStatus =
   | 'incomplete'      // Initial payment failed
   | 'incomplete_expired' // Initial payment wasn't completed within 23 hours
   | 'past_due'        // Payment failed and pending retry
+  | 'paused'          // Subscription is paused
   | 'trialing'        // In trial period
   | 'unpaid';         // All payment attempts failed
 

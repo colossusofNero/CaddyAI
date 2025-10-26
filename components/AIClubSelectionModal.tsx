@@ -20,13 +20,20 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
   const conversation = useConversation({
     onConnect: () => {
       console.log('[AIClubSelectionModal] Conversation connected');
+      console.log('[AIClubSelectionModal] Connection status:', conversation.status);
       setIsConnecting(false);
     },
     onDisconnect: () => {
       console.log('[AIClubSelectionModal] Conversation disconnected');
+      console.log('[AIClubSelectionModal] Disconnection status:', conversation.status);
     },
     onError: (error: unknown) => {
       console.error('[AIClubSelectionModal] Conversation error:', error);
+      console.error('[AIClubSelectionModal] Error details:', {
+        errorType: typeof error,
+        errorConstructor: error?.constructor?.name,
+        errorStack: error instanceof Error ? error.stack : 'N/A',
+      });
 
       const message =
         error instanceof Error
@@ -39,7 +46,8 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
       setIsConnecting(false);
     },
     onMessage: (message) => {
-      console.log('[AIClubSelectionModal] Message:', message);
+      console.log('[AIClubSelectionModal] Message received:', message);
+      console.log('[AIClubSelectionModal] Message type:', typeof message);
     },
   });
 
@@ -66,17 +74,46 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
         golf_level: selectedLevel || 'Beginner'
       };
 
-      console.log('[AIClubSelectionModal] Starting conversation with dynamic variables:', dynamicVariables);
+      console.log('========================================');
+      console.log('[AIClubSelectionModal] DEBUG: Starting conversation');
+      console.log('[AIClubSelectionModal] Selected Level:', selectedLevel);
+      console.log('[AIClubSelectionModal] Dynamic Variables being sent:', JSON.stringify(dynamicVariables, null, 2));
+      console.log('[AIClubSelectionModal] Agent ID:', 'agent_2401k6recqf9f63ak9v5ha7s4n6s');
+      console.log('[AIClubSelectionModal] Connection Type:', 'webrtc');
+      console.log('[AIClubSelectionModal] Current conversation status before startSession:', conversation.status);
+      console.log('========================================');
 
-      await conversation.startSession({
+      const sessionConfig = {
         agentId: 'agent_2401k6recqf9f63ak9v5ha7s4n6s',
-        connectionType: 'webrtc',
+        connectionType: 'webrtc' as const,
         dynamicVariables,
-      });
+      };
 
-      console.log('[AIClubSelectionModal] Conversation started successfully');
+      console.log('[AIClubSelectionModal] Full session config:', JSON.stringify(sessionConfig, null, 2));
+
+      await conversation.startSession(sessionConfig);
+
+      console.log('========================================');
+      console.log('[AIClubSelectionModal] DEBUG: Conversation started successfully');
+      console.log('[AIClubSelectionModal] Conversation status after startSession:', conversation.status);
+      console.log('[AIClubSelectionModal] Variables transmitted:', JSON.stringify(dynamicVariables, null, 2));
+      console.log('========================================');
     } catch (error) {
-      console.error('[AIClubSelectionModal] Failed to start conversation:', error);
+      console.error('========================================');
+      console.error('[AIClubSelectionModal] CRITICAL ERROR: Failed to start conversation');
+      console.error('[AIClubSelectionModal] Error object:', error);
+      console.error('[AIClubSelectionModal] Error type:', typeof error);
+      console.error('[AIClubSelectionModal] Error constructor:', error?.constructor?.name);
+
+      if (error instanceof Error) {
+        console.error('[AIClubSelectionModal] Error message:', error.message);
+        console.error('[AIClubSelectionModal] Error stack:', error.stack);
+      }
+
+      console.error('[AIClubSelectionModal] Selected level at error:', selectedLevel);
+      console.error('[AIClubSelectionModal] Variables attempted:', { golf_level: selectedLevel || 'Beginner' });
+      console.error('========================================');
+
       setAgentError(error instanceof Error ? error.message : 'Failed to start conversation');
       setIsConnecting(false);
     }
@@ -88,7 +125,10 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
     }
   };
 
-  const handleLevelSelect = (level: SkillLevel) => setSelectedLevel(level);
+  const handleLevelSelect = (level: SkillLevel) => {
+    console.log('[AIClubSelectionModal] User selected skill level:', level);
+    setSelectedLevel(level);
+  };
 
   const handleReset = () => {
     stopConversation();

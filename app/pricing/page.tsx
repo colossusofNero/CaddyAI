@@ -5,13 +5,17 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { PricingCard, PricingToggle, PricingTier } from '@/components/PricingCard';
 import { motion } from 'framer-motion';
 import { Check, HelpCircle } from 'lucide-react';
 import { staggerContainer, staggerItem } from '@/lib/animations';
+import { useAuth } from '@/hooks/useAuth';
+import { useSubscription } from '@/hooks/useSubscription';
+import type { BillingPeriod } from '@/types/subscription';
 
 const pricingTiers: PricingTier[] = [
   {
@@ -88,7 +92,74 @@ const pricingTiers: PricingTier[] = [
 ];
 
 export default function PricingPage() {
+  const router = useRouter();
+  const { user } = useAuth();
+  const { createCheckoutSession, subscription, getSubscriptionStatus, isLoading, error } = useSubscription();
   const [isAnnual, setIsAnnual] = useState(true);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  // Fetch subscription status on mount if user is logged in
+  useEffect(() => {
+    if (user) {
+      getSubscriptionStatus();
+    }
+  }, [user, getSubscriptionStatus]);
+
+  // Handle subscription button click
+  const handleSubscribe = async (planId: string) => {
+    // Free plan - direct to signup
+    if (planId === 'free') {
+      router.push('/signup');
+      return;
+    }
+
+    // Not logged in - redirect to signup with plan
+    if (!user) {
+      router.push(`/signup?plan=${planId}`);
+      return;
+    }
+
+    // Already subscribed to this plan - go to settings
+    if (subscription?.plan === planId && subscription?.hasActiveSubscription) {
+      router.push('/settings/subscription');
+      return;
+    }
+
+    // Create checkout session
+    try {
+      setLoadingPlan(planId);
+      await createCheckoutSession({
+        plan: planId as 'pro' | 'tour',
+        billingPeriod: isAnnual ? 'annual' : 'monthly',
+        successUrl: `${window.location.origin}/dashboard?success=true`,
+        cancelUrl: `${window.location.origin}/pricing`,
+      });
+    } catch (err) {
+      console.error('Checkout error:', err);
+      setLoadingPlan(null);
+    }
+  };
+
+  // Get button text based on user state and subscription
+  const getButtonText = (planId: string): string => {
+    if (planId === 'free') {
+      return 'Get Started Free';
+    }
+
+    if (!user) {
+      return `Start ${planId === 'pro' ? 'Pro' : 'Tour'} Trial`;
+    }
+
+    if (subscription?.plan === planId && subscription?.hasActiveSubscription) {
+      return 'Manage Subscription';
+    }
+
+    if (subscription?.plan && subscription?.hasActiveSubscription) {
+      return 'Switch Plan';
+    }
+
+    return `Start ${planId === 'pro' ? 'Pro' : 'Tour'} Trial`;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -134,13 +205,24 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <section className="pb-16 lg:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {error && (
+            <div className="max-w-2xl mx-auto mb-6 p-4 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-center">
+              {error}
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {pricingTiers.map((tier, index) => (
               <PricingCard
                 key={tier.id}
-                tier={tier}
+                tier={{
+                  ...tier,
+                  cta: getButtonText(tier.id),
+                }}
                 isAnnual={isAnnual}
                 index={index}
+                onSubscribe={() => handleSubscribe(tier.id)}
+                isLoading={loadingPlan === tier.id}
+                isCurrentPlan={subscription?.plan === tier.id && subscription?.hasActiveSubscription}
               />
             ))}
           </div>

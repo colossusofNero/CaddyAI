@@ -75,7 +75,8 @@
       "WebFetch(domain:elevenlabs.io)",
       "WebFetch(domain:github.com)",
       "Bash(npm uninstall:*)",
-      "WebFetch(domain:www.npmjs.com)"
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

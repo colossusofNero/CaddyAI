@@ -15,6 +15,7 @@
     "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
+    "@elevenlabs/react": "^0.8.1",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@types/leaflet": "^1.9.21",
@@ -49,6 +50,7 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "puppeteer": "^24.26.0",
+    "sharp": "^0.34.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

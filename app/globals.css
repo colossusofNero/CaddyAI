@@ -240,3 +240,16 @@ h4 {
   line-height: 1;
   font-weight: 500;
 }
+
+/* ============================================
+   ElevenLabs Widget Override
+   Clean embed: remove floating card styling
+   ============================================ */
+elevenlabs-convai {
+  all: unset;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  opacity: 1 !important;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hash Navigation Test</title>
+</head>
+<body>
+    <h1>Testing Hash Navigation</h1>
+    <p>Current URL: <span id="url"></span></p>
+    <p>Current Hash: <span id="hash"></span></p>
+    <button onclick="testHash()">Go to #ai-selection</button>
+    <button onclick="checkModal()">Check Modal State</button>
+
+    <script>
+        function updateDisplay() {
+            document.getElementById('url').textContent = window.location.href;
+            document.getElementById('hash').textContent = window.location.hash || '(no hash)';
+        }
+
+        function testHash() {
+            window.location.href = 'http://localhost:3001/features#ai-selection';
+        }
+
+        function checkModal() {
+            console.log('Hash:', window.location.hash);
+            console.log('Should open modal:', window.location.hash === '#ai-selection');
+        }
+
+        updateDisplay();
+        window.addEventListener('hashchange', updateDisplay);
+    </script>
+</body>
+</html>

@@ -27,7 +27,7 @@ import {
   Map,
   TrendingUp,
 } from 'lucide-react';
-import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
+import { staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function FeaturesPage() {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
@@ -35,17 +35,25 @@ export default function FeaturesPage() {
   // Check for #ai-selection hash and open modal
   useEffect(() => {
     const checkHash = () => {
+      console.log('[Features] Checking hash:', window.location.hash);
       if (window.location.hash === '#ai-selection') {
+        console.log('[Features] Opening AI modal');
         setIsAIModalOpen(true);
       }
     };
 
-    // Check on mount
+    // Check on mount with a small delay to ensure hash is available
     checkHash();
+
+    // Also check after a brief delay for client-side navigation
+    const timer = setTimeout(checkHash, 100);
 
     // Listen for hash changes
     window.addEventListener('hashchange', checkHash);
-    return () => window.removeEventListener('hashchange', checkHash);
+    return () => {
+      window.removeEventListener('hashchange', checkHash);
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleAIFeatureClick = (e: React.MouseEvent) => {
@@ -256,7 +264,7 @@ export default function FeaturesPage() {
           setIsAIModalOpen(false);
           // Remove hash when closing
           if (window.location.hash === '#ai-selection') {
-            history.pushState('', document.title, window.location.pathname + window.location.search);
+            history.pushState(null, '', window.location.pathname + window.location.search);
           }
         }}
       />

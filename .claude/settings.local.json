@@ -69,7 +69,13 @@
       "Bash(powershell -Command \"Remove-Item -Recurse -Force .next\")",
       "Bash(SITE_URL=https://caddyai-ljxyx7w5t-rcg-valuation.vercel.app node scripts/test-crawler.js:*)",
       "Bash(powershell -Command \"Get-Process node | Stop-Process -Force\")",
-      "WebFetch(domain:localhost)"
+      "WebFetch(domain:localhost)",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "Bash(powershell:*)",
+      "WebFetch(domain:elevenlabs.io)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm uninstall:*)",
+      "WebFetch(domain:www.npmjs.com)"
     ],
     "deny": [],
     "ask": []

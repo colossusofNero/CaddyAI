@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
-import { X } from 'lucide-react';
+import { X, Mic, MicOff } from 'lucide-react';
+import { useConversation } from '@elevenlabs/react';
 
 type SkillLevel = 'Beginner' | 'Intermediate' | 'Advanced' | 'Pro' | 'Tour Pro';
 
@@ -13,69 +14,83 @@ interface AIClubSelectionModalProps {
 
 export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalProps) {
   const [selectedLevel, setSelectedLevel] = useState<SkillLevel | null>(null);
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const [agentError, setAgentError] = useState(false);
+  const [agentError, setAgentError] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
 
-  const widgetRef = useRef<HTMLDivElement | null>(null);
+  const conversation = useConversation({
+    onConnect: () => {
+      console.log('[AIClubSelectionModal] Conversation connected');
+      setIsConnecting(false);
+    },
+    onDisconnect: () => {
+      console.log('[AIClubSelectionModal] Conversation disconnected');
+    },
+    onError: (error) => {
+      console.error('[AIClubSelectionModal] Conversation error:', error);
+      setAgentError(error.message || 'Failed to connect to AI agent');
+      setIsConnecting(false);
+    },
+    onMessage: (message) => {
+      console.log('[AIClubSelectionModal] Message:', message);
+    },
+  });
 
-  // Debug logging
+  // Start conversation when level is selected
   useEffect(() => {
-    console.log('[AIClubSelectionModal] isOpen changed to:', isOpen);
+    if (selectedLevel && isOpen) {
+      startConversation();
+    }
+  }, [selectedLevel, isOpen]);
+
+  // Stop conversation when modal closes
+  useEffect(() => {
+    if (!isOpen && conversation.status === 'connected') {
+      conversation.endSession();
+    }
   }, [isOpen]);
 
-  // Load ElevenLabs script
-  useEffect(() => {
-    const script = document.querySelector('script[src*="elevenlabs"]');
-    if (script) {
-      setIsScriptLoaded(true);
-    } else {
-      const newScript = document.createElement('script');
-      newScript.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
-      newScript.async = true;
-      newScript.type = 'text/javascript';
-      newScript.onload = () => setIsScriptLoaded(true);
-      document.head.appendChild(newScript);
+  const startConversation = async () => {
+    try {
+      setIsConnecting(true);
+      setAgentError(null);
+
+      const dynamicVariables = {
+        golf_level: selectedLevel || 'Beginner'
+      };
+
+      console.log('[AIClubSelectionModal] Starting conversation with dynamic variables:', dynamicVariables);
+
+      await conversation.startSession({
+        agentId: 'agent_2401k6recqf9f63ak9v5ha7s4n6s',
+        dynamicVariables,
+      });
+
+      console.log('[AIClubSelectionModal] Conversation started successfully');
+    } catch (error) {
+      console.error('[AIClubSelectionModal] Failed to start conversation:', error);
+      setAgentError(error instanceof Error ? error.message : 'Failed to start conversation');
+      setIsConnecting(false);
     }
+  };
 
-    // Error handling
-    const handleError = (event: ErrorEvent) => {
-      if (event.message?.includes('ConversationalAI')) {
-        console.error('[AIClubSelectionModal] ElevenLabs agent error:', event.message);
-        setAgentError(true);
-      }
-    };
-
-    window.addEventListener('error', handleError);
-    const originalConsoleError = console.error;
-    console.error = function (...args) {
-      if (typeof args[0] === 'string' && args[0].includes('ConversationalAI')) {
-        setAgentError(true);
-      }
-      originalConsoleError.apply(console, args);
-    };
-
-    return () => {
-      window.removeEventListener('error', handleError);
-      console.error = originalConsoleError;
-    };
-  }, []);
-
-  // Inject widget when level is selected and script is loaded
-  useEffect(() => {
-    if (isScriptLoaded && selectedLevel && widgetRef.current) {
-      widgetRef.current.innerHTML = '';
-      const widget = document.createElement('elevenlabs-convai');
-      widget.setAttribute('agent-id', 'agent_2401k6recqf9f63ak9v5ha7s4n6s');
-      widget.setAttribute('dynamic-variables', JSON.stringify({ golf_level: selectedLevel }));
-      widget.setAttribute('override-first-message', 'Tell me about your shot?');
-      widgetRef.current.appendChild(widget);
+  const stopConversation = () => {
+    if (conversation.status === 'connected') {
+      conversation.endSession();
     }
-  }, [isScriptLoaded, selectedLevel]);
+  };
 
   const handleLevelSelect = (level: SkillLevel) => setSelectedLevel(level);
-  const handleReset = () => setSelectedLevel(null);
-  const handleClose = () => {
+
+  const handleReset = () => {
+    stopConversation();
     setSelectedLevel(null);
+    setAgentError(null);
+  };
+
+  const handleClose = () => {
+    stopConversation();
+    setSelectedLevel(null);
+    setAgentError(null);
     onClose();
   };
 
@@ -107,7 +122,7 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 bg-primary bg-opacity-20 rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4..." />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
             </div>
@@ -138,24 +153,49 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
               <p className="text-gray-600">Tell the AI assistant about your shot and get personalized recommendations</p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 min-h-[400px] flex items-center justify-center">
+            <div className="bg-white rounded-xl p-6 min-h-[400px] flex flex-col items-center justify-center">
               {agentError ? (
                 <div className="text-center max-w-md">
                   <div className="text-red-500 mb-4">
                     <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2..." />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Configuration Required</h3>
-                  <p className="text-sm text-gray-600">
-                    The ElevenLabs AI agent needs to be configured. Please set up your agent at{' '}
-                    <a href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                      elevenlabs.io
-                    </a>
-                  </p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">Connection Error</h3>
+                  <p className="text-sm text-gray-600 mb-4">{agentError}</p>
+                  <Button onClick={startConversation} variant="primary">
+                    Try Again
+                  </Button>
+                </div>
+              ) : isConnecting || conversation.status === 'connecting' ? (
+                <div className="text-center">
+                  <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4 mx-auto" />
+                  <p className="text-sm text-gray-600">Connecting to AI Agent...</p>
+                </div>
+              ) : conversation.status === 'connected' ? (
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mb-6 mx-auto animate-pulse">
+                    <Mic className="w-12 h-12 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">AI Agent Connected</h3>
+                  <p className="text-gray-600 mb-6">The AI is listening. Describe your shot to get club recommendations.</p>
+                  <Button onClick={stopConversation} variant="outline" className="gap-2">
+                    <MicOff className="w-4 h-4" />
+                    End Conversation
+                  </Button>
                 </div>
               ) : (
-                <div ref={widgetRef} className="w-full" style={{ minHeight: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <Mic className="w-12 h-12 text-gray-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Start</h3>
+                  <p className="text-gray-600 mb-6">Click below to start talking with the AI assistant</p>
+                  <Button onClick={startConversation} variant="primary" className="gap-2">
+                    <Mic className="w-4 h-4" />
+                    Start Conversation
+                  </Button>
+                </div>
               )}
             </div>
 
@@ -168,7 +208,7 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
         )}
       </div>
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes scale-in {
           from { transform: scale(0.9); opacity: 0; }
           to { transform: scale(1); opacity: 1; }

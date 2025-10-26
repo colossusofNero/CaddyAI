@@ -25,9 +25,17 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
     onDisconnect: () => {
       console.log('[AIClubSelectionModal] Conversation disconnected');
     },
-    onError: (error) => {
+    onError: (error: unknown) => {
       console.error('[AIClubSelectionModal] Conversation error:', error);
-      setAgentError(error.message || 'Failed to connect to AI agent');
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+          ? error
+          : 'Failed to connect to AI agent';
+
+      setAgentError(message);
       setIsConnecting(false);
     },
     onMessage: (message) => {
@@ -62,6 +70,7 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
 
       await conversation.startSession({
         agentId: 'agent_2401k6recqf9f63ak9v5ha7s4n6s',
+        connectionType: 'webrtc',
         dynamicVariables,
       });
 

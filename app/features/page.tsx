@@ -12,6 +12,11 @@ import { FeatureCard, FeatureGrid } from '@/components/FeatureCard';
 import { CTASection } from '@/components/CTASection';
 import { StatsCounter, defaultStats } from '@/components/StatsCounter';
 import { AIClubSelectionModal } from '@/components/AIClubSelectionModal';
+import { ShotPatternsModal } from '@/components/ShotPatternsModal';
+import { WeatherModal } from '@/components/WeatherModal';
+import { ElevationModal } from '@/components/ElevationModal';
+import { PerformanceAnalyticsModal } from '@/components/PerformanceAnalyticsModal';
+import { CoursesDatabaseModal } from '@/components/CoursesDatabaseModal';
 import { motion } from 'framer-motion';
 import {
   Target,
@@ -31,14 +36,37 @@ import { staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function FeaturesPage() {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [isShotPatternsModalOpen, setIsShotPatternsModalOpen] = useState(false);
+  const [isWeatherModalOpen, setIsWeatherModalOpen] = useState(false);
+  const [isElevationModalOpen, setIsElevationModalOpen] = useState(false);
+  const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState(false);
+  const [isCoursesModalOpen, setIsCoursesModalOpen] = useState(false);
 
-  // Check for #ai-selection hash and open modal
+  // Check for hash navigation and open appropriate modal
   useEffect(() => {
     const checkHash = () => {
-      console.log('[Features] Checking hash:', window.location.hash);
-      if (window.location.hash === '#ai-selection') {
-        console.log('[Features] Opening AI modal');
-        setIsAIModalOpen(true);
+      const hash = window.location.hash;
+      console.log('[Features] Checking hash:', hash);
+
+      switch (hash) {
+        case '#ai-selection':
+          setIsAIModalOpen(true);
+          break;
+        case '#shot-patterns':
+          setIsShotPatternsModalOpen(true);
+          break;
+        case '#weather':
+          setIsWeatherModalOpen(true);
+          break;
+        case '#elevation':
+          setIsElevationModalOpen(true);
+          break;
+        case '#analytics':
+          setIsAnalyticsModalOpen(true);
+          break;
+        case '#courses':
+          setIsCoursesModalOpen(true);
+          break;
       }
     };
 
@@ -56,10 +84,10 @@ export default function FeaturesPage() {
     };
   }, []);
 
-  const handleAIFeatureClick = (e: React.MouseEvent) => {
+  const handleFeatureClick = (hash: string, setModalOpen: (open: boolean) => void) => (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsAIModalOpen(true);
-    window.location.hash = 'ai-selection';
+    setModalOpen(true);
+    window.location.hash = hash;
   };
 
   const coreFeatures = [
@@ -69,7 +97,7 @@ export default function FeaturesPage() {
       description:
         'Our advanced AI analyzes distance, wind, elevation, and your personal shot history to recommend the perfect club for every situation.',
       href: '#ai-selection',
-      onClick: handleAIFeatureClick,
+      onClick: handleFeatureClick('ai-selection', setIsAIModalOpen),
     },
     {
       icon: Target,
@@ -77,6 +105,7 @@ export default function FeaturesPage() {
       description:
         'Track your shot dispersion patterns for each club. CaddyAI learns your tendencies and adjusts recommendations accordingly.',
       href: '#shot-patterns',
+      onClick: handleFeatureClick('shot-patterns', setIsShotPatternsModalOpen),
     },
     {
       icon: Wind,
@@ -84,6 +113,7 @@ export default function FeaturesPage() {
       description:
         'Automatic weather data fetching provides wind speed, direction, and temperature to adjust your club selection in real-time.',
       href: '#weather',
+      onClick: handleFeatureClick('weather', setIsWeatherModalOpen),
     },
     {
       icon: Mountain,
@@ -91,6 +121,7 @@ export default function FeaturesPage() {
       description:
         'Precise elevation calculations help you account for uphill and downhill shots, ensuring accurate distance recommendations.',
       href: '#elevation',
+      onClick: handleFeatureClick('elevation', setIsElevationModalOpen),
     },
     {
       icon: BarChart3,
@@ -98,6 +129,7 @@ export default function FeaturesPage() {
       description:
         'Detailed statistics and insights about your game help you identify strengths, weaknesses, and areas for improvement.',
       href: '#analytics',
+      onClick: handleFeatureClick('analytics', setIsAnalyticsModalOpen),
     },
     {
       icon: Map,
@@ -105,6 +137,7 @@ export default function FeaturesPage() {
       description:
         'Access detailed course information, GPS coordinates, and hole layouts for thousands of courses worldwide.',
       href: '#courses',
+      onClick: handleFeatureClick('courses', setIsCoursesModalOpen),
     },
   ];
 
@@ -257,13 +290,62 @@ export default function FeaturesPage() {
 
       <Footer />
 
-      {/* AI Club Selection Modal */}
+      {/* Feature Modals */}
       <AIClubSelectionModal
         isOpen={isAIModalOpen}
         onClose={() => {
           setIsAIModalOpen(false);
-          // Remove hash when closing
           if (window.location.hash === '#ai-selection') {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
+
+      <ShotPatternsModal
+        isOpen={isShotPatternsModalOpen}
+        onClose={() => {
+          setIsShotPatternsModalOpen(false);
+          if (window.location.hash === '#shot-patterns') {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
+
+      <WeatherModal
+        isOpen={isWeatherModalOpen}
+        onClose={() => {
+          setIsWeatherModalOpen(false);
+          if (window.location.hash === '#weather') {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
+
+      <ElevationModal
+        isOpen={isElevationModalOpen}
+        onClose={() => {
+          setIsElevationModalOpen(false);
+          if (window.location.hash === '#elevation') {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
+
+      <PerformanceAnalyticsModal
+        isOpen={isAnalyticsModalOpen}
+        onClose={() => {
+          setIsAnalyticsModalOpen(false);
+          if (window.location.hash === '#analytics') {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        }}
+      />
+
+      <CoursesDatabaseModal
+        isOpen={isCoursesModalOpen}
+        onClose={() => {
+          setIsCoursesModalOpen(false);
+          if (window.location.hash === '#courses') {
             history.pushState(null, '', window.location.pathname + window.location.search);
           }
         }}

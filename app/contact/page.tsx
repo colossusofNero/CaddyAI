@@ -23,6 +23,7 @@ import {
   Linkedin,
 } from 'lucide-react';
 import { staggerContainer, staggerItem } from '@/lib/animations';
+import { firebaseService } from '@/services/firebaseService';
 
 interface FormData {
   name: string;
@@ -111,8 +112,13 @@ export default function ContactPage() {
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call - replace with actual API endpoint
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Submit to Firestore
+      await firebaseService.submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
 
       // Success
       setSubmitStatus('success');
@@ -121,6 +127,7 @@ export default function ContactPage() {
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
+      console.error('Error submitting contact form:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } finally {
@@ -212,7 +219,7 @@ export default function ContactPage() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
               Get in{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-400">
+              <span className="text-primary">
                 Touch
               </span>
             </motion.h1>

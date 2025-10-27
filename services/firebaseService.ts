@@ -387,6 +387,32 @@ class FirebaseService {
       throw error;
     }
   }
+
+  /**
+   * Submit contact form
+   */
+  async submitContactForm(data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }): Promise<void> {
+    try {
+      const contactRef = doc(collection(db, 'contactSubmissions'));
+      const contactSubmission = {
+        ...data,
+        submittedAt: Timestamp.now(),
+        status: 'new',
+        read: false,
+      };
+
+      await setDoc(contactRef, contactSubmission);
+      console.log('[Firebase] Contact form submitted:', contactRef.id);
+    } catch (error) {
+      console.error('[Firebase] Error submitting contact form:', error);
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance

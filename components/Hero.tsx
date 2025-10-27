@@ -140,7 +140,7 @@ export function Hero({
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto min-w-[200px] group border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
+                  className="w-full sm:w-auto min-w-[200px] group border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 backdrop-blur-sm"
                 >
                   <Icon icon={Play} {...iconConfig.button} className="mr-2 group-hover:scale-110 transition-transform" />
                   Watch Demo
@@ -151,10 +151,10 @@ export function Hero({
             {/* Stat Ticker - Design System: "Join 50,000+ golfers | 2M+ shots analyzed" */}
             <motion.div
               variants={staggerItem}
-              className="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-white/80 font-sans"
+              className="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-neutral-700 font-sans"
             >
               <span className="font-semibold">Join 50,000+ golfers</span>
-              <span className="text-white/40">|</span>
+              <span className="text-neutral-400">|</span>
               <span className="font-semibold">2M+ shots analyzed</span>
             </motion.div>
           </motion.div>

@@ -108,7 +108,7 @@ export function CTASection({
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
               <Link href={primaryCTA.href}>
-                <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group">
+                <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group text-white">
                   {primaryCTA.text}
                   <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -137,7 +137,7 @@ export function CTASection({
                     icon={Target}
                     size="md"
                     backgroundVariant="primary"
-                    variant="white"
+                    variant="primary"
                     className="flex-shrink-0"
                   />
                   <div>
@@ -153,7 +153,7 @@ export function CTASection({
                     icon={TrendingUp}
                     size="md"
                     backgroundVariant="accent"
-                    variant="white"
+                    variant="primary"
                     className="flex-shrink-0"
                   />
                   <div>
@@ -169,7 +169,7 @@ export function CTASection({
                     icon={Sparkles}
                     size="md"
                     backgroundVariant="primary"
-                    variant="white"
+                    variant="primary"
                     className="flex-shrink-0"
                   />
                   <div>

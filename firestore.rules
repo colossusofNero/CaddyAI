@@ -177,5 +177,24 @@ service cloud.firestore {
       // Users can delete their own reviews
       allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
+
+    // Contact Submissions Collection
+    // Public contact form - anyone can submit
+    match /contactSubmissions/{submissionId} {
+      // Allow anyone to create a contact submission (public form)
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'subject', 'message', 'submittedAt', 'status', 'read'])
+        && request.resource.data.name is string
+        && request.resource.data.email is string
+        && request.resource.data.subject is string
+        && request.resource.data.message is string
+        && request.resource.data.status == 'new'
+        && request.resource.data.read == false;
+
+      // Only admins can read/update/delete (implement admin check in production)
+      // For now, block all reads/updates/deletes from client
+      allow read: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
   }
 }

@@ -31,11 +31,11 @@ export function Button({
 
   const variants = {
     primary:
-      'bg-primary text-white hover:bg-primary-600 active:bg-primary-700 focus:ring-primary shadow-primary',
+      'bg-primary text-white hover:bg-primary-600 hover:text-white active:bg-primary-700 focus:ring-primary shadow-primary',
     secondary:
-      'bg-secondary text-white hover:bg-secondary-700 active:bg-secondary-800 focus:ring-secondary',
+      'bg-secondary text-secondary-900 hover:bg-secondary-700 active:bg-secondary-800 focus:ring-secondary',
     outline:
-      'border-2 border-primary text-primary hover:bg-primary hover:text-white active:bg-primary-600 focus:ring-primary',
+      'border-2 border-primary text-text-primary hover:bg-primary hover:text-white active:bg-primary-600 focus:ring-primary',
     ghost:
       'text-text-primary hover:bg-secondary-800 active:bg-secondary-700 focus:ring-secondary',
     danger:

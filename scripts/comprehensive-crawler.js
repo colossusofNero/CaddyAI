@@ -19,7 +19,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
+const SITE_URL = process.env.SITE_URL || 'http://localhost:3005';
 const OUTPUT_DIR = path.join(__dirname, '../crawler-reports');
 const SCREENSHOTS_DIR = path.join(OUTPUT_DIR, 'screenshots');
 

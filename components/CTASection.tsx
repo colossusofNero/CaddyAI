@@ -53,7 +53,7 @@ export function CTASection({
         />
       </div>
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background-light to-background opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background-alt to-background opacity-90" />
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -108,7 +108,7 @@ export function CTASection({
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
               <Link href={primaryCTA.href}>
-                <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group text-white">
+                <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group">
                   {primaryCTA.text}
                   <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>

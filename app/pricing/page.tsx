@@ -167,7 +167,7 @@ export default function PricingPage() {
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 lg:pt-40 lg:pb-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background-light to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background-alt to-background" />
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,7 +182,7 @@ export default function PricingPage() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
               Simple,{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-400">
+              <span className="text-primary">
                 Transparent Pricing
               </span>
             </motion.h1>
@@ -230,7 +230,7 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-light">
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-alt">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">

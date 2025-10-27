@@ -7,7 +7,7 @@
 
 const http = require('http');
 
-const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
+const SITE_URL = process.env.SITE_URL || 'http://localhost:3005';
 const TIMEOUT = 10000;
 
 // Pages to test

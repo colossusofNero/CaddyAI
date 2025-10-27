@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const BASE_URL = process.env.SITE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.SITE_URL || 'http://localhost:3005';
 const SCREENSHOT_DIR = path.join(__dirname, '../test-results/screenshots');
 const REPORT_FILE = path.join(__dirname, '../test-results/site-check-report.json');
 

@@ -6,7 +6,7 @@
 
 const puppeteer = require('puppeteer');
 
-const SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
+const SITE_URL = process.env.SITE_URL || 'http://localhost:3005';
 
 const colors = {
   reset: '\x1b[0m',

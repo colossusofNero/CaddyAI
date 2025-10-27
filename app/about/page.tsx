@@ -55,7 +55,7 @@ export default function AboutPage() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
               Making Golf More{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-400">
+              <span className="text-primary">
                 Enjoyable & Accessible
               </span>
             </motion.h1>

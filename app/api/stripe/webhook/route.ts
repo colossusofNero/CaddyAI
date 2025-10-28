@@ -147,18 +147,19 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
 
   // Update subscription in Firestore
   await updateSubscriptionInFirestore(userId, {
-    stripeCustomerId: subscription.customer as string,
-    stripeSubscriptionId: subscription.id,
-    stripePriceId: priceId || null,
-    status: subscription.status,
+    userId,
+    customerId: subscription.customer as string,
+    subscriptionId: subscription.id,
+    priceId: priceId || null,
+    status: subscription.status as any,
     plan,
     billingPeriod,
-    currentPeriodStart: subscription.current_period_start,
-    currentPeriodEnd: subscription.current_period_end,
-    cancelAt: subscription.cancel_at,
-    canceledAt: subscription.canceled_at,
-    trialStart: subscription.trial_start,
-    trialEnd: subscription.trial_end,
+    currentPeriodStart: (subscription as any).currentPeriodStart || (subscription as any).current_period_start,
+    currentPeriodEnd: (subscription as any).currentPeriodEnd || (subscription as any).current_period_end,
+    cancelAt: subscription.cancel_at || (subscription as any).cancelAt,
+    canceledAt: subscription.canceled_at || (subscription as any).canceledAt,
+    trialStart: subscription.trial_start || (subscription as any).trialStart,
+    trialEnd: subscription.trial_end || (subscription as any).trialEnd,
   });
 }
 
@@ -176,16 +177,17 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 
   // Update to free plan
   await updateSubscriptionInFirestore(userId, {
-    stripeCustomerId: subscription.customer as string,
-    stripeSubscriptionId: null,
-    stripePriceId: null,
+    userId,
+    customerId: subscription.customer as string,
+    subscriptionId: subscription.id,
+    priceId: null,
     status: 'canceled',
     plan: 'free',
     billingPeriod: 'monthly',
-    currentPeriodStart: subscription.current_period_start,
-    currentPeriodEnd: subscription.current_period_end,
+    currentPeriodStart: (subscription as any).currentPeriodStart || (subscription as any).current_period_start,
+    currentPeriodEnd: (subscription as any).currentPeriodEnd || (subscription as any).current_period_end,
     cancelAt: null,
-    canceledAt: subscription.canceled_at,
+    canceledAt: subscription.canceled_at || (subscription as any).canceledAt,
     trialStart: null,
     trialEnd: null,
   });

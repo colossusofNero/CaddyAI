@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getSubscriptionStatus } from '@/services/subscriptionService';
+import { getSubscriptionStatusAdmin } from '@/services/subscriptionServiceAdmin';
 import type { SubscriptionStatusResponse } from '@/types/subscription';
 
 export async function GET(request: NextRequest) {
@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get subscription status from service
-    const status = await getSubscriptionStatus(userId);
+    // Get subscription status from admin service (server-side)
+    const status = await getSubscriptionStatusAdmin(userId);
 
     if (!status) {
       // User has no subscription record, return default free plan

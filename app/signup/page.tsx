@@ -255,6 +255,7 @@ export default function SignupPage() {
                 fullWidth
                 loading={isLoading}
                 disabled={isLoading || googleLoading || appleLoading || showSuccess}
+                className="!bg-primary !text-white !border-2 !border-primary"
               >
                 Create Account
               </Button>

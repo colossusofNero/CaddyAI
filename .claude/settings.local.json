@@ -76,7 +76,8 @@
       "WebFetch(domain:github.com)",
       "Bash(npm uninstall:*)",
       "WebFetch(domain:www.npmjs.com)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(firebase deploy:*)"
     ],
     "deny": [],
     "ask": []

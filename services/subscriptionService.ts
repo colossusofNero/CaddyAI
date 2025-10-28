@@ -79,7 +79,7 @@ export async function createCheckoutSession(
       plan,
       billingPeriod,
     },
-    payment_method_types: SUBSCRIPTION_CONFIG.paymentMethodTypes,
+    payment_method_types: [...SUBSCRIPTION_CONFIG.paymentMethodTypes],
     allow_promotion_codes: true,
   });
 
@@ -141,8 +141,8 @@ export async function updateSubscriptionInFirestore(
     // Convert Unix timestamps to Firestore Timestamps
     const subscriptionData: SubscriptionData = {
       stripeCustomerId: data.customerId,
-      stripeSubscriptionId: data.stripeSubscriptionId,
-      stripePriceId: data.stripePriceId,
+      stripeSubscriptionId: data.subscriptionId,
+      stripePriceId: data.priceId,
       status: data.status,
       plan: data.plan,
       billingPeriod: data.billingPeriod,

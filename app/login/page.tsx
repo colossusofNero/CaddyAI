@@ -221,6 +221,7 @@ export default function LoginPage() {
                 fullWidth
                 loading={isLoading}
                 disabled={isLoading || googleLoading || appleLoading}
+                className="!bg-primary !text-white !border-2 !border-primary"
               >
                 Sign In
               </Button>

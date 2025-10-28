@@ -196,5 +196,21 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if false;
     }
+
+    // Users Collection (for subscription data)
+    // Stores user subscription information and other user-specific data
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if isOwner(userId);
+
+      // Users can create their own user document
+      allow create: if isOwner(userId);
+
+      // Users can update their own data
+      allow update: if isOwner(userId);
+
+      // Users can delete their own data
+      allow delete: if isOwner(userId);
+    }
   }
 }

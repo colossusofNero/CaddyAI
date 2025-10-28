@@ -105,6 +105,7 @@ export interface WebhookSubscriptionEvent {
   userId: string;
   subscriptionId: string;
   customerId: string;
+  priceId: string | null;
   status: SubscriptionStatus;
   plan: SubscriptionPlan;
   billingPeriod: BillingPeriod;

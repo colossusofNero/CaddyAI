@@ -22,18 +22,22 @@ jest.mock('next/navigation', () => ({
   },
 }))
 
-// Mock Firebase
-jest.mock('./src/lib/firebase', () => ({
-  auth: {
-    currentUser: null,
-    signInWithEmailAndPassword: jest.fn(),
-    createUserWithEmailAndPassword: jest.fn(),
-    signOut: jest.fn(),
-    onAuthStateChanged: jest.fn(),
-  },
-  db: {},
-  storage: {},
-}))
+// Mock Firebase (conditional - only if module exists)
+try {
+  jest.mock('./lib/firebase', () => ({
+    auth: {
+      currentUser: null,
+      signInWithEmailAndPassword: jest.fn(),
+      createUserWithEmailAndPassword: jest.fn(),
+      signOut: jest.fn(),
+      onAuthStateChanged: jest.fn(),
+    },
+    db: {},
+    storage: {},
+  }))
+} catch (e) {
+  // Firebase module not found, skip mock
+}
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {

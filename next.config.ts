@@ -44,6 +44,9 @@ const nextConfig: NextConfig = {
     } : false,
   },
 
+  // Server components external packages (server-only modules)
+  serverExternalPackages: ['firebase-admin'],
+
   // Experimental features for performance
   experimental: {
     optimizePackageImports: [

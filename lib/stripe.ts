@@ -9,20 +9,39 @@
 
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error(
-    'Missing STRIPE_SECRET_KEY environment variable. ' +
-    'Please add it to your .env.local file. ' +
-    'Get your key from: https://dashboard.stripe.com/test/apikeys'
-  );
+// Lazy initialization to avoid build-time errors when env vars are not available
+let stripeInstance: Stripe | null = null;
+
+function getStripe(): Stripe {
+  if (!stripeInstance) {
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+
+    if (!secretKey) {
+      throw new Error(
+        'Missing STRIPE_SECRET_KEY environment variable. ' +
+        'Please add it to your .env.local file. ' +
+        'Get your key from: https://dashboard.stripe.com/test/apikeys'
+      );
+    }
+
+    stripeInstance = new Stripe(secretKey, {
+      apiVersion: '2025-09-30.clover',
+      typescript: true,
+      // Enable telemetry for better debugging in Stripe dashboard
+      telemetry: true,
+    });
+  }
+
+  return stripeInstance;
 }
 
-// Initialize Stripe with the latest API version
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2025-09-30.clover',
-  typescript: true,
-  // Enable telemetry for better debugging in Stripe dashboard
-  telemetry: true,
+// Export stripe as a getter to ensure lazy initialization
+export const stripe = new Proxy({} as Stripe, {
+  get: (_target, prop) => {
+    const stripeClient = getStripe();
+    const value = stripeClient[prop as keyof Stripe];
+    return typeof value === 'function' ? value.bind(stripeClient) : value;
+  }
 });
 
 // Price IDs configuration

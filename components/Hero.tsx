@@ -182,61 +182,15 @@ export function Hero({
               {/* Phone Frame */}
               <div className="relative bg-secondary-900 rounded-[3rem] p-3 shadow-2xl border-4 border-secondary-700">
                 <div className="relative aspect-[9/19] bg-background rounded-[2.5rem] overflow-hidden">
-                  {/* Mock App Screenshot */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-background-light to-background p-6 space-y-4">
-                    {/* Status Bar */}
-                    <div className="flex justify-between items-center text-xs text-text-muted">
-                      <span>9:41</span>
-                      <div className="flex gap-1">
-                        <div className="w-4 h-4 bg-text-muted rounded-sm" />
-                        <div className="w-4 h-4 bg-text-muted rounded-sm" />
-                      </div>
-                    </div>
-
-                    {/* CaddyAI Logo */}
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 bg-primary rounded-xl" />
-                      <span className="text-xl font-bold text-primary">
-                        CaddyAI
-                      </span>
-                    </div>
-
-                    {/* Golf Course UI */}
-                    <div className="space-y-3">
-                      {/* Hole Information */}
-                      <div className="bg-secondary-800 rounded-2xl p-4 space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-primary text-sm font-bold">HOLE 7</span>
-                          <span className="text-text-muted text-xs">Par 4</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-white">385 yds</span>
-                          <div className="bg-accent/20 px-3 py-1 rounded-lg">
-                            <span className="text-accent text-xs font-semibold">↗ 15 mph</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Club Recommendation */}
-                      <div className="bg-gradient-to-br from-primary to-primary-600 rounded-2xl p-4 shadow-lg">
-                        <div className="text-white text-xs mb-1 opacity-90">RECOMMENDED</div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-white text-2xl font-bold">7 Iron</span>
-                          <div className="bg-white/20 w-10 h-10 rounded-full flex items-center justify-center">
-                            <span className="text-white text-xl">⛳</span>
-                          </div>
-                        </div>
-                        <div className="text-white/80 text-xs mt-2">150 yds to pin</div>
-                      </div>
-
-                      {/* Course Map Preview */}
-                      <div className="bg-secondary-800 rounded-2xl p-3">
-                        <div className="bg-primary/10 rounded-lg h-20 flex items-center justify-center">
-                          <span className="text-primary text-xs font-semibold">Course Map</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {/* Real App Screenshot */}
+                  <Image
+                    src="/screenshots/Screenshot_20251218-081027.png"
+                    alt="CaddyAI App Screenshot"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    priority
+                  />
                 </div>
 
                 {/* Notch */}

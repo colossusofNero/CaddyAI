@@ -389,6 +389,167 @@ class FirebaseService {
   }
 
   /**
+   * Add a shot to a club
+   */
+  async addShot(userId: string, clubId: string, shot: Omit<import('@/src/types/user').Shot, 'id' | 'createdAt'>): Promise<string> {
+    try {
+      const clubsData = await this.getUserClubs(userId);
+      if (!clubsData) {
+        throw new Error('Clubs data not found');
+      }
+
+      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
+      if (clubIndex === -1) {
+        throw new Error(`Club not found: ${clubId}`);
+      }
+
+      const shotId = `shot_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const newShot: import('@/src/types/user').Shot = {
+        ...shot,
+        id: shotId,
+        createdAt: Date.now(),
+      };
+
+      clubsData.clubs[clubIndex].shots.push(newShot);
+      clubsData.clubs[clubIndex].updatedAt = Date.now();
+
+      await this.updateUserClubs(userId, clubsData.clubs);
+      console.log('[Firebase] Shot added to club:', clubId);
+      return shotId;
+    } catch (error) {
+      console.error('[Firebase] Error adding shot:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get all shots for a club
+   */
+  async getClubShots(userId: string, clubId: string): Promise<import('@/src/types/user').Shot[]> {
+    try {
+      const clubsData = await this.getUserClubs(userId);
+      if (!clubsData) {
+        return [];
+      }
+
+      const club = clubsData.clubs.find(c => c.id === clubId);
+      return club?.shots || [];
+    } catch (error) {
+      console.error('[Firebase] Error getting club shots:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update a shot
+   */
+  async updateShot(
+    userId: string,
+    clubId: string,
+    shotId: string,
+    updates: Partial<Omit<import('@/src/types/user').Shot, 'id' | 'createdAt'>>
+  ): Promise<void> {
+    try {
+      const clubsData = await this.getUserClubs(userId);
+      if (!clubsData) {
+        throw new Error('Clubs data not found');
+      }
+
+      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
+      if (clubIndex === -1) {
+        throw new Error(`Club not found: ${clubId}`);
+      }
+
+      const shotIndex = clubsData.clubs[clubIndex].shots.findIndex(s => s.id === shotId);
+      if (shotIndex === -1) {
+        throw new Error(`Shot not found: ${shotId}`);
+      }
+
+      clubsData.clubs[clubIndex].shots[shotIndex] = {
+        ...clubsData.clubs[clubIndex].shots[shotIndex],
+        ...updates,
+      };
+      clubsData.clubs[clubIndex].updatedAt = Date.now();
+
+      await this.updateUserClubs(userId, clubsData.clubs);
+      console.log('[Firebase] Shot updated:', shotId);
+    } catch (error) {
+      console.error('[Firebase] Error updating shot:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a shot
+   */
+  async deleteShot(userId: string, clubId: string, shotId: string): Promise<void> {
+    try {
+      const clubsData = await this.getUserClubs(userId);
+      if (!clubsData) {
+        throw new Error('Clubs data not found');
+      }
+
+      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
+      if (clubIndex === -1) {
+        throw new Error(`Club not found: ${clubId}`);
+      }
+
+      clubsData.clubs[clubIndex].shots = clubsData.clubs[clubIndex].shots.filter(
+        s => s.id !== shotId
+      );
+      clubsData.clubs[clubIndex].updatedAt = Date.now();
+
+      await this.updateUserClubs(userId, clubsData.clubs);
+      console.log('[Firebase] Shot deleted:', shotId);
+    } catch (error) {
+      console.error('[Firebase] Error deleting shot:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get shot statistics for a club
+   */
+  async getClubStatistics(userId: string, clubId: string): Promise<{
+    averageDistance: number;
+    minDistance: number;
+    maxDistance: number;
+    totalShots: number;
+    lastShotDate: string | null;
+  }> {
+    try {
+      const shots = await this.getClubShots(userId, clubId);
+
+      if (shots.length === 0) {
+        return {
+          averageDistance: 0,
+          minDistance: 0,
+          maxDistance: 0,
+          totalShots: 0,
+          lastShotDate: null,
+        };
+      }
+
+      const distances = shots.map(s => s.distance);
+      const sum = distances.reduce((a, b) => a + b, 0);
+      const sortedByDate = [...shots].sort((a, b) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+
+      return {
+        averageDistance: Math.round(sum / distances.length),
+        minDistance: Math.min(...distances),
+        maxDistance: Math.max(...distances),
+        totalShots: shots.length,
+        lastShotDate: sortedByDate[0]?.date || null,
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting club statistics:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Submit contact form
    */
   async submitContactForm(data: {

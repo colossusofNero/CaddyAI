@@ -40,17 +40,33 @@ export interface UserProfile {
   createdAt: number;
 }
 
+export interface Shot {
+  id: string;
+  distance: number; // actual distance achieved
+  date: string; // ISO date string
+  conditions?: {
+    temperature?: number;
+    windSpeed?: number;
+    windDirection?: string;
+    elevation?: number;
+  };
+  outcome?: 'excellent' | 'good' | 'fair' | 'poor';
+  notes?: string;
+  createdAt: number;
+}
+
 export interface ClubData {
+  id: string;
   name: string;
-  takeback: 'Full' | '3/4' | '1/2' | '1/4' | 'Pitch' | 'Chip' | 'Flop';
-  face: 'Draw' | 'Square' | 'Fade' | 'Hood' | 'Open' | 'Flat';
-  carryYards: number;
-  updatedAt?: number;
+  distance: number; // average/expected distance in yards
+  shots: Shot[]; // unlimited shot history
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface UserClubs {
   userId: string;
-  clubs: ClubData[]; // 26 clubs
+  clubs: ClubData[]; // 14 clubs max
   updatedAt: number;
   createdAt: number;
 }

@@ -30,6 +30,18 @@ export interface Round {
   handicapDifferential?: number;
   holes: RoundHole[];
   weather?: WeatherConditions;
+
+  // GHIN/USGA Integration
+  ghinCourseId?: string; // GHIN's 12-char course ID
+  teeUsed?: string; // Tee name (e.g., "Blue", "White", "Championship")
+  teeColor?: string; // Hex color of tee
+  courseRating?: number; // Course rating for tee used
+  slopeRating?: number; // Slope rating for tee used
+  adjustedGrossScore?: number; // Score adjusted for ESC
+  postedToGHIN?: boolean; // Whether score was posted to GHIN
+  ghinPostDate?: string; // ISO date when posted to GHIN
+  ghinScoreId?: string; // GHIN's score identifier
+
   createdAt: number;
   updatedAt: number;
 }

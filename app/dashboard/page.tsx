@@ -125,17 +125,61 @@ export default function DashboardPage() {
         </div>
       </nav>
 
+      {/* Arizona Sunset Hero Banner */}
+      <div className="relative h-72 md:h-80 lg:h-96 overflow-hidden">
+        {/* Background Image - Arizona Sunset over Mountains */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=1920&q=85')",
+          }}
+        >
+          {/* Gradient Overlays for Better Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
+          <div className="max-w-2xl">
+            <div className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full mb-4">
+              <span className="text-white/90 text-sm font-medium">
+                {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+              Welcome back, {user.displayName?.split(' ')[0] || 'Golfer'}!
+            </h1>
+            <p className="text-xl md:text-2xl text-white/95 mb-6 drop-shadow-md">
+              Perfect day for golf in the Southwest 🏌️
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/round/new">
+                <Button
+                  size="lg"
+                  className="bg-white text-primary hover:bg-white/90 font-semibold shadow-xl"
+                >
+                  <Circle className="w-5 h-5 mr-2" />
+                  Start New Round
+                </Button>
+              </Link>
+              <Link href="/courses">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm shadow-xl"
+                >
+                  <MapPin className="w-5 h-5 mr-2" />
+                  Find Courses Near You
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-text-primary mb-2">
-            Dashboard - Welcome back, {user.displayName || 'Golfer'}!
-          </h1>
-          <p className="text-text-secondary">
-            Track your progress, view recent rounds, and manage your game.
-          </p>
-        </div>
 
         {/* Stats Overview Section */}
         <div className="mb-8">

@@ -40,6 +40,7 @@ export default function ProfilePage() {
   const [driveDistance, setDriveDistance] = useState<number | ''>('');
   const [strengthLevel, setStrengthLevel] = useState<'high' | 'medium' | 'low'>('medium');
   const [improvementGoal, setImprovementGoal] = useState<string>('');
+  const [skillLevel, setSkillLevel] = useState<'Beginner' | 'Intermediate' | 'Advanced' | 'Pro' | 'Tour Pro'>('Intermediate');
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -71,6 +72,7 @@ export default function ProfilePage() {
           setDriveDistance(profile.driveDistance ?? '');
           if (profile.strengthLevel) setStrengthLevel(profile.strengthLevel);
           if (profile.improvementGoal) setImprovementGoal(profile.improvementGoal);
+          if (profile.skillLevel) setSkillLevel(profile.skillLevel);
         }
       } catch (err: unknown) {
         console.error('Failed to load profile:', err);
@@ -103,6 +105,7 @@ export default function ProfilePage() {
         curveTendency,
         playFrequency,
         strengthLevel,
+        skillLevel, // For ElevenLabs AI question count
       };
 
       // Only add optional fields if they have values
@@ -420,6 +423,36 @@ export default function ProfilePage() {
                       </button>
                     ))}
                   </div>
+                </div>
+
+                {/* Skill Level - For ElevenLabs AI */}
+                <div>
+                  <label id="skill-level-label" className="block text-sm font-medium text-text-primary mb-2">
+                    Golf Skill Level
+                  </label>
+                  <p className="text-sm text-text-muted mb-3">
+                    Controls AI caddy question depth and complexity
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" role="group" aria-labelledby="skill-level-label">
+                    {(['Beginner', 'Intermediate', 'Advanced', 'Pro', 'Tour Pro'] as const).map((level) => (
+                      <button
+                        key={level}
+                        type="button"
+                        onClick={() => setSkillLevel(level)}
+                        aria-pressed={skillLevel === level}
+                        className={`p-3 rounded-lg border-2 transition-all duration-300 text-sm ${
+                          skillLevel === level
+                            ? 'border-primary bg-primary bg-opacity-10 text-primary font-semibold shadow-md'
+                            : 'border-neutral-300 text-neutral-700 hover:border-primary/50 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600 dark:hover:bg-neutral-800'
+                        }`}
+                      >
+                        {level}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-text-muted italic">
+                    Higher skill levels = more detailed analysis and advanced strategy questions
+                  </p>
                 </div>
 
                 {/* Improvement Goal */}

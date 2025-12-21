@@ -35,6 +35,9 @@ export interface UserProfile {
   strengthLevel?: 'high' | 'medium' | 'low';
   improvementGoal?: string;
 
+  // ElevenLabs AI Configuration
+  skillLevel?: 'Beginner' | 'Intermediate' | 'Advanced' | 'Pro' | 'Tour Pro';
+
   // Metadata
   updatedAt: number;
   createdAt: number;

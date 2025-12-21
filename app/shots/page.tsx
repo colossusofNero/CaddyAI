@@ -392,12 +392,12 @@ export default function ShotsPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-500 bg-opacity-10 border border-red-500 rounded-lg">
-              <p className="text-red-500 text-center whitespace-pre-line">{error}</p>
+            <div className="mb-6 p-4 bg-red-600 border border-red-700 rounded-lg">
+              <p className="text-white text-center whitespace-pre-line font-semibold">{error}</p>
               <button
                 type="button"
                 onClick={() => setError(null)}
-                className="text-xs text-red-400 hover:text-red-300 mt-2 block mx-auto"
+                className="text-xs text-white hover:text-red-200 mt-2 block mx-auto underline"
               >
                 Dismiss
               </button>

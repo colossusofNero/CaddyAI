@@ -7,18 +7,19 @@
  * Shots store: clubId, clubName, name, takeback, face, carryYards, rollYards, totalYards
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { ArrowLeft, Save, Plus, Trash2, Edit2 } from 'lucide-react';
+import { ArrowLeft, Save, Plus, Trash2, Edit2, Download, Upload } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
 import type { Shot, ShotFace, Takeback, ShotName } from '@/src/types/shots';
 import { SHOT_NAMES, TAKEBACK_OPTIONS, FACE_OPTIONS as SHOT_FACE_OPTIONS, generateShotId, getShotCategory } from '@/src/types/shots';
 import type { Club } from '@/src/types/clubs';
+import { downloadExcelTemplate, parseExcelFile } from '@/lib/excelImportExport';
 
 export default function ShotsPage() {
   const router = useRouter();
@@ -32,6 +33,7 @@ export default function ShotsPage() {
   const [editingShot, setEditingShot] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [filterClub, setFilterClub] = useState<string>('all');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -242,6 +244,99 @@ export default function ShotsPage() {
     }
   };
 
+  const handleDownloadTemplate = () => {
+    try {
+      // Download template with current clubs and shots
+      downloadExcelTemplate(clubs, shots);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to download template:', err);
+      setError('Failed to download template. Please try again.');
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const result = await parseExcelFile(file);
+
+      if (result.errors.length > 0) {
+        setError(`Import errors:\n${result.errors.join('\n')}`);
+        setLoading(false);
+        return;
+      }
+
+      if (result.clubs.length === 0 && result.shots.length === 0) {
+        setError('No data found in Excel file');
+        setLoading(false);
+        return;
+      }
+
+      // Import clubs if present
+      if (result.clubs.length > 0) {
+        const importedClubs: Club[] = result.clubs.map((club, index) => ({
+          id: `club_imported_${Date.now()}_${index}`,
+          name: club.name!,
+          face: club.face!,
+          carryYards: club.carryYards!,
+          rollYards: club.rollYards!,
+          totalYards: club.totalYards!,
+          sortOrder: index + 1,
+          isDefault: false,
+          isActive: true,
+        }));
+        setClubs(importedClubs);
+      }
+
+      // Import shots if present
+      if (result.shots.length > 0) {
+        const importedShots: Shot[] = result.shots.map((shot, index) => {
+          // Find matching club for clubId
+          const matchingClub = clubs.find(c => c.name === shot.clubName) ||
+                              result.clubs.find(c => c.name === shot.clubName);
+          const clubId = matchingClub ?
+            (matchingClub as Club).id || `club_imported_${Date.now()}_${result.clubs.findIndex(c => c.name === shot.clubName)}` :
+            `club_unknown_${Date.now()}_${index}`;
+
+          return {
+            id: generateShotId(clubId, shot.name!),
+            clubId: clubId,
+            clubName: shot.clubName!,
+            name: shot.name!,
+            category: getShotCategory(shot.totalYards!),
+            takeback: shot.takeback!,
+            face: shot.face!,
+            carryYards: shot.carryYards!,
+            rollYards: shot.rollYards!,
+            totalYards: shot.totalYards!,
+            sortOrder: index + 1,
+            isDefault: false,
+            isActive: true,
+          };
+        });
+        setShots(importedShots);
+      }
+
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to import data:', err);
+      setError('Failed to import data. Please check the file format.');
+    } finally {
+      setLoading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
   const filteredShots = filterClub === 'all'
     ? shots
     : shots.filter(s => s.clubId === filterClub);
@@ -298,7 +393,7 @@ export default function ShotsPage() {
           {/* Error Message */}
           {error && (
             <div className="mb-6 p-4 bg-red-500 bg-opacity-10 border border-red-500 rounded-lg">
-              <p className="text-red-500 text-center">{error}</p>
+              <p className="text-red-500 text-center whitespace-pre-line">{error}</p>
               <button
                 type="button"
                 onClick={() => setError(null)}
@@ -308,6 +403,49 @@ export default function ShotsPage() {
               </button>
             </div>
           )}
+
+          {/* Import/Export Section */}
+          <Card variant="default" padding="lg" className="mb-6">
+            <CardContent>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary mb-1">
+                    Import/Export Clubs & Shots
+                  </h3>
+                  <p className="text-sm text-text-secondary">
+                    Download your clubs and shots as an Excel template or upload a filled template to import
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="md"
+                    onClick={handleDownloadTemplate}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Template
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="md"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Excel
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Filter Bar */}
           <div className="mb-6 flex gap-4 items-center flex-wrap">

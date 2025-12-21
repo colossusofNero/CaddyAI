@@ -8,17 +8,18 @@
  * Shots are managed separately in /shots collection
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Save, Plus, Trash2, Download, Upload } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
 import type { Club, ClubFace } from '@/src/types/clubs';
 import { generateDefaultClubs, CLUB_LIST } from '@/src/types/clubs';
+import { downloadExcelTemplate, parseExcelFile } from '@/lib/excelImportExport';
 
 const FACE_OPTIONS: { value: ClubFace; label: string }[] = [
   { value: 'Square', label: 'Square' },
@@ -34,6 +35,7 @@ export default function ClubsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [clubs, setClubs] = useState<Club[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -136,6 +138,74 @@ export default function ClubsPage() {
     setClubs(defaultClubs.slice(0, 14));
   };
 
+  const handleDownloadTemplate = () => {
+    try {
+      // Download template with current clubs and empty shots
+      downloadExcelTemplate(clubs, []);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to download template:', err);
+      setError('Failed to download template. Please try again.');
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const result = await parseExcelFile(file);
+
+      if (result.errors.length > 0) {
+        setError(`Import errors:\n${result.errors.join('\n')}`);
+        setLoading(false);
+        return;
+      }
+
+      if (result.clubs.length === 0) {
+        setError('No clubs found in Excel file');
+        setLoading(false);
+        return;
+      }
+
+      if (result.clubs.length > 14) {
+        setError('Too many clubs. Maximum 14 allowed.');
+        setLoading(false);
+        return;
+      }
+
+      // Convert partial clubs to full clubs with required fields
+      const importedClubs: Club[] = result.clubs.map((club, index) => ({
+        id: `club_imported_${Date.now()}_${index}`,
+        name: club.name!,
+        face: club.face!,
+        carryYards: club.carryYards!,
+        rollYards: club.rollYards!,
+        totalYards: club.totalYards!,
+        sortOrder: index + 1,
+        isDefault: false,
+        isActive: true,
+      }));
+
+      setClubs(importedClubs);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to import clubs:', err);
+      setError('Failed to import clubs. Please check the file format.');
+    } finally {
+      setLoading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -220,7 +290,7 @@ export default function ClubsPage() {
           {/* Error Message */}
           {error && (
             <div className="mb-6 p-4 bg-red-500 bg-opacity-10 border border-red-500 rounded-lg">
-              <p className="text-red-500 text-center">{error}</p>
+              <p className="text-red-500 text-center whitespace-pre-line">{error}</p>
               <button
                 type="button"
                 onClick={() => setError(null)}
@@ -230,6 +300,49 @@ export default function ClubsPage() {
               </button>
             </div>
           )}
+
+          {/* Import/Export Section */}
+          <Card variant="default" padding="lg" className="mb-6">
+            <CardContent>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary mb-1">
+                    Import/Export Clubs
+                  </h3>
+                  <p className="text-sm text-text-secondary">
+                    Download your clubs as an Excel template or upload a filled template to import
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="md"
+                    onClick={handleDownloadTemplate}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Template
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="md"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Excel
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           <Card variant="elevated" padding="lg" className="mb-6">
             <CardHeader

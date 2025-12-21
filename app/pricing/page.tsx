@@ -38,9 +38,10 @@ const pricingTiers: PricingTier[] = [
     id: 'pro',
     name: 'Pro',
     description: 'For serious golfers who want the full experience',
-    priceMonthly: 9.99,
-    priceAnnual: 95.88,
+    priceMonthly: 9.95,
+    priceAnnual: 79.60,
     popular: true,
+    badge: 'Best for Seasonal Golfers',
     features: [
       'AI-powered recommendations',
       'Unlimited clubs in bag',
@@ -66,8 +67,8 @@ const pricingTiers: PricingTier[] = [
     id: 'tour',
     name: 'Tour',
     description: 'Everything a competitive golfer needs',
-    priceMonthly: 19.99,
-    priceAnnual: 191.88,
+    priceMonthly: 19.95,
+    priceAnnual: 159.60,
     features: [
       'Everything in Pro',
       'Advanced shot analytics',
@@ -226,6 +227,102 @@ export default function PricingPage() {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Seasonal Golfer Savings */}
+      <section className="py-16 lg:py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white/5 backdrop-blur-sm border border-primary/20 rounded-3xl p-8 lg:p-12"
+          >
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                  ❄️ Perfect for Cold-Climate Golfers
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+                  Can't Golf 4 Months a Year?
+                  <br />
+                  <span className="text-primary">Pause & Save!</span>
+                </h2>
+                <p className="text-lg text-text-secondary mb-6">
+                  Live in the Northeast, Midwest, or Canada? We get it - golf season doesn't last all year.
+                  With monthly subscriptions, you can:
+                </p>
+                <ul className="space-y-3 mb-6">
+                  {[
+                    'Cancel when courses close (October/November)',
+                    'Reactivate when they open (March/April)',
+                    'Pay only for the months you actually golf',
+                    'Keep all your data year-round',
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-text-secondary">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+                  <div className="text-sm text-text-muted mb-2">Annual Savings Example:</div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-primary">$79.60</span>
+                    <span className="text-text-secondary">for 8 months</span>
+                  </div>
+                  <div className="text-sm text-text-muted mt-2">
+                    vs. $119.40 year-round (12 months × $9.95)
+                  </div>
+                  <div className="text-lg font-bold text-primary mt-3">
+                    Save $39.80 per year! 💰
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border border-primary/30 rounded-2xl p-8">
+                <h3 className="text-2xl font-bold text-text-primary mb-6 text-center">
+                  Monthly Subscription Benefits
+                </h3>
+                <div className="space-y-4">
+                  {[
+                    {
+                      icon: '🏌️',
+                      title: 'Flexibility',
+                      desc: 'Subscribe & pause as needed',
+                    },
+                    {
+                      icon: '💵',
+                      title: 'No Waste',
+                      desc: 'Pay only for golf season',
+                    },
+                    {
+                      icon: '📊',
+                      title: 'Data Retained',
+                      desc: 'Your stats stay forever',
+                    },
+                    {
+                      icon: '🔄',
+                      title: 'Easy Reactivation',
+                      desc: 'One-click restart in spring',
+                    },
+                  ].map((benefit, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                      <div className="text-3xl">{benefit.icon}</div>
+                      <div>
+                        <h4 className="font-bold text-text-primary">{benefit.title}</h4>
+                        <p className="text-sm text-text-secondary">{benefit.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 p-4 bg-white/5 rounded-xl text-center">
+                  <p className="text-sm text-text-muted mb-2">Available on iOS & Android</p>
+                  <p className="text-xs text-text-muted">Cancel anytime, no questions asked</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

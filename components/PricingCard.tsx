@@ -19,6 +19,7 @@ export interface PricingTier {
   priceMonthly: number;
   priceAnnual: number;
   popular?: boolean;
+  badge?: string;
   features: string[];
   featureTooltips?: Record<string, string>;
   cta: string;
@@ -89,6 +90,11 @@ export function PricingCard({
           <h3 className="text-2xl font-bold text-text-primary mb-2">
             {tier.name}
           </h3>
+          {tier.badge && (
+            <div className="inline-block mb-2 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+              {tier.badge}
+            </div>
+          )}
           <p className="text-text-secondary text-sm">{tier.description}</p>
         </div>
 

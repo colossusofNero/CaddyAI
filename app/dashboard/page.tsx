@@ -127,11 +127,11 @@ export default function DashboardPage() {
 
       {/* Arizona Sunset Hero Banner */}
       <div className="relative h-72 md:h-80 lg:h-96 overflow-hidden">
-        {/* Background Image - Sedona Red Rocks Sunset */}
+        {/* Background Image - Phoenix Arizona Desert Sunset */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1920&q=85')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1920&q=85')",
           }}
         >
           {/* Gradient Overlays for Better Text Readability */}

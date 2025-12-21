@@ -249,21 +249,21 @@ export default function HistoryPage() {
   // Get score color
   const getScoreColor = (score: number, par: number) => {
     const diff = score - par;
-    if (diff <= -2) return 'text-yellow-400'; // Eagle or better
-    if (diff === -1) return 'text-blue-400'; // Birdie
-    if (diff === 0) return 'text-green-400'; // Par
-    if (diff === 1) return 'text-orange-400'; // Bogey
-    return 'text-red-400'; // Double bogey or worse
+    if (diff <= -2) return 'text-success'; // Eagle or better
+    if (diff === -1) return 'text-success'; // Birdie
+    if (diff === 0) return 'text-primary'; // Par
+    if (diff === 1) return 'text-warning'; // Bogey
+    return 'text-error'; // Double bogey or worse
   };
 
   // Get score background
   const getScoreBg = (score: number, par: number) => {
     const diff = score - par;
-    if (diff <= -2) return 'bg-yellow-500 bg-opacity-20 border-yellow-500';
-    if (diff === -1) return 'bg-blue-500 bg-opacity-20 border-blue-500';
-    if (diff === 0) return 'bg-green-500 bg-opacity-20 border-green-500';
-    if (diff === 1) return 'bg-orange-500 bg-opacity-20 border-orange-500';
-    return 'bg-red-500 bg-opacity-20 border-red-500';
+    if (diff <= -2) return 'bg-success bg-opacity-20 border-success';
+    if (diff === -1) return 'bg-success bg-opacity-20 border-success';
+    if (diff === 0) return 'bg-primary bg-opacity-20 border-primary';
+    if (diff === 1) return 'bg-warning bg-opacity-20 border-warning';
+    return 'bg-error bg-opacity-20 border-error';
   };
 
   // Handle delete round
@@ -359,8 +359,8 @@ export default function HistoryPage() {
                   <p className="text-text-secondary text-sm mb-1">Average Score</p>
                   <p className="text-3xl font-bold text-text-primary">{overallStats.avgScore}</p>
                 </div>
-                <div className="w-12 h-12 bg-blue-500 bg-opacity-20 rounded-lg flex items-center justify-center">
-                  <Target className="w-6 h-6 text-blue-400" />
+                <div className="w-12 h-12 bg-primary bg-opacity-20 rounded-lg flex items-center justify-center">
+                  <Target className="w-6 h-6 text-primary" />
                 </div>
               </div>
             </Card>
@@ -371,8 +371,8 @@ export default function HistoryPage() {
                   <p className="text-text-secondary text-sm mb-1">Best Score</p>
                   <p className="text-3xl font-bold text-text-primary">{overallStats.bestScore}</p>
                 </div>
-                <div className="w-12 h-12 bg-green-500 bg-opacity-20 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-green-400" />
+                <div className="w-12 h-12 bg-success bg-opacity-20 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-success" />
                 </div>
               </div>
             </Card>
@@ -812,9 +812,9 @@ export default function HistoryPage() {
                                   <td className="p-3 text-center">
                                     {hole.fairwayHit !== undefined ? (
                                       hole.fairwayHit ? (
-                                        <span className="text-green-400">✓</span>
+                                        <span className="text-success">✓</span>
                                       ) : (
-                                        <span className="text-red-400">✗</span>
+                                        <span className="text-error">✗</span>
                                       )
                                     ) : (
                                       <span className="text-text-secondary">-</span>
@@ -823,9 +823,9 @@ export default function HistoryPage() {
                                   <td className="p-3 text-center">
                                     {hole.greenInRegulation !== undefined ? (
                                       hole.greenInRegulation ? (
-                                        <span className="text-green-400">✓</span>
+                                        <span className="text-success">✓</span>
                                       ) : (
-                                        <span className="text-red-400">✗</span>
+                                        <span className="text-error">✗</span>
                                       )
                                     ) : (
                                       <span className="text-text-secondary">-</span>
@@ -874,19 +874,19 @@ export default function HistoryPage() {
                           <div className="space-y-2">
                             <div className="flex justify-between items-center">
                               <span className="text-text-secondary">Birdies or Better</span>
-                              <span className="text-blue-400 font-medium">{stats.birdies}</span>
+                              <span className="text-success font-medium">{stats.birdies}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-text-secondary">Pars</span>
-                              <span className="text-green-400 font-medium">{stats.pars}</span>
+                              <span className="text-primary font-medium">{stats.pars}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-text-secondary">Bogeys</span>
-                              <span className="text-orange-400 font-medium">{stats.bogeys}</span>
+                              <span className="text-warning font-medium">{stats.bogeys}</span>
                             </div>
                             <div className="flex justify-between items-center">
                               <span className="text-text-secondary">Double Bogeys or Worse</span>
-                              <span className="text-red-400 font-medium">{stats.doubleBogeys}</span>
+                              <span className="text-error font-medium">{stats.doubleBogeys}</span>
                             </div>
                           </div>
                         </div>

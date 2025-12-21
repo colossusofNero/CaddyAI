@@ -6,17 +6,17 @@
      Using OKLCH for perceptually uniform colors
      ============================================ */
 
-  /* Primary - Golf Course Green (Forest) */
-  --color-primary-50: oklch(0.97 0.02 145);
-  --color-primary-100: oklch(0.93 0.04 145);
-  --color-primary-200: oklch(0.85 0.06 145);
-  --color-primary-300: oklch(0.75 0.08 145);
-  --color-primary-400: oklch(0.65 0.10 145);
-  --color-primary-500: oklch(0.45 0.12 145);  /* Main brand #1B5E20 */
-  --color-primary-600: oklch(0.40 0.11 145);
-  --color-primary-700: oklch(0.35 0.10 145);
-  --color-primary-800: oklch(0.28 0.08 145);
-  --color-primary-900: oklch(0.20 0.06 145);
+  /* Primary - Navy Blue (CaddyAI Brand) */
+  --color-primary-50: oklch(0.95 0.02 250);
+  --color-primary-100: oklch(0.90 0.04 250);
+  --color-primary-200: oklch(0.80 0.06 250);
+  --color-primary-300: oklch(0.65 0.08 250);
+  --color-primary-400: oklch(0.50 0.10 250);
+  --color-primary-500: oklch(0.40 0.12 250);  /* Main brand #0D47A1 Navy Blue */
+  --color-primary-600: oklch(0.35 0.11 250);
+  --color-primary-700: oklch(0.30 0.10 250);
+  --color-primary-800: oklch(0.25 0.08 250);
+  --color-primary-900: oklch(0.20 0.06 250);
   --color-primary: var(--color-primary-500);
 
   /* Secondary - Vibrant Tech Green */
@@ -72,7 +72,7 @@
   --color-gold: var(--color-gold-500);
 
   /* Semantic Colors - Light Mode */
-  --color-success: oklch(0.55 0.15 145);  /* Green for success */
+  --color-success: oklch(0.62 0.15 145);  /* Golf Green #4CAF50 for success */
   --color-warning: oklch(0.70 0.15 60);   /* Orange for warnings */
   --color-error: oklch(0.55 0.22 25);     /* Red for errors */
   --color-info: var(--color-accent-500);   /* Blue for info */
@@ -105,22 +105,22 @@
   --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -2px oklch(0 0 0 / 0.05);
   --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 10px 10px -5px oklch(0 0 0 / 0.04);
   --shadow-card: 0 8px 24px oklch(0 0 0 / 0.12);
-  --shadow-primary: 0 4px 12px oklch(0.45 0.12 145 / 0.3);
+  --shadow-primary: 0 4px 12px oklch(0.40 0.12 250 / 0.3);
 }
 
 /* Dark Mode Theme */
 [data-theme="dark"] {
-  /* Primary - Lighter for dark backgrounds */
-  --color-primary-50: oklch(0.20 0.06 145);
-  --color-primary-100: oklch(0.28 0.08 145);
-  --color-primary-200: oklch(0.35 0.10 145);
-  --color-primary-300: oklch(0.40 0.11 145);
-  --color-primary-400: oklch(0.45 0.12 145);
-  --color-primary-500: oklch(0.55 0.14 145);  /* Lighter for dark mode */
-  --color-primary-600: oklch(0.65 0.16 145);
-  --color-primary-700: oklch(0.75 0.18 145);
-  --color-primary-800: oklch(0.85 0.20 145);
-  --color-primary-900: oklch(0.93 0.22 145);
+  /* Primary - Navy Blue (Lighter for dark backgrounds) */
+  --color-primary-50: oklch(0.20 0.06 250);
+  --color-primary-100: oklch(0.25 0.08 250);
+  --color-primary-200: oklch(0.30 0.10 250);
+  --color-primary-300: oklch(0.35 0.11 250);
+  --color-primary-400: oklch(0.40 0.12 250);
+  --color-primary-500: oklch(0.50 0.14 250);  /* Lighter Navy for dark mode */
+  --color-primary-600: oklch(0.60 0.16 250);
+  --color-primary-700: oklch(0.70 0.18 250);
+  --color-primary-800: oklch(0.80 0.20 250);
+  --color-primary-900: oklch(0.90 0.22 250);
 
   /* Background Colors - Dark Mode */
   --color-background: oklch(0.18 0.01 240);      /* Dark blue-gray #0B1220 */
@@ -149,14 +149,14 @@
   --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -2px oklch(0 0 0 / 0.4);
   --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.6), 0 10px 10px -5px oklch(0 0 0 / 0.5);
   --shadow-card: 0 8px 24px oklch(0 0 0 / 0.4);
-  --shadow-primary: 0 4px 12px oklch(0.55 0.14 145 / 0.4);
+  --shadow-primary: 0 4px 12px oklch(0.50 0.14 250 / 0.4);
 }
 
 /* Auto dark mode based on system preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     /* Apply dark theme variables when no explicit theme is set */
-    --color-primary-500: oklch(0.55 0.14 145);
+    --color-primary-500: oklch(0.50 0.14 250);
     --color-background: oklch(0.18 0.01 240);
     --color-background-alt: oklch(0.22 0.01 240);
     --color-background-elevated: oklch(0.25 0.01 240);

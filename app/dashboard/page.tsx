@@ -14,6 +14,21 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { roundsApi } from '@/lib/api/rounds';
 import type { Round, UserStatistics } from '@/lib/api/types';
+import {
+  GolfBall,
+  TrendingUp,
+  Target,
+  Calendar,
+  BarChart3,
+  Settings,
+  History,
+  MapPin,
+  User,
+  CheckCircle,
+  AlertCircle,
+  Sparkles,
+  Smartphone,
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -129,7 +144,9 @@ export default function DashboardPage() {
             {/* Total Rounds Card */}
             <Card variant="default" padding="lg">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl">🏌️</span>
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                  <GolfBall className="w-6 h-6 text-primary" />
+                </div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-text-primary">
@@ -146,10 +163,13 @@ export default function DashboardPage() {
             {/* Current Handicap Card */}
             <Card variant="default" padding="lg">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl">📊</span>
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                  <BarChart3 className="w-6 h-6 text-primary" />
+                </div>
                 {stats && stats.totalRounds > 0 && (
-                  <span className="text-xs text-success">
-                    {stats.currentHandicap < 15 ? '↓ Improving' : stats.currentHandicap < 20 ? '→ Stable' : '↑ Needs work'}
+                  <span className="text-xs text-success flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" />
+                    {stats.currentHandicap < 15 ? 'Improving' : stats.currentHandicap < 20 ? 'Stable' : 'Needs work'}
                   </span>
                 )}
               </div>
@@ -168,7 +188,9 @@ export default function DashboardPage() {
             {/* Average Score Card */}
             <Card variant="default" padding="lg">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl">⛳</span>
+                <div className="w-10 h-10 bg-success bg-opacity-10 rounded-lg flex items-center justify-center">
+                  <Target className="w-6 h-6 text-success" />
+                </div>
                 {stats && stats.averageScore > 0 && (
                   <span className="text-xs text-text-secondary">
                     +{stats.averageScore - 72}
@@ -190,7 +212,9 @@ export default function DashboardPage() {
             {/* This Month Card */}
             <Card variant="default" padding="lg">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl">📅</span>
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-primary" />
+                </div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-text-primary">
@@ -235,7 +259,9 @@ export default function DashboardPage() {
           ) : recentRounds.length === 0 ? (
             <Card variant="bordered" padding="lg">
               <div className="text-center py-8">
-                <div className="text-5xl mb-4">🏌️</div>
+                <div className="w-20 h-20 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <GolfBall className="w-10 h-10 text-primary" />
+                </div>
                 <h3 className="text-xl font-bold text-text-primary mb-2">No rounds yet</h3>
                 <p className="text-text-secondary mb-6">
                   Start tracking your golf game and see your progress here
@@ -263,7 +289,9 @@ export default function DashboardPage() {
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <span className="text-2xl">⛳</span>
+                            <div className="w-10 h-10 bg-success bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Target className="w-5 h-5 text-success" />
+                            </div>
                             <div>
                               <h3 className="text-lg font-bold text-text-primary">{round.courseName}</h3>
                               <p className="text-sm text-text-secondary">
@@ -280,13 +308,22 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-4 text-sm text-text-secondary">
                           {totalFairways > 0 && (
-                            <span>🏌️ {fairwaysHit}/{totalFairways} FW</span>
+                            <span className="flex items-center gap-1">
+                              <GolfBall className="w-3 h-3" />
+                              {fairwaysHit}/{totalFairways} FW
+                            </span>
                           )}
                           {gir > 0 && (
-                            <span>🎯 {gir}/18 GIR</span>
+                            <span className="flex items-center gap-1">
+                              <Target className="w-3 h-3" />
+                              {gir}/18 GIR
+                            </span>
                           )}
                           {totalPutts > 0 && (
-                            <span>⛳ {totalPutts} Putts</span>
+                            <span className="flex items-center gap-1">
+                              <Target className="w-3 h-3" />
+                              {totalPutts} Putts
+                            </span>
                           )}
                         </div>
                       </div>
@@ -303,43 +340,55 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-text-primary mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link href="/round/new">
-              <button className="w-full p-6 text-center bg-primary hover:bg-primary-dark rounded-lg transition-colors">
-                <div className="text-3xl mb-2">🏌️</div>
+              <button className="w-full p-6 text-center bg-primary hover:bg-primary-600 rounded-lg transition-colors">
+                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <GolfBall className="w-6 h-6 text-white" />
+                </div>
                 <h4 className="font-medium text-white">Start Round</h4>
               </button>
             </Link>
 
             <Link href="/analytics">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="text-3xl mb-2">📊</div>
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <BarChart3 className="w-6 h-6 text-primary" />
+                </div>
                 <h4 className="font-medium text-text-primary">View Analytics</h4>
               </button>
             </Link>
 
             <Link href="/clubs">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="text-3xl mb-2">⚙️</div>
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Settings className="w-6 h-6 text-primary" />
+                </div>
                 <h4 className="font-medium text-text-primary">Manage Clubs</h4>
               </button>
             </Link>
 
             <Link href="/history">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="text-3xl mb-2">📜</div>
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <History className="w-6 h-6 text-primary" />
+                </div>
                 <h4 className="font-medium text-text-primary">View History</h4>
               </button>
             </Link>
 
             <Link href="/courses">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="text-3xl mb-2">⛳</div>
+                <div className="w-12 h-12 bg-success bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <MapPin className="w-6 h-6 text-success" />
+                </div>
                 <h4 className="font-medium text-text-primary">Find Courses</h4>
               </button>
             </Link>
 
             <Link href="/profile">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="text-3xl mb-2">👤</div>
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <User className="w-6 h-6 text-primary" />
+                </div>
                 <h4 className="font-medium text-text-primary">Edit Profile</h4>
               </button>
             </Link>
@@ -356,31 +405,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Subscription</h3>
               {subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? (
-                <svg
-                  className="w-6 h-6 text-success"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <CheckCircle className="w-6 h-6 text-success" />
               ) : (
-                <svg
-                  className="w-6 h-6 text-accent"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                  />
-                </svg>
+                <Sparkles className="w-6 h-6 text-accent" />
               )}
             </div>
             <p className="text-text-secondary text-sm mb-4 capitalize">
@@ -403,29 +430,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Profile</h3>
               {userMetadata?.profileComplete ? (
-                <svg
-                  className="w-6 h-6 text-success"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <CheckCircle className="w-6 h-6 text-success" />
               ) : (
-                <svg
-                  className="w-6 h-6 text-warning"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <AlertCircle className="w-6 h-6 text-warning" />
               )}
             </div>
             <p className="text-text-secondary text-sm mb-4">
@@ -447,29 +454,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Clubs</h3>
               {userMetadata?.clubsComplete ? (
-                <svg
-                  className="w-6 h-6 text-success"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <CheckCircle className="w-6 h-6 text-success" />
               ) : (
-                <svg
-                  className="w-6 h-6 text-warning"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <AlertCircle className="w-6 h-6 text-warning" />
               )}
             </div>
             <p className="text-text-secondary text-sm mb-4">
@@ -487,19 +474,7 @@ export default function DashboardPage() {
           <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Mobile App</h3>
-              <svg
-                className="w-6 h-6 text-accent"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                />
-              </svg>
+              <Smartphone className="w-6 h-6 text-accent" />
             </div>
             <p className="text-text-secondary text-sm mb-4">
               Use CaddyAI on the course with our mobile app
@@ -525,17 +500,7 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     {userMetadata?.profileComplete ? (
-                      <svg
-                        className="w-5 h-5 text-success flex-shrink-0"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                     ) : (
                       <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0"></div>
                     )}
@@ -552,17 +517,7 @@ export default function DashboardPage() {
 
                   <div className="flex items-center gap-3">
                     {userMetadata?.clubsComplete ? (
-                      <svg
-                        className="w-5 h-5 text-success flex-shrink-0"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                     ) : (
                       <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0"></div>
                     )}

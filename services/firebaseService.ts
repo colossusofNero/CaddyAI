@@ -20,7 +20,9 @@ import {
 } from 'firebase/firestore';
 import type { FavoriteCourse, ActiveRound } from '@/types/course';
 import type { UserProfile, UserClubs } from '@/src/types/user';
-import type { UserPreferences } from '@/src/types/preferences';
+import type { PreferencesDocument } from '@/src/types/preferences';
+import type { ClubDocument, Club } from '@/src/types/clubs';
+import type { ShotDocument, Shot } from '@/src/types/shots';
 
 // Firebase configuration (from environment variables)
 const firebaseConfig = {
@@ -99,9 +101,9 @@ class FirebaseService {
   }
 
   /**
-   * Get user clubs
+   * Get user clubs (new unified schema)
    */
-  async getUserClubs(userId: string): Promise<UserClubs | null> {
+  async getUserClubs(userId: string): Promise<ClubDocument | null> {
     try {
       const clubsRef = doc(db, 'clubs', userId);
       const docSnap = await getDoc(clubsRef);
@@ -113,9 +115,9 @@ class FirebaseService {
       const data = docSnap.data();
       return {
         userId: data.userId,
-        clubs: data.clubs,
-        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toMillis() : data.updatedAt,
-        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toMillis() : data.createdAt,
+        clubs: data.clubs || [],
+        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt : Timestamp.now(),
+        version: data.version || 1,
       };
     } catch (error) {
       console.error('[Firebase] Error getting user clubs:', error);
@@ -124,20 +126,20 @@ class FirebaseService {
   }
 
   /**
-   * Update user clubs
+   * Update user clubs (new unified schema)
    */
-  async updateUserClubs(userId: string, clubs: import('@/src/types/user').ClubData[]): Promise<void> {
+  async updateUserClubs(userId: string, clubs: Club[]): Promise<void> {
     try {
       const clubsRef = doc(db, 'clubs', userId);
-      const now = Date.now();
+      const now = Timestamp.now();
 
       // Check if clubs exist
       const existingDoc = await getDoc(clubsRef);
-      const clubsData = {
+      const clubsData: ClubDocument = {
         userId,
         clubs,
         updatedAt: now,
-        createdAt: existingDoc.exists() ? existingDoc.data().createdAt : now,
+        version: existingDoc.exists() ? (existingDoc.data().version || 1) : 1,
       };
 
       await setDoc(clubsRef, clubsData);
@@ -149,9 +151,36 @@ class FirebaseService {
   }
 
   /**
-   * Get user preferences
+   * Get user clubs (legacy format for backward compatibility)
+   * @deprecated Use getUserClubs() which returns new ClubDocument format
    */
-  async getUserPreferences(userId: string): Promise<UserPreferences | null> {
+  async getUserClubsLegacy(userId: string): Promise<UserClubs | null> {
+    try {
+      const clubsRef = doc(db, 'clubs', userId);
+      const docSnap = await getDoc(clubsRef);
+
+      if (!docSnap.exists()) {
+        return null;
+      }
+
+      const data = docSnap.data();
+      // Try to convert new format to old format if needed
+      return {
+        userId: data.userId,
+        clubs: data.clubs,
+        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toMillis() : data.updatedAt,
+        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toMillis() : data.createdAt || Date.now(),
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting legacy user clubs:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get user preferences (new unified schema)
+   */
+  async getUserPreferences(userId: string): Promise<PreferencesDocument | null> {
     try {
       const prefsRef = doc(db, 'preferences', userId);
       const docSnap = await getDoc(prefsRef);
@@ -163,12 +192,16 @@ class FirebaseService {
       const data = docSnap.data();
       return {
         userId: data.userId,
-        general: data.general,
+        units: data.units,
+        appearance: data.appearance,
         notifications: data.notifications,
-        privacy: data.privacy,
         display: data.display,
-        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt.toMillis() : data.updatedAt,
-        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toMillis() : data.createdAt,
+        privacy: data.privacy,
+        accessibility: data.accessibility,
+        customShotNames: data.customShotNames || [],
+        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt : Timestamp.now(),
+        createdAt: data.createdAt instanceof Timestamp ? data.createdAt : Timestamp.now(),
+        version: data.version || 1,
       };
     } catch (error) {
       console.error('[Firebase] Error getting user preferences:', error);
@@ -177,23 +210,25 @@ class FirebaseService {
   }
 
   /**
-   * Update user preferences
+   * Update user preferences (new unified schema)
    */
   async updateUserPreferences(
     userId: string,
-    preferences: Omit<UserPreferences, 'userId' | 'createdAt' | 'updatedAt'>
+    preferences: Omit<PreferencesDocument, 'userId' | 'createdAt' | 'updatedAt'>
   ): Promise<void> {
     try {
       const prefsRef = doc(db, 'preferences', userId);
-      const now = Date.now();
+      const now = Timestamp.now();
 
       // Check if preferences exist
       const existingDoc = await getDoc(prefsRef);
-      const prefsData = {
+      const prefsData: PreferencesDocument = {
         userId,
         ...preferences,
         updatedAt: now,
-        createdAt: existingDoc.exists() ? existingDoc.data().createdAt : now,
+        createdAt: existingDoc.exists()
+          ? (existingDoc.data().createdAt instanceof Timestamp ? existingDoc.data().createdAt : Timestamp.now())
+          : now,
       };
 
       await setDoc(prefsRef, prefsData);
@@ -389,33 +424,73 @@ class FirebaseService {
   }
 
   /**
-   * Add a shot to a club
+   * Get user shots (new unified schema)
    */
-  async addShot(userId: string, clubId: string, shot: Omit<import('@/src/types/user').Shot, 'id' | 'createdAt'>): Promise<string> {
+  async getUserShots(userId: string): Promise<ShotDocument | null> {
     try {
-      const clubsData = await this.getUserClubs(userId);
-      if (!clubsData) {
-        throw new Error('Clubs data not found');
+      const shotsRef = doc(db, 'shots', userId);
+      const docSnap = await getDoc(shotsRef);
+
+      if (!docSnap.exists()) {
+        return null;
       }
 
-      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
-      if (clubIndex === -1) {
-        throw new Error(`Club not found: ${clubId}`);
-      }
+      const data = docSnap.data();
+      return {
+        userId: data.userId,
+        shots: data.shots || [],
+        updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt : Timestamp.now(),
+        version: data.version || 1,
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting user shots:', error);
+      throw error;
+    }
+  }
 
-      const shotId = `shot_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const newShot: import('@/src/types/user').Shot = {
-        ...shot,
-        id: shotId,
-        createdAt: Date.now(),
+  /**
+   * Update user shots (new unified schema)
+   */
+  async updateUserShots(userId: string, shots: Shot[]): Promise<void> {
+    try {
+      const shotsRef = doc(db, 'shots', userId);
+      const now = Timestamp.now();
+
+      // Check if shots exist
+      const existingDoc = await getDoc(shotsRef);
+      const shotsData: ShotDocument = {
+        userId,
+        shots,
+        updatedAt: now,
+        version: existingDoc.exists() ? (existingDoc.data().version || 1) : 1,
       };
 
-      clubsData.clubs[clubIndex].shots.push(newShot);
-      clubsData.clubs[clubIndex].updatedAt = Date.now();
+      await setDoc(shotsRef, shotsData);
+      console.log('[Firebase] User shots updated:', shots.length, 'shots');
+    } catch (error) {
+      console.error('[Firebase] Error updating user shots:', error);
+      throw error;
+    }
+  }
 
-      await this.updateUserClubs(userId, clubsData.clubs);
-      console.log('[Firebase] Shot added to club:', clubId);
-      return shotId;
+  /**
+   * Add a shot (new unified schema)
+   */
+  async addShot(userId: string, shot: Omit<Shot, 'id'>): Promise<string> {
+    try {
+      const shotsData = await this.getUserShots(userId);
+      const shots = shotsData?.shots || [];
+
+      const newShot: Shot = {
+        ...shot,
+        id: `shot_${shot.clubId.replace('club_', '')}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      };
+
+      shots.push(newShot);
+      await this.updateUserShots(userId, shots);
+
+      console.log('[Firebase] Shot added:', newShot.id);
+      return newShot.id;
     } catch (error) {
       console.error('[Firebase] Error adding shot:', error);
       throw error;
@@ -423,55 +498,31 @@ class FirebaseService {
   }
 
   /**
-   * Get all shots for a club
+   * Update a shot (new unified schema)
    */
-  async getClubShots(userId: string, clubId: string): Promise<import('@/src/types/user').Shot[]> {
+  async updateShot(userId: string, shotId: string, updates: Partial<Omit<Shot, 'id'>>): Promise<void> {
     try {
-      const clubsData = await this.getUserClubs(userId);
-      if (!clubsData) {
-        return [];
+      const shotsData = await this.getUserShots(userId);
+      if (!shotsData) {
+        throw new Error('Shots data not found');
       }
 
-      const club = clubsData.clubs.find(c => c.id === clubId);
-      return club?.shots || [];
-    } catch (error) {
-      console.error('[Firebase] Error getting club shots:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Update a shot
-   */
-  async updateShot(
-    userId: string,
-    clubId: string,
-    shotId: string,
-    updates: Partial<Omit<import('@/src/types/user').Shot, 'id' | 'createdAt'>>
-  ): Promise<void> {
-    try {
-      const clubsData = await this.getUserClubs(userId);
-      if (!clubsData) {
-        throw new Error('Clubs data not found');
-      }
-
-      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
-      if (clubIndex === -1) {
-        throw new Error(`Club not found: ${clubId}`);
-      }
-
-      const shotIndex = clubsData.clubs[clubIndex].shots.findIndex(s => s.id === shotId);
+      const shotIndex = shotsData.shots.findIndex(s => s.id === shotId);
       if (shotIndex === -1) {
         throw new Error(`Shot not found: ${shotId}`);
       }
 
-      clubsData.clubs[clubIndex].shots[shotIndex] = {
-        ...clubsData.clubs[clubIndex].shots[shotIndex],
+      shotsData.shots[shotIndex] = {
+        ...shotsData.shots[shotIndex],
         ...updates,
+        // Recalculate totalYards if carry or roll changed
+        totalYards: updates.carryYards !== undefined || updates.rollYards !== undefined
+          ? (updates.carryYards ?? shotsData.shots[shotIndex].carryYards) +
+            (updates.rollYards ?? shotsData.shots[shotIndex].rollYards)
+          : shotsData.shots[shotIndex].totalYards,
       };
-      clubsData.clubs[clubIndex].updatedAt = Date.now();
 
-      await this.updateUserClubs(userId, clubsData.clubs);
+      await this.updateUserShots(userId, shotsData.shots);
       console.log('[Firebase] Shot updated:', shotId);
     } catch (error) {
       console.error('[Firebase] Error updating shot:', error);
@@ -480,26 +531,18 @@ class FirebaseService {
   }
 
   /**
-   * Delete a shot
+   * Delete a shot (new unified schema)
    */
-  async deleteShot(userId: string, clubId: string, shotId: string): Promise<void> {
+  async deleteShot(userId: string, shotId: string): Promise<void> {
     try {
-      const clubsData = await this.getUserClubs(userId);
-      if (!clubsData) {
-        throw new Error('Clubs data not found');
+      const shotsData = await this.getUserShots(userId);
+      if (!shotsData) {
+        throw new Error('Shots data not found');
       }
 
-      const clubIndex = clubsData.clubs.findIndex(c => c.id === clubId);
-      if (clubIndex === -1) {
-        throw new Error(`Club not found: ${clubId}`);
-      }
+      const filteredShots = shotsData.shots.filter(s => s.id !== shotId);
+      await this.updateUserShots(userId, filteredShots);
 
-      clubsData.clubs[clubIndex].shots = clubsData.clubs[clubIndex].shots.filter(
-        s => s.id !== shotId
-      );
-      clubsData.clubs[clubIndex].updatedAt = Date.now();
-
-      await this.updateUserClubs(userId, clubsData.clubs);
       console.log('[Firebase] Shot deleted:', shotId);
     } catch (error) {
       console.error('[Firebase] Error deleting shot:', error);
@@ -508,14 +551,30 @@ class FirebaseService {
   }
 
   /**
-   * Get shot statistics for a club
+   * Get all shots for a specific club (new unified schema)
+   */
+  async getClubShots(userId: string, clubId: string): Promise<Shot[]> {
+    try {
+      const shotsData = await this.getUserShots(userId);
+      if (!shotsData) {
+        return [];
+      }
+
+      return shotsData.shots.filter(s => s.clubId === clubId);
+    } catch (error) {
+      console.error('[Firebase] Error getting club shots:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get shot statistics for a club (new unified schema)
    */
   async getClubStatistics(userId: string, clubId: string): Promise<{
     averageDistance: number;
     minDistance: number;
     maxDistance: number;
     totalShots: number;
-    lastShotDate: string | null;
   }> {
     try {
       const shots = await this.getClubShots(userId, clubId);
@@ -526,22 +585,17 @@ class FirebaseService {
           minDistance: 0,
           maxDistance: 0,
           totalShots: 0,
-          lastShotDate: null,
         };
       }
 
-      const distances = shots.map(s => s.distance);
+      const distances = shots.map(s => s.totalYards);
       const sum = distances.reduce((a, b) => a + b, 0);
-      const sortedByDate = [...shots].sort((a, b) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
 
       return {
         averageDistance: Math.round(sum / distances.length),
         minDistance: Math.min(...distances),
         maxDistance: Math.max(...distances),
         totalShots: shots.length,
-        lastShotDate: sortedByDate[0]?.date || null,
       };
     } catch (error) {
       console.error('[Firebase] Error getting club statistics:', error);

@@ -76,7 +76,20 @@ export function useSubscription(): UseSubscriptionReturn {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to fetch subscription status');
+        console.warn('[Subscription] Failed to fetch subscription status:', errorData.error);
+        // Return free tier as default instead of throwing
+        const freeSubscription: SubscriptionStatusResponse = {
+          hasActiveSubscription: false,
+          plan: 'free',
+          status: 'active',
+          currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+          cancelAtPeriodEnd: false,
+          billingPeriod: 'monthly',
+          trialEnd: null,
+        };
+        setSubscription(freeSubscription);
+        setIsLoading(false);
+        return freeSubscription;
       }
 
       const data = await response.json();
@@ -84,9 +97,19 @@ export function useSubscription(): UseSubscriptionReturn {
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      setError(errorMessage);
-      console.error('Error fetching subscription status:', err);
-      return null;
+      console.warn('[Subscription] Error fetching subscription status:', errorMessage);
+      // Set free tier as default on error
+      const freeSubscription: SubscriptionStatusResponse = {
+        hasActiveSubscription: false,
+        plan: 'free',
+        status: 'active',
+        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        cancelAtPeriodEnd: false,
+        billingPeriod: 'monthly',
+        trialEnd: null,
+      };
+      setSubscription(freeSubscription);
+      return freeSubscription;
     } finally {
       setIsLoading(false);
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -210,8 +211,14 @@ export default function DownloadPage() {
                       {/* App Content */}
                       <div className="relative aspect-[9/19.5] bg-gradient-to-br from-primary/10 to-primary/5">
                         <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-                          <div className="w-24 h-24 bg-primary rounded-3xl mb-6 flex items-center justify-center shadow-xl">
-                            <Target className="w-12 h-12 text-white" />
+                          <div className="w-24 h-24 rounded-3xl mb-6 shadow-xl overflow-hidden">
+                            <Image
+                              src="/icons/icon-192x192.png"
+                              alt="CaddyAI Logo"
+                              width={96}
+                              height={96}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <h3 className="text-2xl font-bold text-neutral-900 mb-2">
                             CaddyAI

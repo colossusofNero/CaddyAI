@@ -16,6 +16,13 @@ export async function getSubscriptionStatusAdmin(
 ): Promise<SubscriptionData | null> {
   try {
     const db = getAdminDb();
+
+    // Check if db is properly initialized
+    if (!db) {
+      console.error('[Subscription Admin] Firebase Admin DB is not initialized');
+      throw new Error('Firebase Admin not configured. Please set up Firebase Admin credentials.');
+    }
+
     const userDoc = await db.collection('users').doc(userId).get();
 
     if (!userDoc.exists) {
@@ -49,6 +56,15 @@ export async function getSubscriptionStatusAdmin(
     } as SubscriptionData;
   } catch (error) {
     console.error('[Subscription Admin] Error fetching subscription status:', error);
+
+    // If it's a Firebase Admin configuration error, provide helpful message
+    if (error instanceof Error && error.message.includes('Firebase Admin')) {
+      throw new Error(
+        'Firebase Admin SDK is not properly configured. ' +
+        'Please add Firebase Admin credentials to your Vercel environment variables.'
+      );
+    }
+
     throw error;
   }
 }

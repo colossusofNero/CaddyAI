@@ -242,6 +242,59 @@ h4 {
 }
 
 /* ============================================
+   Form Elements - Dark Mode Styling
+   ============================================ */
+select,
+textarea,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  background-color: var(--color-background-alt);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+/* Fix text contrast on light backgrounds in dark mode */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] [class*="bg-white"],
+[data-theme="dark"] .bg-neutral-50 {
+  color: var(--color-neutral-900) !important;
+}
+
+[data-theme="dark"] .bg-white *,
+[data-theme="dark"] [class*="bg-white"] *,
+[data-theme="dark"] .bg-neutral-50 * {
+  color: var(--color-neutral-900);
+}
+
+/* Ensure proper text color hierarchy on light backgrounds */
+[data-theme="dark"] .bg-white .text-text-muted,
+[data-theme="dark"] .bg-white .text-muted,
+[data-theme="dark"] .bg-white .text-neutral-600 {
+  color: var(--color-neutral-700) !important;
+}
+
+[data-theme="dark"] .bg-white .text-text-secondary,
+[data-theme="dark"] .bg-white .text-secondary {
+  color: var(--color-neutral-800) !important;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+select option {
+  background-color: var(--color-background-alt);
+  color: var(--color-foreground);
+}
+
+/* ============================================
    ElevenLabs Widget Override
    Clean embed: remove floating card styling
    ============================================ */

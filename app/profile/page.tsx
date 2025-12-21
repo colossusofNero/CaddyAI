@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/Input';
 import { ArrowLeft, Save, User } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
+import { initializeNewUser } from '@/services/initializationService';
 import type { UserProfile } from '@/src/types/user';
 
 export default function ProfilePage() {
@@ -34,9 +35,9 @@ export default function ProfilePage() {
   const [curveTendency, setCurveTendency] = useState<number>(0); // -10 to +10
 
   // Optional fields
-  const [yearsPlaying, setYearsPlaying] = useState<number | undefined>(undefined);
+  const [yearsPlaying, setYearsPlaying] = useState<number | ''>('');
   const [playFrequency, setPlayFrequency] = useState<'weekly' | 'monthly' | 'occasionally' | 'rarely'>('monthly');
-  const [driveDistance, setDriveDistance] = useState<number | undefined>(undefined);
+  const [driveDistance, setDriveDistance] = useState<number | ''>('');
   const [strengthLevel, setStrengthLevel] = useState<'high' | 'medium' | 'low'>('medium');
   const [improvementGoal, setImprovementGoal] = useState<string>('');
 
@@ -65,9 +66,9 @@ export default function ProfilePage() {
           setCurveTendency(profile.curveTendency);
 
           // Optional fields
-          if (profile.yearsPlaying) setYearsPlaying(profile.yearsPlaying);
+          setYearsPlaying(profile.yearsPlaying ?? '');
           if (profile.playFrequency) setPlayFrequency(profile.playFrequency);
-          if (profile.driveDistance) setDriveDistance(profile.driveDistance);
+          setDriveDistance(profile.driveDistance ?? '');
           if (profile.strengthLevel) setStrengthLevel(profile.strengthLevel);
           if (profile.improvementGoal) setImprovementGoal(profile.improvementGoal);
         }
@@ -92,26 +93,50 @@ export default function ProfilePage() {
       setError(null);
       setSuccess(false);
 
-      const profileData: Omit<UserProfile, 'createdAt' | 'updatedAt'> = {
+      // Build profile data, omitting undefined fields for Firebase
+      const profileData: any = {
         userId: user.uid,
         dominantHand,
         handicap,
         typicalShotShape,
         height,
         curveTendency,
-        yearsPlaying,
         playFrequency,
-        driveDistance,
         strengthLevel,
-        improvementGoal: improvementGoal || undefined,
       };
 
+      // Only add optional fields if they have values
+      if (yearsPlaying !== '') {
+        profileData.yearsPlaying = yearsPlaying;
+      }
+      if (driveDistance !== '') {
+        profileData.driveDistance = driveDistance;
+      }
+      if (improvementGoal.trim() !== '') {
+        profileData.improvementGoal = improvementGoal.trim();
+      }
+
       await firebaseService.updateUserProfile(user.uid, profileData);
+
+      // Initialize clubs, shots, and preferences for new users
+      console.log('[Profile] Initializing user data...');
+      const initResult = await initializeNewUser(user.uid, profileData as UserProfile);
+
+      if (initResult.errors.length > 0) {
+        console.error('[Profile] Initialization errors:', initResult.errors);
+      } else {
+        console.log('[Profile] ✓ User initialized:', {
+          clubs: initResult.clubsInitialized,
+          shots: initResult.shotsInitialized,
+          preferences: initResult.preferencesInitialized,
+        });
+      }
+
       setSuccess(true);
 
-      // Redirect to clubs page if profile is new
+      // Redirect to dashboard to see everything set up
       setTimeout(() => {
-        router.push('/clubs');
+        router.push('/dashboard');
       }, 1500);
     } catch (err: unknown) {
       console.error('Failed to save profile:', err);
@@ -157,8 +182,11 @@ export default function ProfilePage() {
           {/* Success Message */}
           {success && (
             <div className="mb-6 p-4 bg-green-500 bg-opacity-10 border border-green-500 rounded-lg">
-              <p className="text-green-500 text-center">
-                Profile saved successfully! Redirecting to club setup...
+              <p className="text-green-500 text-center font-medium">
+                Profile saved successfully!
+              </p>
+              <p className="text-green-400 text-center text-sm mt-1">
+                Setting up your clubs and shots...
               </p>
             </div>
           )}
@@ -190,8 +218,8 @@ export default function ProfilePage() {
                       aria-pressed={dominantHand === 'right'}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         dominantHand === 'right'
-                          ? 'border-primary bg-primary bg-opacity-10 text-primary'
-                          : 'border-secondary-700 text-text-secondary hover:border-secondary-600'
+                          ? 'border-primary bg-primary bg-opacity-10 text-primary font-medium'
+                          : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
                       }`}
                     >
                       Right
@@ -202,8 +230,8 @@ export default function ProfilePage() {
                       aria-pressed={dominantHand === 'left'}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         dominantHand === 'left'
-                          ? 'border-primary bg-primary bg-opacity-10 text-primary'
-                          : 'border-secondary-700 text-text-secondary hover:border-secondary-600'
+                          ? 'border-primary bg-primary bg-opacity-10 text-primary font-medium'
+                          : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
                       }`}
                     >
                       Left
@@ -242,8 +270,8 @@ export default function ProfilePage() {
                         aria-pressed={typicalShotShape === shape}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           typicalShotShape === shape
-                            ? 'border-primary bg-primary bg-opacity-10 text-primary'
-                            : 'border-secondary-700 text-text-secondary hover:border-secondary-600'
+                            ? 'border-primary bg-primary bg-opacity-10 text-primary font-medium'
+                            : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
                         }`}
                       >
                         {shape}
@@ -313,8 +341,8 @@ export default function ProfilePage() {
                     type="number"
                     min="0"
                     max="100"
-                    value={yearsPlaying || ''}
-                    onChange={(e) => setYearsPlaying(e.target.value ? Number(e.target.value) : undefined)}
+                    value={yearsPlaying}
+                    onChange={(e) => setYearsPlaying(e.target.value ? Number(e.target.value) : '')}
                     placeholder="Enter years"
                   />
                 </div>
@@ -333,8 +361,8 @@ export default function ProfilePage() {
                         aria-pressed={playFrequency === freq}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           playFrequency === freq
-                            ? 'border-primary bg-primary bg-opacity-10 text-primary'
-                            : 'border-secondary-700 text-text-secondary hover:border-secondary-600'
+                            ? 'border-primary bg-primary bg-opacity-10 text-primary font-medium'
+                            : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
                         }`}
                       >
                         {freq}
@@ -364,8 +392,8 @@ export default function ProfilePage() {
                     type="number"
                     min="100"
                     max="400"
-                    value={driveDistance || ''}
-                    onChange={(e) => setDriveDistance(e.target.value ? Number(e.target.value) : undefined)}
+                    value={driveDistance}
+                    onChange={(e) => setDriveDistance(e.target.value ? Number(e.target.value) : '')}
                     placeholder="Enter yards"
                   />
                 </div>
@@ -384,8 +412,8 @@ export default function ProfilePage() {
                         aria-pressed={strengthLevel === level}
                         className={`p-4 rounded-lg border-2 transition-all capitalize ${
                           strengthLevel === level
-                            ? 'border-primary bg-primary bg-opacity-10 text-primary'
-                            : 'border-secondary-700 text-text-secondary hover:border-secondary-600'
+                            ? 'border-primary bg-primary bg-opacity-10 text-primary font-medium'
+                            : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
                         }`}
                       >
                         {level}
@@ -412,26 +440,22 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Submit Button */}
-          <div className="flex justify-end gap-4">
-            <Link href="/dashboard">
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </Link>
-            <Button type="submit" disabled={saving}>
-              {saving ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Profile
-                </>
-              )}
-            </Button>
+          {/* Submit Buttons */}
+          <div className="flex justify-end gap-4 mt-8">
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard')}
+              className="px-6 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50"
+            >
+              {saving ? 'Saving...' : 'Save Profile'}
+            </button>
           </div>
         </form>
       </main>

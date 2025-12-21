@@ -11,13 +11,13 @@ import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
 import { syncService, SyncStatus } from '@/services/syncService';
 import type { UserProfile, UserClubs } from '@/src/types/user';
-import type { UserPreferences } from '@/src/types/preferences';
+import type { PreferencesDocument } from '@/src/types/preferences';
 import type { FavoriteCourse, ActiveRound } from '@/src/types/course';
 
 interface UseSyncResult {
   profile: UserProfile | null;
   clubs: UserClubs | null;
-  preferences: UserPreferences | null;
+  preferences: PreferencesDocument | null;
   favorites: FavoriteCourse[];
   activeRound: ActiveRound | null;
   syncStatus: SyncStatus;
@@ -37,7 +37,7 @@ export function useSync(): UseSyncResult {
   const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [clubs, setClubs] = useState<UserClubs | null>(null);
-  const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [preferences, setPreferences] = useState<PreferencesDocument | null>(null);
   const [favorites, setFavorites] = useState<FavoriteCourse[]>([]);
   const [activeRound, setActiveRound] = useState<ActiveRound | null>(null);
   const [syncStatus, setSyncStatus] = useState<SyncStatus>(syncService.getSyncStatus());

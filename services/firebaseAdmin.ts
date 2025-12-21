@@ -80,6 +80,13 @@ export function initializeFirebaseAdmin(): { app: App; db: Firestore } {
 export function getAdminDb(): Firestore {
   if (!adminDb) {
     const { db } = initializeFirebaseAdmin();
+    if (!db) {
+      throw new Error(
+        'Firebase Admin Database not initialized. Please configure Firebase Admin credentials:\n' +
+        '- Set FIREBASE_SERVICE_ACCOUNT environment variable with service account JSON, OR\n' +
+        '- Set FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, and FIREBASE_ADMIN_PRIVATE_KEY'
+      );
+    }
     return db;
   }
   return adminDb;

@@ -13,7 +13,7 @@ import { firebaseService } from '@/services/firebaseService';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Switch } from '@/components/ui/Switch';
-import { UserPreferences, defaultPreferences } from '@/src/types/preferences';
+import { PreferencesDocument, DEFAULT_PREFERENCES } from '@/src/types/preferences';
 import {
   Settings,
   Bell,
@@ -32,7 +32,7 @@ export default function PreferencesPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<TabType>('general');
-  const [preferences, setPreferences] = useState<Omit<UserPreferences, 'userId' | 'createdAt' | 'updatedAt'>>(defaultPreferences);
+  const [preferences, setPreferences] = useState<Omit<PreferencesDocument, 'userId' | 'createdAt' | 'updatedAt'>>(DEFAULT_PREFERENCES);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -58,15 +58,19 @@ export default function PreferencesPage() {
 
         if (userPrefs) {
           setPreferences({
-            general: userPrefs.general,
+            units: userPrefs.units,
+            appearance: userPrefs.appearance,
             notifications: userPrefs.notifications,
-            privacy: userPrefs.privacy,
             display: userPrefs.display,
+            privacy: userPrefs.privacy,
+            accessibility: userPrefs.accessibility,
+            customShotNames: userPrefs.customShotNames,
+            version: userPrefs.version,
           });
           setIsFirstTimeSetup(false);
         } else {
           // First time setup
-          setPreferences(defaultPreferences);
+          setPreferences(DEFAULT_PREFERENCES);
           setIsFirstTimeSetup(true);
         }
       } catch (err) {
@@ -105,15 +109,15 @@ export default function PreferencesPage() {
   };
 
   // Update preference and mark as changed
-  const updatePreference = <T extends keyof typeof preferences>(
+  const updatePreference = <T extends keyof Omit<PreferencesDocument, 'userId' | 'createdAt' | 'updatedAt'>>(
     category: T,
-    field: keyof typeof preferences[T],
-    value: string | boolean
+    field: string,
+    value: string | boolean | number
   ) => {
     setPreferences((prev) => ({
       ...prev,
       [category]: {
-        ...prev[category],
+        ...(prev[category] as unknown as Record<string, unknown>),
         [field]: value,
       },
     }));
@@ -273,8 +277,8 @@ export default function PreferencesPage() {
                           type="radio"
                           name="unitSystem"
                           value="yards"
-                          checked={preferences.general.unitSystem === 'yards'}
-                          onChange={(e) => updatePreference('general', 'unitSystem', e.target.value)}
+                          checked={preferences.units.distance === 'yards'}
+                          onChange={(e) => updatePreference('units', 'distance', e.target.value)}
                           className="w-4 h-4 text-primary focus:ring-primary"
                         />
                         <span className="text-text-primary">Yards</span>
@@ -284,8 +288,8 @@ export default function PreferencesPage() {
                           type="radio"
                           name="unitSystem"
                           value="meters"
-                          checked={preferences.general.unitSystem === 'meters'}
-                          onChange={(e) => updatePreference('general', 'unitSystem', e.target.value)}
+                          checked={preferences.units.distance === 'meters'}
+                          onChange={(e) => updatePreference('units', 'distance', e.target.value)}
                           className="w-4 h-4 text-primary focus:ring-primary"
                         />
                         <span className="text-text-primary">Meters</span>
@@ -305,8 +309,8 @@ export default function PreferencesPage() {
                             type="radio"
                             name="theme"
                             value={theme}
-                            checked={preferences.general.theme === theme}
-                            onChange={(e) => updatePreference('general', 'theme', e.target.value)}
+                            checked={preferences.appearance.theme === theme}
+                            onChange={(e) => updatePreference('appearance', 'theme', e.target.value)}
                             className="w-4 h-4 text-primary focus:ring-primary"
                           />
                           <span className="text-text-primary capitalize">{theme}</span>
@@ -321,8 +325,8 @@ export default function PreferencesPage() {
                       Language
                     </label>
                     <select
-                      value={preferences.general.language}
-                      onChange={(e) => updatePreference('general', 'language', e.target.value)}
+                      value={preferences.appearance.language}
+                      onChange={(e) => updatePreference('appearance', 'language', e.target.value)}
                       className="w-full md:w-64 px-4 py-2 bg-secondary-800 border border-secondary-700 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                       {languages.map((lang) => (
@@ -336,8 +340,8 @@ export default function PreferencesPage() {
                   {/* Auto-sync */}
                   <div className="pt-4 border-t border-secondary-700">
                     <Switch
-                      checked={preferences.general.syncEnabled}
-                      onCheckedChange={(checked) => updatePreference('general', 'syncEnabled', checked)}
+                      checked={true} // Sync is always enabled in unified schema
+                      onCheckedChange={(checked) => {}} // No-op: sync is automatic
                       label="Auto-sync"
                       description="Automatically sync data across devices"
                     />
@@ -353,8 +357,8 @@ export default function PreferencesPage() {
 
                 <div className="space-y-4">
                   <Switch
-                    checked={preferences.notifications.roundReminders}
-                    onCheckedChange={(checked) => updatePreference('notifications', 'roundReminders', checked)}
+                    checked={preferences.notifications.courseRecommendations}
+                    onCheckedChange={(checked) => updatePreference('notifications', 'courseRecommendations', checked)}
                     label="Round reminders"
                     description="Get notified before scheduled rounds"
                   />
@@ -383,15 +387,15 @@ export default function PreferencesPage() {
                   <div className="pt-4 border-t border-secondary-700" />
 
                   <Switch
-                    checked={preferences.notifications.pushNotifications}
-                    onCheckedChange={(checked) => updatePreference('notifications', 'pushNotifications', checked)}
+                    checked={preferences.notifications.pushEnabled}
+                    onCheckedChange={(checked) => updatePreference('notifications', 'pushEnabled', checked)}
                     label="Push notifications"
                     description="Enable push notifications on mobile app"
                   />
 
                   <Switch
-                    checked={preferences.notifications.emailNotifications}
-                    onCheckedChange={(checked) => updatePreference('notifications', 'emailNotifications', checked)}
+                    checked={preferences.notifications.emailEnabled}
+                    onCheckedChange={(checked) => updatePreference('notifications', 'emailEnabled', checked)}
                     label="Email notifications"
                     description="Receive notifications via email"
                   />
@@ -450,8 +454,8 @@ export default function PreferencesPage() {
                     />
 
                     <Switch
-                      checked={preferences.privacy.allowFriendRequests}
-                      onCheckedChange={(checked) => updatePreference('privacy', 'allowFriendRequests', checked)}
+                      checked={false}
+                      onCheckedChange={(checked) => {}} // Feature not in unified schema
                       label="Accept friend requests"
                       description="Allow others to send you friend requests"
                     />

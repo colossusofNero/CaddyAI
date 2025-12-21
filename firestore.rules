@@ -61,20 +61,40 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
-    // Shots Collection (from mobile app integration)
-    // Shared with React Native mobile app
-    match /shots/{shotId} {
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+    // Clubs Collection (unified schema - document per user)
+    // Document ID is the userId, contains array of clubs
+    match /clubs/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
 
-      allow create: if isSignedIn()
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.keys().hasAll(['userId', 'roundId', 'holeNumber', 'clubUsed', 'timestamp']);
+    // Shots Collection (unified schema - document per user)
+    // Document ID is the userId, contains array of shots
+    match /shots/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
 
-      allow update: if isSignedIn()
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId;
+    // Profiles Collection (unified schema)
+    // Document ID is the userId
+    match /profiles/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
 
-      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    // Preferences Collection (unified schema)
+    // Document ID is the userId
+    match /preferences/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
     }
 
     // Rounds Collection (from mobile app integration)
@@ -109,19 +129,19 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
-    // Courses Collection - Read-only for all authenticated users
+    // Courses Collection - Public read access
     match /courses/{courseId} {
-      // Anyone authenticated can read course data
-      allow read: if isSignedIn();
+      // Anyone can read course data (public information)
+      allow read: if true;
 
       // Only admins can write (implement admin check in production)
       allow write: if false;
     }
 
-    // Course Holes Collection - Read-only for all authenticated users
+    // Course Holes Collection - Public read access
     match /courseHoles/{holeId} {
-      // Anyone authenticated can read hole data
-      allow read: if isSignedIn();
+      // Anyone can read hole data (public information)
+      allow read: if true;
 
       // Only admins can write
       allow write: if false;
@@ -155,8 +175,8 @@ service cloud.firestore {
 
     // Course Reviews Collection
     match /courseReviews/{reviewId} {
-      // Anyone authenticated can read reviews
-      allow read: if isSignedIn();
+      // Anyone can read reviews (public information)
+      allow read: if true;
 
       // Users can create reviews for courses they've played
       allow create: if isSignedIn()
@@ -187,6 +207,7 @@ service cloud.firestore {
         && request.resource.data.email is string
         && request.resource.data.subject is string
         && request.resource.data.message is string
+        && request.resource.data.submittedAt is timestamp
         && request.resource.data.status == 'new'
         && request.resource.data.read == false;
 

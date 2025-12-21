@@ -14,7 +14,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import type { UserProfile, UserClubs, User } from '@/src/types/user';
-import type { UserPreferences } from '@/src/types/preferences';
+import type { PreferencesDocument } from '@/src/types/preferences';
 import type { FavoriteCourse, ActiveRound } from '@/src/types/course';
 
 export interface SyncStatus {
@@ -30,7 +30,7 @@ export interface SyncStatus {
 export interface SyncCallbacks {
   onProfileUpdate?: (profile: UserProfile) => void;
   onClubsUpdate?: (clubs: UserClubs) => void;
-  onPreferencesUpdate?: (preferences: UserPreferences) => void;
+  onPreferencesUpdate?: (preferences: PreferencesDocument) => void;
   onFavoritesUpdate?: (favorites: FavoriteCourse[]) => void;
   onActiveRoundUpdate?: (round: ActiveRound | null) => void;
   onError?: (error: Error) => void;
@@ -135,18 +135,18 @@ class SyncService {
         (snapshot) => {
           if (snapshot.exists()) {
             const data = snapshot.data();
-            const preferences: UserPreferences = {
+            const preferences: PreferencesDocument = {
               userId: data.userId,
-              general: data.general,
+              units: data.units,
+              appearance: data.appearance,
               notifications: data.notifications,
               privacy: data.privacy,
               display: data.display,
-              updatedAt: data.updatedAt instanceof Timestamp
-                ? data.updatedAt.toMillis()
-                : data.updatedAt,
-              createdAt: data.createdAt instanceof Timestamp
-                ? data.createdAt.toMillis()
-                : data.createdAt,
+              accessibility: data.accessibility,
+              customShotNames: data.customShotNames || [],
+              updatedAt: data.updatedAt instanceof Timestamp ? data.updatedAt : Timestamp.now(),
+              createdAt: data.createdAt instanceof Timestamp ? data.createdAt : Timestamp.now(),
+              version: data.version || 1,
             };
             if (callbacks.onPreferencesUpdate) {
               callbacks.onPreferencesUpdate(preferences);

@@ -53,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark">
       <head>
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateMobileAppSchema()} />
@@ -64,7 +64,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased bg-[#0B1220] text-white`}
+        className={`${inter.variable} font-sans antialiased`}
       >
         <GoogleAnalytics />
         <ErrorBoundary>

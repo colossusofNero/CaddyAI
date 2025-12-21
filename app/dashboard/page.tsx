@@ -15,7 +15,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { roundsApi } from '@/lib/api/rounds';
 import type { Round, UserStatistics } from '@/lib/api/types';
 import {
-  GolfBall,
+  Circle,
   TrendingUp,
   Target,
   Calendar,
@@ -145,7 +145,7 @@ export default function DashboardPage() {
             <Card variant="default" padding="lg">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
-                  <GolfBall className="w-6 h-6 text-primary" />
+                  <Circle className="w-6 h-6 text-primary" />
                 </div>
               </div>
               <div>
@@ -260,7 +260,7 @@ export default function DashboardPage() {
             <Card variant="bordered" padding="lg">
               <div className="text-center py-8">
                 <div className="w-20 h-20 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <GolfBall className="w-10 h-10 text-primary" />
+                  <Circle className="w-10 h-10 text-primary" />
                 </div>
                 <h3 className="text-xl font-bold text-text-primary mb-2">No rounds yet</h3>
                 <p className="text-text-secondary mb-6">
@@ -309,7 +309,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-4 text-sm text-text-secondary">
                           {totalFairways > 0 && (
                             <span className="flex items-center gap-1">
-                              <GolfBall className="w-3 h-3" />
+                              <Circle className="w-3 h-3" />
                               {fairwaysHit}/{totalFairways} FW
                             </span>
                           )}
@@ -342,7 +342,7 @@ export default function DashboardPage() {
             <Link href="/round/new">
               <button className="w-full p-6 text-center bg-primary hover:bg-primary-600 rounded-lg transition-colors">
                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <GolfBall className="w-6 h-6 text-white" />
+                  <Circle className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-medium text-white">Start Round</h4>
               </button>

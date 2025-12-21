@@ -383,8 +383,8 @@ export default function ShotsPage() {
         <form onSubmit={handleSubmit}>
           {/* Success Message */}
           {success && (
-            <div className="mb-6 p-4 bg-green-500 bg-opacity-10 border border-green-500 rounded-lg">
-              <p className="text-green-500 text-center">
+            <div className="mb-6 p-4 bg-green-600 border border-green-700 rounded-lg">
+              <p className="text-white text-center font-semibold">
                 Shots saved successfully!
               </p>
             </div>

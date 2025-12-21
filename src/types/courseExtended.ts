@@ -78,6 +78,9 @@ export interface CourseExtended {
   yearBuilt?: number;
   courseType: 'public' | 'private' | 'semi-private' | 'resort';
 
+  // External IDs
+  ghinCourseId?: string; // USGA GHIN course ID for handicap posting
+
   // Tee Boxes
   teeBoxes: TeeBox[];
 
@@ -207,6 +210,7 @@ export interface CourseSearchResult extends CourseExtended {
   matchScore?: number; // search relevance score
   source?: 'firebase' | 'igolf' | 'manual'; // Course data source
   igolfCourseId?: number; // Original iGolf course ID if from iGolf
+  ghinCourseId?: string; // USGA GHIN course ID (12-char) for handicap posting
 }
 
 /**

@@ -205,6 +205,8 @@ export interface CourseSearchFilters {
 export interface CourseSearchResult extends CourseExtended {
   distance?: number; // miles from user location
   matchScore?: number; // search relevance score
+  source?: 'firebase' | 'igolf' | 'manual'; // Course data source
+  igolfCourseId?: number; // Original iGolf course ID if from iGolf
 }
 
 /**

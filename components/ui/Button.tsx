@@ -35,9 +35,9 @@ export function Button({
     secondary:
       'bg-secondary text-secondary-900 hover:bg-secondary-700 active:bg-secondary-800 focus:ring-secondary',
     outline:
-      'border-2 border-primary text-text-primary hover:bg-primary hover:text-white active:bg-primary-600 focus:ring-primary',
+      'border-2 border-primary text-primary hover:bg-primary hover:text-white active:bg-primary-600 focus:ring-primary',
     ghost:
-      'text-text-primary hover:bg-secondary-800 active:bg-secondary-700 focus:ring-secondary',
+      'text-foreground hover:bg-neutral-100 active:bg-neutral-200 focus:ring-primary dark:hover:bg-neutral-800 dark:active:bg-neutral-700',
     danger:
       'bg-error text-white hover:bg-red-600 active:bg-red-700 focus:ring-error',
   };

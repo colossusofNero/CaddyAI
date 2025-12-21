@@ -33,6 +33,10 @@ import {
   CourseSearchFilters,
   CourseSearchResult,
 } from '@/src/types/courseExtended';
+import { igolfApi } from '@/lib/api/igolf';
+import { courseCacheService } from './courseCacheService';
+import { getStateId } from '@/lib/constants/states';
+import type { CourseListParams } from '@/lib/api/types';
 
 // Mock data for development when Firebase is not configured
 const MOCK_COURSES: CourseExtended[] = [
@@ -207,6 +211,152 @@ export function calculateDistance(
 }
 
 /**
+ * Generate deduplication key for course
+ */
+function getDeduplicationKey(course: CourseExtended | CourseSearchResult): string {
+  return `${course.name}-${course.location.city}-${course.location.state}`.toLowerCase();
+}
+
+/**
+ * Merge Firebase and iGolf results, removing duplicates
+ * Prefer Firebase data when duplicates exist
+ */
+function mergeResults(
+  firebaseResults: CourseSearchResult[],
+  igolfResults: CourseExtended[]
+): CourseSearchResult[] {
+  const merged = new Map<string, CourseSearchResult>();
+
+  // Add Firebase results first (they have priority)
+  firebaseResults.forEach((course) => {
+    const key = getDeduplicationKey(course);
+    merged.set(key, course);
+  });
+
+  // Add iGolf results if not already present
+  igolfResults.forEach((course) => {
+    const key = getDeduplicationKey(course);
+    if (!merged.has(key)) {
+      merged.set(key, {
+        ...course,
+        source: 'igolf' as const,
+        igolfCourseId: course.id.startsWith('igolf-')
+          ? parseInt(course.id.replace('igolf-', ''), 10)
+          : undefined,
+      });
+    }
+  });
+
+  return Array.from(merged.values());
+}
+
+/**
+ * Enrich Firebase results with iGolf courses
+ */
+async function enrichWithIGolf(
+  filters: CourseSearchFilters,
+  existingResults: CourseSearchResult[]
+): Promise<CourseSearchResult[]> {
+  // Check if iGolf is enabled
+  if (!igolfApi.isEnabled()) {
+    return existingResults;
+  }
+
+  try {
+    const requestedLimit = filters.limit || 20;
+
+    // If we already have enough results, don't query iGolf
+    if (existingResults.length >= requestedLimit) {
+      return existingResults;
+    }
+
+    // Build iGolf search parameters from filters
+    const igolfParams: CourseListParams = {
+      limit: Math.min(requestedLimit * 2, 100), // Request more to account for deduplication
+    };
+
+    // Location-based search
+    if (filters.location) {
+      igolfParams.latitude = filters.location.latitude;
+      igolfParams.longitude = filters.location.longitude;
+      igolfParams.radius = filters.location.radius;
+    }
+
+    // Text search
+    if (filters.query && filters.query.length >= 4) {
+      igolfParams.searchText = filters.query;
+    }
+
+    // Course type filter
+    if (filters.courseType && filters.courseType.length > 0) {
+      // Map to iGolf class type (use first one)
+      igolfParams.classType = filters.courseType[0];
+    }
+
+    // Holes filter
+    if (filters.holes) {
+      igolfParams.holes = filters.holes as 9 | 18;
+    }
+
+    // Fetch from iGolf
+    console.log('[CourseService] Enriching with iGolf courses...');
+    const igolfCourses = await igolfApi.searchCourses(igolfParams);
+
+    if (igolfCourses.length === 0) {
+      console.log('[CourseService] No iGolf courses found');
+      return existingResults;
+    }
+
+    console.log(`[CourseService] Found ${igolfCourses.length} iGolf courses`);
+
+    // Calculate distances for iGolf courses if location filter exists
+    let igolfWithDistances: CourseSearchResult[] = igolfCourses;
+    if (filters.location) {
+      igolfWithDistances = igolfCourses.map((course) => {
+        const distance = calculateDistance(
+          filters.location!.latitude,
+          filters.location!.longitude,
+          course.location.latitude,
+          course.location.longitude
+        );
+        return { ...course, distance };
+      });
+
+      // Filter by radius
+      igolfWithDistances = igolfWithDistances.filter(
+        (course) => course.distance! <= filters.location!.radius
+      );
+    }
+
+    // Merge results (deduplicate)
+    const merged = mergeResults(existingResults, igolfWithDistances);
+
+    // Cache iGolf courses in Firebase (background operation)
+    const newIGolfCourses = igolfWithDistances.filter((course) => {
+      const key = getDeduplicationKey(course);
+      const existingKey = existingResults.find((existing) =>
+        getDeduplicationKey(existing) === key
+      );
+      return !existingKey;
+    });
+
+    if (newIGolfCourses.length > 0) {
+      courseCacheService.cacheCourses(newIGolfCourses, 'igolf')
+        .catch((error) => {
+          console.error('[CourseService] Error caching iGolf courses:', error);
+        });
+      console.log(`[CourseService] Caching ${newIGolfCourses.length} new iGolf courses`);
+    }
+
+    return merged;
+  } catch (error) {
+    console.error('[CourseService] Error enriching with iGolf:', error);
+    // Return existing results on error
+    return existingResults;
+  }
+}
+
+/**
  * Search courses with filters
  */
 export async function searchCourses(
@@ -272,12 +422,15 @@ export async function searchCourses(
           break;
       }
 
-      // Apply limit
+      // Enrich with iGolf courses if needed
+      const enrichedCourses = await enrichWithIGolf(filters, courses);
+
+      // Apply limit after enrichment
       if (filters.limit) {
-        courses = courses.slice(0, filters.limit);
+        return enrichedCourses.slice(0, filters.limit);
       }
 
-      return courses;
+      return enrichedCourses;
     }
 
     const coursesRef = collection(db, 'courses');
@@ -353,7 +506,15 @@ export async function searchCourses(
       );
     }
 
-    return courses;
+    // Enrich with iGolf courses if needed
+    const enrichedCourses = await enrichWithIGolf(filters, courses);
+
+    // Apply limit after enrichment
+    const limitedCourses = filters.limit
+      ? enrichedCourses.slice(0, filters.limit)
+      : enrichedCourses;
+
+    return limitedCourses;
   } catch (error) {
     console.error('[CourseService] Error searching courses:', error);
     console.warn('[CourseService] Falling back to mock data');

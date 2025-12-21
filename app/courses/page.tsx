@@ -16,6 +16,7 @@ import {
 } from '@/services/courseService';
 import { CourseSearchResult, CourseSearchFilters } from '@/src/types/courseExtended';
 import { useAuth } from '@/hooks/useAuth';
+import { US_STATES } from '@/lib/constants/states';
 
 export default function CoursesPage() {
   const router = useRouter();
@@ -30,6 +31,10 @@ export default function CoursesPage() {
     latitude: number;
     longitude: number;
   } | null>(null);
+
+  // Additional filters
+  const [cityFilter, setCityFilter] = useState('');
+  const [stateFilter, setStateFilter] = useState('');
 
   // Filters
   const [filters, setFilters] = useState<CourseSearchFilters>({
@@ -191,7 +196,40 @@ export default function CoursesPage() {
           {/* Filters Panel */}
           {showFilters && (
             <div className="mt-6 p-6 bg-gray-50 rounded-xl">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                {/* City */}
+                <div>
+                  <label className="block text-sm font-semibold text-text-primary mb-2">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Pebble Beach"
+                    value={cityFilter}
+                    onChange={(e) => setCityFilter(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+
+                {/* State */}
+                <div>
+                  <label className="block text-sm font-semibold text-text-primary mb-2">
+                    State
+                  </label>
+                  <select
+                    value={stateFilter}
+                    onChange={(e) => setStateFilter(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="">All States</option>
+                    {US_STATES.map((state) => (
+                      <option key={state.code} value={state.code}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 {/* Course Type */}
                 <div>
                   <label className="block text-sm font-semibold text-text-primary mb-2">
@@ -305,11 +343,20 @@ export default function CoursesPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     )}
-                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full flex items-center gap-1.5 shadow-md">
-                      <Star className="w-4 h-4 text-gold fill-gold" />
-                      <span className="text-sm font-bold text-text-primary">
-                        {course.rating.average.toFixed(1)}
-                      </span>
+                    <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
+                      {/* Rating Badge */}
+                      <div className="px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full flex items-center gap-1.5 shadow-md">
+                        <Star className="w-4 h-4 text-gold fill-gold" />
+                        <span className="text-sm font-bold text-text-primary">
+                          {course.rating.average.toFixed(1)}
+                        </span>
+                      </div>
+                      {/* iGolf Source Badge */}
+                      {course.source === 'igolf' && (
+                        <div className="px-3 py-1 bg-blue-500 text-white rounded-full flex items-center gap-1.5 shadow-md">
+                          <span className="text-xs font-semibold">iGolf</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 

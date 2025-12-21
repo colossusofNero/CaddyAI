@@ -78,7 +78,9 @@
       "WebFetch(domain:www.npmjs.com)",
       "Bash(npx eslint:*)",
       "Bash(firebase deploy:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(firebase login:*)",
+      "Bash(cp:*)"
     ],
     "deny": [],
     "ask": []

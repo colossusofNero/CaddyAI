@@ -20,9 +20,9 @@ export function Card({
   ...props
 }: CardProps) {
   const variants = {
-    default: 'bg-secondary border border-secondary-700',
-    bordered: 'bg-secondary border-2 border-primary',
-    elevated: 'bg-secondary shadow-card',
+    default: 'bg-secondary-800/50 backdrop-blur-sm border border-secondary-700',
+    bordered: 'bg-secondary-800/50 backdrop-blur-sm border-2 border-primary',
+    elevated: 'bg-secondary-800/50 backdrop-blur-sm shadow-card border border-secondary-700',
   };
 
   const paddings = {
@@ -35,14 +35,27 @@ export function Card({
   return (
     <div
       className={clsx(
-        'rounded-xl',
+        'rounded-xl relative overflow-hidden group transition-colors duration-300',
         variants[variant],
         paddings[padding],
         className
       )}
       {...props}
     >
-      {children}
+      {/* Gradient Border Glow on Hover */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(5, 161, 70, 0.2), rgba(59, 130, 246, 0.2))',
+          borderRadius: 'inherit',
+        }}
+      />
+
+      {/* Card Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }

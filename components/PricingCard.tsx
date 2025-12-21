@@ -69,15 +69,25 @@ export function PricingCard({
       className="h-full"
     >
       <div
-        className={`relative h-full bg-secondary-800/50 backdrop-blur-sm border rounded-3xl p-8 flex flex-col ${
+        className={`relative h-full bg-secondary-800/50 backdrop-blur-sm border rounded-3xl p-8 flex flex-col overflow-hidden group transition-colors duration-300 ${
           tier.popular
             ? 'border-primary shadow-primary/20 shadow-2xl scale-105'
             : 'border-secondary-700'
         }`}
       >
+        {/* Gradient Border Glow on Hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(5, 161, 70, 0.2), rgba(59, 130, 246, 0.2))',
+            borderRadius: 'inherit',
+          }}
+        />
+
         {/* Popular Badge */}
         {tier.popular && (
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
             <div className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-600 text-secondary-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               <Sparkles className="w-4 h-4" />
               <span>Most Popular</span>
@@ -85,21 +95,23 @@ export function PricingCard({
           </div>
         )}
 
-        {/* Header */}
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-text-primary mb-2">
-            {tier.name}
-          </h3>
-          {tier.badge && (
-            <div className="inline-block mb-2 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
-              {tier.badge}
-            </div>
-          )}
-          <p className="text-text-secondary text-sm">{tier.description}</p>
-        </div>
+        {/* Card Content */}
+        <div className="relative z-10 flex flex-col h-full">
+          {/* Header */}
+          <div className="mb-6">
+            <h3 className="text-2xl font-bold text-text-primary mb-2">
+              {tier.name}
+            </h3>
+            {tier.badge && (
+              <div className="inline-block mb-2 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                {tier.badge}
+              </div>
+            )}
+            <p className="text-text-secondary text-sm">{tier.description}</p>
+          </div>
 
-        {/* Price */}
-        <div className="mb-6">
+          {/* Price */}
+          <div className="mb-6">
           <div className="flex items-baseline gap-2">
             <span className="text-5xl font-bold text-text-primary">
               ${price}
@@ -213,6 +225,8 @@ export function PricingCard({
             );
           })}
         </ul>
+        </div>
+        {/* End Card Content */}
 
         {/* Background Gradient */}
         {tier.popular && (

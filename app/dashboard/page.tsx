@@ -186,9 +186,9 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-text-primary mb-4">Your Stats</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Total Rounds Card */}
-            <Card variant="default" padding="lg">
+            <Card variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/50">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:bg-opacity-20">
                   <Circle className="w-6 h-6 text-primary" />
                 </div>
               </div>
@@ -205,9 +205,9 @@ export default function DashboardPage() {
             </Card>
 
             {/* Current Handicap Card */}
-            <Card variant="default" padding="lg">
+            <Card variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/50">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center transition-all duration-300">
                   <BarChart3 className="w-6 h-6 text-primary" />
                 </div>
                 {stats && stats.totalRounds > 0 && (
@@ -230,9 +230,9 @@ export default function DashboardPage() {
             </Card>
 
             {/* Average Score Card */}
-            <Card variant="default" padding="lg">
+            <Card variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-success/50">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 bg-success bg-opacity-10 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-success bg-opacity-10 rounded-lg flex items-center justify-center transition-all duration-300">
                   <Target className="w-6 h-6 text-success" />
                 </div>
                 {stats && stats.averageScore > 0 && (
@@ -254,9 +254,9 @@ export default function DashboardPage() {
             </Card>
 
             {/* This Month Card */}
-            <Card variant="default" padding="lg">
+            <Card variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/50">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center transition-all duration-300">
                   <Calendar className="w-6 h-6 text-primary" />
                 </div>
               </div>
@@ -283,8 +283,9 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-text-primary">Recent Rounds</h2>
             {recentRounds.length > 0 && (
-              <Link href="/history" className="text-primary hover:text-primary-dark text-sm font-medium">
-                View All →
+              <Link href="/history" className="text-primary hover:text-primary-600 text-sm font-medium transition-all duration-200 hover:translate-x-1 inline-flex items-center gap-1 group">
+                View All
+                <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </Link>
             )}
           </div>
@@ -328,7 +329,7 @@ export default function DashboardPage() {
                 const totalPutts = round.holes.reduce((sum, h) => sum + (h.putts || 0), 0);
 
                 return (
-                  <Card key={round.id} variant="default" padding="lg" className="hover:bg-secondary-700 transition-colors">
+                  <Card key={round.id} variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/50 cursor-pointer">
                     <Link href={`/history/${round.id}`}>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -384,8 +385,8 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-text-primary mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link href="/round/new">
-              <button className="w-full p-6 text-center bg-primary hover:bg-primary-600 rounded-lg transition-colors">
-                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-primary hover:bg-primary-600 rounded-lg transition-all duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300">
                   <Circle className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-medium text-white">Start Round</h4>
@@ -393,8 +394,8 @@ export default function DashboardPage() {
             </Link>
 
             <Link href="/analytics">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <BarChart3 className="w-6 h-6 text-primary" />
                 </div>
                 <h4 className="font-medium text-text-primary">View Analytics</h4>
@@ -402,8 +403,8 @@ export default function DashboardPage() {
             </Link>
 
             <Link href="/clubs">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <Settings className="w-6 h-6 text-primary" />
                 </div>
                 <h4 className="font-medium text-text-primary">Manage Clubs</h4>
@@ -411,8 +412,8 @@ export default function DashboardPage() {
             </Link>
 
             <Link href="/history">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <History className="w-6 h-6 text-primary" />
                 </div>
                 <h4 className="font-medium text-text-primary">View History</h4>
@@ -420,8 +421,8 @@ export default function DashboardPage() {
             </Link>
 
             <Link href="/courses">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="w-12 h-12 bg-success bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-success/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-success bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <MapPin className="w-6 h-6 text-success" />
                 </div>
                 <h4 className="font-medium text-text-primary">Find Courses</h4>
@@ -429,8 +430,8 @@ export default function DashboardPage() {
             </Link>
 
             <Link href="/profile">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-colors border border-secondary-700">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <User className="w-6 h-6 text-primary" />
                 </div>
                 <h4 className="font-medium text-text-primary">Edit Profile</h4>
@@ -445,6 +446,7 @@ export default function DashboardPage() {
           <Card
             variant={subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? 'default' : 'bordered'}
             padding="lg"
+            className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-accent/50"
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Subscription</h3>
@@ -470,6 +472,7 @@ export default function DashboardPage() {
           <Card
             variant={userMetadata?.profileComplete ? 'default' : 'bordered'}
             padding="lg"
+            className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-success/50"
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Profile</h3>
@@ -494,6 +497,7 @@ export default function DashboardPage() {
           <Card
             variant={userMetadata?.clubsComplete ? 'default' : 'bordered'}
             padding="lg"
+            className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-warning/50"
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Clubs</h3>
@@ -515,7 +519,7 @@ export default function DashboardPage() {
             </Link>
           </Card>
 
-          <Card variant="default" padding="lg">
+          <Card variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-accent/50">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Mobile App</h3>
               <Smartphone className="w-6 h-6 text-accent" />

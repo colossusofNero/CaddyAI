@@ -15,6 +15,8 @@ import { searchCourses } from '@/services/courseService';
 import type { CourseSearchResult } from '@/src/types/courseExtended';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Modal } from '@/components/ui/Modal';
+import { TeeSelector } from '@/components/scoring/TeeSelector';
 
 export default function NewRoundPage() {
   const router = useRouter();
@@ -25,6 +27,13 @@ export default function NewRoundPage() {
   const [searching, setSearching] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<CourseSearchResult | null>(null);
   const [startingRound, setStartingRound] = useState(false);
+  const [showTeeSelector, setShowTeeSelector] = useState(false);
+  const [selectedTeeData, setSelectedTeeData] = useState<{
+    name: string;
+    color: string;
+    rating: number;
+    slope: number;
+  } | null>(null);
 
   // Redirect unauthenticated users
   useEffect(() => {
@@ -76,18 +85,47 @@ export default function NewRoundPage() {
     }
   }
 
-  async function handleStartRound(course: CourseSearchResult) {
-    if (!user) return;
+  function handleCourseSelect(course: CourseSearchResult) {
+    setSelectedCourse(course);
+    setShowTeeSelector(true);
+  }
+
+  async function handleTeeSelected(teeData: {
+    name: string;
+    color: string;
+    rating: number;
+    slope: number;
+  }) {
+    if (!user || !selectedCourse) return;
 
     try {
       setStartingRound(true);
+      setSelectedTeeData(teeData);
 
-      // Start an active round
-      await roundsApi.startRound(course.id, course.name, course.holes);
+      // Start an active round with tee information
+      const activeRound = await roundsApi.startRound(
+        selectedCourse.id,
+        selectedCourse.name,
+        selectedCourse.holes
+      );
+
+      // Update the active round with tee data
+      await roundsApi.updateActiveRound({
+        ...activeRound,
+        // Store tee data for later use when completing the round
+        metadata: {
+          teeUsed: teeData.name,
+          teeColor: teeData.color,
+          courseRating: teeData.rating,
+          slopeRating: teeData.slope,
+        },
+      } as any);
+
+      setShowTeeSelector(false);
 
       // Redirect to the mobile app or show success message
       alert(
-        'Round started successfully!\n\n' +
+        `Round started on ${teeData.name} Tees!\n\n` +
         'To track your round hole-by-hole, please use the CaddyAI mobile app. ' +
         'The mobile app provides GPS tracking, shot recording, and live scoring.\n\n' +
         'You can also complete your round manually from the History page later.'
@@ -101,6 +139,18 @@ export default function NewRoundPage() {
     } finally {
       setStartingRound(false);
     }
+  }
+
+  function handleSkipTeeSelection() {
+    if (!selectedCourse) return;
+    setShowTeeSelector(false);
+    // Start round without tee data
+    handleTeeSelected({
+      name: 'White',
+      color: 'White',
+      rating: 70.0,
+      slope: 125,
+    });
   }
 
   if (loading) {
@@ -228,10 +278,10 @@ export default function NewRoundPage() {
                     <Button
                       variant="primary"
                       size="sm"
-                      onClick={() => handleStartRound(course)}
+                      onClick={() => handleCourseSelect(course)}
                       disabled={startingRound}
                     >
-                      {startingRound ? 'Starting...' : 'Start Round'}
+                      Start Round
                     </Button>
                   </div>
                 </Card>
@@ -261,6 +311,26 @@ export default function NewRoundPage() {
           </div>
         </Card>
       </div>
+
+      {/* Tee Selector Modal */}
+      <Modal
+        isOpen={showTeeSelector}
+        onClose={() => setShowTeeSelector(false)}
+        title="Select Tee Box"
+        size="lg"
+        closeOnBackdrop={!startingRound}
+        closeOnEscape={!startingRound}
+      >
+        {selectedCourse && (
+          <TeeSelector
+            courseName={selectedCourse.name}
+            ghinCourseId={selectedCourse.ghinCourseId}
+            onTeeSelected={handleTeeSelected}
+            onSkip={handleSkipTeeSelection}
+            loading={startingRound}
+          />
+        )}
+      </Modal>
     </div>
   );
 }

@@ -51,12 +51,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
+            style={{ color: 'white' }}
             className={clsx(
               'w-full px-4 rounded-lg',
               'h-11 sm:h-12', // Touch-optimized: 44px -> 48px (WCAG 2.1 AAA)
               'bg-white border-2 border-gray-300',
               'text-base', // Minimum 16px to prevent zoom on iOS
-              'text-gray-900 placeholder:text-gray-400',
+              'placeholder:text-gray-400',
               'focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20',
               'transition-all duration-200',
               'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100',

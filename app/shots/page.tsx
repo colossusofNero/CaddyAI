@@ -40,35 +40,35 @@ export default function ShotsPage() {
     }
   }, [user, authLoading, router]);
 
-  // Load clubs and shots
-  useEffect(() => {
+  // Load clubs and shots - always reload when component mounts
+  const loadData = useCallback(async () => {
     if (!user) return;
 
-    const loadData = async () => {
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        // Load clubs
-        const clubsDoc = await firebaseService.getUserClubs(user.uid);
-        if (clubsDoc && clubsDoc.clubs.length > 0) {
-          setClubs(clubsDoc.clubs);
-        }
-
-        // Load shots
-        const shotsDoc = await firebaseService.getUserShots(user.uid);
-        if (shotsDoc && shotsDoc.shots.length > 0) {
-          setShots(shotsDoc.shots);
-        }
-      } catch (err: unknown) {
-        console.error('Failed to load data:', err);
-        setError('Failed to load shot data');
-      } finally {
-        setLoading(false);
+      // Load clubs
+      const clubsDoc = await firebaseService.getUserClubs(user.uid);
+      if (clubsDoc && clubsDoc.clubs.length > 0) {
+        setClubs(clubsDoc.clubs);
       }
-    };
 
-    loadData();
+      // Load shots
+      const shotsDoc = await firebaseService.getUserShots(user.uid);
+      if (shotsDoc && shotsDoc.shots.length > 0) {
+        setShots(shotsDoc.shots);
+      }
+    } catch (err: unknown) {
+      console.error('Failed to load data:', err);
+      setError('Failed to load shot data');
+    } finally {
+      setLoading(false);
+    }
   }, [user]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const updateShot = useCallback((id: string, updates: Partial<Shot>) => {
     setShots(prevShots => prevShots.map(shot => {
@@ -127,6 +127,93 @@ export default function ShotsPage() {
     setShots(shots.filter(s => s.id !== id));
     if (editingShot === id) {
       setEditingShot(null);
+    }
+  };
+
+  const syncShotsWithClubs = async () => {
+    if (clubs.length === 0) {
+      setError('No clubs found. Please add clubs first.');
+      return;
+    }
+
+    if (!confirm('Sync shots with your current clubs? This will regenerate all shots based on your saved clubs. Any custom shots will be replaced.')) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Generate standard shots for each club
+      const newShots: Shot[] = [];
+
+      clubs.forEach((club, clubIndex) => {
+        // Standard shot (full swing)
+        const standardShot: Shot = {
+          id: generateShotId(club.id, 'standard'),
+          clubId: club.id,
+          clubName: club.name,
+          name: 'Standard',
+          category: 'full-swing',
+          takeback: 'Full',
+          face: club.face,
+          carryYards: club.carryYards,
+          rollYards: club.rollYards,
+          totalYards: club.totalYards,
+          sortOrder: clubIndex * 2 + 1,
+          isDefault: true,
+          isActive: true,
+        };
+        newShots.push(standardShot);
+
+        // Add a knockdown variation for longer clubs
+        if (club.totalYards > 100) {
+          const knockdownShot: Shot = {
+            id: generateShotId(club.id, 'knockdown'),
+            clubId: club.id,
+            clubName: club.name,
+            name: 'Knockdown',
+            category: 'full-swing',
+            takeback: '3/4',
+            face: club.face,
+            carryYards: Math.round(club.carryYards * 0.85),
+            rollYards: Math.round(club.rollYards * 1.2),
+            totalYards: Math.round(club.totalYards * 0.9),
+            sortOrder: clubIndex * 2 + 2,
+            isDefault: false,
+            isActive: true,
+          };
+          newShots.push(knockdownShot);
+        }
+
+        // Add chip/pitch variations for wedges and short irons
+        if (club.totalYards <= 150 && (club.name.includes('W') || club.name.includes('°') || club.name.includes('*'))) {
+          const chipShot: Shot = {
+            id: generateShotId(club.id, 'chip'),
+            clubId: club.id,
+            clubName: club.name,
+            name: 'Chip',
+            category: 'short-game',
+            takeback: 'Chip',
+            face: club.face,
+            carryYards: Math.round(club.carryYards * 0.3),
+            rollYards: Math.round(club.carryYards * 0.5),
+            totalYards: Math.round(club.carryYards * 0.8),
+            sortOrder: clubIndex * 3 + 3,
+            isDefault: false,
+            isActive: true,
+          };
+          newShots.push(chipShot);
+        }
+      });
+
+      setShots(newShots);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err: unknown) {
+      console.error('Failed to sync shots:', err);
+      setError('Failed to sync shots with clubs');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -223,7 +310,7 @@ export default function ShotsPage() {
           )}
 
           {/* Filter Bar */}
-          <div className="mb-6 flex gap-4 items-center">
+          <div className="mb-6 flex gap-4 items-center flex-wrap">
             <label className="text-sm font-medium text-text-muted">Filter by Club:</label>
             <select
               value={filterClub}
@@ -237,15 +324,25 @@ export default function ShotsPage() {
                 </option>
               ))}
             </select>
-            <Button
-              type="button"
-              size="sm"
-              onClick={addShot}
-              className="ml-auto"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Shot
-            </Button>
+            <div className="ml-auto flex gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={syncShotsWithClubs}
+                disabled={clubs.length === 0}
+              >
+                Sync with Clubs
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                onClick={addShot}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Shot
+              </Button>
+            </div>
           </div>
 
           {/* Full Swing Shots */}

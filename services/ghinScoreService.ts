@@ -3,6 +3,8 @@
  * Handles score storage in Firebase and posting to USGA GHIN
  */
 
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { getApps } from 'firebase/app';
 import { firebaseService } from './firebaseService';
 import { createGHINClient } from '@/lib/api/ghin-client';
 import type { Round } from '@/lib/api/types';
@@ -11,6 +13,9 @@ import type {
   GHINScorePostRequest,
   GHINScorePostResponse,
 } from '@/lib/api/ghin-types';
+
+// Get Firestore instance
+const db = getFirestore(getApps()[0]);
 
 export class GHINScoreService {
   private ghinClient: ReturnType<typeof createGHINClient> | null = null;
@@ -77,11 +82,13 @@ export class GHINScoreService {
     ghinCourseId: string
   ): Promise<GHINCourseCache | null> {
     try {
-      const doc = await firebaseService.getDocument(
-        'ghinCourseCache',
-        ghinCourseId
-      );
-      return doc as GHINCourseCache | null;
+      const docRef = doc(db, 'ghinCourseCache', ghinCourseId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data() as GHINCourseCache;
+      }
+      return null;
     } catch (error) {
       console.error('[GHIN Score Service] Error reading cache:', error);
       return null;
@@ -93,11 +100,8 @@ export class GHINScoreService {
    */
   private async cacheCourseData(courseData: GHINCourseCache): Promise<void> {
     try {
-      await firebaseService.setDocument(
-        'ghinCourseCache',
-        courseData.ghinCourseId,
-        courseData
-      );
+      const docRef = doc(db, 'ghinCourseCache', courseData.ghinCourseId);
+      await setDoc(docRef, courseData);
       console.log(
         `[GHIN Score Service] Cached course data for ${courseData.courseName}`
       );
@@ -176,8 +180,9 @@ export class GHINScoreService {
         }
       }
 
-      // Save to Firebase
-      await firebaseService.updateUserRound(userId, round.id, round);
+      // Save to Firebase rounds collection
+      const roundRef = doc(db, 'rounds', round.id);
+      await setDoc(roundRef, round, { merge: true });
 
       console.log(`[GHIN Score Service] Saved round ${round.id} with GHIN data`);
       return round;
@@ -209,7 +214,8 @@ export class GHINScoreService {
       console.log('[GHIN Score Service] Posting score to GHIN:', request);
 
       // Update round to mark as posted
-      await firebaseService.updateUserRound(request.userId, request.roundId, {
+      const roundRef = doc(db, 'rounds', request.roundId);
+      await updateDoc(roundRef, {
         postedToGHIN: true,
         ghinPostDate: new Date().toISOString(),
         ghinScoreId: `PENDING-${request.roundId}`, // Placeholder

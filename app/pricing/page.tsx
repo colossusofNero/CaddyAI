@@ -184,7 +184,7 @@ export default function PricingPage() {
               {error}
             </div>
           )}
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
             {pricingTiers.map((tier, index) => (
               <PricingCard
                 key={tier.id}

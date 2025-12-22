@@ -87,7 +87,7 @@ export function PricingCard({
 
         {/* Popular Badge */}
         {tier.popular && (
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
             <div className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-600 text-secondary-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               <Sparkles className="w-4 h-4" />
               <span>Most Popular</span>
@@ -259,7 +259,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
 
       <button
         onClick={() => onToggle(!isAnnual)}
-        className={`relative w-16 h-8 rounded-full transition-colors ${
+        className={`relative w-16 h-8 rounded-full transition-colors border-2 border-white/20 ${
           isAnnual ? 'bg-primary' : 'bg-secondary-600'
         }`}
         role="switch"

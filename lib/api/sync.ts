@@ -123,12 +123,12 @@ export class SyncManager {
           await this.processQueueItem(item);
           await this.removeFromQueue(item.id);
           console.log('[SyncManager] Synced:', item.type, item.collection, item.id);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error('[SyncManager] Error syncing item:', item.id, error);
 
           // Update attempts count
           item.attempts++;
-          item.lastError = error.message;
+          item.lastError = error instanceof Error ? error.message : String(error);
 
           // Remove if too many attempts
           if (item.attempts >= 5) {
@@ -199,7 +199,7 @@ export class SyncManager {
   /**
    * Cache data for offline access
    */
-  async cacheData(key: string, data: any): Promise<void> {
+  async cacheData(key: string, data: unknown): Promise<void> {
     try {
       if (!this.db) await this.initialize();
 
@@ -356,38 +356,38 @@ export class SyncManager {
     }
   }
 
-  private async processClubOperation(item: SyncQueueItem, clubsApi: any): Promise<void> {
+  private async processClubOperation(item: SyncQueueItem, clubsApi: typeof import('./clubs').clubsApi): Promise<void> {
     switch (item.type) {
       case 'create':
-        await clubsApi.createClub(item.data);
+        await clubsApi.createClub(item.data as unknown as Parameters<typeof clubsApi.createClub>[0]);
         break;
       case 'update':
-        await clubsApi.updateClub(item.data);
+        await clubsApi.updateClub(item.data as unknown as Parameters<typeof clubsApi.updateClub>[0]);
         break;
       case 'delete':
-        await clubsApi.deleteClub(item.data.id);
+        await clubsApi.deleteClub((item.data as unknown as { id: string }).id);
         break;
     }
   }
 
-  private async processRoundOperation(item: SyncQueueItem, roundsApi: any): Promise<void> {
+  private async processRoundOperation(item: SyncQueueItem, roundsApi: typeof import('./rounds').roundsApi): Promise<void> {
     switch (item.type) {
       case 'create':
-        await roundsApi.createRound(item.data);
+        await roundsApi.createRound(item.data as unknown as Parameters<typeof roundsApi.createRound>[0]);
         break;
       case 'update':
-        await roundsApi.updateRound(item.data);
+        await roundsApi.updateRound(item.data as unknown as Parameters<typeof roundsApi.updateRound>[0]);
         break;
       case 'delete':
-        await roundsApi.deleteRound(item.data.id);
+        await roundsApi.deleteRound((item.data as unknown as { id: string }).id);
         break;
     }
   }
 
-  private async processShotOperation(item: SyncQueueItem, roundsApi: any): Promise<void> {
+  private async processShotOperation(item: SyncQueueItem, roundsApi: typeof import('./rounds').roundsApi): Promise<void> {
     switch (item.type) {
       case 'create':
-        await roundsApi.addShot(item.data);
+        await roundsApi.addShot(item.data as unknown as Parameters<typeof roundsApi.addShot>[0]);
         break;
       // Shots are typically not updated or deleted individually
     }

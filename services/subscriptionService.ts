@@ -291,10 +291,7 @@ export function determinePlanFromPriceId(priceId: string): SubscriptionPlan {
  * Helper: Determine billing period from price ID
  */
 export function determineBillingPeriodFromPriceId(priceId: string): BillingPeriod {
-  if (
-    priceId === STRIPE_PRICE_IDS.pro.annual ||
-    priceId === STRIPE_PRICE_IDS.tour.annual
-  ) {
+  if (priceId === STRIPE_PRICE_IDS.pro.annual) {
     return 'annual';
   }
 

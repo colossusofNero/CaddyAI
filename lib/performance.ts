@@ -8,11 +8,11 @@ export function reportWebVitals() {
   if ('web-vital' in window.performance) {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        const metric = entry as any;
+        const metric = entry as PerformanceEntry & { value?: number; id?: string };
         console.log(`[Web Vitals] ${metric.name}:`, metric.value);
 
         // Send to analytics
-        if (window.gtag) {
+        if (window.gtag && metric.value !== undefined) {
           window.gtag('event', metric.name, {
             value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
             event_category: 'Web Vitals',
@@ -25,7 +25,7 @@ export function reportWebVitals() {
 
     try {
       observer.observe({ entryTypes: ['web-vital'] });
-    } catch (e) {
+    } catch (_e) {
       console.warn('Web Vitals observer not supported');
     }
   }
@@ -228,7 +228,7 @@ export function monitorLongTasks() {
   try {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        const task = entry as any;
+        const task = entry as PerformanceEntry & { duration: number };
         if (task.duration > 50) {
           console.warn(`[Long Task] ${task.duration}ms`, task);
 
@@ -245,7 +245,7 @@ export function monitorLongTasks() {
     });
 
     observer.observe({ entryTypes: ['longtask'] });
-  } catch (e) {
+  } catch (_e) {
     console.warn('Long task monitoring not supported');
   }
 }

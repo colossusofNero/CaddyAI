@@ -102,7 +102,7 @@ export const startTransaction = (name: string, op: string) => {
 */
 
 // Fallback error tracking without Sentry
-export const captureException = (error: Error, context?: Record<string, any>) => {
+export const captureException = (error: Error, context?: Record<string, unknown>) => {
   console.error('Error:', error, context);
 
   // You can also send to your own error logging endpoint
@@ -132,17 +132,17 @@ export const captureMessage = (message: string, level: 'info' | 'warning' | 'err
 export const setUser = (user: { id: string; email?: string; username?: string }) => {
   // Store user context for error reporting
   if (typeof window !== 'undefined') {
-    (window as any).__user_context = user;
+    (window as Window & { __user_context?: { id: string; email?: string; username?: string } }).__user_context = user;
   }
 };
 
 export const clearUser = () => {
   if (typeof window !== 'undefined') {
-    delete (window as any).__user_context;
+    delete (window as Window & { __user_context?: { id: string; email?: string; username?: string } }).__user_context;
   }
 };
 
-export const addBreadcrumb = (message: string, category: string, data?: Record<string, any>) => {
+export const addBreadcrumb = (message: string, category: string, data?: Record<string, unknown>) => {
   // Log breadcrumbs for debugging
   console.log(`[Breadcrumb ${category}]`, message, data);
 };

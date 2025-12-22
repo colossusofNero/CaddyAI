@@ -333,7 +333,7 @@ export function parseExcelFile(file: File): Promise<{
         });
 
         resolve({ clubs, shots, errors });
-      } catch (error) {
+      } catch (_error) {
         resolve({
           clubs: [],
           shots: [],

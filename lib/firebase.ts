@@ -81,12 +81,12 @@ if (isFirebaseConfigured) {
     console.log('[Firebase Debug] Storage initialized:', !!storage);
 
     console.log('[Firebase] Successfully initialized all services');
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('[Firebase Debug] Initialization error details:', {
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      stack: error.stack,
+      message: error instanceof Error ? error.message : String(error),
+      code: (error as { code?: string }).code,
+      name: error instanceof Error ? error.name : typeof error,
+      stack: error instanceof Error ? error.stack : undefined,
       fullError: error
     });
     console.error('[Firebase] Initialization error:', error);

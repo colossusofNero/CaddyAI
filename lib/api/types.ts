@@ -213,7 +213,7 @@ export interface SyncQueueItem {
   id: string;
   type: 'create' | 'update' | 'delete';
   collection: 'clubs' | 'rounds' | 'shots' | 'courses';
-  data: any;
+  data: Record<string, unknown>;
   timestamp: number;
   attempts: number;
   lastError?: string;
@@ -239,7 +239,7 @@ export interface ApiResponse<T> {
 export interface ApiError {
   code: string;
   message: string;
-  details?: any;
+  details?: unknown;
 }
 
 // ============================================

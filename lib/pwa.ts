@@ -70,7 +70,7 @@ export const isPWAInstalled = (): boolean => {
 
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator as any).standalone === true || // iOS
+    (window.navigator as Navigator & { standalone?: boolean }).standalone === true || // iOS
     document.referrer.includes('android-app://') // Android TWA
   );
 };
@@ -140,7 +140,7 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
       document.execCommand('copy');
       document.body.removeChild(textArea);
       return true;
-    } catch (error) {
+    } catch (_error) {
       document.body.removeChild(textArea);
       return false;
     }
@@ -356,7 +356,7 @@ export const getBatteryStatus = async (): Promise<BatteryStatus | null> => {
   if (!isBatterySupported()) return null;
 
   try {
-    const battery = await (navigator as any).getBattery();
+    const battery = await (navigator as Navigator & { getBattery: () => Promise<{ level: number; charging: boolean; chargingTime: number; dischargingTime: number }> }).getBattery();
     return {
       level: battery.level,
       charging: battery.charging,
@@ -377,13 +377,13 @@ export const isWakeLockSupported = (): boolean => {
   return typeof navigator !== 'undefined' && 'wakeLock' in navigator;
 };
 
-let wakeLock: any = null;
+let wakeLock: { release: () => Promise<void> } | null = null;
 
 export const requestWakeLock = async (): Promise<boolean> => {
   if (!isWakeLockSupported()) return false;
 
   try {
-    wakeLock = await (navigator as any).wakeLock.request('screen');
+    wakeLock = await (navigator as Navigator & { wakeLock: { request: (type: string) => Promise<{ release: () => Promise<void> }> } }).wakeLock.request('screen');
     return true;
   } catch (error) {
     console.error('Wake lock error:', error);

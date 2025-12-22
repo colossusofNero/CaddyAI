@@ -51,10 +51,6 @@ export const STRIPE_PRICE_IDS = {
     monthly: process.env.STRIPE_PRICE_ID_PRO_MONTHLY || 'price_pro_monthly',
     annual: process.env.STRIPE_PRICE_ID_PRO_ANNUAL || 'price_pro_annual',
   },
-  tour: {
-    monthly: process.env.STRIPE_PRICE_ID_TOUR_MONTHLY || 'price_tour_monthly',
-    annual: process.env.STRIPE_PRICE_ID_TOUR_ANNUAL || 'price_tour_annual',
-  },
 } as const;
 
 // Subscription configuration

@@ -13,7 +13,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { PLAN_FEATURES } from '@/types/subscription';
-import { Check, CreditCard, Calendar, AlertCircle, Sparkles, Crown } from 'lucide-react';
+import { Check, CreditCard, Calendar, AlertCircle, Sparkles } from 'lucide-react';
 
 export default function SubscriptionSettingsPage() {
   const router = useRouter();
@@ -129,12 +129,10 @@ export default function SubscriptionSettingsPage() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                {planName === 'tour' && <Crown className="w-6 h-6 text-primary" />}
                 {planName === 'pro' && <Sparkles className="w-6 h-6 text-primary" />}
                 <h2 className="text-2xl font-bold text-text-primary">
                   {planName === 'free' && 'Free Plan'}
                   {planName === 'pro' && 'CaddyAI Pro'}
-                  {planName === 'tour' && 'CaddyAI Tour'}
                 </h2>
               </div>
               <div className="flex items-center gap-2 text-text-secondary">

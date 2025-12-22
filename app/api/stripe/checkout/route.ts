@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!plan || (plan !== 'pro' && plan !== 'tour')) {
+    if (!plan || plan !== 'pro') {
       return NextResponse.json(
-        { error: 'Valid plan (pro or tour) is required' },
+        { error: 'Valid plan (pro) is required' },
         { status: 400 }
       );
     }

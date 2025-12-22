@@ -1,14 +1,11 @@
 # CaddyAI Stripe Price IDs
-# Generated: 2025-10-26T22:26:15.270Z
+# Generated: 2025-12-22
 
 STRIPE_PRICE_ID_PRO_MONTHLY=price_1SMcOCBBBTFK5dTOnw987pTp
 STRIPE_PRICE_ID_PRO_ANNUAL=price_1SMcOCBBBTFK5dTOd5xhkJvR
-STRIPE_PRICE_ID_TOUR_MONTHLY=price_1SMcODBBBTFK5dTOsUgwjcpt
-STRIPE_PRICE_ID_TOUR_ANNUAL=price_1SMcODBBBTFK5dTOXlE8nwk1
 
 # Product IDs (for reference)
 # Pro Product: prod_TJErhv9jlQbm5x
-# Tour Product: prod_TJErIg6CG8V46U
 
 # View in Stripe Dashboard:
 # https://dashboard.stripe.com/products

@@ -284,13 +284,6 @@ export function determinePlanFromPriceId(priceId: string): SubscriptionPlan {
     return 'pro';
   }
 
-  if (
-    priceId === STRIPE_PRICE_IDS.tour.monthly ||
-    priceId === STRIPE_PRICE_IDS.tour.annual
-  ) {
-    return 'tour';
-  }
-
   return 'free';
 }
 

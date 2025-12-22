@@ -459,7 +459,6 @@ export default function DashboardPage() {
             <p className="text-text-secondary text-sm mb-4 capitalize">
               {subscription?.plan === 'free' && 'Free Plan'}
               {subscription?.plan === 'pro' && 'CaddyAI Pro'}
-              {subscription?.plan === 'tour' && 'CaddyAI Tour'}
               {!subscription && 'Loading...'}
             </p>
             <Link href={subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? '/settings/subscription' : '/pricing'}>

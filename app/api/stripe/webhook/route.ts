@@ -216,7 +216,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
 /**
  * Determine plan from Stripe price ID
  */
-function determinePlanFromPriceId(priceId?: string): 'free' | 'pro' | 'tour' {
+function determinePlanFromPriceId(priceId?: string): 'free' | 'pro' {
   if (!priceId) return 'free';
 
   if (
@@ -224,13 +224,6 @@ function determinePlanFromPriceId(priceId?: string): 'free' | 'pro' | 'tour' {
     priceId === STRIPE_PRICE_IDS.pro.annual
   ) {
     return 'pro';
-  }
-
-  if (
-    priceId === STRIPE_PRICE_IDS.tour.monthly ||
-    priceId === STRIPE_PRICE_IDS.tour.annual
-  ) {
-    return 'tour';
   }
 
   return 'free';

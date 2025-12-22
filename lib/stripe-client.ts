@@ -49,14 +49,8 @@ export const PLAN_CONFIG = {
   pro: {
     name: 'Pro',
     description: 'For serious golfers who want the full experience',
-    priceMonthly: 9.99,
-    priceAnnual: 95.88,
-  },
-  tour: {
-    name: 'Tour',
-    description: 'Everything a competitive golfer needs',
-    priceMonthly: 19.99,
-    priceAnnual: 191.88,
+    priceMonthly: 9.95,
+    priceAnnual: 79.60,
   },
 } as const;
 

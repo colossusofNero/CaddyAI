@@ -149,24 +149,6 @@ export default function ShotsPage() {
       const newShots: Shot[] = [];
 
       clubs.forEach((club, clubIndex) => {
-        // Standard shot (full swing)
-        const standardShot: Shot = {
-          id: generateShotId(club.id, 'standard'),
-          clubId: club.id,
-          clubName: club.name,
-          name: 'Standard',
-          category: 'full-swing',
-          takeback: 'Full',
-          face: club.face,
-          carryYards: club.carryYards,
-          rollYards: club.rollYards,
-          totalYards: club.totalYards,
-          sortOrder: clubIndex * 2 + 1,
-          isDefault: true,
-          isActive: true,
-        };
-        newShots.push(standardShot);
-
         // Add a knockdown variation for longer clubs
         if (club.totalYards > 100) {
           const knockdownShot: Shot = {
@@ -180,7 +162,7 @@ export default function ShotsPage() {
             carryYards: Math.round(club.carryYards * 0.85),
             rollYards: Math.round(club.rollYards * 1.2),
             totalYards: Math.round(club.totalYards * 0.9),
-            sortOrder: clubIndex * 2 + 2,
+            sortOrder: clubIndex * 2 + 1,
             isDefault: false,
             isActive: true,
           };
@@ -200,7 +182,7 @@ export default function ShotsPage() {
             carryYards: Math.round(club.carryYards * 0.3),
             rollYards: Math.round(club.carryYards * 0.5),
             totalYards: Math.round(club.carryYards * 0.8),
-            sortOrder: clubIndex * 3 + 3,
+            sortOrder: clubIndex * 2 + 2,
             isDefault: false,
             isActive: true,
           };
@@ -341,9 +323,14 @@ export default function ShotsPage() {
     ? shots
     : shots.filter(s => s.clubId === filterClub);
 
+  // Sort by distance (longest first), but only when not editing to prevent jumping
+  const sortedShots = editingShot === null
+    ? [...filteredShots].sort((a, b) => b.totalYards - a.totalYards)
+    : filteredShots;
+
   // Group shots by category
-  const fullSwingShots = filteredShots.filter(s => s.category === 'full-swing');
-  const shortGameShots = filteredShots.filter(s => s.category === 'short-game');
+  const fullSwingShots = sortedShots.filter(s => s.category === 'full-swing');
+  const shortGameShots = sortedShots.filter(s => s.category === 'short-game');
 
   if (authLoading || loading) {
     return (

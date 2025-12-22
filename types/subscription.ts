@@ -9,7 +9,7 @@ import { Timestamp } from 'firebase/firestore';
 /**
  * Subscription plan types
  */
-export type SubscriptionPlan = 'free' | 'pro' | 'tour';
+export type SubscriptionPlan = 'free' | 'pro';
 
 /**
  * Subscription status from Stripe
@@ -166,19 +166,5 @@ export const PLAN_FEATURES: Record<SubscriptionPlan, PlanFeatures> = {
     tournamentMode: false,
     apiAccess: false,
     supportLevel: 'priority',
-  },
-  tour: {
-    maxClubs: null,
-    maxRounds: null,
-    aiRecommendations: true,
-    shotDispersion: true,
-    performanceAnalytics: true,
-    courseDatabase: true,
-    advancedAnalytics: true,
-    strokesGained: true,
-    videoIntegration: true,
-    tournamentMode: true,
-    apiAccess: true,
-    supportLevel: 'white-glove',
   },
 };

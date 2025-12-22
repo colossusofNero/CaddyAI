@@ -63,33 +63,6 @@ const pricingTiers: PricingTier[] = [
     cta: 'Start Pro Trial',
     ctaLink: '/signup?plan=pro',
   },
-  {
-    id: 'tour',
-    name: 'Tour',
-    description: 'Everything a competitive golfer needs',
-    priceMonthly: 19.95,
-    priceAnnual: 159.60,
-    features: [
-      'Everything in Pro',
-      'Advanced shot analytics',
-      'Strokes gained analysis',
-      'Video swing integration',
-      'Tournament mode',
-      'Custom club fitting data',
-      'API access',
-      'White-glove support',
-    ],
-    featureTooltips: {
-      'Strokes gained analysis':
-        'Benchmark your performance against PGA Tour averages to see where you gain or lose strokes.',
-      'Tournament mode':
-        'Special features for competitive play including live scoring and pressure statistics.',
-      'Custom club fitting data':
-        'Import data from professional club fittings for even more accurate recommendations.',
-    },
-    cta: 'Start Tour Trial',
-    ctaLink: '/signup?plan=tour',
-  },
 ];
 
 export default function PricingPage() {
@@ -130,7 +103,7 @@ export default function PricingPage() {
     try {
       setLoadingPlan(planId);
       await createCheckoutSession({
-        plan: planId as 'pro' | 'tour',
+        plan: 'pro',
         billingPeriod: isAnnual ? 'annual' : 'monthly',
         successUrl: `${window.location.origin}/dashboard?success=true`,
         cancelUrl: `${window.location.origin}/pricing`,
@@ -148,7 +121,7 @@ export default function PricingPage() {
     }
 
     if (!user) {
-      return `Start ${planId === 'pro' ? 'Pro' : 'Tour'} Trial`;
+      return 'Start Pro Trial';
     }
 
     if (subscription?.plan === planId && subscription?.hasActiveSubscription) {
@@ -159,7 +132,7 @@ export default function PricingPage() {
       return 'Switch Plan';
     }
 
-    return `Start ${planId === 'pro' ? 'Pro' : 'Tour'} Trial`;
+    return 'Start Pro Trial';
   };
 
   return (
@@ -211,7 +184,7 @@ export default function PricingPage() {
               {error}
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             {pricingTiers.map((tier, index) => (
               <PricingCard
                 key={tier.id}

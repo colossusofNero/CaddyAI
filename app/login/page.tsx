@@ -346,6 +346,7 @@ export default function LoginPage() {
             Privacy Policy
           </Link>
         </p>
+        </div>
       </div>
     </div>
   );

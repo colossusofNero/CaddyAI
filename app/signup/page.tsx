@@ -380,6 +380,7 @@ export default function SignupPage() {
             Privacy Policy
           </Link>
         </p>
+        </div>
       </div>
     </div>
   );

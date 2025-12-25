@@ -234,7 +234,7 @@ export function ElevationModal({ isOpen, onClose }: ElevationModalProps) {
         {/* Formula Info */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-900 mb-2">
-            <strong className="font-semibold">Calculation Method:</strong> CaddyAI uses GPS elevation data and applies the rule of thumb
+            <strong className="font-semibold">Calculation Method:</strong> Copperline Golf uses GPS elevation data and applies the rule of thumb
             that every 10 feet of elevation change affects distance by approximately 7%.
           </p>
           <p className="text-xs text-blue-800">

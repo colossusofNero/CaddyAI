@@ -126,15 +126,15 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div className="text-4xl font-bold text-primary mb-2">CaddyAI</div>
+          <div className="text-4xl font-bold text-primary mb-2">Copperline Golf</div>
           <p className="text-text-secondary">Your intelligent golf companion</p>
         </div>
 
         <Card variant="elevated" padding="lg" className="bg-white border-primary/20">
-          <h1 className="sr-only">Sign In to CaddyAI</h1>
+          <h1 className="sr-only">Sign In to Copperline Golf</h1>
           <CardHeader
             title="Welcome back"
-            description="Sign in to your CaddyAI account"
+            description="Sign in to your Copperline Golf account"
           />
 
           <CardContent>

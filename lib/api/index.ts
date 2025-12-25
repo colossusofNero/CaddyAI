@@ -1,5 +1,5 @@
 /**
- * CaddyAI API
+ * Copperline Golf API
  * Centralized exports for all API modules
  */
 

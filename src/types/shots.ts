@@ -1,5 +1,5 @@
 /**
- * CaddyAI - Unified Shot Types
+ * Copperline Golf - Unified Shot Types
  * 
  * These types are shared across:
  * - Android App (React Native)

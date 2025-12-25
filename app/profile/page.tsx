@@ -205,7 +205,7 @@ export default function ProfilePage() {
           <Card variant="elevated" padding="lg" className="mb-6">
             <CardHeader
               title="Core Profile"
-              description="These 5 questions help CaddyAI understand your game"
+              description="These 5 questions help Copperline Golf understand your game"
             />
             <CardContent>
               <div className="space-y-6">

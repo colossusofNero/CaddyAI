@@ -115,7 +115,7 @@ export function ExitIntentPopup() {
                   </svg>
                   <div>
                     <div className="font-medium text-text-primary text-sm">Weekly Golf Tips</div>
-                    <div className="text-xs text-text-secondary">Pro strategies & CaddyAI insights</div>
+                    <div className="text-xs text-text-secondary">Pro strategies & Copperline Golf insights</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

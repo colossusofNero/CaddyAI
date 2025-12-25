@@ -1,6 +1,6 @@
 /**
  * Homepage
- * CaddyAI landing page with hero, features, testimonials, and CTA
+ * Copperline Golf landing page with hero, features, testimonials, and CTA
  */
 
 'use client';
@@ -95,7 +95,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="font-sans text-4xl lg:text-5xl font-semibold text-neutral-900 mb-4"
             >
-              What Makes CaddyAI
+              What Makes Copperline Golf
               <br />
               Your Perfect Partner
             </motion.h2>
@@ -169,7 +169,7 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto"
             >
-              Join thousands of players who have improved their game with CaddyAI
+              Join thousands of players who have improved their game with Copperline Golf
             </motion.p>
           </div>
 
@@ -205,7 +205,7 @@ export default function LandingPage() {
                 icon: Map,
                 title: 'Hit the Course',
                 description:
-                  'Open CaddyAI on your phone and let it track conditions automatically.',
+                  'Open Copperline Golf on your phone and let it track conditions automatically.',
               },
               {
                 step: '3',

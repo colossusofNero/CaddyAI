@@ -1,6 +1,6 @@
 /**
  * Input Component
- * Reusable form input with CaddyAI styling
+ * Reusable form input with Copperline Golf styling
  */
 
 import { InputHTMLAttributes, forwardRef, ReactNode } from 'react';

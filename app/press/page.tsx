@@ -22,19 +22,19 @@ import { Button } from '@/components/ui/Button';
 export default function PressPage() {
   const pressReleases = [
     {
-      title: 'CaddyAI Reaches 100,000 Active Users Milestone',
+      title: 'Copperline Golf Reaches 100,000 Active Users Milestone',
       date: 'March 15, 2025',
       excerpt:
-        'Golf tech startup CaddyAI announces major growth milestone as golfers embrace AI-powered club recommendations.',
+        'Golf tech startup Copperline Golf announces major growth milestone as golfers embrace AI-powered club recommendations.',
     },
     {
-      title: 'CaddyAI Raises $10M Series A Funding',
+      title: 'Copperline Golf Raises $10M Series A Funding',
       date: 'February 20, 2025',
       excerpt:
-        'Leading venture capital firms invest in CaddyAI to accelerate product development and market expansion.',
+        'Leading venture capital firms invest in Copperline Golf to accelerate product development and market expansion.',
     },
     {
-      title: 'CaddyAI Launches Apple Watch Integration',
+      title: 'Copperline Golf Launches Apple Watch Integration',
       date: 'January 10, 2025',
       excerpt:
         'New Apple Watch app brings club recommendations directly to golfers\' wrists for seamless on-course experience.',
@@ -71,7 +71,7 @@ export default function PressPage() {
   const coverage = [
     {
       publication: 'TechCrunch',
-      title: 'CaddyAI is bringing AI to the golf course',
+      title: 'Copperline Golf is bringing AI to the golf course',
       date: 'March 2025',
     },
     {
@@ -110,7 +110,7 @@ export default function PressPage() {
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
-              CaddyAI In The
+              Copperline Golf In The
               <br />
               <span className="text-primary">News</span>
             </h1>
@@ -136,7 +136,7 @@ export default function PressPage() {
               Latest <span className="text-primary">Press Releases</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Stay up to date with CaddyAI news and announcements
+              Stay up to date with Copperline Golf news and announcements
             </p>
           </div>
 
@@ -282,13 +282,13 @@ export default function PressPage() {
             </h2>
             <p className="text-lg lg:text-xl mb-8 opacity-90">
               For press inquiries, interview requests, or more information about
-              CaddyAI
+              Copperline Golf
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:press@caddyai.com">
+              <a href="mailto:press@copperlinegolf.com">
                 <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-neutral-50">
                   <Mail className="w-5 h-5 mr-2" />
-                  press@caddyai.com
+                  press@copperlinegolf.com
                 </Button>
               </a>
             </div>

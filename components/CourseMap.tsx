@@ -70,8 +70,8 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
     if (hole.geometry.fairway.length > 0) {
       const fairwayLatLngs = hole.geometry.fairway.map((p) => [p.lat, p.lng] as L.LatLngTuple);
       L.polygon(fairwayLatLngs, {
-        color: '#4ade80',
-        fillColor: '#86efac',
+        color: '#4A9E5B',
+        fillColor: '#7BC775',
         fillOpacity: 0.5,
         weight: 2,
       }).addTo(map);
@@ -82,8 +82,8 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
     if (hole.geometry.green.length > 0) {
       const greenLatLngs = hole.geometry.green.map((p) => [p.lat, p.lng] as L.LatLngTuple);
       L.polygon(greenLatLngs, {
-        color: '#22c55e',
-        fillColor: '#4ade80',
+        color: '#7BC775',
+        fillColor: '#4A9E5B',
         fillOpacity: 0.6,
         weight: 2,
       }).addTo(map);
@@ -95,8 +95,8 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
       hole.geometry.bunkers.forEach((bunker) => {
         const bunkerLatLngs = bunker.map((p) => [p.lat, p.lng] as L.LatLngTuple);
         L.polygon(bunkerLatLngs, {
-          color: '#d97706',
-          fillColor: '#fbbf24',
+          color: '#C9956C',
+          fillColor: '#E4A853',
           fillOpacity: 0.7,
           weight: 1,
         }).addTo(map);
@@ -109,8 +109,8 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
       hole.geometry.water.forEach((water) => {
         const waterLatLngs = water.map((p) => [p.lat, p.lng] as L.LatLngTuple);
         L.polygon(waterLatLngs, {
-          color: '#0ea5e9',
-          fillColor: '#38bdf8',
+          color: '#40C4D3',
+          fillColor: '#7DD8E4',
           fillOpacity: 0.6,
           weight: 2,
         }).addTo(map);
@@ -122,8 +122,8 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
     if (hole.geometry.teeBoxes.length > 0) {
       const teeLatLngs = hole.geometry.teeBoxes.map((p) => [p.lat, p.lng] as L.LatLngTuple);
       L.polygon(teeLatLngs, {
-        color: '#dc2626',
-        fillColor: '#ef4444',
+        color: '#B87333',
+        fillColor: '#D4956A',
         fillOpacity: 0.6,
         weight: 2,
       }).addTo(map);
@@ -134,7 +134,7 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
       L.marker(teeCenter, {
         icon: L.divIcon({
           className: 'custom-marker',
-          html: '<div style="background: #dc2626; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">T</div>',
+          html: '<div style="background: #B87333; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">T</div>',
           iconSize: [32, 32],
         }),
       })
@@ -146,7 +146,7 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
     L.marker([hole.geometry.greenCenter.lat, hole.geometry.greenCenter.lng], {
       icon: L.divIcon({
         className: 'custom-marker',
-        html: '<div style="background: #22c55e; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">G</div>',
+        html: '<div style="background: #7BC775; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">G</div>',
         iconSize: [32, 32],
       }),
     })
@@ -159,7 +159,7 @@ export default function CourseMap({ hole, userPosition, className = '' }: Course
       L.marker([userPosition.lat, userPosition.lng], {
         icon: L.divIcon({
           className: 'custom-marker',
-          html: '<div style="background: #3b82f6; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.4); animation: pulse 2s infinite;">📍</div>',
+          html: '<div style="background: #40C4D3; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.4); animation: pulse 2s infinite;">📍</div>',
           iconSize: [36, 36],
         }),
       })

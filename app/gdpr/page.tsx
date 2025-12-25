@@ -107,7 +107,7 @@ export default function GDPRPage() {
                   Our Commitment to GDPR
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  CaddyAI is committed to protecting the privacy and personal data
+                  Copperline Golf is committed to protecting the privacy and personal data
                   of all our users, including those in the European Union and
                   European Economic Area. We comply with the General Data
                   Protection Regulation (GDPR) and respect your rights as a data
@@ -122,7 +122,7 @@ export default function GDPRPage() {
                 </h2>
                 <div className="bg-primary/5 rounded-xl p-6 text-text-secondary">
                   <p className="mb-2">
-                    <strong>Data Controller:</strong> CaddyAI, Inc.
+                    <strong>Data Controller:</strong> Copperline Golf, Inc.
                   </p>
                   <p className="mb-2">
                     <strong>Address:</strong> 123 Golf Drive, San Francisco, CA
@@ -131,10 +131,10 @@ export default function GDPRPage() {
                   <p className="mb-2">
                     <strong>Email:</strong>{' '}
                     <a
-                      href="mailto:dpo@caddyai.com"
+                      href="mailto:dpo@copperlinegolf.com"
                       className="text-primary hover:underline"
                     >
-                      dpo@caddyai.com
+                      dpo@copperlinegolf.com
                     </a>
                   </p>
                   <p>
@@ -223,16 +223,16 @@ export default function GDPRPage() {
                   </p>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>
-                      Log into your CaddyAI account and manage your data from
+                      Log into your Copperline Golf account and manage your data from
                       Settings
                     </li>
                     <li>
                       Email our Data Protection Officer at{' '}
                       <a
-                        href="mailto:dpo@caddyai.com"
+                        href="mailto:dpo@copperlinegolf.com"
                         className="text-primary hover:underline"
                       >
-                        dpo@caddyai.com
+                        dpo@copperlinegolf.com
                       </a>
                     </li>
                     <li>Use our online data request form</li>
@@ -252,7 +252,7 @@ export default function GDPRPage() {
                 </h2>
                 <div className="text-text-secondary leading-relaxed space-y-4">
                   <p>
-                    CaddyAI is based in the United States. When you use our
+                    Copperline Golf is based in the United States. When you use our
                     services, your data may be transferred to and processed in the
                     US and other countries.
                   </p>
@@ -302,7 +302,7 @@ export default function GDPRPage() {
                   Automated Decision-Making
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  CaddyAI uses AI algorithms to provide club recommendations.
+                  Copperline Golf uses AI algorithms to provide club recommendations.
                   These automated decisions do not have legal or similarly
                   significant effects on you. You always have the option to
                   override AI recommendations and make your own club selection
@@ -359,14 +359,14 @@ export default function GDPRPage() {
                     <p>
                       <strong>Email:</strong>{' '}
                       <a
-                        href="mailto:dpo@caddyai.com"
+                        href="mailto:dpo@copperlinegolf.com"
                         className="text-primary hover:underline"
                       >
-                        dpo@caddyai.com
+                        dpo@copperlinegolf.com
                       </a>
                     </p>
                     <p>
-                      <strong>Address:</strong> Data Protection Officer, CaddyAI,
+                      <strong>Address:</strong> Data Protection Officer, Copperline Golf,
                       Inc., 123 Golf Drive, San Francisco, CA 94102, USA
                     </p>
                   </div>

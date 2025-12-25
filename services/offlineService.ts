@@ -6,7 +6,7 @@
 
 import { CourseExtended, CourseHoleExtended, OfflineCourseData } from '@/src/types/courseExtended';
 
-const DB_NAME = 'CaddyAI_Offline';
+const DB_NAME = 'Copperline Golf_Offline';
 const DB_VERSION = 1;
 const COURSES_STORE = 'courses';
 const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds

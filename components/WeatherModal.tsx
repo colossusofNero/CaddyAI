@@ -181,7 +181,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
           <p className="text-sm text-green-900">
             <strong className="font-semibold">Perfect conditions:</strong> Low wind and excellent visibility make this an ideal time to play.
-            CaddyAI will automatically adjust all distance recommendations based on current conditions.
+            Copperline Golf will automatically adjust all distance recommendations based on current conditions.
           </p>
         </div>
 

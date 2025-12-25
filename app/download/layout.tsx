@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Download CaddyAI - AI Golf Caddy App for iOS & Android',
+  title: 'Download Copperline Golf - AI Golf Caddy App for iOS & Android',
   description:
-    'Download CaddyAI for free on iOS and Android. Get AI-powered club recommendations, real-time weather data, GPS course maps, and performance tracking to improve your golf game.',
+    'Download Copperline Golf for free on iOS and Android. Get AI-powered club recommendations, real-time weather data, GPS course maps, and performance tracking to improve your golf game.',
   keywords: [
-    'CaddyAI app',
+    'Copperline Golf app',
     'golf app download',
     'AI golf caddy',
     'golf GPS app',
@@ -17,33 +17,33 @@ export const metadata: Metadata = {
     'golf shot tracking',
   ],
   openGraph: {
-    title: 'Download CaddyAI - Your AI Golf Caddy',
+    title: 'Download Copperline Golf - Your AI Golf Caddy',
     description:
       'Transform your golf game with AI-powered recommendations. Download free on iOS and Android.',
     type: 'website',
-    url: 'https://caddyai.com/download',
+    url: 'https://copperlinegolf.com/download',
     images: [
       {
         url: '/images/og-download.jpg',
         width: 1200,
         height: 630,
-        alt: 'CaddyAI Mobile App',
+        alt: 'Copperline Golf Mobile App',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Download CaddyAI - AI Golf Caddy App',
+    title: 'Download Copperline Golf - AI Golf Caddy App',
     description:
       'Get AI-powered club recommendations on the course. Free download for iOS and Android.',
     images: ['/images/twitter-download.jpg'],
   },
   alternates: {
-    canonical: 'https://caddyai.com/download',
+    canonical: 'https://copperlinegolf.com/download',
   },
   other: {
     'apple-itunes-app': 'app-id=123456789', // TODO: Replace with actual App Store ID
-    'google-play-app': 'app-id=com.caddyai.app',
+    'google-play-app': 'app-id=com.Copperline Golf.app',
   },
 };
 
@@ -56,7 +56,7 @@ export default function DownloadLayout({
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'MobileApplication',
-    name: 'CaddyAI',
+    name: 'Copperline Golf',
     applicationCategory: 'SportsApplication',
     operatingSystem: 'iOS 14.0+, Android 8.0+',
     offers: {
@@ -72,29 +72,29 @@ export default function DownloadLayout({
       worstRating: '1',
     },
     description:
-      'CaddyAI is an AI-powered golf caddy app that provides smart club recommendations, real-time weather data, GPS course maps, and comprehensive performance tracking.',
+      'Copperline Golf is an AI-powered golf caddy app that provides smart club recommendations, real-time weather data, GPS course maps, and comprehensive performance tracking.',
     screenshot: [
-      'https://caddyai.com/images/app/screenshot-1.jpg',
-      'https://caddyai.com/images/app/screenshot-2.jpg',
-      'https://caddyai.com/images/app/screenshot-3.jpg',
+      'https://copperlinegolf.com/images/app/screenshot-1.jpg',
+      'https://copperlinegolf.com/images/app/screenshot-2.jpg',
+      'https://copperlinegolf.com/images/app/screenshot-3.jpg',
     ],
     downloadUrl: [
-      'https://apps.apple.com/app/caddyai/id123456789',
-      'https://play.google.com/store/apps/details?id=com.caddyai.app',
+      'https://apps.apple.com/app/Copperline Golf/id123456789',
+      'https://play.google.com/store/apps/details?id=com.Copperline Golf.app',
     ],
     installUrl: [
-      'https://apps.apple.com/app/caddyai/id123456789',
-      'https://play.google.com/store/apps/details?id=com.caddyai.app',
+      'https://apps.apple.com/app/Copperline Golf/id123456789',
+      'https://play.google.com/store/apps/details?id=com.Copperline Golf.app',
     ],
     author: {
       '@type': 'Organization',
-      name: 'CaddyAI',
-      url: 'https://caddyai.com',
+      name: 'Copperline Golf',
+      url: 'https://copperlinegolf.com',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'CaddyAI',
-      url: 'https://caddyai.com',
+      name: 'Copperline Golf',
+      url: 'https://copperlinegolf.com',
     },
     softwareVersion: '1.0',
     datePublished: '2025-01-01',

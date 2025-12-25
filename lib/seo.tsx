@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 // Base site configuration
 export const siteConfig = {
-  name: 'CaddyAI',
-  title: 'CaddyAI - Your AI Golf Caddy',
+  name: 'Copperline Golf',
+  title: 'Copperline Golf - Your AI Golf Caddy',
   description: 'Get smart club recommendations powered by AI. Join 50,000+ golfers improving their game with real-time distance tracking, course mapping, and intelligent shot analysis.',
-  url: 'https://caddyai.com',
+  url: 'https://copperlinegolf.com',
   ogImage: '/og-image.jpg',
   twitterImage: '/twitter-image.jpg',
   keywords: [
@@ -50,9 +50,9 @@ export function generatePageMetadata({
     title: pageTitle,
     description: pageDescription,
     keywords: pageKeywords.join(', '),
-    authors: [{ name: 'CaddyAI Team' }],
-    creator: 'CaddyAI',
-    publisher: 'CaddyAI',
+    authors: [{ name: 'Copperline Golf Team' }],
+    creator: 'Copperline Golf',
+    publisher: 'Copperline Golf',
     formatDetection: {
       email: false,
       address: false,
@@ -83,8 +83,8 @@ export function generatePageMetadata({
       title: pageTitle,
       description: pageDescription,
       images: [siteConfig.twitterImage],
-      creator: '@caddyai',
-      site: '@caddyai',
+      creator: '@copperlinegolf',
+      site: '@copperlinegolf',
     },
     robots: {
       index: !noIndex,
@@ -110,18 +110,18 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'CaddyAI',
+    name: 'Copperline Golf',
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
     description: siteConfig.description,
     sameAs: [
-      'https://twitter.com/caddyai',
-      'https://instagram.com/caddyai',
-      'https://facebook.com/caddyai',
+      'https://twitter.com/copperlinegolf',
+      'https://instagram.com/copperlinegolf',
+      'https://facebook.com/copperlinegolf',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'support@caddyai.com',
+      email: 'support@copperlinegolf.com',
       contactType: 'Customer Support',
     },
   };
@@ -131,7 +131,7 @@ export function generateMobileAppSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'MobileApplication',
-    name: 'CaddyAI',
+    name: 'Copperline Golf',
     operatingSystem: 'iOS, Android',
     applicationCategory: 'SportsApplication',
     description: siteConfig.description,
@@ -200,7 +200,7 @@ export function generateProductSchema({
     description,
     brand: {
       '@type': 'Brand',
-      name: 'CaddyAI',
+      name: 'Copperline Golf',
     },
     offers: {
       '@type': 'Offer',

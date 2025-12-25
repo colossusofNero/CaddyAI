@@ -1,5 +1,5 @@
 /**
- * CaddyAI - Unified Club Types
+ * Copperline Golf - Unified Club Types
  * 
  * These types are shared across:
  * - Android App (React Native)

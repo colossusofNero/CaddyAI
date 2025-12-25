@@ -35,7 +35,7 @@ const sizeClasses: Record<IconSize, string> = {
 
 /**
  * Icon Variant Colors
- * Maps to the CaddyAI color system
+ * Maps to the Copperline Golf color system
  */
 const variantClasses: Record<IconVariant, string> = {
   default: 'text-text-primary',

@@ -22,14 +22,14 @@ const badges: Badge[] = [
   {
     id: 'early_adopter',
     name: 'Early Adopter',
-    description: 'One of the first 10,000 CaddyAI users',
+    description: 'One of the first 10,000 Copperline Golf users',
     icon: '🚀',
     unlocked: true,
   },
   {
     id: 'first_round',
     name: 'First Round',
-    description: 'Complete your first round with CaddyAI',
+    description: 'Complete your first round with Copperline Golf',
     icon: '⛳',
     unlocked: false,
     progress: 0,
@@ -79,7 +79,7 @@ export function BadgeSystem() {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-text-primary mb-2">Your Achievements</h2>
-        <p className="text-text-secondary">Unlock badges as you use CaddyAI and improve your game</p>
+        <p className="text-text-secondary">Unlock badges as you use Copperline Golf and improve your game</p>
       </div>
 
       {/* Badge Grid */}
@@ -144,20 +144,20 @@ export function ReferralProgram() {
   const referralsNeeded = 3;
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(`https://caddyai.com/signup?ref=${referralCode}`);
+    navigator.clipboard.writeText(`https://copperlinegolf.com/signup?ref=${referralCode}`);
     // Show toast notification in production
     alert('Referral link copied to clipboard!');
   };
 
   const handleShare = (platform: string) => {
-    const url = encodeURIComponent(`https://caddyai.com/signup?ref=${referralCode}`);
-    const text = encodeURIComponent('Check out CaddyAI - the AI golf caddy that helped me lower my scores!');
+    const url = encodeURIComponent(`https://copperlinegolf.com/signup?ref=${referralCode}`);
+    const text = encodeURIComponent('Check out Copperline Golf - the AI golf caddy that helped me lower my scores!');
 
     const shareUrls: Record<string, string> = {
       twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
-      email: `mailto:?subject=Try CaddyAI&body=${text} ${url}`,
+      email: `mailto:?subject=Try Copperline Golf&body=${text} ${url}`,
     };
 
     window.open(shareUrls[platform], '_blank', 'width=600,height=400');
@@ -206,7 +206,7 @@ export function ReferralProgram() {
         <div className="flex gap-2">
           <input
             type="text"
-            value={`https://caddyai.com/signup?ref=${referralCode}`}
+            value={`https://copperlinegolf.com/signup?ref=${referralCode}`}
             readOnly
             className="flex-1 bg-secondary text-text-primary px-3 py-2 rounded-lg text-sm"
           />

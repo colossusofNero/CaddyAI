@@ -329,9 +329,9 @@ export default function PricingPage() {
                   'We accept all major credit cards, debit cards, and PayPal. Annual plans can also be paid via bank transfer.',
               },
               {
-                question: 'Can I use CaddyAI on multiple devices?',
+                question: 'Can I use Copperline Golf on multiple devices?',
                 answer:
-                  'Yes! Your account syncs across all devices. Use CaddyAI on your phone during rounds and review stats on your tablet or computer later.',
+                  'Yes! Your account syncs across all devices. Use Copperline Golf on your phone during rounds and review stats on your tablet or computer later.',
               },
               {
                 question: 'What happens to my data if I cancel?',
@@ -368,7 +368,7 @@ export default function PricingPage() {
             Our team is here to help you choose the right plan for your game.
           </p>
           <a
-            href="mailto:support@caddyai.com"
+            href="mailto:support@copperlinegolf.com"
             className="inline-flex items-center gap-2 text-primary hover:text-primary-400 font-medium transition-colors"
           >
             Contact Sales →

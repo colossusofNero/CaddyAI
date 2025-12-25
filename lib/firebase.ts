@@ -1,6 +1,6 @@
 /**
  * Firebase Configuration
- * Initializes Firebase for the CaddyAI web application
+ * Initializes Firebase for the Copperline Golf web application
  */
 
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';

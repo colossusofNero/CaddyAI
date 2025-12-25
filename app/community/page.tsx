@@ -27,9 +27,9 @@ export default function CommunityPage() {
       author: 'Mike Johnson',
       avatar: 'MJ',
       time: '2 hours ago',
-      title: 'Finally broke 80! Thanks CaddyAI!',
+      title: 'Finally broke 80! Thanks Copperline Golf!',
       content:
-        'After 3 months using CaddyAI, I shot my first 78 today. The club recommendations were spot on, especially on the par 3s. The wind adjustment feature was a game changer!',
+        'After 3 months using Copperline Golf, I shot my first 78 today. The club recommendations were spot on, especially on the par 3s. The wind adjustment feature was a game changer!',
       likes: 42,
       replies: 15,
       category: 'Success Stories',
@@ -40,7 +40,7 @@ export default function CommunityPage() {
       time: '5 hours ago',
       title: 'Best courses in California?',
       content:
-        'Planning a golf trip to California next month. What are your favorite courses that are well-mapped in CaddyAI? Looking for scenic views and challenging layouts.',
+        'Planning a golf trip to California next month. What are your favorite courses that are well-mapped in Copperline Golf? Looking for scenic views and challenging layouts.',
       likes: 28,
       replies: 34,
       category: 'Travel & Courses',
@@ -51,7 +51,7 @@ export default function CommunityPage() {
       time: '1 day ago',
       title: 'Club distance calibration tips?',
       content:
-        'Just started using CaddyAI and want to make sure my club distances are accurate. Should I use my maximum distance or average? Any tips for getting the best recommendations?',
+        'Just started using Copperline Golf and want to make sure my club distances are accurate. Should I use my maximum distance or average? Any tips for getting the best recommendations?',
       likes: 18,
       replies: 22,
       category: 'Tips & Advice',
@@ -107,7 +107,7 @@ export default function CommunityPage() {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6">
               <Users className="w-4 h-4" />
-              <span className="text-sm font-semibold">CaddyAI Community</span>
+              <span className="text-sm font-semibold">Copperline Golf Community</span>
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
@@ -117,7 +117,7 @@ export default function CommunityPage() {
             </h1>
 
             <p className="text-lg lg:text-xl text-text-secondary mb-8">
-              Share tips, celebrate wins, and learn from fellow CaddyAI users
+              Share tips, celebrate wins, and learn from fellow Copperline Golf users
               in our vibrant community
             </p>
 

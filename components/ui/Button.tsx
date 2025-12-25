@@ -1,6 +1,6 @@
 /**
  * Button Component
- * Reusable button with CaddyAI styling
+ * Reusable button with Copperline Golf styling
  */
 
 import { ButtonHTMLAttributes, ReactNode } from 'react';

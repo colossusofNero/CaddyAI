@@ -1,5 +1,5 @@
 /**
- * CaddyAI - Unified Preferences Types
+ * Copperline Golf - Unified Preferences Types
  * 
  * These types are shared across:
  * - Android App (React Native)

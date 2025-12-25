@@ -1,6 +1,6 @@
 /**
  * Cookie Policy Page
- * Information about how CaddyAI uses cookies
+ * Information about how Copperline Golf uses cookies
  */
 
 'use client';
@@ -284,14 +284,14 @@ export default function CookiesPage() {
                     <p>
                       <strong>Email:</strong>{' '}
                       <a
-                        href="mailto:privacy@caddyai.com"
+                        href="mailto:privacy@copperlinegolf.com"
                         className="text-primary hover:underline"
                       >
-                        privacy@caddyai.com
+                        privacy@copperlinegolf.com
                       </a>
                     </p>
                     <p>
-                      <strong>Address:</strong> CaddyAI, Inc., 123 Golf Drive,
+                      <strong>Address:</strong> Copperline Golf, Inc., 123 Golf Drive,
                       San Francisco, CA 94102
                     </p>
                   </div>

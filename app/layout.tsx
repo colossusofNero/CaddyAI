@@ -19,7 +19,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: '#1B5E20',
+  themeColor: '#B87333',
 };
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'CaddyAI',
+    title: 'Copperline Golf',
   },
   icons: {
     icon: '/icons/icon-192x192.png',

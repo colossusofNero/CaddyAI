@@ -16,7 +16,7 @@ import { fadeInUp } from '@/lib/animations';
 
 const testimonials: TestimonialCardProps[] = [
   {
-    quote: "CaddyAI helped me drop 5 strokes in my first month. The club recommendations are spot-on every time.",
+    quote: "Copperline Golf helped me drop 5 strokes in my first month. The club recommendations are spot-on every time.",
     author: "Sarah Johnson",
     role: "Amateur Golfer",
     location: "California",
@@ -113,7 +113,7 @@ export function SocialProofSection() {
             transition={{ delay: 0.1 }}
             className="font-sans text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto"
           >
-            Join the community of players who have transformed their game with CaddyAI
+            Join the community of players who have transformed their game with Copperline Golf
           </motion.p>
         </div>
 

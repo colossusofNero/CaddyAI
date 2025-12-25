@@ -20,14 +20,14 @@ const testimonials: Testimonial[] = [
     name: 'Michael Chen',
     handicap: '12 handicap',
     avatar: 'MC',
-    quote: "CaddyAI helped me drop my handicap from 18 to 12 in just 6 months. The club recommendations are spot-on, and I'm hitting more greens than ever.",
+    quote: "Copperline Golf helped me drop my handicap from 18 to 12 in just 6 months. The club recommendations are spot-on, and I'm hitting more greens than ever.",
     improvement: '6 strokes improved',
   },
   {
     name: 'Sarah Johnson',
     handicap: '8 handicap',
     avatar: 'SJ',
-    quote: "I was skeptical at first, but CaddyAI's wind and elevation adjustments are incredible. It's like having a professional caddy in my pocket.",
+    quote: "I was skeptical at first, but Copperline Golf's wind and elevation adjustments are incredible. It's like having a professional caddy in my pocket.",
     improvement: '4 strokes improved',
   },
   {
@@ -41,21 +41,21 @@ const testimonials: Testimonial[] = [
     name: 'Emily Roberts',
     handicap: '22 handicap',
     avatar: 'ER',
-    quote: "As a beginner, CaddyAI gave me confidence on the course. No more guessing which club to use - it's educational and effective.",
+    quote: "As a beginner, Copperline Golf gave me confidence on the course. No more guessing which club to use - it's educational and effective.",
     improvement: '5 strokes improved',
   },
   {
     name: 'James Wilson',
     handicap: '5 handicap',
     avatar: 'JW',
-    quote: "Even as a low-handicap player, CaddyAI helps me make smarter decisions on tough shots. The data-driven approach is brilliant.",
+    quote: "Even as a low-handicap player, Copperline Golf helps me make smarter decisions on tough shots. The data-driven approach is brilliant.",
     improvement: '3 strokes improved',
   },
   {
     name: 'Lisa Anderson',
     handicap: '16 handicap',
     avatar: 'LA',
-    quote: "I love how CaddyAI learns my tendencies. It knows I tend to fade my long irons and adjusts recommendations accordingly.",
+    quote: "I love how Copperline Golf learns my tendencies. It knows I tend to fade my long irons and adjusts recommendations accordingly.",
     improvement: '6 strokes improved',
   },
 ];
@@ -68,7 +68,7 @@ export function Testimonials() {
           Loved by Golfers of All Levels
         </h2>
         <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-          Join thousands of players who&apos;ve improved their game with CaddyAI
+          Join thousands of players who&apos;ve improved their game with Copperline Golf
         </p>
       </div>
 

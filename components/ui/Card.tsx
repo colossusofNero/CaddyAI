@@ -1,6 +1,6 @@
 /**
  * Card Component
- * Reusable card container with CaddyAI styling
+ * Reusable card container with Copperline Golf styling
  */
 
 import { HTMLAttributes, ReactNode } from 'react';

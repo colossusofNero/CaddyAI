@@ -1,5 +1,5 @@
 /**
- * Weather data types and interfaces for CaddyAI weather integration
+ * Weather data types and interfaces for Copperline Golf weather integration
  */
 
 export interface WeatherData {

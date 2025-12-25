@@ -71,7 +71,7 @@ export default function IntegrationsPage() {
     },
     {
       name: 'Fitbit',
-      description: 'Sync your Fitbit device with CaddyAI',
+      description: 'Sync your Fitbit device with Copperline Golf',
       icon: Activity,
       category: 'Wearables',
       status: 'Coming Soon',
@@ -133,13 +133,13 @@ export default function IntegrationsPage() {
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
-              Connect CaddyAI With
+              Connect Copperline Golf With
               <br />
               <span className="text-primary">Your Favorite Apps</span>
             </h1>
 
             <p className="text-lg lg:text-xl text-text-secondary mb-8">
-              Seamlessly integrate CaddyAI with the apps and devices you already
+              Seamlessly integrate Copperline Golf with the apps and devices you already
               use. Get more from your golf game with powerful integrations.
             </p>
 
@@ -159,7 +159,7 @@ export default function IntegrationsPage() {
               Available <span className="text-primary">Integrations</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Connect with popular apps and services to enhance your CaddyAI
+              Connect with popular apps and services to enhance your Copperline Golf
               experience
             </p>
           </div>
@@ -222,7 +222,7 @@ export default function IntegrationsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-text-primary mb-4">
-              Why Integrate With <span className="text-primary">CaddyAI</span>
+              Why Integrate With <span className="text-primary">Copperline Golf</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
               Get more value from your data with seamless integrations
@@ -268,7 +268,7 @@ export default function IntegrationsPage() {
               Ready to Connect?
             </h2>
             <p className="text-lg lg:text-xl mb-8 opacity-90">
-              Start integrating your favorite apps and devices with CaddyAI
+              Start integrating your favorite apps and devices with Copperline Golf
               today
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

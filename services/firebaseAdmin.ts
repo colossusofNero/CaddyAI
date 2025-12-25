@@ -35,7 +35,7 @@ export function initializeFirebaseAdmin(): { app: App; db: Firestore } {
       const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
       adminApp = initializeApp({
         credential: cert(serviceAccount),
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'caddyai-aaabd',
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'Copperline Golf-aaabd',
       });
     }
     // Option 2: Using individual environment variables
@@ -60,7 +60,7 @@ export function initializeFirebaseAdmin(): { app: App; db: Firestore } {
           'Please set FIREBASE_SERVICE_ACCOUNT or individual Firebase Admin environment variables.'
       );
       adminApp = initializeApp({
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'caddyai-aaabd',
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'Copperline Golf-aaabd',
       });
     }
 

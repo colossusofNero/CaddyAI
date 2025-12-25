@@ -111,7 +111,7 @@ export default function DashboardPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-primary">CaddyAI</span>
+              <span className="text-2xl font-bold text-primary">Copperline Golf</span>
             </div>
             <div className="flex items-center gap-4">
               <span className="text-text-secondary text-sm">
@@ -458,7 +458,7 @@ export default function DashboardPage() {
             </div>
             <p className="text-text-secondary text-sm mb-4 capitalize">
               {subscription?.plan === 'free' && 'Free Plan'}
-              {subscription?.plan === 'pro' && 'CaddyAI Pro'}
+              {subscription?.plan === 'pro' && 'Copperline Golf Pro'}
               {!subscription && 'Loading...'}
             </p>
             <Link href={subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? '/settings/subscription' : '/pricing'}>
@@ -524,7 +524,7 @@ export default function DashboardPage() {
               <Smartphone className="w-6 h-6 text-accent" />
             </div>
             <p className="text-text-secondary text-sm mb-4">
-              Use CaddyAI on the course with our mobile app
+              Use Copperline Golf on the course with our mobile app
             </p>
             <Link href="/download">
               <Button variant="outline" size="sm" fullWidth>
@@ -541,7 +541,7 @@ export default function DashboardPage() {
             <Card variant="bordered" padding="lg">
               <CardHeader
                 title="Getting Started"
-                description="Complete these steps to get the most out of CaddyAI"
+                description="Complete these steps to get the most out of Copperline Golf"
               />
               <CardContent>
                 <div className="space-y-3">

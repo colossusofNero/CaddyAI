@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/Button';
 export default function TutorialsPage() {
   const videos = [
     {
-      title: 'Getting Started with CaddyAI',
+      title: 'Getting Started with Copperline Golf',
       description:
         'A complete walkthrough for new users covering setup, profile creation, and your first round',
       duration: '12:34',
@@ -43,7 +43,7 @@ export default function TutorialsPage() {
     {
       title: 'Understanding Club Recommendations',
       description:
-        'Deep dive into how CaddyAI calculates recommendations based on conditions and your swing profile',
+        'Deep dive into how Copperline Golf calculates recommendations based on conditions and your swing profile',
       duration: '15:20',
       category: 'Features',
       thumbnail: 'bg-gradient-to-br from-purple-500 to-pink-500',
@@ -107,11 +107,11 @@ export default function TutorialsPage() {
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
               Learn To Master
               <br />
-              <span className="text-primary">CaddyAI</span>
+              <span className="text-primary">Copperline Golf</span>
             </h1>
 
             <p className="text-lg lg:text-xl text-text-secondary mb-8">
-              Step-by-step video guides to help you get the most out of CaddyAI
+              Step-by-step video guides to help you get the most out of Copperline Golf
               and improve your golf game
             </p>
 
@@ -230,7 +230,7 @@ export default function TutorialsPage() {
               Recommended <span className="text-primary">Learning Path</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Follow this path to become a CaddyAI expert
+              Follow this path to become a Copperline Golf expert
             </p>
           </div>
 

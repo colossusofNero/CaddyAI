@@ -29,7 +29,7 @@ interface CTASectionProps {
 
 export function CTASection({
   title = 'Ready to Improve Your Game?',
-  subtitle = 'Join thousands of golfers using CaddyAI to make better decisions on the course. Get started today and see the difference in your game.',
+  subtitle = 'Join thousands of golfers using Copperline Golf to make better decisions on the course. Get started today and see the difference in your game.',
   primaryCTA = {
     text: 'Get Started Free',
     href: '/signup',

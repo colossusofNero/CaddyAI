@@ -139,8 +139,8 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: 'Email',
-      content: 'support@caddyai.com',
-      link: 'mailto:support@caddyai.com',
+      content: 'support@copperlinegolf.com',
+      link: 'mailto:support@copperlinegolf.com',
     },
     {
       icon: Phone,
@@ -159,34 +159,34 @@ export default function ContactPage() {
   const socialLinks = [
     {
       icon: Facebook,
-      href: 'https://facebook.com/caddyai',
+      href: 'https://facebook.com/copperlinegolf',
       label: 'Facebook',
     },
     {
       icon: Twitter,
-      href: 'https://twitter.com/caddyai',
+      href: 'https://twitter.com/copperlinegolf',
       label: 'Twitter',
     },
     {
       icon: Instagram,
-      href: 'https://instagram.com/caddyai',
+      href: 'https://instagram.com/copperlinegolf',
       label: 'Instagram',
     },
     {
       icon: Linkedin,
-      href: 'https://linkedin.com/company/caddyai',
+      href: 'https://linkedin.com/company/copperlinegolf',
       label: 'LinkedIn',
     },
   ];
 
   // Set page title and meta tags
   useEffect(() => {
-    document.title = 'Contact Us | CaddyAI - Get in Touch';
+    document.title = 'Contact Us | Copperline Golf - Get in Touch';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         'content',
-        'Contact CaddyAI support team. Get help with your golf caddy app, send feedback, or inquire about our AI-powered golf recommendations.'
+        'Contact Copperline Golf support team. Get help with your golf caddy app, send feedback, or inquire about our AI-powered golf recommendations.'
       );
     }
   }, []);
@@ -229,7 +229,7 @@ export default function ContactPage() {
               className="text-xl text-text-secondary max-w-3xl mx-auto"
             >
               Have a question or feedback? We'd love to hear from you. Our team is
-              here to help you get the most out of CaddyAI.
+              here to help you get the most out of Copperline Golf.
             </motion.p>
           </motion.div>
         </div>

@@ -1,6 +1,6 @@
 /**
  * Interactive Club Selection Demo
- * Let visitors try CaddyAI without signing up
+ * Let visitors try Copperline Golf without signing up
  */
 
 'use client';
@@ -60,7 +60,7 @@ export function InteractiveDemo() {
       <Card variant="elevated" padding="lg">
         <div className="text-center mb-6">
           <h3 className="text-2xl font-bold text-text-primary mb-2">
-            Try CaddyAI Now
+            Try Copperline Golf Now
           </h3>
           <p className="text-text-secondary">
             See how AI-powered recommendations work in real-time

@@ -30,11 +30,11 @@ export default function HelpPage() {
       questions: [
         {
           q: 'How do I create my profile?',
-          a: 'After signing up, go to Profile Settings and enter your club distances. CaddyAI will use this information to provide personalized recommendations. You can update your profile anytime as your game improves.',
+          a: 'After signing up, go to Profile Settings and enter your club distances. Copperline Golf will use this information to provide personalized recommendations. You can update your profile anytime as your game improves.',
         },
         {
           q: 'How accurate are the club recommendations?',
-          a: 'CaddyAI uses advanced algorithms that consider your club distances, real-time weather conditions, elevation changes, and shot history. Most users report 90%+ accuracy when their profile is properly calibrated.',
+          a: 'Copperline Golf uses advanced algorithms that consider your club distances, real-time weather conditions, elevation changes, and shot history. Most users report 90%+ accuracy when their profile is properly calibrated.',
         },
         {
           q: 'Do I need an internet connection?',
@@ -47,7 +47,7 @@ export default function HelpPage() {
       questions: [
         {
           q: 'How do I track a round?',
-          a: 'Open the app on the course and tap "Start Round". Select your course from the GPS list, and CaddyAI will automatically track your location and provide recommendations for each shot.',
+          a: 'Open the app on the course and tap "Start Round". Select your course from the GPS list, and Copperline Golf will automatically track your location and provide recommendations for each shot.',
         },
         {
           q: 'Can I edit past rounds?',
@@ -72,7 +72,7 @@ export default function HelpPage() {
         },
         {
           q: 'How do I cancel my subscription?',
-          a: 'For iOS: Settings > [Your Name] > Subscriptions > CaddyAI. For Android: Play Store > Menu > Subscriptions > CaddyAI. You can also manage subscriptions from our website.',
+          a: 'For iOS: Settings > [Your Name] > Subscriptions > Copperline Golf. For Android: Play Store > Menu > Subscriptions > Copperline Golf. You can also manage subscriptions from our website.',
         },
       ],
     },
@@ -81,7 +81,7 @@ export default function HelpPage() {
       questions: [
         {
           q: 'The GPS is not accurate. What should I do?',
-          a: 'Ensure location services are enabled for CaddyAI in your device settings. Try restarting the app or your device. If issues persist, recalibrate your GPS by standing still for 30 seconds in an open area.',
+          a: 'Ensure location services are enabled for Copperline Golf in your device settings. Try restarting the app or your device. If issues persist, recalibrate your GPS by standing still for 30 seconds in an open area.',
         },
         {
           q: 'My club distances seem wrong. How do I fix this?',
@@ -102,7 +102,7 @@ export default function HelpPage() {
         },
         {
           q: 'How does wind adjustment work?',
-          a: 'CaddyAI uses real-time wind data to calculate how wind speed and direction affect your shot distance. The recommendation automatically adjusts club selection based on these factors.',
+          a: 'Copperline Golf uses real-time wind data to calculate how wind speed and direction affect your shot distance. The recommendation automatically adjusts club selection based on these factors.',
         },
       ],
     },
@@ -118,7 +118,7 @@ export default function HelpPage() {
     {
       icon: Mail,
       title: 'Email Support',
-      description: 'support@caddyai.com',
+      description: 'support@copperlinegolf.com',
       action: 'Send Email',
     },
     {
@@ -321,7 +321,7 @@ export default function HelpPage() {
               Still Need Help?
             </h2>
             <p className="text-lg lg:text-xl mb-8 opacity-90">
-              Our support team is here to help you get the most out of CaddyAI
+              Our support team is here to help you get the most out of Copperline Golf
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-neutral-50">

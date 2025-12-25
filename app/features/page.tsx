@@ -1,6 +1,6 @@
 /**
  * Features Page
- * Detailed showcase of CaddyAI features
+ * Detailed showcase of Copperline Golf features
  */
 
 'use client';
@@ -103,7 +103,7 @@ export default function FeaturesPage() {
       icon: Target,
       title: 'Personalized Shot Patterns',
       description:
-        'Track your shot dispersion patterns for each club. CaddyAI learns your tendencies and adjusts recommendations accordingly.',
+        'Track your shot dispersion patterns for each club. Copperline Golf learns your tendencies and adjusts recommendations accordingly.',
       href: '#shot-patterns',
       onClick: handleFeatureClick('shot-patterns', setIsShotPatternsModalOpen),
     },
@@ -170,7 +170,7 @@ export default function FeaturesPage() {
       icon: Trophy,
       title: 'Handicap Tracking',
       description:
-        'Monitor your handicap progress over time and see how CaddyAI helps you improve.',
+        'Monitor your handicap progress over time and see how Copperline Golf helps you improve.',
     },
     {
       icon: TrendingUp,
@@ -220,7 +220,7 @@ export default function FeaturesPage() {
               variants={staggerItem}
               className="text-xl text-text-secondary max-w-3xl mx-auto"
             >
-              CaddyAI combines artificial intelligence, real-time data, and
+              Copperline Golf combines artificial intelligence, real-time data, and
               personalized insights to help you make better decisions on every
               shot.
             </motion.p>
@@ -236,7 +236,7 @@ export default function FeaturesPage() {
               Core Features
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              The essential tools that make CaddyAI your perfect golf companion
+              The essential tools that make Copperline Golf your perfect golf companion
             </p>
           </div>
 
@@ -256,7 +256,7 @@ export default function FeaturesPage() {
               Trusted by Golfers Worldwide
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Join thousands of players improving their game with CaddyAI
+              Join thousands of players improving their game with Copperline Golf
             </p>
           </div>
 

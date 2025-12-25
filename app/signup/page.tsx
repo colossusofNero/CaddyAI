@@ -98,15 +98,15 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div className="text-4xl font-bold text-primary mb-2">CaddyAI</div>
+          <div className="text-4xl font-bold text-primary mb-2">Copperline Golf</div>
           <p className="text-text-secondary">Your intelligent golf companion</p>
         </div>
 
         <Card variant="elevated" padding="lg" className="bg-white border-primary/20">
-          <h1 className="sr-only">Create Your CaddyAI Account</h1>
+          <h1 className="sr-only">Create Your Copperline Golf Account</h1>
           <CardHeader
             title="Create your account"
-            description="Join CaddyAI and improve your golf game"
+            description="Join Copperline Golf and improve your golf game"
           />
 
           <CardContent>

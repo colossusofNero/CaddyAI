@@ -1,6 +1,6 @@
 /**
  * API Type Definitions
- * Complete type system for the CaddyAI data management layer
+ * Complete type system for the Copperline Golf data management layer
  */
 
 // ============================================

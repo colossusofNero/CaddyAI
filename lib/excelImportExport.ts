@@ -120,13 +120,13 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
 
   // === INSTRUCTIONS SHEET ===
   const instructions = [
-    ['CaddyAI - Clubs & Shots Import Template', '', '', ''],
+    ['Copperline Golf - Clubs & Shots Import Template', '', '', ''],
     ['', '', '', ''],
     ['INSTRUCTIONS:', '', '', ''],
     ['1. Fill out the "Clubs" sheet with your club data', '', '', ''],
     ['2. Fill out the "Shots" sheet with your shot variations', '', '', ''],
     ['3. Save this file', '', '', ''],
-    ['4. Upload it back to CaddyAI to import your data', '', '', ''],
+    ['4. Upload it back to Copperline Golf to import your data', '', '', ''],
     ['', '', '', ''],
     ['CLUBS SHEET:', '', '', ''],
     ['- Club Name: Any name (e.g., Driver, 7 Iron, 52°, PW)', '', '', ''],
@@ -193,7 +193,7 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
 
   // Generate file and trigger download
   const timestamp = new Date().toISOString().split('T')[0];
-  XLSX.writeFile(workbook, `CaddyAI_Clubs_Shots_${timestamp}.xlsx`);
+  XLSX.writeFile(workbook, `Copperline Golf_Clubs_Shots_${timestamp}.xlsx`);
 }
 
 /**

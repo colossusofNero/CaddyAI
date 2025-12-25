@@ -52,13 +52,13 @@ export default function DocsPage() {
     },
   ];
 
-  const quickStart = `// Install the CaddyAI SDK
-npm install @caddyai/sdk
+  const quickStart = `// Install the Copperline Golf SDK
+npm install @copperlinegolf/sdk
 
 // Import and initialize
-import { CaddyAI } from '@caddyai/sdk';
+import { CopperlineGolf } from '@copperlinegolf/sdk';
 
-const client = new CaddyAI({
+const client = new CopperlineGolf({
   apiKey: 'YOUR_API_KEY'
 });
 
@@ -100,11 +100,11 @@ console.log(recommendation);
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
               Build With
               <br />
-              <span className="text-primary">CaddyAI API</span>
+              <span className="text-primary">Copperline Golf API</span>
             </h1>
 
             <p className="text-lg lg:text-xl text-text-secondary mb-8">
-              Integrate CaddyAI's powerful golf intelligence into your
+              Integrate Copperline Golf's powerful golf intelligence into your
               applications with our RESTful API
             </p>
 
@@ -285,10 +285,10 @@ console.log(recommendation);
 
           <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { name: 'JavaScript', command: 'npm install @caddyai/sdk' },
-              { name: 'Python', command: 'pip install caddyai' },
-              { name: 'Ruby', command: 'gem install caddyai' },
-              { name: 'Go', command: 'go get github.com/caddyai/sdk' },
+              { name: 'JavaScript', command: 'npm install @copperlinegolf/sdk' },
+              { name: 'Python', command: 'pip install copperlinegolf' },
+              { name: 'Ruby', command: 'gem install copperlinegolf' },
+              { name: 'Go', command: 'go get github.com/copperlinegolf/sdk' },
             ].map((sdk, index) => (
               <motion.div
                 key={sdk.name}
@@ -324,7 +324,7 @@ console.log(recommendation);
               Ready to Build?
             </h2>
             <p className="text-lg lg:text-xl mb-8 opacity-90">
-              Get your API key and start integrating CaddyAI today
+              Get your API key and start integrating Copperline Golf today
             </p>
             <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-neutral-50">
               <Key className="w-5 h-5 mr-2" />

@@ -35,7 +35,7 @@ export function ComparisonCalculator() {
           Calculate Your Potential Improvement
         </h2>
         <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-          See how CaddyAI could transform your game
+          See how Copperline Golf could transform your game
         </p>
       </div>
 

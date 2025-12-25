@@ -126,7 +126,7 @@ export default function NewRoundPage() {
       // Redirect to the mobile app or show success message
       alert(
         `Round started on ${teeData.name} Tees!\n\n` +
-        'To track your round hole-by-hole, please use the CaddyAI mobile app. ' +
+        'To track your round hole-by-hole, please use the Copperline Golf mobile app. ' +
         'The mobile app provides GPS tracking, shot recording, and live scoring.\n\n' +
         'You can also complete your round manually from the History page later.'
       );
@@ -300,7 +300,7 @@ export default function NewRoundPage() {
               </h3>
               <p className="text-text-secondary mb-4">
                 For the best round tracking experience with GPS, shot recording, and live scoring,
-                use the CaddyAI mobile app on the course.
+                use the Copperline Golf mobile app on the course.
               </p>
               <Link href="/download">
                 <Button variant="outline" size="sm">

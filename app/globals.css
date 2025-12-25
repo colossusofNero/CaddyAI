@@ -2,47 +2,47 @@
 
 :root {
   /* ============================================
-     CaddyAI Design System - Color Tokens
+     Copperline Golf Design System - Color Tokens
      Using OKLCH for perceptually uniform colors
      ============================================ */
 
-  /* Primary - Navy Blue (CaddyAI Brand) */
-  --color-primary-50: oklch(0.95 0.02 250);
-  --color-primary-100: oklch(0.90 0.04 250);
-  --color-primary-200: oklch(0.80 0.06 250);
-  --color-primary-300: oklch(0.65 0.08 250);
-  --color-primary-400: oklch(0.50 0.10 250);
-  --color-primary-500: oklch(0.40 0.12 250);  /* Main brand #0D47A1 Navy Blue */
-  --color-primary-600: oklch(0.35 0.11 250);
-  --color-primary-700: oklch(0.30 0.10 250);
-  --color-primary-800: oklch(0.25 0.08 250);
-  --color-primary-900: oklch(0.20 0.06 250);
+  /* Primary - Copper (Copperline Golf Brand) */
+  --color-primary-50: oklch(0.97 0.02 50);
+  --color-primary-100: oklch(0.93 0.04 50);
+  --color-primary-200: oklch(0.88 0.06 50);
+  --color-primary-300: oklch(0.82 0.10 45);  /* #D4956A Copper Light */
+  --color-primary-400: oklch(0.75 0.12 45);  /* #C9956C Rose Copper */
+  --color-primary-500: oklch(0.65 0.14 40);  /* #B87333 Main Copper */
+  --color-primary-600: oklch(0.58 0.13 38);
+  --color-primary-700: oklch(0.50 0.12 35);  /* #8B4513 Dark Copper */
+  --color-primary-800: oklch(0.42 0.10 35);
+  --color-primary-900: oklch(0.35 0.08 35);
   --color-primary: var(--color-primary-500);
 
-  /* Secondary - Vibrant Tech Green */
-  --color-secondary-50: oklch(0.97 0.02 130);
-  --color-secondary-100: oklch(0.93 0.04 130);
-  --color-secondary-200: oklch(0.88 0.08 130);
-  --color-secondary-300: oklch(0.83 0.12 130);
-  --color-secondary-400: oklch(0.78 0.16 130);
-  --color-secondary-500: oklch(0.85 0.25 130);  /* Vibrant #76FF03 */
-  --color-secondary-600: oklch(0.75 0.22 130);
-  --color-secondary-700: oklch(0.65 0.18 130);
-  --color-secondary-800: oklch(0.55 0.14 130);
-  --color-secondary-900: oklch(0.45 0.12 130);
+  /* Secondary - Turquoise Blue */
+  --color-secondary-50: oklch(0.97 0.02 200);
+  --color-secondary-100: oklch(0.93 0.04 200);
+  --color-secondary-200: oklch(0.88 0.08 200);
+  --color-secondary-300: oklch(0.84 0.10 195);  /* #7DD8E4 Turquoise Light */
+  --color-secondary-400: oklch(0.78 0.12 195);
+  --color-secondary-500: oklch(0.72 0.13 195);  /* #40C4D3 Main Turquoise */
+  --color-secondary-600: oklch(0.64 0.12 195);  /* #2A9BA8 Turquoise Dark */
+  --color-secondary-700: oklch(0.56 0.11 195);
+  --color-secondary-800: oklch(0.48 0.09 195);
+  --color-secondary-900: oklch(0.40 0.07 195);
   --color-secondary: var(--color-secondary-500);
 
-  /* Accent - Sky Blue */
-  --color-accent-50: oklch(0.97 0.02 240);
-  --color-accent-100: oklch(0.93 0.04 240);
-  --color-accent-200: oklch(0.87 0.08 240);
-  --color-accent-300: oklch(0.80 0.12 240);
-  --color-accent-400: oklch(0.72 0.16 240);
-  --color-accent-500: oklch(0.64 0.18 240);  /* Main accent #2196F3 */
-  --color-accent-600: oklch(0.58 0.17 240);
-  --color-accent-700: oklch(0.52 0.16 240);
-  --color-accent-800: oklch(0.46 0.14 240);
-  --color-accent-900: oklch(0.38 0.12 240);
+  /* Accent - Fairway Green */
+  --color-accent-50: oklch(0.97 0.02 145);
+  --color-accent-100: oklch(0.93 0.04 145);
+  --color-accent-200: oklch(0.88 0.08 145);
+  --color-accent-300: oklch(0.82 0.12 145);  /* #7BC775 Putting Green */
+  --color-accent-400: oklch(0.76 0.14 145);
+  --color-accent-500: oklch(0.65 0.15 145);  /* #4A9E5B Fairway Green */
+  --color-accent-600: oklch(0.58 0.14 145);
+  --color-accent-700: oklch(0.50 0.13 145);  /* #2D7A47 Forest Green */
+  --color-accent-800: oklch(0.42 0.11 145);
+  --color-accent-900: oklch(0.35 0.09 145);
   --color-accent: var(--color-accent-500);
 
   /* Neutral - Warm Gray */
@@ -72,16 +72,24 @@
   --color-gold: var(--color-gold-500);
 
   /* Semantic Colors - Light Mode */
-  --color-success: oklch(0.62 0.15 145);  /* Golf Green #4CAF50 for success */
-  --color-warning: oklch(0.70 0.15 60);   /* Orange for warnings */
+  --color-success: oklch(0.65 0.15 145);  /* Fairway Green #4A9E5B for success */
+  --color-warning: oklch(0.75 0.14 70);   /* #E4A853 Bunker for warnings */
   --color-error: oklch(0.55 0.22 25);     /* Red for errors */
-  --color-info: var(--color-accent-500);   /* Blue for info */
+  --color-info: var(--color-secondary-500);   /* Turquoise for info */
 
-  /* Background Colors - Light Mode */
-  --color-background: oklch(0.99 0 0);     /* Off-white #FAFAFA */
-  --color-background-alt: oklch(1 0 0);    /* Pure white */
+  /* Golf Course Specific Colors */
+  --color-golf-fairway: oklch(0.65 0.15 145);  /* #4A9E5B Fairway */
+  --color-golf-green: oklch(0.82 0.12 145);    /* #7BC775 Putting Green */
+  --color-golf-rough: oklch(0.50 0.13 145);    /* #2D7A47 Rough */
+  --color-golf-water: oklch(0.72 0.13 195);    /* #40C4D3 Water Hazard */
+  --color-golf-bunker: oklch(0.75 0.14 70);    /* #E4A853 Sand Bunker */
+  --color-golf-trees: oklch(0.50 0.13 145);    /* #2D7A47 Trees/Forest */
+
+  /* Background Colors - Light Mode (Warm tones) */
+  --color-background: oklch(0.99 0.01 50);     /* Warm off-white #FDF8F3 */
+  --color-background-alt: oklch(1 0 0);        /* Pure white */
   --color-background-elevated: oklch(1 0 0);
-  --color-background-muted: oklch(0.97 0 0);
+  --color-background-muted: oklch(0.97 0.01 50); /* Warm muted #F5F0EB */
 
   /* Foreground/Text Colors - Light Mode */
   --color-foreground: var(--color-neutral-900);
@@ -105,37 +113,40 @@
   --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.1), 0 4px 6px -2px oklch(0 0 0 / 0.05);
   --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 10px 10px -5px oklch(0 0 0 / 0.04);
   --shadow-card: 0 8px 24px oklch(0 0 0 / 0.12);
-  --shadow-primary: 0 4px 12px oklch(0.40 0.12 250 / 0.3);
+  --shadow-primary: 0 4px 12px oklch(0.65 0.14 40 / 0.3);  /* Copper shadow */
+  --shadow-copper: 0 4px 14px 0 oklch(0.65 0.14 40 / 0.25);
+  --shadow-copper-lg: 0 10px 30px 0 oklch(0.65 0.14 40 / 0.3);
+  --shadow-turquoise: 0 4px 14px 0 oklch(0.72 0.13 195 / 0.25);
 }
 
 /* Dark Mode Theme */
 [data-theme="dark"] {
-  /* Primary - Navy Blue (Lighter for dark backgrounds) */
-  --color-primary-50: oklch(0.20 0.06 250);
-  --color-primary-100: oklch(0.25 0.08 250);
-  --color-primary-200: oklch(0.30 0.10 250);
-  --color-primary-300: oklch(0.35 0.11 250);
-  --color-primary-400: oklch(0.40 0.12 250);
-  --color-primary-500: oklch(0.50 0.14 250);  /* Lighter Navy for dark mode */
-  --color-primary-600: oklch(0.60 0.16 250);
-  --color-primary-700: oklch(0.70 0.18 250);
-  --color-primary-800: oklch(0.80 0.20 250);
-  --color-primary-900: oklch(0.90 0.22 250);
+  /* Primary - Copper (Lighter for dark backgrounds) */
+  --color-primary-50: oklch(0.35 0.08 35);
+  --color-primary-100: oklch(0.42 0.10 35);
+  --color-primary-200: oklch(0.50 0.12 35);
+  --color-primary-300: oklch(0.58 0.13 38);
+  --color-primary-400: oklch(0.65 0.14 40);
+  --color-primary-500: oklch(0.72 0.14 40);  /* Lighter Copper for dark mode */
+  --color-primary-600: oklch(0.75 0.12 45);
+  --color-primary-700: oklch(0.82 0.10 45);
+  --color-primary-800: oklch(0.88 0.06 50);
+  --color-primary-900: oklch(0.93 0.04 50);
 
-  /* Background Colors - Dark Mode */
-  --color-background: oklch(0.18 0.01 240);      /* Dark blue-gray #0B1220 */
-  --color-background-alt: oklch(0.22 0.01 240);  /* Slightly lighter */
-  --color-background-elevated: oklch(0.25 0.01 240);
-  --color-background-muted: oklch(0.15 0.01 240);
+  /* Background Colors - Dark Mode (Warm dark tones) */
+  --color-background: oklch(0.18 0.02 30);      /* Warm dark #0B0F12 */
+  --color-background-alt: oklch(0.22 0.02 30);  /* Slightly lighter */
+  --color-background-elevated: oklch(0.25 0.02 30);
+  --color-background-muted: oklch(0.15 0.02 30);
 
   /* Foreground/Text Colors - Dark Mode */
   --color-foreground: oklch(0.95 0 0);
-  --color-foreground-secondary: oklch(0.75 0.01 240);
-  --color-foreground-muted: oklch(0.55 0.01 240);
+  --color-foreground-secondary: oklch(0.75 0.01 30);
+  --color-foreground-muted: oklch(0.55 0.01 30);
 
   /* Border Colors - Dark Mode */
-  --color-border: oklch(0.30 0.01 240);
-  --color-border-muted: oklch(0.25 0.01 240);
+  --color-border: oklch(0.30 0.02 30);
+  --color-border-muted: oklch(0.25 0.02 30);
 
   /* Component-specific - Dark Mode */
   --color-card-bg: var(--color-background-alt);
@@ -149,23 +160,25 @@
   --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.5), 0 4px 6px -2px oklch(0 0 0 / 0.4);
   --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.6), 0 10px 10px -5px oklch(0 0 0 / 0.5);
   --shadow-card: 0 8px 24px oklch(0 0 0 / 0.4);
-  --shadow-primary: 0 4px 12px oklch(0.50 0.14 250 / 0.4);
+  --shadow-primary: 0 4px 12px oklch(0.72 0.14 40 / 0.4);  /* Lighter copper for dark mode */
+  --shadow-copper: 0 4px 14px 0 oklch(0.72 0.14 40 / 0.3);
+  --shadow-copper-lg: 0 10px 30px 0 oklch(0.72 0.14 40 / 0.35);
 }
 
 /* Auto dark mode based on system preference */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     /* Apply dark theme variables when no explicit theme is set */
-    --color-primary-500: oklch(0.50 0.14 250);
-    --color-background: oklch(0.18 0.01 240);
-    --color-background-alt: oklch(0.22 0.01 240);
-    --color-background-elevated: oklch(0.25 0.01 240);
-    --color-background-muted: oklch(0.15 0.01 240);
+    --color-primary-500: oklch(0.72 0.14 40);
+    --color-background: oklch(0.18 0.02 30);
+    --color-background-alt: oklch(0.22 0.02 30);
+    --color-background-elevated: oklch(0.25 0.02 30);
+    --color-background-muted: oklch(0.15 0.02 30);
     --color-foreground: oklch(0.95 0 0);
-    --color-foreground-secondary: oklch(0.75 0.01 240);
-    --color-foreground-muted: oklch(0.55 0.01 240);
-    --color-border: oklch(0.30 0.01 240);
-    --color-border-muted: oklch(0.25 0.01 240);
+    --color-foreground-secondary: oklch(0.75 0.01 30);
+    --color-foreground-muted: oklch(0.55 0.01 30);
+    --color-border: oklch(0.30 0.02 30);
+    --color-border-muted: oklch(0.25 0.02 30);
     --color-card-bg: var(--color-background-alt);
     --color-input-bg: var(--color-background-muted);
   }

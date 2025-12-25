@@ -88,16 +88,16 @@ export default function DownloadPage() {
 
   const faqs = [
     {
-      question: 'Is CaddyAI free to download?',
-      answer: 'Yes! CaddyAI is free to download and includes basic features. Premium features are available with our Pro subscription.',
+      question: 'Is Copperline Golf free to download?',
+      answer: 'Yes! Copperline Golf is free to download and includes basic features. Premium features are available with our Pro subscription.',
     },
     {
       question: 'Does the app work offline?',
-      answer: 'CaddyAI requires an internet connection for real-time weather data and GPS course maps. However, your personal club data and basic recommendations work offline.',
+      answer: 'Copperline Golf requires an internet connection for real-time weather data and GPS course maps. However, your personal club data and basic recommendations work offline.',
     },
     {
       question: 'How much battery does the app use?',
-      answer: 'CaddyAI is optimized for battery efficiency. On average, it uses about 10-15% battery during an 18-hole round with GPS and weather tracking enabled.',
+      answer: 'Copperline Golf is optimized for battery efficiency. On average, it uses about 10-15% battery during an 18-hole round with GPS and weather tracking enabled.',
     },
     {
       question: 'Can I use it on Apple Watch or Android Wear?',
@@ -109,7 +109,7 @@ export default function DownloadPage() {
     },
     {
       question: 'What courses are supported?',
-      answer: 'CaddyAI supports over 35,000 courses worldwide with detailed GPS mapping. If your course isn\'t listed, you can request it to be added.',
+      answer: 'Copperline Golf supports over 35,000 courses worldwide with detailed GPS mapping. If your course isn\'t listed, you can request it to be added.',
     },
   ];
 
@@ -138,7 +138,7 @@ export default function DownloadPage() {
               <h1 className="font-heading text-5xl lg:text-7xl font-bold text-neutral-900 mb-6">
                 Download
                 <br />
-                <span className="text-primary">CaddyAI</span>
+                <span className="text-primary">Copperline Golf</span>
               </h1>
               <p className="text-xl lg:text-2xl text-neutral-700 mb-8 leading-relaxed">
                 Your AI-powered golf caddy is ready to transform your game.
@@ -214,14 +214,14 @@ export default function DownloadPage() {
                           <div className="w-24 h-24 rounded-3xl mb-6 shadow-xl overflow-hidden">
                             <Image
                               src="/icons/icon-192x192.png"
-                              alt="CaddyAI Logo"
+                              alt="Copperline Golf Logo"
                               width={96}
                               height={96}
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <h3 className="text-2xl font-bold text-neutral-900 mb-2">
-                            CaddyAI
+                            Copperline Golf
                           </h3>
                           <p className="text-sm text-neutral-600 text-center">
                             Your AI Golf Caddy
@@ -351,7 +351,7 @@ export default function DownloadPage() {
                 step: '1',
                 title: 'Download & Install',
                 description:
-                  'Get CaddyAI from the App Store or Google Play. Installation takes less than a minute.',
+                  'Get Copperline Golf from the App Store or Google Play. Installation takes less than a minute.',
               },
               {
                 step: '2',
@@ -500,7 +500,7 @@ export default function DownloadPage() {
               Ready to Transform Your Game?
             </h2>
             <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Join thousands of golfers who are already playing smarter with CaddyAI
+              Join thousands of golfers who are already playing smarter with Copperline Golf
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

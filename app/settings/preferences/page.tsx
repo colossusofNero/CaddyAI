@@ -160,7 +160,7 @@ export default function PreferencesPage() {
           <div className="flex justify-between items-center h-16">
             <Link href="/dashboard" className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-primary">CaddyAI</span>
+              <span className="text-2xl font-bold text-primary">Copperline Golf</span>
             </Link>
             <Link href="/dashboard">
               <Button variant="ghost" size="sm">
@@ -177,7 +177,7 @@ export default function PreferencesPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-text-primary mb-2">Preferences</h1>
           <p className="text-text-secondary">
-            Customize your CaddyAI experience
+            Customize your Copperline Golf experience
           </p>
           {isFirstTimeSetup && (
             <div className="mt-4 p-4 bg-primary/10 border border-primary rounded-lg flex items-start gap-3">

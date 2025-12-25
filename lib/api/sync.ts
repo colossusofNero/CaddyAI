@@ -6,7 +6,7 @@
 import type { SyncQueueItem, SyncStatus } from './types';
 
 // Use IndexedDB for offline storage
-const DB_NAME = 'caddyai_sync';
+const DB_NAME = 'Copperline Golf_sync';
 const DB_VERSION = 1;
 const QUEUE_STORE = 'syncQueue';
 const CACHE_STORE = 'dataCache';

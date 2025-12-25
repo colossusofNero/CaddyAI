@@ -109,7 +109,7 @@ export function PerformanceAnalyticsModal({ isOpen, onClose }: PerformanceAnalyt
               <TrendingUp className="w-5 h-5 text-orange-600" />
             </div>
             <p className="text-3xl font-bold text-orange-900">+{stats.improvement}%</p>
-            <p className="text-xs text-orange-700 mt-1">Since using CaddyAI</p>
+            <p className="text-xs text-orange-700 mt-1">Since using Copperline Golf</p>
           </div>
         </div>
 

@@ -69,11 +69,11 @@ const footerSections: FooterSection[] = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: 'https://facebook.com/caddyai', label: 'Facebook' },
-  { icon: Twitter, href: 'https://twitter.com/caddyai', label: 'Twitter' },
-  { icon: Instagram, href: 'https://instagram.com/caddyai', label: 'Instagram' },
-  { icon: Linkedin, href: 'https://linkedin.com/company/caddyai', label: 'LinkedIn' },
-  { icon: Youtube, href: 'https://youtube.com/caddyai', label: 'YouTube' },
+  { icon: Facebook, href: 'https://facebook.com/copperlinegolf', label: 'Facebook' },
+  { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
+  { icon: Instagram, href: 'https://instagram.com/copperlinegolf', label: 'Instagram' },
+  { icon: Linkedin, href: 'https://linkedin.com/company/copperlinegolf', label: 'LinkedIn' },
+  { icon: Youtube, href: 'https://youtube.com/copperlinegolf', label: 'YouTube' },
 ];
 
 export function Footer() {
@@ -94,8 +94,8 @@ export function Footer() {
             >
               {/* Logo */}
               <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-600 rounded-lg group-hover:scale-110 transition-transform" />
-                <span className="text-2xl font-bold text-primary">CaddyAI</span>
+                <div className="w-10 h-10 bg-gradient-copper rounded-lg group-hover:scale-110 transition-transform" />
+                <span className="text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent">Copperline Golf</span>
               </Link>
 
               <p className="text-text-secondary mb-6 max-w-sm">
@@ -108,10 +108,10 @@ export function Footer() {
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-primary" />
                   <a
-                    href="mailto:support@caddyai.com"
+                    href="mailto:support@copperlinegolf.com"
                     className="hover:text-primary transition-colors"
                   >
-                    support@caddyai.com
+                    support@copperlinegolf.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
@@ -202,7 +202,7 @@ export function Footer() {
             className="text-center md:text-right"
           >
             <p className="text-sm text-text-muted">
-              &copy; {currentYear} CaddyAI, Inc. All rights reserved.
+              &copy; {currentYear} Copperline Golf, Inc. All rights reserved.
             </p>
             <p className="text-xs text-text-muted mt-1">
               Made with ❤️ for golfers everywhere

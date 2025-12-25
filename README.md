@@ -1,8 +1,8 @@
-# CaddyAI Web
+# Copperline Golf Web
 
 > Your Intelligent Golf Companion - Web Edition
 
-CaddyAI Web is the web-based interface for CaddyAI, featuring iGolf 3D course visualization, course search, profile management, and real-time mobile app sync. Built with Next.js 15, React 19, TypeScript, and Tailwind CSS v4.
+Copperline Golf Web is the web-based interface for Copperline Golf, featuring iGolf 3D course visualization, course search, profile management, and real-time mobile app sync. Built with Next.js 15, React 19, TypeScript, and Tailwind CSS v4.
 
 **Build Status:** ✅ Passing | **Version:** 0.1.0 | **Completion:** ~85%
 

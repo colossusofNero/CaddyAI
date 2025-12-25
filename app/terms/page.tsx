@@ -1,6 +1,6 @@
 /**
  * Terms of Service Page
- * Legal terms and conditions for using CaddyAI
+ * Legal terms and conditions for using Copperline Golf
  */
 
 'use client';
@@ -57,7 +57,7 @@ export default function TermsPage() {
                   Acceptance of Terms
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  By accessing or using CaddyAI's mobile application and
+                  By accessing or using Copperline Golf's mobile application and
                   services (collectively, the "Service"), you agree to be bound
                   by these Terms of Service ("Terms"). If you do not agree to
                   these Terms, do not use the Service.
@@ -70,7 +70,7 @@ export default function TermsPage() {
                   Description of Service
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  CaddyAI provides an AI-powered golf assistance application
+                  Copperline Golf provides an AI-powered golf assistance application
                   that offers club recommendations, shot tracking, GPS mapping,
                   weather data, and performance analytics. The Service is
                   intended to assist golfers in making informed decisions but
@@ -127,7 +127,7 @@ export default function TermsPage() {
                 </h2>
                 <div className="text-text-secondary leading-relaxed space-y-4">
                   <p>
-                    CaddyAI offers both free and paid subscription plans ("Pro").
+                    Copperline Golf offers both free and paid subscription plans ("Pro").
                     By subscribing to a paid plan:
                   </p>
                   <ul className="list-disc pl-6 space-y-2">
@@ -147,7 +147,7 @@ export default function TermsPage() {
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
                   The Service, including all content, features, and
-                  functionality, is owned by CaddyAI, Inc. and is protected by
+                  functionality, is owned by Copperline Golf, Inc. and is protected by
                   copyright, trademark, and other intellectual property laws. You
                   are granted a limited, non-exclusive, non-transferable license
                   to use the Service for personal, non-commercial purposes.
@@ -162,7 +162,7 @@ export default function TermsPage() {
                 <p className="text-text-secondary leading-relaxed">
                   You retain ownership of any content you submit to the Service
                   (rounds, comments, reviews). By submitting content, you grant
-                  CaddyAI a worldwide, non-exclusive, royalty-free license to
+                  Copperline Golf a worldwide, non-exclusive, royalty-free license to
                   use, display, and distribute your content in connection with
                   the Service. You represent that you have all necessary rights
                   to grant this license.
@@ -178,7 +178,7 @@ export default function TermsPage() {
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 text-text-secondary leading-relaxed">
                   <p className="mb-4">
                     THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT
-                    WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. CADDYAI DISCLAIMS
+                    WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. Copperline Golf DISCLAIMS
                     ALL WARRANTIES, INCLUDING:
                   </p>
                   <ul className="list-disc pl-6 space-y-2">
@@ -199,7 +199,7 @@ export default function TermsPage() {
                   Limitation of Liability
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  To the maximum extent permitted by law, CaddyAI shall not be
+                  To the maximum extent permitted by law, Copperline Golf shall not be
                   liable for any indirect, incidental, special, consequential, or
                   punitive damages, including loss of profits, data, or goodwill,
                   arising from your use of the Service. Our total liability shall
@@ -213,7 +213,7 @@ export default function TermsPage() {
                   Indemnification
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  You agree to indemnify and hold harmless CaddyAI, its officers,
+                  You agree to indemnify and hold harmless Copperline Golf, its officers,
                   directors, employees, and agents from any claims, damages,
                   losses, liabilities, and expenses arising from your use of the
                   Service or violation of these Terms.
@@ -273,14 +273,14 @@ export default function TermsPage() {
                   <p>
                     <strong>Email:</strong>{' '}
                     <a
-                      href="mailto:legal@caddyai.com"
+                      href="mailto:legal@copperlinegolf.com"
                       className="text-primary hover:underline"
                     >
-                      legal@caddyai.com
+                      legal@copperlinegolf.com
                     </a>
                   </p>
                   <p>
-                    <strong>Address:</strong> CaddyAI, Inc., 123 Golf Drive, San
+                    <strong>Address:</strong> Copperline Golf, Inc., 123 Golf Drive, San
                     Francisco, CA 94102
                   </p>
                 </div>

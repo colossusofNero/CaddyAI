@@ -1,6 +1,6 @@
 /**
  * Testimonials Data
- * Real user testimonials for CaddyAI
+ * Real user testimonials for Copperline Golf
  */
 
 export interface Testimonial {
@@ -17,7 +17,7 @@ export const testimonials: Testimonial[] = [
   {
     id: '1',
     quote:
-      "CaddyAI has completely changed how I approach the course. The club recommendations are spot-on, and I've lowered my handicap by 4 strokes in just two months!",
+      "Copperline Golf has completely changed how I approach the course. The club recommendations are spot-on, and I've lowered my handicap by 4 strokes in just two months!",
     name: 'Michael Chen',
     handicap: '12 HCP',
     location: 'San Francisco, CA',
@@ -26,7 +26,7 @@ export const testimonials: Testimonial[] = [
   {
     id: '2',
     quote:
-      "As a beginner, CaddyAI has been invaluable. It's like having a professional caddy in my pocket, helping me understand which club to use for every situation.",
+      "As a beginner, Copperline Golf has been invaluable. It's like having a professional caddy in my pocket, helping me understand which club to use for every situation.",
     name: 'Sarah Thompson',
     handicap: '24 HCP',
     location: 'Austin, TX',
@@ -44,7 +44,7 @@ export const testimonials: Testimonial[] = [
   {
     id: '4',
     quote:
-      "I love how CaddyAI learns my shot patterns. The more I use it, the better the recommendations get. It's truly personalized to my game.",
+      "I love how Copperline Golf learns my shot patterns. The more I use it, the better the recommendations get. It's truly personalized to my game.",
     name: 'Emily Watson',
     handicap: '16 HCP',
     location: 'Charlotte, NC',
@@ -62,7 +62,7 @@ export const testimonials: Testimonial[] = [
   {
     id: '6',
     quote:
-      "CaddyAI helped me understand my actual club distances vs. what I thought they were. Game changer for course management!",
+      "Copperline Golf helped me understand my actual club distances vs. what I thought they were. Game changer for course management!",
     name: 'Lisa Martinez',
     handicap: '18 HCP',
     location: 'Miami, FL',

@@ -57,7 +57,7 @@ export default function PrivacyPage() {
                   Introduction
                 </h2>
                 <p className="text-text-secondary leading-relaxed">
-                  CaddyAI, Inc. ("we," "our," or "us") is committed to
+                  Copperline Golf, Inc. ("we," "our," or "us") is committed to
                   protecting your privacy. This Privacy Policy explains how we
                   collect, use, disclose, and safeguard your information when
                   you use our mobile application and services.
@@ -175,10 +175,10 @@ export default function PrivacyPage() {
                   <p className="mt-4">
                     To exercise these rights, contact us at{' '}
                     <a
-                      href="mailto:privacy@caddyai.com"
+                      href="mailto:privacy@copperlinegolf.com"
                       className="text-primary hover:underline"
                     >
-                      privacy@caddyai.com
+                      privacy@copperlinegolf.com
                     </a>
                   </p>
                 </div>
@@ -237,14 +237,14 @@ export default function PrivacyPage() {
                   <p>
                     <strong>Email:</strong>{' '}
                     <a
-                      href="mailto:privacy@caddyai.com"
+                      href="mailto:privacy@copperlinegolf.com"
                       className="text-primary hover:underline"
                     >
-                      privacy@caddyai.com
+                      privacy@copperlinegolf.com
                     </a>
                   </p>
                   <p>
-                    <strong>Address:</strong> CaddyAI, Inc., 123 Golf Drive, San
+                    <strong>Address:</strong> Copperline Golf, Inc., 123 Golf Drive, San
                     Francisco, CA 94102
                   </p>
                 </div>

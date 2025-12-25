@@ -43,7 +43,7 @@ export default function BlogPage() {
     {
       title: 'The Science Behind Club Selection',
       excerpt:
-        'A deep dive into the physics and mathematics that power CaddyAI\'s intelligent club recommendations.',
+        'A deep dive into the physics and mathematics that power Copperline Golf\'s intelligent club recommendations.',
       author: 'Dr. Emily Roberts',
       date: 'Mar 10, 2025',
       readTime: '10 min read',
@@ -53,7 +53,7 @@ export default function BlogPage() {
     {
       title: 'How to Build Your Perfect Golf Profile',
       excerpt:
-        'Step-by-step guide to setting up your CaddyAI profile for the most accurate recommendations.',
+        'Step-by-step guide to setting up your Copperline Golf profile for the most accurate recommendations.',
       author: 'Tom Anderson',
       date: 'Mar 8, 2025',
       readTime: '6 min read',
@@ -61,9 +61,9 @@ export default function BlogPage() {
       image: 'bg-gradient-to-br from-orange-500 to-red-500',
     },
     {
-      title: 'CaddyAI Success Stories: From 95 to 85',
+      title: 'Copperline Golf Success Stories: From 95 to 85',
       excerpt:
-        'Real stories from golfers who dramatically improved their scores using CaddyAI\'s recommendations.',
+        'Real stories from golfers who dramatically improved their scores using Copperline Golf\'s recommendations.',
       author: 'Lisa Martinez',
       date: 'Mar 5, 2025',
       readTime: '8 min read',
@@ -107,7 +107,7 @@ export default function BlogPage() {
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6">
               <BookOpen className="w-4 h-4" />
-              <span className="text-sm font-semibold">CaddyAI Blog</span>
+              <span className="text-sm font-semibold">Copperline Golf Blog</span>
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-text-primary mb-6">
@@ -118,7 +118,7 @@ export default function BlogPage() {
 
             <p className="text-lg lg:text-xl text-text-secondary mb-8">
               Tips, strategies, and insights to help you get the most out of
-              CaddyAI and improve your golf game.
+              Copperline Golf and improve your golf game.
             </p>
           </motion.div>
         </div>

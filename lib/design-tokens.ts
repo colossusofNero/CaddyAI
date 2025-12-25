@@ -94,6 +94,40 @@ export const designTokens = {
       error: 'var(--color-error)',
       info: 'var(--color-info)',
     },
+    // Brand colors - Direct hex values for Copperline Golf
+    brand: {
+      primary: '#B87333',    // Copper
+      secondary: '#40C4D3',   // Turquoise
+      accent: '#4A9E5B',      // Fairway Green
+    },
+    // Copperline Golf specific colors
+    copperline: {
+      copper: {
+        light: '#D4956A',
+        DEFAULT: '#B87333',
+        dark: '#8B4513',
+        rose: '#C9956C',
+      },
+      turquoise: {
+        light: '#7DD8E4',
+        DEFAULT: '#40C4D3',
+        dark: '#2A9BA8',
+      },
+      fairway: {
+        putting: '#7BC775',
+        DEFAULT: '#4A9E5B',
+        forest: '#2D7A47',
+      },
+    },
+    // Golf course specific colors
+    golf: {
+      fairway: 'var(--color-golf-fairway)',
+      green: 'var(--color-golf-green)',
+      rough: 'var(--color-golf-rough)',
+      water: 'var(--color-golf-water)',
+      bunker: 'var(--color-golf-bunker)',
+      trees: 'var(--color-golf-trees)',
+    },
   },
 
   // Spacing
@@ -160,6 +194,9 @@ export const designTokens = {
     xl: 'var(--shadow-xl)',
     card: 'var(--shadow-card)',
     primary: 'var(--shadow-primary)',
+    copper: 'var(--shadow-copper)',
+    copperLg: 'var(--shadow-copper-lg)',
+    turquoise: 'var(--shadow-turquoise)',
   },
 
   // Breakpoints

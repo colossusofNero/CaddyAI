@@ -118,15 +118,15 @@ export function Navigation() {
             <Link
               href="/"
               className="flex items-center gap-2 group"
-              aria-label="CaddyAI Home"
+              aria-label="Copperline Golf Home"
             >
               <motion.div
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
-                className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-primary to-primary-600 rounded-lg shadow-primary"
+                className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-copper rounded-lg shadow-copper"
               />
-              <span className="text-xl lg:text-2xl font-bold text-primary group-hover:text-primary-400 transition-colors">
-                CaddyAI
+              <span className="text-xl lg:text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+                Copperline Golf
               </span>
             </Link>
 

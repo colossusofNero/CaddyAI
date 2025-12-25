@@ -109,7 +109,7 @@ export function ShotPatternsModal({ isOpen, onClose }: ShotPatternsModalProps) {
         {/* Info Box */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm text-blue-900">
-            <strong className="font-semibold">How it works:</strong> CaddyAI tracks every shot you take and builds a personalized profile for each club.
+            <strong className="font-semibold">How it works:</strong> Copperline Golf tracks every shot you take and builds a personalized profile for each club.
             The AI learns your shot shape, dispersion patterns, and distance variations to provide more accurate club recommendations over time.
           </p>
         </div>

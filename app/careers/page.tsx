@@ -170,7 +170,7 @@ export default function CareersPage() {
               Our <span className="text-primary">Values</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              The principles that guide everything we do at CaddyAI
+              The principles that guide everything we do at Copperline Golf
             </p>
           </div>
 
@@ -243,7 +243,7 @@ export default function CareersPage() {
               Open <span className="text-primary">Positions</span>
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Find your next opportunity at CaddyAI
+              Find your next opportunity at Copperline Golf
             </p>
           </div>
 

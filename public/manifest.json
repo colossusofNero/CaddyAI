@@ -1,11 +1,11 @@
 {
-  "name": "CaddyAI - Your Intelligent Golf Companion",
-  "short_name": "CaddyAI",
+  "name": "Copperline Golf - Your Intelligent Golf Companion",
+  "short_name": "Copperline Golf",
   "description": "AI-powered golf caddy providing real-time club recommendations based on your unique swing profile and course conditions.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAFAFA",
-  "theme_color": "#1B5E20",
+  "background_color": "#FDF8F3",
+  "theme_color": "#B87333",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -112,12 +112,12 @@
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.caddyai.app",
-      "id": "com.caddyai.app"
+      "url": "https://play.google.com/store/apps/details?id=com.copperlinegolf.app",
+      "id": "com.copperlinegolf.app"
     },
     {
       "platform": "itunes",
-      "url": "https://apps.apple.com/app/caddyai/id123456789"
+      "url": "https://apps.apple.com/app/copperlinegolf/id123456789"
     }
   ]
 }

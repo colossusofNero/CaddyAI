@@ -1,6 +1,6 @@
 /**
  * User Profile Types
- * Matches the structure used in React Native app (CaddyAI_rn)
+ * Matches the structure used in React Native app (Copperline Golf_rn)
  */
 
 export interface UserProfile {

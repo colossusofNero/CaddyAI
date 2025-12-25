@@ -1,5 +1,5 @@
 /**
- * CaddyAI - Unified Types Index
+ * Copperline Golf - Unified Types Index
  * 
  * This barrel export provides all shared types for cross-platform consistency.
  * 

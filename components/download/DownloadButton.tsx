@@ -13,8 +13,8 @@ interface DownloadButtonProps {
 }
 
 const APP_LINKS = {
-  ios: 'https://apps.apple.com/app/caddyai/id123456789', // TODO: Replace with actual App Store ID
-  android: 'https://play.google.com/store/apps/details?id=com.caddyai.app',
+  ios: 'https://apps.apple.com/app/Copperline Golf/id123456789', // TODO: Replace with actual App Store ID
+  android: 'https://play.google.com/store/apps/details?id=com.Copperline Golf.app',
 };
 
 export function DownloadButton({

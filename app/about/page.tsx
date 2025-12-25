@@ -63,7 +63,7 @@ export default function AboutPage() {
               variants={staggerItem}
               className="text-xl text-text-secondary"
             >
-              CaddyAI was born from a simple idea: every golfer deserves the insights and confidence that come from having an expert caddy.
+              Copperline Golf was born from a simple idea: every golfer deserves the insights and confidence that come from having an expert caddy.
             </motion.p>
           </motion.div>
         </div>

@@ -1,4 +1,4 @@
-# CaddyAI Unified Data Schema
+# Copperline Golf Unified Data Schema
 
 ## Version: 1.0.0
 ## Date: December 18, 2025

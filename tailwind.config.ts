@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // CaddyAI Design System - Using CSS Variables
+        // Copperline Golf Design System - Using CSS Variables
         // This allows for dynamic theming and dark mode support
 
         primary: {
@@ -122,6 +122,36 @@ const config: Config = {
           border: 'var(--color-input-border)',
           focus: 'var(--color-input-focus)',
         },
+
+        // Copperline Golf Brand Colors (Direct colors for specific use cases)
+        copper: {
+          light: '#D4956A',
+          rose: '#C9956C',
+          DEFAULT: '#B87333',
+          dark: '#8B4513',
+        },
+        turquoise: {
+          light: '#7DD8E4',
+          DEFAULT: '#40C4D3',
+          dark: '#2A9BA8',
+        },
+        fairway: {
+          putting: '#7BC775',
+          DEFAULT: '#4A9E5B',
+          forest: '#2D7A47',
+        },
+        golf: {
+          fairway: '#4A9E5B',
+          green: '#7BC775',
+          rough: '#2D7A47',
+          water: '#40C4D3',
+          bunker: '#E4A853',
+          trees: '#2D7A47',
+        },
+      },
+      backgroundColor: {
+        warm: '#FDF8F3',
+        'warm-secondary': '#F5F0EB',
       },
       fontFamily: {
         sans: ['var(--font-inter)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
@@ -148,6 +178,14 @@ const config: Config = {
         xl: 'var(--shadow-xl)',
         card: 'var(--shadow-card)',
         primary: 'var(--shadow-primary)',
+        copper: 'var(--shadow-copper)',
+        'copper-lg': 'var(--shadow-copper-lg)',
+        turquoise: 'var(--shadow-turquoise)',
+      },
+      backgroundImage: {
+        'gradient-copper': 'linear-gradient(135deg, #D4956A 0%, #B87333 50%, #8B4513 100%)',
+        'gradient-turquoise': 'linear-gradient(135deg, #7DD8E4 0%, #40C4D3 50%, #2A9BA8 100%)',
+        'gradient-fairway': 'linear-gradient(135deg, #7BC775 0%, #4A9E5B 50%, #2D7A47 100%)',
       },
     },
   },

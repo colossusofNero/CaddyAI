@@ -23,8 +23,8 @@ export interface ShareButtonProps {
 }
 
 export function ShareButton({
-  title = 'CaddyAI - Your Intelligent Golf Companion',
-  text = 'Check out CaddyAI - AI-powered golf caddy for smarter shot decisions!',
+  title = 'Copperline Golf - Your Intelligent Golf Companion',
+  text = 'Check out Copperline Golf - AI-powered golf caddy for smarter shot decisions!',
   url,
   variant = 'outline',
   size = 'md',

@@ -90,7 +90,7 @@ export default function SubscriptionSettingsPage() {
           <div className="flex justify-between items-center h-16">
             <Link href="/dashboard" className="flex items-center gap-2">
               <div className="w-8 h-8 bg-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-primary">CaddyAI</span>
+              <span className="text-2xl font-bold text-primary">Copperline Golf</span>
             </Link>
             <Link href="/dashboard">
               <Button variant="ghost" size="sm">
@@ -132,7 +132,7 @@ export default function SubscriptionSettingsPage() {
                 {planName === 'pro' && <Sparkles className="w-6 h-6 text-primary" />}
                 <h2 className="text-2xl font-bold text-text-primary">
                   {planName === 'free' && 'Free Plan'}
-                  {planName === 'pro' && 'CaddyAI Pro'}
+                  {planName === 'pro' && 'Copperline Golf Pro'}
                 </h2>
               </div>
               <div className="flex items-center gap-2 text-text-secondary">

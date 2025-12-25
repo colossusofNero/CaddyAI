@@ -122,13 +122,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-accent/10 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo/Brand */}
-        <div className="text-center mb-8">
-          <div className="text-4xl font-bold text-primary mb-2">Copperline Golf</div>
-          <p className="text-text-secondary">Your intelligent golf companion</p>
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-accent/10">
+      {/* Top Navigation Menu */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 bg-gradient-copper rounded-lg shadow-copper" />
+              <span className="text-xl font-bold bg-gradient-copper bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+                Copperline Golf
+              </span>
+            </Link>
+
+            {/* Navigation Links */}
+            <div className="flex items-center gap-4">
+              <Link
+                href="/"
+                className="text-sm font-medium text-foreground-secondary hover:text-primary transition-colors"
+              >
+                Home
+              </Link>
+              <Link
+                href="/signup"
+                className="text-sm font-medium text-primary hover:text-primary-600 transition-colors"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="pt-24 pb-12 px-4 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-md">
 
         <Card variant="elevated" padding="lg" className="bg-white border-primary/20">
           <h1 className="sr-only">Sign In to Copperline Golf</h1>

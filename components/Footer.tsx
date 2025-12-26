@@ -6,6 +6,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   Facebook,
@@ -94,7 +95,14 @@ export function Footer() {
             >
               {/* Logo */}
               <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-                <div className="w-10 h-10 bg-gradient-copper rounded-lg group-hover:scale-110 transition-transform" />
+                <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
+                  <Image
+                    src="/logo.png"
+                    alt="Copperline Golf Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
                 <span className="text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent">Copperline Golf</span>
               </Link>
 

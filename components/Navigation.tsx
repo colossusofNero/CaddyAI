@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -120,11 +121,15 @@ export function Navigation() {
               className="flex items-center gap-2 group"
               aria-label="Copperline Golf Home"
             >
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-copper rounded-lg shadow-copper"
-              />
+              <div className="relative w-10 h-10 lg:w-12 lg:h-12">
+                <Image
+                  src="/logo.png"
+                  alt="Copperline Golf Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <span className="text-xl lg:text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
                 Copperline Golf
               </span>

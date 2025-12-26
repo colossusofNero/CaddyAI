@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="28" fill="#93c5fd" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- Letter C -->
+  <path d="M45 32C45 39.732 38.732 46 31 46H25C17.268 46 11 39.732 11 32C11 24.268 17.268 18 25 18H31C38.732 18 45 24.268 45 32Z" fill="#FFFFFF"/>
+  <path d="M39 32C39 36.418 35.418 40 31 40H25C20.582 40 17 36.418 17 32C17 27.582 20.582 24 25 24H31C35.418 24 39 27.582 39 32Z" fill="#93c5fd"/>
+
+  <!-- Golf ball dimple pattern on the C -->
+  <circle cx="21" cy="28" r="1" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="25" cy="30" r="1" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="21" cy="34" r="1" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="25" cy="36" r="1" fill="#FFFFFF" opacity="0.6"/>
+</svg>

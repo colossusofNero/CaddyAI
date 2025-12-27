@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Button } from '@/components/ui/Button';
@@ -28,6 +29,7 @@ import {
   AlertCircle,
   Sparkles,
   Smartphone,
+  Flag,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -109,10 +111,20 @@ export default function DashboardPage() {
       <nav className="border-b border-secondary-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-primary">Copperline Golf</span>
-            </div>
+            <Link href="/" className="flex items-center gap-2">
+              <div className="relative w-10 h-10">
+                <Image
+                  src="/logo.png"
+                  alt="Copperline Golf Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <span className="text-xl font-bold bg-gradient-copper bg-clip-text text-transparent">
+                Copperline Golf
+              </span>
+            </Link>
             <div className="flex items-center gap-4">
               <span className="text-text-secondary text-sm">
                 {user.displayName || user.email}
@@ -125,13 +137,13 @@ export default function DashboardPage() {
         </div>
       </nav>
 
-      {/* Arizona Sunset Hero Banner */}
+      {/* Arizona Desert Golf Hero Banner */}
       <div className="relative h-72 md:h-80 lg:h-96 overflow-hidden">
-        {/* Background Image - Phoenix Arizona Desert Sunset */}
+        {/* Background Image - Arizona Desert Golf Course */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1920&q=85')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=1920&q=85')",
           }}
         >
           {/* Gradient Overlays for Better Text Readability */}
@@ -150,8 +162,9 @@ export default function DashboardPage() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               Welcome back, {user.displayName?.split(' ')[0] || 'Golfer'}!
             </h1>
-            <p className="text-xl md:text-2xl text-white/95 mb-6 drop-shadow-md">
-              Perfect day for golf in the Southwest 🏌️
+            <p className="text-xl md:text-2xl text-white/95 mb-6 drop-shadow-md flex items-center gap-2">
+              <Flag className="w-6 h-6" />
+              Perfect day for golf in the Southwest
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/round/new">

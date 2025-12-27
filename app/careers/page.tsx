@@ -26,7 +26,7 @@ export default function CareersPage() {
     {
       title: 'Senior Full Stack Engineer',
       department: 'Engineering',
-      location: 'San Francisco, CA / Remote',
+      location: 'Scottsdale, AZ / Remote',
       type: 'Full-time',
       salary: '$140k - $180k',
       description:
@@ -44,7 +44,7 @@ export default function CareersPage() {
     {
       title: 'Product Designer',
       department: 'Design',
-      location: 'San Francisco, CA / Remote',
+      location: 'Scottsdale, AZ / Remote',
       type: 'Full-time',
       salary: '$120k - $160k',
       description:
@@ -53,7 +53,7 @@ export default function CareersPage() {
     {
       title: 'Machine Learning Engineer',
       department: 'AI/ML',
-      location: 'San Francisco, CA',
+      location: 'Scottsdale, AZ',
       type: 'Full-time',
       salary: '$150k - $200k',
       description:

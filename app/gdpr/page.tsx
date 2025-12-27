@@ -125,8 +125,7 @@ export default function GDPRPage() {
                     <strong>Data Controller:</strong> Copperline Golf, Inc.
                   </p>
                   <p className="mb-2">
-                    <strong>Address:</strong> 123 Golf Drive, San Francisco, CA
-                    94102, USA
+                    <strong>Address:</strong> Scottsdale, AZ 85260, USA
                   </p>
                   <p className="mb-2">
                     <strong>Email:</strong>{' '}
@@ -367,7 +366,7 @@ export default function GDPRPage() {
                     </p>
                     <p>
                       <strong>Address:</strong> Data Protection Officer, Copperline Golf,
-                      Inc., 123 Golf Drive, San Francisco, CA 94102, USA
+                      Inc., Scottsdale, AZ 85260, USA
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">

@@ -244,8 +244,8 @@ export default function PrivacyPage() {
                     </a>
                   </p>
                   <p>
-                    <strong>Address:</strong> Copperline Golf, Inc., 123 Golf Drive, San
-                    Francisco, CA 94102
+                    <strong>Address:</strong> Copperline Golf, Inc.,
+                    Scottsdale, AZ 85260
                   </p>
                 </div>
               </div>

@@ -54,12 +54,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={clsx(
               'w-full px-4 rounded-lg',
               'h-11 sm:h-12', // Touch-optimized: 44px -> 48px (WCAG 2.1 AAA)
-              'bg-secondary border-2 border-secondary-700',
-              'text-base text-white', // White text on dark background
-              'placeholder:text-gray-400',
+              'bg-white border-2 border-neutral-300',
+              'text-base text-gray-900', // Dark text on light background
+              'placeholder:text-gray-500',
               'focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20',
               'transition-all duration-200',
-              'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-secondary-800',
+              'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100',
               error &&
                 'border-error focus:border-error focus:ring-error focus:ring-opacity-20',
               icon && 'pl-10',

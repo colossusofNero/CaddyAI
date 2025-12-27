@@ -120,6 +120,29 @@ export default function ContactPage() {
         message: formData.message,
       });
 
+      // Submit to Google Sheets
+      const googleSheetsUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL;
+      if (googleSheetsUrl) {
+        try {
+          await fetch(googleSheetsUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: formData.name,
+              email: formData.email,
+              subject: formData.subject,
+              message: formData.message,
+              timestamp: new Date().toISOString(),
+            }),
+          });
+        } catch (sheetsError) {
+          // Log error but don't fail the submission
+          console.error('Error submitting to Google Sheets:', sheetsError);
+        }
+      }
+
       // Success
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
@@ -151,7 +174,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: 'Office',
-      content: 'San Francisco, CA 94102',
+      content: 'Scottsdale, AZ 85260',
       link: null,
     },
   ];

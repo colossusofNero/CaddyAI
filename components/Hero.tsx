@@ -86,27 +86,22 @@ export function Hero({
         <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-primary/40 to-accent/40" />
       </div>
 
-      {/* Large Logo - Upper Left */}
+      {/* Large Background Logo */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="absolute top-20 left-4 sm:left-6 lg:left-8 z-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.15 }}
+        transition={{ duration: 1.2 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-5 pointer-events-none"
       >
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24">
-            <Image
-              src="/logo.png"
-              alt="Copperline Golf Logo"
-              fill
-              className="object-contain drop-shadow-2xl"
-              priority
-            />
-          </div>
-          <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-copper bg-clip-text text-transparent drop-shadow-lg group-hover:opacity-80 transition-opacity">
-            Copperline Golf
-          </span>
-        </Link>
+        <div className="relative w-[640px] h-[640px] sm:w-[800px] sm:h-[800px] lg:w-[960px] lg:h-[960px]">
+          <Image
+            src="/logo.png"
+            alt="Copperline Golf Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
       </motion.div>
 
       {/* Content Container */}

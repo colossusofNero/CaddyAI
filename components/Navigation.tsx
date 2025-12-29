@@ -20,6 +20,10 @@ interface NavLink {
   href: string;
 }
 
+interface NavigationProps {
+  hideLogo?: boolean;
+}
+
 const navLinks: NavLink[] = [
   { label: 'Features', href: '/features' },
   { label: 'Pricing', href: '/pricing' },
@@ -27,7 +31,7 @@ const navLinks: NavLink[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export function Navigation() {
+export function Navigation({ hideLogo = false }: NavigationProps = {}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
@@ -116,24 +120,27 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 lg:h-20">
             {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center gap-2 group"
-              aria-label="Copperline Golf Home"
-            >
-              <div className="relative w-10 h-10 lg:w-12 lg:h-12">
-                <Image
-                  src="/logo.png"
-                  alt="Copperline Golf Logo"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <span className="text-xl lg:text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
-                Copperline Golf
-              </span>
-            </Link>
+            {!hideLogo && (
+              <Link
+                href="/"
+                className="flex items-center gap-2 group"
+                aria-label="Copperline Golf Home"
+              >
+                <div className="relative w-10 h-10 lg:w-12 lg:h-12">
+                  <Image
+                    src="/logo.png"
+                    alt="Copperline Golf Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <span className="text-xl lg:text-2xl font-bold bg-gradient-copper bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+                  Copperline Golf
+                </span>
+              </Link>
+            )}
+            {hideLogo && <div />}
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">

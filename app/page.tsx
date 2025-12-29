@@ -77,7 +77,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navigation hideLogo={true} />
 
       {/* Hero Section */}
       <Hero />

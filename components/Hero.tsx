@@ -91,9 +91,9 @@ export function Hero({
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
         transition={{ duration: 1.2 }}
-        className="absolute top-0 left-0 z-5 pointer-events-none"
+        className="absolute -top-20 left-0 z-5 pointer-events-none"
       >
-        <div className="relative w-[640px] h-[640px] sm:w-[800px] sm:h-[800px] lg:w-[960px] lg:h-[960px]">
+        <div className="relative w-[480px] h-[480px] sm:w-[600px] sm:h-[600px] lg:w-[720px] lg:h-[720px]">
           <Image
             src="/logo.png"
             alt="Copperline Golf Logo"

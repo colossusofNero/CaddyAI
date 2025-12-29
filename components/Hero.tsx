@@ -86,12 +86,12 @@ export function Hero({
         <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-primary/40 to-accent/40" />
       </div>
 
-      {/* Large Background Logo */}
+      {/* Large Background Logo - Top Left */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
         transition={{ duration: 1.2 }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-5 pointer-events-none"
+        className="absolute top-0 left-0 z-5 pointer-events-none"
       >
         <div className="relative w-[640px] h-[640px] sm:w-[800px] sm:h-[800px] lg:w-[960px] lg:h-[960px]">
           <Image

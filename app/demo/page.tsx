@@ -46,7 +46,7 @@ export default function DemoPage() {
               <iframe
                 src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=60&centered=both"
                 width="100%"
-                height="900"
+                height="1050"
                 frameBorder="0"
                 scrolling="no"
                 allow="camera;microphone;geolocation"

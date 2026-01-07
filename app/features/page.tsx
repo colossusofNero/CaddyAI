@@ -285,6 +285,55 @@ export default function FeaturesPage() {
         </div>
       </section>
 
+      {/* Interactive Demo Section */}
+      <section className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-light">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6">
+                <Smartphone className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">
+                  Try It Now
+                </span>
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+                Experience Copperline Golf in Action
+              </h2>
+              <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+                Interact with our app directly in your browser. No download required.
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-secondary-800 rounded-2xl p-6 md:p-10 border border-secondary-700"
+          >
+            <div className="flex justify-center overflow-hidden">
+              <iframe
+                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=60&centered=both"
+                width="100%"
+                height="1050"
+                frameBorder="0"
+                scrolling="no"
+                allow="camera;microphone;geolocation"
+                className="rounded-lg shadow-2xl w-full"
+                style={{ maxWidth: '1000px' }}
+                title="Copperline Golf App Demo"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <CTASection />
 

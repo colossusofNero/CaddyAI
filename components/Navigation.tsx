@@ -26,7 +26,6 @@ interface NavigationProps {
 
 const navLinks: NavLink[] = [
   { label: 'Features', href: '/features' },
-  { label: 'Try Demo', href: '/demo' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

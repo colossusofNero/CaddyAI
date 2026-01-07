@@ -41,16 +41,17 @@ export default function DemoPage() {
 
           {/* Emulator Container */}
           <div className="bg-secondary-800 rounded-lg p-4 md:p-8 mb-6">
-            <div className="flex justify-center">
+            <div className="flex justify-center overflow-hidden">
               {/* Appetize.io emulator configured for Pixel Tablet with latest Android */}
               <iframe
-                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=75"
-                width="900"
-                height="700"
+                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=60&centered=both"
+                width="100%"
+                height="650"
                 frameBorder="0"
                 scrolling="no"
                 allow="camera;microphone;geolocation"
-                className="rounded-lg shadow-2xl max-w-full"
+                className="rounded-lg shadow-2xl w-full"
+                style={{ maxWidth: '1000px' }}
                 title="Copperline Golf App Demo"
               />
             </div>

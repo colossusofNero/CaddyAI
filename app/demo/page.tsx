@@ -44,7 +44,7 @@ export default function DemoPage() {
             <div className="flex justify-center">
               {/* Appetize.io emulator configured for Pixel Tablet with latest Android */}
               <iframe
-                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixelTablet&osVersion=16.0&scale=75"
+                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=75"
                 width="900"
                 height="700"
                 frameBorder="0"

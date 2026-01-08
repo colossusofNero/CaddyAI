@@ -86,14 +86,14 @@ export function Hero({
         <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-primary/40 to-accent/40" />
       </div>
 
-      {/* Large Background Logo - Top Left */}
+      {/* Large Background Logo - Centered and Better Sized */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.15 }}
+        animate={{ opacity: 0.12 }}
         transition={{ duration: 1.2 }}
-        className="absolute -top-20 left-0 z-5 pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-5 pointer-events-none"
       >
-        <div className="relative w-[480px] h-[480px] sm:w-[600px] sm:h-[600px] lg:w-[720px] lg:h-[720px]">
+        <div className="relative w-[400px] h-[400px] sm:w-[480px] sm:h-[480px] lg:w-[560px] lg:h-[560px]">
           <Image
             src="/logo.png"
             alt="Copperline Golf Logo"
@@ -154,14 +154,14 @@ export function Hero({
                   Start Free Trial →
                 </Button>
               </Link>
-              <Link href="/features">
+              <Link href="/features#demo">
                 <Button
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto min-w-[200px] group border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 backdrop-blur-sm"
                 >
                   <Icon icon={Play} {...iconConfig.button} className="mr-2 group-hover:scale-110 transition-transform" />
-                  Watch Demo
+                  Try Demo
                 </Button>
               </Link>
             </motion.div>

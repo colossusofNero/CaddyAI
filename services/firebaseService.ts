@@ -628,6 +628,184 @@ class FirebaseService {
       throw error;
     }
   }
+
+  /**
+   * Get user's score history
+   */
+  async getUserScores(
+    userId: string,
+    options?: {
+      limit?: number;
+      startDate?: string;
+      endDate?: string;
+      courseId?: string;
+      roundType?: string;
+      postedOnly?: boolean;
+    }
+  ): Promise<any[]> {
+    try {
+      const scoresRef = collection(db, 'scores');
+      let q = query(
+        scoresRef,
+        where('userId', '==', userId),
+        orderBy('date', 'desc')
+      );
+
+      if (options?.limit) {
+        q = query(q, limit(options.limit));
+      }
+
+      const snapshot = await getDocs(q);
+      const scores = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      // Apply client-side filters
+      let filtered = scores;
+
+      if (options?.startDate) {
+        filtered = filtered.filter(s => s.date >= options.startDate!);
+      }
+
+      if (options?.endDate) {
+        filtered = filtered.filter(s => s.date <= options.endDate!);
+      }
+
+      if (options?.courseId) {
+        filtered = filtered.filter(s => s.course?.id === options.courseId);
+      }
+
+      if (options?.roundType) {
+        filtered = filtered.filter(s => s.roundType === options.roundType);
+      }
+
+      if (options?.postedOnly) {
+        filtered = filtered.filter(s => s.ghinStatus?.posted === true);
+      }
+
+      console.log('[Firebase] Loaded', filtered.length, 'scores for user');
+      return filtered;
+    } catch (error) {
+      console.error('[Firebase] Error getting user scores:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get a single score by ID
+   */
+  async getScore(userId: string, scoreId: string): Promise<any | null> {
+    try {
+      const scoreRef = doc(db, 'scores', scoreId);
+      const docSnap = await getDoc(scoreRef);
+
+      if (!docSnap.exists()) {
+        return null;
+      }
+
+      const score = docSnap.data();
+
+      // Verify ownership
+      if (score.userId !== userId) {
+        throw new Error('Unauthorized access to score');
+      }
+
+      return {
+        ...score,
+        id: docSnap.id,
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting score:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get user's active round (in progress)
+   */
+  async getActiveRound(userId: string): Promise<any | null> {
+    try {
+      const activeRoundRef = doc(db, 'activeRounds', userId);
+      const docSnap = await getDoc(activeRoundRef);
+
+      if (!docSnap.exists()) {
+        return null;
+      }
+
+      return {
+        ...docSnap.data(),
+        id: docSnap.id,
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting active round:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get best score differentials for handicap calculation
+   */
+  async getBestDifferentials(userId: string, count: number = 20): Promise<any[]> {
+    try {
+      const scoresRef = collection(db, 'scores');
+      const q = query(
+        scoresRef,
+        where('userId', '==', userId),
+        orderBy('stats.scoreDifferential', 'asc'),
+        limit(count)
+      );
+
+      const snapshot = await getDocs(q);
+      const scores = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      console.log('[Firebase] Loaded', scores.length, 'best differentials');
+      return scores;
+    } catch (error) {
+      console.error('[Firebase] Error getting best differentials:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get scores for a specific course
+   */
+  async getCourseScores(userId: string, courseId: string, limit?: number): Promise<any[]> {
+    try {
+      return await this.getUserScores(userId, {
+        courseId,
+        limit,
+      });
+    } catch (error) {
+      console.error('[Firebase] Error getting course scores:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get course metadata
+   */
+  async getCourseMetadata(courseId: string): Promise<any | null> {
+    try {
+      const courseRef = doc(db, 'courses', courseId);
+      const docSnap = await getDoc(courseRef);
+
+      if (!docSnap.exists()) {
+        return null;
+      }
+
+      return {
+        ...docSnap.data(),
+        id: docSnap.id,
+      };
+    } catch (error) {
+      console.error('[Firebase] Error getting course metadata:', error);
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance

@@ -286,7 +286,7 @@ export default function FeaturesPage() {
       </section>
 
       {/* Interactive Demo Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-light">
+      <section id="demo" className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <motion.div

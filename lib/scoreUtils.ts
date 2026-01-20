@@ -248,7 +248,7 @@ export function calculateCourseStatistics(
     averageScore: Math.round((grossScores.reduce((sum, s) => sum + s, 0) / courseScores.length) * 10) / 10,
     bestScore: Math.min(...grossScores),
     worstScore: Math.max(...grossScores),
-    lastPlayed: Math.max(...dates),
+    lastPlayed: dates.sort().reverse()[0],
   };
 }
 

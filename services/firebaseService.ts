@@ -16,6 +16,7 @@ import {
   query,
   where,
   orderBy,
+  limit,
   Timestamp,
 } from 'firebase/firestore';
 import type { FavoriteCourse, ActiveRound } from '@/types/course';
@@ -359,25 +360,6 @@ class FirebaseService {
   }
 
   /**
-   * Get active round
-   */
-  async getActiveRound(userId: string): Promise<ActiveRound | null> {
-    try {
-      const roundRef = doc(db, 'activeRounds', userId);
-      const docSnap = await getDoc(roundRef);
-
-      if (!docSnap.exists()) {
-        return null;
-      }
-
-      return docSnap.data() as ActiveRound;
-    } catch (error) {
-      console.error('[Firebase] Error getting active round:', error);
-      throw error;
-    }
-  }
-
-  /**
    * Update current hole
    */
   async updateCurrentHole(userId: string, holeNumber: number): Promise<void> {
@@ -659,7 +641,7 @@ class FirebaseService {
       const scores = snapshot.docs.map(doc => ({
         ...doc.data(),
         id: doc.id,
-      }));
+      })) as any[];
 
       // Apply client-side filters
       let filtered = scores;

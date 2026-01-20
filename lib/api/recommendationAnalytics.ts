@@ -134,6 +134,10 @@ export class RecommendationAnalyticsApi {
     const { startDate, endDate, limitCount = 200 } = options || {};
 
     try {
+      if (!db) {
+        throw new Error('Firebase is not initialized');
+      }
+
       const shotsRef = collection(db, 'shots', this.userId, 'shots');
       let q = query(
         shotsRef,
@@ -281,8 +285,10 @@ export class RecommendationAnalyticsApi {
       pattern.count++;
 
       // Convert outcome to numeric score
-      const outcomeScore = this.outcomeToScore(shot.outcome as any);
-      pattern.outcomes.push(outcomeScore);
+      if (rec.outcomeAnalysis?.shotOutcome) {
+        const outcomeScore = this.outcomeToScore(rec.outcomeAnalysis.shotOutcome);
+        pattern.outcomes.push(outcomeScore);
+      }
 
       if (rec.outcomeAnalysis?.strokesLostVsRecommendation) {
         pattern.strokesLost.push(rec.outcomeAnalysis.strokesLostVsRecommendation);
@@ -334,12 +340,14 @@ export class RecommendationAnalyticsApi {
 
       const sub = substitutions.get(key)!;
       sub.count++;
-      sub.outcomes.push(this.outcomeToScore(shot.outcome as any));
+      if (rec.outcomeAnalysis?.shotOutcome) {
+        sub.outcomes.push(this.outcomeToScore(rec.outcomeAnalysis.shotOutcome));
+      }
 
       if (
         shot.result === 'bunker' ||
         shot.result === 'water' ||
-        shot.result === 'out-of-bounds'
+        shot.result === 'OB'
       ) {
         sub.troubleCount++;
       }
@@ -381,15 +389,15 @@ export class RecommendationAnalyticsApi {
       };
     }
 
-    const excellent = shots.filter((s) => s.outcome === 'excellent').length;
-    const good = shots.filter((s) => s.outcome === 'good').length;
-    const fair = shots.filter((s) => s.outcome === 'fair').length;
-    const poor = shots.filter((s) => s.outcome === 'poor').length;
+    const excellent = shots.filter((s) => s.recommendationSnapshot?.outcomeAnalysis?.shotOutcome === 'excellent').length;
+    const good = shots.filter((s) => s.recommendationSnapshot?.outcomeAnalysis?.shotOutcome === 'good').length;
+    const fair = shots.filter((s) => s.recommendationSnapshot?.outcomeAnalysis?.shotOutcome === 'fair').length;
+    const poor = shots.filter((s) => s.recommendationSnapshot?.outcomeAnalysis?.shotOutcome === 'poor').length;
     const trouble = shots.filter(
       (s) =>
         s.result === 'bunker' ||
         s.result === 'water' ||
-        s.result === 'out-of-bounds'
+        s.result === 'OB'
     ).length;
 
     const strokesLost = shots

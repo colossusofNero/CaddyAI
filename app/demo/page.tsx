@@ -42,9 +42,9 @@ export default function DemoPage() {
           {/* Emulator Container */}
           <div className="bg-secondary-800 rounded-lg p-4 md:p-8 mb-6">
             <div className="flex justify-center overflow-hidden">
-              {/* Appetize.io emulator configured for Pixel Tablet with latest Android */}
+              {/* Appetize.io emulator configured for Pixel 9 with Android 16.0 */}
               <iframe
-                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixeltablet&osVersion=16.0&scale=60&centered=both"
+                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel9&osVersion=16.0&scale=60&centered=both"
                 width="100%"
                 height="1050"
                 frameBorder="0"

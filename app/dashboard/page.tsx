@@ -424,12 +424,12 @@ export default function DashboardPage() {
               </button>
             </Link>
 
-            <Link href="/history">
+            <Link href="/scores">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
                 <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <History className="w-6 h-6 text-primary" />
                 </div>
-                <h4 className="font-medium text-text-primary">View History</h4>
+                <h4 className="font-medium text-text-primary">Score History</h4>
               </button>
             </Link>
 

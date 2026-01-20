@@ -232,7 +232,11 @@ export default function AnalyticsPage() {
               <Activity className="w-5 h-5 text-primary" />
               <span className="text-xl font-bold text-text-primary">Analytics</span>
             </div>
-            <div className="w-20"></div>
+            <Link href="/analytics/recommendations">
+              <Button variant="outline" size="sm">
+                AI Recommendations
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -619,6 +623,13 @@ export default function AnalyticsPage() {
             title="Recent Rounds"
             description={`Showing ${rounds.length} rounds`}
           />
+          <div className="px-6 pb-2">
+            <Link href="/scores">
+              <Button variant="outline" size="sm">
+                View All Scores
+              </Button>
+            </Link>
+          </div>
           <CardContent>
             {rounds.length > 0 ? (
               <div className="space-y-3">

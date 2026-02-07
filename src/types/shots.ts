@@ -50,30 +50,34 @@ export type LieType =
 
 export interface Shot {
   id: string;                    // UUID: "shot_driver_fairwayfinder"
-  
+
   // Link to club
   clubId: string;                // References Club.id
   clubName: string;              // Denormalized: "Driver", "60°"
-  
+
   // Shot identity
   name: ShotName;                // "Fairway Finder", "Flop", etc.
   customName?: string;           // Only if name === 'Custom'
   category: ShotCategory;        // Based on totalYards > 100
-  
+
   // Shot configuration
   takeback: Takeback;
   face: ShotFace;
-  
+
   // Distances (in yards)
   carryYards: number;            // Where ball lands
   rollYards: number;             // Can be NEGATIVE (backspin)
   totalYards: number;            // Carry + Roll
-  
+
+  // Shot modifiers (optional)
+  chokeDownInches?: number;      // 0-4 inches, each inch = -4% distance
+  powerPercent?: number;         // 0-100%, each 5% = +5% distance
+
   // Metadata
   sortOrder: number;
   isDefault: boolean;            // Pre-loaded from Excel
   isActive: boolean;             // Available for recommendations
-  
+
   // Optional: Ideal conditions (used by Shot Optimizer)
   idealLie?: LieType[];          // When this shot works best
   notes?: string;                // User notes

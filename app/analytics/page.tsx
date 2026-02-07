@@ -64,12 +64,21 @@ export default function AnalyticsPage() {
       setLoading(true);
       setError(null);
 
+      console.log('[Analytics] Starting data fetch for user:', user?.uid);
+
       // Fetch all data in parallel
       const [statsData, roundsData, clubsData] = await Promise.all([
         roundsApi.calculateStatistics(),
         roundsApi.getRounds(100),
         clubsApi.getClubs(),
       ]);
+
+      console.log('[Analytics] Data fetched:', {
+        statsData,
+        roundsCount: roundsData.length,
+        clubsCount: clubsData.length,
+      });
+      console.log('[Analytics] First round (if exists):', roundsData[0]);
 
       setStatistics(statsData);
       setRounds(filterRoundsByDateRange(roundsData));

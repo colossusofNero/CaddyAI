@@ -98,13 +98,15 @@ service cloud.firestore {
     }
 
     // Rounds Collection (from mobile app integration)
-    // Shared with React Native mobile app
+    // Shared with React Native mobile app - supports both mobile and web schemas
     match /rounds/{roundId} {
       allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
 
+      // Allow create for both mobile app (with startTime) and web app (with createdAt)
       allow create: if isSignedIn()
         && request.resource.data.userId == request.auth.uid
-        && request.resource.data.keys().hasAll(['userId', 'startTime', 'date']);
+        && request.resource.data.keys().hasAny(['userId', 'date'])
+        && request.resource.data.userId is string;
 
       allow update: if isSignedIn()
         && resource.data.userId == request.auth.uid

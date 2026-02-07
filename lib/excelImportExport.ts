@@ -21,6 +21,8 @@ export interface ExcelShotRow {
   'Face': ShotFace;
   'Carry (yards)': number;
   'Roll (yards)': number;
+  'Choke Down (in)'?: number;
+  'Power (%)'?: number;
 }
 
 /**
@@ -74,6 +76,8 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
     'Face': shot.face,
     'Carry (yards)': shot.carryYards,
     'Roll (yards)': shot.rollYards,
+    'Choke Down (in)': shot.chokeDownInches || 0,
+    'Power (%)': shot.powerPercent || 0,
   }));
 
   // Add sample/instruction rows if no shots
@@ -85,14 +89,28 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
       'Face': 'Square',
       'Carry (yards)': 250,
       'Roll (yards)': 50,
+      'Choke Down (in)': 0,
+      'Power (%)': 0,
     });
     shotsData.push({
       'Club Name': 'Driver',
-      'Shot Name': 'Knockdown',
-      'Takeback': '3/4',
+      'Shot Name': 'Power',
+      'Takeback': 'Full',
       'Face': 'Square',
-      'Carry (yards)': 225,
-      'Roll (yards)': 40,
+      'Carry (yards)': 250,
+      'Roll (yards)': 50,
+      'Choke Down (in)': 0,
+      'Power (%)': 5,
+    });
+    shotsData.push({
+      'Club Name': '7 Iron',
+      'Shot Name': 'Chokedown',
+      'Takeback': 'Full',
+      'Face': 'Square',
+      'Carry (yards)': 150,
+      'Roll (yards)': 10,
+      'Choke Down (in)': 2,
+      'Power (%)': 0,
     });
     shotsData.push({
       'Club Name': '56°',
@@ -101,6 +119,8 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
       'Face': 'Square',
       'Carry (yards)': 20,
       'Roll (yards)': 30,
+      'Choke Down (in)': 0,
+      'Power (%)': 0,
     });
   }
 
@@ -114,6 +134,8 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
     { wch: 12 }, // Face
     { wch: 15 }, // Carry
     { wch: 15 }, // Roll
+    { wch: 16 }, // Choke Down (in)
+    { wch: 12 }, // Power (%)
   ];
 
   XLSX.utils.book_append_sheet(workbook, shotsSheet, 'Shots');
@@ -141,6 +163,8 @@ export function downloadExcelTemplate(clubs: Club[], shots: Shot[]): void {
     ['- Face: Must be one of the options below (copy/paste)', '', '', ''],
     ['- Carry (yards): Distance for this shot variation', '', '', ''],
     ['- Roll (yards): Can be negative for backspin shots', '', '', ''],
+    ['- Choke Down (in): How many inches to choke down (0-4, each = -4%)', '', '', ''],
+    ['- Power (%): Power adjustment (5% increments, each 5% = +5% distance)', '', '', ''],
     ['', '', '', ''],
     ['TIPS:', '', '', ''],
     ['- Maximum 14 clubs allowed', '', '', ''],
@@ -310,14 +334,54 @@ export function parseExcelFile(file: File): Promise<{
               return;
             }
 
+            // Parse optional modifiers
+            let chokeDownInches: number | undefined;
+            let powerPercent: number | undefined;
+
+            if (row['Choke Down (in)'] !== undefined && row['Choke Down (in)'] !== null && row['Choke Down (in)'] !== '') {
+              chokeDownInches = Number(row['Choke Down (in)']);
+              if (isNaN(chokeDownInches) || chokeDownInches < 0 || chokeDownInches > 4) {
+                errors.push(`Row ${rowNum} in Shots: Invalid Choke Down (must be 0-4 inches)`);
+                return;
+              }
+            }
+
+            if (row['Power (%)'] !== undefined && row['Power (%)'] !== null && row['Power (%)'] !== '') {
+              powerPercent = Number(row['Power (%)']);
+              if (isNaN(powerPercent) || powerPercent < 0 || powerPercent > 100) {
+                errors.push(`Row ${rowNum} in Shots: Invalid Power (must be 0-100%)`);
+                return;
+              }
+            }
+
+            // Calculate adjusted distances based on modifiers
+            let adjustedCarry = carry;
+            let adjustedRoll = roll;
+
+            // Apply choke down: each inch = -4%
+            if (chokeDownInches && chokeDownInches > 0) {
+              const chokeDownReduction = 1 - (chokeDownInches * 0.04);
+              adjustedCarry = Math.round(carry * chokeDownReduction);
+              adjustedRoll = Math.round(roll * chokeDownReduction);
+            }
+
+            // Apply power: each 5% = +5% distance
+            if (powerPercent && powerPercent > 0) {
+              const powerMultiplier = 1 + (powerPercent / 100);
+              adjustedCarry = Math.round(adjustedCarry * powerMultiplier);
+              adjustedRoll = Math.round(adjustedRoll * powerMultiplier);
+            }
+
             shots.push({
               clubName: row['Club Name'].trim(),
               name: row['Shot Name'] as ShotName,
               takeback: takeback,
               face: face,
-              carryYards: carry,
-              rollYards: roll,
-              totalYards: carry + roll,
+              carryYards: adjustedCarry,
+              rollYards: adjustedRoll,
+              totalYards: adjustedCarry + adjustedRoll,
+              chokeDownInches: chokeDownInches,
+              powerPercent: powerPercent,
               isActive: true,
               isDefault: false,
             });

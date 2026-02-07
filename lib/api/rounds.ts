@@ -16,16 +16,20 @@ import { query, where, orderBy, limit } from 'firebase/firestore';
 
 class RoundsApi extends ApiClient {
   private readonly COLLECTION = 'rounds';
+  private readonly SCORES_COLLECTION = 'scores'; // Mobile app uses this
   private readonly SHOTS_COLLECTION = 'shots';
   private readonly ACTIVE_ROUNDS_COLLECTION = 'activeRounds';
 
   /**
    * Get all rounds for the current user
+   * Fetches from both 'rounds' (web app) and 'scores' (mobile app) collections
    */
   async getRounds(limitCount = 50): Promise<Round[]> {
     try {
       const userId = this.getCurrentUserId();
+      console.log(`[RoundsAPI] Fetching rounds for userId: ${userId}`);
 
+      // Fetch from rounds collection (web app format)
       const rounds = await this.getDocuments<Round>(
         this.COLLECTION,
         [
@@ -35,9 +39,70 @@ class RoundsApi extends ApiClient {
         ]
       );
 
-      console.log(`[RoundsAPI] Loaded ${rounds.length} rounds for user ${userId}`);
-      return rounds;
+      console.log(`[RoundsAPI] Loaded ${rounds.length} rounds from 'rounds' collection`);
+
+      // Also fetch from scores collection (mobile app format)
+      const scores = await this.getDocuments<any>(
+        this.SCORES_COLLECTION,
+        [
+          this.where('userId', '==', userId),
+          orderBy('date', 'desc'),
+          limit(limitCount)
+        ]
+      );
+
+      console.log(`[RoundsAPI] Loaded ${scores.length} rounds from 'scores' collection`);
+
+      // Convert scores to Round format
+      const convertedScores: Round[] = scores.map((score: any) => {
+        const totalScore = score.stats?.grossScore || 0;
+        const holes = score.holes?.map((hole: any) => ({
+          holeNumber: hole.holeNumber,
+          par: hole.par,
+          score: hole.strokes,
+          putts: hole.putts,
+          fairwayHit: hole.fairwayHit,
+          greenInRegulation: hole.greenInRegulation,
+        })) || [];
+
+        return {
+          id: score.id,
+          userId: score.userId,
+          courseId: score.course?.id || '',
+          courseName: score.course?.name || '',
+          date: score.date,
+          score: totalScore,
+          holes: holes,
+          createdAt: score.createdAt?._seconds ? score.createdAt._seconds * 1000 : Date.now(),
+          updatedAt: score.updatedAt?._seconds ? score.updatedAt._seconds * 1000 : Date.now(),
+        };
+      });
+
+      // Merge and sort by date
+      const allRounds = [...rounds, ...convertedScores];
+      allRounds.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA; // Descending order (most recent first)
+      });
+
+      // Limit results
+      const limitedRounds = allRounds.slice(0, limitCount);
+
+      console.log(`[RoundsAPI] Total rounds after merge: ${limitedRounds.length}`);
+      if (limitedRounds.length > 0) {
+        console.log('[RoundsAPI] Sample round data:', {
+          id: limitedRounds[0].id,
+          userId: limitedRounds[0].userId,
+          courseName: limitedRounds[0].courseName,
+          score: limitedRounds[0].score,
+          holesCount: limitedRounds[0].holes?.length,
+        });
+      }
+
+      return limitedRounds;
     } catch (error) {
+      console.error('[RoundsAPI] Error fetching rounds:', error);
       throw this.handleFirebaseError(error);
     }
   }
@@ -367,11 +432,15 @@ class RoundsApi extends ApiClient {
   async calculateStatistics(): Promise<UserStatistics> {
     try {
       const userId = this.getCurrentUserId();
+      console.log(`[RoundsAPI] Calculating statistics for userId: ${userId}`);
       const rounds = await this.getRounds(100); // Get last 100 rounds
 
       if (rounds.length === 0) {
+        console.log('[RoundsAPI] No rounds found, returning default statistics');
         return this.getDefaultStatistics(userId);
       }
+
+      console.log(`[RoundsAPI] Calculating statistics from ${rounds.length} rounds`);
 
       const totalRounds = rounds.length;
       const totalHoles = rounds.reduce((sum, r) => sum + r.holes.length, 0);

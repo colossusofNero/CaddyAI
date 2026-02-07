@@ -19,7 +19,7 @@ export default function RoundsDiagnosticPage() {
         console.log('[Diagnostics] Current user ID:', user.uid);
 
         // Fetch ALL rounds without userId filter to see what exists
-        const roundsRef = collection(db, 'rounds');
+        const roundsRef = collection(db!, 'rounds');
         const q = query(roundsRef, orderBy('date', 'desc'), limit(10));
 
         const snapshot = await getDocs(q);

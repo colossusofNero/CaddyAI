@@ -12,7 +12,7 @@ export default function RoundsDiagnosticPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !db) return;
 
     const fetchRawRounds = async () => {
       try {

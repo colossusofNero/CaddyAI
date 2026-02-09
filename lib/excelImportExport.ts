@@ -338,7 +338,7 @@ export function parseExcelFile(file: File): Promise<{
             let chokeDownInches: number | undefined;
             let powerPercent: number | undefined;
 
-            if (row['Choke Down (in)'] !== undefined && row['Choke Down (in)'] !== null && row['Choke Down (in)'] !== '') {
+            if (row['Choke Down (in)'] !== undefined && row['Choke Down (in)'] !== null) {
               chokeDownInches = Number(row['Choke Down (in)']);
               if (isNaN(chokeDownInches) || chokeDownInches < 0 || chokeDownInches > 4) {
                 errors.push(`Row ${rowNum} in Shots: Invalid Choke Down (must be 0-4 inches)`);
@@ -346,7 +346,7 @@ export function parseExcelFile(file: File): Promise<{
               }
             }
 
-            if (row['Power (%)'] !== undefined && row['Power (%)'] !== null && row['Power (%)'] !== '') {
+            if (row['Power (%)'] !== undefined && row['Power (%)'] !== null) {
               powerPercent = Number(row['Power (%)']);
               if (isNaN(powerPercent) || powerPercent < 0 || powerPercent > 100) {
                 errors.push(`Row ${rowNum} in Shots: Invalid Power (must be 0-100%)`);

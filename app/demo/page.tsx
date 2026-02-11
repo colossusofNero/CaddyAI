@@ -42,9 +42,9 @@ export default function DemoPage() {
           {/* Emulator Container */}
           <div className="bg-secondary-800 rounded-lg p-4 md:p-8 mb-6">
             <div className="flex justify-center overflow-hidden">
-              {/* Appetize.io emulator configured for Pixel 9 with Android 16.0 */}
+              {/* Appetize.io emulator configured for Pixel 7 Pro with Android 14.0 */}
               <iframe
-                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel9&osVersion=16.0&scale=60&centered=both"
+                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
                 width="100%"
                 height="1050"
                 frameBorder="0"
@@ -84,12 +84,28 @@ export default function DemoPage() {
                   3
                 </span>
                 <span>
-                  Explore features like shot tracking, club recommendations, and weather integration
+                  <strong>Navigate to a hole:</strong> Start a round by selecting a course, then swipe left or right on the hole card, or use the hole selector at the top to jump to any hole
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
                   4
+                </span>
+                <span>
+                  <strong>Try the optimizer:</strong> On the hole view, tap the "Optimize" button to get AI-powered club recommendations based on distance, wind, elevation, and your personal shot data
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  5
+                </span>
+                <span>
+                  Explore other features like shot tracking, weather integration, and performance analytics
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  6
                 </span>
                 <span>
                   Ready to experience it on your own device? Sign up for free below!

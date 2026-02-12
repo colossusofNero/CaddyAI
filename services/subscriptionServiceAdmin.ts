@@ -72,7 +72,7 @@ export async function getSubscriptionStatusAdmin(
             stripePriceId: null,
             status: 'active',
             plan: data.plan === 'pro_annual' ? 'pro' : data.plan,
-            billingPeriod: 'yearly',
+            billingPeriod: 'annual',
             currentPeriodStart: data.startDate,
             currentPeriodEnd: data.endDate,
             cancelAt: null,

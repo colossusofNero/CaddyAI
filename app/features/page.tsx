@@ -317,77 +317,79 @@ export default function FeaturesPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-secondary-800 rounded-2xl p-6 md:p-10 border border-secondary-700"
           >
-            {/* Emulator Container */}
-            <div className="flex justify-center overflow-hidden mb-6">
-              {/* Appetize.io emulator configured for Pixel 7 Pro with Android 14.0 */}
-              <iframe
-                src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
-                width="100%"
-                height="1050"
-                frameBorder="0"
-                scrolling="no"
-                allow="camera;microphone;geolocation"
-                className="rounded-lg shadow-2xl w-full"
-                style={{ maxWidth: '1000px' }}
-                title="Copperline Golf App Demo"
-              />
-            </div>
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              {/* Emulator Container - Left Column */}
+              <div className="flex justify-center overflow-hidden">
+                {/* Appetize.io emulator configured for Pixel 7 Pro with Android 14.0 */}
+                <iframe
+                  src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
+                  width="100%"
+                  height="1050"
+                  frameBorder="0"
+                  scrolling="no"
+                  allow="camera;microphone;geolocation"
+                  className="rounded-lg shadow-2xl w-full"
+                  style={{ maxWidth: '500px' }}
+                  title="Copperline Golf App Demo"
+                />
+              </div>
 
-            {/* Demo Instructions */}
-            <div className="bg-secondary-900 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-text-primary mb-4">
-                How to Use This Demo
-              </h3>
-              <ol className="space-y-3 text-text-secondary">
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    1
-                  </span>
-                  <span>
-                    Wait for the emulator to load (this may take a few seconds)
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    2
-                  </span>
-                  <span>
-                    Tap and interact with the app just like you would on a real device
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    3
-                  </span>
-                  <span>
-                    <strong>Navigate to a hole:</strong> Start a round by selecting a course, then swipe left or right on the hole card, or use the hole selector at the top to jump to any hole
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    4
-                  </span>
-                  <span>
-                    <strong>Try the optimizer:</strong> On the hole view, tap the "Optimize" button to get AI-powered club recommendations based on distance, wind, elevation, and your personal shot data
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    5
-                  </span>
-                  <span>
-                    Explore other features like shot tracking, weather integration, and performance analytics
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                    6
-                  </span>
-                  <span>
-                    Ready to experience it on your own device? Sign up for free below!
-                  </span>
-                </li>
-              </ol>
+              {/* Demo Instructions - Right Column */}
+              <div className="bg-secondary-900 rounded-lg p-6">
+                <h3 className="text-lg font-bold text-text-primary mb-4">
+                  How to Use This Demo
+                </h3>
+                <ol className="space-y-3 text-text-secondary">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      1
+                    </span>
+                    <span>
+                      Wait for the emulator to load (this may take a few seconds)
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      2
+                    </span>
+                    <span>
+                      Tap and interact with the app just like you would on a real device
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      3
+                    </span>
+                    <span>
+                      <strong>Navigate to a hole:</strong> Start a round by selecting a course, then swipe left or right on the hole card, or use the hole selector at the top to jump to any hole
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      4
+                    </span>
+                    <span>
+                      <strong>Try the optimizer:</strong> On the hole view, tap the "Optimize" button to get AI-powered club recommendations based on distance, wind, elevation, and your personal shot data
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      5
+                    </span>
+                    <span>
+                      Explore other features like shot tracking, weather integration, and performance analytics
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      6
+                    </span>
+                    <span>
+                      Ready to experience it on your own device? Sign up for free below!
+                    </span>
+                  </li>
+                </ol>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -254,13 +254,8 @@ export function getCurrentUser(): User | null {
 }
 
 /**
- * Trial configuration
- */
-const TRIAL_DAYS = 7;
-
-/**
  * Create user metadata document in Firestore
- * Also initializes a free trial subscription
+ * Subscription will be created via Stripe checkout (with trial)
  */
 async function createUserMetadata(user: User): Promise<void> {
   if (!db) {
@@ -268,7 +263,6 @@ async function createUserMetadata(user: User): Promise<void> {
   }
 
   const now = new Date();
-  const trialEnd = new Date(now.getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
 
   const userMetadata: UserMetadata = {
     userId: user.uid,
@@ -282,20 +276,20 @@ async function createUserMetadata(user: User): Promise<void> {
     clubsComplete: false,
   };
 
-  // Create user document with metadata AND trial subscription
+  // Create user document with metadata and free plan
+  // Pro subscription with trial will be created via Stripe checkout
   await setDoc(doc(db, 'users', user.uid), {
     ...userMetadata,
     createdAt: serverTimestamp(),
     lastLoginAt: serverTimestamp(),
-    // Initialize trial subscription
     subscription: {
-      status: 'trialing',
-      plan: 'pro',
+      status: 'active',
+      plan: 'free',
       billingPeriod: 'monthly',
       currentPeriodStart: now,
-      currentPeriodEnd: trialEnd,
-      trialStart: now,
-      trialEnd: trialEnd,
+      currentPeriodEnd: new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000), // 1 year
+      trialStart: null,
+      trialEnd: null,
       cancelAt: null,
       canceledAt: null,
       stripeCustomerId: '',
@@ -306,7 +300,7 @@ async function createUserMetadata(user: User): Promise<void> {
     },
   });
 
-  console.log(`[Auth] Created user with ${TRIAL_DAYS}-day trial: ${user.uid}`);
+  console.log(`[Auth] Created user with free plan: ${user.uid}`);
 }
 
 /**

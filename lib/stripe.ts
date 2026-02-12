@@ -55,8 +55,8 @@ export const STRIPE_PRICE_IDS = {
 
 // Subscription configuration
 export const SUBSCRIPTION_CONFIG = {
-  // Trial period in days (14 days as per pricing page)
-  trialPeriodDays: 14,
+  // Trial period in days
+  trialPeriodDays: 7,
 
   // Grace period for failed payments (3 days)
   gracePeriodDays: 3,

@@ -55,9 +55,9 @@ export default function SignupPage() {
       clearError();
       await signUp(data.email, data.password, data.displayName);
       setShowSuccess(true);
-      // Redirect to dashboard after 2 seconds
+      // Redirect to trial setup page after 2 seconds
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/start-trial');
       }, 2000);
     } catch {
       // Error is handled by useAuth
@@ -72,7 +72,7 @@ export default function SignupPage() {
       setGoogleLoading(true);
       clearError();
       await signInWithGoogle();
-      router.push('/dashboard');
+      router.push('/start-trial');
     } catch {
       // Error is handled by useAuth
     } finally {
@@ -86,7 +86,7 @@ export default function SignupPage() {
       setAppleLoading(true);
       clearError();
       await signInWithApple();
-      router.push('/dashboard');
+      router.push('/start-trial');
     } catch {
       // Error is handled by useAuth
     } finally {
@@ -155,8 +155,8 @@ export default function SignupPage() {
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-primary">7-Day Free Trial</p>
-                <p className="text-sm text-text-secondary">Full access to all Pro features. No credit card required.</p>
+                <p className="font-semibold text-primary">7-Day Free Trial Available</p>
+                <p className="text-sm text-text-secondary">Create your account, then start your free Pro trial.</p>
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function SignupPage() {
                 <div className="text-sm">
                   <p className="font-medium">Account created successfully!</p>
                   <p className="text-success text-opacity-80">
-                    Your 7-day Pro trial has started. Check your email to verify your account.
+                    Redirecting you to start your free trial...
                   </p>
                 </div>
               </div>

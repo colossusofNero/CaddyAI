@@ -133,7 +133,7 @@ export function Footer() {
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span>San Francisco, CA 94102</span>
+                  <span>Scottsdale, AZ 85260</span>
                 </div>
               </div>
             </motion.div>

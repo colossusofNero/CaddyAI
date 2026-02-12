@@ -335,8 +335,8 @@ export default function FeaturesPage() {
               </div>
 
               {/* Demo Instructions - Right Column */}
-              <div className="bg-secondary-900 rounded-lg p-6">
-                <h3 className="text-lg font-bold text-text-primary mb-4">
+              <div className="bg-secondary-900 rounded-lg px-6 pb-6 pt-2 self-start">
+                <h3 className="text-lg font-bold text-text-primary mb-4 mt-0">
                   How to Use This Demo
                 </h3>
                 <ol className="space-y-3 text-text-secondary">

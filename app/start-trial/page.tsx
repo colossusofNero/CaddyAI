@@ -82,10 +82,6 @@ export default function StartTrialPage() {
     }
   };
 
-  const handleSkipTrial = () => {
-    router.push('/dashboard');
-  };
-
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -203,18 +199,10 @@ export default function StartTrialPage() {
                 fullWidth
                 loading={isLoading}
                 disabled={isLoading}
-                className="!bg-primary !text-white mb-3"
+                className="!bg-primary !text-white"
               >
                 Start 7-Day Free Trial
               </Button>
-
-              {/* Skip Option */}
-              <button
-                onClick={handleSkipTrial}
-                className="w-full text-center text-sm text-text-muted hover:text-text-secondary transition-colors py-2"
-              >
-                Skip for now and use free features
-              </button>
 
               {/* Terms */}
               <p className="text-xs text-text-muted text-center mt-4">

@@ -322,7 +322,7 @@ export default function FeaturesPage() {
               <div className="flex justify-center overflow-hidden">
                 {/* Appetize.io emulator configured for Pixel 7 Pro with Android 14.0 */}
                 <iframe
-                  src="https://appetize.io/embed/b_jmpblo4hnm22nlndi3etgy7b6a?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
+                  src="https://appetize.io/embed/b_kw2eurfjmjgiqlrgz3lbgvlqwm?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
                   width="100%"
                   height="1050"
                   frameBorder="0"

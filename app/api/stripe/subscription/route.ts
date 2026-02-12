@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const now = new Date();
 
     if (status.status === 'trialing' && status.trialEnd) {
-      const trialEndDate = status.trialEnd.toDate ? status.trialEnd.toDate() : new Date(status.trialEnd);
+      const trialEndDate = status.trialEnd.toDate ? status.trialEnd.toDate() : new Date(status.trialEnd as any);
       if (trialEndDate < now) {
         // Trial has expired - downgrade to free
         effectiveStatus = 'active';
@@ -61,10 +61,10 @@ export async function GET(request: NextRequest) {
       hasActiveSubscription: effectiveStatus === 'active' || effectiveStatus === 'trialing',
       plan: effectivePlan,
       status: effectiveStatus,
-      currentPeriodEnd: status.currentPeriodEnd?.toDate ? status.currentPeriodEnd.toDate().toISOString() : new Date(status.currentPeriodEnd).toISOString(),
+      currentPeriodEnd: status.currentPeriodEnd?.toDate ? status.currentPeriodEnd.toDate().toISOString() : new Date(status.currentPeriodEnd as any).toISOString(),
       cancelAtPeriodEnd: status.cancelAt !== null,
       billingPeriod: status.billingPeriod,
-      trialEnd: status.trialEnd ? (status.trialEnd.toDate ? status.trialEnd.toDate().toISOString() : new Date(status.trialEnd).toISOString()) : null,
+      trialEnd: status.trialEnd ? (status.trialEnd.toDate ? status.trialEnd.toDate().toISOString() : new Date(status.trialEnd as any).toISOString()) : null,
     };
 
     return NextResponse.json(response, { status: 200 });

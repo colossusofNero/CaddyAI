@@ -41,15 +41,30 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(response, { status: 200 });
     }
 
+    // Check if trial has expired
+    let effectiveStatus = status.status;
+    let effectivePlan = status.plan;
+    const now = new Date();
+
+    if (status.status === 'trialing' && status.trialEnd) {
+      const trialEndDate = status.trialEnd.toDate ? status.trialEnd.toDate() : new Date(status.trialEnd);
+      if (trialEndDate < now) {
+        // Trial has expired - downgrade to free
+        effectiveStatus = 'active';
+        effectivePlan = 'free';
+        console.log(`[Subscription API] Trial expired for user ${userId}, downgrading to free`);
+      }
+    }
+
     // Format response
     const response: SubscriptionStatusResponse = {
-      hasActiveSubscription: status.status === 'active' || status.status === 'trialing',
-      plan: status.plan,
-      status: status.status,
-      currentPeriodEnd: status.currentPeriodEnd.toDate().toISOString(),
+      hasActiveSubscription: effectiveStatus === 'active' || effectiveStatus === 'trialing',
+      plan: effectivePlan,
+      status: effectiveStatus,
+      currentPeriodEnd: status.currentPeriodEnd?.toDate ? status.currentPeriodEnd.toDate().toISOString() : new Date(status.currentPeriodEnd).toISOString(),
       cancelAtPeriodEnd: status.cancelAt !== null,
       billingPeriod: status.billingPeriod,
-      trialEnd: status.trialEnd ? status.trialEnd.toDate().toISOString() : null,
+      trialEnd: status.trialEnd ? (status.trialEnd.toDate ? status.trialEnd.toDate().toISOString() : new Date(status.trialEnd).toISOString()) : null,
     };
 
     return NextResponse.json(response, { status: 200 });

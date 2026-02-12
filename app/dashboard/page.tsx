@@ -463,20 +463,33 @@ export default function DashboardPage() {
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-text-primary">Subscription</h3>
-              {subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? (
+              {subscription?.status === 'trialing' ? (
+                <Sparkles className="w-6 h-6 text-accent" />
+              ) : subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? (
                 <CheckCircle className="w-6 h-6 text-success" />
               ) : (
-                <Sparkles className="w-6 h-6 text-accent" />
+                <AlertCircle className="w-6 h-6 text-warning" />
               )}
             </div>
-            <p className="text-text-secondary text-sm mb-4 capitalize">
-              {subscription?.plan === 'free' && 'Free Plan'}
-              {subscription?.plan === 'pro' && 'Copperline Golf Pro'}
+            <p className="text-text-secondary text-sm mb-2 capitalize">
               {!subscription && 'Loading...'}
+              {subscription?.status === 'trialing' && 'Pro Trial'}
+              {subscription?.status !== 'trialing' && subscription?.plan === 'free' && 'Free Plan'}
+              {subscription?.status !== 'trialing' && subscription?.plan === 'pro' && 'Copperline Golf Pro'}
             </p>
-            <Link href={subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? '/settings/subscription' : '/pricing'}>
+            {subscription?.status === 'trialing' && subscription?.trialEnd && (
+              <p className="text-accent text-xs mb-3">
+                {(() => {
+                  const trialEnd = new Date(subscription.trialEnd);
+                  const now = new Date();
+                  const daysLeft = Math.ceil((trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+                  return daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? 's' : ''} left in trial` : 'Trial ending today';
+                })()}
+              </p>
+            )}
+            <Link href={subscription?.hasActiveSubscription && subscription?.plan !== 'free' && subscription?.status !== 'trialing' ? '/settings/subscription' : '/pricing'}>
               <Button variant="outline" size="sm" fullWidth>
-                {subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? 'Manage Subscription' : 'Upgrade Plan'}
+                {subscription?.status === 'trialing' ? 'Subscribe Now' : subscription?.hasActiveSubscription && subscription?.plan !== 'free' ? 'Manage Subscription' : 'Upgrade Plan'}
               </Button>
             </Link>
           </Card>

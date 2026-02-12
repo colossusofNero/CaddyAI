@@ -143,8 +143,23 @@ export default function SignupPage() {
           <h1 className="sr-only">Create Your Copperline Golf Account</h1>
           <CardHeader
             title="Create your account"
-            description="Join Copperline Golf and improve your golf game"
+            description="Start your 7-day free Pro trial today"
           />
+
+          {/* Free Trial Banner */}
+          <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-semibold text-primary">7-Day Free Trial</p>
+                <p className="text-sm text-text-secondary">Full access to all Pro features. No credit card required.</p>
+              </div>
+            </div>
+          </div>
 
           <CardContent>
             {/* Success message */}
@@ -164,7 +179,7 @@ export default function SignupPage() {
                 <div className="text-sm">
                   <p className="font-medium">Account created successfully!</p>
                   <p className="text-success text-opacity-80">
-                    Please check your email to verify your account.
+                    Your 7-day Pro trial has started. Check your email to verify your account.
                   </p>
                 </div>
               </div>

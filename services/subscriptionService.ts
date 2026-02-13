@@ -46,17 +46,10 @@ export async function createCheckoutSession(
   // Get the price ID for the selected plan and billing period
   const priceId = STRIPE_PRICE_IDS[plan][billingPeriod];
 
-  // Check if user already has a Stripe customer ID
-  let customerId: string | undefined;
-  const existingSubscription = await getSubscriptionStatus(userId);
-  if (existingSubscription?.stripeCustomerId) {
-    customerId = existingSubscription.stripeCustomerId;
-  }
-
-  // Create checkout session
+  // Create checkout session - Stripe will create a new customer
+  // Customer ID linking happens via webhook after checkout completes
   const session = await stripe.checkout.sessions.create({
-    customer: customerId,
-    customer_email: customerId ? undefined : customerEmail,
+    customer_email: customerEmail,
     line_items: [
       {
         price: priceId,

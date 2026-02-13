@@ -68,7 +68,8 @@ export default function StartTrialPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to create checkout session');
+        console.error('Checkout error details:', data);
+        throw new Error(data.details || data.error || 'Failed to create checkout session');
       }
 
       const { url } = await response.json();

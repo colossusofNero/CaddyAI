@@ -66,14 +66,24 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response, { status: 200 });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating checkout session:', error);
 
-    // Return error response
+    // Check for Stripe-specific errors
+    const errorMessage = error?.message || 'Unknown error';
+    const stripeCode = error?.code || error?.type || null;
+
+    // Return detailed error response
     return NextResponse.json(
       {
         error: 'Failed to create checkout session',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: errorMessage,
+        stripeCode,
+        hint: errorMessage.includes('API key')
+          ? 'Check STRIPE_SECRET_KEY environment variable'
+          : errorMessage.includes('price')
+          ? 'Check STRIPE_PRICE_ID environment variables'
+          : null,
       },
       { status: 500 }
     );

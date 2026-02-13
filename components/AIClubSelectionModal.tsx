@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { X, Mic, MicOff } from 'lucide-react';
 import { useConversation } from '@elevenlabs/react';
 
-type SkillLevel = 'Beginner' | 'Intermediate' | 'Advanced' | 'Pro' | 'Tour Pro';
+type AgentType = 'Talk it Through' | 'Just the Facts' | 'Minimal';
 
 interface AIClubSelectionModalProps {
   isOpen: boolean;
@@ -13,7 +13,7 @@ interface AIClubSelectionModalProps {
 }
 
 export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalProps) {
-  const [selectedLevel, setSelectedLevel] = useState<SkillLevel | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<AgentType | null>(null);
   const [agentError, setAgentError] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -71,12 +71,12 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
       setAgentError(null);
 
       const dynamicVariables = {
-        golf_level: selectedLevel || 'Beginner'
+        agent_type: selectedLevel || 'Just the Facts'
       };
 
       console.log('========================================');
       console.log('[AIClubSelectionModal] DEBUG: Starting conversation');
-      console.log('[AIClubSelectionModal] Selected Level:', selectedLevel);
+      console.log('[AIClubSelectionModal] Selected Agent:', selectedLevel);
       console.log('[AIClubSelectionModal] Dynamic Variables being sent:', JSON.stringify(dynamicVariables, null, 2));
       console.log('[AIClubSelectionModal] Agent ID:', 'agent_2401k6recqf9f63ak9v5ha7s4n6s');
       console.log('[AIClubSelectionModal] Connection Type:', 'webrtc');
@@ -110,8 +110,8 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
         console.error('[AIClubSelectionModal] Error stack:', error.stack);
       }
 
-      console.error('[AIClubSelectionModal] Selected level at error:', selectedLevel);
-      console.error('[AIClubSelectionModal] Variables attempted:', { golf_level: selectedLevel || 'Beginner' });
+      console.error('[AIClubSelectionModal] Selected agent at error:', selectedLevel);
+      console.error('[AIClubSelectionModal] Variables attempted:', { agent_type: selectedLevel || 'Just the Facts' });
       console.error('========================================');
 
       setAgentError(error instanceof Error ? error.message : 'Failed to start conversation');
@@ -125,8 +125,8 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
     }
   };
 
-  const handleLevelSelect = (level: SkillLevel) => {
-    console.log('[AIClubSelectionModal] User selected skill level:', level);
+  const handleLevelSelect = (level: AgentType) => {
+    console.log('[AIClubSelectionModal] User selected agent type:', level);
     setSelectedLevel(level);
   };
 
@@ -145,12 +145,10 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
 
   if (!isOpen) return null;
 
-  const skillLevels: Array<{ level: SkillLevel; description: string }> = [
-    { level: 'Beginner', description: 'New to golf, learning the basics' },
-    { level: 'Intermediate', description: 'Comfortable with fundamentals' },
-    { level: 'Advanced', description: 'Experienced player, low handicap' },
-    { level: 'Pro', description: 'Competitive tournament player' },
-    { level: 'Tour Pro', description: 'Professional level player' },
+  const agentTypes: Array<{ level: AgentType; description: string }> = [
+    { level: 'Talk it Through', description: 'Detailed explanations and strategy discussion' },
+    { level: 'Just the Facts', description: 'Clear recommendations with key details' },
+    { level: 'Minimal', description: 'Quick club suggestion, no explanation' },
   ];
 
   return (
@@ -176,9 +174,9 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
               </div>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">AI Powered Club Selection</h2>
-            <p className="text-lg text-gray-600 text-center mb-8">Select your skill level to get personalized club recommendations</p>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {skillLevels.map(({ level, description }) => (
+            <p className="text-lg text-gray-600 text-center mb-8">Choose your AI agent style for personalized club recommendations</p>
+            <div className="grid gap-4 md:grid-cols-3">
+              {agentTypes.map(({ level, description }) => (
                 <button
                   key={level}
                   onClick={() => handleLevelSelect(level)}
@@ -197,8 +195,8 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
           <>
             {/* Widget View */}
             <div className="mb-6">
-              <Button variant="outline" size="sm" onClick={handleReset} className="mb-4">Change Level</Button>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedLevel} Level Selected</h2>
+              <Button variant="outline" size="sm" onClick={handleReset} className="mb-4">Change Agent</Button>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedLevel} Agent Selected</h2>
               <p className="text-gray-600">Tell the AI assistant about your shot and get personalized recommendations</p>
             </div>
 

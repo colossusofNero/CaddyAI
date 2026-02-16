@@ -415,6 +415,15 @@ export default function DashboardPage() {
               </button>
             </Link>
 
+            <Link href="/recommendations">
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-accent/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
+                  <Sparkles className="w-6 h-6 text-accent" />
+                </div>
+                <h4 className="font-medium text-text-primary">AI Recommendations</h4>
+              </button>
+            </Link>
+
             <Link href="/clubs">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
                 <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">

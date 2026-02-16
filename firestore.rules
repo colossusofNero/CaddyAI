@@ -97,12 +97,74 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
-    // Rounds Collection (from mobile app integration)
-    // Shared with React Native mobile app - supports both mobile and web schemas
-    match /rounds/{roundId} {
+    // ============================================================================
+    // RECOMMENDATION TRACKING (New System)
+    // ============================================================================
+
+    // Recommendation Events: /recommendations/{userId}/events/{eventId}
+    match /recommendations/{userId}/events/{eventId} {
+      // Users can read their own recommendations
+      allow read: if isOwner(userId);
+
+      // Users can create their own recommendations
+      allow create: if isOwner(userId)
+                    && request.resource.data.userId == userId
+                    && request.resource.data.timestamp is timestamp
+                    && request.resource.data.source in ['optimizer-button', 'ai-agent', 'manual'];
+
+      // Users can update their own recommendations (for decisions and outcomes)
+      allow update: if isOwner(userId)
+                    && resource.data.userId == userId
+                    && request.resource.data.userId == userId; // Can't change userId
+
+      // Users can delete their own recommendations
+      allow delete: if isOwner(userId);
+    }
+
+    // Recommendation Stats: /recommendations/{userId}/meta/stats
+    match /recommendations/{userId}/meta/stats {
+      // Users can read their own stats
+      allow read: if isOwner(userId);
+
+      // Users can write their own stats (updated by service)
+      allow write: if isOwner(userId);
+    }
+
+    // ============================================================================
+    // UNIFIED SCORES COLLECTION (Mobile + Web)
+    // ============================================================================
+
+    // Scores: /scores/{scoreId} - Unified collection for all rounds
+    match /scores/{scoreId} {
+      // Users can read their own scores
       allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
 
-      // Allow create for both mobile app (with startTime) and web app (with createdAt)
+      // Users can create scores with their own userId
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.createdAt is timestamp
+                    && request.resource.data.roundType in ['18', '9-front', '9-back'];
+
+      // Users can update their own scores
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == request.auth.uid; // Can't change userId
+
+      // Users can delete their own scores
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // ============================================================================
+    // LEGACY ROUNDS COLLECTION (Kept for backward compatibility)
+    // ============================================================================
+
+    // Rounds Collection (DEPRECATED - Use /scores instead)
+    // Kept for reading legacy data
+    match /rounds/{roundId} {
+      // Users can read their own rounds
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Allow create for backward compatibility
       allow create: if isSignedIn()
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.keys().hasAny(['userId', 'date'])

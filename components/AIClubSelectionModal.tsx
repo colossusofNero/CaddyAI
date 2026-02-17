@@ -1,21 +1,54 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { X, Mic, MicOff } from 'lucide-react';
 import { useConversation } from '@elevenlabs/react';
+import { useRecommendationTracking } from '@/hooks/useRecommendationTracking';
 
 type AgentType = 'Talk it Through' | 'Just the Facts' | 'Minimal';
 
 interface AIClubSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  // Optional context for tracking
+  roundId?: string;
+  holeNumber?: number;
+  shotNumber?: number;
+  distanceToTarget?: number;
+  gpsPosition?: {
+    latitude: number;
+    longitude: number;
+    accuracy: number;
+    timestamp: number;
+  };
+  weather?: {
+    temperature: number;
+    windSpeed: number;
+    windDirection: number;
+    humidity: number;
+    conditions: string;
+    elevationChange?: number;
+  };
 }
 
-export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalProps) {
+export function AIClubSelectionModal({
+  isOpen,
+  onClose,
+  roundId,
+  holeNumber,
+  shotNumber,
+  distanceToTarget,
+  gpsPosition,
+  weather,
+}: AIClubSelectionModalProps) {
   const [selectedLevel, setSelectedLevel] = useState<AgentType | null>(null);
   const [agentError, setAgentError] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [currentRecommendationId, setCurrentRecommendationId] = useState<string | null>(null);
+  const conversationMessages = useRef<Array<{ role: string; content: string }>>([]);
+
+  const { trackRecommendation, updateDecision } = useRecommendationTracking();
 
   const conversation = useConversation({
     onConnect: () => {
@@ -45,9 +78,70 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
       setAgentError(message);
       setIsConnecting(false);
     },
-    onMessage: (message) => {
+    onMessage: async (message) => {
       console.log('[AIClubSelectionModal] Message received:', message);
       console.log('[AIClubSelectionModal] Message type:', typeof message);
+
+      // Store conversation history
+      const messageContent = typeof message === 'string' ? message : JSON.stringify(message);
+      conversationMessages.current.push({
+        role: 'agent',
+        content: messageContent,
+      });
+
+      // Check if message contains a club recommendation
+      const clubPattern = /(\d+[- ]?(iron|wood|hybrid|wedge|driver|putter)|pw|sw|lw|gw)/i;
+      const hasRecommendation = clubPattern.test(messageContent);
+
+      if (hasRecommendation && !currentRecommendationId && distanceToTarget) {
+        // AI agent provided a recommendation - track it
+        try {
+          const eventId = await trackRecommendation({
+            source: 'ai-agent',
+            roundId: roundId || `round_${Date.now()}`,
+            holeNumber: holeNumber || 1,
+            shotNumber: shotNumber || 1,
+            gpsPosition: gpsPosition || {
+              latitude: 0,
+              longitude: 0,
+              accuracy: 0,
+              timestamp: Date.now(),
+            },
+            conditions: weather || {
+              temperature: 70,
+              windSpeed: 0,
+              windDirection: 0,
+              humidity: 50,
+              conditions: 'Clear',
+            },
+            distanceToTarget,
+            recommendations: [
+              {
+                rank: 1,
+                shotId: `shot_ai_${Date.now()}`,
+                clubId: 'club_unknown',
+                clubName: 'AI Recommendation',
+                shotName: 'Standard',
+                takeback: 'Full',
+                face: 'Square',
+                carryYards: distanceToTarget,
+                rollYards: 10,
+                totalYards: distanceToTarget + 10,
+                expectedValue: 0.85,
+                adjustedCarry: distanceToTarget,
+                reasoning: messageContent.substring(0, 200),
+              },
+            ],
+            deviceType: 'web',
+            appVersion: '1.0.0',
+          });
+
+          setCurrentRecommendationId(eventId);
+          console.log('[AIClubSelectionModal] Tracked AI recommendation:', eventId);
+        } catch (error) {
+          console.error('[AIClubSelectionModal] Error tracking recommendation:', error);
+        }
+      }
     },
   });
 
@@ -136,11 +230,63 @@ export function AIClubSelectionModal({ isOpen, onClose }: AIClubSelectionModalPr
     setAgentError(null);
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
+    // If there's a recommendation but no decision tracked, record as no-decision
+    if (currentRecommendationId) {
+      try {
+        await updateDecision({
+          eventId: currentRecommendationId,
+          decisionType: 'no-decision',
+          chosenShotId: '',
+          chosenClubName: '',
+          chosenShotName: '',
+          conversationContext: {
+            userResponse: 'Conversation ended without decision',
+            agentQuestion: conversationMessages.current
+              .filter(m => m.role === 'agent')
+              .map(m => m.content)
+              .join(' | '),
+            confidence: 'low',
+          },
+        });
+      } catch (error) {
+        console.error('[AIClubSelectionModal] Error tracking no-decision:', error);
+      }
+    }
+
     stopConversation();
     setSelectedLevel(null);
     setAgentError(null);
+    setCurrentRecommendationId(null);
+    conversationMessages.current = [];
     onClose();
+  };
+
+  // Helper to track user decision from conversation
+  const trackUserDecision = async (userResponse: string, chosenClub: string) => {
+    if (!currentRecommendationId) return;
+
+    try {
+      await updateDecision({
+        eventId: currentRecommendationId,
+        decisionType: 'followed-primary', // Could be enhanced to detect if they chose differently
+        chosenShotId: `shot_${chosenClub}`,
+        chosenClubName: chosenClub,
+        chosenShotName: 'Standard',
+        conversationContext: {
+          userResponse,
+          agentQuestion: conversationMessages.current
+            .filter(m => m.role === 'agent')
+            .map(m => m.content)
+            .join(' | '),
+          confidence: 'high',
+        },
+      });
+
+      console.log('[AIClubSelectionModal] Tracked user decision:', chosenClub);
+    } catch (error) {
+      console.error('[AIClubSelectionModal] Error tracking decision:', error);
+    }
   };
 
   if (!isOpen) return null;

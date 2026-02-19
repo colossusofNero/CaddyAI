@@ -4,6 +4,8 @@
  */
 
 import type { FirebaseScore, ScoreDisplay, UserStatistics, CourseStatistics } from '@/types/scores';
+import { DEFAULT_LABELS } from '@/lib/labels/defaults';
+import type { Labels } from '@/lib/labels/defaults';
 
 /**
  * Get score color based on score relative to par
@@ -20,17 +22,19 @@ export function getScoreColor(strokes: number, par: number): string {
 
 /**
  * Get score name (Eagle, Birdie, Par, etc.)
+ * Accepts optional labels param to use Firebase-sourced display strings.
  */
-export function getScoreName(strokes: number, par: number): string {
+export function getScoreName(strokes: number, par: number, labels?: Labels): string {
   const diff = strokes - par;
+  const scoreLabels = labels?.scores ?? DEFAULT_LABELS.scores;
 
-  if (diff <= -3) return 'Albatross';
-  if (diff === -2) return 'Eagle';
-  if (diff === -1) return 'Birdie';
-  if (diff === 0) return 'Par';
-  if (diff === 1) return 'Bogey';
-  if (diff === 2) return 'Double';
-  if (diff === 3) return 'Triple';
+  if (diff <= -3) return scoreLabels['-3'];
+  if (diff === -2) return scoreLabels['-2'];
+  if (diff === -1) return scoreLabels['-1'];
+  if (diff === 0) return scoreLabels['0'];
+  if (diff === 1) return scoreLabels['1'];
+  if (diff === 2) return scoreLabels['2'];
+  if (diff === 3) return scoreLabels['3'];
   return `+${diff}`;
 }
 

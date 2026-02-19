@@ -130,6 +130,50 @@ class RoundsApi extends ApiClient {
   }
 
   /**
+   * Get a single round by ID, checking both `scores` (mobile) and `rounds` (web) collections.
+   * Converts mobile app format to unified Round type if found in scores.
+   */
+  async getRoundById(roundId: string): Promise<Round | null> {
+    try {
+      // Check scores collection first (mobile app source)
+      const scoreDoc = await this.getDocument<any>(this.SCORES_COLLECTION, roundId);
+      if (scoreDoc) {
+        const totalScore = scoreDoc.stats?.grossScore || 0;
+        const holes = scoreDoc.holes?.map((hole: any) => ({
+          holeNumber: hole.holeNumber,
+          par: hole.par,
+          score: hole.strokes,
+          putts: hole.putts,
+          fairwayHit: hole.fairwayHit,
+          greenInRegulation: hole.greenInRegulation,
+        })) || [];
+
+        return {
+          id: scoreDoc.id,
+          userId: scoreDoc.userId,
+          courseId: scoreDoc.course?.id || '',
+          courseName: scoreDoc.course?.name || '',
+          date: scoreDoc.date,
+          score: totalScore,
+          holes,
+          teeUsed: scoreDoc.tee?.name,
+          teeColor: scoreDoc.tee?.color,
+          courseRating: scoreDoc.courseRating,
+          slopeRating: scoreDoc.slopeRating,
+          createdAt: scoreDoc.createdAt?._seconds ? scoreDoc.createdAt._seconds * 1000 : Date.now(),
+          updatedAt: scoreDoc.updatedAt?._seconds ? scoreDoc.updatedAt._seconds * 1000 : Date.now(),
+        };
+      }
+
+      // Fall back to rounds collection (web app source)
+      const round = await this.getDocument<Round>(this.COLLECTION, roundId);
+      return round;
+    } catch (error) {
+      throw this.handleFirebaseError(error);
+    }
+  }
+
+  /**
    * Create a new round
    */
   async createRound(request: CreateRoundRequest): Promise<Round> {

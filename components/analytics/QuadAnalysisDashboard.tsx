@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { QuadAnalysisService, QuadAnalysis } from '@/services/quadAnalysisService';
 import { TrendingUp, TrendingDown, CheckCircle, XCircle, AlertCircle, Lightbulb } from 'lucide-react';
 

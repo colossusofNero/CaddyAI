@@ -83,7 +83,7 @@ export function ShotOptimizerButton({
       }
 
       // Get second best option (next closest club)
-      const otherClubs = availableClubs.filter(c => c.id !== primaryRec.club.id);
+      const otherClubs = availableClubs.filter(c => c.name !== primaryRec.club.name);
       const secondaryRec = recommendClubForDistance(
         distanceToTarget,
         otherClubs,
@@ -93,7 +93,7 @@ export function ShotOptimizerButton({
       );
 
       // Get third option if available
-      const otherClubs2 = otherClubs.filter(c => c.id !== secondaryRec?.club.id);
+      const otherClubs2 = otherClubs.filter(c => c.name !== secondaryRec?.club.name);
       const tertiaryRec = recommendClubForDistance(
         distanceToTarget,
         otherClubs2,
@@ -106,14 +106,14 @@ export function ShotOptimizerButton({
       const recommendations = [
         {
           rank: 1,
-          shotId: `shot_${primaryRec.club.id}_primary`,
-          clubId: primaryRec.club.id,
+          shotId: `shot_${primaryRec.club.name}_primary`,
+          clubId: primaryRec.club.name,
           clubName: primaryRec.club.name,
           shotName: 'Standard',
           takeback: 'Full',
           face: 'Square',
           carryYards: primaryRec.club.carryYards,
-          rollYards: primaryRec.club.rollYards || 10,
+          rollYards: 10,
           totalYards: primaryRec.adjustedDistance,
           expectedValue: 0.90,
           adjustedCarry: primaryRec.adjustedDistance,
@@ -124,14 +124,14 @@ export function ShotOptimizerButton({
       if (secondaryRec) {
         recommendations.push({
           rank: 2,
-          shotId: `shot_${secondaryRec.club.id}_secondary`,
-          clubId: secondaryRec.club.id,
+          shotId: `shot_${secondaryRec.club.name}_secondary`,
+          clubId: secondaryRec.club.name,
           clubName: secondaryRec.club.name,
           shotName: 'Standard',
           takeback: 'Full',
           face: 'Square',
           carryYards: secondaryRec.club.carryYards,
-          rollYards: secondaryRec.club.rollYards || 10,
+          rollYards: 10,
           totalYards: secondaryRec.adjustedDistance,
           expectedValue: 0.80,
           adjustedCarry: secondaryRec.adjustedDistance,
@@ -142,14 +142,14 @@ export function ShotOptimizerButton({
       if (tertiaryRec) {
         recommendations.push({
           rank: 3,
-          shotId: `shot_${tertiaryRec.club.id}_tertiary`,
-          clubId: tertiaryRec.club.id,
+          shotId: `shot_${tertiaryRec.club.name}_tertiary`,
+          clubId: tertiaryRec.club.name,
           clubName: tertiaryRec.club.name,
           shotName: 'Standard',
           takeback: 'Full',
           face: 'Square',
           carryYards: tertiaryRec.club.carryYards,
-          rollYards: tertiaryRec.club.rollYards || 10,
+          rollYards: 10,
           totalYards: tertiaryRec.adjustedDistance,
           expectedValue: 0.70,
           adjustedCarry: tertiaryRec.adjustedDistance,

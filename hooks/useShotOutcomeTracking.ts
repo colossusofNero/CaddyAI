@@ -118,11 +118,9 @@ export function useShotOutcomeTracking(params: ShotOutcomeParams = {}) {
       try {
         await updateOutcome({
           eventId: currentRecommendationId.current,
-          positionBefore,
           positionAfter,
           landingArea,
           outcome,
-          actualDistanceYards,
         });
 
         console.log('[ShotOutcome] Successfully tracked outcome');

@@ -117,7 +117,6 @@ export function AIClubSelectionModal({
             distanceToTarget,
             recommendations: [
               {
-                rank: 1,
                 shotId: `shot_ai_${Date.now()}`,
                 clubId: 'club_unknown',
                 clubName: 'AI Recommendation',

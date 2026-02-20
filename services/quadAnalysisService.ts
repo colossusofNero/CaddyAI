@@ -12,7 +12,8 @@
  * 4. Didn't Follow + Bad = Should Have Followed
  */
 
-import { recommendationTrackingService, RecommendationEvent } from './recommendationTrackingService';
+import { recommendationTrackingService } from './recommendationTrackingService';
+import type RecommendationEvent from '@/types/recommendationTracking';
 
 export interface QuadData {
   count: number;
@@ -65,10 +66,16 @@ export class QuadAnalysisService {
    */
   async analyzeQuadrants(dateRange: 'week' | 'month' | 'all' = 'all'): Promise<QuadAnalysis> {
     // Get events with decisions and outcomes
-    const events = await recommendationTrackingService.getRecommendations(this.userId, {
-      dateRange,
-      requireDecision: true,
-      requireOutcome: true,
+    const startDate = dateRange === 'week'
+      ? new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      : dateRange === 'month'
+        ? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+        : undefined;
+
+    const events = await recommendationTrackingService.getRecommendations({
+      userId: this.userId,
+      ...(startDate ? { startDate } : {}),
+      limit: 500,
     });
 
     if (events.length === 0) {

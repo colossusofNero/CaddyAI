@@ -1,6 +1,6 @@
 /**
  * Start Trial Page
- * Collects payment info for 7-day free trial
+ * Collects payment info for 14-day free trial
  */
 
 'use client';
@@ -121,7 +121,7 @@ export default function StartTrialPage() {
           <Card variant="elevated" padding="lg" className="bg-white border-primary/20">
             <CardHeader
               title="Start Your Free Trial"
-              description="7 days free, then choose your plan. Cancel anytime."
+              description="14 days free, then choose your plan. Cancel anytime."
             />
 
             <CardContent>
@@ -190,7 +190,7 @@ export default function StartTrialPage() {
               <div className="flex items-start gap-3 bg-neutral-50 rounded-lg p-3 mb-6">
                 <CreditCard className="w-5 h-5 text-text-muted flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-text-secondary">
-                  You won&apos;t be charged today. Your card will be charged ${billingPeriod === 'monthly' ? PRICING.monthly.price : PRICING.annual.price} after your 7-day free trial ends.
+                  You won&apos;t be charged today. Your card will be charged ${billingPeriod === 'monthly' ? PRICING.monthly.price : PRICING.annual.price} after your 14-day free trial ends.
                 </p>
               </div>
 
@@ -202,7 +202,7 @@ export default function StartTrialPage() {
                 disabled={isLoading}
                 className="!bg-copper !text-white hover:!bg-copper-dark"
               >
-                Start 7-Day Free Trial
+                Start 14-Day Free Trial
               </Button>
 
               {/* Terms */}

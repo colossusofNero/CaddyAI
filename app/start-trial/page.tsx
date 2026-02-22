@@ -200,7 +200,7 @@ export default function StartTrialPage() {
                 fullWidth
                 loading={isLoading}
                 disabled={isLoading}
-                className="!bg-primary !text-white"
+                className="!bg-copper !text-white hover:!bg-copper-dark"
               >
                 Start 7-Day Free Trial
               </Button>

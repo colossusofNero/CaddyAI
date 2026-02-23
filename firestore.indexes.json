@@ -98,14 +98,6 @@
       ]
     },
     {
-      "collectionGroup": "activeRounds",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "lastActivity", "order": "DESCENDING" }
-      ]
-    },
-
-    {
       "collectionGroup": "shots",
       "queryScope": "COLLECTION",
       "fields": [

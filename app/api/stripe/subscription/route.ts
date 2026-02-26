@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
 
     // Format response
     const response: SubscriptionStatusResponse = {
-      hasActiveSubscription: effectiveStatus === 'active' || effectiveStatus === 'trialing',
+      hasActiveSubscription: (effectiveStatus === 'active' || effectiveStatus === 'trialing') && effectivePlan !== 'free',
       plan: effectivePlan,
       status: effectiveStatus,
       currentPeriodEnd: status.currentPeriodEnd?.toDate ? status.currentPeriodEnd.toDate().toISOString() : new Date(status.currentPeriodEnd as any).toISOString(),

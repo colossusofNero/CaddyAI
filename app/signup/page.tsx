@@ -143,7 +143,7 @@ export default function SignupPage() {
           <h1 className="sr-only">Create Your Copperline Golf Account</h1>
           <CardHeader
             title="Create your account"
-            description="Start your 7-day free Pro trial today"
+            description="Start your 14-day free Pro trial today"
           />
 
           {/* Free Trial Banner */}
@@ -155,7 +155,7 @@ export default function SignupPage() {
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-primary">7-Day Free Trial Available</p>
+                <p className="font-semibold text-primary">14-Day Free Trial Available</p>
                 <p className="text-sm text-text-secondary">Create your account, then start your free Pro trial.</p>
               </div>
             </div>

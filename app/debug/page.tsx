@@ -11,6 +11,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { roundsApi } from '@/lib/api/rounds';
 import { firebaseService } from '@/services/firebaseService';
+import { recommendationTrackingService } from '@/services/recommendationTrackingService';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -85,6 +86,32 @@ export default function DebugPage() {
       } catch (error: any) {
         info.errors.push(`Statistics error: ${error.message}`);
         info.statistics = { error: error.message };
+      }
+
+      // Check recommendations collection
+      try {
+        const recs = await recommendationTrackingService.getRecommendations({
+          userId: user.uid,
+          limit: 10,
+        });
+        const recStats = await recommendationTrackingService.getUserStats(user.uid);
+        info.collections.recommendations = {
+          count: recs.length,
+          stats: recStats,
+          sample: recs.slice(0, 2).map(r => ({
+            id: r.id,
+            source: r.source,
+            holeNumber: r.holeNumber,
+            distanceToTarget: r.distanceToTarget,
+            recommendationCount: r.recommendations.length,
+            hasDecision: !!r.userDecision,
+            hasOutcome: !!r.outcome,
+            timestamp: r.timestamp,
+          })),
+        };
+      } catch (error: any) {
+        info.errors.push(`Recommendations error: ${error.message}`);
+        info.collections.recommendations = { error: error.message };
       }
 
     } catch (error: any) {
@@ -220,6 +247,14 @@ export default function DebugPage() {
                     <h3 className="font-semibold text-text-primary mb-2">Active Round</h3>
                     <pre className="p-4 bg-secondary-800 rounded text-xs text-text-primary overflow-x-auto">
                       {JSON.stringify(debugInfo.collections.activeRound, null, 2)}
+                    </pre>
+                  </div>
+
+                  {/* Recommendations */}
+                  <div>
+                    <h3 className="font-semibold text-text-primary mb-2">Recommendations Collection</h3>
+                    <pre className="p-4 bg-secondary-800 rounded text-xs text-text-primary overflow-x-auto">
+                      {JSON.stringify(debugInfo.collections.recommendations, null, 2)}
                     </pre>
                   </div>
                 </div>

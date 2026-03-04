@@ -32,10 +32,19 @@ const PRICING = {
 
 export default function StartTrialPage() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push('/');
+    } catch {
+      router.push('/');
+    }
+  };
 
   // Redirect to login if not authenticated
   if (!authLoading && !user) {
@@ -111,6 +120,12 @@ export default function StartTrialPage() {
                 Copperline Golf
               </span>
             </Link>
+            <button
+              onClick={handleSignOut}
+              className="text-sm font-medium text-text-secondary border border-secondary-600 rounded-lg px-4 py-2 hover:bg-secondary-800 transition-colors"
+            >
+              Sign Out
+            </button>
           </div>
         </div>
       </div>
@@ -213,6 +228,7 @@ export default function StartTrialPage() {
                 <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
                 Cancel anytime before trial ends to avoid charges.
               </p>
+
             </CardContent>
           </Card>
         </div>

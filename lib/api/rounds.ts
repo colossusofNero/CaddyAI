@@ -574,7 +574,14 @@ class RoundsApi extends ApiClient {
    */
   private calculateHandicap(rounds: Round[]): number {
     // Only use 18-hole rounds — 9-hole rounds skew the handicap calculation
-    const fullRounds = rounds.filter(r => Array.isArray(r.holes) && r.holes.length >= 18 && r.score && r.score > 0);
+    const holesBasedFull = rounds.filter(r => Array.isArray(r.holes) && r.holes.length >= 18 && r.score && r.score > 0);
+
+    // Mobile rounds often have holes:[] but a valid total score.
+    // Fall back to score-based detection: > 54 strongly indicates 18 holes.
+    const fullRounds = holesBasedFull.length >= 3
+      ? holesBasedFull
+      : rounds.filter(r => r.score && r.score > 54);
+
     if (fullRounds.length < 3) return 0;
 
     // Use best 8 of last 20 rounds for handicap calculation

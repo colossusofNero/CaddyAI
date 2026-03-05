@@ -22,28 +22,43 @@ export function RecommendationDashboard() {
   const [recommendations, setRecommendations] = useState<RecommendationEvent[]>([]);
   const [stats, setStats] = useState<RecommendationStats | null>(null);
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'all'>('week');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
-  }, [timeRange]);
+  }, [timeRange]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function loadData() {
-    const [recs, statsData] = await Promise.all([
-      getRecommendations({ limit: 20 }),
-      getStats(),
-    ]);
+    try {
+      setError(null);
+      const [recs, statsData] = await Promise.all([
+        getRecommendations({ limit: 20 }),
+        getStats(),
+      ]);
 
-    // Filter by time range
-    const now = Date.now();
-    const filtered = recs.filter((rec) => {
-      const recTime = rec.timestamp.toMillis();
-      if (timeRange === 'week') return now - recTime < 7 * 24 * 60 * 60 * 1000;
-      if (timeRange === 'month') return now - recTime < 30 * 24 * 60 * 60 * 1000;
-      return true;
-    });
+      // Filter by time range — handle Timestamp, number, or Date
+      const now = Date.now();
+      const toMillis = (ts: any): number => {
+        if (!ts) return 0;
+        if (typeof ts.toMillis === 'function') return ts.toMillis();
+        if (typeof ts === 'number') return ts;
+        if (ts._seconds) return ts._seconds * 1000;
+        return new Date(ts).getTime() || 0;
+      };
 
-    setRecommendations(filtered);
-    setStats(statsData);
+      const filtered = (recs || []).filter((rec) => {
+        const recTime = toMillis(rec.timestamp);
+        if (timeRange === 'week') return now - recTime < 7 * 24 * 60 * 60 * 1000;
+        if (timeRange === 'month') return now - recTime < 30 * 24 * 60 * 60 * 1000;
+        return true;
+      });
+
+      setRecommendations(filtered);
+      setStats(statsData);
+    } catch (err: any) {
+      console.error('[RecommendationDashboard] Error loading data:', err);
+      setError(err?.message || 'Failed to load recommendations');
+    }
   }
 
   if (loading && !stats) {
@@ -51,6 +66,20 @@ export function RecommendationDashboard() {
       <div className="flex items-center justify-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card variant="bordered" padding="lg">
+        <div className="text-center py-8">
+          <p className="text-error font-medium mb-2">Failed to load recommendations</p>
+          <p className="text-text-secondary text-sm">{error}</p>
+          <button onClick={loadData} className="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm">
+            Try Again
+          </button>
+        </div>
+      </Card>
     );
   }
 
@@ -172,8 +201,10 @@ function StatCard({
 
 // Individual Recommendation Card
 function RecommendationCard({ recommendation }: { recommendation: RecommendationEvent }) {
-  const primary = recommendation.recommendations[0];
+  const primary = recommendation.recommendations?.[0];
   const decision = recommendation.userDecision;
+
+  if (!primary) return null;
 
   // Determine if they followed recommendation
   const followed =

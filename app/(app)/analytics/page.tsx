@@ -66,23 +66,39 @@ export default function AnalyticsPage() {
 
       console.log('[Analytics] Starting data fetch for user:', user?.uid);
 
-      // Fetch all data in parallel
-      const [statsData, roundsData, clubsData] = await Promise.all([
+      // Fetch each collection independently so one failure doesn't kill the rest
+      const [statsResult, roundsResult, clubsResult] = await Promise.allSettled([
         roundsApi.calculateStatistics(),
         roundsApi.getRounds(100),
         clubsApi.getClubs(),
       ]);
+
+      const statsData = statsResult.status === 'fulfilled' ? statsResult.value : null;
+      const roundsData = roundsResult.status === 'fulfilled' ? roundsResult.value : [];
+      const clubsData = clubsResult.status === 'fulfilled' ? clubsResult.value : [];
+
+      if (statsResult.status === 'rejected')
+        console.error('[Analytics] Stats fetch failed:', statsResult.reason);
+      if (roundsResult.status === 'rejected')
+        console.error('[Analytics] Rounds fetch failed:', roundsResult.reason);
+      if (clubsResult.status === 'rejected')
+        console.error('[Analytics] Clubs fetch failed:', clubsResult.reason);
 
       console.log('[Analytics] Data fetched:', {
         statsData,
         roundsCount: roundsData.length,
         clubsCount: clubsData.length,
       });
-      console.log('[Analytics] First round (if exists):', roundsData[0]);
 
       setStatistics(statsData);
       setRounds(filterRoundsByDateRange(roundsData));
       setClubs(clubsData);
+
+      // Only show error if rounds AND stats both failed (clubs failing alone is non-critical)
+      if (statsResult.status === 'rejected' && roundsResult.status === 'rejected') {
+        const err = roundsResult.reason;
+        setError(err instanceof Error ? err.message : 'Failed to load analytics data');
+      }
     } catch (err) {
       console.error('Error loading analytics:', err);
       const errorMessage = err instanceof Error ? err.message : 'Failed to load analytics data';
@@ -174,7 +190,7 @@ export default function AnalyticsPage() {
   }
 
   // Empty state - no rounds
-  if (!statistics || statistics.totalRounds === 0) {
+  if ((!statistics || statistics.totalRounds === 0) && rounds.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <nav className="border-b border-secondary-700">
@@ -204,7 +220,7 @@ export default function AnalyticsPage() {
                 No Analytics Data Yet
               </h2>
               <p className="text-text-secondary mb-8 max-w-md mx-auto">
-                Start tracking your rounds to see detailed performance analytics, trends, and statistics.
+                Start tracking your rounds to see detailed performance analytics, trends, and safeStats.
               </p>
               <div className="flex gap-4 justify-center">
                 <Link href="/clubs">
@@ -224,6 +240,18 @@ export default function AnalyticsPage() {
   const scoreTrend = getScoreTrend();
   const clubStats = getClubStatistics();
   const lastTenRounds = rounds.slice(0, 10);
+
+  // Safe fallback so JSX doesn't crash if statistics failed to load
+  const safeStats = statistics ?? {
+    totalRounds: rounds.length,
+    currentHandicap: 0,
+    averageScore: rounds.length > 0 ? Math.round(rounds.reduce((s, r) => s + (r.score ?? 0), 0) / rounds.length) : 0,
+    bestScore: rounds.length > 0 ? Math.min(...rounds.map(r => r.score ?? 0).filter(s => s > 0)) : 0,
+    fairwaysHit: 0, fairwaysHitPercentage: 0,
+    greensInRegulation: 0, greensInRegulationPercentage: 0,
+    averagePutts: 0,
+    totalBirdies: 0, totalPars: 0, totalBogeys: 0, totalDoubleBogeys: 0,
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -308,7 +336,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <p className="text-3xl font-bold text-text-primary mb-1">
-              {statistics.totalRounds}
+              {safeStats.totalRounds}
             </p>
             <p className="text-sm text-text-secondary">Total Rounds</p>
           </Card>
@@ -327,7 +355,7 @@ export default function AnalyticsPage() {
               )}
             </div>
             <p className="text-3xl font-bold text-text-primary mb-1">
-              {statistics.currentHandicap}
+              {safeStats.currentHandicap}
             </p>
             <p className="text-sm text-text-secondary">Handicap Index</p>
           </Card>
@@ -340,7 +368,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <p className="text-3xl font-bold text-text-primary mb-1">
-              {statistics.averageScore}
+              {safeStats.averageScore}
             </p>
             <p className="text-sm text-text-secondary">Average Score</p>
           </Card>
@@ -353,7 +381,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <p className="text-3xl font-bold text-text-primary mb-1">
-              {statistics.bestScore}
+              {safeStats.bestScore}
             </p>
             <p className="text-sm text-text-secondary">Best Score</p>
           </Card>
@@ -375,7 +403,7 @@ export default function AnalyticsPage() {
                     const minScore = Math.min(...lastTenRounds.map(r => r.score));
                     const range = maxScore - minScore || 1;
                     const percentage = ((round.score - minScore) / range) * 100;
-                    const isBest = round.score === statistics.bestScore;
+                    const isBest = round.score === safeStats.bestScore;
 
                     return (
                       <div key={round.id} className="flex items-center gap-3">
@@ -425,17 +453,17 @@ export default function AnalyticsPage() {
                       Fairways Hit
                     </span>
                     <span className="text-sm font-bold text-primary">
-                      {statistics.fairwaysHitPercentage.toFixed(1)}%
+                      {safeStats.fairwaysHitPercentage.toFixed(1)}%
                     </span>
                   </div>
                   <div className="h-4 bg-secondary-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-success transition-all"
-                      style={{ width: `${statistics.fairwaysHitPercentage}%` }}
+                      style={{ width: `${safeStats.fairwaysHitPercentage}%` }}
                     ></div>
                   </div>
                   <p className="text-xs text-text-secondary mt-1">
-                    {statistics.fairwaysHit} of {Math.round(statistics.fairwaysHit / (statistics.fairwaysHitPercentage / 100) || 0)} fairways
+                    {safeStats.fairwaysHit} of {Math.round(safeStats.fairwaysHit / (safeStats.fairwaysHitPercentage / 100) || 0)} fairways
                   </p>
                 </div>
 
@@ -446,17 +474,17 @@ export default function AnalyticsPage() {
                       Greens in Regulation
                     </span>
                     <span className="text-sm font-bold text-primary">
-                      {statistics.greensInRegulationPercentage.toFixed(1)}%
+                      {safeStats.greensInRegulationPercentage.toFixed(1)}%
                     </span>
                   </div>
                   <div className="h-4 bg-secondary-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-accent transition-all"
-                      style={{ width: `${statistics.greensInRegulationPercentage}%` }}
+                      style={{ width: `${safeStats.greensInRegulationPercentage}%` }}
                     ></div>
                   </div>
                   <p className="text-xs text-text-secondary mt-1">
-                    {statistics.greensInRegulation} of {Math.round(statistics.greensInRegulation / (statistics.greensInRegulationPercentage / 100) || 0)} greens
+                    {safeStats.greensInRegulation} of {Math.round(safeStats.greensInRegulation / (safeStats.greensInRegulationPercentage / 100) || 0)} greens
                   </p>
                 </div>
 
@@ -467,13 +495,13 @@ export default function AnalyticsPage() {
                       Average Putts per Hole
                     </span>
                     <span className="text-sm font-bold text-primary">
-                      {statistics.averagePutts.toFixed(2)}
+                      {safeStats.averagePutts.toFixed(2)}
                     </span>
                   </div>
                   <div className="h-4 bg-secondary-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-primary transition-all"
-                      style={{ width: `${(statistics.averagePutts / 3) * 100}%` }}
+                      style={{ width: `${(safeStats.averagePutts / 3) * 100}%` }}
                     ></div>
                   </div>
                 </div>
@@ -498,7 +526,7 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-text-primary">Birdies</span>
                   </div>
                   <span className="text-lg font-bold text-text-primary">
-                    {statistics.totalBirdies}
+                    {safeStats.totalBirdies}
                   </span>
                 </div>
 
@@ -508,7 +536,7 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-text-primary">Pars</span>
                   </div>
                   <span className="text-lg font-bold text-text-primary">
-                    {statistics.totalPars}
+                    {safeStats.totalPars}
                   </span>
                 </div>
 
@@ -518,7 +546,7 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-text-primary">Bogeys</span>
                   </div>
                   <span className="text-lg font-bold text-text-primary">
-                    {statistics.totalBogeys}
+                    {safeStats.totalBogeys}
                   </span>
                 </div>
 
@@ -528,42 +556,42 @@ export default function AnalyticsPage() {
                     <span className="text-sm text-text-primary">Double Bogeys+</span>
                   </div>
                   <span className="text-lg font-bold text-text-primary">
-                    {statistics.totalDoubleBogeys}
+                    {safeStats.totalDoubleBogeys}
                   </span>
                 </div>
 
                 {/* Visual Distribution */}
                 <div className="mt-6 pt-6 border-t border-secondary-700">
                   <div className="h-8 flex rounded-lg overflow-hidden">
-                    {statistics.totalBirdies > 0 && (
+                    {safeStats.totalBirdies > 0 && (
                       <div
                         className="bg-success"
                         style={{
-                          width: `${(statistics.totalBirdies / (statistics.totalBirdies + statistics.totalPars + statistics.totalBogeys + statistics.totalDoubleBogeys)) * 100}%`
+                          width: `${(safeStats.totalBirdies / (safeStats.totalBirdies + safeStats.totalPars + safeStats.totalBogeys + safeStats.totalDoubleBogeys)) * 100}%`
                         }}
                       ></div>
                     )}
-                    {statistics.totalPars > 0 && (
+                    {safeStats.totalPars > 0 && (
                       <div
                         className="bg-primary"
                         style={{
-                          width: `${(statistics.totalPars / (statistics.totalBirdies + statistics.totalPars + statistics.totalBogeys + statistics.totalDoubleBogeys)) * 100}%`
+                          width: `${(safeStats.totalPars / (safeStats.totalBirdies + safeStats.totalPars + safeStats.totalBogeys + safeStats.totalDoubleBogeys)) * 100}%`
                         }}
                       ></div>
                     )}
-                    {statistics.totalBogeys > 0 && (
+                    {safeStats.totalBogeys > 0 && (
                       <div
                         className="bg-warning"
                         style={{
-                          width: `${(statistics.totalBogeys / (statistics.totalBirdies + statistics.totalPars + statistics.totalBogeys + statistics.totalDoubleBogeys)) * 100}%`
+                          width: `${(safeStats.totalBogeys / (safeStats.totalBirdies + safeStats.totalPars + safeStats.totalBogeys + safeStats.totalDoubleBogeys)) * 100}%`
                         }}
                       ></div>
                     )}
-                    {statistics.totalDoubleBogeys > 0 && (
+                    {safeStats.totalDoubleBogeys > 0 && (
                       <div
                         className="bg-error"
                         style={{
-                          width: `${(statistics.totalDoubleBogeys / (statistics.totalBirdies + statistics.totalPars + statistics.totalBogeys + statistics.totalDoubleBogeys)) * 100}%`
+                          width: `${(safeStats.totalDoubleBogeys / (safeStats.totalBirdies + safeStats.totalPars + safeStats.totalBogeys + safeStats.totalDoubleBogeys)) * 100}%`
                         }}
                       ></div>
                     )}

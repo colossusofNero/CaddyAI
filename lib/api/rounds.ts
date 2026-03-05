@@ -29,28 +29,33 @@ class RoundsApi extends ApiClient {
       const userId = this.getCurrentUserId();
       console.log(`[RoundsAPI] Fetching rounds for userId: ${userId}`);
 
-      // Fetch from rounds collection (web app format)
-      const rounds = await this.getDocuments<Round>(
-        this.COLLECTION,
-        [
-          this.where('userId', '==', userId),
-          orderBy('date', 'desc'),
-          limit(limitCount)
-        ]
-      );
+      // Helper to query with orderBy, falling back to no-orderBy if index is missing
+      const queryWithFallback = async <T>(collectionName: string): Promise<T[]> => {
+        try {
+          return await this.getDocuments<T>(collectionName, [
+            this.where('userId', '==', userId),
+            orderBy('date', 'desc'),
+            limit(limitCount),
+          ]);
+        } catch (err: any) {
+          const msg: string = err?.message || err?.code || '';
+          if (msg.includes('index') || msg.includes('failed-precondition') || err?.code === 'failed-precondition') {
+            console.warn(`[RoundsAPI] Index missing for ${collectionName}, falling back to unordered query`);
+            return await this.getDocuments<T>(collectionName, [
+              this.where('userId', '==', userId),
+              limit(limitCount * 4),
+            ]);
+          }
+          throw err;
+        }
+      };
 
+      // Fetch from rounds collection (web app format)
+      const rounds = await queryWithFallback<Round>(this.COLLECTION);
       console.log(`[RoundsAPI] Loaded ${rounds.length} rounds from 'rounds' collection`);
 
       // Also fetch from scores collection (mobile app format)
-      const scores = await this.getDocuments<any>(
-        this.SCORES_COLLECTION,
-        [
-          this.where('userId', '==', userId),
-          orderBy('date', 'desc'),
-          limit(limitCount)
-        ]
-      );
-
+      const scores = await queryWithFallback<any>(this.SCORES_COLLECTION);
       console.log(`[RoundsAPI] Loaded ${scores.length} rounds from 'scores' collection`);
 
       // Convert scores to Round format
@@ -486,11 +491,13 @@ class RoundsApi extends ApiClient {
 
       console.log(`[RoundsAPI] Calculating statistics from ${rounds.length} rounds`);
 
-      const totalRounds = rounds.length;
-      const totalHoles = rounds.reduce((sum, r) => sum + r.holes.length, 0);
-      const totalScore = rounds.reduce((sum, r) => sum + r.score, 0);
-      const averageScore = Math.round(totalScore / totalRounds);
-      const bestScore = Math.min(...rounds.map(r => r.score));
+      const safeRounds = Array.isArray(rounds) ? rounds : [];
+      const totalRounds = safeRounds.length;
+      const totalHoles = safeRounds.reduce((sum, r) => sum + (Array.isArray(r.holes) ? r.holes.length : 0), 0);
+      const totalScore = safeRounds.reduce((sum, r) => sum + (r.score ?? 0), 0);
+      const averageScore = totalRounds > 0 ? Math.round(totalScore / totalRounds) : 0;
+      const scores = safeRounds.map(r => r.score ?? 0).filter(s => s > 0);
+      const bestScore = scores.length > 0 ? Math.min(...scores) : 0;
 
       // Calculate detailed stats
       let fairwaysHit = 0;
@@ -504,8 +511,8 @@ class RoundsApi extends ApiClient {
       let bogeys = 0;
       let doubleBogeys = 0;
 
-      for (const round of rounds) {
-        for (const hole of round.holes) {
+      for (const round of safeRounds) {
+        for (const hole of (Array.isArray(round.holes) ? round.holes : [])) {
           if (hole.fairwayHit !== undefined) {
             if (hole.fairwayHit) fairwaysHit++;
             fairwaysTotal++;
@@ -534,7 +541,7 @@ class RoundsApi extends ApiClient {
         totalHoles,
         averageScore,
         bestScore,
-        currentHandicap: this.calculateHandicap(rounds),
+        currentHandicap: this.calculateHandicap(safeRounds),
         fairwaysHit,
         fairwaysHitPercentage: fairwaysTotal > 0 ? (fairwaysHit / fairwaysTotal) * 100 : 0,
         greensInRegulation,

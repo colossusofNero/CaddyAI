@@ -90,6 +90,15 @@
     },
 
     {
+      "collectionGroup": "clubs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
+      ]
+    },
+
+    {
       "collectionGroup": "activeRounds",
       "queryScope": "COLLECTION",
       "fields": [

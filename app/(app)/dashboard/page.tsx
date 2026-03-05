@@ -73,9 +73,10 @@ export default function DashboardPage() {
         // Fetch recent rounds (last 5)
         const rounds = await roundsApi.getRounds(5);
         setRecentRounds(rounds);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching dashboard data:', error);
-        setDataError('Failed to load dashboard data');
+        const msg = error?.message || error?.code || 'Unknown error';
+        setDataError(msg);
       } finally {
         setDataLoading(false);
       }
@@ -193,6 +194,17 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* Data Error Banner */}
+        {dataError && (
+          <div className="mb-6 p-4 bg-error bg-opacity-10 border border-error border-opacity-30 rounded-lg flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-error font-medium text-sm">Failed to load your golf data</p>
+              <p className="text-text-secondary text-xs mt-1">{dataError} — check your browser console for details, or visit <a href="/debug" className="text-primary underline">/debug</a> for diagnostics.</p>
+            </div>
+          </div>
+        )}
 
         {/* Stats Overview Section */}
         <div className="mb-8">

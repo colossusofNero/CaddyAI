@@ -51,27 +51,19 @@ export function PricingCard({
 
   return (
     <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={{
-        hidden: { opacity: 0, y: 40 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.6,
-            delay: index * 0.1,
-            ease: [0.22, 1, 0.36, 1],
-          },
-        },
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
+        ease: [0.22, 1, 0.36, 1],
       }}
       className="h-full"
     >
       <div
         className={`relative h-full bg-secondary-800/50 backdrop-blur-sm border rounded-3xl p-8 flex flex-col overflow-hidden group transition-colors duration-300 ${
           tier.popular
-            ? 'border-primary shadow-primary/20 shadow-2xl scale-105'
+            ? 'border-primary shadow-primary/20 shadow-2xl sm:scale-105'
             : 'border-secondary-700'
         }`}
       >
@@ -279,7 +271,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
         }`}
       >
         Annual
-        <span className="ml-2 text-sm text-primary">(Save 20%)</span>
+        <span className="ml-2 text-sm text-primary font-semibold">(Save 33%)</span>
       </span>
     </div>
   );

@@ -574,9 +574,12 @@ class RoundsApi extends ApiClient {
       .map(r => r.handicapDifferential!);
 
     if (differentials.length < 3) {
-      // Fallback: simple average over par
-      const avgScore = rounds.slice(0, 20).reduce((sum, r) => sum + r.score, 0) / Math.min(rounds.length, 20);
-      return Math.round((avgScore - 72) * 0.96); // Assuming par 72
+      // Fallback: simple average over par (only count rounds with a real score)
+      const scoredRounds = rounds.slice(0, 20).filter(r => r.score && r.score > 0);
+      if (scoredRounds.length === 0) return 0;
+      const avgScore = scoredRounds.reduce((sum, r) => sum + (r.score ?? 0), 0) / scoredRounds.length;
+      const handicap = Math.round((avgScore - 72) * 0.96);
+      return isNaN(handicap) ? 0 : handicap;
     }
 
     differentials.sort((a, b) => a - b);

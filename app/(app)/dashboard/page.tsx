@@ -235,7 +235,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center transition-all duration-300">
                   <BarChart3 className="w-6 h-6 text-primary" />
                 </div>
-                {stats && stats.totalRounds > 0 && (
+                {stats && stats.totalRounds > 0 && !isNaN(stats.currentHandicap) && (
                   <span className="text-xs text-success flex items-center gap-1">
                     <TrendingUp className="w-3 h-3" />
                     {stats.currentHandicap < 15 ? 'Improving' : stats.currentHandicap < 20 ? 'Stable' : 'Needs work'}
@@ -247,7 +247,7 @@ export default function DashboardPage() {
                   {dataLoading ? (
                     <div className="h-9 bg-secondary-700 rounded animate-pulse w-16"></div>
                   ) : (
-                    stats?.currentHandicap.toFixed(1) || '0.0'
+                    stats && !isNaN(stats.currentHandicap) ? stats.currentHandicap.toFixed(1) : '0.0'
                   )}
                 </div>
                 <div className="text-sm text-text-secondary mt-1">handicap index</div>

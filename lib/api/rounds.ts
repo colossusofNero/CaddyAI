@@ -494,10 +494,18 @@ class RoundsApi extends ApiClient {
       const safeRounds = Array.isArray(rounds) ? rounds : [];
       const totalRounds = safeRounds.length;
       const totalHoles = safeRounds.reduce((sum, r) => sum + (Array.isArray(r.holes) ? r.holes.length : 0), 0);
-      const totalScore = safeRounds.reduce((sum, r) => sum + (r.score ?? 0), 0);
-      const averageScore = totalRounds > 0 ? Math.round(totalScore / totalRounds) : 0;
-      const scores = safeRounds.map(r => r.score ?? 0).filter(s => s > 0);
-      const bestScore = scores.length > 0 ? Math.min(...scores) : 0;
+
+      // Separate 18-hole and 9-hole rounds — mix skews averages and handicap
+      const fullRounds = safeRounds.filter(r => Array.isArray(r.holes) && r.holes.length >= 18);
+      const nineHoleRounds = safeRounds.filter(r => Array.isArray(r.holes) && r.holes.length > 0 && r.holes.length < 18);
+
+      // Use 18-hole rounds for score averages; fall back to all rounds if none exist
+      const roundsForScoring = fullRounds.length > 0 ? fullRounds : safeRounds;
+      const validScores = roundsForScoring.map(r => r.score ?? 0).filter(s => s > 0);
+      const averageScore = validScores.length > 0 ? Math.round(validScores.reduce((a, b) => a + b, 0) / validScores.length) : 0;
+      const bestScore = validScores.length > 0 ? Math.min(...validScores) : 0;
+
+      console.log(`[RoundsAPI] ${fullRounds.length} full rounds, ${nineHoleRounds.length} nine-hole rounds`);
 
       // Calculate detailed stats
       let fairwaysHit = 0;
@@ -541,7 +549,7 @@ class RoundsApi extends ApiClient {
         totalHoles,
         averageScore,
         bestScore,
-        currentHandicap: this.calculateHandicap(safeRounds),
+        currentHandicap: this.calculateHandicap(safeRounds), // filters internally to 18-hole rounds
         fairwaysHit,
         fairwaysHitPercentage: fairwaysTotal > 0 ? (fairwaysHit / fairwaysTotal) * 100 : 0,
         greensInRegulation,
@@ -565,20 +573,24 @@ class RoundsApi extends ApiClient {
    * Calculate handicap using USGA formula (simplified)
    */
   private calculateHandicap(rounds: Round[]): number {
-    if (rounds.length < 3) return 0;
+    // Only use 18-hole rounds — 9-hole rounds skew the handicap calculation
+    const fullRounds = rounds.filter(r => Array.isArray(r.holes) && r.holes.length >= 18 && r.score && r.score > 0);
+    if (fullRounds.length < 3) return 0;
 
     // Use best 8 of last 20 rounds for handicap calculation
-    const recentRounds = rounds.slice(0, 20);
+    const recentRounds = fullRounds.slice(0, 20);
     const differentials = recentRounds
       .filter(r => r.handicapDifferential !== undefined)
       .map(r => r.handicapDifferential!);
 
     if (differentials.length < 3) {
-      // Fallback: simple average over par (only count rounds with a real score)
-      const scoredRounds = rounds.slice(0, 20).filter(r => r.score && r.score > 0);
-      if (scoredRounds.length === 0) return 0;
-      const avgScore = scoredRounds.reduce((sum, r) => sum + (r.score ?? 0), 0) / scoredRounds.length;
-      const handicap = Math.round((avgScore - 72) * 0.96);
+      // Fallback: score vs actual par (not hardcoded 72)
+      const avgScore = recentRounds.reduce((sum, r) => sum + (r.score ?? 0), 0) / recentRounds.length;
+      const avgPar = recentRounds.reduce((sum, r) => {
+        const par = Array.isArray(r.holes) ? r.holes.reduce((p, h) => p + (h.par || 4), 0) : 72;
+        return sum + par;
+      }, 0) / recentRounds.length;
+      const handicap = Math.round((avgScore - avgPar) * 0.96);
       return isNaN(handicap) ? 0 : handicap;
     }
 

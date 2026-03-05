@@ -13,10 +13,27 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createPortalSession, getSubscriptionStatus } from '@/services/subscriptionService';
+import { getAuth } from 'firebase-admin/auth';
+import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import type { StripePortalSession } from '@/types/subscription';
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify Firebase ID token from Authorization header
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    initializeFirebaseAdmin();
+    let decodedToken;
+    try {
+      decodedToken = await getAuth().verifyIdToken(token);
+    } catch {
+      return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
+    }
+
     // Parse request body
     const body = await request.json();
     const { userId, customerId, returnUrl } = body;
@@ -27,6 +44,11 @@ export async function POST(request: NextRequest) {
         { error: 'User ID or Customer ID is required' },
         { status: 400 }
       );
+    }
+
+    // Ensure the authenticated user is only accessing their own portal
+    if (userId && decodedToken.uid !== userId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     if (!returnUrl) {

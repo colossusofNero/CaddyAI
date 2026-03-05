@@ -7,10 +7,41 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSubscriptionStatusAdmin } from '@/services/subscriptionServiceAdmin';
+import { getAuth } from 'firebase-admin/auth';
+import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import type { SubscriptionStatusResponse } from '@/types/subscription';
+
+// Simple in-memory rate limiter: max 20 requests per minute per UID
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+function isRateLimited(uid: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(uid);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(uid, { count: 1, resetAt: now + 60_000 });
+    return false;
+  }
+  if (entry.count >= 20) return true;
+  entry.count++;
+  return false;
+}
 
 export async function GET(request: NextRequest) {
   try {
+    // Verify Firebase ID token from Authorization header
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    initializeFirebaseAdmin();
+    let decodedToken;
+    try {
+      decodedToken = await getAuth().verifyIdToken(token);
+    } catch {
+      return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
+    }
+
     // Get userId from query params
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get('userId');
@@ -20,6 +51,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: 'User ID is required' },
         { status: 400 }
+      );
+    }
+
+    // Ensure the authenticated user is only accessing their own data (IDOR prevention)
+    if (decodedToken.uid !== userId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Rate limit per UID
+    if (isRateLimited(userId)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': '60' } }
       );
     }
 

@@ -72,7 +72,10 @@ export function useSubscription(): UseSubscriptionReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/stripe/subscription?userId=${user.uid}`);
+      const idToken = await user.getIdToken();
+      const response = await fetch(`/api/stripe/subscription?userId=${user.uid}`, {
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -129,10 +132,12 @@ export function useSubscription(): UseSubscriptionReturn {
         setIsLoading(true);
         setError(null);
 
+        const idToken = await user.getIdToken();
         const response = await fetch('/api/stripe/checkout', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
           },
           body: JSON.stringify({
             userId: user.uid,
@@ -183,10 +188,12 @@ export function useSubscription(): UseSubscriptionReturn {
         setIsLoading(true);
         setError(null);
 
+        const idToken = await user.getIdToken();
         const response = await fetch('/api/stripe/portal', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
           },
           body: JSON.stringify({
             userId: user.uid,

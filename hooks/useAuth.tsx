@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState, useEffect, useContext, createContext, ReactNode } from 'react';
+import { useState, useEffect, useRef, useContext, createContext, ReactNode } from 'react';
 import { User } from 'firebase/auth';
 import {
   signUp,
@@ -45,6 +45,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userMetadata, setUserMetadata] = useState<UserMetadata | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+
+  // Auto sign-out on inactivity
+  useEffect(() => {
+    if (!user) return;
+
+    const resetTimer = () => {
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      inactivityTimer.current = setTimeout(async () => {
+        await signOut();
+      }, INACTIVITY_TIMEOUT_MS);
+    };
+
+    const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'] as const;
+    events.forEach(e => window.addEventListener(e, resetTimer, { passive: true }));
+    resetTimer();
+
+    return () => {
+      if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+      events.forEach(e => window.removeEventListener(e, resetTimer));
+    };
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Subscribe to auth state changes
   useEffect(() => {

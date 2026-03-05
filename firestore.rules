@@ -290,14 +290,24 @@ service cloud.firestore {
       // Users can read their own data
       allow read: if isOwner(userId);
 
-      // Users can create their own user document
-      allow create: if isOwner(userId);
+      // Users can create their own user document (but not set subscription fields)
+      allow create: if isOwner(userId)
+        && !request.resource.data.keys().hasAny(['subscription', 'stripeCustomerId', 'stripePriceId']);
 
-      // Users can update their own data
-      allow update: if isOwner(userId);
+      // Users can update their own data but cannot modify subscription-related fields
+      // Subscription state is managed server-side only (via Admin SDK / Stripe webhooks)
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['subscription', 'stripeCustomerId', 'stripePriceId', 'plan', 'trialEnd']);
 
       // Users can delete their own data
       allow delete: if isOwner(userId);
+    }
+
+    // Subscriptions Collection — server-side only, no client access
+    match /subscriptions/{docId} {
+      allow read: if false;
+      allow write: if false;
     }
   }
 }

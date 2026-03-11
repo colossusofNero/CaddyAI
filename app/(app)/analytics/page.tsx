@@ -280,6 +280,11 @@ export default function AnalyticsPage() {
                   Shot Data
                 </Button>
               </Link>
+              <Link href="/analytics/dispersion">
+                <Button variant="outline" size="sm">
+                  Dispersion Map
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

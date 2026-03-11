@@ -75,11 +75,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChange(async (firebaseUser) => {
       setUser(firebaseUser);
 
-      // Fetch user metadata if user is authenticated
+      // Sync a client-side cookie so the middleware can detect auth state.
+      // Firebase stores tokens in IndexedDB (not cookies), so without this
+      // the middleware would redirect authenticated users back to /login.
       if (firebaseUser) {
+        document.cookie = 'auth-token=1; path=/; SameSite=Strict; Secure; max-age=3600';
         const metadata = await getUserMetadata(firebaseUser.uid);
         setUserMetadata(metadata);
       } else {
+        document.cookie = 'auth-token=; path=/; SameSite=Strict; max-age=0';
         setUserMetadata(null);
       }
 

@@ -5,27 +5,61 @@
 
 import { ApiClient } from './client';
 import type { Club, CreateClubRequest, UpdateClubRequest, ApiError } from './types';
-import { collection, query, where, orderBy } from 'firebase/firestore';
+import { collection, query, where, orderBy, doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 class ClubsApi extends ApiClient {
   private readonly COLLECTION = 'clubs';
 
   /**
-   * Get all clubs for the current user
+   * Get all clubs for the current user.
+   *
+   * Reads the mobile/unified schema first: a single document at clubs/{userId}
+   * with an embedded clubs[] array. Falls back to the legacy per-document
+   * schema if the single-doc format isn't found.
    */
   async getClubs(): Promise<Club[]> {
     try {
       const userId = this.getCurrentUserId();
+      if (!db) throw this.createError('db/not-initialized', 'Firestore not initialized');
 
+      // Primary: single-document format written by the mobile app
+      const singleDocRef = doc(db, this.COLLECTION, userId);
+      const singleDocSnap = await getDoc(singleDocRef);
+
+      if (singleDocSnap.exists()) {
+        const data = singleDocSnap.data();
+        const mobileClubs: any[] = data.clubs ?? [];
+        if (mobileClubs.length > 0) {
+          const now = Date.now();
+          const mapped: Club[] = mobileClubs
+            .filter((c: any) => c.isActive !== false) // skip inactive clubs
+            .sort((a: any, b: any) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999))
+            .map((c: any) => ({
+              id: c.id ?? c.name,
+              userId,
+              name: c.name,
+              takeback: 'Full' as const,       // not stored in mobile schema
+              face: c.face ?? 'Square',
+              carryYards: c.carryYards ?? 0,
+              createdAt: now,
+              updatedAt: now,
+            }));
+          console.log(`[ClubsAPI] Loaded ${mapped.length} clubs from single-doc for user ${userId}`);
+          return mapped;
+        }
+      }
+
+      // Fallback: legacy per-document schema
       const clubs = await this.getDocuments<Club>(
         this.COLLECTION,
         [
           this.where('userId', '==', userId),
-          orderBy('createdAt', 'asc')
+          orderBy('createdAt', 'asc'),
         ]
       );
 
-      console.log(`[ClubsAPI] Loaded ${clubs.length} clubs for user ${userId}`);
+      console.log(`[ClubsAPI] Loaded ${clubs.length} clubs (legacy) for user ${userId}`);
       return clubs;
     } catch (error) {
       throw this.handleFirebaseError(error);

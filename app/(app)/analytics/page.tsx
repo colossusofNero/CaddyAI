@@ -269,11 +269,18 @@ export default function AnalyticsPage() {
               <Activity className="w-5 h-5 text-primary" />
               <span className="text-xl font-bold text-text-primary">Analytics</span>
             </div>
-            <Link href="/analytics/recommendations">
-              <Button variant="outline" size="sm">
-                AI Recommendations
-              </Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link href="/analytics/recommendations">
+                <Button variant="outline" size="sm">
+                  AI Recommendations
+                </Button>
+              </Link>
+              <Link href="/analytics/shot-data">
+                <Button variant="outline" size="sm">
+                  Shot Data
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>

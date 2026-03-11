@@ -135,8 +135,8 @@ const CSP_HEADER = [
     'https://region1.google-analytics.com',
     'wss://*.firebaseio.com',
   ].join(' '),
-  // Stripe Checkout + Google Sign-In + Apple Sign-In + Firebase auth popups
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com",
+  // Stripe Checkout + Google Sign-In + Apple Sign-In + Firebase auth popups + Vercel
+  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com https://vercel.live",
   "img-src 'self' data: https: blob:",
   "media-src 'self' blob: https://api.elevenlabs.io",
   "object-src 'none'",
@@ -148,6 +148,9 @@ const CSP_HEADER = [
 
 function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('Content-Security-Policy', CSP_HEADER);
+  // Allow Firebase signInWithPopup to communicate back from the popup window.
+  // Without this, Chrome's COOP enforcement blocks window.closed checks.
+  response.headers.set('Cross-Origin-Opener-Policy', 'unsafe-none');
   // HSTS — tell browsers to use HTTPS for 1 year
   response.headers.set(
     'Strict-Transport-Security',

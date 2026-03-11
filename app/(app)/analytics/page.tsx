@@ -24,7 +24,55 @@ import {
   ChevronLeft,
   BarChart3,
   Clock,
+  Crosshair,
+  Zap,
 } from 'lucide-react';
+
+function AnalyticsSubpageCards() {
+  return (
+    <div className="mt-8">
+      <h2 className="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+        <Zap className="w-5 h-5 text-primary" />
+        AI Shot Analytics
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Link href="/analytics/shot-data" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <BarChart3 className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              Shot-to-Shot Analytics
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Carry accuracy, AI compliance rate, and score impact by club
+            </p>
+          </div>
+        </Link>
+        <Link href="/analytics/dispersion" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <Crosshair className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              Shot Dispersion Map
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Where your approach shots land relative to the pin
+            </p>
+          </div>
+        </Link>
+        <Link href="/analytics/recommendations" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <Target className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              AI Recommendations
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Club selection history and follow-through rates
+            </p>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 interface ClubStats {
   clubName: string;
@@ -232,6 +280,8 @@ export default function AnalyticsPage() {
               </div>
             </div>
           </Card>
+
+          <AnalyticsSubpageCards />
         </div>
       </div>
     );
@@ -665,6 +715,9 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* AI Analytics Sub-pages */}
+        <AnalyticsSubpageCards />
 
         {/* Recent Rounds */}
         <Card variant="elevated" padding="lg">

@@ -240,9 +240,10 @@ export async function getClubAnalytics(userId: string): Promise<ClubAnalytics[]>
   if (!db) throw new Error('Firestore not initialized');
 
   const snap = await getDocs(
-    query(collection(db, COL.clubs), where('userId', '==', userId), orderBy('totalShots', 'desc'))
+    query(collection(db, COL.clubs), where('userId', '==', userId))
   );
-  return snap.docs.map((d) => d.data() as ClubAnalytics);
+  const clubs = snap.docs.map((d) => d.data() as ClubAnalytics);
+  return clubs.sort((a, b) => b.totalShots - a.totalShots);
 }
 
 export async function getRoundSummaries(userId: string, limitCount = 20): Promise<RoundSummary[]> {
@@ -252,11 +253,11 @@ export async function getRoundSummaries(userId: string, limitCount = 20): Promis
     query(
       collection(db, COL.rounds),
       where('userId', '==', userId),
-      orderBy('date', 'desc'),
       limit(limitCount)
     )
   );
-  return snap.docs.map((d) => d.data() as RoundSummary);
+  const rounds = snap.docs.map((d) => d.data() as RoundSummary);
+  return rounds.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export async function getRoundSummary(roundId: string): Promise<RoundSummary | null> {

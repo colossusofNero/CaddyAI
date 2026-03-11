@@ -115,8 +115,8 @@ function isPublicApiRoute(pathname: string): boolean {
  */
 const CSP_HEADER = [
   "default-src 'self'",
-  // Allow Next.js hydration inline scripts + ElevenLabs from pinned version
-  "script-src 'self' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com",
+  // Allow Next.js hydration inline scripts + Google Sign-In + ElevenLabs from pinned version
+  "script-src 'self' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com https://apis.google.com https://vercel.live",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   // Firebase, Stripe, RevenueCat, ElevenLabs API, GA
@@ -124,6 +124,7 @@ const CSP_HEADER = [
     "connect-src 'self'",
     'https://*.firebaseio.com',
     'https://*.googleapis.com',
+    'https://*.firebaseapp.com',
     'https://firestore.googleapis.com',
     'https://identitytoolkit.googleapis.com',
     'https://securetoken.googleapis.com',
@@ -134,8 +135,8 @@ const CSP_HEADER = [
     'https://region1.google-analytics.com',
     'wss://*.firebaseio.com',
   ].join(' '),
-  // Stripe Checkout + ElevenLabs widget iframe
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+  // Stripe Checkout + Google Sign-In + Apple Sign-In + Firebase auth popups
+  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com",
   "img-src 'self' data: https: blob:",
   "media-src 'self' blob: https://api.elevenlabs.io",
   "object-src 'none'",

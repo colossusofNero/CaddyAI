@@ -11,29 +11,13 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { PricingCard, PricingToggle, PricingTier } from '@/components/PricingCard';
 import { motion } from 'framer-motion';
-import { Check, HelpCircle } from 'lucide-react';
+import { Check, HelpCircle, RefreshCw, DollarSign, Database, Calendar as CalendarIcon } from 'lucide-react';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import type { BillingPeriod } from '@/types/subscription';
 
 const pricingTiers: PricingTier[] = [
-  {
-    id: 'free',
-    name: 'Free',
-    description: 'Perfect for casual golfers getting started',
-    priceMonthly: 0,
-    priceAnnual: 0,
-    features: [
-      'Basic club recommendations',
-      'Up to 10 clubs in bag',
-      'Manual distance entry',
-      'Basic weather data',
-      '5 rounds per month',
-    ],
-    cta: 'Get Started Free',
-    ctaLink: '/signup',
-  },
   {
     id: 'pro',
     name: 'Pro',
@@ -81,12 +65,6 @@ export default function PricingPage() {
 
   // Handle subscription button click
   const handleSubscribe = async (planId: string) => {
-    // Free plan - direct to signup
-    if (planId === 'free') {
-      router.push('/signup');
-      return;
-    }
-
     // Not logged in - redirect to signup with plan
     if (!user) {
       router.push(`/signup?plan=${planId}`);
@@ -116,10 +94,6 @@ export default function PricingPage() {
 
   // Get button text based on user state and subscription
   const getButtonText = (planId: string): string => {
-    if (planId === 'free') {
-      return 'Get Started Free';
-    }
-
     if (!user) {
       return 'Start Pro Trial';
     }
@@ -184,7 +158,7 @@ export default function PricingPage() {
               {error}
             </div>
           )}
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 pt-12">
+          <div className="max-w-lg mx-auto grid grid-cols-1 gap-8 pt-12">
             {pricingTiers.map((tier, index) => (
               <PricingCard
                 key={tier.id}
@@ -204,26 +178,26 @@ export default function PricingPage() {
       </section>
 
       {/* Seasonal Golfer Savings */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
+      <section className="py-16 lg:py-20 bg-secondary-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white/5 backdrop-blur-sm border border-primary/20 rounded-3xl p-8 lg:p-12"
+            className="bg-secondary-800 border border-secondary-700 rounded-3xl p-8 lg:p-12"
           >
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
                   ❄️ Perfect for Cold-Climate Golfers
                 </div>
-                <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+                <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
                   Can't Golf 4 Months a Year?
                   <br />
-                  <span className="text-primary">Pause & Save!</span>
+                  <span className="text-primary">Pause &amp; Save!</span>
                 </h2>
-                <p className="text-lg text-text-secondary mb-6">
-                  Live in the Northeast, Midwest, or Canada? We get it - golf season doesn't last all year.
+                <p className="text-lg text-gray-300 mb-6">
+                  Live in the Northeast, Midwest, or Canada? We get it — golf season doesn't last all year.
                   With monthly subscriptions, you can:
                 </p>
                 <ul className="space-y-3 mb-6">
@@ -235,63 +209,49 @@ export default function PricingPage() {
                   ].map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <Check className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-text-secondary">{item}</span>
+                      <span className="text-gray-300">{item}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
-                  <div className="text-sm text-text-muted mb-2">Annual Savings Example:</div>
+                <div className="bg-secondary-700 border border-secondary-600 rounded-xl p-6">
+                  <div className="text-sm text-gray-400 mb-2">Annual Savings Example:</div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-primary">$79.60</span>
-                    <span className="text-text-secondary">for 8 months</span>
+                    <span className="text-gray-300">for 8 months</span>
                   </div>
-                  <div className="text-sm text-text-muted mt-2">
+                  <div className="text-sm text-gray-400 mt-2">
                     vs. $119.40 year-round (12 months × $9.95)
                   </div>
                   <div className="text-lg font-bold text-primary mt-3">
-                    Save $39.80 per year! 💰
+                    Save $39.80 per year!
                   </div>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 backdrop-blur-sm border border-primary/30 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-text-primary mb-6 text-center">
+              <div className="bg-secondary-700 border border-secondary-600 rounded-2xl p-8">
+                <h3 className="text-2xl font-bold text-white mb-6 text-center">
                   Monthly Subscription Benefits
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-5">
                   {[
-                    {
-                      icon: '🏌️',
-                      title: 'Flexibility',
-                      desc: 'Subscribe & pause as needed',
-                    },
-                    {
-                      icon: '💵',
-                      title: 'No Waste',
-                      desc: 'Pay only for golf season',
-                    },
-                    {
-                      icon: '📊',
-                      title: 'Data Retained',
-                      desc: 'Your stats stay forever',
-                    },
-                    {
-                      icon: '🔄',
-                      title: 'Easy Reactivation',
-                      desc: 'One-click restart in spring',
-                    },
+                    { Icon: CalendarIcon, title: 'Flexibility', desc: 'Subscribe & pause as needed' },
+                    { Icon: DollarSign,   title: 'No Waste',    desc: 'Pay only for golf season' },
+                    { Icon: Database,     title: 'Data Retained', desc: 'Your stats stay forever' },
+                    { Icon: RefreshCw,    title: 'Easy Reactivation', desc: 'One-click restart in spring' },
                   ].map((benefit, index) => (
                     <div key={index} className="flex items-start gap-4">
-                      <div className="text-3xl">{benefit.icon}</div>
+                      <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <benefit.Icon className="w-5 h-5 text-primary" />
+                      </div>
                       <div>
-                        <h4 className="font-bold text-text-primary">{benefit.title}</h4>
-                        <p className="text-sm text-text-secondary">{benefit.desc}</p>
+                        <h4 className="font-bold text-white">{benefit.title}</h4>
+                        <p className="text-sm text-gray-300">{benefit.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="mt-8 p-4 bg-white/5 rounded-xl text-center">
-                  <p className="text-sm text-text-muted mb-2">Available on iOS & Android</p>
-                  <p className="text-xs text-text-muted">Cancel anytime, no questions asked</p>
+                <div className="mt-8 p-4 bg-secondary-800 border border-secondary-600 rounded-xl text-center">
+                  <p className="text-sm text-gray-300 mb-1">Available on iOS &amp; Android</p>
+                  <p className="text-xs text-gray-400">Cancel anytime, no questions asked</p>
                 </div>
               </div>
             </div>

@@ -13,6 +13,8 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
+import { QRCodeDropZone } from '@/components/ui/QRCodeDropZone';
+import { decodeQRCodeFromFile } from '@/lib/qrDecode';
 import { app } from '@/lib/firebase';
 
 // Types for Cloud Function responses
@@ -45,6 +47,8 @@ function RedeemPageContent() {
   const [redemptionResult, setRedemptionResult] = useState<RedeemPromoCodeResponse | null>(null);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [appleLoading, setAppleLoading] = useState(false);
+  const [qrLoading, setQrLoading] = useState(false);
+  const [qrError, setQrError] = useState<string | null>(null);
 
   // Get code from URL on mount
   useEffect(() => {
@@ -147,6 +151,24 @@ function RedeemPageContent() {
     } finally {
       setAppleLoading(false);
     }
+  };
+
+  // Handle QR code image upload
+  const handleQRFile = async (file: File) => {
+    setQrLoading(true);
+    setQrError(null);
+
+    const result = await decodeQRCodeFromFile(file);
+
+    if (result.success && result.code) {
+      setCode(result.code);
+      setState('initial');
+      setError(null);
+    } else {
+      setQrError(result.error || 'Failed to decode QR code');
+    }
+
+    setQrLoading(false);
   };
 
   // Loading state
@@ -254,6 +276,15 @@ function RedeemPageContent() {
                   description="Sign in to activate your free subscription"
                 />
                 <CardContent>
+                  {/* QR Code Upload */}
+                  <div className="mb-4">
+                    <QRCodeDropZone
+                      onFileSelected={handleQRFile}
+                      loading={qrLoading}
+                      error={qrError}
+                    />
+                  </div>
+
                   {/* Show code if present */}
                   {code && (
                     <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6 text-center">
@@ -324,6 +355,23 @@ function RedeemPageContent() {
                   description={`Signed in as ${user.email}`}
                 />
                 <CardContent>
+                  {/* QR Code Upload */}
+                  <div className="mb-4">
+                    <QRCodeDropZone
+                      onFileSelected={handleQRFile}
+                      loading={qrLoading}
+                      error={qrError}
+                      disabled={state === 'validating' || state === 'redeeming'}
+                    />
+                  </div>
+
+                  {/* Divider */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-1 border-t border-gray-200" />
+                    <span className="text-xs text-gray-400 uppercase">or enter code manually</span>
+                    <div className="flex-1 border-t border-gray-200" />
+                  </div>
+
                   {/* Code input/display */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">

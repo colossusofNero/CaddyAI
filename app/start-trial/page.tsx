@@ -13,6 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Check, Shield, CreditCard } from 'lucide-react';
+import { auth } from '@/lib/firebase';
 
 type BillingPeriod = 'monthly' | 'annual';
 
@@ -59,11 +60,18 @@ export default function StartTrialPage() {
       setIsLoading(true);
       setError(null);
 
+      // Get Firebase ID token for API authentication
+      const idToken = await auth?.currentUser?.getIdToken();
+      if (!idToken) {
+        throw new Error('Not authenticated. Please sign in again.');
+      }
+
       // Call the checkout API to create a Stripe session with trial
       const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`,
         },
         body: JSON.stringify({
           userId: user.uid,
@@ -215,7 +223,7 @@ export default function StartTrialPage() {
                 fullWidth
                 loading={isLoading}
                 disabled={isLoading}
-                className="!bg-copper !text-white hover:!bg-copper-dark"
+                className="!bg-[#B87333] !text-white hover:!bg-[#8B4513]"
               >
                 Start 14-Day Free Trial
               </Button>

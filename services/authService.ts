@@ -60,32 +60,29 @@ export async function signUp(
 export async function signIn(email: string, password: string): Promise<User> {
   try {
     console.log('[Auth Debug] Starting signIn...');
-    console.log('[Auth Debug] Email:', email);
-    console.log('[Auth Debug] Auth initialized:', !!auth);
 
     if (!auth) {
-      console.error('[Auth Debug] CRITICAL: Firebase Auth is not initialized!');
       throw new Error('Authentication is not initialized');
     }
 
-    console.log('[Auth Debug] Calling signInWithEmailAndPassword...');
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('[Auth Debug] Sign in successful, user:', userCredential.user.uid);
+    const user = userCredential.user;
+    console.log('[Auth Debug] Sign in successful, user:', user.uid);
 
-    // Update last login time
-    console.log('[Auth Debug] Updating last login...');
-    await updateLastLogin(userCredential.user.uid);
-    console.log('[Auth Debug] Last login updated');
+    // Recover from zombie state: if user doc doesn't exist, create it now
+    if (db) {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (!userDoc.exists()) {
+        console.log('[Auth Debug] User doc missing — recovering from partial signup...');
+        await createUserMetadata(user);
+      } else {
+        await updateLastLogin(user.uid);
+      }
+    }
 
-    return userCredential.user;
+    return user;
   } catch (error: any) {
-    console.error('[Auth Debug] Sign in error details:', {
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      stack: error.stack,
-      fullError: error
-    });
+    console.error('[Auth Debug] Sign in error:', error.code, error.message);
     throw new Error(getAuthErrorMessage(error.code));
   }
 }
@@ -262,8 +259,6 @@ async function createUserMetadata(user: User): Promise<void> {
     throw new Error('Firestore is not initialized');
   }
 
-  const now = new Date();
-
   const userMetadata: UserMetadata = {
     userId: user.uid,
     email: user.email,
@@ -276,31 +271,17 @@ async function createUserMetadata(user: User): Promise<void> {
     clubsComplete: false,
   };
 
-  // Create user document with metadata and free plan
-  // Pro subscription with trial will be created via Stripe checkout
+  // Create user document with metadata only.
+  // Subscription fields (subscription, stripeCustomerId, stripePriceId) are
+  // managed server-side only — Firestore rules block client writes of those
+  // fields. The Stripe checkout flow or Cloud Functions will set them.
   await setDoc(doc(db, 'users', user.uid), {
     ...userMetadata,
     createdAt: serverTimestamp(),
     lastLoginAt: serverTimestamp(),
-    subscription: {
-      status: 'active',
-      plan: 'free',
-      billingPeriod: 'monthly',
-      currentPeriodStart: now,
-      currentPeriodEnd: new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000), // 1 year
-      trialStart: null,
-      trialEnd: null,
-      cancelAt: null,
-      canceledAt: null,
-      stripeCustomerId: '',
-      stripeSubscriptionId: null,
-      stripePriceId: null,
-      createdAt: now,
-      updatedAt: now,
-    },
   });
 
-  console.log(`[Auth] Created user with free plan: ${user.uid}`);
+  console.log(`[Auth] Created user document: ${user.uid}`);
 }
 
 /**
@@ -364,7 +345,7 @@ export async function getUserMetadata(userId: string): Promise<UserMetadata | nu
  */
 function getAuthErrorMessage(errorCode: string): string {
   const errorMessages: Record<string, string> = {
-    'auth/email-already-in-use': 'This email is already registered. Please sign in instead.',
+    'auth/email-already-in-use': 'This email is already registered. Please sign in instead — your account will be set up automatically.',
     'auth/invalid-email': 'Invalid email address. Please check and try again.',
     'auth/operation-not-allowed': 'This sign-in method is not enabled. Please contact support.',
     'auth/weak-password': 'Password is too weak. Please use at least 6 characters.',

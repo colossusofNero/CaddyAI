@@ -424,7 +424,8 @@ function RedeemPageContent() {
                         setError(null);
                       }}
                       placeholder="CADDY-PRO-XXXXXXXX"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-center font-mono text-lg uppercase focus:border-primary focus:outline-none"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-center font-mono text-lg uppercase focus:outline-none"
+                      style={{ backgroundColor: '#ffffff', color: '#111827', borderColor: '#e5e7eb' }}
                     />
                   </div>
 

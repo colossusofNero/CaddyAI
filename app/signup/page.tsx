@@ -41,6 +41,15 @@ function SignupPageContent() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [appleLoading, setAppleLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [promoLoading, setPromoLoading] = useState(false);
+
+  // Extract promo code from redirect URL if present
+  const promoCode = (() => {
+    try {
+      const url = new URL(redirectTo, 'http://localhost');
+      return url.searchParams.get('code') || null;
+    } catch { return null; }
+  })();
 
   const {
     register,
@@ -169,14 +178,65 @@ function SignupPageContent() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#111827' }}>Account Created!</h3>
-                <p className="text-gray-600 mb-6">Your account is ready. Continue to set up your subscription.</p>
-                <a
-                  href={redirectTo}
-                  className="inline-block w-full py-3 px-6 rounded-lg text-center font-medium text-white"
+                <p className="text-gray-600 mb-6">
+                  {promoCode
+                    ? 'Your account is ready. Set up your payment to activate your free year.'
+                    : 'Your account is ready. Continue to set up your subscription.'}
+                </p>
+                {authError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
+                    {authError}
+                  </div>
+                )}
+                <button
+                  onClick={async () => {
+                    if (promoCode) {
+                      // Go directly to Stripe Checkout with promo code
+                      try {
+                        setPromoLoading(true);
+                        const { auth } = await import('@/lib/firebase');
+                        const idToken = await auth?.currentUser?.getIdToken();
+                        if (!idToken) {
+                          // Auth not ready yet, use full navigation as fallback
+                          window.location.href = `/redeem?code=${promoCode}`;
+                          return;
+                        }
+                        const response = await fetch('/api/promo/redeem', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${idToken}`,
+                          },
+                          body: JSON.stringify({
+                            code: promoCode,
+                            billingPeriod: 'annual',
+                            customerEmail: auth?.currentUser?.email,
+                            successUrl: `${window.location.origin}/dashboard?promo_redeemed=true`,
+                            cancelUrl: `${window.location.origin}/redeem?code=${promoCode}&canceled=true`,
+                          }),
+                        });
+                        const result = await response.json();
+                        if (result.success && result.url) {
+                          window.location.href = result.url;
+                        } else {
+                          // Fallback to redeem page
+                          window.location.href = `/redeem?code=${promoCode}`;
+                        }
+                      } catch {
+                        window.location.href = `/redeem?code=${promoCode}`;
+                      } finally {
+                        setPromoLoading(false);
+                      }
+                    } else {
+                      window.location.href = redirectTo;
+                    }
+                  }}
+                  disabled={promoLoading}
+                  className="w-full py-3 px-6 rounded-lg text-center font-medium text-white"
                   style={{ backgroundColor: '#B87333' }}
                 >
-                  Continue
-                </a>
+                  {promoLoading ? 'Setting up...' : promoCode ? 'Activate Your Free Year' : 'Continue'}
+                </button>
               </div>
             )}
 

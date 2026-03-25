@@ -29,29 +29,43 @@ export async function signUp(
   password: string,
   displayName?: string
 ): Promise<User> {
-  try {
-    if (!auth) {
-      throw new Error('Authentication is not initialized');
-    }
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+  if (!auth) {
+    throw new Error('Authentication is not initialized');
+  }
 
-    // Update profile with display name if provided
+  // Step 1: Create the Firebase Auth user — this is the critical step
+  let user: User;
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    user = userCredential.user;
+  } catch (error: any) {
+    console.error('Sign up error (auth):', error);
+    throw new Error(getAuthErrorMessage(error.code));
+  }
+
+  // Step 2: Non-critical — update profile, send verification, create Firestore doc
+  // If any of these fail, the user can still sign in and recover later
+  try {
     if (displayName) {
       await updateProfile(user, { displayName });
     }
-
-    // Send email verification
-    await sendEmailVerification(user);
-
-    // Create user metadata in Firestore
-    await createUserMetadata(user);
-
-    return user;
-  } catch (error: any) {
-    console.error('Sign up error:', error);
-    throw new Error(getAuthErrorMessage(error.code));
+  } catch (error) {
+    console.error('Failed to update profile (non-critical):', error);
   }
+
+  try {
+    await sendEmailVerification(user);
+  } catch (error) {
+    console.error('Failed to send verification email (non-critical):', error);
+  }
+
+  try {
+    await createUserMetadata(user);
+  } catch (error) {
+    console.error('Failed to create user metadata (non-critical, will recover on sign-in):', error);
+  }
+
+  return user;
 }
 
 /**

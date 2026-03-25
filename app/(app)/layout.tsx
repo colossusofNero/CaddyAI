@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 
 const POLL_INTERVAL_MS = 2000;
-const MAX_POLL_ATTEMPTS = 5;
+const MAX_POLL_ATTEMPTS = 10;
 
 function Spinner() {
   return (
@@ -33,7 +33,7 @@ function AppGate({ children }: { children: React.ReactNode }) {
   const pollCount = useRef(0);
   const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const trialStarted = searchParams.get('trial_started') === 'true';
+  const trialStarted = searchParams.get('trial_started') === 'true' || searchParams.get('promo_redeemed') === 'true';
 
   // Fetch subscription once user is available
   useEffect(() => {

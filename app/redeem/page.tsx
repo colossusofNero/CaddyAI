@@ -374,7 +374,7 @@ function RedeemPageContent() {
                   {/* Email signup link */}
                   <div className="text-center">
                     <Link
-                      href={code ? `/signup?redirect=/redeem?code=${code}` : '/signup?redirect=/redeem'}
+                      href={code ? `/signup?redirect=${encodeURIComponent(`/redeem?code=${code}`)}` : '/signup?redirect=/redeem'}
                       className="text-sm font-medium hover:underline"
                       style={{ color: '#B87333' }}
                     >

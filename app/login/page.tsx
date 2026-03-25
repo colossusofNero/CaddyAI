@@ -5,8 +5,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
@@ -25,8 +25,10 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
   const { signIn, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -53,7 +55,7 @@ export default function LoginPage() {
       await signIn(data.email, data.password);
       console.log('[Login Debug] signIn successful, redirecting to dashboard...');
 
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (error: any) {
       console.error('[Login Debug] Login failed:', {
         message: error?.message,
@@ -79,7 +81,7 @@ export default function LoginPage() {
       await signInWithGoogle();
       console.log('[Login Debug] Google sign-in successful, redirecting to dashboard...');
 
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (error: any) {
       console.error('[Login Debug] Google sign-in failed:', {
         message: error?.message,
@@ -106,7 +108,7 @@ export default function LoginPage() {
       await signInWithApple();
       console.log('[Login Debug] Apple sign-in successful, redirecting to dashboard...');
 
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (error: any) {
       console.error('[Login Debug] Apple sign-in failed:', {
         message: error?.message,
@@ -358,5 +360,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }

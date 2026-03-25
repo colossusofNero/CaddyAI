@@ -193,8 +193,11 @@ export async function middleware(request: NextRequest) {
   const sessionExists = hasSessionCookie(request);
 
   // Redirect authenticated users away from guest-only pages
+  // BUT: if they have a ?redirect param, honor it (e.g., coming from promo flow)
   if (isGuestOnlyRoute(pathname) && sessionExists) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    const redirectParam = request.nextUrl.searchParams.get('redirect');
+    const destination = redirectParam || '/dashboard';
+    return NextResponse.redirect(new URL(destination, request.url));
   }
 
   // Redirect unauthenticated users away from authenticated routes

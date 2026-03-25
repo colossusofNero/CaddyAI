@@ -371,14 +371,21 @@ function RedeemPageContent() {
                     <div className="flex-1 border-t border-gray-200" />
                   </div>
 
-                  {/* Email signup link */}
-                  <div className="text-center">
+                  {/* Email auth links */}
+                  <div className="text-center space-y-2">
                     <Link
                       href={code ? `/signup?redirect=${encodeURIComponent(`/redeem?code=${code}`)}` : '/signup?redirect=/redeem'}
-                      className="text-sm font-medium hover:underline"
+                      className="block text-sm font-medium hover:underline"
                       style={{ color: '#B87333' }}
                     >
-                      Sign up with email instead
+                      Sign up with email
+                    </Link>
+                    <Link
+                      href={code ? `/login?redirect=${encodeURIComponent(`/redeem?code=${code}`)}` : '/login?redirect=/redeem'}
+                      className="block text-sm hover:underline"
+                      style={{ color: '#666' }}
+                    >
+                      Already have an account? Sign in
                     </Link>
                   </div>
                 </CardContent>

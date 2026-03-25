@@ -5,8 +5,8 @@
 
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
@@ -32,8 +32,10 @@ const signupSchema = z
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
-export default function SignupPage() {
+function SignupPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/start-trial';
   const { signUp, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -55,9 +57,9 @@ export default function SignupPage() {
       clearError();
       await signUp(data.email, data.password, data.displayName);
       setShowSuccess(true);
-      // Redirect to trial setup page after 2 seconds
+      // Redirect after 2 seconds
       setTimeout(() => {
-        router.push('/start-trial');
+        router.push(redirectTo);
       }, 2000);
     } catch {
       // Error is handled by useAuth
@@ -72,7 +74,7 @@ export default function SignupPage() {
       setGoogleLoading(true);
       clearError();
       await signInWithGoogle();
-      router.push('/start-trial');
+      router.push(redirectTo);
     } catch {
       // Error is handled by useAuth
     } finally {
@@ -86,7 +88,7 @@ export default function SignupPage() {
       setAppleLoading(true);
       clearError();
       await signInWithApple();
-      router.push('/start-trial');
+      router.push(redirectTo);
     } catch {
       // Error is handled by useAuth
     } finally {
@@ -407,5 +409,17 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <SignupPageContent />
+    </Suspense>
   );
 }

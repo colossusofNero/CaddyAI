@@ -363,6 +363,24 @@ function RedeemPageContent() {
                       Continue with Apple
                     </Button>
                   </div>
+
+                  {/* Divider */}
+                  <div className="flex items-center gap-3 mt-4 mb-4">
+                    <div className="flex-1 border-t border-gray-200" />
+                    <span className="text-xs text-gray-400 uppercase">or</span>
+                    <div className="flex-1 border-t border-gray-200" />
+                  </div>
+
+                  {/* Email signup link */}
+                  <div className="text-center">
+                    <Link
+                      href={code ? `/signup?redirect=/redeem?code=${code}` : '/signup?redirect=/redeem'}
+                      className="text-sm font-medium hover:underline"
+                      style={{ color: '#B87333' }}
+                    >
+                      Sign up with email instead
+                    </Link>
+                  </div>
                 </CardContent>
               </>
             )}

@@ -133,6 +133,7 @@ const CSP_HEADER = [
     'https://api.elevenlabs.io',
     'https://www.google-analytics.com',
     'https://region1.google-analytics.com',
+    'https://*.cloudfunctions.net',
     'wss://*.firebaseio.com',
   ].join(' '),
   // Stripe Checkout + Google Sign-In + Apple Sign-In + Firebase auth popups + Vercel

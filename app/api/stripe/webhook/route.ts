@@ -11,7 +11,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { stripe, WEBHOOK_EVENTS, STRIPE_PRICE_IDS } from '@/lib/stripe';
-import { updateSubscriptionInFirestore } from '@/services/subscriptionService';
+import { updateSubscriptionInFirestoreAdmin } from '@/services/subscriptionServiceAdmin';
+import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import type Stripe from 'stripe';
 
 /**
@@ -133,6 +134,8 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
 async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   console.log('Subscription updated:', subscription.id);
 
+  initializeFirebaseAdmin();
+
   // Extract user ID from metadata
   const userId = subscription.metadata?.userId;
   if (!userId) {
@@ -145,21 +148,20 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   const plan = determinePlanFromPriceId(priceId);
   const billingPeriod = subscription.items.data[0]?.price.recurring?.interval === 'year' ? 'annual' : 'monthly';
 
-  // Update subscription in Firestore
-  await updateSubscriptionInFirestore(userId, {
-    userId,
-    customerId: subscription.customer as string,
-    subscriptionId: subscription.id,
-    priceId: priceId || null,
+  // Update subscription in Firestore using Admin SDK (bypasses security rules)
+  await updateSubscriptionInFirestoreAdmin(userId, {
+    stripeCustomerId: subscription.customer as string,
+    stripeSubscriptionId: subscription.id,
+    stripePriceId: priceId || null,
     status: subscription.status as any,
     plan,
     billingPeriod,
-    currentPeriodStart: (subscription as any).currentPeriodStart || (subscription as any).current_period_start,
-    currentPeriodEnd: (subscription as any).currentPeriodEnd || (subscription as any).current_period_end,
-    cancelAt: subscription.cancel_at || (subscription as any).cancelAt,
-    canceledAt: subscription.canceled_at || (subscription as any).canceledAt,
-    trialStart: subscription.trial_start || (subscription as any).trialStart,
-    trialEnd: subscription.trial_end || (subscription as any).trialEnd,
+    currentPeriodStart: new Date((subscription.current_period_start) * 1000) as any,
+    currentPeriodEnd: new Date((subscription.current_period_end) * 1000) as any,
+    cancelAt: subscription.cancel_at ? new Date(subscription.cancel_at * 1000) as any : null,
+    canceledAt: subscription.canceled_at ? new Date(subscription.canceled_at * 1000) as any : null,
+    trialStart: subscription.trial_start ? new Date(subscription.trial_start * 1000) as any : null,
+    trialEnd: subscription.trial_end ? new Date(subscription.trial_end * 1000) as any : null,
   });
 }
 
@@ -169,25 +171,26 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log('Subscription deleted:', subscription.id);
 
+  initializeFirebaseAdmin();
+
   const userId = subscription.metadata?.userId;
   if (!userId) {
     console.error('No userId in subscription metadata');
     return;
   }
 
-  // Update to free plan
-  await updateSubscriptionInFirestore(userId, {
-    userId,
-    customerId: subscription.customer as string,
-    subscriptionId: subscription.id,
-    priceId: null,
+  // Update to free plan using Admin SDK
+  await updateSubscriptionInFirestoreAdmin(userId, {
+    stripeCustomerId: subscription.customer as string,
+    stripeSubscriptionId: subscription.id,
+    stripePriceId: null,
     status: 'canceled',
     plan: 'free',
     billingPeriod: 'monthly',
-    currentPeriodStart: (subscription as any).currentPeriodStart || (subscription as any).current_period_start,
-    currentPeriodEnd: (subscription as any).currentPeriodEnd || (subscription as any).current_period_end,
+    currentPeriodStart: new Date(subscription.current_period_start * 1000) as any,
+    currentPeriodEnd: new Date(subscription.current_period_end * 1000) as any,
     cancelAt: null,
-    canceledAt: subscription.canceled_at || (subscription as any).canceledAt,
+    canceledAt: subscription.canceled_at ? new Date(subscription.canceled_at * 1000) as any : null,
     trialStart: null,
     trialEnd: null,
   });

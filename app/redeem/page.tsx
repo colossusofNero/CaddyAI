@@ -9,13 +9,12 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { QRCodeDropZone } from '@/components/ui/QRCodeDropZone';
 import { decodeQRCodeFromFile } from '@/lib/qrDecode';
-import { app } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 
 // Types for Cloud Function responses
 interface CheckPromoCodeResponse {
@@ -65,27 +64,38 @@ function RedeemPageContent() {
     }
   }, [user, code, state]);
 
+  // Get Firebase ID token for API calls
+  const getIdToken = async (): Promise<string> => {
+    const token = await auth?.currentUser?.getIdToken();
+    if (!token) throw new Error('Not authenticated. Please sign in.');
+    return token;
+  };
+
   // Validate the promo code
   const validateCode = async () => {
-    if (!code || !app) return;
+    if (!code) return;
 
     setState('validating');
     setError(null);
 
     try {
-      const functions = getFunctions(app);
-      const checkPromoCode = httpsCallable<{ code: string }, CheckPromoCodeResponse>(
-        functions,
-        'checkPromoCode'
-      );
+      const idToken = await getIdToken();
+      const response = await fetch('/api/promo/check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ code }),
+      });
 
-      const result = await checkPromoCode({ code });
+      const result = await response.json();
 
-      if (result.data.valid) {
-        setCodeInfo(result.data);
+      if (result.valid) {
+        setCodeInfo(result);
         setState('ready');
       } else {
-        setError(result.data.reason || 'Invalid promo code');
+        setError(result.reason || 'Invalid promo code');
         setState('error');
       }
     } catch (err: any) {
@@ -97,32 +107,34 @@ function RedeemPageContent() {
 
   // Redeem the promo code
   const redeemCode = async () => {
-    if (!code || !app) return;
+    if (!code) return;
 
     setState('redeeming');
     setError(null);
 
     try {
-      const functions = getFunctions(app);
-      const redeemPromoCode = httpsCallable<{ code: string }, RedeemPromoCodeResponse>(
-        functions,
-        'redeemPromoCode'
-      );
+      const idToken = await getIdToken();
+      const response = await fetch('/api/promo/redeem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ code }),
+      });
 
-      const result = await redeemPromoCode({ code });
+      const result = await response.json();
 
-      if (result.data.success) {
-        setRedemptionResult(result.data);
+      if (result.success) {
+        setRedemptionResult(result);
         setState('success');
       } else {
-        setError('Failed to redeem code');
+        setError(result.message || 'Failed to redeem code');
         setState('error');
       }
     } catch (err: any) {
       console.error('Redemption error:', err);
-      // Parse Firebase error messages
-      const message = err.message || 'Failed to redeem code';
-      setError(message);
+      setError(err.message || 'Failed to redeem code');
       setState('error');
     }
   };

@@ -105,7 +105,7 @@ function RedeemPageContent() {
     }
   };
 
-  // Redeem the promo code
+  // Redeem the promo code — redirects to Stripe Checkout
   const redeemCode = async () => {
     if (!code) return;
 
@@ -120,14 +120,20 @@ function RedeemPageContent() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${idToken}`,
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({
+          code,
+          billingPeriod: 'annual',
+          customerEmail: user?.email,
+          successUrl: `${window.location.origin}/dashboard?promo_redeemed=true`,
+          cancelUrl: `${window.location.origin}/redeem?code=${code}&canceled=true`,
+        }),
       });
 
       const result = await response.json();
 
-      if (result.success) {
-        setRedemptionResult(result);
-        setState('success');
+      if (result.success && result.url) {
+        // Redirect to Stripe Checkout to collect payment info
+        window.location.href = result.url;
       } else {
         setError(result.message || 'Failed to redeem code');
         setState('error');
@@ -416,7 +422,8 @@ function RedeemPageContent() {
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                       <p className="text-sm text-green-800">
                         <strong>Valid Code!</strong><br />
-                        {codeInfo.message}
+                        {codeInfo.message}<br />
+                        <span className="text-green-600">You&apos;ll be taken to a secure payment page to set up your account. No charge today.</span>
                       </p>
                     </div>
                   )}
@@ -444,7 +451,7 @@ function RedeemPageContent() {
                       onClick={redeemCode}
                       className="!bg-[#B87333] !text-white hover:!bg-[#8B4513]"
                     >
-                      Activate Subscription
+                      Continue to Payment Setup
                     </Button>
                   )}
 

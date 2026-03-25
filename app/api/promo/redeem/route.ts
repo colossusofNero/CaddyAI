@@ -2,13 +2,17 @@
  * Redeem Promo Code API Route
  * POST /api/promo/redeem
  *
- * Redeems a promo code: increments usage, creates a subscription record.
+ * Validates the promo code, then creates a Stripe Checkout session with
+ * trial_period_days equal to the promo duration. This collects a credit card
+ * upfront (charges $0 today) and starts billing automatically when the
+ * promo period ends.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
 import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { stripe, STRIPE_PRICE_IDS } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = decodedToken.uid;
-    const { code } = await request.json();
+    const { code, billingPeriod, successUrl, cancelUrl, customerEmail } = await request.json();
 
     if (!code) {
       return NextResponse.json({ success: false, message: 'No code provided' }, { status: 400 });
@@ -63,68 +67,67 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: 'You have already redeemed this code' }, { status: 400 });
     }
 
-    // Calculate subscription dates
-    const now = new Date();
-    const durationDays = promo.durationDays || 365;
-    const endDate = new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000);
+    // Determine trial days from promo code
+    const trialDays = promo.durationDays || 365;
 
-    // Use a batch write for atomicity
+    // Get the price ID (default to annual)
+    const period = billingPeriod === 'monthly' ? 'monthly' : 'annual';
+    const priceId = STRIPE_PRICE_IDS.pro[period];
+
+    // Create Stripe Checkout session with promo trial period
+    const session = await stripe.checkout.sessions.create({
+      customer_email: customerEmail || decodedToken.email,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url: successUrl || `${request.nextUrl.origin}/dashboard?promo_redeemed=true`,
+      cancel_url: cancelUrl || `${request.nextUrl.origin}/redeem?code=${upperCode}&canceled=true`,
+      subscription_data: {
+        trial_period_days: trialDays,
+        metadata: {
+          userId,
+          plan: 'pro',
+          billingPeriod: period,
+          promoCode: upperCode,
+          source: 'promo_code',
+        },
+      },
+      metadata: {
+        userId,
+        plan: 'pro',
+        billingPeriod: period,
+        promoCode: upperCode,
+        source: 'promo_code',
+      },
+      payment_method_types: ['card'],
+    });
+
+    // Mark the promo code as used (increment count + record redemption)
     const batch = db.batch();
-
-    // 1. Increment redemption count on promo code
     batch.update(promoRef, {
       currentRedemptions: FieldValue.increment(1),
     });
-
-    // 2. Record the redemption
     batch.set(redemptionRef, {
       userId,
-      redeemedAt: now,
-      durationDays,
+      redeemedAt: new Date(),
+      stripeSessionId: session.id,
+      durationDays: trialDays,
     });
-
-    // 3. Create/update subscription in subscriptions/{userId}
-    const subscriptionRef = db.collection('subscriptions').doc(userId);
-    batch.set(subscriptionRef, {
-      userId,
-      status: 'active',
-      plan: 'pro_annual',
-      source: 'promo_code',
-      promoCode: upperCode,
-      startDate: now,
-      endDate,
-      createdAt: now,
-      updatedAt: now,
-    });
-
-    // 4. Also update the user doc with subscription info (server-side, bypasses rules)
-    const userRef = db.collection('users').doc(userId);
-    batch.set(userRef, {
-      subscription: {
-        status: 'active',
-        plan: 'pro',
-        billingPeriod: 'annual',
-        currentPeriodStart: now,
-        currentPeriodEnd: endDate,
-        source: 'promo_code',
-        promoCode: upperCode,
-        createdAt: now,
-        updatedAt: now,
-      },
-    }, { merge: true });
-
     await batch.commit();
 
     return NextResponse.json({
       success: true,
-      plan: 'pro',
-      subscriptionEnd: endDate.toISOString(),
-      message: `Your Pro subscription is active for ${durationDays} days!`,
+      url: session.url,
+      sessionId: session.id,
     });
   } catch (error: any) {
     console.error('[Promo Redeem] Error:', error);
     return NextResponse.json(
-      { success: false, message: 'Something went wrong. Please try again.' },
+      { success: false, message: error.message || 'Something went wrong. Please try again.' },
       { status: 500 }
     );
   }

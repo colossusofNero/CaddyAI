@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     ],
   }),
   manifest: '/manifest.json',
+  other: {
+    'linkedin-domain-verify': '8963fd0d-6b92-4d93-9461-c0df4cdae20f',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

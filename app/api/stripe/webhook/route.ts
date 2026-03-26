@@ -149,10 +149,21 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   const billingPeriod = subscription.items.data[0]?.price.recurring?.interval === 'year' ? 'annual' : 'monthly';
 
   // Update subscription in Firestore using Admin SDK (bypasses security rules)
-  // Access period timestamps - handle both camelCase and snake_case Stripe API versions
+  // Access period timestamps - handle both camelCase and snake_case, and the
+  // Stripe API 2026-01-28+ change where current_period_start/end moved from the
+  // subscription root onto items.data[0]. Fall back to items when not at root.
   const sub = subscription as any;
-  const periodStart = sub.currentPeriodStart || sub.current_period_start;
-  const periodEnd = sub.currentPeriodEnd || sub.current_period_end;
+  const firstItem = sub.items?.data?.[0] ?? sub.items?.data?.[0] ?? {};
+  const periodStart =
+    sub.currentPeriodStart ??
+    sub.current_period_start ??
+    firstItem.currentPeriodStart ??
+    firstItem.current_period_start;
+  const periodEnd =
+    sub.currentPeriodEnd ??
+    sub.current_period_end ??
+    firstItem.currentPeriodEnd ??
+    firstItem.current_period_end;
   const cancelAt = sub.cancelAt ?? sub.cancel_at;
   const canceledAt = sub.canceledAt ?? sub.canceled_at;
   const trialStart = sub.trialStart ?? sub.trial_start;
@@ -190,8 +201,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 
   // Update to free plan using Admin SDK
   const sub = subscription as any;
-  const periodStart = sub.currentPeriodStart || sub.current_period_start;
-  const periodEnd = sub.currentPeriodEnd || sub.current_period_end;
+  const firstItem = sub.items?.data?.[0] ?? {};
+  const periodStart =
+    sub.currentPeriodStart ?? sub.current_period_start ??
+    firstItem.currentPeriodStart ?? firstItem.current_period_start;
+  const periodEnd =
+    sub.currentPeriodEnd ?? sub.current_period_end ??
+    firstItem.currentPeriodEnd ?? firstItem.current_period_end;
   const canceledAt = sub.canceledAt ?? sub.canceled_at;
 
   await updateSubscriptionInFirestoreAdmin(userId, {

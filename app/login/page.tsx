@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -29,11 +29,18 @@ function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/dashboard';
-  const { signIn, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
+  const { user, loading: authLoading, signIn, signInWithGoogle, signInWithApple, error: authError, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [appleLoading, setAppleLoading] = useState(false);
   const [, setShowResetPassword] = useState(false);
+
+  // If user is already signed in (e.g. returning from Stripe Checkout), skip the form
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(redirectTo);
+    }
+  }, [authLoading, user, router, redirectTo]);
 
   const {
     register,

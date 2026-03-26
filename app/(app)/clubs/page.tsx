@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/Input';
 import { ArrowLeft, Save, Plus, Trash2, Download, Upload } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
+import { updateUserSetupFlags } from '@/services/authService';
 import type { Club, ClubFace } from '@/src/types/clubs';
 import { generateDefaultClubs, CLUB_LIST } from '@/src/types/clubs';
 import { downloadExcelTemplate, parseExcelFile } from '@/lib/excelImportExport';
@@ -228,6 +229,9 @@ export default function ClubsPage() {
 
       // Update local state with sorted clubs
       setClubs(sortedClubs);
+
+      // Mark clubs as complete
+      await updateUserSetupFlags(user.uid, { clubsComplete: true });
 
       setSuccess(true);
 

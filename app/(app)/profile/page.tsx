@@ -17,6 +17,7 @@ import { ArrowLeft, Save, User } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
 import { initializeNewUser } from '@/services/initializationService';
+import { updateUserSetupFlags } from '@/services/authService';
 import type { UserProfile } from '@/src/types/user';
 
 export default function ProfilePage() {
@@ -134,6 +135,9 @@ export default function ProfilePage() {
           preferences: initResult.preferencesInitialized,
         });
       }
+
+      // Mark profile as complete
+      await updateUserSetupFlags(user.uid, { profileComplete: true });
 
       setSuccess(true);
 

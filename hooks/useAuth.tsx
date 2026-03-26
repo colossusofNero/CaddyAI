@@ -25,6 +25,7 @@ interface AuthContextType {
   userMetadata: UserMetadata | null;
   loading: boolean;
   error: string | null;
+  refreshMetadata: () => Promise<void>;
   signUp: (email: string, password: string, displayName?: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
@@ -188,11 +189,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
   };
 
+  const refreshMetadata = async () => {
+    if (!user) return;
+    const metadata = await getUserMetadata(user.uid);
+    setUserMetadata(metadata);
+  };
+
   const value: AuthContextType = {
     user,
     userMetadata,
     loading,
     error,
+    refreshMetadata,
     signUp: handleSignUp,
     signIn: handleSignIn,
     signInWithGoogle: handleSignInWithGoogle,

@@ -14,6 +14,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { roundsApi } from '@/lib/api/rounds';
+import { updateUserSetupFlags } from '@/services/authService';
 import type { Round, UserStatistics } from '@/lib/api/types';
 import {
   Circle,
@@ -34,7 +35,7 @@ import {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, userMetadata, loading, signOut } = useAuth();
+  const { user, userMetadata, loading, signOut, refreshMetadata } = useAuth();
   const { subscription, getSubscriptionStatus } = useSubscription();
 
   // Dashboard data state
@@ -42,6 +43,18 @@ export default function DashboardPage() {
   const [recentRounds, setRecentRounds] = useState<Round[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [dataError, setDataError] = useState<string | null>(null);
+  const [markingComplete, setMarkingComplete] = useState<string | null>(null);
+
+  const handleMarkComplete = async (flag: 'profileComplete' | 'clubsComplete') => {
+    if (!user) return;
+    setMarkingComplete(flag);
+    try {
+      await updateUserSetupFlags(user.uid, { [flag]: true });
+      await refreshMetadata();
+    } finally {
+      setMarkingComplete(null);
+    }
+  };
 
   // Redirect unauthenticated users to login
   useEffect(() => {
@@ -591,46 +604,68 @@ export default function DashboardPage() {
                 description="Complete these steps to get the most out of Copperline Golf"
               />
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-4">
+                  {/* Step 1 — Player profile */}
                   <div className="flex items-center gap-3">
                     {userMetadata?.profileComplete ? (
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                     ) : (
-                      <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0"></div>
+                      <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0" />
                     )}
-                    <span
-                      className={
-                        userMetadata?.profileComplete
-                          ? 'text-text-secondary line-through'
-                          : 'text-text-primary'
-                      }
-                    >
+                    <span className={`flex-1 ${userMetadata?.profileComplete ? 'text-text-secondary line-through' : 'text-text-primary'}`}>
                       Complete your player profile (5 questions)
                     </span>
+                    {!userMetadata?.profileComplete && (
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <Link href="/profile" className="text-xs text-primary hover:underline">
+                          Go →
+                        </Link>
+                        <button
+                          onClick={() => handleMarkComplete('profileComplete')}
+                          disabled={markingComplete === 'profileComplete'}
+                          className="text-xs text-text-muted hover:text-success transition-colors disabled:opacity-50"
+                        >
+                          {markingComplete === 'profileComplete' ? '...' : 'Mark done'}
+                        </button>
+                      </div>
+                    )}
                   </div>
 
+                  {/* Step 2 — Clubs */}
                   <div className="flex items-center gap-3">
                     {userMetadata?.clubsComplete ? (
                       <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
                     ) : (
-                      <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0"></div>
+                      <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0" />
                     )}
-                    <span
-                      className={
-                        userMetadata?.clubsComplete
-                          ? 'text-text-secondary line-through'
-                          : 'text-text-primary'
-                      }
-                    >
+                    <span className={`flex-1 ${userMetadata?.clubsComplete ? 'text-text-secondary line-through' : 'text-text-primary'}`}>
                       Add your clubs and distances
                     </span>
+                    {!userMetadata?.clubsComplete && (
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <Link href="/clubs" className="text-xs text-primary hover:underline">
+                          Go →
+                        </Link>
+                        <button
+                          onClick={() => handleMarkComplete('clubsComplete')}
+                          disabled={markingComplete === 'clubsComplete'}
+                          className="text-xs text-text-muted hover:text-success transition-colors disabled:opacity-50"
+                        >
+                          {markingComplete === 'clubsComplete' ? '...' : 'Mark done'}
+                        </button>
+                      </div>
+                    )}
                   </div>
 
+                  {/* Step 3 — Mobile app (no completion flag needed) */}
                   <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0"></div>
-                    <span className="text-text-primary">
+                    <div className="w-5 h-5 border-2 border-secondary-700 rounded-full flex-shrink-0" />
+                    <span className="flex-1 text-text-primary">
                       Download the mobile app and start playing
                     </span>
+                    <Link href="/download" className="text-xs text-primary hover:underline flex-shrink-0">
+                      Go →
+                    </Link>
                   </div>
                 </div>
               </CardContent>

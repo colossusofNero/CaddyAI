@@ -17,7 +17,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { UserMetadata } from '@/types/user';
 
@@ -351,6 +351,23 @@ export async function getUserMetadata(userId: string): Promise<UserMetadata | nu
   } catch (error) {
     console.error('Failed to get user metadata:', error);
     return null;
+  }
+}
+
+/**
+ * Update setup completion flags on the user document.
+ * Call this after profile save, clubs save, or manual "mark complete".
+ */
+export async function updateUserSetupFlags(
+  userId: string,
+  flags: Partial<Pick<UserMetadata, 'profileComplete' | 'clubsComplete' | 'onboardingComplete'>>
+): Promise<void> {
+  if (!db) return;
+  try {
+    await updateDoc(doc(db, 'users', userId), flags as Record<string, boolean>);
+  } catch (error) {
+    console.error('[Auth] Failed to update setup flags:', error);
+    throw error;
   }
 }
 

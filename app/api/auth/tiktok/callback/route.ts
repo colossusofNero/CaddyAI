@@ -4,6 +4,19 @@ const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY!;
 const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET!;
 const TIKTOK_REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI || 'https://copperlinegolf.com/auth/tiktok/callback';
 
+// TikTok webhook verification — echoes back the challenge on POST
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    if (body?.challenge) {
+      return NextResponse.json({ challenge: body.challenge });
+    }
+  } catch {
+    // not JSON — ignore
+  }
+  return new NextResponse(null, { status: 200 });
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');

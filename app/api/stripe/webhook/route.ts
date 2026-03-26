@@ -149,6 +149,15 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   const billingPeriod = subscription.items.data[0]?.price.recurring?.interval === 'year' ? 'annual' : 'monthly';
 
   // Update subscription in Firestore using Admin SDK (bypasses security rules)
+  // Access period timestamps - handle both camelCase and snake_case Stripe API versions
+  const sub = subscription as any;
+  const periodStart = sub.currentPeriodStart || sub.current_period_start;
+  const periodEnd = sub.currentPeriodEnd || sub.current_period_end;
+  const cancelAt = sub.cancelAt ?? sub.cancel_at;
+  const canceledAt = sub.canceledAt ?? sub.canceled_at;
+  const trialStart = sub.trialStart ?? sub.trial_start;
+  const trialEnd = sub.trialEnd ?? sub.trial_end;
+
   await updateSubscriptionInFirestoreAdmin(userId, {
     stripeCustomerId: subscription.customer as string,
     stripeSubscriptionId: subscription.id,
@@ -156,13 +165,13 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     status: subscription.status as any,
     plan,
     billingPeriod,
-    currentPeriodStart: new Date((subscription.current_period_start) * 1000) as any,
-    currentPeriodEnd: new Date((subscription.current_period_end) * 1000) as any,
-    cancelAt: subscription.cancel_at ? new Date(subscription.cancel_at * 1000) as any : null,
-    canceledAt: subscription.canceled_at ? new Date(subscription.canceled_at * 1000) as any : null,
-    trialStart: subscription.trial_start ? new Date(subscription.trial_start * 1000) as any : null,
-    trialEnd: subscription.trial_end ? new Date(subscription.trial_end * 1000) as any : null,
-  });
+    currentPeriodStart: periodStart ? new Date(periodStart * 1000) : new Date(),
+    currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : new Date(),
+    cancelAt: cancelAt ? new Date(cancelAt * 1000) : null,
+    canceledAt: canceledAt ? new Date(canceledAt * 1000) : null,
+    trialStart: trialStart ? new Date(trialStart * 1000) : null,
+    trialEnd: trialEnd ? new Date(trialEnd * 1000) : null,
+  } as any);
 }
 
 /**
@@ -180,6 +189,11 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   }
 
   // Update to free plan using Admin SDK
+  const sub = subscription as any;
+  const periodStart = sub.currentPeriodStart || sub.current_period_start;
+  const periodEnd = sub.currentPeriodEnd || sub.current_period_end;
+  const canceledAt = sub.canceledAt ?? sub.canceled_at;
+
   await updateSubscriptionInFirestoreAdmin(userId, {
     stripeCustomerId: subscription.customer as string,
     stripeSubscriptionId: subscription.id,
@@ -187,13 +201,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     status: 'canceled',
     plan: 'free',
     billingPeriod: 'monthly',
-    currentPeriodStart: new Date(subscription.current_period_start * 1000) as any,
-    currentPeriodEnd: new Date(subscription.current_period_end * 1000) as any,
+    currentPeriodStart: periodStart ? new Date(periodStart * 1000) : new Date(),
+    currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : new Date(),
     cancelAt: null,
-    canceledAt: subscription.canceled_at ? new Date(subscription.canceled_at * 1000) as any : null,
+    canceledAt: canceledAt ? new Date(canceledAt * 1000) : null,
     trialStart: null,
     trialEnd: null,
-  });
+  } as any);
 }
 
 /**

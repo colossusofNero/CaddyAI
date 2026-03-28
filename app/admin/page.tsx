@@ -32,16 +32,30 @@ export default function AdminPage() {
   const [results, setResults] = useState<Record<string, string> | null>(null);
   const [error, setError] = useState('');
 
+  const ADMIN_EMAIL = 'scott.roelofs@rcgvaluation.com';
+
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login?redirect=/admin');
     }
   }, [user, loading, router]);
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user || user.email !== ADMIN_EMAIL) {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <div className="text-4xl">⛔</div>
+          <h1 className="text-white text-xl font-bold">Access Denied</h1>
+          <p className="text-gray-400 text-sm">This page is restricted to authorized users only.</p>
+        </div>
       </div>
     );
   }

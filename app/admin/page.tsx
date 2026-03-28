@@ -20,7 +20,7 @@ const TEMPLATES = [
 ];
 
 export default function AdminPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const router = useRouter();
 
   const [text, setText] = useState('');
@@ -122,7 +122,15 @@ export default function AdminPage() {
           <h1 className="text-xl font-bold text-white">⛳ Social Command Center</h1>
           <p className="text-sm text-yellow-500">Copperline Golf — Post to all platforms</p>
         </div>
-        <div className="text-sm text-gray-400">Signed in as {user.email}</div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-gray-400">{user.email}</div>
+          <button
+            onClick={() => signOut().then(() => router.push('/login'))}
+            className="text-sm px-3 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">

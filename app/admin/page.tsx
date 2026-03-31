@@ -200,8 +200,8 @@ export default function AdminPage() {
                 <div className="text-[11px] text-gray-500 truncate">{p.detail}</div>
                 <div className="text-[11px] text-gray-600 truncate mb-3">{p.note}</div>
                 <button onClick={() => togglePlatform(p.id)}
-                  className={`w-9 h-5 rounded-full relative transition-colors ${enabledPlatforms[p.id] ? 'bg-green-500' : 'bg-gray-600'}`}>
-                  <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow ${enabledPlatforms[p.id] ? 'translate-x-4' : 'translate-x-0.5'}`}></span>
+                  className={`w-10 h-6 rounded-full relative transition-colors flex-shrink-0 ${enabledPlatforms[p.id] ? 'bg-green-500' : 'bg-gray-600'}`}>
+                  <span className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform shadow ${enabledPlatforms[p.id] ? 'translate-x-5' : 'translate-x-1'}`}></span>
                 </button>
               </div>
             ))}

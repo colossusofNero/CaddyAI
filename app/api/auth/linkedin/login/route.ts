@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   authUrl.searchParams.set('client_id', LINKEDIN_CLIENT_ID);
   authUrl.searchParams.set('redirect_uri', REDIRECT_URI);
   authUrl.searchParams.set('state', state);
-  authUrl.searchParams.set('scope', 'openid profile email w_member_social');
+  authUrl.searchParams.set('scope', 'openid profile email w_member_social w_organization_social');
 
   const response = NextResponse.redirect(authUrl.toString());
   response.cookies.set('linkedin_oauth_state', state, {

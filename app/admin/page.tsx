@@ -110,7 +110,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.results) {
         Object.entries(data.results).forEach(([platform, status]: [string, any]) => {
-          if (status === 'ok' || status.startsWith('https')) {
+          if (status.startsWith('ok') || status.startsWith('https')) {
             log('success', `✅ ${platform}: ${status === 'ok' ? 'Posted successfully' : status}`);
           } else {
             log('error', `❌ ${platform}: ${status}`);

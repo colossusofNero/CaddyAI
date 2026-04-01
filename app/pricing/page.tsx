@@ -336,6 +336,23 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Mobile Sticky CTA */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 p-4 bg-background/95 backdrop-blur-lg border-t border-secondary-700 shadow-lg">
+        <button
+          onClick={() => handleSubscribe('pro')}
+          disabled={loadingPlan === 'pro'}
+          className="w-full py-4 px-6 bg-primary hover:bg-primary-600 disabled:opacity-60 text-secondary-900 font-bold text-lg rounded-xl transition-colors touch-manipulation"
+        >
+          {loadingPlan === 'pro' ? 'Loading...' : 'Start Free Trial'}
+        </button>
+        <p className="text-center text-xs text-text-muted mt-2">
+          14-day free trial · No credit card required
+        </p>
+      </div>
+
+      {/* Spacer so sticky bar doesn't cover footer on mobile */}
+      <div className="lg:hidden h-28" />
+
       <Footer />
     </div>
   );

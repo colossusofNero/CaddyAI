@@ -169,7 +169,7 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   const trialStart = sub.trialStart ?? sub.trial_start;
   const trialEnd = sub.trialEnd ?? sub.trial_end;
 
-  await updateSubscriptionInFirestoreAdmin(userId, {
+  const subscriptionData = {
     stripeCustomerId: subscription.customer as string,
     stripeSubscriptionId: subscription.id,
     stripePriceId: priceId || null,
@@ -182,7 +182,26 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     canceledAt: canceledAt ? new Date(canceledAt * 1000) : null,
     trialStart: trialStart ? new Date(trialStart * 1000) : null,
     trialEnd: trialEnd ? new Date(trialEnd * 1000) : null,
-  } as any);
+  };
+
+  // Write to users/{userId}/subscription (for app auth gate)
+  await updateSubscriptionInFirestoreAdmin(userId, subscriptionData as any);
+
+  // Also write to subscriptions/{userId} (for admin tools and lookups)
+  const { getAdminDb } = await import('@/services/firebaseAdmin');
+  const db = getAdminDb();
+  await db.collection('subscriptions').doc(userId).set({
+    userId,
+    email: subscription.metadata?.customerEmail || null,
+    ...subscriptionData,
+    cancelAtPeriodEnd: !!cancelAt,
+    promoCode: subscription.metadata?.promoCode || null,
+    source: subscription.metadata?.source || 'stripe',
+    lastUpdated: new Date(),
+    createdAt: new Date(),
+  }, { merge: true });
+
+  console.log(`Subscription synced for user ${userId} in both collections`);
 }
 
 /**
@@ -210,7 +229,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     firstItem.currentPeriodEnd ?? firstItem.current_period_end;
   const canceledAt = sub.canceledAt ?? sub.canceled_at;
 
-  await updateSubscriptionInFirestoreAdmin(userId, {
+  const canceledData = {
     stripeCustomerId: subscription.customer as string,
     stripeSubscriptionId: subscription.id,
     stripePriceId: null,
@@ -223,7 +242,22 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     canceledAt: canceledAt ? new Date(canceledAt * 1000) : null,
     trialStart: null,
     trialEnd: null,
-  } as any);
+  };
+
+  // Write to users/{userId}/subscription
+  await updateSubscriptionInFirestoreAdmin(userId, canceledData as any);
+
+  // Also update subscriptions/{userId}
+  const { getAdminDb } = await import('@/services/firebaseAdmin');
+  const db = getAdminDb();
+  await db.collection('subscriptions').doc(userId).set({
+    userId,
+    ...canceledData,
+    cancelAtPeriodEnd: false,
+    lastUpdated: new Date(),
+  }, { merge: true });
+
+  console.log(`Subscription canceled for user ${userId} in both collections`);
 }
 
 /**

@@ -62,25 +62,28 @@ export async function getSubscriptionStatusAdmin(
     const promoDoc = await db.collection('subscriptions').doc(userId).get();
     if (promoDoc.exists) {
       const data = promoDoc.data();
-      if (data && data.status === 'active') {
+      if (data && (data.status === 'active' || data.status === 'trialing')) {
         // Check if promo subscription is still valid (not expired)
-        const endDate = data.endDate?.toDate?.() || new Date(data.endDate);
+        // Webhook writes currentPeriodEnd; legacy direct writes use endDate
+        const rawEnd = data.currentPeriodEnd || data.endDate;
+        const endDate = rawEnd?.toDate?.() || new Date(rawEnd);
         if (endDate > new Date()) {
+          const rawStart = data.currentPeriodStart || data.startDate;
           promoSubscription = {
-            stripeCustomerId: '',
-            stripeSubscriptionId: null,
-            stripePriceId: null,
-            status: 'active',
+            stripeCustomerId: data.stripeCustomerId || '',
+            stripeSubscriptionId: data.stripeSubscriptionId || null,
+            stripePriceId: data.stripePriceId || null,
+            status: data.status,
             plan: data.plan === 'pro_annual' ? 'pro' : data.plan,
-            billingPeriod: 'annual',
-            currentPeriodStart: data.startDate,
-            currentPeriodEnd: data.endDate,
-            cancelAt: null,
-            canceledAt: null,
-            trialStart: null,
-            trialEnd: null,
-            createdAt: data.startDate,
-            updatedAt: data.updatedAt,
+            billingPeriod: data.billingPeriod || 'annual',
+            currentPeriodStart: rawStart,
+            currentPeriodEnd: rawEnd,
+            cancelAt: data.cancelAt || null,
+            canceledAt: data.canceledAt || null,
+            trialStart: data.trialStart || null,
+            trialEnd: data.trialEnd || null,
+            createdAt: rawStart,
+            updatedAt: data.updatedAt || data.lastUpdated,
             // Additional promo info
             source: data.source,
             promoCode: data.promoCode,

@@ -172,7 +172,9 @@ function AppGate({ children }: { children: React.ReactNode }) {
     setBannerDismissed(window.localStorage.getItem(`${BANNER_DISMISS_KEY}:${user.uid}`) === '1');
   }, [user]);
 
-  // Load profileComplete + account age from users/{uid}
+  // Load profileComplete + account age from users/{uid}.
+  // Refetch on pathname change so the gate sees fresh flags after the
+  // onboarding page writes profileComplete=true and navigates to /dashboard.
   useEffect(() => {
     if (!user) return;
     if (!profileEnsured) return;
@@ -187,7 +189,7 @@ function AppGate({ children }: { children: React.ReactNode }) {
       });
     })();
     return () => { cancelled = true; };
-  }, [user, profileEnsured]);
+  }, [user, profileEnsured, pathname]);
 
   // Hard-gate new accounts: redirect to onboarding until profileComplete
   useEffect(() => {

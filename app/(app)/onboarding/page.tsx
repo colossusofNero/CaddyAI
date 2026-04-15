@@ -79,6 +79,9 @@ export default function OnboardingPage() {
       if (playerName.trim()) webProfile.playerName = playerName.trim();
       if (yearsPlaying !== '') webProfile.yearsPlaying = yearsPlaying;
 
+      // Only write the fields the RN app declares required for a "complete"
+      // profile. Extra optional fields with unexpected types can crash the
+      // mobile app on load, so we keep this write minimal.
       const playerProfile: any = {
         userId: user.uid,
         dominantHand: dominantHand === 'right' ? 'Right' : 'Left',
@@ -86,11 +89,9 @@ export default function OnboardingPage() {
         naturalShot: naturalShot.charAt(0).toUpperCase() + naturalShot.slice(1),
         shotHeight: shotHeight.charAt(0).toUpperCase() + shotHeight.slice(1),
         yardsOfCurve5i,
-        playerName: playerName.trim() || null,
-        playFrequency,
-        golferSkillLevel: skillLevel,
         updatedAt: nowIso,
       };
+      if (playerName.trim()) playerProfile.playerName = playerName.trim();
 
       const existingProfile = await getDoc(doc(db, 'profiles', user.uid));
       const isNew = !existingProfile.exists();

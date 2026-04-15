@@ -4,6 +4,9 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { firebaseService } from '@/services/firebaseService';
+import { initializeNewUser } from '@/services/initializationService';
+import type { UserProfile } from '@/src/types/user';
 
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 10;
@@ -30,6 +33,7 @@ function AppGate({ children }: { children: React.ReactNode }) {
   const { user, loading: authLoading } = useAuth();
   const { subscription, isLoading: subLoading, getSubscriptionStatus } = useSubscription();
   const [subscriptionChecked, setSubscriptionChecked] = useState(false);
+  const [profileEnsured, setProfileEnsured] = useState(false);
   const pollCount = useRef(0);
   const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -62,6 +66,40 @@ function AppGate({ children }: { children: React.ReactNode }) {
       if (pollingRef.current) clearTimeout(pollingRef.current);
     };
   }, [subscriptionChecked, subscription, user, trialStarted]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Ensure a default profile exists so the app is functional.
+  // QR code / promo users land here without having gone through onboarding.
+  useEffect(() => {
+    if (!user) return;
+    if (!subscription?.hasActiveSubscription) return;
+    if (profileEnsured) return;
+
+    const ensureProfile = async () => {
+      try {
+        const existing = await firebaseService.getUserProfile(user.uid);
+        if (!existing) {
+          console.log('[AppGate] No profile found — creating defaults for', user.uid);
+          const defaults: Omit<UserProfile, 'createdAt' | 'updatedAt'> = {
+            userId: user.uid,
+            dominantHand: 'right',
+            handicap: 18,
+            typicalShotShape: 'straight',
+            height: 70,
+            curveTendency: 0,
+          };
+          await firebaseService.updateUserProfile(user.uid, defaults);
+          await initializeNewUser(user.uid, { ...defaults, createdAt: Date.now(), updatedAt: Date.now() } as UserProfile);
+          console.log('[AppGate] Default profile + clubs/shots created');
+        }
+      } catch (err) {
+        console.error('[AppGate] Failed to ensure profile:', err);
+      } finally {
+        setProfileEnsured(true);
+      }
+    };
+
+    ensureProfile();
+  }, [user, subscription, profileEnsured]);
 
   // Auth redirect
   useEffect(() => {

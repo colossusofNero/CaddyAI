@@ -187,6 +187,14 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
+    // Player Profiles Collection (mobile app)
+    match /playerProfiles/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
     // Club Management Collection (shared across platforms)
     match /clubDistances/{userId} {
       allow read: if isOwner(userId);

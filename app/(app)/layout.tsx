@@ -4,6 +4,8 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { doc, getDoc, setDoc, getFirestore } from 'firebase/firestore';
+import { getApps } from 'firebase/app';
 import { firebaseService } from '@/services/firebaseService';
 import { initializeNewUser } from '@/services/initializationService';
 import type { UserProfile } from '@/src/types/user';
@@ -75,20 +77,63 @@ function AppGate({ children }: { children: React.ReactNode }) {
 
     const ensureProfile = async () => {
       try {
-        const existing = await firebaseService.getUserProfile(user.uid);
-        if (!existing) {
-          console.log('[AppGate] No profile found — creating defaults for', user.uid);
-          const defaults: Omit<UserProfile, 'createdAt' | 'updatedAt'> = {
+        const db = getFirestore(getApps()[0]);
+        const now = Date.now();
+
+        // Check all three profile collections the mobile + web apps may read from
+        const [profilesSnap, userProfilesSnap, playerProfilesSnap] = await Promise.all([
+          getDoc(doc(db, 'profiles', user.uid)),
+          getDoc(doc(db, 'userProfiles', user.uid)),
+          getDoc(doc(db, 'playerProfiles', user.uid)),
+        ]);
+
+        const needsAnyProfile = !profilesSnap.exists() || !userProfilesSnap.exists() || !playerProfilesSnap.exists();
+
+        if (needsAnyProfile) {
+          console.log('[AppGate] Missing profile doc(s) — creating defaults for', user.uid);
+
+          const defaults = {
             userId: user.uid,
             dominantHand: 'right',
             handicap: 18,
             typicalShotShape: 'straight',
             height: 70,
             curveTendency: 0,
+            createdAt: now,
+            updatedAt: now,
           };
-          await firebaseService.updateUserProfile(user.uid, defaults);
-          await initializeNewUser(user.uid, { ...defaults, createdAt: Date.now(), updatedAt: Date.now() } as UserProfile);
-          console.log('[AppGate] Default profile + clubs/shots created');
+
+          // Also build the PlayerProfile shape the mobile app expects
+          const playerProfileDefaults = {
+            userId: user.uid,
+            dominantHand: 'Right',
+            handicap: 18,
+            naturalShot: 'Straight',
+            shotHeight: 'Medium',
+            yardsOfCurve5i: 0,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+
+          // Write to all collections in parallel — only those that are missing
+          const writes: Promise<void>[] = [];
+          if (!profilesSnap.exists()) {
+            writes.push(setDoc(doc(db, 'profiles', user.uid), defaults));
+          }
+          if (!userProfilesSnap.exists()) {
+            writes.push(setDoc(doc(db, 'userProfiles', user.uid), defaults));
+          }
+          if (!playerProfilesSnap.exists()) {
+            writes.push(setDoc(doc(db, 'playerProfiles', user.uid), playerProfileDefaults));
+          }
+          await Promise.all(writes);
+
+          // Initialize clubs/shots/preferences if this is a brand new user
+          if (!profilesSnap.exists()) {
+            await initializeNewUser(user.uid, defaults as UserProfile);
+          }
+
+          console.log('[AppGate] Default profile(s) + clubs/shots created');
         }
       } catch (err) {
         console.error('[AppGate] Failed to ensure profile:', err);

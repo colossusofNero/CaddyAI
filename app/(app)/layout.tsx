@@ -1,17 +1,26 @@
 'use client';
 
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { doc, getDoc, setDoc, getFirestore } from 'firebase/firestore';
 import { getApps } from 'firebase/app';
 import { firebaseService } from '@/services/firebaseService';
 import { initializeNewUser } from '@/services/initializationService';
+import { getUserMetadata } from '@/services/authService';
 import type { UserProfile } from '@/src/types/user';
 
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 10;
+
+// Users created on/after this cutoff must complete the profile walkthrough
+// before accessing the app. Older accounts see a dismissible reminder banner
+// instead, so we don't disrupt existing users who signed up before the
+// walkthrough existed.
+const ONBOARDING_REQUIRED_AFTER = new Date('2026-04-15T00:00:00Z').getTime();
+const BANNER_DISMISS_KEY = 'onboarding-banner-dismissed';
 
 function Spinner() {
   return (
@@ -31,13 +40,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
 function AppGate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
   const { subscription, isLoading: subLoading, getSubscriptionStatus } = useSubscription();
   const [subscriptionChecked, setSubscriptionChecked] = useState(false);
   const [profileEnsured, setProfileEnsured] = useState(false);
+  const [profileStatus, setProfileStatus] = useState<{ complete: boolean; isNewAccount: boolean } | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const pollCount = useRef(0);
   const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const onOnboardingRoute = pathname === '/onboarding' || pathname?.startsWith('/onboarding/');
 
   const trialStarted = searchParams.get('trial_started') === 'true' || searchParams.get('promo_redeemed') === 'true';
 
@@ -152,6 +166,51 @@ function AppGate({ children }: { children: React.ReactNode }) {
     }
   }, [authLoading, user, router]);
 
+  // Hydrate banner-dismissed state from localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined' || !user) return;
+    setBannerDismissed(window.localStorage.getItem(`${BANNER_DISMISS_KEY}:${user.uid}`) === '1');
+  }, [user]);
+
+  // Load profileComplete + account age from users/{uid}
+  useEffect(() => {
+    if (!user) return;
+    if (!profileEnsured) return;
+    let cancelled = false;
+    (async () => {
+      const meta = await getUserMetadata(user.uid);
+      if (cancelled) return;
+      const createdMs = meta?.createdAt ? new Date(meta.createdAt).getTime() : Date.now();
+      setProfileStatus({
+        complete: !!meta?.profileComplete,
+        isNewAccount: Number.isFinite(createdMs) && createdMs >= ONBOARDING_REQUIRED_AFTER,
+      });
+    })();
+    return () => { cancelled = true; };
+  }, [user, profileEnsured]);
+
+  // Hard-gate new accounts: redirect to onboarding until profileComplete
+  useEffect(() => {
+    if (!user || !profileStatus || onOnboardingRoute) return;
+    if (profileStatus.isNewAccount && !profileStatus.complete) {
+      router.replace('/onboarding');
+    }
+  }, [user, profileStatus, onOnboardingRoute, router]);
+
+  const dismissBanner = () => {
+    if (typeof window !== 'undefined' && user) {
+      window.localStorage.setItem(`${BANNER_DISMISS_KEY}:${user.uid}`, '1');
+    }
+    setBannerDismissed(true);
+  };
+
+  const showLegacyBanner =
+    !!profileStatus &&
+    !profileStatus.complete &&
+    !profileStatus.isNewAccount &&
+    !bannerDismissed &&
+    !onOnboardingRoute;
+
   // Subscription redirect (after exhausting polls or no trial_started)
   useEffect(() => {
     if (!subscriptionChecked) return;
@@ -180,9 +239,31 @@ function AppGate({ children }: { children: React.ReactNode }) {
     return <Spinner />;
   }
 
-  // Active subscription — render app
+  // Active subscription — render app (with legacy reminder banner if applicable)
   if (subscription?.hasActiveSubscription) {
-    return <>{children}</>;
+    return (
+      <>
+        {showLegacyBanner && (
+          <div className="w-full bg-primary/10 border-b border-primary/40 text-text-primary">
+            <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between gap-3 text-sm">
+              <span>
+                Finish your golf profile so Copperline can give you accurate recommendations.{' '}
+                <Link href="/onboarding" className="underline font-medium text-primary">Complete setup</Link>
+              </span>
+              <button
+                type="button"
+                onClick={dismissBanner}
+                aria-label="Dismiss"
+                className="text-text-muted hover:text-text-primary px-2"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+        {children}
+      </>
+    );
   }
 
   // Redirecting — show spinner

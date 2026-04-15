@@ -78,7 +78,7 @@ export default function StartTrialPage() {
           plan: 'pro',
           billingPeriod,
           customerEmail: user.email,
-          successUrl: `${window.location.origin}/dashboard?trial_started=true`,
+          successUrl: `${window.location.origin}/onboarding?trial_started=true`,
           cancelUrl: `${window.location.origin}/start-trial?canceled=true`,
         }),
       });

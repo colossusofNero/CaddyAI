@@ -71,7 +71,6 @@ function AppGate({ children }: { children: React.ReactNode }) {
   // QR code / promo users land here without having gone through onboarding.
   useEffect(() => {
     if (!user) return;
-    if (!subscription?.hasActiveSubscription) return;
     if (profileEnsured) return;
 
     const ensureProfile = async () => {
@@ -99,7 +98,7 @@ function AppGate({ children }: { children: React.ReactNode }) {
     };
 
     ensureProfile();
-  }, [user, subscription, profileEnsured]);
+  }, [user, profileEnsured]);
 
   // Auth redirect
   useEffect(() => {

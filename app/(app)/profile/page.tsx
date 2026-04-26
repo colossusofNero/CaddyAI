@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/Input';
 import { ArrowLeft, Save, User, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
-import { initializeNewUser } from '@/services/initializationService';
+import { initializeMissingData } from '@/services/initializationService';
 import { updateUserSetupFlags } from '@/services/authService';
 import type { UserProfile } from '@/src/types/user';
 
@@ -122,9 +122,11 @@ export default function ProfilePage() {
 
       await firebaseService.updateUserProfile(user.uid, profileData);
 
-      // Initialize clubs, shots, and preferences for new users
-      console.log('[Profile] Initializing user data...');
-      const initResult = await initializeNewUser(user.uid, profileData as UserProfile);
+      // Initialize clubs, shots, and preferences ONLY if missing.
+      // Never overwrite — saving a profile must not wipe the user's
+      // custom clubs and shots.
+      console.log('[Profile] Initializing missing user data...');
+      const initResult = await initializeMissingData(user.uid, profileData as UserProfile);
 
       if (initResult.errors.length > 0) {
         console.error('[Profile] Initialization errors:', initResult.errors);

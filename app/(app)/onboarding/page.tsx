@@ -338,6 +338,7 @@ export default function OnboardingPage() {
               setShotHeight={setShotHeight}
               yardsOfCurve5i={yardsOfCurve5i}
               setYardsOfCurve5i={setYardsOfCurve5i}
+              dominantHand={dominantHand}
             />
           )}
           {step === 3 && (
@@ -462,21 +463,25 @@ function StepEllipse({
   dominantHand: Hand; setDominantHand: (v: Hand) => void;
   handicap: number; setHandicap: (v: number) => void;
 }) {
-  const dispersionWidth = useMemo(() => {
-    // Approximate carry-distance dispersion (yards) at full 7i, scaled by handicap.
-    // Scratch ≈ 22yd wide, hcp 15 ≈ 50yd, hcp 36 ≈ 90yd. Linear-ish.
-    const clamped = Math.max(-12, Math.min(54, handicap));
-    return Math.round(22 + (clamped + 12) * 1.55);
-  }, [handicap]);
+  // Match RN: dispersion-with-driver formula from OnboardingEllipseScreen.tsx:231
+  const dispersionYards = useMemo(
+    () => Math.round(260 * (0.12 + (Math.max(0, handicap) / 54) * 0.19)),
+    [handicap]
+  );
 
   return (
     <div>
       <SectionHeader
-        title="Welcome to Copperline"
-        subtitle="Two quick numbers and your AI caddie can start doing real math for you."
+        title="Your landing zone"
+        subtitle="See how your handicap and dominant hand affect your shot dispersion."
       />
 
-      <EllipseViz handicap={handicap} dominantHand={dominantHand} dispersionWidth={dispersionWidth} />
+      <EllipseViz handicap={handicap} dominantHand={dominantHand} />
+
+      <div className="mt-3 rounded-lg bg-background/40 border border-secondary-700 p-3 text-center">
+        <div className="text-xs text-text-muted">Estimated dispersion with Driver</div>
+        <div className="text-2xl font-bold text-primary mt-0.5">{dispersionYards}y wide</div>
+      </div>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
@@ -520,94 +525,111 @@ function StepEllipse({
           className="w-full accent-primary"
         />
         <div className="flex justify-between text-xs text-text-muted mt-1">
-          <span>Scratch (−12)</span>
-          <span>Mid (15)</span>
-          <span>Beginner (54)</span>
+          <span>+12</span>
+          <span>Scratch</span>
+          <span>54</span>
         </div>
       </div>
     </div>
   );
 }
 
-function EllipseViz({
-  handicap, dominantHand, dispersionWidth,
-}: { handicap: number; dominantHand: Hand; dispersionWidth: number }) {
-  // SVG viewBox 400 wide × 320 tall. Tee at bottom center; ellipse extends toward green.
-  const clamped = Math.max(-12, Math.min(54, handicap));
-  const rx = Math.max(18, 18 + (clamped + 12) * 2.6); // 18 → 190
-  const ry = 110;
-  const cx = 200;
-  const cy = 130;
+// Constants ported verbatim from RN EllipseDemo.tsx:27-32
+const ELLIPSE_BASE_W = 40;
+const ELLIPSE_MAX_W = 120;
+const ELLIPSE_BASE_H = 60;
+const ELLIPSE_MAX_H = 160;
+const ELLIPSE_RH_ROT = 15;   // degrees
+const ELLIPSE_LH_ROT = -15;  // degrees
+
+function EllipseViz({ handicap, dominantHand }: { handicap: number; dominantHand: Hand }) {
+  // Matches RN: negative handicaps clamp to 0; size grows linearly to MAX at 54.
+  const normalizedHdcp = Math.min(54, Math.max(0, handicap)) / 54;
+  const ellipseW = ELLIPSE_BASE_W + normalizedHdcp * (ELLIPSE_MAX_W - ELLIPSE_BASE_W);
+  const ellipseH = ELLIPSE_BASE_H + normalizedHdcp * (ELLIPSE_MAX_H - ELLIPSE_BASE_H);
+  const rotation = dominantHand === 'Right' ? ELLIPSE_RH_ROT : ELLIPSE_LH_ROT;
+
+  // viewBox 300×220 to match RN container dimensions
+  const W = 300;
+  const H = 220;
+  const cx = W / 2;
+  const cy = H / 2;
+
+  // RN renders rx=ellipseHeight, ry=ellipseWidth (intentional — names are
+  // semantic, not axis-aligned, since the whole thing rotates).
+  // Glow uses identity interpolation [0,200]→[0,200]; main ellipse is 75%.
+  const glowRx = ellipseH;
+  const glowRy = ellipseW;
+  const mainRx = ellipseH * 0.75;
+  const mainRy = ellipseW * 0.75;
+
+  // Mow lines from RN: 7 stripes spaced 20 apart, starting at centerX-60
+  const mowLines = Array.from({ length: 7 }, (_, i) => cx - 60 + i * 20);
 
   return (
-    <div className="relative rounded-lg overflow-hidden border border-secondary-700 bg-gradient-to-b from-emerald-900/40 to-emerald-950/60">
-      <svg viewBox="0 0 400 320" className="w-full h-56 sm:h-64">
+    <div
+      className="relative rounded-2xl overflow-hidden border border-secondary-700"
+      style={{ background: '#1a2f23' }}
+    >
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-56 sm:h-64 block">
         <defs>
-          <radialGradient id="elp-fill" cx="50%" cy="55%" r="55%">
-            <stop offset="0%" stopColor="#34d399" stopOpacity="0.55" />
-            <stop offset="60%" stopColor="#10b981" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
-          </radialGradient>
-          <pattern id="grass" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-            <rect width="14" height="14" fill="#0b3d2e" />
-            <path d="M2 12 L4 6 M7 12 L9 4 M11 12 L13 7" stroke="#0e5238" strokeWidth="0.6" />
-          </pattern>
+          <linearGradient id="fairwayGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1a3d1a" />
+            <stop offset="50%" stopColor="#2D7A47" />
+            <stop offset="100%" stopColor="#1a3d1a" />
+          </linearGradient>
         </defs>
 
-        {/* Fairway */}
-        <rect x="0" y="0" width="400" height="320" fill="url(#grass)" />
+        {/* Fairway rectangle — 140px-wide strip down the middle */}
+        <rect x={cx - 70} y={0} width={140} height={H} fill="url(#fairwayGradient)" opacity={0.6} />
 
-        {/* Distance gridlines */}
-        {[60, 120, 180, 240].map((y) => (
-          <line key={y} x1="20" x2="380" y1={y} y2={y} stroke="#0e5238" strokeWidth="1" strokeDasharray="2 6" />
+        {/* Vertical mow stripes for fairway texture */}
+        {mowLines.map((x, i) => (
+          <line key={i} x1={x} y1={0} x2={x} y2={H} stroke="rgba(82, 166, 95, 0.3)" strokeWidth={8} />
         ))}
 
-        {/* Target line */}
-        <line x1="200" y1="20" x2="200" y2="280" stroke="#fbbf24" strokeWidth="1.2" strokeDasharray="4 4" opacity="0.6" />
+        {/* Fairway edge lines */}
+        <line x1={cx - 70} y1={0} x2={cx - 70} y2={H} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+        <line x1={cx + 70} y1={0} x2={cx + 70} y2={H} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
 
-        {/* Dispersion ellipse */}
-        <ellipse
-          cx={cx}
-          cy={cy}
-          rx={rx}
-          ry={ry}
-          fill="url(#elp-fill)"
-          stroke="#34d399"
-          strokeWidth="1.6"
-          style={{ transition: 'rx 250ms ease-out' }}
-        />
-
-        {/* Center cross marks where the ball "should" land */}
-        <g stroke="#fbbf24" strokeWidth="1.5">
-          <line x1={cx - 6} y1={cy} x2={cx + 6} y2={cy} />
-          <line x1={cx} y1={cy - 6} x2={cx} y2={cy + 6} />
+        {/* Dispersion group — rotates as a whole, around center */}
+        <g
+          style={{
+            transform: `rotate(${rotation}deg)`,
+            transformOrigin: `${cx}px ${cy}px`,
+            transition: 'transform 400ms cubic-bezier(0.33, 1, 0.68, 1)',
+          }}
+        >
+          {/* Outer glow ellipse */}
+          <ellipse
+            cx={cx}
+            cy={cy}
+            rx={glowRx}
+            ry={glowRy}
+            fill="rgba(64, 196, 211, 0.35)"
+            stroke="rgba(64, 196, 211, 0.6)"
+            strokeWidth={2}
+            style={{ transition: 'rx 400ms cubic-bezier(0.33, 1, 0.68, 1), ry 400ms cubic-bezier(0.33, 1, 0.68, 1)' }}
+          />
+          {/* Main dispersion ellipse */}
+          <ellipse
+            cx={cx}
+            cy={cy}
+            rx={mainRx}
+            ry={mainRy}
+            fill="rgba(27, 107, 107, 0.45)"
+            stroke="#1B6B6B"
+            strokeWidth={3}
+            style={{ transition: 'rx 400ms cubic-bezier(0.33, 1, 0.68, 1), ry 400ms cubic-bezier(0.33, 1, 0.68, 1)' }}
+          />
+          {/* Center dot — copper */}
+          <ellipse cx={cx} cy={cy} rx={4} ry={4} fill="#B87333" />
         </g>
 
-        {/* Tee + golfer */}
-        <g transform="translate(200 290)">
-          <circle r="10" fill="#0e5238" stroke="#34d399" strokeWidth="1.5" />
-          <text textAnchor="middle" y="4" fontSize="11" fill="#34d399" fontWeight="700">
-            {dominantHand === 'Right' ? 'R' : 'L'}
-          </text>
-        </g>
-
-        {/* Width label */}
-        <g transform={`translate(${cx} ${cy + ry + 14})`}>
-          <line x1={-rx} x2={rx} y1="0" y2="0" stroke="#fbbf24" strokeWidth="1" />
-          <line x1={-rx} x2={-rx} y1="-4" y2="4" stroke="#fbbf24" strokeWidth="1" />
-          <line x1={rx} x2={rx} y1="-4" y2="4" stroke="#fbbf24" strokeWidth="1" />
-          <text textAnchor="middle" y="-6" fontSize="11" fill="#fbbf24" fontWeight="600">
-            ~{dispersionWidth}y wide
-          </text>
-        </g>
+        {/* Axis indicators (unrotated, like RN) */}
+        <line x1={cx - 10} y1={cy} x2={cx + 10} y2={cy} stroke="rgba(255,255,255,0.3)" strokeWidth={2} />
+        <line x1={cx} y1={cy - 10} x2={cx} y2={cy + 10} stroke="rgba(255,255,255,0.3)" strokeWidth={2} />
       </svg>
-
-      <div className="absolute top-3 left-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-300">
-        Your typical 7-iron dispersion
-      </div>
-      <div className="absolute top-3 right-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-100">
-        HDCP <span className="font-bold text-emerald-300">{handicap >= 0 ? handicap : `+${Math.abs(handicap)}`}</span>
-      </div>
     </div>
   );
 }
@@ -682,17 +704,18 @@ function StepAboutYou({
 // ============================================================================
 
 function StepShotShape({
-  naturalShot, setNaturalShot, shotHeight, setShotHeight, yardsOfCurve5i, setYardsOfCurve5i,
+  naturalShot, setNaturalShot, shotHeight, setShotHeight, yardsOfCurve5i, setYardsOfCurve5i, dominantHand,
 }: {
   naturalShot: ShotShape; setNaturalShot: (v: ShotShape) => void;
   shotHeight: ShotHeight; setShotHeight: (v: ShotHeight) => void;
   yardsOfCurve5i: number; setYardsOfCurve5i: (v: number) => void;
+  dominantHand: Hand;
 }) {
   return (
     <div>
-      <SectionHeader title="Your natural ball flight" subtitle="The shape we should expect when you swing freely." />
+      <SectionHeader title="Your natural shot" subtitle="Tell us about your typical ball flight." />
 
-      <ShotShapeViz shape={naturalShot} height={shotHeight} curve={yardsOfCurve5i} />
+      <CurvedLineDemo shape={naturalShot} curve={yardsOfCurve5i} dominantHand={dominantHand} />
 
       <label className="block text-sm font-medium text-text-primary mb-2 mt-6">Shot shape</label>
       <div className="grid grid-cols-3 gap-3 mb-6">
@@ -709,10 +732,8 @@ function StepShotShape({
       </div>
 
       <div className="flex items-center justify-between mb-2">
-        <label className="block text-sm font-medium text-text-primary">
-          Typical 5-iron curve
-        </label>
-        <span className="text-sm font-semibold text-primary">{yardsOfCurve5i} yds</span>
+        <label className="block text-sm font-medium text-text-primary">Yards of curve with 5-iron</label>
+        <span className="text-sm font-semibold text-primary">{yardsOfCurve5i} yards</span>
       </div>
       <input
         type="range"
@@ -725,87 +746,92 @@ function StepShotShape({
         disabled={naturalShot === 'Straight'}
       />
       <div className="flex justify-between text-xs text-text-muted mt-1">
-        <span>Straight (0)</span>
-        <span>Heavy {naturalShot === 'Fade' ? 'fade' : 'draw'} (20)</span>
+        <span>0</span>
+        <span>10</span>
+        <span>20</span>
       </div>
-      {naturalShot === 'Straight' && (
-        <p className="mt-3 text-xs text-text-muted italic">Curve is locked at 0 for a straight ball flight.</p>
-      )}
+      <div className="mt-4 rounded-lg border border-secondary-700 bg-background/40 p-3 text-sm text-text-muted">
+        💡 We automatically adjust for your curve on every club — more for driver, less for wedges.
+      </div>
     </div>
   );
 }
 
-function ShotShapeViz({ shape, height, curve }: { shape: ShotShape; height: ShotHeight; curve: number }) {
-  // viewBox 400 × 220. Ball travels left→right. Curve direction from `shape`,
-  // magnitude from `curve`. Apex height from `shotHeight`.
-  const start = { x: 40, y: 180 };
-  const end = { x: 360, y: 180 };
+// CurvedLineDemo — port of CaddyAI_rn-main/src/components/Onboarding/CurvedLineDemo.tsx
+// Ball at bottom-center, target at top-center, curve direction from shape+hand.
+function CurvedLineDemo({
+  shape, curve, dominantHand,
+}: { shape: ShotShape; curve: number; dominantHand: Hand }) {
+  const W = 300;
+  const H = 200;
+  const startX = W * 0.5;
+  const startY = H * 0.85;
+  const endX = W * 0.5;
+  const endY = H * 0.15;
+  const midY = H * 0.5;
 
-  const curveSign = shape === 'Draw' ? -1 : shape === 'Fade' ? 1 : 0;
-  const curveMag = shape === 'Straight' ? 0 : Math.min(20, Math.max(0, curve));
+  // From RN CurvedLineDemo.tsx:41-50
+  const isRightHanded = dominantHand === 'Right';
+  const direction =
+    shape === 'Straight' ? 0 :
+    shape === 'Draw' ? (isRightHanded ? 1 : -1) :
+    /* Fade */         (isRightHanded ? -1 : 1);
 
-  const apexY = height === 'Low' ? 110 : height === 'High' ? 30 : 65;
-  const apexLateral = curveSign * (curveMag * 4); // up to ±80px lateral
+  const normalizedCurve = Math.min(20, Math.max(0, curve)) / 20;
+  const maxOffset = W * 0.25;
+  const offset = direction * normalizedCurve * maxOffset;
 
-  const cp1 = { x: 160, y: apexY + (curveSign === -1 ? 0 : 0) };
-  const cp2 = { x: 240, y: apexY };
-  // Pull control points laterally to bend the path
-  const cp1x = cp1.x + apexLateral * 0.6;
-  const cp2x = cp2.x + apexLateral;
-
-  const path = `M ${start.x} ${start.y} C ${cp1x} ${cp1.y}, ${cp2x} ${cp2.y}, ${end.x} ${end.y}`;
-
-  // Sample points for the ball position label
-  const apexPoint = { x: 200 + apexLateral * 0.8, y: apexY + 20 };
+  const controlX = startX + offset;
+  const pathD = `M ${startX} ${startY} Q ${controlX} ${midY} ${endX} ${endY}`;
 
   return (
-    <div className="relative rounded-lg overflow-hidden border border-secondary-700 bg-gradient-to-b from-sky-950/50 via-sky-900/30 to-emerald-950/60">
-      <svg viewBox="0 0 400 220" className="w-full h-44 sm:h-52">
+    <div className="relative rounded-2xl overflow-hidden border border-secondary-700" style={{ background: '#87CEEB' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-44 sm:h-52 block">
         <defs>
-          <linearGradient id="trail" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.0" />
-            <stop offset="40%" stopColor="#fbbf24" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#34d399" stopOpacity="1" />
+          <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#87CEEB" />
+            <stop offset="70%" stopColor="#98D8E8" />
+            <stop offset="100%" stopColor="#7BC775" />
           </linearGradient>
         </defs>
 
-        {/* Ground line */}
-        <line x1="0" x2="400" y1="180" y2="180" stroke="#0e5238" strokeWidth="2" />
-        {/* Subtle vertical guides */}
-        {[100, 200, 300].map((x) => (
-          <line key={x} x1={x} x2={x} y1="180" y2="190" stroke="#0e5238" strokeWidth="1" />
-        ))}
+        {/* Sky */}
+        <rect x={0} y={0} width={W} height={H} fill="url(#skyGradient)" />
 
-        {/* Trajectory */}
+        {/* Ground */}
         <path
-          d={path}
-          fill="none"
-          stroke="url(#trail)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          style={{ transition: 'd 250ms ease-out' }}
+          d={`M 0 ${H * 0.75} Q ${W * 0.5} ${H * 0.7} ${W} ${H * 0.75} L ${W} ${H} L 0 ${H} Z`}
+          fill="#52A65F"
+          opacity={0.5}
         />
 
-        {/* Tee */}
-        <g transform={`translate(${start.x} ${start.y})`}>
-          <line x1="0" y1="-12" x2="0" y2="0" stroke="#fbbf24" strokeWidth="2" />
-          <circle cy="-14" r="3" fill="#ffffff" stroke="#fbbf24" strokeWidth="1" />
-        </g>
+        {/* Straight reference line */}
+        <line
+          x1={startX}
+          y1={startY}
+          x2={endX}
+          y2={endY}
+          stroke="rgba(255, 255, 255, 0.3)"
+          strokeWidth={1}
+          strokeDasharray="5 5"
+        />
 
-        {/* Landing flag */}
-        <g transform={`translate(${end.x} ${end.y})`}>
-          <line x1="0" y1="-26" x2="0" y2="0" stroke="#9ca3af" strokeWidth="2" />
-          <polygon points="0,-26 14,-22 0,-18" fill="#ef4444" />
-          <circle cy="0" r="6" fill="#10b981" stroke="#34d399" strokeWidth="1.5" />
-        </g>
+        {/* Curved flight path */}
+        <path
+          d={pathD}
+          stroke="#ffffff"
+          strokeWidth={3}
+          fill="none"
+          strokeLinecap="round"
+        />
 
-        {/* Apex marker */}
-        <circle cx={apexPoint.x} cy={apexY} r="3.5" fill="#fbbf24" />
+        {/* Ball at start */}
+        <circle cx={startX} cy={startY} r={8} fill="#ffffff" stroke="#cccccc" strokeWidth={1} />
+
+        {/* Landing target — copper, layered */}
+        <circle cx={endX} cy={endY} r={12} fill="rgba(184, 115, 51, 0.3)" stroke="#B87333" strokeWidth={2} />
+        <circle cx={endX} cy={endY} r={4} fill="#B87333" />
       </svg>
-
-      <div className="absolute top-3 left-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-300">
-        {shape} · {height} · {curve}y curve
-      </div>
     </div>
   );
 }

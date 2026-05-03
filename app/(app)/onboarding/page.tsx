@@ -1051,13 +1051,13 @@ function OverlayCard({
       }`}
     >
       {/* Phone-screenshot preview — next/image handles resize + format conversion */}
-      <div className="bg-black flex items-center justify-center h-64 sm:h-72 relative">
+      <div className="bg-black aspect-square relative">
         <Image
           src={src}
           alt={`${label} overlay preview from the mobile app`}
           fill
           sizes="(min-width: 640px) 50vw, 100vw"
-          className="object-contain"
+          className="object-cover"
         />
       </div>
       <div className={`px-4 py-3 ${active ? 'bg-blue-500/10' : 'bg-black/40'}`}>

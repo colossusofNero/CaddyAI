@@ -926,11 +926,11 @@ function StepAICaddie({
               aria-pressed={active}
               className={`p-3 rounded-lg border-2 transition-all text-center ${
                 active
-                  ? 'border-primary bg-primary/10'
+                  ? 'border-blue-500 bg-blue-500/15 ring-2 ring-blue-500/40'
                   : 'border-secondary-700 hover:border-secondary-600'
               }`}
             >
-              <div className={`text-sm font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>{s.label}</div>
+              <div className={`text-sm font-semibold ${active ? 'text-blue-400' : 'text-text-primary'}`}>{s.label}</div>
               <div className="text-[10px] text-text-muted mt-0.5">{s.handicapRange}</div>
             </button>
           );
@@ -949,11 +949,11 @@ function StepAICaddie({
               aria-pressed={active}
               className={`text-left p-4 rounded-lg border-2 transition-all ${
                 active
-                  ? 'border-primary bg-primary/10'
+                  ? 'border-blue-500 bg-blue-500/15 ring-2 ring-blue-500/40'
                   : 'border-secondary-700 hover:border-secondary-600'
               }`}
             >
-              <div className={`font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>{v.label}</div>
+              <div className={`font-semibold ${active ? 'text-blue-400' : 'text-text-primary'}`}>{v.label}</div>
               <div className="text-xs text-text-muted mt-0.5">{v.description}</div>
             </button>
           );
@@ -988,7 +988,7 @@ function CaddiePreview({ sample }: { sample: string }) {
 // ============================================================================
 
 function StepTargetOverlay({
-  targetOverlayMode, setTargetOverlayMode, handicap,
+  targetOverlayMode, setTargetOverlayMode,
 }: {
   targetOverlayMode: TargetMode; setTargetOverlayMode: (v: TargetMode) => void;
   handicap: number;
@@ -1010,7 +1010,6 @@ function StepTargetOverlay({
           mode="ellipse"
           active={targetOverlayMode === 'ellipse'}
           onClick={() => setTargetOverlayMode('ellipse')}
-          handicap={handicap}
         />
       </div>
 
@@ -1032,10 +1031,12 @@ function StepTargetOverlay({
 }
 
 function OverlayCard({
-  mode, active, onClick, handicap = 15,
-}: { mode: TargetMode; active: boolean; onClick: () => void; handicap?: number }) {
-  const clamped = Math.max(-12, Math.min(54, handicap));
-  const ellipseRx = Math.max(14, 14 + (clamped + 12) * 1.6);
+  mode, active, onClick,
+}: { mode: TargetMode; active: boolean; onClick: () => void }) {
+  const isTarget = mode === 'target';
+  const src = isTarget ? '/onboarding/overlay-target.png' : '/onboarding/overlay-ellipse.png';
+  const label = isTarget ? 'Target' : 'Ellipse';
+  const sublabel = isTarget ? 'Single precise aim point' : 'Where your shots actually land';
 
   return (
     <button
@@ -1043,48 +1044,27 @@ function OverlayCard({
       onClick={onClick}
       aria-pressed={active}
       className={`relative rounded-lg border-2 overflow-hidden text-left transition-all ${
-        active ? 'border-primary' : 'border-secondary-700 hover:border-secondary-600'
+        active
+          ? 'border-blue-500 ring-4 ring-blue-500/40'
+          : 'border-secondary-700 hover:border-secondary-600'
       }`}
     >
-      <svg viewBox="0 0 240 200" className="w-full h-44 block bg-gradient-to-b from-emerald-900/50 to-emerald-950/70">
-        {/* Fairway */}
-        <ellipse cx="120" cy="180" rx="140" ry="40" fill="#14532d" opacity="0.5" />
-        {/* Green */}
-        <ellipse cx="120" cy="100" rx="78" ry="58" fill="#15803d" />
-        <ellipse cx="120" cy="100" rx="78" ry="58" fill="none" stroke="#22c55e" strokeWidth="1.5" opacity="0.6" />
-        {/* Bunker */}
-        <ellipse cx="55" cy="135" rx="22" ry="12" fill="#fde68a" opacity="0.85" />
-        <ellipse cx="55" cy="135" rx="22" ry="12" fill="none" stroke="#a16207" strokeWidth="1" />
-        {/* Pin */}
-        <line x1="120" y1="65" x2="120" y2="100" stroke="#9ca3af" strokeWidth="1.5" />
-        <polygon points="120,65 132,69 120,73" fill="#ef4444" />
-        <circle cx="120" cy="100" r="3" fill="#0f172a" />
-
-        {/* Overlay */}
-        {mode === 'target' ? (
-          <g>
-            <circle cx="120" cy="105" r="14" fill="none" stroke="#fbbf24" strokeWidth="2" />
-            <circle cx="120" cy="105" r="6" fill="none" stroke="#fbbf24" strokeWidth="2" />
-            <line x1="120" y1="91" x2="120" y2="119" stroke="#fbbf24" strokeWidth="1.5" />
-            <line x1="106" y1="105" x2="134" y2="105" stroke="#fbbf24" strokeWidth="1.5" />
-          </g>
-        ) : (
-          <g>
-            <ellipse cx="120" cy="105" rx={ellipseRx} ry={ellipseRx * 0.65} fill="#fbbf24" fillOpacity="0.18" stroke="#fbbf24" strokeWidth="1.6" />
-            <circle cx="120" cy="105" r="2.5" fill="#fbbf24" />
-          </g>
-        )}
-      </svg>
-      <div className="px-4 py-3 bg-black/40">
-        <div className={`font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>
-          {mode === 'target' ? 'Target' : 'Ellipse'}
-        </div>
-        <div className="text-xs text-text-muted">
-          {mode === 'target' ? 'Single precise aim point' : 'Where your shots actually land'}
-        </div>
+      {/* Phone-screenshot preview */}
+      <div className="bg-black flex items-center justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={`${label} overlay preview from the mobile app`}
+          className="w-full h-64 sm:h-72 object-contain"
+          loading="lazy"
+        />
+      </div>
+      <div className={`px-4 py-3 ${active ? 'bg-blue-500/10' : 'bg-black/40'}`}>
+        <div className={`font-semibold ${active ? 'text-blue-400' : 'text-text-primary'}`}>{label}</div>
+        <div className="text-xs text-text-muted">{sublabel}</div>
       </div>
       {active && (
-        <div className="absolute top-2 right-2 rounded-full bg-primary text-white text-[10px] font-bold px-2 py-0.5">
+        <div className="absolute top-2 right-2 rounded-full bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 shadow-lg">
           SELECTED
         </div>
       )}

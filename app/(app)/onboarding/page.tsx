@@ -974,21 +974,11 @@ function CaddiePreview({ sample }: { sample: string }) {
         </div>
         <div className="flex-1">
           <div className="text-[11px] uppercase tracking-wide text-text-muted mb-1">Live preview · how your caddie sounds</div>
-          <div
-            key={sample}
-            className="text-sm text-text-primary leading-relaxed"
-            style={{ animation: 'previewFade 240ms ease-out both' }}
-          >
+          <div key={sample} className="text-sm text-text-primary leading-relaxed">
             {sample}
           </div>
         </div>
       </div>
-      <style jsx global>{`
-        @keyframes previewFade {
-          from { opacity: 0; transform: translateY(4px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

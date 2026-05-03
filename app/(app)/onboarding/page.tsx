@@ -444,7 +444,7 @@ function Choice<T extends string>({
       aria-pressed={active}
       className={`p-4 rounded-lg border-2 transition-all ${
         active
-          ? 'border-primary bg-primary/10 text-primary font-medium'
+          ? 'border-blue-500 bg-blue-500/15 ring-2 ring-blue-500/40 text-blue-400 font-medium'
           : 'border-secondary-700 text-text-muted hover:border-secondary-600 hover:text-text-primary'
       }`}
     >
@@ -686,11 +686,11 @@ function StepAboutYou({
               aria-pressed={active}
               className={`text-left p-4 rounded-lg border-2 transition-all ${
                 active
-                  ? 'border-primary bg-primary/10'
+                  ? 'border-blue-500 bg-blue-500/15 ring-2 ring-blue-500/40'
                   : 'border-secondary-700 hover:border-secondary-600'
               }`}
             >
-              <div className={`font-medium ${active ? 'text-primary' : 'text-text-primary'}`}>{f.label}</div>
+              <div className={`font-medium ${active ? 'text-blue-400' : 'text-text-primary'}`}>{f.label}</div>
               <div className="text-xs text-text-muted">{f.description}</div>
             </button>
           );

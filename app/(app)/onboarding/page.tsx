@@ -12,6 +12,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { doc, getDoc, setDoc, getFirestore } from 'firebase/firestore';
 import { getApps } from 'firebase/app';
 import { useAuth } from '@/hooks/useAuth';
@@ -1049,14 +1050,14 @@ function OverlayCard({
           : 'border-secondary-700 hover:border-secondary-600'
       }`}
     >
-      {/* Phone-screenshot preview */}
-      <div className="bg-black flex items-center justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      {/* Phone-screenshot preview — next/image handles resize + format conversion */}
+      <div className="bg-black flex items-center justify-center h-64 sm:h-72 relative">
+        <Image
           src={src}
           alt={`${label} overlay preview from the mobile app`}
-          className="w-full h-64 sm:h-72 object-contain"
-          loading="lazy"
+          fill
+          sizes="(min-width: 640px) 50vw, 100vw"
+          className="object-contain"
         />
       </div>
       <div className={`px-4 py-3 ${active ? 'bg-blue-500/10' : 'bg-black/40'}`}>

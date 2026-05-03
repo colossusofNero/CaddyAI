@@ -175,9 +175,12 @@ function AppGate({ children }: { children: React.ReactNode }) {
   // Load profileComplete + account age from users/{uid}.
   // Refetch on pathname change so the gate sees fresh flags after the
   // onboarding page writes profileComplete=true and navigates to /dashboard.
+  // Reset to null first so the redirect effect below doesn't fire on stale
+  // data while the new fetch is in flight.
   useEffect(() => {
     if (!user) return;
     if (!profileEnsured) return;
+    setProfileStatus(null);
     let cancelled = false;
     (async () => {
       const meta = await getUserMetadata(user.uid);

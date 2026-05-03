@@ -3,10 +3,11 @@
 /**
  * Post-signup profile walkthrough.
  *
- * Mirrors the React Native app's ProfileOnboardingFlow (6 steps) and writes to
- * the three profile collections (`profiles`, `userProfiles`, `playerProfiles`)
- * plus the `users/{uid}.profileComplete` flag that the app gates on. Completing
- * this flow is what Firebase + the RN app consider a "complete" profile.
+ * Mirrors the React Native app's 9-step ProfileOnboardingFlow, adapted for web:
+ * 7 data-capture steps (mobile-only tutorials are dropped). Writes to the three
+ * profile collections (`profiles`, `userProfiles`, `playerProfiles`) plus
+ * `clubs/{uid}`, `shots/{uid}`, `preferences/{uid}`, and the
+ * `users/{uid}.profileComplete` flag the AppGate gates on.
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -16,15 +17,91 @@ import { getApps } from 'firebase/app';
 import { useAuth } from '@/hooks/useAuth';
 import { updateUserSetupFlags } from '@/services/authService';
 import { initializeNewUser } from '@/services/initializationService';
+import { notifyLoops } from '@/services/loopsClient';
+import { generateDefaultClubs } from '@/src/types/clubs';
 import type { UserProfile } from '@/src/types/user';
 
-type Hand = 'right' | 'left';
-type ShotShape = 'draw' | 'straight' | 'fade';
-type ShotHeight = 'low' | 'medium' | 'high';
-type PlayFreq = 'weekly' | 'monthly' | 'occasionally' | 'rarely';
-type SkillLevel = 'Beginner' | 'Intermediate' | 'Advanced' | 'Pro' | 'Tour Pro';
+// ============================================================================
+// TYPES — match the RN app's exact value casing for cross-platform sync
+// ============================================================================
 
-const TOTAL_STEPS = 6;
+type Hand = 'Right' | 'Left';
+type ShotShape = 'Draw' | 'Straight' | 'Fade';
+type ShotHeight = 'Low' | 'Medium' | 'High';
+type AgeGroup = '18-24' | '25-34' | '35-44' | '45-54' | '55-64' | '65+';
+type PlayFreq = 'rarely' | 'occasionally' | 'regularly' | 'frequently' | 'very-frequently';
+type SkillLevel = 'Beginner' | 'Intermediate' | 'Advanced' | 'Tour Pro';
+type Verbosity = 'talk_it_through' | 'just_facts' | 'minimal';
+type TargetMode = 'target' | 'ellipse';
+
+const TOTAL_STEPS = 7;
+
+const PLAY_FREQUENCIES: { value: PlayFreq; label: string; description: string }[] = [
+  { value: 'rarely', label: 'Rarely', description: '< 5 rounds/year' },
+  { value: 'occasionally', label: 'Occasionally', description: '5–15 rounds/year' },
+  { value: 'regularly', label: 'Regularly', description: '15–30 rounds/year' },
+  { value: 'frequently', label: 'Frequently', description: '30–50 rounds/year' },
+  { value: 'very-frequently', label: 'Very Frequently', description: '> 50 rounds/year' },
+];
+
+const AGE_GROUPS: AgeGroup[] = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+
+const SKILL_OPTIONS: { value: SkillLevel; label: string; handicapRange: string }[] = [
+  { value: 'Beginner', label: 'Beginner', handicapRange: '26+ handicap' },
+  { value: 'Intermediate', label: 'Intermediate', handicapRange: '15–25' },
+  { value: 'Advanced', label: 'Advanced', handicapRange: '5–14' },
+  { value: 'Tour Pro', label: 'Tour Pro', handicapRange: '< 5' },
+];
+
+const VERBOSITY_OPTIONS: { value: Verbosity; label: string; description: string; sample: string }[] = [
+  {
+    value: 'talk_it_through',
+    label: 'Talk it Through',
+    description: 'Full conversation — your caddie reads the situation aloud and asks questions.',
+    sample: '“145 yards to the pin, slight headwind, pin tucked back-right behind a bunker. Your typical 7-iron carries 145 with a slight draw. Lie and stance?”',
+  },
+  {
+    value: 'just_facts',
+    label: 'Just the Facts',
+    description: 'Quick exchange — your caddie only asks what it needs.',
+    sample: '“145 yards. 7-iron. What’s your lie?”',
+  },
+  {
+    value: 'minimal',
+    label: 'Minimal',
+    description: 'You speak first — describe lie and stance, get a recommendation.',
+    sample: '“Tell me your lie and stance.”',
+  },
+];
+
+function suggestSkillLevel(hcp: number): SkillLevel {
+  if (hcp < 5) return 'Tour Pro';
+  if (hcp < 15) return 'Advanced';
+  if (hcp < 26) return 'Intermediate';
+  return 'Beginner';
+}
+
+// Web-shape (lowercase) ↔ mobile-shape (capitalized) converters
+const handToWeb = (h: Hand): 'right' | 'left' => (h === 'Right' ? 'right' : 'left');
+const shapeToWeb = (s: ShotShape): 'draw' | 'straight' | 'fade' =>
+  s === 'Draw' ? 'draw' : s === 'Fade' ? 'fade' : 'straight';
+const freqToWeb = (f: PlayFreq): 'weekly' | 'monthly' | 'occasionally' | 'rarely' => {
+  switch (f) {
+    case 'very-frequently':
+    case 'frequently':
+      return 'weekly';
+    case 'regularly':
+      return 'monthly';
+    case 'occasionally':
+      return 'occasionally';
+    default:
+      return 'rarely';
+  }
+};
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -34,86 +111,166 @@ export default function OnboardingPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [dominantHand, setDominantHand] = useState<Hand>('right');
+  // Step 1: Ellipse
   const [playerName, setPlayerName] = useState('');
-  const [yearsPlaying, setYearsPlaying] = useState<number | ''>('');
-  const [playFrequency, setPlayFrequency] = useState<PlayFreq>('monthly');
+  const [dominantHand, setDominantHand] = useState<Hand>('Right');
+  const [handicap, setHandicap] = useState<number>(15);
+
+  // Step 2: About You
+  const [ageGroup, setAgeGroup] = useState<AgeGroup>('35-44');
+  const [yearsPlaying, setYearsPlaying] = useState<number>(5);
+  const [playFrequency, setPlayFrequency] = useState<PlayFreq>('regularly');
+
+  // Step 3: Shot Shape
+  const [naturalShot, setNaturalShot] = useState<ShotShape>('Straight');
+  const [shotHeight, setShotHeight] = useState<ShotHeight>('Medium');
+  const [yardsOfCurve5i, setYardsOfCurve5i] = useState<number>(5);
+
+  // Step 5: AI Caddie
   const [skillLevel, setSkillLevel] = useState<SkillLevel>('Intermediate');
-  const [naturalShot, setNaturalShot] = useState<ShotShape>('straight');
-  const [shotHeight, setShotHeight] = useState<ShotHeight>('medium');
-  const [handicap, setHandicap] = useState<number>(18);
-  const [yardsOfCurve5i, setYardsOfCurve5i] = useState<number>(0);
+  const [skillUserEdited, setSkillUserEdited] = useState(false);
+  const [verbosity, setVerbosity] = useState<Verbosity>('talk_it_through');
+
+  // Step 6: Target Overlay
+  const [targetOverlayMode, setTargetOverlayMode] = useState<TargetMode>('ellipse');
+
+  // Auto-suggest skill level from handicap until the user explicitly edits it.
+  useEffect(() => {
+    if (skillUserEdited) return;
+    setSkillLevel(suggestSkillLevel(handicap));
+  }, [handicap, skillUserEdited]);
 
   useEffect(() => {
     if (!authLoading && !user) router.replace('/login');
   }, [authLoading, user, router]);
 
   const progress = useMemo(() => Math.round(((step + 1) / TOTAL_STEPS) * 100), [step]);
+  const handicapValid = Number.isFinite(handicap) && handicap >= -12 && handicap <= 54;
 
-  const canAdvance = useMemo(() => {
-    if (step === 4) return Number.isFinite(handicap) && handicap >= -12 && handicap <= 54;
-    return true;
-  }, [step, handicap]);
+  const markOnboardingComplete = async (uid: string) => {
+    try {
+      await updateUserSetupFlags(uid, { profileComplete: true, onboardingComplete: true });
+    } catch (err) {
+      console.error('[Onboarding] updateDoc flag write failed, falling back to setDoc:', err);
+      const db = getFirestore(getApps()[0]);
+      await setDoc(
+        doc(db, 'users', uid),
+        { profileComplete: true, onboardingComplete: true },
+        { merge: true }
+      );
+    }
+  };
+
+  const handleSkip = async () => {
+    if (!user || saving) return;
+    setSaving(true);
+    setError(null);
+    try {
+      await markOnboardingComplete(user.uid);
+    } catch (err) {
+      console.error('[Onboarding] Skip flag write failed (non-blocking):', err);
+    }
+    router.replace('/dashboard');
+  };
 
   const handleSave = async () => {
-    if (!user) return;
-    try {
-      setSaving(true);
-      setError(null);
+    if (!user || saving) return;
+    setSaving(true);
+    setError(null);
 
+    try {
       const db = getFirestore(getApps()[0]);
       const now = Date.now();
       const nowIso = new Date().toISOString();
 
-      const webProfile: any = {
+      // Web profile shape (lowercase values, uses curveTendency)
+      const webProfile: Record<string, any> = {
         userId: user.uid,
-        dominantHand,
-        handicap,
-        typicalShotShape: naturalShot,
-        curveTendency: Math.max(-10, Math.min(10, Math.round(yardsOfCurve5i / 2))),
+        dominantHand: handToWeb(dominantHand),
+        typicalShotShape: shapeToWeb(naturalShot),
         height: 70,
-        playFrequency,
+        playFrequency: freqToWeb(playFrequency),
         skillLevel,
+        ageGroup,
+        yearsPlaying,
+        verbosity,
+        targetOverlayMode,
         updatedAt: now,
       };
+      if (handicapValid) {
+        webProfile.handicap = handicap;
+        const signedCurve = naturalShot === 'Fade' ? yardsOfCurve5i : naturalShot === 'Draw' ? -yardsOfCurve5i : 0;
+        webProfile.curveTendency = Math.max(-10, Math.min(10, Math.round(signedCurve / 2)));
+      }
       if (playerName.trim()) webProfile.playerName = playerName.trim();
-      if (yearsPlaying !== '') webProfile.yearsPlaying = yearsPlaying;
 
-      // Only write the fields the RN app declares required for a "complete"
-      // profile. Extra optional fields with unexpected types can crash the
-      // mobile app on load, so we keep this write minimal.
-      const playerProfile: any = {
+      // Mobile player profile shape (capitalized values, uses yardsOfCurve5i)
+      const playerProfile: Record<string, any> = {
         userId: user.uid,
-        dominantHand: dominantHand === 'right' ? 'Right' : 'Left',
-        handicap,
-        naturalShot: naturalShot.charAt(0).toUpperCase() + naturalShot.slice(1),
-        shotHeight: shotHeight.charAt(0).toUpperCase() + shotHeight.slice(1),
+        dominantHand,
+        naturalShot,
+        shotHeight,
         yardsOfCurve5i,
+        ageGroup,
+        yearsPlaying,
+        playFrequency,
+        skillLevel,
+        verbosity,
+        targetOverlayMode,
         updatedAt: nowIso,
       };
+      if (handicapValid) playerProfile.handicap = handicap;
       if (playerName.trim()) playerProfile.playerName = playerName.trim();
 
-      const existingProfile = await getDoc(doc(db, 'profiles', user.uid));
-      const isNew = !existingProfile.exists();
-      if (isNew) webProfile.createdAt = now;
-      if (isNew) playerProfile.createdAt = nowIso;
+      try {
+        const existingProfile = await getDoc(doc(db, 'profiles', user.uid));
+        const isNew = !existingProfile.exists();
+        if (isNew) {
+          webProfile.createdAt = now;
+          playerProfile.createdAt = nowIso;
+        }
 
-      await Promise.all([
-        setDoc(doc(db, 'profiles', user.uid), webProfile, { merge: true }),
-        setDoc(doc(db, 'userProfiles', user.uid), webProfile, { merge: true }),
-        setDoc(doc(db, 'playerProfiles', user.uid), playerProfile, { merge: true }),
-      ]);
+        await Promise.allSettled([
+          setDoc(doc(db, 'profiles', user.uid), webProfile, { merge: true }),
+          setDoc(doc(db, 'userProfiles', user.uid), webProfile, { merge: true }),
+          setDoc(doc(db, 'playerProfiles', user.uid), playerProfile, { merge: true }),
+        ]);
 
-      if (isNew) {
-        await initializeNewUser(user.uid, webProfile as UserProfile);
+        if (isNew) {
+          await initializeNewUser(user.uid, webProfile as UserProfile);
+        }
+      } catch (writeErr) {
+        console.error('[Onboarding] Profile data write failed (non-blocking):', writeErr);
       }
 
-      await updateUserSetupFlags(user.uid, { profileComplete: true, onboardingComplete: true });
+      await markOnboardingComplete(user.uid);
+
+      // Push the new profile properties to Loops so segment/trigger emails
+      // (e.g. the "Transform Your Game" loop) can fire on profileComplete.
+      // Best-effort — never block dashboard navigation on this.
+      try {
+        const [firstName, ...rest] = playerName.trim().split(/\s+/).filter(Boolean);
+        await notifyLoops({
+          ...(firstName ? { firstName } : {}),
+          ...(rest.length ? { lastName: rest.join(' ') } : {}),
+          profileComplete: true,
+          onboardingComplete: true,
+          ...(handicapValid ? { handicap } : {}),
+          skillLevel,
+          playFrequency: freqToWeb(playFrequency),
+          yearsPlaying,
+          dominantHand: handToWeb(dominantHand),
+          naturalShot: shapeToWeb(naturalShot),
+          shotHeight: shotHeight.toLowerCase(),
+        });
+      } catch (loopsErr) {
+        console.error('[Onboarding] Loops notify failed (non-blocking):', loopsErr);
+      }
 
       router.replace('/dashboard');
     } catch (err) {
       console.error('[Onboarding] Save failed:', err);
-      setError('Could not save your profile. Please try again.');
+      setError('We couldn\'t save your profile right now. You can skip for now and finish it later from your profile page.');
       setSaving(false);
     }
   };
@@ -128,36 +285,87 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm text-text-muted mb-2">
             <span>Step {step + 1} of {TOTAL_STEPS}</span>
-            <span>{progress}%</span>
+            <div className="flex items-center gap-3">
+              <span>{progress}%</span>
+              <button
+                type="button"
+                onClick={handleSkip}
+                disabled={saving}
+                className="text-text-muted hover:text-text-primary underline disabled:opacity-40"
+              >
+                Skip for now
+              </button>
+            </div>
           </div>
           <div className="w-full h-2 bg-secondary-700 rounded-full overflow-hidden">
-            <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
+          <p className="mt-2 text-xs text-text-muted">
+            This profile is optional — you can skip and update anything later from your profile page.
+          </p>
         </div>
 
         <div className="bg-secondary rounded-xl p-6 sm:p-8 border border-secondary-700">
           {step === 0 && (
-            <StepIntro playerName={playerName} setPlayerName={setPlayerName} dominantHand={dominantHand} setDominantHand={setDominantHand} />
+            <StepEllipse
+              playerName={playerName}
+              setPlayerName={setPlayerName}
+              dominantHand={dominantHand}
+              setDominantHand={setDominantHand}
+              handicap={handicap}
+              setHandicap={setHandicap}
+            />
           )}
           {step === 1 && (
-            <StepExperience yearsPlaying={yearsPlaying} setYearsPlaying={setYearsPlaying} playFrequency={playFrequency} setPlayFrequency={setPlayFrequency} />
+            <StepAboutYou
+              ageGroup={ageGroup}
+              setAgeGroup={setAgeGroup}
+              yearsPlaying={yearsPlaying}
+              setYearsPlaying={setYearsPlaying}
+              playFrequency={playFrequency}
+              setPlayFrequency={setPlayFrequency}
+            />
           )}
           {step === 2 && (
-            <StepSkill skillLevel={skillLevel} setSkillLevel={setSkillLevel} />
+            <StepShotShape
+              naturalShot={naturalShot}
+              setNaturalShot={setNaturalShot}
+              shotHeight={shotHeight}
+              setShotHeight={setShotHeight}
+              yardsOfCurve5i={yardsOfCurve5i}
+              setYardsOfCurve5i={setYardsOfCurve5i}
+            />
           )}
           {step === 3 && (
-            <StepShotShape naturalShot={naturalShot} setNaturalShot={setNaturalShot} shotHeight={shotHeight} setShotHeight={setShotHeight} />
+            <StepClubs handicap={handicap} naturalShot={naturalShot} />
           )}
           {step === 4 && (
-            <StepHandicap handicap={handicap} setHandicap={setHandicap} yardsOfCurve5i={yardsOfCurve5i} setYardsOfCurve5i={setYardsOfCurve5i} naturalShot={naturalShot} />
+            <StepAICaddie
+              handicap={handicap}
+              skillLevel={skillLevel}
+              setSkillLevel={(v) => { setSkillUserEdited(true); setSkillLevel(v); }}
+              skillUserEdited={skillUserEdited}
+              verbosity={verbosity}
+              setVerbosity={setVerbosity}
+            />
           )}
           {step === 5 && (
+            <StepTargetOverlay
+              targetOverlayMode={targetOverlayMode}
+              setTargetOverlayMode={setTargetOverlayMode}
+              handicap={handicap}
+            />
+          )}
+          {step === 6 && (
             <StepReview
-              values={{ dominantHand, playerName, yearsPlaying, playFrequency, skillLevel, naturalShot, shotHeight, handicap, yardsOfCurve5i }}
+              values={{
+                playerName, dominantHand, handicap, ageGroup, yearsPlaying, playFrequency,
+                naturalShot, shotHeight, yardsOfCurve5i, skillLevel, verbosity, targetOverlayMode,
+              }}
             />
           )}
 
@@ -174,31 +382,45 @@ export default function OnboardingPage() {
             >
               Back
             </button>
-            {step < TOTAL_STEPS - 1 ? (
+            <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setStep((s) => s + 1)}
-                disabled={!canAdvance}
-                className="px-6 py-2.5 rounded-lg bg-primary text-white font-semibold disabled:opacity-50"
-              >
-                Continue
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleSave}
+                onClick={handleSkip}
                 disabled={saving}
-                className="px-6 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold disabled:opacity-50"
+                className="px-5 py-2.5 rounded-lg border-2 border-secondary-700 text-text-muted hover:text-text-primary disabled:opacity-40"
               >
-                {saving ? 'Saving...' : 'Finish Setup'}
+                Skip
               </button>
-            )}
+              {step < TOTAL_STEPS - 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setStep((s) => s + 1)}
+                  disabled={saving}
+                  className="px-6 py-2.5 rounded-lg bg-primary text-white font-semibold disabled:opacity-50"
+                >
+                  Continue
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="px-6 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold disabled:opacity-50"
+                >
+                  {saving ? 'Saving…' : 'Finish Setup'}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+// ============================================================================
+// SHARED UI HELPERS
+// ============================================================================
 
 function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -209,17 +431,19 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }
   );
 }
 
-function Choice<T extends string>({ value, current, onClick, children }: { value: T; current: T; onClick: (v: T) => void; children: React.ReactNode }) {
+function Choice<T extends string>({
+  value, current, onClick, children,
+}: { value: T; current: T; onClick: (v: T) => void; children: React.ReactNode }) {
   const active = value === current;
   return (
     <button
       type="button"
       onClick={() => onClick(value)}
       aria-pressed={active}
-      className={`p-4 rounded-lg border-2 transition-all capitalize ${
+      className={`p-4 rounded-lg border-2 transition-all ${
         active
           ? 'border-primary bg-primary/10 text-primary font-medium'
-          : 'border-neutral-300 text-neutral-700 hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-600'
+          : 'border-secondary-700 text-text-muted hover:border-secondary-600 hover:text-text-primary'
       }`}
     >
       {children}
@@ -227,139 +451,663 @@ function Choice<T extends string>({ value, current, onClick, children }: { value
   );
 }
 
-function StepIntro({ playerName, setPlayerName, dominantHand, setDominantHand }: any) {
+// ============================================================================
+// STEP 1 — Ellipse: handedness + handicap with live dispersion ellipse
+// ============================================================================
+
+function StepEllipse({
+  playerName, setPlayerName, dominantHand, setDominantHand, handicap, setHandicap,
+}: {
+  playerName: string; setPlayerName: (v: string) => void;
+  dominantHand: Hand; setDominantHand: (v: Hand) => void;
+  handicap: number; setHandicap: (v: number) => void;
+}) {
+  const dispersionWidth = useMemo(() => {
+    // Approximate carry-distance dispersion (yards) at full 7i, scaled by handicap.
+    // Scratch ≈ 22yd wide, hcp 15 ≈ 50yd, hcp 36 ≈ 90yd. Linear-ish.
+    const clamped = Math.max(-12, Math.min(54, handicap));
+    return Math.round(22 + (clamped + 12) * 1.55);
+  }, [handicap]);
+
   return (
     <div>
-      <SectionHeader title="Welcome to Copperline Golf" subtitle="A quick setup so your AI caddy can actually help you." />
-      <label className="block text-sm font-medium text-text-primary mb-2">Your name (optional)</label>
-      <input
-        type="text"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        placeholder="e.g. Scott"
-        className="w-full px-4 py-3 bg-background border border-secondary-700 rounded-lg text-text-primary mb-6"
+      <SectionHeader
+        title="Welcome to Copperline"
+        subtitle="Two quick numbers and your AI caddie can start doing real math for you."
       />
-      <label className="block text-sm font-medium text-text-primary mb-2">Dominant hand</label>
-      <div className="grid grid-cols-2 gap-3">
-        <Choice value="right" current={dominantHand} onClick={setDominantHand}>Right</Choice>
-        <Choice value="left" current={dominantHand} onClick={setDominantHand}>Left</Choice>
+
+      <EllipseViz handicap={handicap} dominantHand={dominantHand} dispersionWidth={dispersionWidth} />
+
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-sm font-medium text-text-primary mb-2">Your name (optional)</label>
+          <input
+            type="text"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            placeholder="e.g. Scott"
+            className="w-full px-4 py-3 bg-background border border-secondary-700 rounded-lg text-text-primary"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-text-primary mb-2">Dominant hand</label>
+          <div className="grid grid-cols-2 gap-3">
+            <Choice value="Right" current={dominantHand} onClick={setDominantHand}>Right</Choice>
+            <Choice value="Left" current={dominantHand} onClick={setDominantHand}>Left</Choice>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-2">
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-sm font-medium text-text-primary">Handicap</label>
+          <input
+            type="number"
+            min={-12}
+            max={54}
+            value={handicap}
+            onChange={(e) => setHandicap(Number(e.target.value))}
+            className="w-20 px-3 py-1.5 bg-background border border-secondary-700 rounded-lg text-text-primary text-right"
+          />
+        </div>
+        <input
+          type="range"
+          min={-12}
+          max={54}
+          step={1}
+          value={handicap}
+          onChange={(e) => setHandicap(Number(e.target.value))}
+          className="w-full accent-primary"
+        />
+        <div className="flex justify-between text-xs text-text-muted mt-1">
+          <span>Scratch (−12)</span>
+          <span>Mid (15)</span>
+          <span>Beginner (54)</span>
+        </div>
       </div>
     </div>
   );
 }
 
-function StepExperience({ yearsPlaying, setYearsPlaying, playFrequency, setPlayFrequency }: any) {
+function EllipseViz({
+  handicap, dominantHand, dispersionWidth,
+}: { handicap: number; dominantHand: Hand; dispersionWidth: number }) {
+  // SVG viewBox 400 wide × 320 tall. Tee at bottom center; ellipse extends toward green.
+  const clamped = Math.max(-12, Math.min(54, handicap));
+  const rx = Math.max(18, 18 + (clamped + 12) * 2.6); // 18 → 190
+  const ry = 110;
+  const cx = 200;
+  const cy = 130;
+
   return (
-    <div>
-      <SectionHeader title="Your experience" subtitle="Helps us calibrate recommendations." />
-      <label className="block text-sm font-medium text-text-primary mb-2">Years playing (optional)</label>
-      <input
-        type="number"
-        min={0}
-        max={100}
-        value={yearsPlaying}
-        onChange={(e) => setYearsPlaying(e.target.value ? Number(e.target.value) : '')}
-        className="w-full px-4 py-3 bg-background border border-secondary-700 rounded-lg text-text-primary mb-6"
-      />
-      <label className="block text-sm font-medium text-text-primary mb-2">How often do you play?</label>
-      <div className="grid grid-cols-2 gap-3">
-        {(['weekly', 'monthly', 'occasionally', 'rarely'] as PlayFreq[]).map((f) => (
-          <Choice key={f} value={f} current={playFrequency} onClick={setPlayFrequency}>{f}</Choice>
+    <div className="relative rounded-lg overflow-hidden border border-secondary-700 bg-gradient-to-b from-emerald-900/40 to-emerald-950/60">
+      <svg viewBox="0 0 400 320" className="w-full h-56 sm:h-64">
+        <defs>
+          <radialGradient id="elp-fill" cx="50%" cy="55%" r="55%">
+            <stop offset="0%" stopColor="#34d399" stopOpacity="0.55" />
+            <stop offset="60%" stopColor="#10b981" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
+          </radialGradient>
+          <pattern id="grass" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+            <rect width="14" height="14" fill="#0b3d2e" />
+            <path d="M2 12 L4 6 M7 12 L9 4 M11 12 L13 7" stroke="#0e5238" strokeWidth="0.6" />
+          </pattern>
+        </defs>
+
+        {/* Fairway */}
+        <rect x="0" y="0" width="400" height="320" fill="url(#grass)" />
+
+        {/* Distance gridlines */}
+        {[60, 120, 180, 240].map((y) => (
+          <line key={y} x1="20" x2="380" y1={y} y2={y} stroke="#0e5238" strokeWidth="1" strokeDasharray="2 6" />
         ))}
+
+        {/* Target line */}
+        <line x1="200" y1="20" x2="200" y2="280" stroke="#fbbf24" strokeWidth="1.2" strokeDasharray="4 4" opacity="0.6" />
+
+        {/* Dispersion ellipse */}
+        <ellipse
+          cx={cx}
+          cy={cy}
+          rx={rx}
+          ry={ry}
+          fill="url(#elp-fill)"
+          stroke="#34d399"
+          strokeWidth="1.6"
+          style={{ transition: 'rx 250ms ease-out' }}
+        />
+
+        {/* Center cross marks where the ball "should" land */}
+        <g stroke="#fbbf24" strokeWidth="1.5">
+          <line x1={cx - 6} y1={cy} x2={cx + 6} y2={cy} />
+          <line x1={cx} y1={cy - 6} x2={cx} y2={cy + 6} />
+        </g>
+
+        {/* Tee + golfer */}
+        <g transform="translate(200 290)">
+          <circle r="10" fill="#0e5238" stroke="#34d399" strokeWidth="1.5" />
+          <text textAnchor="middle" y="4" fontSize="11" fill="#34d399" fontWeight="700">
+            {dominantHand === 'Right' ? 'R' : 'L'}
+          </text>
+        </g>
+
+        {/* Width label */}
+        <g transform={`translate(${cx} ${cy + ry + 14})`}>
+          <line x1={-rx} x2={rx} y1="0" y2="0" stroke="#fbbf24" strokeWidth="1" />
+          <line x1={-rx} x2={-rx} y1="-4" y2="4" stroke="#fbbf24" strokeWidth="1" />
+          <line x1={rx} x2={rx} y1="-4" y2="4" stroke="#fbbf24" strokeWidth="1" />
+          <text textAnchor="middle" y="-6" fontSize="11" fill="#fbbf24" fontWeight="600">
+            ~{dispersionWidth}y wide
+          </text>
+        </g>
+      </svg>
+
+      <div className="absolute top-3 left-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-300">
+        Your typical 7-iron dispersion
+      </div>
+      <div className="absolute top-3 right-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-100">
+        HDCP <span className="font-bold text-emerald-300">{handicap >= 0 ? handicap : `+${Math.abs(handicap)}`}</span>
       </div>
     </div>
   );
 }
 
-function StepSkill({ skillLevel, setSkillLevel }: any) {
-  return (
-    <div>
-      <SectionHeader title="Skill level" subtitle="Controls how detailed your AI caddy's questions and analysis get." />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {(['Beginner', 'Intermediate', 'Advanced', 'Pro', 'Tour Pro'] as SkillLevel[]).map((l) => (
-          <Choice key={l} value={l} current={skillLevel} onClick={setSkillLevel}>{l}</Choice>
-        ))}
-      </div>
-    </div>
-  );
-}
+// ============================================================================
+// STEP 2 — About You: age group, years playing, frequency
+// ============================================================================
 
-function StepShotShape({ naturalShot, setNaturalShot, shotHeight, setShotHeight }: any) {
+function StepAboutYou({
+  ageGroup, setAgeGroup, yearsPlaying, setYearsPlaying, playFrequency, setPlayFrequency,
+}: {
+  ageGroup: AgeGroup; setAgeGroup: (v: AgeGroup) => void;
+  yearsPlaying: number; setYearsPlaying: (v: number) => void;
+  playFrequency: PlayFreq; setPlayFrequency: (v: PlayFreq) => void;
+}) {
   return (
     <div>
-      <SectionHeader title="Your natural ball flight" subtitle="Pick what your typical full shot looks like." />
-      <label className="block text-sm font-medium text-text-primary mb-2">Shot shape</label>
+      <SectionHeader title="A bit about you" subtitle="Helps us calibrate recommendations to your experience." />
+
+      <label className="block text-sm font-medium text-text-primary mb-2">Age group</label>
       <div className="grid grid-cols-3 gap-3 mb-6">
-        {(['draw', 'straight', 'fade'] as ShotShape[]).map((s) => (
+        {AGE_GROUPS.map((g) => (
+          <Choice key={g} value={g} current={ageGroup} onClick={setAgeGroup}>{g}</Choice>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between mb-2">
+        <label className="block text-sm font-medium text-text-primary">Years playing</label>
+        <span className="text-sm font-semibold text-primary">{yearsPlaying} {yearsPlaying === 1 ? 'year' : 'years'}</span>
+      </div>
+      <input
+        type="range"
+        min={0}
+        max={50}
+        step={1}
+        value={yearsPlaying}
+        onChange={(e) => setYearsPlaying(Number(e.target.value))}
+        className="w-full accent-primary mb-1"
+      />
+      <div className="flex justify-between text-xs text-text-muted mb-6">
+        <span>0</span><span>25</span><span>50</span>
+      </div>
+
+      <label className="block text-sm font-medium text-text-primary mb-2">How often do you play?</label>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {PLAY_FREQUENCIES.map((f) => {
+          const active = playFrequency === f.value;
+          return (
+            <button
+              key={f.value}
+              type="button"
+              onClick={() => setPlayFrequency(f.value)}
+              aria-pressed={active}
+              className={`text-left p-4 rounded-lg border-2 transition-all ${
+                active
+                  ? 'border-primary bg-primary/10'
+                  : 'border-secondary-700 hover:border-secondary-600'
+              }`}
+            >
+              <div className={`font-medium ${active ? 'text-primary' : 'text-text-primary'}`}>{f.label}</div>
+              <div className="text-xs text-text-muted">{f.description}</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// STEP 3 — Shot Shape: natural shape, height, curve magnitude (with trajectory viz)
+// ============================================================================
+
+function StepShotShape({
+  naturalShot, setNaturalShot, shotHeight, setShotHeight, yardsOfCurve5i, setYardsOfCurve5i,
+}: {
+  naturalShot: ShotShape; setNaturalShot: (v: ShotShape) => void;
+  shotHeight: ShotHeight; setShotHeight: (v: ShotHeight) => void;
+  yardsOfCurve5i: number; setYardsOfCurve5i: (v: number) => void;
+}) {
+  return (
+    <div>
+      <SectionHeader title="Your natural ball flight" subtitle="The shape we should expect when you swing freely." />
+
+      <ShotShapeViz shape={naturalShot} height={shotHeight} curve={yardsOfCurve5i} />
+
+      <label className="block text-sm font-medium text-text-primary mb-2 mt-6">Shot shape</label>
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        {(['Draw', 'Straight', 'Fade'] as ShotShape[]).map((s) => (
           <Choice key={s} value={s} current={naturalShot} onClick={setNaturalShot}>{s}</Choice>
         ))}
       </div>
+
       <label className="block text-sm font-medium text-text-primary mb-2">Shot height</label>
-      <div className="grid grid-cols-3 gap-3">
-        {(['low', 'medium', 'high'] as ShotHeight[]).map((s) => (
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        {(['Low', 'Medium', 'High'] as ShotHeight[]).map((s) => (
           <Choice key={s} value={s} current={shotHeight} onClick={setShotHeight}>{s}</Choice>
         ))}
       </div>
-    </div>
-  );
-}
 
-function StepHandicap({ handicap, setHandicap, yardsOfCurve5i, setYardsOfCurve5i, naturalShot }: any) {
-  return (
-    <div>
-      <SectionHeader title="Handicap & curve" subtitle="These are the numbers that actually drive club selection." />
-      <label className="block text-sm font-medium text-text-primary mb-2">Handicap (-12 to 54)</label>
-      <input
-        type="number"
-        min={-12}
-        max={54}
-        value={handicap}
-        onChange={(e) => setHandicap(Number(e.target.value))}
-        className="w-full px-4 py-3 bg-background border border-secondary-700 rounded-lg text-text-primary mb-6"
-      />
-      <label className="block text-sm font-medium text-text-primary mb-2">
-        Typical 5-iron curve: {yardsOfCurve5i > 0 ? `+${yardsOfCurve5i}` : yardsOfCurve5i} yards
-      </label>
+      <div className="flex items-center justify-between mb-2">
+        <label className="block text-sm font-medium text-text-primary">
+          Typical 5-iron curve
+        </label>
+        <span className="text-sm font-semibold text-primary">{yardsOfCurve5i} yds</span>
+      </div>
       <input
         type="range"
-        min={-30}
-        max={30}
+        min={0}
+        max={20}
+        step={1}
         value={yardsOfCurve5i}
         onChange={(e) => setYardsOfCurve5i(Number(e.target.value))}
-        className="w-full"
+        className="w-full accent-primary"
+        disabled={naturalShot === 'Straight'}
       />
       <div className="flex justify-between text-xs text-text-muted mt-1">
-        <span>Heavy draw (-30)</span>
-        <span>Straight</span>
-        <span>Heavy fade (+30)</span>
+        <span>Straight (0)</span>
+        <span>Heavy {naturalShot === 'Fade' ? 'fade' : 'draw'} (20)</span>
       </div>
-      <p className="mt-3 text-xs text-text-muted italic">
-        Based on your {naturalShot}, most players land between {naturalShot === 'draw' ? '-15 and -5' : naturalShot === 'fade' ? '+5 and +15' : '-5 and +5'}.
-      </p>
+      {naturalShot === 'Straight' && (
+        <p className="mt-3 text-xs text-text-muted italic">Curve is locked at 0 for a straight ball flight.</p>
+      )}
     </div>
   );
 }
 
+function ShotShapeViz({ shape, height, curve }: { shape: ShotShape; height: ShotHeight; curve: number }) {
+  // viewBox 400 × 220. Ball travels left→right. Curve direction from `shape`,
+  // magnitude from `curve`. Apex height from `shotHeight`.
+  const start = { x: 40, y: 180 };
+  const end = { x: 360, y: 180 };
+
+  const curveSign = shape === 'Draw' ? -1 : shape === 'Fade' ? 1 : 0;
+  const curveMag = shape === 'Straight' ? 0 : Math.min(20, Math.max(0, curve));
+
+  const apexY = height === 'Low' ? 110 : height === 'High' ? 30 : 65;
+  const apexLateral = curveSign * (curveMag * 4); // up to ±80px lateral
+
+  const cp1 = { x: 160, y: apexY + (curveSign === -1 ? 0 : 0) };
+  const cp2 = { x: 240, y: apexY };
+  // Pull control points laterally to bend the path
+  const cp1x = cp1.x + apexLateral * 0.6;
+  const cp2x = cp2.x + apexLateral;
+
+  const path = `M ${start.x} ${start.y} C ${cp1x} ${cp1.y}, ${cp2x} ${cp2.y}, ${end.x} ${end.y}`;
+
+  // Sample points for the ball position label
+  const apexPoint = { x: 200 + apexLateral * 0.8, y: apexY + 20 };
+
+  return (
+    <div className="relative rounded-lg overflow-hidden border border-secondary-700 bg-gradient-to-b from-sky-950/50 via-sky-900/30 to-emerald-950/60">
+      <svg viewBox="0 0 400 220" className="w-full h-44 sm:h-52">
+        <defs>
+          <linearGradient id="trail" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.0" />
+            <stop offset="40%" stopColor="#fbbf24" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#34d399" stopOpacity="1" />
+          </linearGradient>
+        </defs>
+
+        {/* Ground line */}
+        <line x1="0" x2="400" y1="180" y2="180" stroke="#0e5238" strokeWidth="2" />
+        {/* Subtle vertical guides */}
+        {[100, 200, 300].map((x) => (
+          <line key={x} x1={x} x2={x} y1="180" y2="190" stroke="#0e5238" strokeWidth="1" />
+        ))}
+
+        {/* Trajectory */}
+        <path
+          d={path}
+          fill="none"
+          stroke="url(#trail)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          style={{ transition: 'd 250ms ease-out' }}
+        />
+
+        {/* Tee */}
+        <g transform={`translate(${start.x} ${start.y})`}>
+          <line x1="0" y1="-12" x2="0" y2="0" stroke="#fbbf24" strokeWidth="2" />
+          <circle cy="-14" r="3" fill="#ffffff" stroke="#fbbf24" strokeWidth="1" />
+        </g>
+
+        {/* Landing flag */}
+        <g transform={`translate(${end.x} ${end.y})`}>
+          <line x1="0" y1="-26" x2="0" y2="0" stroke="#9ca3af" strokeWidth="2" />
+          <polygon points="0,-26 14,-22 0,-18" fill="#ef4444" />
+          <circle cy="0" r="6" fill="#10b981" stroke="#34d399" strokeWidth="1.5" />
+        </g>
+
+        {/* Apex marker */}
+        <circle cx={apexPoint.x} cy={apexY} r="3.5" fill="#fbbf24" />
+      </svg>
+
+      <div className="absolute top-3 left-3 rounded-md bg-black/40 px-2.5 py-1 text-xs text-emerald-300">
+        {shape} · {height} · {curve}y curve
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// STEP 4 — Clubs: animated preview of the 14 clubs being seeded
+// ============================================================================
+
+function StepClubs({ handicap, naturalShot }: { handicap: number; naturalShot: ShotShape }) {
+  const clubs = useMemo(() => {
+    const face = naturalShot === 'Draw' ? 'Draw' : naturalShot === 'Fade' ? 'Fade' : 'Square';
+    return generateDefaultClubs(handicap, face).slice(0, 14);
+  }, [handicap, naturalShot]);
+
+  return (
+    <div>
+      <SectionHeader
+        title="Your bag is ready"
+        subtitle="We've seeded 14 standard clubs calibrated to your handicap. Tweak any of them later from the Clubs page."
+      />
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {clubs.map((c, idx) => (
+          <div
+            key={c.id}
+            className="rounded-lg border border-secondary-700 bg-background/40 px-3 py-2.5 flex items-center justify-between"
+            style={{
+              animation: `clubFadeIn 280ms ease-out both`,
+              animationDelay: `${idx * 35}ms`,
+            }}
+          >
+            <div>
+              <div className="text-sm font-semibold text-text-primary">{c.name}</div>
+              <div className="text-[10px] uppercase tracking-wide text-text-muted">{c.category}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm font-bold text-primary">{c.totalYards}y</div>
+              <div className="text-[10px] text-text-muted">{c.carryYards} carry</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm text-text-primary">
+        <div className="font-medium text-primary mb-1">Tip</div>
+        Distances come from a baseline that matches your handicap. As you log shots, the AI caddie refines them — what you see here is the starting point, not your final bag.
+      </div>
+
+      <style jsx global>{`
+        @keyframes clubFadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ============================================================================
+// STEP 5 — AI Caddie: skill level (auto-suggested) + verbosity with live preview
+// ============================================================================
+
+function StepAICaddie({
+  handicap, skillLevel, setSkillLevel, skillUserEdited, verbosity, setVerbosity,
+}: {
+  handicap: number;
+  skillLevel: SkillLevel; setSkillLevel: (v: SkillLevel) => void;
+  skillUserEdited: boolean;
+  verbosity: Verbosity; setVerbosity: (v: Verbosity) => void;
+}) {
+  const suggested = suggestSkillLevel(handicap);
+  const sample = VERBOSITY_OPTIONS.find((v) => v.value === verbosity)!.sample;
+
+  return (
+    <div>
+      <SectionHeader title="Your AI caddie" subtitle="How sharp does it think — and how chatty should it be?" />
+
+      <div className="mb-2 flex items-center justify-between">
+        <label className="block text-sm font-medium text-text-primary">Skill level</label>
+        {!skillUserEdited && (
+          <span className="text-xs text-text-muted">Auto-set from your handicap of {handicap} → <span className="text-primary font-medium">{suggested}</span></span>
+        )}
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {SKILL_OPTIONS.map((s) => {
+          const active = skillLevel === s.value;
+          return (
+            <button
+              key={s.value}
+              type="button"
+              onClick={() => setSkillLevel(s.value)}
+              aria-pressed={active}
+              className={`p-3 rounded-lg border-2 transition-all text-center ${
+                active
+                  ? 'border-primary bg-primary/10'
+                  : 'border-secondary-700 hover:border-secondary-600'
+              }`}
+            >
+              <div className={`text-sm font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>{s.label}</div>
+              <div className="text-[10px] text-text-muted mt-0.5">{s.handicapRange}</div>
+            </button>
+          );
+        })}
+      </div>
+
+      <label className="block text-sm font-medium text-text-primary mb-2">Verbosity</label>
+      <div className="grid grid-cols-1 gap-3 mb-4">
+        {VERBOSITY_OPTIONS.map((v) => {
+          const active = verbosity === v.value;
+          return (
+            <button
+              key={v.value}
+              type="button"
+              onClick={() => setVerbosity(v.value)}
+              aria-pressed={active}
+              className={`text-left p-4 rounded-lg border-2 transition-all ${
+                active
+                  ? 'border-primary bg-primary/10'
+                  : 'border-secondary-700 hover:border-secondary-600'
+              }`}
+            >
+              <div className={`font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>{v.label}</div>
+              <div className="text-xs text-text-muted mt-0.5">{v.description}</div>
+            </button>
+          );
+        })}
+      </div>
+
+      <CaddiePreview sample={sample} />
+    </div>
+  );
+}
+
+function CaddiePreview({ sample }: { sample: string }) {
+  return (
+    <div className="rounded-lg border border-secondary-700 bg-background/40 p-4">
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary font-bold text-sm">
+          AI
+        </div>
+        <div className="flex-1">
+          <div className="text-[11px] uppercase tracking-wide text-text-muted mb-1">Live preview · how your caddie sounds</div>
+          <div
+            key={sample}
+            className="text-sm text-text-primary leading-relaxed"
+            style={{ animation: 'previewFade 240ms ease-out both' }}
+          >
+            {sample}
+          </div>
+        </div>
+      </div>
+      <style jsx global>{`
+        @keyframes previewFade {
+          from { opacity: 0; transform: translateY(4px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ============================================================================
+// STEP 6 — Target Overlay: precise target dot vs probability ellipse
+// ============================================================================
+
+function StepTargetOverlay({
+  targetOverlayMode, setTargetOverlayMode, handicap,
+}: {
+  targetOverlayMode: TargetMode; setTargetOverlayMode: (v: TargetMode) => void;
+  handicap: number;
+}) {
+  return (
+    <div>
+      <SectionHeader
+        title="How you want to see your target"
+        subtitle="On the hole map, this is what you'll see overlaid on the green and fairway."
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <OverlayCard
+          mode="target"
+          active={targetOverlayMode === 'target'}
+          onClick={() => setTargetOverlayMode('target')}
+        />
+        <OverlayCard
+          mode="ellipse"
+          active={targetOverlayMode === 'ellipse'}
+          onClick={() => setTargetOverlayMode('ellipse')}
+          handicap={handicap}
+        />
+      </div>
+
+      <div className="mt-5 rounded-lg border border-secondary-700 bg-background/40 p-4 text-sm">
+        {targetOverlayMode === 'target' ? (
+          <>
+            <div className="font-semibold text-text-primary mb-1">Target mode</div>
+            <p className="text-text-muted">A single aim point. Cleanest view — best when you trust your dispersion already and just want a number to aim at.</p>
+          </>
+        ) : (
+          <>
+            <div className="font-semibold text-text-primary mb-1">Ellipse mode</div>
+            <p className="text-text-muted">Shows where your shots actually tend to land — sized by your handicap. Best when you want to see hazards relative to your real dispersion, not a fictional perfect strike.</p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function OverlayCard({
+  mode, active, onClick, handicap = 15,
+}: { mode: TargetMode; active: boolean; onClick: () => void; handicap?: number }) {
+  const clamped = Math.max(-12, Math.min(54, handicap));
+  const ellipseRx = Math.max(14, 14 + (clamped + 12) * 1.6);
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`relative rounded-lg border-2 overflow-hidden text-left transition-all ${
+        active ? 'border-primary' : 'border-secondary-700 hover:border-secondary-600'
+      }`}
+    >
+      <svg viewBox="0 0 240 200" className="w-full h-44 block bg-gradient-to-b from-emerald-900/50 to-emerald-950/70">
+        {/* Fairway */}
+        <ellipse cx="120" cy="180" rx="140" ry="40" fill="#14532d" opacity="0.5" />
+        {/* Green */}
+        <ellipse cx="120" cy="100" rx="78" ry="58" fill="#15803d" />
+        <ellipse cx="120" cy="100" rx="78" ry="58" fill="none" stroke="#22c55e" strokeWidth="1.5" opacity="0.6" />
+        {/* Bunker */}
+        <ellipse cx="55" cy="135" rx="22" ry="12" fill="#fde68a" opacity="0.85" />
+        <ellipse cx="55" cy="135" rx="22" ry="12" fill="none" stroke="#a16207" strokeWidth="1" />
+        {/* Pin */}
+        <line x1="120" y1="65" x2="120" y2="100" stroke="#9ca3af" strokeWidth="1.5" />
+        <polygon points="120,65 132,69 120,73" fill="#ef4444" />
+        <circle cx="120" cy="100" r="3" fill="#0f172a" />
+
+        {/* Overlay */}
+        {mode === 'target' ? (
+          <g>
+            <circle cx="120" cy="105" r="14" fill="none" stroke="#fbbf24" strokeWidth="2" />
+            <circle cx="120" cy="105" r="6" fill="none" stroke="#fbbf24" strokeWidth="2" />
+            <line x1="120" y1="91" x2="120" y2="119" stroke="#fbbf24" strokeWidth="1.5" />
+            <line x1="106" y1="105" x2="134" y2="105" stroke="#fbbf24" strokeWidth="1.5" />
+          </g>
+        ) : (
+          <g>
+            <ellipse cx="120" cy="105" rx={ellipseRx} ry={ellipseRx * 0.65} fill="#fbbf24" fillOpacity="0.18" stroke="#fbbf24" strokeWidth="1.6" />
+            <circle cx="120" cy="105" r="2.5" fill="#fbbf24" />
+          </g>
+        )}
+      </svg>
+      <div className="px-4 py-3 bg-black/40">
+        <div className={`font-semibold ${active ? 'text-primary' : 'text-text-primary'}`}>
+          {mode === 'target' ? 'Target' : 'Ellipse'}
+        </div>
+        <div className="text-xs text-text-muted">
+          {mode === 'target' ? 'Single precise aim point' : 'Where your shots actually land'}
+        </div>
+      </div>
+      {active && (
+        <div className="absolute top-2 right-2 rounded-full bg-primary text-white text-[10px] font-bold px-2 py-0.5">
+          SELECTED
+        </div>
+      )}
+    </button>
+  );
+}
+
+// ============================================================================
+// STEP 7 — Review
+// ============================================================================
+
 function StepReview({ values }: { values: any }) {
+  const v = values;
+  const verbosityLabel = VERBOSITY_OPTIONS.find((o) => o.value === v.verbosity)?.label ?? '—';
+  const freqLabel = PLAY_FREQUENCIES.find((o) => o.value === v.playFrequency)?.label ?? '—';
+
   const rows: [string, string | number][] = [
-    ['Name', values.playerName || '—'],
-    ['Dominant hand', values.dominantHand],
-    ['Handicap', values.handicap],
-    ['Shot shape', values.naturalShot],
-    ['Shot height', values.shotHeight],
-    ['5i curve', `${values.yardsOfCurve5i > 0 ? '+' : ''}${values.yardsOfCurve5i} yds`],
-    ['Skill level', values.skillLevel],
-    ['Frequency', values.playFrequency],
-    ['Years playing', values.yearsPlaying === '' ? '—' : values.yearsPlaying],
+    ['Name', v.playerName || '—'],
+    ['Dominant hand', v.dominantHand],
+    ['Handicap', v.handicap],
+    ['Age group', v.ageGroup],
+    ['Years playing', v.yearsPlaying],
+    ['Frequency', freqLabel],
+    ['Skill level', v.skillLevel],
+    ['Shot shape', v.naturalShot],
+    ['Shot height', v.shotHeight],
+    ['5i curve', `${v.yardsOfCurve5i} yds`],
+    ['Caddie verbosity', verbosityLabel],
+    ['Target overlay', v.targetOverlayMode === 'target' ? 'Target' : 'Ellipse'],
   ];
+
   return (
     <div>
       <SectionHeader title="Review your setup" subtitle="You can change any of this later from your profile." />
       <dl className="divide-y divide-secondary-700 border border-secondary-700 rounded-lg overflow-hidden">
-        {rows.map(([k, v]) => (
+        {rows.map(([k, val]) => (
           <div key={k} className="flex justify-between px-4 py-3 text-sm">
             <dt className="text-text-muted">{k}</dt>
-            <dd className="text-text-primary font-medium capitalize">{String(v)}</dd>
+            <dd className="text-text-primary font-medium">{String(val)}</dd>
           </div>
         ))}
       </dl>

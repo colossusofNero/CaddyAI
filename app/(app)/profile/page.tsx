@@ -13,7 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { ArrowLeft, Save, User } from 'lucide-react';
+import { ArrowLeft, Save, User, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
 import { initializeNewUser } from '@/services/initializationService';
@@ -177,7 +177,13 @@ export default function ProfilePage() {
               <User className="w-5 h-5 text-primary" />
               <span className="text-lg font-semibold text-text-primary">Profile</span>
             </div>
-            <div className="w-20" /> {/* Spacer for centering */}
+            <Link href="/onboarding">
+              <Button variant="ghost" size="sm">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Restart walkthrough</span>
+                <span className="sm:hidden">Restart</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </header>

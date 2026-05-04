@@ -551,6 +551,14 @@ export default function DashboardPage() {
                 {userMetadata?.profileComplete ? 'View Profile' : 'Set Up Profile'}
               </Button>
             </Link>
+            {userMetadata?.profileComplete && (
+              <Link
+                href="/onboarding"
+                className="block mt-2 text-xs text-text-muted hover:text-primary text-center underline"
+              >
+                Restart walkthrough
+              </Link>
+            )}
           </Card>
 
           <Card

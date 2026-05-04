@@ -172,11 +172,12 @@ function AppGate({ children }: { children: React.ReactNode }) {
     setBannerDismissed(window.localStorage.getItem(`${BANNER_DISMISS_KEY}:${user.uid}`) === '1');
   }, [user]);
 
-  // Load profileComplete + account age from users/{uid}.
-  // Refetch on pathname change so the gate sees fresh flags after the
-  // onboarding page writes profileComplete=true and navigates to /dashboard.
-  // Reset to null first so the redirect effect below doesn't fire on stale
-  // data while the new fetch is in flight.
+  // Fetch users/{uid} metadata on every pathname change AND make the redirect
+  // decision inside the same closure with the fresh data. We can't split fetch
+  // and redirect into separate effects: when pathname flips from /onboarding to
+  // /dashboard, both effects fire in the same phase and the redirect effect
+  // reads stale profileStatus (still showing complete=false from before save),
+  // bouncing the user back to /onboarding right after they finish setup.
   useEffect(() => {
     if (!user) return;
     if (!profileEnsured) return;
@@ -186,21 +187,19 @@ function AppGate({ children }: { children: React.ReactNode }) {
       const meta = await getUserMetadata(user.uid);
       if (cancelled) return;
       const createdMs = meta?.createdAt ? new Date(meta.createdAt).getTime() : Date.now();
-      setProfileStatus({
-        complete: !!meta?.profileComplete,
-        isNewAccount: Number.isFinite(createdMs) && createdMs >= ONBOARDING_REQUIRED_AFTER,
-      });
+      const isNewAccount = Number.isFinite(createdMs) && createdMs >= ONBOARDING_REQUIRED_AFTER;
+      const complete = !!meta?.profileComplete;
+      setProfileStatus({ complete, isNewAccount });
+
+      // Redirect happens here — with fresh data, never stale — so a user who
+      // just wrote profileComplete=true and routed to /dashboard won't get
+      // bounced back to /onboarding.
+      if (!onOnboardingRoute && isNewAccount && !complete) {
+        router.replace('/onboarding');
+      }
     })();
     return () => { cancelled = true; };
-  }, [user, profileEnsured, pathname]);
-
-  // Hard-gate new accounts: redirect to onboarding until profileComplete
-  useEffect(() => {
-    if (!user || !profileStatus || onOnboardingRoute) return;
-    if (profileStatus.isNewAccount && !profileStatus.complete) {
-      router.replace('/onboarding');
-    }
-  }, [user, profileStatus, onOnboardingRoute, router]);
+  }, [user, profileEnsured, pathname, onOnboardingRoute, router]);
 
   const dismissBanner = () => {
     if (typeof window !== 'undefined' && user) {

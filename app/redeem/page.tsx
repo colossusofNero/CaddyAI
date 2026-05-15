@@ -253,9 +253,17 @@ function RedeemPageContent() {
                     </p>
                   </div>
 
-                  <p className="text-center text-gray-600 mb-6">
-                    Download the app to start using your premium features:
-                  </p>
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                    <p className="text-sm font-semibold text-gray-900 mb-2">Next: log in to the app</p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      Download the Copperline Golf app and log in using the{' '}
+                      <strong>same email and password</strong> you signed up with here.
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      <strong>Note:</strong> Do not enter your code as a promo code inside the
+                      app — your subscription is already active.
+                    </p>
+                  </div>
 
                   <div className="space-y-3">
                     <a
@@ -296,6 +304,23 @@ function RedeemPageContent() {
                   description="Sign in to activate your free subscription"
                 />
                 <CardContent>
+                  {/* How it works */}
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-4">
+                    <p className="text-sm font-semibold text-gray-900 mb-2">How it works</p>
+                    <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                      <li>Create your account here on the website.</li>
+                      <li>Download the Copperline Golf app.</li>
+                      <li>
+                        Log in to the app using the <strong>same email and password</strong> you
+                        sign up with here.
+                      </li>
+                    </ol>
+                    <p className="text-xs text-gray-600 mt-3">
+                      <strong>Note:</strong> Do not enter your code as a promo code inside the
+                      app — your subscription is already activated through this website.
+                    </p>
+                  </div>
+
                   {/* QR Code Upload */}
                   <div className="mb-4">
                     <QRCodeDropZone

@@ -168,8 +168,8 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: 'Phone',
-      content: '1-800-555-1234',
-      link: 'tel:+18005551234',
+      content: '480-999-3345',
+      link: 'tel:+14809993345',
     },
     {
       icon: MapPin,

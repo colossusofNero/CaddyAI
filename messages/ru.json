@@ -2076,6 +2076,72 @@
         "loading": "Загрузка...",
         "subtitle": "14 дней бесплатно · Без банковской карты"
       }
+    },
+    "auth": {
+      "home": "Главная",
+      "signIn": "Войти",
+      "signUp": "Зарегистрироваться",
+      "divider": "Или продолжить с помощью",
+      "googleSignIn": "Войти через Google",
+      "googleSignUp": "Зарегистрироваться через Google",
+      "appleSignIn": "Войти через Apple",
+      "appleSignUp": "Зарегистрироваться через Apple",
+      "termsLabel": "Условия использования",
+      "privacyLabel": "Политика конфиденциальности",
+      "legalLoginPrefix": "Входя, вы соглашаетесь с нашими",
+      "legalSignupPrefix": "Создавая аккаунт, вы соглашаетесь с нашими",
+      "legalJoin": "и"
+    },
+    "login": {
+      "srTitle": "Вход в Copperline Golf",
+      "title": "С возвращением",
+      "description": "Войдите в свой аккаунт Copperline Golf",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Забыли пароль?",
+      "submit": "Войти",
+      "footerPrompt": "Нет аккаунта?",
+      "footerLink": "Зарегистрироваться",
+      "validation": {
+        "emailInvalid": "Введите корректный email-адрес",
+        "passwordTooShort": "Пароль должен содержать не менее 6 символов"
+      }
+    },
+    "signup": {
+      "srTitle": "Создание аккаунта Copperline Golf",
+      "title": "Создайте аккаунт",
+      "description": "Начните 14-дневный бесплатный пробный период Pro уже сегодня",
+      "trialBannerTitle": "Доступен 14-дневный бесплатный пробный период",
+      "trialBannerBody": "Создайте аккаунт и начните бесплатный пробный период Pro.",
+      "nameLabel": "Полное имя",
+      "namePlaceholder": "Иван Иванов",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "Не менее 6 символов",
+      "confirmPasswordLabel": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Создать аккаунт",
+      "footerPrompt": "Уже есть аккаунт?",
+      "footerLink": "Войти",
+      "validation": {
+        "nameTooShort": "Имя должно содержать не менее 2 символов",
+        "emailInvalid": "Введите корректный email-адрес",
+        "passwordTooShort": "Пароль должен содержать не менее 8 символов",
+        "passwordComplexity": "Пароль должен содержать заглавные, строчные буквы и цифру",
+        "passwordsMismatch": "Пароли не совпадают"
+      },
+      "success": {
+        "title": "Аккаунт создан!",
+        "bodyPromo": "Ваш аккаунт готов. Настройте оплату, чтобы активировать бесплатный год.",
+        "bodyDefault": "Ваш аккаунт готов. Продолжите для настройки подписки.",
+        "buttonPromo": "Активировать бесплатный год",
+        "buttonDefault": "Продолжить",
+        "buttonSettingUp": "Настройка..."
+      }
     }
   }
 }

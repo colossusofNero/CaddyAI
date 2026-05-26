@@ -2074,6 +2074,72 @@
         "loading": "लोड हो रहा है...",
         "subtitle": "14 दिन का मुफ्त ट्रायल · क्रेडिट कार्ड की आवश्यकता नहीं"
       }
+    },
+    "auth": {
+      "home": "होम",
+      "signIn": "साइन इन",
+      "signUp": "साइन अप",
+      "divider": "या इसके साथ जारी रखें",
+      "googleSignIn": "Google से साइन इन करें",
+      "googleSignUp": "Google से साइन अप करें",
+      "appleSignIn": "Apple से साइन इन करें",
+      "appleSignUp": "Apple से साइन अप करें",
+      "termsLabel": "सेवा की शर्तें",
+      "privacyLabel": "गोपनीयता नीति",
+      "legalLoginPrefix": "साइन इन करके, आप हमारी",
+      "legalSignupPrefix": "खाता बनाकर, आप हमारी",
+      "legalJoin": "और"
+    },
+    "login": {
+      "srTitle": "Copperline Golf में साइन इन करें",
+      "title": "वापसी पर स्वागत है",
+      "description": "अपने Copperline Golf खाते में साइन इन करें",
+      "emailLabel": "ईमेल",
+      "emailPlaceholder": "aap@example.com",
+      "passwordLabel": "पासवर्ड",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "पासवर्ड भूल गए?",
+      "submit": "साइन इन",
+      "footerPrompt": "खाता नहीं है?",
+      "footerLink": "साइन अप",
+      "validation": {
+        "emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
+        "passwordTooShort": "पासवर्ड कम से कम 6 अक्षर का होना चाहिए"
+      }
+    },
+    "signup": {
+      "srTitle": "अपना Copperline Golf खाता बनाएँ",
+      "title": "अपना खाता बनाएँ",
+      "description": "आज ही अपना 14-दिन का मुफ्त Pro ट्रायल शुरू करें",
+      "trialBannerTitle": "14-दिन का मुफ्त ट्रायल उपलब्ध",
+      "trialBannerBody": "अपना खाता बनाएँ और फिर अपना मुफ्त Pro ट्रायल शुरू करें।",
+      "nameLabel": "पूरा नाम",
+      "namePlaceholder": "राहुल शर्मा",
+      "emailLabel": "ईमेल",
+      "emailPlaceholder": "aap@example.com",
+      "passwordLabel": "पासवर्ड",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "कम से कम 6 अक्षर",
+      "confirmPasswordLabel": "पासवर्ड पुष्टि करें",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "खाता बनाएँ",
+      "footerPrompt": "पहले से खाता है?",
+      "footerLink": "साइन इन",
+      "validation": {
+        "nameTooShort": "नाम कम से कम 2 अक्षर का होना चाहिए",
+        "emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
+        "passwordTooShort": "पासवर्ड कम से कम 8 अक्षर का होना चाहिए",
+        "passwordComplexity": "पासवर्ड में बड़े अक्षर, छोटे अक्षर और एक संख्या होनी चाहिए",
+        "passwordsMismatch": "पासवर्ड मेल नहीं खाते"
+      },
+      "success": {
+        "title": "खाता बन गया!",
+        "bodyPromo": "आपका खाता तैयार है। अपना मुफ्त वर्ष सक्रिय करने के लिए भुगतान सेट करें।",
+        "bodyDefault": "आपका खाता तैयार है। अपनी सब्सक्रिप्शन सेट अप करने के लिए जारी रखें।",
+        "buttonPromo": "अपना मुफ्त वर्ष सक्रिय करें",
+        "buttonDefault": "जारी रखें",
+        "buttonSettingUp": "सेट अप हो रहा है..."
+      }
     }
   }
 }

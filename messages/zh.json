@@ -2074,6 +2074,72 @@
         "loading": "加载中...",
         "subtitle": "14 天免费试用 · 无需信用卡"
       }
+    },
+    "auth": {
+      "home": "首页",
+      "signIn": "登录",
+      "signUp": "注册",
+      "divider": "或通过以下方式继续",
+      "googleSignIn": "使用 Google 登录",
+      "googleSignUp": "使用 Google 注册",
+      "appleSignIn": "使用 Apple 登录",
+      "appleSignUp": "使用 Apple 注册",
+      "termsLabel": "服务条款",
+      "privacyLabel": "隐私政策",
+      "legalLoginPrefix": "登录即表示您同意我们的",
+      "legalSignupPrefix": "创建账户即表示您同意我们的",
+      "legalJoin": "和"
+    },
+    "login": {
+      "srTitle": "登录 Copperline Golf",
+      "title": "欢迎回来",
+      "description": "登录您的 Copperline Golf 账户",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "密码",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "忘记密码？",
+      "submit": "登录",
+      "footerPrompt": "还没有账户？",
+      "footerLink": "注册",
+      "validation": {
+        "emailInvalid": "请输入有效的邮箱地址",
+        "passwordTooShort": "密码至少需要 6 个字符"
+      }
+    },
+    "signup": {
+      "srTitle": "创建您的 Copperline Golf 账户",
+      "title": "创建您的账户",
+      "description": "今天开始 14 天免费 Pro 试用",
+      "trialBannerTitle": "14 天免费试用",
+      "trialBannerBody": "创建您的账户，然后开始免费 Pro 试用。",
+      "nameLabel": "姓名",
+      "namePlaceholder": "张伟",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "密码",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "至少 6 个字符",
+      "confirmPasswordLabel": "确认密码",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "创建账户",
+      "footerPrompt": "已有账户？",
+      "footerLink": "登录",
+      "validation": {
+        "nameTooShort": "姓名至少需要 2 个字符",
+        "emailInvalid": "请输入有效的邮箱地址",
+        "passwordTooShort": "密码至少需要 8 个字符",
+        "passwordComplexity": "密码必须包含大写字母、小写字母和数字",
+        "passwordsMismatch": "两次输入的密码不一致"
+      },
+      "success": {
+        "title": "账户已创建！",
+        "bodyPromo": "您的账户已准备好。设置付款以激活您的免费一年。",
+        "bodyDefault": "您的账户已准备好。继续设置您的订阅。",
+        "buttonPromo": "激活您的免费一年",
+        "buttonDefault": "继续",
+        "buttonSettingUp": "正在设置..."
+      }
     }
   }
 }

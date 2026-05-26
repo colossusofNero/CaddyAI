@@ -2074,6 +2074,72 @@
         "loading": "Cargando...",
         "subtitle": "Prueba gratuita de 14 días · Sin tarjeta de crédito"
       }
+    },
+    "auth": {
+      "home": "Inicio",
+      "signIn": "Iniciar sesión",
+      "signUp": "Crear cuenta",
+      "divider": "O continúa con",
+      "googleSignIn": "Iniciar sesión con Google",
+      "googleSignUp": "Registrarse con Google",
+      "appleSignIn": "Iniciar sesión con Apple",
+      "appleSignUp": "Registrarse con Apple",
+      "termsLabel": "Términos del servicio",
+      "privacyLabel": "Política de privacidad",
+      "legalLoginPrefix": "Al iniciar sesión, aceptas nuestros",
+      "legalSignupPrefix": "Al crear una cuenta, aceptas nuestros",
+      "legalJoin": "y"
+    },
+    "login": {
+      "srTitle": "Iniciar sesión en Copperline Golf",
+      "title": "Bienvenido de nuevo",
+      "description": "Inicia sesión en tu cuenta de Copperline Golf",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "footerPrompt": "¿No tienes una cuenta?",
+      "footerLink": "Regístrate",
+      "validation": {
+        "emailInvalid": "Introduce un correo válido",
+        "passwordTooShort": "La contraseña debe tener al menos 6 caracteres"
+      }
+    },
+    "signup": {
+      "srTitle": "Crea tu cuenta de Copperline Golf",
+      "title": "Crea tu cuenta",
+      "description": "Empieza hoy tu prueba Pro gratuita de 14 días",
+      "trialBannerTitle": "Prueba gratuita de 14 días disponible",
+      "trialBannerBody": "Crea tu cuenta y luego empieza tu prueba Pro gratuita.",
+      "nameLabel": "Nombre completo",
+      "namePlaceholder": "María García",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "Mínimo 6 caracteres",
+      "confirmPasswordLabel": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Crear cuenta",
+      "footerPrompt": "¿Ya tienes una cuenta?",
+      "footerLink": "Inicia sesión",
+      "validation": {
+        "nameTooShort": "El nombre debe tener al menos 2 caracteres",
+        "emailInvalid": "Introduce un correo válido",
+        "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+        "passwordComplexity": "La contraseña debe contener mayúsculas, minúsculas y un número",
+        "passwordsMismatch": "Las contraseñas no coinciden"
+      },
+      "success": {
+        "title": "¡Cuenta creada!",
+        "bodyPromo": "Tu cuenta está lista. Configura tu pago para activar tu año gratis.",
+        "bodyDefault": "Tu cuenta está lista. Continúa para configurar tu suscripción.",
+        "buttonPromo": "Activa tu año gratis",
+        "buttonDefault": "Continuar",
+        "buttonSettingUp": "Configurando..."
+      }
     }
   }
 }

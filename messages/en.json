@@ -2074,6 +2074,72 @@
         "loading": "Loading...",
         "subtitle": "14-day free trial · No credit card required"
       }
+    },
+    "auth": {
+      "home": "Home",
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "divider": "Or continue with",
+      "googleSignIn": "Sign in with Google",
+      "googleSignUp": "Sign up with Google",
+      "appleSignIn": "Sign in with Apple",
+      "appleSignUp": "Sign up with Apple",
+      "termsLabel": "Terms of Service",
+      "privacyLabel": "Privacy Policy",
+      "legalLoginPrefix": "By signing in, you agree to our",
+      "legalSignupPrefix": "By creating an account, you agree to our",
+      "legalJoin": "and"
+    },
+    "login": {
+      "srTitle": "Sign In to Copperline Golf",
+      "title": "Welcome back",
+      "description": "Sign in to your Copperline Golf account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "footerPrompt": "Don't have an account?",
+      "footerLink": "Sign up",
+      "validation": {
+        "emailInvalid": "Please enter a valid email address",
+        "passwordTooShort": "Password must be at least 6 characters"
+      }
+    },
+    "signup": {
+      "srTitle": "Create Your Copperline Golf Account",
+      "title": "Create your account",
+      "description": "Start your 14-day free Pro trial today",
+      "trialBannerTitle": "14-Day Free Trial Available",
+      "trialBannerBody": "Create your account, then start your free Pro trial.",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "At least 6 characters",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Create Account",
+      "footerPrompt": "Already have an account?",
+      "footerLink": "Sign in",
+      "validation": {
+        "nameTooShort": "Name must be at least 2 characters",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordTooShort": "Password must be at least 8 characters",
+        "passwordComplexity": "Password must contain uppercase, lowercase, and number",
+        "passwordsMismatch": "Passwords don't match"
+      },
+      "success": {
+        "title": "Account Created!",
+        "bodyPromo": "Your account is ready. Set up your payment to activate your free year.",
+        "bodyDefault": "Your account is ready. Continue to set up your subscription.",
+        "buttonPromo": "Activate Your Free Year",
+        "buttonDefault": "Continue",
+        "buttonSettingUp": "Setting up..."
+      }
     }
   }
 }

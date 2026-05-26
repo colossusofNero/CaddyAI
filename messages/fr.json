@@ -2074,6 +2074,72 @@
         "loading": "Chargement...",
         "subtitle": "Essai gratuit de 14 jours · Sans carte bancaire"
       }
+    },
+    "auth": {
+      "home": "Accueil",
+      "signIn": "Se connecter",
+      "signUp": "S'inscrire",
+      "divider": "Ou continuer avec",
+      "googleSignIn": "Se connecter avec Google",
+      "googleSignUp": "S'inscrire avec Google",
+      "appleSignIn": "Se connecter avec Apple",
+      "appleSignUp": "S'inscrire avec Apple",
+      "termsLabel": "Conditions d'utilisation",
+      "privacyLabel": "Politique de confidentialité",
+      "legalLoginPrefix": "En vous connectant, vous acceptez nos",
+      "legalSignupPrefix": "En créant un compte, vous acceptez nos",
+      "legalJoin": "et notre"
+    },
+    "login": {
+      "srTitle": "Connexion à Copperline Golf",
+      "title": "Bon retour",
+      "description": "Connectez-vous à votre compte Copperline Golf",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "footerPrompt": "Vous n'avez pas de compte ?",
+      "footerLink": "S'inscrire",
+      "validation": {
+        "emailInvalid": "Veuillez saisir un e-mail valide",
+        "passwordTooShort": "Le mot de passe doit comporter au moins 6 caractères"
+      }
+    },
+    "signup": {
+      "srTitle": "Créez votre compte Copperline Golf",
+      "title": "Créez votre compte",
+      "description": "Commencez votre essai Pro gratuit de 14 jours aujourd'hui",
+      "trialBannerTitle": "Essai gratuit de 14 jours disponible",
+      "trialBannerBody": "Créez votre compte, puis démarrez votre essai Pro gratuit.",
+      "nameLabel": "Nom complet",
+      "namePlaceholder": "Jean Dupont",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "Au moins 6 caractères",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Créer un compte",
+      "footerPrompt": "Vous avez déjà un compte ?",
+      "footerLink": "Se connecter",
+      "validation": {
+        "nameTooShort": "Le nom doit comporter au moins 2 caractères",
+        "emailInvalid": "Veuillez saisir un e-mail valide",
+        "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères",
+        "passwordComplexity": "Le mot de passe doit contenir des majuscules, des minuscules et un chiffre",
+        "passwordsMismatch": "Les mots de passe ne correspondent pas"
+      },
+      "success": {
+        "title": "Compte créé !",
+        "bodyPromo": "Votre compte est prêt. Configurez votre paiement pour activer votre année gratuite.",
+        "bodyDefault": "Votre compte est prêt. Continuez pour configurer votre abonnement.",
+        "buttonPromo": "Activer votre année gratuite",
+        "buttonDefault": "Continuer",
+        "buttonSettingUp": "Configuration..."
+      }
     }
   }
 }

@@ -2074,6 +2074,72 @@
         "loading": "読み込み中...",
         "subtitle": "14日間の無料トライアル · クレジットカード不要"
       }
+    },
+    "auth": {
+      "home": "ホーム",
+      "signIn": "サインイン",
+      "signUp": "新規登録",
+      "divider": "または以下で続行",
+      "googleSignIn": "Google でサインイン",
+      "googleSignUp": "Google で登録",
+      "appleSignIn": "Apple でサインイン",
+      "appleSignUp": "Apple で登録",
+      "termsLabel": "利用規約",
+      "privacyLabel": "プライバシーポリシー",
+      "legalLoginPrefix": "サインインすることで、以下に同意したものとみなされます：",
+      "legalSignupPrefix": "アカウントを作成することで、以下に同意したものとみなされます：",
+      "legalJoin": "および"
+    },
+    "login": {
+      "srTitle": "Copperline Golf にサインイン",
+      "title": "おかえりなさい",
+      "description": "Copperline Golf アカウントにサインイン",
+      "emailLabel": "メール",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "パスワード",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "パスワードをお忘れですか？",
+      "submit": "サインイン",
+      "footerPrompt": "アカウントをお持ちでない方は",
+      "footerLink": "登録",
+      "validation": {
+        "emailInvalid": "有効なメールアドレスを入力してください",
+        "passwordTooShort": "パスワードは6文字以上で入力してください"
+      }
+    },
+    "signup": {
+      "srTitle": "Copperline Golf アカウントを作成",
+      "title": "アカウントを作成",
+      "description": "14日間の Pro 無料トライアルを今日から開始",
+      "trialBannerTitle": "14日間の無料トライアル利用可能",
+      "trialBannerBody": "アカウントを作成して、無料の Pro トライアルを始めましょう。",
+      "nameLabel": "フルネーム",
+      "namePlaceholder": "山田 太郎",
+      "emailLabel": "メール",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "パスワード",
+      "passwordPlaceholder": "••••••••",
+      "passwordHelper": "6文字以上",
+      "confirmPasswordLabel": "パスワードの確認",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "アカウントを作成",
+      "footerPrompt": "すでにアカウントをお持ちですか？",
+      "footerLink": "サインイン",
+      "validation": {
+        "nameTooShort": "名前は2文字以上で入力してください",
+        "emailInvalid": "有効なメールアドレスを入力してください",
+        "passwordTooShort": "パスワードは8文字以上で入力してください",
+        "passwordComplexity": "パスワードには大文字、小文字、数字を含めてください",
+        "passwordsMismatch": "パスワードが一致しません"
+      },
+      "success": {
+        "title": "アカウント作成完了！",
+        "bodyPromo": "アカウントの準備ができました。決済情報を設定して無料1年間を有効化してください。",
+        "bodyDefault": "アカウントの準備ができました。サブスクリプションの設定に進みます。",
+        "buttonPromo": "無料1年間を有効化",
+        "buttonDefault": "続行",
+        "buttonSettingUp": "設定中..."
+      }
     }
   }
 }

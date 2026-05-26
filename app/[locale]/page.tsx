@@ -6,6 +6,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
 import { FeatureCard, FeatureGrid } from '@/components/redesign/FeatureCard';
@@ -33,26 +34,24 @@ import {
 
 export default function LandingPage() {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const t = useTranslations('marketing.home');
 
   // Features per Design System - 3 core features
   const features = [
     {
       icon: Target,
-      title: 'Smart Club Selection',
-      description:
-        'AI-powered recommendations based on your unique swing profile and real-time conditions. Get the right club for every shot.',
+      title: t('features.smartClubTitle'),
+      description: t('features.smartClubDesc'),
     },
     {
       icon: Brain,
-      title: 'Personal Profile',
-      description:
-        'Track your clubs and distances with personalized insights for every club in your bag. Your game, optimized.',
+      title: t('features.profileTitle'),
+      description: t('features.profileDesc'),
     },
     {
       icon: Cloud,
-      title: 'Real-time Conditions',
-      description:
-        'Live weather, wind, and elevation data for every shot. Make informed decisions based on actual conditions.',
+      title: t('features.conditionsTitle'),
+      description: t('features.conditionsDesc'),
     },
   ];
 
@@ -76,9 +75,9 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="font-sans text-4xl lg:text-5xl font-semibold text-neutral-900 mb-4"
             >
-              What Makes Copperline Golf
+              {t('features.sectionTitleLine1')}
               <br />
-              Your Perfect Partner
+              {t('features.sectionTitleLine2')}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -87,7 +86,7 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="font-sans text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto"
             >
-              Three core features that work together to transform your game
+              {t('features.sectionSubtitle')}
             </motion.p>
           </div>
 
@@ -113,10 +112,10 @@ export default function LandingPage() {
                 <Sparkles className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-                Try AI Powered Club Selection
+                {t('aiCta.heading')}
               </h2>
               <p className="text-lg lg:text-xl text-white/90 mb-8">
-                Experience our intelligent voice assistant that helps you choose the perfect club for any shot. Select your skill level and describe your shot to get instant, personalized recommendations.
+                {t('aiCta.body')}
               </p>
               <Button
                 size="lg"
@@ -124,7 +123,7 @@ export default function LandingPage() {
                 className="bg-white text-primary hover:bg-white/90 font-semibold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
-                Launch AI Assistant
+                {t('aiCta.button')}
               </Button>
             </div>
           </motion.div>
@@ -141,7 +140,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-3xl lg:text-5xl font-bold text-text-primary mb-4"
             >
-              Trusted by Golfers <span className="text-primary">Worldwide</span>
+              {t('stats.titleStart')} <span className="text-primary">{t('stats.titleHighlight')}</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -150,7 +149,7 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto"
             >
-              Join thousands of players who have improved their game with Copperline Golf
+              {t('stats.subtitle')}
             </motion.p>
           </div>
 
@@ -168,7 +167,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-3xl lg:text-5xl font-bold text-text-primary mb-4"
             >
-              Get Started in <span className="text-primary">3 Easy Steps</span>
+              {t('howItWorks.titleStart')} <span className="text-primary">{t('howItWorks.titleHighlight')}</span>
             </motion.h2>
           </div>
 
@@ -177,23 +176,20 @@ export default function LandingPage() {
               {
                 step: '1',
                 icon: UserPlus,
-                title: 'Create Your Profile',
-                description:
-                  'Answer a few quick questions about your game and add your club distances.',
+                title: t('howItWorks.step1Title'),
+                description: t('howItWorks.step1Desc'),
               },
               {
                 step: '2',
                 icon: Map,
-                title: 'Hit the Course',
-                description:
-                  'Open Copperline Golf on your phone and let it track conditions automatically.',
+                title: t('howItWorks.step2Title'),
+                description: t('howItWorks.step2Desc'),
               },
               {
                 step: '3',
                 icon: Target,
-                title: 'Play Smarter',
-                description:
-                  'Receive instant, personalized club recommendations for every shot.',
+                title: t('howItWorks.step3Title'),
+                description: t('howItWorks.step3Desc'),
               },
             ].map((item, index) => (
               <motion.div
@@ -227,7 +223,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-3xl lg:text-5xl font-bold text-text-primary mb-4"
             >
-              What Golfers Are <span className="text-primary">Saying</span>
+              {t('testimonials.titleStart')} <span className="text-primary">{t('testimonials.titleHighlight')}</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -236,7 +232,7 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto"
             >
-              Real feedback from golfers who have transformed their game
+              {t('testimonials.subtitle')}
             </motion.p>
           </div>
 

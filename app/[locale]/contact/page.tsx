@@ -1,14 +1,16 @@
 /**
  * Contact Page
- * Contact form, information, and social links
+ * Contact form, information, and social links — localized.
  */
 
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import {
   Mail,
   Phone,
@@ -40,6 +42,8 @@ interface FormErrors {
 }
 
 export default function ContactPage() {
+  const t = useTranslations('marketing.contact');
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -51,56 +55,48 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Form validation
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Name validation
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('form.errors.nameRequired');
     } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+      newErrors.name = t('form.errors.nameTooShort');
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('form.errors.emailRequired');
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('form.errors.emailInvalid');
     }
 
-    // Subject validation
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = t('form.errors.subjectRequired');
     } else if (formData.subject.trim().length < 3) {
-      newErrors.subject = 'Subject must be at least 3 characters';
+      newErrors.subject = t('form.errors.subjectTooShort');
     }
 
-    // Message validation
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = t('form.errors.messageRequired');
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+      newErrors.message = t('form.errors.messageTooShort');
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for this field when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -112,7 +108,6 @@ export default function ContactPage() {
     setSubmitStatus('idle');
 
     try {
-      // Submit to Firestore
       await firebaseService.submitContactForm({
         name: formData.name,
         email: formData.email,
@@ -120,15 +115,12 @@ export default function ContactPage() {
         message: formData.message,
       });
 
-      // Submit to Google Sheets
       const googleSheetsUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL;
       if (googleSheetsUrl) {
         try {
           await fetch(googleSheetsUrl, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               name: formData.name,
               email: formData.email,
@@ -138,16 +130,12 @@ export default function ContactPage() {
             }),
           });
         } catch (sheetsError) {
-          // Log error but don't fail the submission
           console.error('Error submitting to Google Sheets:', sheetsError);
         }
       }
 
-      // Success
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-
-      // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
       console.error('Error submitting contact form:', error);
@@ -161,58 +149,38 @@ export default function ContactPage() {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: t('info.emailTitle'),
       content: 'support@copperlinegolf.com',
       link: 'mailto:support@copperlinegolf.com',
     },
     {
       icon: Phone,
-      title: 'Phone',
+      title: t('info.phoneTitle'),
       content: '480-999-3345',
       link: 'tel:+14809993345',
     },
     {
       icon: MapPin,
-      title: 'Office',
-      content: 'Scottsdale, AZ 85260',
+      title: t('info.officeTitle'),
+      content: t('info.office'),
       link: null,
     },
   ];
 
   const socialLinks = [
-    {
-      icon: Facebook,
-      href: 'https://facebook.com/copperlinegolf',
-      label: 'Facebook',
-    },
-    {
-      icon: Twitter,
-      href: 'https://twitter.com/copperlinegolf',
-      label: 'Twitter',
-    },
-    {
-      icon: Instagram,
-      href: 'https://instagram.com/copperlinegolf',
-      label: 'Instagram',
-    },
-    {
-      icon: Linkedin,
-      href: 'https://linkedin.com/company/copperlinegolf',
-      label: 'LinkedIn',
-    },
+    { icon: Facebook, href: 'https://facebook.com/copperlinegolf', label: 'Facebook' },
+    { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
+    { icon: Instagram, href: 'https://instagram.com/copperlinegolf', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://linkedin.com/company/copperlinegolf', label: 'LinkedIn' },
   ];
 
-  // Set page title and meta tags
   useEffect(() => {
-    document.title = 'Contact Us | Copperline Golf - Get in Touch';
+    document.title = t('meta.title');
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        'Contact Copperline Golf support team. Get help with your golf caddy app, send feedback, or inquire about our AI-powered golf recommendations.'
-      );
+      metaDescription.setAttribute('content', t('meta.description'));
     }
-  }, []);
+  }, [t]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -241,18 +209,15 @@ export default function ContactPage() {
               variants={staggerItem}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
-              Get in{' '}
-              <span className="text-primary">
-                Touch
-              </span>
+              {t('hero.titleStart')}{' '}
+              <span className="text-primary">{t('hero.titleHighlight')}</span>
             </motion.h1>
 
             <motion.p
               variants={staggerItem}
               className="text-xl text-text-secondary max-w-3xl mx-auto"
             >
-              Have a question or feedback? We'd love to hear from you. Our team is
-              here to help you get the most out of Copperline Golf.
+              {t('hero.subtitle')}
             </motion.p>
           </motion.div>
         </div>
@@ -307,11 +272,9 @@ export default function ContactPage() {
             >
               <div className="bg-secondary-800/50 backdrop-blur-sm border border-secondary-700 rounded-2xl p-6 sm:p-8">
                 <h2 className="text-2xl lg:text-3xl font-bold text-text-primary mb-2">
-                  Send Us a Message
+                  {t('form.heading')}
                 </h2>
-                <p className="text-text-secondary mb-6">
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </p>
+                <p className="text-text-secondary mb-6">{t('form.subheading')}</p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name Field */}
@@ -320,7 +283,7 @@ export default function ContactPage() {
                       htmlFor="name"
                       className="block text-sm font-medium text-text-primary mb-2"
                     >
-                      Name *
+                      {t('form.nameLabel')} *
                     </label>
                     <input
                       type="text"
@@ -329,11 +292,9 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 bg-background-muted border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                        errors.name
-                          ? 'border-error focus:ring-error'
-                          : 'border-secondary-700'
+                        errors.name ? 'border-error focus:ring-error' : 'border-secondary-700'
                       }`}
-                      placeholder="Your name"
+                      placeholder={t('form.namePlaceholder')}
                     />
                     {errors.name && (
                       <p className="mt-1 text-sm text-error flex items-center gap-1">
@@ -349,7 +310,7 @@ export default function ContactPage() {
                       htmlFor="email"
                       className="block text-sm font-medium text-text-primary mb-2"
                     >
-                      Email *
+                      {t('form.emailLabel')} *
                     </label>
                     <input
                       type="email"
@@ -358,11 +319,9 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 bg-background-muted border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                        errors.email
-                          ? 'border-error focus:ring-error'
-                          : 'border-secondary-700'
+                        errors.email ? 'border-error focus:ring-error' : 'border-secondary-700'
                       }`}
-                      placeholder="your.email@example.com"
+                      placeholder={t('form.emailPlaceholder')}
                     />
                     {errors.email && (
                       <p className="mt-1 text-sm text-error flex items-center gap-1">
@@ -378,7 +337,7 @@ export default function ContactPage() {
                       htmlFor="subject"
                       className="block text-sm font-medium text-text-primary mb-2"
                     >
-                      Subject *
+                      {t('form.subjectLabel')} *
                     </label>
                     <input
                       type="text"
@@ -387,11 +346,9 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 bg-background-muted border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                        errors.subject
-                          ? 'border-error focus:ring-error'
-                          : 'border-secondary-700'
+                        errors.subject ? 'border-error focus:ring-error' : 'border-secondary-700'
                       }`}
-                      placeholder="How can we help?"
+                      placeholder={t('form.subjectPlaceholder')}
                     />
                     {errors.subject && (
                       <p className="mt-1 text-sm text-error flex items-center gap-1">
@@ -407,7 +364,7 @@ export default function ContactPage() {
                       htmlFor="message"
                       className="block text-sm font-medium text-text-primary mb-2"
                     >
-                      Message *
+                      {t('form.messageLabel')} *
                     </label>
                     <textarea
                       id="message"
@@ -416,11 +373,9 @@ export default function ContactPage() {
                       onChange={handleChange}
                       rows={6}
                       className={`w-full px-4 py-3 bg-background-muted border rounded-xl text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none ${
-                        errors.message
-                          ? 'border-error focus:ring-error'
-                          : 'border-secondary-700'
+                        errors.message ? 'border-error focus:ring-error' : 'border-secondary-700'
                       }`}
-                      placeholder="Tell us more about your inquiry..."
+                      placeholder={t('form.messagePlaceholder')}
                     />
                     {errors.message && (
                       <p className="mt-1 text-sm text-error flex items-center gap-1">
@@ -439,12 +394,12 @@ export default function ContactPage() {
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Sending...
+                        {t('form.submitting')}
                       </>
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Send Message
+                        {t('form.submit')}
                       </>
                     )}
                   </button>
@@ -457,9 +412,7 @@ export default function ContactPage() {
                       className="flex items-center gap-2 p-4 bg-success/20 border border-success rounded-xl text-success"
                     >
                       <CheckCircle className="w-5 h-5 flex-shrink-0" />
-                      <span>
-                        Message sent successfully! We'll get back to you soon.
-                      </span>
+                      <span>{t('form.successMessage')}</span>
                     </motion.div>
                   )}
 
@@ -470,9 +423,7 @@ export default function ContactPage() {
                       className="flex items-center gap-2 p-4 bg-error/20 border border-error rounded-xl text-error"
                     >
                       <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                      <span>
-                        Failed to send message. Please try again or email us directly.
-                      </span>
+                      <span>{t('form.errorMessage')}</span>
                     </motion.div>
                   )}
                 </form>
@@ -490,41 +441,37 @@ export default function ContactPage() {
               {/* Office Hours */}
               <div className="bg-secondary-800/50 backdrop-blur-sm border border-secondary-700 rounded-2xl p-6 sm:p-8">
                 <h3 className="text-xl font-bold text-text-primary mb-4">
-                  Office Hours
+                  {t('hours.heading')}
                 </h3>
                 <div className="space-y-3 text-text-secondary">
                   <div className="flex justify-between">
-                    <span>Monday - Friday</span>
+                    <span>{t('hours.weekdaysLabel')}</span>
                     <span className="font-medium text-text-primary">
-                      9:00 AM - 6:00 PM PST
+                      {t('hours.weekdays')}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Saturday</span>
+                    <span>{t('hours.saturdayLabel')}</span>
                     <span className="font-medium text-text-primary">
-                      10:00 AM - 4:00 PM PST
+                      {t('hours.saturday')}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="font-medium text-text-primary">Closed</span>
+                    <span>{t('hours.sundayLabel')}</span>
+                    <span className="font-medium text-text-primary">
+                      {t('hours.sunday')}
+                    </span>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-text-muted">
-                  We typically respond to all inquiries within 24 hours during
-                  business days.
-                </p>
+                <p className="mt-4 text-sm text-text-muted">{t('hours.responseNote')}</p>
               </div>
 
               {/* Social Media */}
               <div className="bg-secondary-800/50 backdrop-blur-sm border border-secondary-700 rounded-2xl p-6 sm:p-8">
                 <h3 className="text-xl font-bold text-text-primary mb-4">
-                  Connect With Us
+                  {t('social.heading')}
                 </h3>
-                <p className="text-text-secondary mb-6">
-                  Follow us on social media for the latest updates, tips, and golf
-                  insights.
-                </p>
+                <p className="text-text-secondary mb-6">{t('social.body')}</p>
                 <div className="flex gap-3">
                   {socialLinks.map((social) => {
                     const Icon = social.icon;
@@ -547,18 +494,16 @@ export default function ContactPage() {
               {/* FAQ Link */}
               <div className="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-2xl p-6 sm:p-8">
                 <h3 className="text-xl font-bold text-text-primary mb-2">
-                  Need Quick Answers?
+                  {t('faq.heading')}
                 </h3>
-                <p className="text-text-secondary mb-4">
-                  Check out our Help Center for instant answers to common questions.
-                </p>
-                <a
+                <p className="text-text-secondary mb-4">{t('faq.body')}</p>
+                <Link
                   href="/help"
                   className="inline-flex items-center gap-2 text-primary hover:text-primary-400 font-semibold transition-colors"
                 >
-                  Visit Help Center
+                  {t('faq.cta')}
                   <span className="text-xl">→</span>
-                </a>
+                </Link>
               </div>
             </motion.div>
           </div>

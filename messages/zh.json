@@ -1,0 +1,1916 @@
+{
+  "common": {
+    "ok": "确定",
+    "cancel": "取消",
+    "save": "保存",
+    "send": "发送",
+    "retry": "重试",
+    "skip": "跳过",
+    "tryAgain": "重试",
+    "error": "错误",
+    "numericStepper": {
+      "enterField": "输入{{label}}"
+    },
+    "back": "返回"
+  },
+  "profile": {
+    "loading": "正在加载您的档案...",
+    "loadDefaultsTitle": "使用默认设置继续",
+    "loadDefaultsMessage": "正在使用默认档案设置，您可以现在更新。",
+    "continueDefaults": "使用默认设置继续",
+    "header": {
+      "title": "编辑球员档案",
+      "subtitle": "更新您的高尔夫档案设置",
+      "syncedBadge": "☁️ 已同步至云端"
+    },
+    "ageGroup": "年龄组",
+    "handicapHelp": "+12（加差点）至 54",
+    "yardsOfCurveHelp": "您的5号铁杆通常弯曲多少码？\n左曲球用负数（-5），右曲球用正数（+5），直线为0",
+    "yearsPlayingShort": "打球年限",
+    "yearsUnit": "年",
+    "playFrequency": "打球频率",
+    "freq": {
+      "rarely": "很少",
+      "rarelyDesc": "每年少于5轮",
+      "occasionally": "偶尔",
+      "occasionallyDesc": "每年5-15轮",
+      "regularly": "定期",
+      "regularlyDesc": "每年15-30轮",
+      "frequently": "频繁",
+      "frequentlyDesc": "每年30-50轮",
+      "veryFrequently": "非常频繁",
+      "veryFrequentlyDesc": "每年50轮以上"
+    },
+    "aiCaddySettings": "AI 球童设置",
+    "skillLevelHelp": "选择您的技术水平，以控制AI提问的数量",
+    "skill": {
+      "beginner": "初学者",
+      "intermediate": "中级",
+      "advanced": "高级",
+      "pro": "职业",
+      "tourPro": "巡回赛职业球员"
+    },
+    "verbosityMode": "详细程度",
+    "displayPreferences": "显示偏好",
+    "targetOverlayMode": "目标叠加模式",
+    "target": "目标",
+    "ellipse": "椭圆",
+    "cancel": "取消",
+    "saveProfile": "保存档案",
+    "successTitle": "成功",
+    "successMessage": "档案更新成功！",
+    "saveErrorTitle": "保存错误",
+    "ppm": {
+      "title": "球员表现设置",
+      "subtitle": "个性化高尔夫智能系统",
+      "progressComplete": "已完成 {{percent}}%",
+      "sectionProfile": "档案",
+      "sectionSkills": "技能",
+      "sectionPreferences": "偏好",
+      "sectionAccessibility": "辅助功能",
+      "sectionGrade": "评级",
+      "profileDesc": "告诉我们一些关于您的信息，以个性化您的高尔夫体验",
+      "skillsDesc": "帮助我们了解您当前的高尔夫技术水平",
+      "preferencesDesc": "自定义应用的使用方式",
+      "accessibilityDesc": "配置辅助功能以获得最佳体验",
+      "gradeDesc": "您的档案完成度评级及建议",
+      "incompleteTitle": "设置未完成",
+      "incompleteMessage": "请在完成设置前填写所有必填项。",
+      "completeTitle": "设置完成！🎉",
+      "completeMessage": "您的球员表现管理档案已创建。AI系统现已根据您的技术水平和偏好完成校准。",
+      "startPlaying": "开始打球",
+      "completeSetup": "✅ 完成设置",
+      "nextSection": "➡️ 下一步：{{section}}",
+      "completeSetupA11y": "完成设置",
+      "continueA11y": "继续下一部分",
+      "sectionA11y": "{{section}} 部分"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "是",
+      "no": "否",
+      "na": "不适用",
+      "strokes": "杆数",
+      "totalStrokes": "总杆数",
+      "putts": "推杆数",
+      "totalPutts": "总推杆数",
+      "fairwayHit": "球道命中",
+      "fairways": "球道",
+      "fairwaysHit": "球道命中数",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "标准杆上果岭",
+      "greensInRegulation": "标准杆上果岭数",
+      "penalties": "罚杆",
+      "diff": "差值",
+      "differential": "差点差值",
+      "gross": "总分",
+      "grossScore": "实际总分",
+      "adjusted": "调整后",
+      "totalScore": "总成绩",
+      "toPar": "对标准杆",
+      "total": "合计",
+      "totalUpper": "合计",
+      "out": "前九",
+      "in": "后九",
+      "front9": "前九洞",
+      "back9": "后九洞",
+      "hole": "洞",
+      "holeWithNumber": "第 {{n}} 洞",
+      "saveScore": "保存成绩",
+      "rounds": "轮次",
+      "avgDiff": "平均差值",
+      "bestDiff": "最佳差值",
+      "ghin": "GHIN",
+      "par": "标准杆",
+      "handicap": "差点",
+      "distance": "距离"
+    },
+    "entry": {
+      "invalidInputTitle": "输入无效",
+      "invalidStrokesMessage": "请输入有效的杆数（1杆或以上）",
+      "invalidPuttsMessage": "请输入有效的推杆数（0杆或以上）",
+      "invalidPenaltiesMessage": "请输入有效的罚杆数（0杆或以上）",
+      "puttsExceedStrokesMessage": "推杆数不能超过总杆数",
+      "scoreSavedTitle": "成绩已保存",
+      "movedToHole": "已移至第 {{hole}} 洞",
+      "roundCompleteSimple": "本轮结束！",
+      "viewSummary": "查看汇总",
+      "noActiveRound": "没有进行中的轮次",
+      "notesLabel": "备注（可选）",
+      "notesPlaceholder": "添加本洞备注..."
+    },
+    "holeScore": {
+      "title": "第 {{n}} 洞成绩",
+      "roundCompleteTitle": "本轮结束",
+      "roundCompleteMessage": "第 {{hole}} 洞：{{strokes}} 杆，{{putts}} 推杆\n\n您已完成本轮！",
+      "viewScorecard": "查看记分卡"
+    },
+    "navigation": {
+      "loadFailed": "加载球场数据失败",
+      "noHoleData": "暂无球洞数据",
+      "hazardsOnHole": "本洞障碍区：",
+      "holeLayout": "球洞布局",
+      "quickActions": "快捷操作",
+      "profile": "档案",
+      "clubs": "球杆"
+    },
+    "complete": {
+      "loadFailed": "加载轮次数据失败。",
+      "savedTitle": "已保存",
+      "savedMessage": "您的更改已保存。",
+      "saveChangesFailed": "保存更改失败，请重试。",
+      "loginRequired": "您必须登录才能保存成绩。",
+      "scoreSavedTitle": "成绩已保存",
+      "scoreSavedMessage": "您的本轮成绩已成功保存。",
+      "saveScoreFailed": "保存成绩失败，请重试。",
+      "loading": "正在加载轮次数据...",
+      "title": "本轮结束",
+      "unsavedChanges": "未保存的更改",
+      "unsavedChangesMessage": "您有未保存的更改，是否要保存？",
+      "discard": "放弃",
+      "save": "保存",
+      "unsavedScoreTitle": "未保存的成绩",
+      "unsavedScoreMessage": "您的成绩尚未保存，确定要退出吗？",
+      "exitWithoutSaving": "不保存退出",
+      "scorecard": "记分卡",
+      "tapToEdit": "点击球洞进行编辑",
+      "statistics": "统计数据",
+      "ghinPosting": "提交至GHIN",
+      "postedToGHIN": "已提交至GHIN",
+      "saveChanges": "保存更改",
+      "saveRound": "保存本轮",
+      "savedButton": "已保存",
+      "postOnGHIN": "提交至GHIN",
+      "finish": "完成"
+    },
+    "summary": {
+      "endRoundTitle": "结束本轮",
+      "endRoundMessage": "确定要结束本轮吗？本轮成绩将保存至您的历史记录。",
+      "holeByHole": "逐洞详情",
+      "roundStatistics": "本轮统计",
+      "continueRound": "继续本轮",
+      "endRound": "结束本轮"
+    },
+    "history": {
+      "noScoresTitle": "暂无成绩",
+      "findCourse": "查找球场",
+      "loading": "正在加载成绩...",
+      "back": "返回",
+      "title": "成绩历史",
+      "tabHistory": "历史",
+      "tabAnalytics": "分析",
+      "filterAll": "所有轮次",
+      "filterRecent": "最近",
+      "filterBest": "最佳"
+    },
+    "detail": {
+      "shareScorecard": "分享记分卡"
+    },
+    "terms": {
+      "albatross": "信天翁",
+      "eagle": "老鹰",
+      "birdie": "小鸟",
+      "par": "标准杆",
+      "bogey": "柏忌",
+      "double": "双柏忌",
+      "triple": "三柏忌"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "成绩",
+      "tapForScorecard": "点击查看记分卡",
+      "round": "轮次",
+      "nextHole": "下一洞",
+      "endRound": "结束本轮",
+      "fix": "修正",
+      "viewFullScorecard": "查看完整记分卡"
+    },
+    "shotVars": {
+      "adjust": "调整",
+      "pinPosition": "旗位",
+      "back": "后",
+      "front": "前",
+      "left": "左",
+      "right": "右",
+      "lie": "球位",
+      "stance": "站姿",
+      "slope": "坡度",
+      "distance": "距离",
+      "wind": "风向",
+      "yds": "码"
+    },
+    "endRoundModal": {
+      "title": "结束本轮？",
+      "holesPlayed": "已打球洞",
+      "strokes": "杆数",
+      "toPar": "对标准杆",
+      "incompleteWarning": "{{count}} 个球洞没有成绩。",
+      "incompleteWarning_other": "{{count}} 个球洞没有成绩。",
+      "incompleteSubtext": "未完成的球洞不计入GHIN提交。",
+      "ghin18": "本轮符合GHIN提交资格。",
+      "ghin9": "本轮符合9洞GHIN提交资格。",
+      "ghinNeedMore": "还需再打 {{count}} 洞才符合GHIN资格。",
+      "continuePlaying": "继续打球",
+      "endRound": "结束本轮"
+    },
+    "loadingCourseData": "正在加载球场数据...",
+    "mapDisabledTournament": "比赛模式下地图已禁用",
+    "yards": "米",
+    "tournament": "比赛",
+    "mph": "公里/时",
+    "holeLabel": "洞",
+    "par": "标准杆",
+    "holeWithNumber": "第 {{n}} 洞",
+    "parWithNumber": "标准杆 {{n}}",
+    "uphill": "上坡",
+    "downhill": "下坡",
+    "fromTee": "从发球台",
+    "fromPosition": "从当前位置",
+    "feet": "米",
+    "conditionsModal": {
+      "title": "球场状况",
+      "subtitle": "今天的球场状况如何？",
+      "setConditions": "设置球场状况",
+      "skip": "暂时跳过"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "优化器不可用",
+      "optimizerUnavailableMessage": "缺少必要数据",
+      "optimizerErrorTitle": "优化器错误",
+      "optimizerErrorMessage": "计算建议失败"
+    },
+    "overlay": {
+      "analyzing": "正在分析球洞...",
+      "suggestedClub": "建议球杆",
+      "shotShape": "击球形状",
+      "landingZoneSafety": "落点安全性",
+      "successRate": "成功率",
+      "aimPoint": "瞄准点",
+      "courseConditions": "球场状况",
+      "groundFirmness": "地面硬度",
+      "roughHeight": "长草高度",
+      "greenSpeed": "果岭速度",
+      "windSpeed": "风速",
+      "windDirection": "风向",
+      "shotDetails": "击球详情"
+    },
+    "quickShot": {
+      "title": "快速击球",
+      "subtitle": "快速 AI 推荐",
+      "voiceCardTitle": "语音命令",
+      "listeningHint": "聆听中… 描述你的击球",
+      "idleHint": "按住说话或在下方手动输入",
+      "holdToSpeak": "按住说话",
+      "listening": "聆听中…",
+      "youSaid": "你说:",
+      "manualInput": "手动输入",
+      "distanceToTarget": "到目标的距离",
+      "getRecommendation": "⚡ 获取推荐",
+      "readyTitle": "准备分析你的击球",
+      "readyText": "使用语音命令或手动输入获取个性化球杆推荐"
+    },
+    "shotVarsScreen": {
+      "title": "击球变量",
+      "subtitle": "推荐所用的所有输入数据",
+      "dataSources": "数据来源",
+      "howVarsAffect": "这些变量如何影响你的击球",
+      "recommendedClub": "推荐球杆",
+      "getRecPrompt": "获取球杆推荐以了解每个变量如何影响选择。",
+      "categories": {
+        "location": "位置和距离",
+        "weather": "天气条件",
+        "elevation": "高度数据",
+        "conditions": "球场条件",
+        "player": "玩家档案",
+        "shot": "击球详情",
+        "conversational": "AI 变量"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "手动",
+        "ai": "AI",
+        "course": "球场",
+        "profile": "档案",
+        "calculated": "已计算"
+      },
+      "timestamp": {
+        "never": "从未",
+        "justNow": "刚刚",
+        "oneMinAgo": "1 分钟前",
+        "minsAgo": "{{count}} 分钟前",
+        "oneHourAgo": "1 小时前",
+        "hoursAgo": "{{count}} 小时前",
+        "updated": "{{when}} 更新"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "正在准备您的轮次...",
+      "failedTitle": "加载失败",
+      "failedMessage": "无法加载球场数据，请检查您的网络连接。",
+      "retry": "重试",
+      "cancel": "取消"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "错误",
+      "loadFailedMessage": "无法加载球场详情，请重试。",
+      "goBack": "返回",
+      "retry": "重试",
+      "tryAgain": "再试一次",
+      "loading": "正在加载 {{courseName}}...",
+      "loadingFallback": "正在加载球场详情...",
+      "openMapsError": "无法打开地图",
+      "phoneError": "无法拨打电话",
+      "selectTeeFirst": "请先选择发球台",
+      "notFound": "未找到球场",
+      "infoHoles": "球洞数",
+      "infoPar": "标准杆",
+      "infoYardage": "码数",
+      "selectTeeBox": "选择发球台",
+      "directions": "导航",
+      "call": "致电",
+      "hazards": "障碍区",
+      "about": "简介",
+      "continue": "继续",
+      "googleOnlyTitle": "该球场不在我们的记分数据库中",
+      "googleOnlyBody": "我们可以显示该球场的位置，但轮次、计分及发球台数据暂不可用。",
+      "startUnavailable": "暂无法开始轮次",
+      "selectTeeA11y": "选择 {{teeName}} 发球台",
+      "teeStats": "{{yardage}} 码 • 标准杆 {{par}}",
+      "teeRating": "评级：{{rating}} • 坡度：{{slope}}"
+    },
+    "setup": {
+      "loadingTees": "正在加载发球台信息...",
+      "loadFailedTitle": "球场加载错误",
+      "loadFailedMessage": "无法加载发球台和记分卡信息，请重试。",
+      "selectTeeTitle": "选择发球台",
+      "selectTeeMessage": "请在开始前选择一个发球台。",
+      "cancel": "取消",
+      "subtitle": "轮次设置",
+      "ratingType": "评级类型",
+      "mens": "男子",
+      "womens": "女子",
+      "roundType": "轮次类型",
+      "type18": "18洞",
+      "type18Description": "完整轮次",
+      "typeFront9": "前九洞",
+      "typeFront9Description": "第1-9洞",
+      "typeBack9": "后九洞",
+      "typeBack9Description": "第10-18洞",
+      "courseHandicap": "您的球场差点",
+      "startRound": "开始轮次"
+    },
+    "startingHole": {
+      "selectStartingHole": "选择起始洞",
+      "holesLabel": "{{count}} 洞",
+      "doubleLabel": "2x{{n}}（共 {{total}} 洞）",
+      "front9": "前九洞",
+      "full18": "完整18洞",
+      "back9": "后九洞",
+      "swingThoughtTitle": "挥杆思路（可选）",
+      "swingThoughtDescription": "您的AI球童会在每次击球前提醒您",
+      "swingThoughtPlaceholder": "例如：慢速后摆，节奏流畅...",
+      "selectedHoleTitle": "已选球洞",
+      "selectedHoleNumber": "第 {{hole}} 洞",
+      "playingTwice": "{{n}} 洞打两遍（共 {{total}} 洞）",
+      "front9Description": "前九洞（第1-9洞）",
+      "back9Description": "后九洞（第10-{{end}}洞）",
+      "fullDescription": "完整 {{n}} 洞",
+      "starting": "正在开始轮次...",
+      "startPlayingHole": "从第 {{hole}} 洞开始 →",
+      "errorTitle": "错误",
+      "errorMessage": "开始轮次失败，请重试。"
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "主要建议",
+    "secondaryHeader": "次要建议",
+    "calculating": "计算中",
+    "addClubsPrompt": "添加球杆以开始",
+    "swingFace": "挥杆与杆面",
+    "aimPoint": "瞄准点",
+    "expectedCarry": "预计飞行距离",
+    "fullSquare": "全力 | 方正",
+    "aimStraight": "直线瞄准",
+    "unknown": "未知",
+    "youSaid": "您说：",
+    "currentRecommendation": "当前建议：",
+    "close": "关闭",
+    "manualVariables": "手动变量",
+    "done": "完成",
+    "hazardType": "障碍类型",
+    "location": "位置",
+    "riskLevel": "风险等级",
+    "cancel": "取消",
+    "body": {
+      "section": {
+        "shotVariables": "击球变量",
+        "shotEffects": "击球效果（优化前）",
+        "totalAdjustments": "总调整"
+      },
+      "pickers": {
+        "pinLocation": "旗位（深度）",
+        "pinSide": "旗位（方向）",
+        "lie": "球位",
+        "stance": "站姿",
+        "slopeAngle": "坡度角",
+        "distance": "至球洞距离",
+        "windSpeed": "风速",
+        "windDirection": "风向"
+      },
+      "pinLocations": {
+        "Front": "前段",
+        "Middle": "中段",
+        "Back": "后段"
+      },
+      "pinSides": {
+        "Left": "左侧",
+        "Center": "中间",
+        "Right": "右侧"
+      },
+      "lies": {
+        "Tee": "发球台",
+        "Fairway": "球道",
+        "Light_Rough": "轻草区",
+        "Heavy_Rough": "深草区",
+        "Sand": "沙地",
+        "Recovery": "救球区"
+      },
+      "stances": {
+        "Flat": "平地",
+        "Ball_Above_Feet": "球高于脚",
+        "Ball_Below_Feet": "球低于脚",
+        "Uphill": "上坡",
+        "Downhill": "下坡"
+      },
+      "categories": {
+        "course": "球场要素",
+        "hole": "球洞要素",
+        "player": "球员要素",
+        "environment": "环境要素",
+        "shot": "单次击球要素"
+      },
+      "columns": {
+        "carry": "飞行",
+        "roll": "滚动",
+        "aim": "瞄准"
+      },
+      "aimSummary": {
+        "straight": "直线",
+        "right": "右",
+        "left": "左"
+      },
+      "aimSuffix": {
+        "right": "右",
+        "left": "左"
+      },
+      "variables": {
+        "Altitude": "海拔高度",
+        "Firmness": "地面硬度",
+        "GreenSpeed": "果岭速度",
+        "ElevationChange": "高度变化",
+        "PinLocation": "旗位",
+        "PinSide": "旗位方向",
+        "WaterHazard": "水障碍",
+        "Bunkers": "沙坑",
+        "Handicap": "差点",
+        "NaturalShot": "自然球路",
+        "ShotHeight": "弹道高度",
+        "DominantHand": "惯用手",
+        "Wind": "风",
+        "Temperature": "温度",
+        "Humidity": "湿度",
+        "Weather": "天气",
+        "Distance": "距离",
+        "Confidence": "信心",
+        "Lie": "球位",
+        "RoughLength": "长草高度",
+        "Stance": "站姿"
+      },
+      "units": {
+        "yards": "码",
+        "mph": "英里/时",
+        "feet": "英尺",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "北",
+        "NE": "东北",
+        "E": "东",
+        "SE": "东南",
+        "S": "南",
+        "SW": "西南",
+        "W": "西",
+        "NW": "西北"
+      },
+      "empty": "无活跃调整 - 使用标准计算",
+      "activeAdjustments_one": "{{count}} 项活跃调整",
+      "activeAdjustments_other": "{{count}} 项活跃调整",
+      "recalculate": "重新计算",
+      "recCard": {
+        "primary": "主要推荐",
+        "secondary": "次要推荐",
+        "calculating": "计算中...",
+        "setDistance": "设置距离以计算",
+        "unknown": "未知",
+        "swing": "挥杆: {{value}}",
+        "aim": "瞄准: {{value}}",
+        "expectedCarry": "预期飞行距离: {{yards}}码",
+        "defaultSwing": "全力 | 方正",
+        "aimStraight": "直线瞄准"
+      },
+      "values": {
+        "aimRight": "向右瞄准 {{yards}}y",
+        "aimLeft": "向左瞄准 {{yards}}y",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "上坡 {{value}} ft",
+        "downhillFt": "下坡 {{value}} ft",
+        "distanceYards": "{{value}} 码",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "等级 {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y 用 {{club}})",
+        "shotHeightTrajectory": "{{height}} 弹道",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "记录击球",
+      "clubUsed": "使用球杆：",
+      "targetDistance": "目标距离：",
+      "howWasShot": "击球效果如何？",
+      "whereLanded": "落点在哪里？"
+    }
+  },
+  "clubs": {
+    "loading": "正在加载球杆...",
+    "clubDistances": "球杆距离",
+    "specialtyShots": "特殊击球",
+    "fullSwingShots": "全挥杆击球",
+    "shortGameShots": "短杆击球",
+    "reset": "重置",
+    "addClub": "+ 添加球杆",
+    "addShot": "+ 添加击球",
+    "addCustomClub": "添加自定义球杆",
+    "addCustomShot": "添加自定义击球",
+    "editShot": "编辑击球",
+    "save": "保存",
+    "cancel": "取消",
+    "club": "球杆",
+    "clubName": "球杆名称",
+    "clubNamePlaceholder": "球杆名称",
+    "clubUsed": "使用的球杆",
+    "takeback": {
+      "Full": "全挥",
+      "Three-Quarter": "四分之三",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "Punch",
+      "ThreeQuarter": "3/4",
+      "Chip": "切杆",
+      "Flop": "高吊",
+      "Pitch": "近距挑高"
+    },
+    "face": {
+      "Square": "方正",
+      "Draw": "右曲",
+      "Fade": "左曲",
+      "Hood": "关闭",
+      "Open": "打开",
+      "Flat": "平坦"
+    },
+    "shotType": "击球类型",
+    "customShotName": "自定义击球名称",
+    "carryDistance": "飞行距离",
+    "rollDistance": "滚动距离",
+    "totalDistance": "总距离：",
+    "calculatedRest": "保存时我们将自动计算其余数据",
+    "carryHelp": "球落地前的飞行距离",
+    "rollHelp": "球落地后的滚动距离",
+    "totalHelp": "最终距离（飞行+滚动）",
+    "totalHelpStop": "球最终停止的位置",
+    "rollNegativeHelp": "倒旋用负数（球向后滚）",
+    "idealLies": "理想球位（可选）",
+    "idealLiesHelp": "选择此击球最适合的球位",
+    "notes": "备注（可选）",
+    "alerts": {
+      "loadFailed": "加载数据失败，请稍后重试。",
+      "addClubSuccess": "球杆添加成功",
+      "addClubFailed": "添加球杆失败",
+      "updateDistanceFailed": "更新距离失败",
+      "updateClubFailed": "更新球杆失败",
+      "deleteClubFailed": "删除球杆失败",
+      "syncCompleteTitle": "同步完成",
+      "syncCompleteMessage": "您的更改已保存至云端。",
+      "syncFailedTitle": "同步失败",
+      "syncFailedMessage": "无法同步更改，请检查您的网络连接后重试。",
+      "syncErrorTitle": "同步错误",
+      "syncErrorMessage": "同步时发生错误，请重试。",
+      "resetClubsSuccess": "球杆已重置为默认设置（已加载14支球杆）",
+      "resetClubsFailed": "重置球杆失败",
+      "addShotSuccess": "击球添加成功",
+      "addShotFailed": "添加击球失败",
+      "modifiedShotsFailed": "创建修改击球失败",
+      "resetShotsSuccess": "击球已重置为默认设置（已加载18种击球）",
+      "resetShotsFailed": "重置击球失败",
+      "toggleShotFailed": "切换击球状态失败",
+      "cannotDeleteTitle": "无法删除",
+      "cannotDeleteMessage": "默认击球无法删除，您可以将其停用。",
+      "deleteShotFailed": "删除击球失败",
+      "updateShotFailed": "更新击球失败",
+      "successTitle": "成功",
+      "errorTitle": "错误",
+      "invalidDistanceTitle": "距离无效",
+      "invalidDistanceMessage": "距离必须大于0",
+      "calculateDistancesFailed": "计算距离失败",
+      "selectClub": "请选择一支球杆",
+      "selectShotType": "请选择击球类型",
+      "enterCustomName": "请输入击球的自定义名称",
+      "enterCarry": "请输入有效的飞行距离",
+      "enterRoll": "请输入滚动距离（倒旋可为负数）",
+      "unusualDistanceTitle": "异常的距离值",
+      "unusualDistanceBody": "是否仍然添加此球杆？",
+      "addAnyway": "仍然添加"
+    },
+    "modifier": {
+      "headerTitle": "击球修饰器",
+      "selectTitle": "选择击球修饰器",
+      "selectSubtitle": "选择要应用到球杆的修饰器",
+      "howManyUnits": "多少{{unit}}?",
+      "effect": "效果: {{sign}}{{pct}}%",
+      "selectClubs": "选择球杆",
+      "selectAll": "全选",
+      "deselectAll": "全部取消",
+      "previewBtn": "预览 ({{count}} 根球杆)",
+      "previewTitle": "修饰击球预览",
+      "previewSubtitle": "将创建 {{count}} 次击球 ({{sign}}{{pct}}%)",
+      "totalLabel": "总计",
+      "createBtn": "创建 {{count}} 次击球",
+      "successTitle": "成功",
+      "successMessage": "已创建 {{count}} 次修饰击球！"
+    },
+    "stashed": "已收纳",
+    "carry": "飞行",
+    "roll": "滚动",
+    "yourBag": "你的球包 ({{count}} 根球杆)",
+    "tabClubs": "球杆 ({{count}})",
+    "tabShots": "击球 ({{count}})",
+    "edit": {
+      "title": "编辑：{{name}}",
+      "clubName": "球杆名称",
+      "clubNamePlaceholder": "球杆名称",
+      "face": "杆面",
+      "fillAny": "💡 填写 1、2 个或全部 3 个字段",
+      "calculateRest": "我们会在保存时计算其余部分",
+      "carryDistance": "飞行距离",
+      "rollDistance": "滚动距离",
+      "totalDistance": "总距离",
+      "yards": "码",
+      "carryHelp": "球在滚动前的落点",
+      "rollHelp": "落地后球滚动的距离",
+      "totalHelp": "球最终停止的位置",
+      "totalHelpAddClub": "最终距离 (飞行 + 滚动)"
+    },
+    "addClubForm": {
+      "title": "添加自定义球杆",
+      "club": "球杆",
+      "takeback": "上杆",
+      "submit": "添加球杆"
+    },
+    "addShotForm": {
+      "title": "添加自定义击球",
+      "clubUsed": "使用的球杆",
+      "shotType": "击球类型",
+      "customShotName": "自定义击球名称",
+      "customShotPlaceholder": "例如：我的特殊轻击",
+      "enterDistances": "📏 输入距离",
+      "rollNegativeHelp": "滚动可以为负值用于倒旋击球 (例如，吊高球为 -2)",
+      "carryPlaceholder": "例如: 50",
+      "rollPlaceholder": "例如: 5 或 -2",
+      "rollNegativeHint": "使用负值表示倒旋 (球向后滚)",
+      "totalDistanceLabel": "总距离:",
+      "fullSwing": "全挥",
+      "shortGame": "短杆",
+      "idealLies": "理想球位 (可选)",
+      "idealLiesHelp": "选择此击球最适合的场景",
+      "notes": "备注 (可选)",
+      "notesPlaceholder": "例如: 开放站姿，柔软双手",
+      "submit": "添加击球",
+      "errSelectClub": "请选择球杆",
+      "errSelectShotType": "请选择击球类型",
+      "errCustomName": "请输入击球的自定义名称",
+      "errCarry": "请输入有效的飞行距离",
+      "errRoll": "请输入滚动距离 (倒旋可为负)"
+    },
+    "category": {
+      "Woods": "木杆",
+      "Hybrids": "混合杆",
+      "Irons": "铁杆",
+      "Wedges": "挖起杆",
+      "Putters": "推杆"
+    },
+    "shotNames": {
+      "Standard": "标准",
+      "Pitch": "近距挑高",
+      "Flop": "高吊球",
+      "Chokedown": "握短",
+      "Stinger": "低弹道",
+      "Fairway Finder": "球道定位",
+      "Knockdown": "压低弹道",
+      "Spinner": "高旋",
+      "Power": "力量",
+      "Runner": "滚动",
+      "Punch": "冲杆",
+      "Bump & Run": "碰滚",
+      "Lob": "高吊",
+      "Chip": "切杆",
+      "Custom": "自定义"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "握短",
+        "description": "握短球杆以获得更多控制力，距离减少。每英寸 -4%。"
+      },
+      "power": {
+        "name": "力量",
+        "description": "挥得更用力以获得额外距离。所选球杆 +5%。"
+      },
+      "knockdown": {
+        "name": "压低弹道",
+        "description": "压低弹道以对抗风。距离 -10%。"
+      },
+      "punch": {
+        "name": "冲杆",
+        "description": "树下低弹道冲杆。距离 -25%。"
+      },
+      "three_quarter": {
+        "name": "3/4 挥杆",
+        "description": "为精准度做控制的 3/4 挥杆。距离 -15%。"
+      }
+    },
+    "modifierBtn": "修饰器"
+  },
+  "course": {
+    "list": {
+      "title": "高尔夫球场",
+      "nearby": "附近",
+      "searchPlaceholder": "按名称、城市、省份或国家搜索...",
+      "searchResultsCount": "「{{query}}」共 {{count}} 条结果",
+      "nearbyCount": "附近 {{count}} 个球场",
+      "emptyTitle": "未找到球场",
+      "emptySubtitle": "无法加载附近球场。",
+      "emptySearchSubtitle": "未找到与「{{query}}」匹配的球场。",
+      "runDiagnostics": "运行诊断",
+      "tryAgain": "再试一次",
+      "clearSearch": "清除搜索",
+      "locationUnavailableTitle": "位置不可用",
+      "locationUnavailableMessage": "无法获取位置，正在显示凤凰城附近的球场。",
+      "retry": "重试"
+    },
+    "activeRound": {
+      "title": "进行中的轮次",
+      "active": "进行中",
+      "paused": "已暂停",
+      "holeProgress": "第 {{current}}/{{total}} 洞",
+      "scoreLine": "成绩：{{toPar}}（{{score}} 杆）",
+      "noScoresYet": "暂无成绩",
+      "delete": "删除",
+      "complete": "完成",
+      "continue": "继续"
+    },
+    "completeDialog": {
+      "title": "完成本轮",
+      "message": "确定要完成本轮吗？您的成绩将被保存。",
+      "confirmButton": "完成",
+      "successTitle": "本轮结束",
+      "successMessage": "您的本轮成绩已保存至历史记录。",
+      "errorMessage": "完成本轮失败，请重试。"
+    },
+    "deleteDialog": {
+      "title": "删除轮次",
+      "message": "确定要删除本轮吗？所有成绩将丢失且无法恢复。",
+      "confirmButton": "删除"
+    },
+    "abandonDialog": {
+      "title": "放弃本轮？",
+      "message": "这将永久删除您当前的轮次，此操作无法撤销。",
+      "keepPlaying": "继续打球",
+      "confirmAbandon": "是的，放弃"
+    },
+    "roundInProgressDialog": {
+      "message": "您正在 {{course}} 的第 {{current}}/{{total}} 洞\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "成绩：{{toPar}}（已打 {{holes}} 洞，{{score}} 杆）",
+      "scoreDisplayEmpty": "暂未记录成绩",
+      "continueRound": "继续本轮",
+      "pauseBrowse": "暂停并浏览",
+      "abandonRound": "放弃本轮"
+    },
+    "conditions": {
+      "title": "球场条件",
+      "weatherConditions": "天气条件",
+      "groundFirmness": "地面硬度",
+      "roughLength": "长草长度",
+      "greenFirmness": "果岭硬度",
+      "pinLocationRotation": "旗杆轮换",
+      "pinRotationDesc": "选择旗杆的起始位置。一轮中,旗杆会按前 → 中 → 后轮换。",
+      "rotationPreview": "轮换预览:",
+      "rotationFront": "第 1 洞:前 → 第 2 洞:中 → 第 3 洞:后 → 第 4 洞:前…",
+      "rotationMiddle": "第 1 洞:中 → 第 2 洞:后 → 第 3 洞:前 → 第 4 洞:中…",
+      "rotationBack": "第 1 洞:后 → 第 2 洞:前 → 第 3 洞:中 → 第 4 洞:后…",
+      "starting": "开始",
+      "impactOnPlay": "对比赛的影响",
+      "rollLabel": "滚动:",
+      "roughLabel": "长草:",
+      "greenSpeedLabel": "果岭速度:",
+      "saveAndContinue": "保存并继续",
+      "firmDescSoft": "球着陆时陷入",
+      "firmDescMedium": "标准弹跳和滚动",
+      "firmDescFirm": "额外滚动",
+      "firmDescUsOpen": "最大弹跳和滚动",
+      "roughDescShort": "容易脱出",
+      "roughDescMedium": "标准难度",
+      "roughDescLong": "难以前进",
+      "roughDescUsOpen": "极其困难",
+      "greenDescSlow": "8–9 stimp",
+      "greenDescMedium": "10–11 stimp",
+      "greenDescFast": "12–13 stimp",
+      "greenDescUsOpen": "14+ stimp",
+      "rollNormal": "正常",
+      "rollSoft": "-10–15 码",
+      "rollFirm": "+8–12 码",
+      "rollUsOpen": "+15–20 码",
+      "roughMinimal": "影响极小",
+      "roughStandard": "标准",
+      "roughSignificant": "显著惩罚",
+      "roughSevere": "严重惩罚",
+      "greenEasier": "更易控制",
+      "greenLightning": "极速",
+      "weatherSunny": "晴天",
+      "weatherCloudy": "多云",
+      "weatherRaining": "下雨",
+      "weatherSnowing": "下雪",
+      "firmSoft": "柔软",
+      "firmMedium": "中等",
+      "firmFirm": "坚硬",
+      "firmUsOpen": "US Open",
+      "roughShort": "短",
+      "roughMedium": "中",
+      "roughLong": "长",
+      "roughUsOpen": "US Open",
+      "greenSlow": "慢",
+      "greenMedium": "中",
+      "greenFast": "快",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "球场设置",
+      "findYourCourse": "寻找你的球场",
+      "findSubtitle": "搜索附近球场或浏览收藏",
+      "recentCourses": "最近的球场",
+      "favoriteCourses": "收藏的球场",
+      "searchByName": "按名称搜索",
+      "searchPlaceholder": "输入球场名称或城市…",
+      "searchByNameBtn": "🔍 按名称搜索",
+      "searchNearbyBtn": "📍 搜索附近球场",
+      "selectCourse": "选择球场",
+      "selectSubtitle": "附近找到 {{count}} 个球场",
+      "downloadingCourse": "正在下载球场",
+      "continueToCond": "继续到条件 →",
+      "backToSearch": "← 返回搜索",
+      "changeCourse": "← 更换球场",
+      "milesAway": "距离 {{dist}} 英里",
+      "retryDownload": "重试"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← 返回",
+        "backShort": "返回",
+        "previous": "上一步",
+        "continue": "继续 →",
+        "continueShort": "继续",
+        "goBack": "返回",
+        "continueToNextStep": "进入下一步"
+      },
+      "ai": {
+        "title": "AI 球童设置",
+        "subtitle": "自定义 AI 球童与您的沟通方式",
+        "skillSectionTitle": "您的技术水平如何？",
+        "verbositySectionTitle": "您希望球童说多少话？",
+        "testButtonConnecting": "连接中...",
+        "testButtonStop": "停止演示",
+        "testButtonAgain": "再次测试",
+        "testButtonStart": "测试您的球童",
+        "testHintActive": "和您的 AI 球童说话吧！完成后点击停止。",
+        "testHintIdle": "与您的 AI 球童开始实时对话。",
+        "testA11yLabel": "测试 AI 球童",
+        "alertNotAvailableTitle": "不可用",
+        "alertNotAvailableBody": "此设备不支持语音 AI。",
+        "alertMicTitle": "需要麦克风",
+        "alertMicBody": "请授权麦克风访问权限以测试 AI 球童。",
+        "alertComingSoonTitle": "即将推出",
+        "alertComingSoonBody": "语音 AI 功能即将登陆 iOS。",
+        "alertFailedTitle": "测试失败",
+        "alertFailedBody": "无法启动语音演示，请重试。"
+      },
+      "clubs": {
+        "title": "您的球包已就绪",
+        "subtitle": "我们已为您预加载球杆和击球方式",
+        "clubsCardTitle": "球杆",
+        "clubsCardBadge": "{{count}} / {{total}}",
+        "shotsCardTitle": "击球",
+        "shotsCardBadge": "{{count}} 个预设",
+        "shotsCardDescription": "适用于各种情况的全挥杆和短打。",
+        "infoTitle": "随时添加自定义击球方式：",
+        "shotExampleChoke": "下握（每英寸 -4%）",
+        "shotExamplePower": "力量打法（距离 +5%）",
+        "shotExampleOther": "穿球、高吊球、压球...",
+        "viewAllClubs": "查看全部（{{count}} 支球杆）",
+        "showLess": "收起",
+        "hideShotsButton": "隐藏击球",
+        "viewAllShotsButton": "查看所有击球",
+        "noteText": "您可以在以下位置自定义所有内容：",
+        "noteHighlight": "设置 → 球杆管理",
+        "excelTitle": "快速设置选项",
+        "excelText": "从以下网址下载 Excel 模板：",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "一次性添加所有球杆和击球方式！",
+        "goBack": "返回",
+        "continueToNextStep": "进入下一步"
+      },
+      "conditions": {
+        "title": "球场条件",
+        "subtitle": "开局一次设置，畅打全程不中断",
+        "setOnceTitle": "每轮开始时设置一次：",
+        "bulletWind": "风速与风向",
+        "bulletTemp": "气温",
+        "bulletPin": "旗针位置表",
+        "pinSheetTitle": "旗针位置表",
+        "pinExplanation": "选择起始位置（前段、中段或后段），旗针将在每个球洞自动轮换。",
+        "confirmLabel": "您只需确认：",
+        "confirmLeft": "左",
+        "confirmCenter": "中",
+        "confirmRight": "右",
+        "infoText": "您将在开始一轮时设置球场条件。",
+        "goBack": "返回",
+        "continueToNextStep": "进入下一步"
+      },
+      "ellipse": {
+        "title": "您的落点区域",
+        "subtitle": "了解差点和惯用手如何影响您的击球散布",
+        "infoText": "您的落点区域因差点和惯用手而异。差点越高，散布范围越大。",
+        "dominantHandTitle": "惯用手",
+        "handRight": "右手",
+        "handLeft": "左手",
+        "handicapTitle": "差点",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "零差点",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "司机杆预估散布宽度：",
+        "dispersionValue": "{{yards}} 码宽",
+        "continueButton": "继续",
+        "continueA11y": "进入下一步"
+      },
+      "ppm": {
+        "title": "告诉我们您的情况",
+        "subtitle": "帮助我们为您个性化球童体验",
+        "nameLabelText": "您的姓名",
+        "namePlaceholder": "请输入您的姓名",
+        "ageLabelText": "年龄段",
+        "yearsLabelText": "打高尔夫球的年数",
+        "yearsValue": "{{count}} 年",
+        "yearsNew": "新手",
+        "yearsFiftyPlus": "50 年以上",
+        "frequencyLabelText": "您多久打一次球？",
+        "freq": {
+          "rarely": "很少",
+          "rarelyDesc": "每年不足 5 轮",
+          "occasionally": "偶尔",
+          "occasionallyDesc": "每年 5-15 轮",
+          "regularly": "定期",
+          "regularlyDesc": "每年 15-30 轮",
+          "frequently": "经常",
+          "frequentlyDesc": "每年 30-50 轮",
+          "veryFrequently": "非常频繁",
+          "veryFrequentlyDesc": "每年超过 50 轮"
+        },
+        "backButton": "返回",
+        "continueButton": "继续"
+      },
+      "scoring": {
+        "titleScoring": "记录本轮成绩",
+        "titleScorecard": "您的成绩卡",
+        "subtitleScoring": "每个球洞结束后，点击【成绩】输入：",
+        "subtitleScorecard": "追踪全程进度",
+        "demoHoleTitle": "第 1 洞 - 标准杆 4",
+        "labelStrokes": "杆数：",
+        "labelPutts": "推杆：",
+        "labelFairway": "球道：",
+        "labelPenalties": "罚杆：",
+        "fairwayHit": "中球道",
+        "fairwayLeft": "左偏",
+        "fairwayRight": "右偏",
+        "saveNextHole": "保存并进入下一洞",
+        "colHole": "洞",
+        "colPar": "标准杆",
+        "colScore": "成绩",
+        "colDiff": "+/-",
+        "labelOut": "前九：",
+        "labelIn": "后九：",
+        "labelTotal": "总计：",
+        "submitScore": "提交成绩",
+        "backButton": "← 返回",
+        "backA11y": "返回",
+        "seeScorecard": "查看成绩卡 →",
+        "seeScoreA11y": "查看成绩卡",
+        "startPlaying": "开始打球！",
+        "starting": "启动中...",
+        "startA11y": "开始打球"
+      },
+      "shotShape": {
+        "title": "您的自然击球",
+        "subtitle": "告诉我们您典型的球飞轨迹",
+        "shotShapeTitle": "击球形状",
+        "shotHeightTitle": "击球高度",
+        "curveTitle": "5 号铁杆的弧度（码）",
+        "curveYards": "码",
+        "infoText": "我们会自动调整每支球杆的弧度 — 司机杆多，挖起杆少。",
+        "shapeDraw": "抽球",
+        "shapeStraight": "直线",
+        "shapeFade": "切球",
+        "heightLow": "低弹道",
+        "heightMedium": "中弹道",
+        "heightHigh": "高弹道",
+        "goBack": "返回",
+        "continueToNextStep": "进入下一步"
+      },
+      "target": {
+        "title": "选择显示方式",
+        "subtitle": "拖动覆盖层以瞄准。以靶心或散布椭圆查看您的击球。",
+        "holeInfo": "第 {{holeNumber}} 洞 • 标准杆 {{par}}",
+        "dragHint": "拖动以移动目标",
+        "distanceUnit": "码",
+        "targetLabel": "靶心",
+        "targetDesc": "简单瞄准点",
+        "ellipseLabel": "椭圆",
+        "ellipseDesc": "您的散布模式",
+        "ellipseModeTitle": "为何使用椭圆模式？",
+        "ellipseModeText": "散布模式显示根据差点实际落点范围，优化器据此找到",
+        "ellipseModeHighlight": "最安全的瞄准点",
+        "ellipseModeTextSuffix": "以规避障碍区。",
+        "targetModeTitle": "靶心模式",
+        "targetModeText": "简单准心显示精确瞄准点，适合精确距离追踪，但不显示散布范围。",
+        "backButton": "返回",
+        "continueButton": "继续"
+      },
+      "walkthrough": {
+        "title": "如何打一个球洞",
+        "skipButton": "跳过指引",
+        "progressText": "{{total}} 中的第 {{current}} 步",
+        "backButton": "返回",
+        "previousButton": "上一步",
+        "nextButton": "下一步",
+        "nextScoring": "下一步：计分",
+        "overlayYards": "码",
+        "overlayMph": "英里/时",
+        "overlayHole": "洞",
+        "overlayPar": "标准杆",
+        "overlayUphill": "上坡（{{percent}}%）",
+        "overlayFromTee": "从发球台",
+        "overlayRecommended": "推荐",
+        "overlayPinSide": "旗针方向",
+        "overlaySwipeScore": "上滑记录成绩",
+        "elements": {
+          "hole": {
+            "title": "球洞信息",
+            "description": "显示当前球洞编号和标准杆。点击查看成绩卡。"
+          },
+          "distance": {
+            "title": "到旗针距离",
+            "description": "随移动实时更新的 GPS 距离。"
+          },
+          "wind": {
+            "title": "风况",
+            "description": "影响击球的实时风速和风向。"
+          },
+          "elevation": {
+            "title": "高度变化",
+            "description": "到果岭的上坡或下坡程度 — 影响实际打球距离。"
+          },
+          "target": {
+            "title": "散布椭圆",
+            "description": "基于差点的击球模式。拖动以调整瞄准点。"
+          },
+          "optimizer": {
+            "title": "球杆优化器",
+            "description": "根据距离、风力和障碍 AI 推荐球杆。"
+          },
+          "voice": {
+            "title": "AI 球童",
+            "description": "点击用自然语音向 AI 球童寻求建议。"
+          },
+          "pinside": {
+            "title": "旗针方向",
+            "description": "将旗针位置设为左、中或右，调整地图和推荐击球的瞄准点。"
+          },
+          "score": {
+            "title": "成绩输入",
+            "description": "完成球洞后记录成绩。"
+          },
+          "navigation": {
+            "title": "球洞导航",
+            "description": "通过滑动或箭头在球洞间移动。"
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "个人信息",
+      "golfProfile": "高尔夫档案",
+      "experience": "经验",
+      "skills": "技能",
+      "preferences": "偏好",
+      "accessibility": "辅助功能"
+    },
+    "buttons": {
+      "back": "← 返回",
+      "continue": "继续 →",
+      "complete": "完成设置"
+    },
+    "errors": {
+      "saveFailed": "保存档案失败，请重试。"
+    },
+    "a11y": {
+      "completeSetup": "完成设置",
+      "continueStep": "继续下一步",
+      "completeHint": "完成引导并开始使用应用",
+      "continueHint": "进入下一个引导步骤"
+    },
+    "personalInfo": {
+      "description": "让我们从一些基本信息开始",
+      "playerName": "球员姓名",
+      "playerNamePlaceholder": "输入您的姓名",
+      "birthday": "生日（可选）",
+      "birthdayPlaceholder": "月/日/年",
+      "phone": "电话（可选）",
+      "phonePlaceholder": "(555) 555-5555",
+      "address": "地址（可选）",
+      "addressPlaceholder": "城市，省份"
+    },
+    "golfProfile": {
+      "description": "告诉我们关于您的高尔夫球技",
+      "handicap": "差点指数",
+      "dominantHand": "惯用手",
+      "rightHanded": "右手",
+      "leftHanded": "左手",
+      "naturalShot": "自然击球",
+      "shotStraight": "直线",
+      "shotDraw": "左曲球",
+      "shotFade": "右曲球",
+      "shotHeight": "击球高度",
+      "heightLow": "低",
+      "heightMedium": "中",
+      "heightHigh": "高",
+      "yardsOfCurve": "5号铁杆曲线码数",
+      "yardsOfCurvePlaceholder": "例如：5、-5 或 0",
+      "yardsOfCurveHelp": "左曲球用负数（-5），右曲球用正数（+5），直线为0"
+    },
+    "experience": {
+      "description": "您有多少高尔夫经验？",
+      "yearsPlaying": "打高尔夫年数",
+      "yearsUnit": "年",
+      "frequency": "您多久打一次球？",
+      "frequencyPlaceholder": "选择频率...",
+      "rarely": "很少（每年1-5次）",
+      "occasionally": "偶尔（每年6-15次）",
+      "regularly": "定期（每年16-30次）",
+      "frequently": "频繁（每年31-50次）",
+      "veryFrequently": "非常频繁（每年51次以上）"
+    },
+    "skills": {
+      "description": "帮助我们了解您的优势和重点提升方向",
+      "averageDrive": "平均开球距离（飞行距离）",
+      "averageDriveUnit": "码",
+      "averageDriveHelp": "请输入您的典型飞行距离，不含滚动距离",
+      "strengthArea": "您的优势项目",
+      "improvementArea": "重点提升方向",
+      "options": {
+        "driving": "开球",
+        "drivingDistance": "开球距离",
+        "drivingAccuracy": "开球准确性",
+        "approachShots": "近洞击球",
+        "ironPlay": "铁杆技术",
+        "wedgePlay": "劈起杆技术",
+        "shortGame": "短杆技术",
+        "chipping": "切球",
+        "bunkerPlay": "沙坑技术",
+        "putting": "推杆",
+        "courseManagement": "球场管理",
+        "courseStrategy": "球场策略",
+        "mentalGame": "心理素质",
+        "allAround": "全面均衡"
+      }
+    },
+    "preferences": {
+      "description": "自定义您的Copperline Golf体验",
+      "notificationsHeader": "通知"
+    },
+    "accessibility": {
+      "description": "可选：自定义辅助功能设置",
+      "textSize": "文字大小",
+      "textSizeUnit": "磅",
+      "highContrast": "高对比度模式",
+      "highContrastDescription": "提高颜色对比度以改善可见性",
+      "voiceFeedback": "语音反馈",
+      "voiceFeedbackDescription": "操作时听取音频反馈",
+      "reduceMotion": "减少动画",
+      "reduceMotionDescription": "最小化动态效果和过渡效果",
+      "screenReader": "屏幕阅读器",
+      "screenReaderDescription": "针对屏幕阅读器进行优化",
+      "skip": "跳过辅助功能设置"
+    },
+    "complete": {
+      "title": "一切就绪！",
+      "message": "您的档案和球杆已配置完成，开始获取每次击球的个性化建议吧。",
+      "profileConfigured": "档案已配置",
+      "clubsAdded": "球杆已添加至球包",
+      "readyForRecs": "已准备好智能建议",
+      "startUsing": "开始使用Copperline Golf",
+      "helpText": "您可以随时在设置中更新档案和球杆"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "到中心的距离是 {{distance}} 米。风向{{windStr}}。果岭{{elevationStr}}。旗位在{{pinStr}}。",
+      "approachFull": "您距离{{lie}}还有 {{distance}} 米。风向{{windStr}}。{{elevationClause}}您的球位和站姿怎么样？",
+      "approachElevation": "{{elevationStr}}。",
+      "teeboxMinimal": "旗位在{{pinStr}}。随时可以开球。",
+      "approachMinimal": "{{distance}} 米。您的球位和站姿怎么样？",
+      "windAtMph": "{{direction}}风，{{speed}} 公里/时",
+      "calmConditions": "风平浪静",
+      "elevationFeetUphill": "上坡 {{value}} 米",
+      "elevationFeetDownhill": "下坡 {{value}} 米",
+      "elevationLevel": "平坦",
+      "pinSideOfGreen": "果岭{{side}}{{location}}",
+      "pinMiddleOfGreen": "果岭中间"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "顶风",
+      "Tailwind": "顺风",
+      "Crosswind Left": "左侧横风",
+      "Crosswind Right": "右侧横风",
+      "Diagonal Headwind Left": "左前方斜顶风",
+      "Diagonal Headwind Right": "右前方斜顶风",
+      "Diagonal Tailwind Left": "左后方斜顺风",
+      "Diagonal Tailwind Right": "右后方斜顺风",
+      "Calm": "无风"
+    },
+    "pinLocation": {
+      "Front": "前段",
+      "Middle": "中段",
+      "Back": "后段"
+    },
+    "pinSide": {
+      "Left": "左侧",
+      "Center": "中间",
+      "Right": "右侧"
+    },
+    "lie": {
+      "Tee": "发球台",
+      "Fairway": "球道",
+      "Light Rough": "轻草区",
+      "Heavy Rough": "深草区",
+      "Sand": "沙地",
+      "Bunker": "沙坑",
+      "Recovery": "救球区"
+    },
+    "stance": {
+      "Flat": "平地",
+      "Ball Above Feet": "球高于脚",
+      "Ball Below Feet": "球低于脚",
+      "Uphill": "上坡",
+      "Downhill": "下坡"
+    },
+    "elevationDir": {
+      "uphill": "上坡",
+      "downhill": "下坡",
+      "level": "平坦"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "正在加载AI球童...",
+      "subtitle": "正在收集球场、天气和球员数据",
+      "connecting": "正在连接AI球童..."
+    },
+    "error": {
+      "title": "连接错误",
+      "tryAgain": "重试",
+      "goBack": "返回"
+    },
+    "header": {
+      "back": "← 返回",
+      "title": "AI 球童",
+      "holeFormat": "{{course}} • 第 {{hole}} 洞"
+    },
+    "status": {
+      "connected": "已连接",
+      "disconnected": "已断开",
+      "contextLoaded": "上下文已加载"
+    },
+    "context": {
+      "windCalm": "风平浪静",
+      "windMph": "风速 {{speed}} 英里/时",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "从{{lie}}还有 {{distance}} 码"
+    },
+    "modes": {
+      "idle": "待机",
+      "listening": "聆听中",
+      "speaking": "说话中",
+      "thinking": "思考中"
+    },
+    "instructions": {
+      "speakNow": "请说话...",
+      "aiResponding": "AI正在回应...",
+      "readyToListen": "准备聆听",
+      "notConnected": "未连接"
+    },
+    "buttons": {
+      "endConversation": "结束对话",
+      "startConversation": "开始对话",
+      "connecting": "连接中..."
+    },
+    "alerts": {
+      "notConnectedTitle": "未连接",
+      "notConnectedMessage": "请等待连接建立",
+      "sendFailedMessage": "发送消息失败，请重试。"
+    },
+    "suggestions": {
+      "strategy": "有什么策略？",
+      "windAffect": "风会有什么影响？",
+      "windDoing": "现在风向怎么样？",
+      "whichClub": "我应该用哪支球杆？",
+      "distance150": "我距离还有150码",
+      "anyTips": "有什么建议？",
+      "analyzeRisks": "分析一下风险",
+      "courseConditions": "球场状况如何？"
+    },
+    "simple": {
+      "headerTitle": "语音助手",
+      "skillLevel": "技能等级",
+      "skillDesc": {
+        "beginner": "最少问题,最多默认值",
+        "intermediate": "平衡的问题和默认值",
+        "advanced": "详细精确的问题"
+      },
+      "recommendations": "推荐",
+      "clear": "清除",
+      "calculating": "正在计算推荐…",
+      "underMaintenance": "维护中",
+      "maintenanceMsg": "语音助手功能正在改进以获得更好的体验。",
+      "useAlternative": "请改用快速击球或高级击球屏幕。"
+    },
+    "enhanced": {
+      "loadingContext": "正在加载 AI 球童上下文…",
+      "loadingSubtext": "正在收集球场、天气和玩家数据",
+      "clearHistory": "清除历史",
+      "clearHistoryTitle": "清除对话",
+      "clearHistoryMsg": "确定要清除对话历史吗?",
+      "aiEnhanced": "AI 增强",
+      "notConfiguredTitle": "AI 球童未配置",
+      "notConfiguredMsg": "OpenAI API 密钥未配置。语音对话将正常工作,但高级 AI 功能将受限。",
+      "initErrorTitle": "初始化错误",
+      "initErrorMsg": "加载上下文失败。某些功能可能无法正常工作。",
+      "history": "历史",
+      "hide": "隐藏"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "击球",
+      "scores": "成绩",
+      "clubs": "球杆",
+      "settings": "设置"
+    },
+    "titles": {
+      "shot": "击球建议",
+      "scores": "成绩历史",
+      "clubs": "球杆管理",
+      "settings": "设置",
+      "courses": "球场"
+    },
+    "playGolf": {
+      "idle": "打高尔夫",
+      "continue": "继续",
+      "resume": "恢复"
+    },
+    "headers": {
+      "login": "CaddyAI - 登录",
+      "onboarding": "CaddyAI - 入门设置",
+      "profileSetup": "CaddyAI - 档案设置",
+      "ppmSetup": "CaddyAI - PPM 设置",
+      "clubManagement": "CaddyAI - 球杆管理",
+      "voiceAssistant": "CaddyAI - 语音助手",
+      "apiKeySetup": "CaddyAI - API 密钥设置",
+      "setupComplete": "CaddyAI - 设置完成",
+      "devMenu": "CaddyAI - 开发菜单"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "您的球童，随时在线。",
+    "emailPlaceholder": "电子邮件",
+    "passwordPlaceholder": "密码",
+    "signIn": "登录",
+    "signUp": "注册",
+    "switchToSignIn": "已有账户？登录",
+    "switchToSignUp": "没有账户？注册",
+    "forgotPassword": "忘记密码？",
+    "continueWithApple": "使用Apple继续",
+    "continueWithGoogle": "使用Google继续",
+    "dividerOr": "或",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
+    "missingInfoTitle": "信息不完整",
+    "missingInfoMessage": "请输入电子邮件和密码以继续。",
+    "invalidPasswordTitle": "密码无效",
+    "invalidPasswordMessage": "密码至少需要6个字符。",
+    "accountCreatedTitle": "账户已创建！",
+    "accountCreatedMessage": "您的账户已成功创建，欢迎来到Copperline Golf！",
+    "signUpFailedTitle": "注册失败",
+    "signInFailedTitle": "登录失败",
+    "authFailedFallback": "认证失败",
+    "resetPasswordTitle": "重置密码",
+    "resetPasswordPromptIos": "输入您的电子邮件地址以接收密码重置链接",
+    "resetPasswordConfirmAndroid": "向 {{email}} 发送密码重置链接？",
+    "resetPasswordNoEmail": "请先输入您的电子邮件地址",
+    "resetPasswordSuccessTitle": "邮件已发送",
+    "resetPasswordSuccessMessage": "请查收您的电子邮件以获取密码重置链接。",
+    "resetPasswordError": "无法发送密码重置邮件",
+    "appleNotAvailableTitle": "不可用",
+    "appleNotAvailableMessage": "Apple登录仅在iOS 13及以上设备上可用，请安装相关软件包或使用其他登录方式。",
+    "appleSetupRequiredTitle": "需要设置",
+    "appleSetupRequiredMessage": "Apple登录设置未完成，请查阅APPLE_SIGNIN_SETUP.md获取说明。",
+    "appleFailedTitle": "Apple登录失败",
+    "appleFailedFallback": "无法使用Apple登录，请尝试其他方式。",
+    "googleFailedTitle": "Google登录失败",
+    "googleFailedMessage": "无法使用Google登录，请重试或使用其他方式。",
+    "googlePlayServicesTitle": "需要Google Play服务",
+    "googlePlayServicesMessage": "Google Play服务不可用或需要更新。",
+    "signInInProgressTitle": "登录进行中",
+    "signInInProgressMessage": "已有一个登录请求正在进行，请稍候。",
+    "welcomeTitle": "欢迎！",
+    "welcomeMessage": "已以 {{identity}} 身份登录",
+    "emailA11yLabel": "电子邮件输入框",
+    "emailA11yHint": "输入您的电子邮件地址",
+    "passwordA11yLabel": "密码输入框",
+    "passwordA11yHint": "输入您的密码",
+    "signUpA11yLabel": "注册按钮",
+    "signInA11yLabel": "登录按钮",
+    "signUpA11yHint": "创建新账户",
+    "signInA11yHint": "登录您的账户",
+    "appleA11yLabel": "使用Apple登录按钮",
+    "appleA11yHint": "使用您的Apple ID登录",
+    "googleA11yLabel": "使用Google登录按钮",
+    "googleA11yHint": "使用您的Google账户登录",
+    "signin": {
+      "infoText": "登录以在所有设备上保存您的个人资料、球杆和挥杆记录",
+      "tosLine": "登录即表示您同意我们的服务条款",
+      "createAccount": "创建账号",
+      "createOne": "没有账号？立即创建"
+    },
+    "apiKey": {
+      "title": "API 密钥设置",
+      "subtitle": "配置你的 API 密钥以解锁所有功能",
+      "openAiLabel": "OpenAI API 密钥",
+      "openAiDesc": "Whisper 语音转文本所需(可选 - 设备识别无需此项)",
+      "anthropicLabel": "Anthropic API 密钥",
+      "anthropicDesc": "语音对话 AI(Claude) 所需",
+      "howToGet": "如何获取?",
+      "getOpenAiTitle": "获取 OpenAI API 密钥",
+      "getOpenAiSteps": "1. 访问 platform.openai.com\n2. 登录或创建账户\n3. 转到 API Keys 部分\n4. 创建新的密钥",
+      "getAnthropicTitle": "获取 Anthropic API 密钥",
+      "getAnthropicSteps": "1. 访问 console.anthropic.com\n2. 登录或创建账户\n3. 转到 API Keys 部分\n4. 创建新的 API 密钥",
+      "secureNote": "你的 API 密钥安全地存储在你的设备上,除 OpenAI/Anthropic 外不会发送到任何服务器。",
+      "saveKeys": "保存 API 密钥",
+      "saving": "正在保存…",
+      "skipForNow": "暂时跳过",
+      "skipTitle": "跳过设置",
+      "skipMsg": "没有 API 密钥某些功能可能无法工作。仍然继续?",
+      "noKeysTitle": "未输入密钥",
+      "noKeysMsg": "请至少输入一个 API 密钥以继续。",
+      "saveSuccess": "保存成功!",
+      "saveWarnings": "保存成功!\n\n警告:\n{{warnings}}",
+      "saveErrorMsg": "保存 API 密钥失败。请重试。"
+    }
+  },
+  "welcome": {
+    "title": "欢迎使用 Copperline Golf",
+    "subtitle": "您的智能高尔夫伴侣",
+    "description": "完成快速的8步互动教程，获取球场每一杆的个性化建议。",
+    "features": {
+      "clubRecs": "智能球杆推荐",
+      "aiAnalysis": "AI驱动的挥杆分析",
+      "weatherAdvice": "天气适配建议",
+      "voiceAssist": "语音导引辅助"
+    },
+    "resumeRound": "继续轮次",
+    "continueRound": "继续轮次",
+    "getStarted": "开始",
+    "skipSetup": "跳过设置"
+  },
+  "paywall": {
+    "headerTitle": "升级至\nCopperline Pro",
+    "headerSubtitle": "解锁AI球童的全部功能",
+    "featuresSectionTitle": "Pro 版全部功能",
+    "packagesSectionTitle": "选择您的方案",
+    "loading": "正在加载方案...",
+    "tos": "服务条款",
+    "privacy": "隐私政策",
+    "restorePurchases": "恢复购买",
+    "redeemCode": "兑换优惠码",
+    "errors": {
+      "selectPlanTitle": "选择方案",
+      "selectPlanBody": "请选择一个订阅方案以继续。"
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "语言",
+      "languagePlaceholder": "选择语言..."
+    },
+    "sections": {
+      "account": "账户",
+      "subscription": "订阅",
+      "playerProfile": "球员档案",
+      "preferences": "偏好",
+      "notifications": "通知",
+      "about": "关于",
+      "backup": "备份与恢复",
+      "diagnostics": "诊断工具",
+      "appFeatures": "应用功能",
+      "caddyAi": "球童 AI"
+    },
+    "account": {
+      "guestUser": "访客用户",
+      "notSignedIn": "未登录"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "免费版",
+      "renews": "{{date}} 续订",
+      "noActive": "无有效订阅",
+      "upgrade": "升级至Copperline Pro"
+    },
+    "playerProfile": {
+      "edit": "编辑球员档案",
+      "editSubtitle": "差点、球杆距离和高尔夫偏好"
+    },
+    "preferences": {
+      "distanceUnits": "距离单位",
+      "distanceUnitsPlaceholder": "选择单位...",
+      "yards": "码",
+      "meters": "米",
+      "temperatureUnits": "温度单位",
+      "temperatureUnitsPlaceholder": "选择温度单位...",
+      "fahrenheit": "华氏度",
+      "celsius": "摄氏度",
+      "theme": "主题",
+      "themePlaceholder": "选择主题...",
+      "themeLight": "浅色",
+      "themeDark": "深色",
+      "themeSystem": "跟随系统",
+      "themeAuto": "自动",
+      "targetOverlay": "目标叠加",
+      "targetOverlayPlaceholder": "选择目标模式...",
+      "targetLines": "目标线",
+      "playerEllipse": "球员椭圆"
+    },
+    "notifications": {
+      "courseRecommendations": "球场建议",
+      "courseRecommendationsDescription": "获取个性化球场和击球建议",
+      "weatherAlerts": "天气提醒",
+      "weatherAlertsDescription": "接收天气状况通知",
+      "practiceReminders": "练习提醒",
+      "practiceRemindersDescription": "帮助您练习和提升球技的友情提醒",
+      "achievementNotifications": "成就通知",
+      "achievementNotificationsDescription": "庆祝您的高尔夫里程碑和成就"
+    },
+    "about": {
+      "version": "版本",
+      "build": "构建号",
+      "support": "支持"
+    },
+    "backup": {
+      "title": "球杆与击球备份",
+      "subtitle": "查看或恢复您球包的历史版本"
+    },
+    "diagnostics": {
+      "igolf": "iGolf API测试",
+      "igolfSubtitle": "测试球场查询和API连接"
+    },
+    "appFeatures": {
+      "restartOnboarding": "重新开始引导",
+      "restartOnboardingSubtitle": "重新查看应用教程并更新您的档案"
+    },
+    "actions": {
+      "clearAllData": "清除所有数据",
+      "signOut": "退出登录"
+    },
+    "deleteAccount": {
+      "button": "删除账户",
+      "hint": "永久删除您的账户及所有相关数据。",
+      "confirmTitle": "删除账户",
+      "confirmMessage": "这将永久删除您的账户和所有高尔夫数据——包括轮次、球杆、击球、偏好和差点历史，此操作无法撤销。",
+      "confirmButton": "删除我的账户",
+      "reauthTitle": "需要重新验证身份",
+      "reauthMessage": "出于安全考虑，请退出并重新登录，然后再尝试删除账户。您的数据已被删除。",
+      "noUserMessage": "没有已登录的用户。",
+      "failedTitle": "删除失败",
+      "failedMessage": "出了点问题，请重试或联系 support@copperlinegolf.com。"
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "您的球童，随时在线。"
+    },
+    "signOutDialog": {
+      "title": "退出登录",
+      "message": "确定要退出登录吗？",
+      "confirmButton": "退出登录",
+      "fallbackTitle": "退出登录",
+      "fallbackMessage": "请重启应用以完成退出登录。"
+    },
+    "clearDataDialog": {
+      "title": "清除所有数据",
+      "message": "这将删除您的所有档案数据、球杆距离和设置，此操作无法撤销。",
+      "confirmButton": "清除数据",
+      "successTitle": "数据已清除",
+      "successMessage": "所有应用数据已被清除",
+      "errorMessage": "清除数据失败"
+    },
+    "restartOnboardingDialog": {
+      "title": "重新开始引导",
+      "message": "这将再次带您完成应用教程，您的档案数据将被保留。",
+      "confirmButton": "重新开始",
+      "errorMessage": "重新开始引导失败，请重试。"
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "AI 技能等级",
+        "question": "AI的问题应该有多详细？",
+        "label": "技能等级",
+        "placeholder": "选择您的技能等级...",
+        "helpBeginner": "无需提问，立即给出建议。",
+        "helpIntermediate": "AI询问球位和风向情况。",
+        "helpAdvanced": "AI询问球位、风向、海拔和温度。",
+        "helpPro": "AI提出包括站位和击球形状的详细问题。",
+        "helpTourPro": "考虑所有因素的完整职业级分析。"
+      },
+      "verbosity": {
+        "title": "AI 话语量",
+        "label": "话语量",
+        "placeholder": "选择模式...",
+        "helpTalkItThrough": "完整对话 - AI读取所有数据并提问",
+        "helpMinimal": "快速流程 - AI只询问球位和站位",
+        "helpJustFacts": "您先说 - 告诉我球位和站位",
+        "agentLabel": "智能体：{{id}}",
+        "option": {
+          "talk_it_through": "完整对话",
+          "just_facts": "只要事实",
+          "minimal": "最简"
+        }
+      },
+      "footer": "AI设置帮助根据您的打球风格和技能水平定制建议。更改立即生效。"
+    },
+    "backupScreen": {
+      "title": "备份和还原",
+      "back": "‹ 返回",
+      "tabClubs": "球杆",
+      "tabShots": "击球",
+      "helpText": "每次保存自动备份上一版本。每个列表最多保留 20 个版本。还原也会创建备份,因此任何还原都可撤销。",
+      "emptyText": "尚无 {{tab}} 备份。下次保存时将自动创建备份。",
+      "restore": "还原",
+      "loadFailed": "无法加载备份",
+      "confirmClubsTitle": "还原此球杆备份?",
+      "confirmClubsMsg": "这将用 {{date}} 的 {{count}} 杆版本替换你当前的球包。\n\n你当前的球包将首先保存为新备份,以便你改变主意时可以撤销。",
+      "confirmShotsTitle": "还原此击球备份?",
+      "confirmShotsMsg": "这将用 {{date}} 的 {{count}} 杆版本替换你的击球。\n\n你当前的击球将首先保存为新备份。",
+      "restoredTitle": "已还原",
+      "restoredClubs": "你的球杆已还原。",
+      "restoredShots": "你的击球已还原。",
+      "restoreFailedTitle": "还原失败",
+      "clubsCount": "{{count}} 根球杆",
+      "shotsCount": "{{count}} 次击球"
+    },
+    "caddyVoice": {
+      "title": "球童语音",
+      "option": {
+        "default": "球童 (默认)"
+      },
+      "optionDesc": {
+        "default": "CaddyAI 标准语音"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "着陆区",
+    "errorTitle": "错误",
+    "invalidParams": "参数无效",
+    "invalidParamsDesc": "此屏幕需要特定的球场和玩家数据才能显示着陆区。",
+    "gpsError": "GPS 错误",
+    "acquiringGps": "正在获取 GPS 位置…",
+    "acquiringSubtext": "请等待我们获取你的精确位置",
+    "tipOpenArea": "移到开阔区域",
+    "tipClearSky": "确保天空视野清晰",
+    "tipWaitAccuracy": "等待精度 <15m",
+    "yourPosition": "你的位置",
+    "pin": "旗杆",
+    "primaryZone": "主要区域",
+    "secondaryZone": "次要区域",
+    "lowAccuracyTitle": "⚠️ GPS 精度低",
+    "lowAccuracyMsg": "当前 GPS 精度为 {{accuracy}}m。为获得最佳结果,精度应低于 15m。\n\n请尝试移到天空视野清晰的开阔区域。",
+    "gpsErrorMsg": "无法获取 GPS 位置",
+    "continueAnyway": "仍然继续"
+  },
+  "tournament": {
+    "casual": {
+      "label": "休闲轮次",
+      "description": "所有功能可用"
+    },
+    "tournament-dmd": {
+      "label": "比赛 (测距仪)",
+      "description": "仅 GPS 距离 - 符合 USGA 规则 4.3"
+    },
+    "tournament-no-dmd": {
+      "label": "比赛 (无测距仪)",
+      "description": "无电子辅助 - 当地规则 G-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "功能",
+      "pricing": "价格",
+      "about": "关于",
+      "contact": "联系",
+      "signIn": "登录",
+      "getStarted": "开始使用",
+      "getStartedFree": "免费开始",
+      "tagline": "您的智能高尔夫伙伴"
+    },
+    "contact": {
+      "meta": {
+        "title": "联系我们 | Copperline Golf",
+        "description": "联系 Copperline Golf 支持团队。获取球童 App 的帮助、提交反馈，或了解我们的 AI 高尔夫推荐功能。"
+      },
+      "hero": {
+        "titleStart": "联系",
+        "titleHighlight": "我们",
+        "subtitle": "有问题或反馈吗？我们期待听到您的声音。我们的团队随时准备帮助您充分利用 Copperline Golf。"
+      },
+      "info": {
+        "emailTitle": "邮箱",
+        "phoneTitle": "电话",
+        "officeTitle": "办公室",
+        "office": "亚利桑那州斯科茨代尔 85260"
+      },
+      "form": {
+        "heading": "发送消息",
+        "subheading": "请填写下方表单，我们会尽快回复您。",
+        "nameLabel": "姓名",
+        "namePlaceholder": "您的姓名",
+        "emailLabel": "邮箱",
+        "emailPlaceholder": "your.email@example.com",
+        "subjectLabel": "主题",
+        "subjectPlaceholder": "我们如何为您提供帮助？",
+        "messageLabel": "消息",
+        "messagePlaceholder": "请详细描述您的问题...",
+        "submit": "发送消息",
+        "submitting": "发送中...",
+        "successMessage": "消息发送成功！我们会尽快回复您。",
+        "errorMessage": "发送失败。请稍后重试或直接发送邮件给我们。",
+        "errors": {
+          "nameRequired": "请填写姓名",
+          "nameTooShort": "姓名至少需要 2 个字符",
+          "emailRequired": "请填写邮箱",
+          "emailInvalid": "请输入有效的邮箱地址",
+          "subjectRequired": "请填写主题",
+          "subjectTooShort": "主题至少需要 3 个字符",
+          "messageRequired": "请填写消息",
+          "messageTooShort": "消息至少需要 10 个字符"
+        }
+      },
+      "hours": {
+        "heading": "办公时间",
+        "weekdaysLabel": "周一 - 周五",
+        "weekdays": "上午 9:00 - 下午 6:00 PST",
+        "saturdayLabel": "周六",
+        "saturday": "上午 10:00 - 下午 4:00 PST",
+        "sundayLabel": "周日",
+        "sunday": "休息",
+        "responseNote": "我们通常在工作日 24 小时内回复所有咨询。"
+      },
+      "social": {
+        "heading": "关注我们",
+        "body": "在社交媒体关注我们，获取最新动态、技巧和高尔夫洞察。"
+      },
+      "faq": {
+        "heading": "需要快速答案？",
+        "body": "访问我们的帮助中心，获取常见问题的即时答案。",
+        "cta": "前往帮助中心"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "智能选杆",
+        "smartClubDesc": "基于您的挥杆特征和实时条件的 AI 推荐。每一杆都用对的球杆。",
+        "profileTitle": "个人档案",
+        "profileDesc": "跟踪每一支球杆及其距离，获取个性化洞察。优化您的比赛。",
+        "conditionsTitle": "实时状况",
+        "conditionsDesc": "每一杆的实时天气、风力和海拔数据。基于真实条件做出明智决策。",
+        "sectionTitleLine1": "为什么 Copperline Golf 是",
+        "sectionTitleLine2": "您理想的搭档",
+        "sectionSubtitle": "三大核心功能协同工作，改变您的比赛"
+      },
+      "aiCta": {
+        "heading": "体验 AI 选杆",
+        "body": "体验我们的智能语音助手，帮您为每一杆选择完美的球杆。选择您的水平并描述您的击球，即可获得即时的个性化推荐。",
+        "button": "启动 AI 助手"
+      },
+      "stats": {
+        "titleStart": "深受",
+        "titleHighlight": "全球高尔夫球手信赖",
+        "subtitle": "加入数千名借助 Copperline Golf 提升比赛水平的玩家"
+      },
+      "howItWorks": {
+        "titleStart": "只需",
+        "titleHighlight": "3 个简单步骤",
+        "step1Title": "创建档案",
+        "step1Desc": "回答几个关于您比赛的简短问题，并添加您的球杆距离。",
+        "step2Title": "走上球场",
+        "step2Desc": "在手机上打开 Copperline Golf，让它自动跟踪条件。",
+        "step3Title": "更聪明地打球",
+        "step3Desc": "每一杆都能即刻获得个性化的球杆推荐。"
+      },
+      "testimonials": {
+        "titleStart": "球手们",
+        "titleHighlight": "怎么说",
+        "subtitle": "来自改变了比赛方式的真实球手的反馈"
+      }
+    }
+  }
+}

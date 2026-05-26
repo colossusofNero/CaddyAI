@@ -214,7 +214,7 @@ export default function DashboardPage() {
             <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
             <div>
               <p className="text-error font-medium text-sm">Failed to load your golf data</p>
-              <p className="text-text-secondary text-xs mt-1">{dataError} — check your browser console for details, or visit <a href="/debug" className="text-primary underline">/debug</a> for diagnostics.</p>
+              <p className="text-text-secondary text-xs mt-1">{dataError} — check your browser console for details, or visit <Link href="/debug" className="text-primary underline">/debug</Link> for diagnostics.</p>
             </div>
           </div>
         )}

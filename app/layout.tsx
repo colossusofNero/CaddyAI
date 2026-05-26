@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import { AuthProvider } from "@/hooks/useAuth";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -50,13 +52,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" data-theme="dark">
+    <html lang={locale} data-theme="dark">
       <head>
         <StructuredData data={generateOrganizationSchema()} />
         <StructuredData data={generateMobileAppSchema()} />
@@ -72,7 +77,9 @@ export default function RootLayout({
       >
         <GoogleAnalytics />
         <ErrorBoundary>
-          <AuthProvider>{children}</AuthProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <AuthProvider>{children}</AuthProvider>
+          </NextIntlClientProvider>
         </ErrorBoundary>
       </body>
     </html>

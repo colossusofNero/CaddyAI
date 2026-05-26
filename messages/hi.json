@@ -1,0 +1,1916 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save karo",
+    "send": "Bhejo",
+    "retry": "Dobara try karo",
+    "skip": "Skip karo",
+    "tryAgain": "Dobara try karo",
+    "error": "Error",
+    "numericStepper": {
+      "enterField": "{{label}} daalo"
+    },
+    "back": "Wapas"
+  },
+  "profile": {
+    "loading": "Aapka profile load ho raha hai...",
+    "loadDefaultsTitle": "Defaults ke saath continue karo",
+    "loadDefaultsMessage": "Default profile settings use ho rahi hain. Aap inhe abhi update kar sakte hain.",
+    "continueDefaults": "Default Settings ke saath continue karo",
+    "header": {
+      "title": "Player Profile edit karo",
+      "subtitle": "Apni golf profile settings update karo",
+      "syncedBadge": "☁️ Cloud se sync hua"
+    },
+    "ageGroup": "Age Group",
+    "handicapHelp": "+12 (plus) se 54 tak",
+    "yardsOfCurveHelp": "Aapka 5 iron kitne yards curve karta hai?\nDraw ke liye negative use karo (-5), fade ke liye positive (+5), ya straight ke liye 0",
+    "yearsPlayingShort": "Kitne saal se khel rahe ho",
+    "yearsUnit": "saal",
+    "playFrequency": "Khel ki frequency",
+    "freq": {
+      "rarely": "Kabhi kabhi",
+      "rarelyDesc": "<5 rounds/saal",
+      "occasionally": "Thoda thoda",
+      "occasionallyDesc": "5-15 rounds/saal",
+      "regularly": "Niyamit",
+      "regularlyDesc": "15-30 rounds/saal",
+      "frequently": "Zyada",
+      "frequentlyDesc": "30-50 rounds/saal",
+      "veryFrequently": "Bahut zyada",
+      "veryFrequentlyDesc": "50+ rounds/saal"
+    },
+    "aiCaddySettings": "AI Caddy Settings",
+    "skillLevelHelp": "Apna skill level choose karo taaki AI kitne sawaal pooche ye control ho",
+    "skill": {
+      "beginner": "Shuruati",
+      "intermediate": "Madhyam",
+      "advanced": "Advanced",
+      "pro": "Pro",
+      "tourPro": "Tour Pro"
+    },
+    "verbosityMode": "Verbosity Mode",
+    "displayPreferences": "Display Preferences",
+    "targetOverlayMode": "Target Overlay Mode",
+    "target": "Target",
+    "ellipse": "Ellipse",
+    "cancel": "Cancel",
+    "saveProfile": "Profile save karo",
+    "successTitle": "Ho gaya!",
+    "successMessage": "Profile successfully update ho gayi!",
+    "saveErrorTitle": "Save mein error",
+    "ppm": {
+      "title": "Player Performance Setup",
+      "subtitle": "Personalized golf intelligence system",
+      "progressComplete": "{{percent}}% Complete",
+      "sectionProfile": "Profile",
+      "sectionSkills": "Skills",
+      "sectionPreferences": "Preferences",
+      "sectionAccessibility": "Accessibility",
+      "sectionGrade": "Grade",
+      "profileDesc": "Apni golf experience personalize karne ke liye thoda apne baare mein batao",
+      "skillsDesc": "Apna current golf skill level samjhne mein hamaari help karo",
+      "preferencesDesc": "App ko apne hisaab se customize karo",
+      "accessibilityDesc": "Best experience ke liye accessibility features set karo",
+      "gradeDesc": "Tumhara profile completion grade aur recommendations",
+      "incompleteTitle": "Setup adhura hai",
+      "incompleteMessage": "Setup complete karne se pehle saare required fields fill karo.",
+      "completeTitle": "Setup pura ho gaya! 🎉",
+      "completeMessage": "Tumhara Player Performance Management profile ban gaya. AI system ab tumhare skill level aur preferences ke hisaab se calibrate ho gaya hai.",
+      "startPlaying": "Khelna shuru karo",
+      "completeSetup": "✅ Setup Complete karo",
+      "nextSection": "➡️ Aage: {{section}}",
+      "completeSetupA11y": "Setup complete karo",
+      "continueA11y": "Agle section mein jao",
+      "sectionA11y": "{{section}} section"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "Haan",
+      "no": "Nahi",
+      "na": "N/A",
+      "strokes": "Strokes",
+      "totalStrokes": "Total Strokes",
+      "putts": "Putts",
+      "totalPutts": "Total Putts",
+      "fairwayHit": "Fairway Hit",
+      "fairways": "Fairways",
+      "fairwaysHit": "Fairways Hit",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "Green in Regulation",
+      "greensInRegulation": "Greens in Regulation",
+      "penalties": "Penalties",
+      "diff": "Diff",
+      "differential": "Differential",
+      "gross": "Gross",
+      "grossScore": "Gross Score",
+      "adjusted": "Adjusted",
+      "totalScore": "Total Score",
+      "toPar": "To Par",
+      "total": "Total",
+      "totalUpper": "TOTAL",
+      "out": "OUT",
+      "in": "IN",
+      "front9": "Front 9",
+      "back9": "Back 9",
+      "hole": "Hole",
+      "holeWithNumber": "Hole {{n}}",
+      "saveScore": "Score save karo",
+      "rounds": "Rounds",
+      "avgDiff": "Avg Diff",
+      "bestDiff": "Best Diff",
+      "ghin": "GHIN",
+      "par": "Par",
+      "handicap": "Handicap",
+      "distance": "Distance"
+    },
+    "entry": {
+      "invalidInputTitle": "Galat input",
+      "invalidStrokesMessage": "Ek valid stroke number enter karo (1 ya zyada)",
+      "invalidPuttsMessage": "Ek valid putt number enter karo (0 ya zyada)",
+      "invalidPenaltiesMessage": "Ek valid penalty number enter karo (0 ya zyada)",
+      "puttsExceedStrokesMessage": "Putts ki number total strokes se zyada nahi ho sakti",
+      "scoreSavedTitle": "Score Save Ho Gaya",
+      "movedToHole": "Hole {{hole}} pe aa gaye",
+      "roundCompleteSimple": "Round complete!",
+      "viewSummary": "Summary dekho",
+      "noActiveRound": "Koi active round nahi hai",
+      "notesLabel": "Notes (optional)",
+      "notesPlaceholder": "Is hole ke baare mein notes likho..."
+    },
+    "holeScore": {
+      "title": "Hole {{n}} Score",
+      "roundCompleteTitle": "Round Complete",
+      "roundCompleteMessage": "Hole {{hole}}: {{strokes}} strokes, {{putts}} putts\n\nTumhara round complete ho gaya!",
+      "viewScorecard": "Scorecard dekho"
+    },
+    "navigation": {
+      "loadFailed": "Course data load nahi hua",
+      "noHoleData": "Koi hole data available nahi hai",
+      "hazardsOnHole": "Is hole pe hazards:",
+      "holeLayout": "Hole Layout",
+      "quickActions": "Quick Actions",
+      "profile": "Profile",
+      "clubs": "Clubs"
+    },
+    "complete": {
+      "loadFailed": "Round data load nahi hua.",
+      "savedTitle": "Save Ho Gaya",
+      "savedMessage": "Tumhare changes save ho gaye hain.",
+      "saveChangesFailed": "Changes save nahi hue. Dobara try karo.",
+      "loginRequired": "Score save karne ke liye login karna zaroori hai.",
+      "scoreSavedTitle": "Score Save Ho Gaya",
+      "scoreSavedMessage": "Tumhara round successfully save ho gaya.",
+      "saveScoreFailed": "Score save nahi hua. Dobara try karo.",
+      "loading": "Round data load ho raha hai...",
+      "title": "Round Complete",
+      "unsavedChanges": "Save nahi kiye changes",
+      "unsavedChangesMessage": "Tumhare kuch changes save nahi hue. Kya save karna chahte ho?",
+      "discard": "Discard karo",
+      "save": "Save karo",
+      "unsavedScoreTitle": "Score Save Nahi Hua",
+      "unsavedScoreMessage": "Tumhara score save nahi hua. Kya sach mein exit karna chahte ho?",
+      "exitWithoutSaving": "Bina save kiye exit karo",
+      "scorecard": "Scorecard",
+      "tapToEdit": "Edit karne ke liye hole tap karo",
+      "statistics": "Statistics",
+      "ghinPosting": "GHIN Posting",
+      "postedToGHIN": "GHIN pe post ho gaya",
+      "saveChanges": "Changes save karo",
+      "saveRound": "Round save karo",
+      "savedButton": "Save Ho Gaya",
+      "postOnGHIN": "GHIN pe post karo",
+      "finish": "Finish"
+    },
+    "summary": {
+      "endRoundTitle": "Round Khatam Karo",
+      "endRoundMessage": "Kya sach mein ye round khatam karna chahte ho? Round tumhari history mein save ho jaayega.",
+      "holeByHole": "Hole-by-Hole",
+      "roundStatistics": "Round Statistics",
+      "continueRound": "Round continue karo",
+      "endRound": "Round khatam karo"
+    },
+    "history": {
+      "noScoresTitle": "Abhi koi score nahi hai",
+      "findCourse": "Course dhundho",
+      "loading": "Scores load ho rahe hain...",
+      "back": "Wapas",
+      "title": "Score History",
+      "tabHistory": "History",
+      "tabAnalytics": "Analytics",
+      "filterAll": "Saare rounds",
+      "filterRecent": "Recent",
+      "filterBest": "Best"
+    },
+    "detail": {
+      "shareScorecard": "Scorecard share karo"
+    },
+    "terms": {
+      "albatross": "Albatross",
+      "eagle": "Eagle",
+      "birdie": "Birdie",
+      "par": "Par",
+      "bogey": "Bogey",
+      "double": "Double",
+      "triple": "Triple"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "Score",
+      "tapForScorecard": "Scorecard ke liye tap karo",
+      "round": "ROUND",
+      "nextHole": "Agla Hole",
+      "endRound": "Round Khatam Karo",
+      "fix": "FIX",
+      "viewFullScorecard": "Poora Scorecard dekho"
+    },
+    "shotVars": {
+      "adjust": "Adjust karo",
+      "pinPosition": "Pin position",
+      "back": "Back",
+      "front": "Front",
+      "left": "L",
+      "right": "R",
+      "lie": "Lie",
+      "stance": "Stance",
+      "slope": "Slope",
+      "distance": "Distance",
+      "wind": "Wind",
+      "yds": "yds"
+    },
+    "endRoundModal": {
+      "title": "Round Khatam Karo?",
+      "holesPlayed": "Holes Played",
+      "strokes": "Strokes",
+      "toPar": "To Par",
+      "incompleteWarning": "{{count}} hole bina score ke.",
+      "incompleteWarning_other": "{{count}} holes bina score ke.",
+      "incompleteSubtext": "Incomplete holes GHIN posting mein count nahi honge.",
+      "ghin18": "Ye round GHIN posting ke liye eligible hai.",
+      "ghin9": "Ye round 9-hole GHIN posting ke liye eligible hai.",
+      "ghinNeedMore": "GHIN eligibility ke liye {{count}} aur holes chahiye.",
+      "continuePlaying": "Khelna jaari rakho",
+      "endRound": "Round khatam karo"
+    },
+    "loadingCourseData": "Course data load ho raha hai...",
+    "mapDisabledTournament": "Tournament mode mein map disabled hai",
+    "yards": "M",
+    "tournament": "TOURNAMENT",
+    "mph": "KM/H",
+    "holeLabel": "HOLE",
+    "par": "Par",
+    "holeWithNumber": "HOLE {{n}}",
+    "parWithNumber": "PAR {{n}}",
+    "uphill": "UPHILL",
+    "downhill": "DOWNHILL",
+    "fromTee": "Tee se",
+    "fromPosition": "Position se",
+    "feet": "m",
+    "conditionsModal": {
+      "title": "Course Conditions",
+      "subtitle": "Aaj conditions kaisi hain?",
+      "setConditions": "Course Conditions set karo",
+      "skip": "Abhi skip karo"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "Optimizer uplabdh nahi",
+      "optimizerUnavailableMessage": "Required data missing hai",
+      "optimizerErrorTitle": "Optimizer Error",
+      "optimizerErrorMessage": "Recommendations calculate nahi ho payi"
+    },
+    "overlay": {
+      "analyzing": "Hole analyze ho raha hai...",
+      "suggestedClub": "Suggested Club",
+      "shotShape": "Shot Shape",
+      "landingZoneSafety": "Landing Zone Safety",
+      "successRate": "Success Rate",
+      "aimPoint": "Aim Point",
+      "courseConditions": "Course Conditions",
+      "groundFirmness": "Ground Firmness",
+      "roughHeight": "Rough Height",
+      "greenSpeed": "Green Speed",
+      "windSpeed": "Wind Speed",
+      "windDirection": "Wind Direction",
+      "shotDetails": "Shot Details"
+    },
+    "quickShot": {
+      "title": "Quick Shot",
+      "subtitle": "Tezi se AI recommendations",
+      "voiceCardTitle": "Voice Command",
+      "listeningHint": "Sun raha hoon… Apna shot bataiye",
+      "idleHint": "Bolne ke liye dabaaye rakhein ya neeche manual input use karein",
+      "holdToSpeak": "Bolne ke liye dabaye rakhein",
+      "listening": "Sun raha hoon…",
+      "youSaid": "Aapne kaha:",
+      "manualInput": "Manual Input",
+      "distanceToTarget": "Target tak ki distance",
+      "getRecommendation": "⚡ Recommendation lein",
+      "readyTitle": "Aapka shot analyze karne ke liye taiyaar",
+      "readyText": "Voice command ya manual input se personalized club recommendation paayein"
+    },
+    "shotVarsScreen": {
+      "title": "Shot Variables",
+      "subtitle": "Recommendations ke liye saari input data",
+      "dataSources": "Data sources",
+      "howVarsAffect": "Yeh variables aapke shot ko kaise affect karte hain",
+      "recommendedClub": "Recommended Club",
+      "getRecPrompt": "Club recommendation lein yeh dekhne ke liye ki har variable selection ko kaise affect karta hai.",
+      "categories": {
+        "location": "Location aur distance",
+        "weather": "Weather conditions",
+        "elevation": "Elevation data",
+        "conditions": "Course conditions",
+        "player": "Player profile",
+        "shot": "Shot details",
+        "conversational": "AI Variables"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "Manual",
+        "ai": "AI",
+        "course": "Course",
+        "profile": "Profile",
+        "calculated": "Calculated"
+      },
+      "timestamp": {
+        "never": "Kabhi nahi",
+        "justNow": "Abhi",
+        "oneMinAgo": "1 min pehle",
+        "minsAgo": "{{count}} min pehle",
+        "oneHourAgo": "1 ghante pehle",
+        "hoursAgo": "{{count}} ghante pehle",
+        "updated": "{{when}} update"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "Tumhara round prepare ho raha hai...",
+      "failedTitle": "Loading fail",
+      "failedMessage": "Course data load nahi ho saka. Connection check karo.",
+      "retry": "Dobara try karo",
+      "cancel": "Cancel"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "Error",
+      "loadFailedMessage": "Course details load nahi ho payi. Dobara try karo.",
+      "goBack": "Wapas jao",
+      "retry": "Dobara try karo",
+      "tryAgain": "Phir se try karo",
+      "loading": "{{courseName}} load ho raha hai...",
+      "loadingFallback": "Course details load ho rahi hain...",
+      "openMapsError": "Maps nahi khul raha",
+      "phoneError": "Phone call nahi ho pa rahi",
+      "selectTeeFirst": "Pehle ek tee box choose karo",
+      "notFound": "Course nahi mila",
+      "infoHoles": "Holes",
+      "infoPar": "Par",
+      "infoYardage": "Yardage",
+      "selectTeeBox": "Tee Box choose karo",
+      "directions": "Directions",
+      "call": "Call karo",
+      "hazards": "Hazards",
+      "about": "Baare mein",
+      "continue": "Continue",
+      "googleOnlyTitle": "Course hamare scoring database mein nahi hai",
+      "googleOnlyBody": "Hum is course ki location dikha sakte hain, lekin rounds, scoring, aur tee data abhi available nahi hai.",
+      "startUnavailable": "Round Start Unavailable",
+      "selectTeeA11y": "{{teeName}} tee choose karo",
+      "teeStats": "{{yardage}} yds • Par {{par}}",
+      "teeRating": "Rating: {{rating}} • Slope: {{slope}}"
+    },
+    "setup": {
+      "loadingTees": "Tee information load ho rahi hai...",
+      "loadFailedTitle": "Course Load Error",
+      "loadFailedMessage": "Tee aur scorecard information load nahi ho payi. Dobara try karo.",
+      "selectTeeTitle": "Tee Choose Karo",
+      "selectTeeMessage": "Shuru karne se pehle ek tee box choose karo.",
+      "cancel": "Cancel",
+      "subtitle": "Round Setup",
+      "ratingType": "Rating Type",
+      "mens": "Men's",
+      "womens": "Mahilao ka",
+      "roundType": "Round Type",
+      "type18": "18 Holes",
+      "type18Description": "Poora round",
+      "typeFront9": "Front 9",
+      "typeFront9Description": "Holes 1-9",
+      "typeBack9": "Back 9",
+      "typeBack9Description": "Holes 10-18",
+      "courseHandicap": "Tumhara Course Handicap",
+      "startRound": "Round shuru karo"
+    },
+    "startingHole": {
+      "selectStartingHole": "Starting Hole choose karo",
+      "holesLabel": "{{count}} Holes",
+      "doubleLabel": "2x{{n}} ({{total}} Holes)",
+      "front9": "Front 9",
+      "full18": "Full 18",
+      "back9": "Back 9",
+      "swingThoughtTitle": "Swing Thought (optional)",
+      "swingThoughtDescription": "Tumhara AI caddie har shot se pehle ye yaad dilaayega",
+      "swingThoughtPlaceholder": "Jaise, slow backswing, smooth tempo...",
+      "selectedHoleTitle": "Chosen Hole",
+      "selectedHoleNumber": "Hole {{hole}}",
+      "playingTwice": "{{n}} holes do baar khel rahe ho ({{total}} total)",
+      "front9Description": "Front 9 (Holes 1-9)",
+      "back9Description": "Back 9 (Holes 10-{{end}})",
+      "fullDescription": "Poore {{n}} Holes",
+      "starting": "Round shuru ho raha hai...",
+      "startPlayingHole": "Hole {{hole}} khelna shuru karo →",
+      "errorTitle": "Error",
+      "errorMessage": "Round start nahi ho saka. Dobara try karo."
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "PRIMARY RECOMMENDATION",
+    "secondaryHeader": "SECONDARY RECOMMENDATION",
+    "calculating": "Calculate ho raha hai",
+    "addClubsPrompt": "Shuru karne ke liye clubs add karo",
+    "swingFace": "Swing & Face",
+    "aimPoint": "Aim Point",
+    "expectedCarry": "Expected Carry",
+    "fullSquare": "Full | Square",
+    "aimStraight": "Seedha aim karo",
+    "unknown": "Pata nahi",
+    "youSaid": "Tumne kaha:",
+    "currentRecommendation": "Current Recommendation:",
+    "close": "Band karo",
+    "manualVariables": "Manual Variables",
+    "done": "Done",
+    "hazardType": "Hazard Type",
+    "location": "Location",
+    "riskLevel": "Risk Level",
+    "cancel": "Cancel",
+    "body": {
+      "section": {
+        "shotVariables": "शॉट वेरिएबल्स",
+        "shotEffects": "शॉट इफेक्ट्स (प्री-ऑप्टिमाइज़र)",
+        "totalAdjustments": "कुल समायोजन"
+      },
+      "pickers": {
+        "pinLocation": "Pin Location",
+        "pinSide": "Pin Side",
+        "lie": "Lie",
+        "stance": "Stance",
+        "slopeAngle": "Slope Angle",
+        "distance": "Hole tak Distance",
+        "windSpeed": "Wind Speed",
+        "windDirection": "Wind Direction"
+      },
+      "pinLocations": {
+        "Front": "Front",
+        "Middle": "Middle",
+        "Back": "Back"
+      },
+      "pinSides": {
+        "Left": "Left",
+        "Center": "Center",
+        "Right": "Right"
+      },
+      "lies": {
+        "Tee": "Tee",
+        "Fairway": "Fairway",
+        "Light_Rough": "Light Rough",
+        "Heavy_Rough": "Heavy Rough",
+        "Sand": "Sand",
+        "Recovery": "Recovery"
+      },
+      "stances": {
+        "Flat": "Flat",
+        "Ball_Above_Feet": "Ball paon ke upar",
+        "Ball_Below_Feet": "Ball paon ke neeche",
+        "Uphill": "Uphill",
+        "Downhill": "Downhill"
+      },
+      "categories": {
+        "course": "Course Elements",
+        "hole": "Hole Elements",
+        "player": "Player Elements",
+        "environment": "Environment Elements",
+        "shot": "Individual Shot Elements"
+      },
+      "columns": {
+        "carry": "कैरी",
+        "roll": "रोल",
+        "aim": "निशाना"
+      },
+      "aimSummary": {
+        "straight": "Seedha",
+        "right": "Right",
+        "left": "Left"
+      },
+      "aimSuffix": {
+        "right": " R",
+        "left": " L"
+      },
+      "variables": {
+        "Altitude": "Altitude",
+        "Firmness": "Ground Firmness",
+        "GreenSpeed": "Green Speed",
+        "ElevationChange": "Elevation Change",
+        "PinLocation": "Pin Location",
+        "PinSide": "Pin Side",
+        "WaterHazard": "Water Hazard",
+        "Bunkers": "Bunkers",
+        "Handicap": "Handicap",
+        "NaturalShot": "Natural Shot",
+        "ShotHeight": "Shot Height",
+        "DominantHand": "Dominant Hand",
+        "Wind": "Wind",
+        "Temperature": "Temperature",
+        "Humidity": "Humidity",
+        "Weather": "Weather",
+        "Distance": "Distance",
+        "Confidence": "Confidence",
+        "Lie": "Lie",
+        "RoughLength": "Rough Length",
+        "Stance": "Stance"
+      },
+      "units": {
+        "yards": "yds",
+        "mph": "mph",
+        "feet": "ft",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "उ",
+        "NE": "उपू",
+        "E": "पू",
+        "SE": "दपू",
+        "S": "द",
+        "SW": "दप",
+        "W": "प",
+        "NW": "उप"
+      },
+      "empty": "Koi active adjustment nahi - standard calculations use ho rahi hain",
+      "activeAdjustments_one": "{{count}} active adjustment",
+      "activeAdjustments_other": "{{count}} active adjustments",
+      "recalculate": "Recalculate",
+      "recCard": {
+        "primary": "PRIMARY RECOMMENDATION",
+        "secondary": "SECONDARY RECOMMENDATION",
+        "calculating": "Calculate ho raha hai...",
+        "setDistance": "Calculate karne ke liye distance set karo",
+        "unknown": "Pata nahi",
+        "swing": "Swing: {{value}}",
+        "aim": "Aim: {{value}}",
+        "expectedCarry": "Expected Carry: {{yards}}y",
+        "defaultSwing": "Full | Square",
+        "aimStraight": "Seedha aim karo"
+      },
+      "values": {
+        "aimRight": "{{yards}}y daayein aim",
+        "aimLeft": "{{yards}}y baayein aim",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "Uphill {{value}} ft",
+        "downhillFt": "Downhill {{value}} ft",
+        "distanceYards": "{{value}} yards",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "Level {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y {{club}} ke saath)",
+        "shotHeightTrajectory": "{{height}} trajectory",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "Shot log karo",
+      "clubUsed": "Club used:",
+      "targetDistance": "Target distance:",
+      "howWasShot": "Shot kaisa tha?",
+      "whereLanded": "Kahan gira?"
+    }
+  },
+  "clubs": {
+    "loading": "Clubs load ho rahe hain...",
+    "clubDistances": "Club Distances",
+    "specialtyShots": "Specialty Shots",
+    "fullSwingShots": "Full Swing Shots",
+    "shortGameShots": "SHORT GAME SHOTS",
+    "reset": "Reset",
+    "addClub": "+ Club add",
+    "addShot": "+ Shot add",
+    "addCustomClub": "Custom Club add karo",
+    "addCustomShot": "Custom Shot add karo",
+    "editShot": "Shot edit karo",
+    "save": "Save karo",
+    "cancel": "Cancel",
+    "club": "Club",
+    "clubName": "Club ka naam",
+    "clubNamePlaceholder": "Club ka naam",
+    "clubUsed": "Club Used",
+    "takeback": {
+      "Full": "Full",
+      "Three-Quarter": "Three-Quarter",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "Punch",
+      "ThreeQuarter": "3/4",
+      "Chip": "Chip",
+      "Flop": "Flop",
+      "Pitch": "Pitch"
+    },
+    "face": {
+      "Square": "Square",
+      "Draw": "Draw",
+      "Fade": "Fade",
+      "Hood": "Hood",
+      "Open": "Open",
+      "Flat": "Flat"
+    },
+    "shotType": "Shot Type",
+    "customShotName": "Custom Shot ka naam",
+    "carryDistance": "Carry Distance",
+    "rollDistance": "Roll Distance",
+    "totalDistance": "Total Distance:",
+    "calculatedRest": "Baaki hum save pe calculate kar lenge",
+    "carryHelp": "Ball roll karne se pehle kahaan girta hai",
+    "rollHelp": "Ball land karne ke baad kitna roll karta hai",
+    "totalHelp": "Final distance (carry + roll)",
+    "totalHelpStop": "Ball aakhir mein kahaan rukta hai",
+    "rollNegativeHelp": "Backspin ke liye negative use karo (ball wapas roll karta hai)",
+    "idealLies": "Ideal Lies (optional)",
+    "idealLiesHelp": "Choose karo ye shot kahaan best kaam karta hai",
+    "notes": "Notes (optional)",
+    "alerts": {
+      "loadFailed": "Data load nahi hua. Thodi der baad try karo.",
+      "addClubSuccess": "Club successfully add ho gaya",
+      "addClubFailed": "Club add nahi hua",
+      "updateDistanceFailed": "Distance update nahi hua",
+      "updateClubFailed": "Club update nahi hua",
+      "deleteClubFailed": "Club delete nahi hua",
+      "syncCompleteTitle": "Sync ho gaya",
+      "syncCompleteMessage": "Tumhare changes cloud pe save ho gaye hain.",
+      "syncFailedTitle": "Sync fail",
+      "syncFailedMessage": "Changes sync nahi ho sake. Internet connection check karo aur dobara try karo.",
+      "syncErrorTitle": "Sync Error",
+      "syncErrorMessage": "Syncing mein kuch gadbad ho gayi. Dobara try karo.",
+      "resetClubsSuccess": "Clubs defaults pe reset ho gaye (14 clubs load hue)",
+      "resetClubsFailed": "Clubs reset nahi hue",
+      "addShotSuccess": "Shot successfully add ho gaya",
+      "addShotFailed": "Shot add nahi hua",
+      "modifiedShotsFailed": "Modified shots create nahi ho sake",
+      "resetShotsSuccess": "Shots defaults pe reset ho gaye (18 shots load hue)",
+      "resetShotsFailed": "Shots reset nahi hue",
+      "toggleShotFailed": "Shot status toggle nahi hua",
+      "cannotDeleteTitle": "Delete Nahi Ho Sakta",
+      "cannotDeleteMessage": "Default shots delete nahi ho sakte. Inhe deactivate kar sakte ho.",
+      "deleteShotFailed": "Shot delete nahi hua",
+      "updateShotFailed": "Shot update nahi hua",
+      "successTitle": "Ho Gaya!",
+      "errorTitle": "Error",
+      "invalidDistanceTitle": "Galat distance",
+      "invalidDistanceMessage": "Distance 0 se zyada honi chahiye",
+      "calculateDistancesFailed": "Distances calculate nahi ho payi",
+      "selectClub": "Ek club choose karo",
+      "selectShotType": "Ek shot type choose karo",
+      "enterCustomName": "Shot ke liye ek custom naam dalo",
+      "enterCarry": "Ek valid carry distance dalo",
+      "enterRoll": "Roll distance dalo (backspin ke liye negative ho sakta hai)",
+      "unusualDistanceTitle": "Asaamanya distance values",
+      "unusualDistanceBody": "Kya aap phir bhi yeh club add karna chahte hain?",
+      "addAnyway": "Phir bhi add"
+    },
+    "modifier": {
+      "headerTitle": "Shot Modifier",
+      "selectTitle": "Shot Modifier select karein",
+      "selectSubtitle": "Apne clubs par lagaane ke liye modifier chunein",
+      "howManyUnits": "Kitne {{unit}}s?",
+      "effect": "Asar: {{sign}}{{pct}}%",
+      "selectClubs": "Clubs select karein",
+      "selectAll": "Sabhi select karein",
+      "deselectAll": "Sabhi hatayein",
+      "previewBtn": "Preview ({{count}} clubs)",
+      "previewTitle": "Modified shots ka preview",
+      "previewSubtitle": "{{count}} shots banaye jayenge ({{sign}}{{pct}}%)",
+      "totalLabel": "Total",
+      "createBtn": "{{count}} shots create",
+      "successTitle": "Ho gaya",
+      "successMessage": "{{count}} modified shots create kiye!"
+    },
+    "stashed": "STASHED",
+    "carry": "Carry",
+    "roll": "Roll",
+    "yourBag": "Aapka bag ({{count}} clubs)",
+    "tabClubs": "Clubs ({{count}})",
+    "tabShots": "Shots ({{count}})",
+    "edit": {
+      "title": "Edit: {{name}}",
+      "clubName": "Club Name",
+      "clubNamePlaceholder": "Club name",
+      "face": "Face",
+      "fillAny": "💡 1, 2, ya teeno fields bharein",
+      "calculateRest": "Save par baaki calculate ho jayega",
+      "carryDistance": "Carry Distance",
+      "rollDistance": "Roll Distance",
+      "totalDistance": "Total Distance",
+      "yards": "yards",
+      "carryHelp": "Roll hone se pehle ball kahaan girti hai",
+      "rollHelp": "Landing ke baad ball kitni roll hoti hai",
+      "totalHelp": "Ball aakhri mein kahaan rukti hai",
+      "totalHelpAddClub": "Final distance (carry + roll)"
+    },
+    "addClubForm": {
+      "title": "Custom club add karein",
+      "club": "Club",
+      "takeback": "Takeback",
+      "submit": "Club add"
+    },
+    "addShotForm": {
+      "title": "Custom shot add karein",
+      "clubUsed": "Club Used",
+      "shotType": "Shot Type",
+      "customShotName": "Custom Shot Name",
+      "customShotPlaceholder": "jaise, mera special bump",
+      "enterDistances": "📏 Distances daalein",
+      "rollNegativeHelp": "Backspin shots ke liye roll negative ho sakta hai (jaise -2 flop ke liye)",
+      "carryPlaceholder": "jaise 50",
+      "rollPlaceholder": "jaise 5 ya -2",
+      "rollNegativeHint": "Backspin ke liye negative use karein (ball wapas roll hoti hai)",
+      "totalDistanceLabel": "Total Distance:",
+      "fullSwing": "Full Swing",
+      "shortGame": "Short Game",
+      "idealLies": "Ideal Lies (optional)",
+      "idealLiesHelp": "Jahaan yeh shot best work karta hai woh select karein",
+      "notes": "Notes (optional)",
+      "notesPlaceholder": "jaise, Open stance, soft hands",
+      "submit": "Shot add",
+      "errSelectClub": "Kripya ek club select karein",
+      "errSelectShotType": "Kripya shot type select karein",
+      "errCustomName": "Kripya shot ke liye custom name daalein",
+      "errCarry": "Kripya valid carry distance daalein",
+      "errRoll": "Kripya roll distance daalein (backspin ke liye negative ho sakta hai)"
+    },
+    "category": {
+      "Woods": "Woods",
+      "Hybrids": "Hybrids",
+      "Irons": "Irons",
+      "Wedges": "Wedges",
+      "Putters": "Putters"
+    },
+    "shotNames": {
+      "Standard": "Standard",
+      "Pitch": "Pitch",
+      "Flop": "Flop",
+      "Chokedown": "Chokedown",
+      "Stinger": "Stinger",
+      "Fairway Finder": "Fairway Finder",
+      "Knockdown": "Knockdown",
+      "Spinner": "Spinner",
+      "Power": "Power",
+      "Runner": "Runner",
+      "Punch": "Punch",
+      "Bump & Run": "Bump & Run",
+      "Lob": "Lob",
+      "Chip": "Chip",
+      "Custom": "Custom"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "Choke Down",
+        "description": "Zyada control ke liye club ko neeche se grip karein, distance kam. Per inch -4%."
+      },
+      "power": {
+        "name": "Power",
+        "description": "Extra distance ke liye zor se swing karein. Selected clubs par +5%."
+      },
+      "knockdown": {
+        "name": "Knockdown",
+        "description": "Hawa ke khilaf low trajectory shot. Distance -10%."
+      },
+      "punch": {
+        "name": "Punch",
+        "description": "Pedon ke neeche low punch shot. Distance -25%."
+      },
+      "three_quarter": {
+        "name": "3/4 Swing",
+        "description": "Accuracy ke liye controlled 3/4 swing. Distance -15%."
+      }
+    },
+    "modifierBtn": "Modifier"
+  },
+  "course": {
+    "list": {
+      "title": "Golf Courses",
+      "nearby": "Paas mein",
+      "searchPlaceholder": "Naam, city, state, ya country se search karo...",
+      "searchResultsCount": "\"{{query}}\" ke liye {{count}} results",
+      "nearbyCount": "{{count}} courses paas mein",
+      "emptyTitle": "Koi Course Nahi Mila",
+      "emptySubtitle": "Paas ke courses load nahi ho sake.",
+      "emptySearchSubtitle": "\"{{query}}\" se koi course nahi mila.",
+      "runDiagnostics": "Diagnostics run karo",
+      "tryAgain": "Phir se try karo",
+      "clearSearch": "Search clear karo",
+      "locationUnavailableTitle": "Location uplabdh nahi",
+      "locationUnavailableMessage": "Location access nahi ho pa raha. Phoenix, AZ ke paas ke courses dikh rahe hain.",
+      "retry": "Dobara try karo"
+    },
+    "activeRound": {
+      "title": "Round Chal Raha Hai",
+      "active": "Active",
+      "paused": "Paused",
+      "holeProgress": "Hole {{current}}/{{total}}",
+      "scoreLine": "Score: {{toPar}} ({{score}} strokes)",
+      "noScoresYet": "Abhi koi score nahi",
+      "delete": "Delete karo",
+      "complete": "Complete karo",
+      "continue": "Continue karo"
+    },
+    "completeDialog": {
+      "title": "Round Complete Karo",
+      "message": "Kya sach mein ye round complete karna chahte ho? Tumhare scores save ho jaayenge.",
+      "confirmButton": "Complete karo",
+      "successTitle": "Round Complete",
+      "successMessage": "Tumhara round score history mein save ho gaya.",
+      "errorMessage": "Round complete nahi hua. Dobara try karo."
+    },
+    "deleteDialog": {
+      "title": "Round Delete Karo",
+      "message": "Kya sach mein ye round delete karna chahte ho? Saare scores chale jaayenge aur wapas nahi aayenge.",
+      "confirmButton": "Delete karo"
+    },
+    "abandonDialog": {
+      "title": "Round Abandon Karo?",
+      "message": "Isse tumhara current round permanently delete ho jaayega. Ye undo nahi ho sakta.",
+      "keepPlaying": "Khelte raho",
+      "confirmAbandon": "Haan, Abandon karo"
+    },
+    "roundInProgressDialog": {
+      "message": "Tum {{course}} mein hole {{current}} of {{total}} pe ho\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "Score: {{toPar}} ({{score}} strokes thru {{holes}})",
+      "scoreDisplayEmpty": "Abhi koi score record nahi hua",
+      "continueRound": "Round continue karo",
+      "pauseBrowse": "Pause karo & Browse karo",
+      "abandonRound": "Round abandon karo"
+    },
+    "conditions": {
+      "title": "Course Conditions",
+      "weatherConditions": "Weather conditions",
+      "groundFirmness": "Ground firmness",
+      "roughLength": "Rough length",
+      "greenFirmness": "Green firmness",
+      "pinLocationRotation": "Pin location rotation",
+      "pinRotationDesc": "Pin ki starting position chunein. Round ke dauran pins Front → Middle → Back rotate karenge.",
+      "rotationPreview": "Rotation preview:",
+      "rotationFront": "Hole 1: Front → Hole 2: Middle → Hole 3: Back → Hole 4: Front…",
+      "rotationMiddle": "Hole 1: Middle → Hole 2: Back → Hole 3: Front → Hole 4: Middle…",
+      "rotationBack": "Hole 1: Back → Hole 2: Front → Hole 3: Middle → Hole 4: Back…",
+      "starting": "Starting",
+      "impactOnPlay": "Play par asar",
+      "rollLabel": "Roll:",
+      "roughLabel": "Rough:",
+      "greenSpeedLabel": "Green speed:",
+      "saveAndContinue": "Save aur continue",
+      "firmDescSoft": "Ball landing par phans jaati hai",
+      "firmDescMedium": "Standard bounce aur roll",
+      "firmDescFirm": "Extra roll",
+      "firmDescUsOpen": "Maximum bounce aur roll",
+      "roughDescShort": "Aasaani se nikalna",
+      "roughDescMedium": "Standard difficulty",
+      "roughDescLong": "Aage badhna mushkil",
+      "roughDescUsOpen": "Bahut mushkil",
+      "greenDescSlow": "8–9 stimp",
+      "greenDescMedium": "10–11 stimp",
+      "greenDescFast": "12–13 stimp",
+      "greenDescUsOpen": "14+ stimp",
+      "rollNormal": "Normal",
+      "rollSoft": "-10–15 yds",
+      "rollFirm": "+8–12 yds",
+      "rollUsOpen": "+15–20 yds",
+      "roughMinimal": "Minimal asar",
+      "roughStandard": "Standard",
+      "roughSignificant": "Significant penalty",
+      "roughSevere": "Severe penalty",
+      "greenEasier": "Aasaan control",
+      "greenLightning": "Bijli jaisa tez",
+      "weatherSunny": "Dhoop",
+      "weatherCloudy": "Baadal",
+      "weatherRaining": "Baarish",
+      "weatherSnowing": "Barf",
+      "firmSoft": "Soft",
+      "firmMedium": "Medium",
+      "firmFirm": "Firm",
+      "firmUsOpen": "US Open",
+      "roughShort": "Short",
+      "roughMedium": "Medium",
+      "roughLong": "Long",
+      "roughUsOpen": "US Open",
+      "greenSlow": "Slow",
+      "greenMedium": "Medium",
+      "greenFast": "Fast",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "Course Setup",
+      "findYourCourse": "Apna course dhundein",
+      "findSubtitle": "Apne paas ke courses search karein ya favorites browse karein",
+      "recentCourses": "Recent Courses",
+      "favoriteCourses": "Favorite Courses",
+      "searchByName": "Naam se search",
+      "searchPlaceholder": "Course ka naam ya city likhein…",
+      "searchByNameBtn": "🔍 Naam se search",
+      "searchNearbyBtn": "📍 Aas paas ke courses dhundein",
+      "selectCourse": "Course select karein",
+      "selectSubtitle": "Aas paas {{count}} courses mile",
+      "downloadingCourse": "Course download ho raha hai",
+      "continueToCond": "Conditions par jaayein →",
+      "backToSearch": "← Search par wapas",
+      "changeCourse": "← Course badlein",
+      "milesAway": "{{dist}} miles door",
+      "retryDownload": "Phir se try"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← Wapas",
+        "backShort": "Wapas",
+        "previous": "Pehla",
+        "continue": "Aage →",
+        "continueShort": "Aage",
+        "goBack": "Wapas jao",
+        "continueToNextStep": "Agle step par jao"
+      },
+      "ai": {
+        "title": "AI Caddie Settings",
+        "subtitle": "Customize karo ki tumhara AI caddie tumse kaise baat kare",
+        "skillSectionTitle": "Tumhara skill level kya hai?",
+        "verbositySectionTitle": "Tumhara caddie kitna bole?",
+        "testButtonConnecting": "Connect ho raha hai...",
+        "testButtonStop": "Demo band karo",
+        "testButtonAgain": "Dobara test karo",
+        "testButtonStart": "Apna Caddie test karo",
+        "testHintActive": "Apne AI caddie se baat karo! Khatam hone par Stop dabao.",
+        "testHintIdle": "Apne AI caddie ke saath live baat shuru karo.",
+        "testA11yLabel": "AI caddie test karo",
+        "alertNotAvailableTitle": "Uplabdh Nahi",
+        "alertNotAvailableBody": "Is device par Voice AI uplabdh nahi hai.",
+        "alertMicTitle": "Microphone Chahiye",
+        "alertMicBody": "AI caddie test karne ke liye microphone access do.",
+        "alertComingSoonTitle": "Jald Aayega",
+        "alertComingSoonBody": "Voice AI features iOS par jald aayenge.",
+        "alertFailedTitle": "Test Fail Hua",
+        "alertFailedBody": "Voice demo shuru nahi ho saka. Dobara try karo."
+      },
+      "clubs": {
+        "title": "Tumhara Bag Taiyar Hai",
+        "subtitle": "Humne clubs aur shots pehle se load kar diye hain",
+        "clubsCardTitle": "CLUBS",
+        "clubsCardBadge": "{{total}} mein se {{count}}",
+        "shotsCardTitle": "SHOTS",
+        "shotsCardBadge": "{{count}} pre-loaded",
+        "shotsCardDescription": "Har situation ke liye full swing + short game shots.",
+        "infoTitle": "Kabhi bhi custom shots add karo:",
+        "shotExampleChoke": "Choke Down (har inch par -4%)",
+        "shotExamplePower": "Power (+5% distance)",
+        "shotExampleOther": "Punch, Flop, Knockdown...",
+        "viewAllClubs": "Sab dekho ({{count}} clubs)",
+        "showLess": "Kam dikhao",
+        "hideShotsButton": "Shots chhupao",
+        "viewAllShotsButton": "Saare shots dekho",
+        "noteText": "Sab kuch yahan customize kar sakte ho:",
+        "noteHighlight": "Settings → Club Management",
+        "excelTitle": "Quick Setup Option",
+        "excelText": "Excel template download karo:",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "se apne saare clubs aur shots ek baar mein add karo!",
+        "goBack": "Wapas jao",
+        "continueToNextStep": "Agle step par jao"
+      },
+      "conditions": {
+        "title": "Course Conditions",
+        "subtitle": "Shuruat mein ek baar set karo, phir bina rukawat ke khelo",
+        "setOnceTitle": "Round shuru hone par ek baar set karo:",
+        "bulletWind": "Wind speed aur direction",
+        "bulletTemp": "Temperature",
+        "bulletPin": "Pin sheet position",
+        "pinSheetTitle": "PIN SHEET",
+        "pinExplanation": "Starting position (Front, Middle, ya Back) chunno aur pin apne aap har hole par rotate kar jaata hai.",
+        "confirmLabel": "Tum bas yeh confirm karo:",
+        "confirmLeft": "Baayein",
+        "confirmCenter": "Beech mein",
+        "confirmRight": "Daayein",
+        "infoText": "Round shuru karte waqt course conditions set karoge.",
+        "goBack": "Wapas jao",
+        "continueToNextStep": "Agle step par jao"
+      },
+      "ellipse": {
+        "title": "Tumhara Landing Zone",
+        "subtitle": "Dekho ki tumhara handicap aur dominant hand shot dispersion ko kaise affect karta hai",
+        "infoText": "Tumhara landing zone tumhare handicap aur dominant hand ke hisaab se badalta hai. Zyada handicap matlab zyada bada dispersion pattern.",
+        "dominantHandTitle": "Dominant Hand",
+        "handRight": "Daayaan (Right)",
+        "handLeft": "Baayaan (Left)",
+        "handicapTitle": "Handicap",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "Scratch",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "Driver se estimated dispersion:",
+        "dispersionValue": "{{yards}}y wide",
+        "continueButton": "Aage",
+        "continueA11y": "Agle step par jao"
+      },
+      "ppm": {
+        "title": "Apne Baare Mein Batao",
+        "subtitle": "Humein apna caddie experience personalize karne mein madad karo",
+        "nameLabelText": "Tumhara Naam",
+        "namePlaceholder": "Apna naam likho",
+        "ageLabelText": "Umar Ka Group",
+        "yearsLabelText": "Kitne Saal Se Golf Khel Rahe Ho",
+        "yearsValue": "{{count}} saal",
+        "yearsNew": "Naya",
+        "yearsFiftyPlus": "50+",
+        "frequencyLabelText": "Kitni Baar Kheldo Ho?",
+        "freq": {
+          "rarely": "Kabhi kabhi",
+          "rarelyDesc": "Saal mein 5 se kam rounds",
+          "occasionally": "Thoda thoda",
+          "occasionallyDesc": "Saal mein 5-15 rounds",
+          "regularly": "Niyamit roop se",
+          "regularlyDesc": "Saal mein 15-30 rounds",
+          "frequently": "Zyada baar",
+          "frequentlyDesc": "Saal mein 30-50 rounds",
+          "veryFrequently": "Bahut zyada",
+          "veryFrequentlyDesc": "Saal mein 50 se zyada rounds"
+        },
+        "backButton": "Wapas",
+        "continueButton": "Aage"
+      },
+      "scoring": {
+        "titleScoring": "Apna Round Score Karo",
+        "titleScorecard": "Tumhara Scorecard",
+        "subtitleScoring": "Har hole ke baad Score tap karo aur likho:",
+        "subtitleScorecard": "Puri round mein apni progress track karo",
+        "demoHoleTitle": "Hole 1 - Par 4",
+        "labelStrokes": "Shots:",
+        "labelPutts": "Putts:",
+        "labelFairway": "Fairway:",
+        "labelPenalties": "Penalties:",
+        "fairwayHit": "Hit kiya",
+        "fairwayLeft": "Baayein",
+        "fairwayRight": "Daayein",
+        "saveNextHole": "Save karo aur agla hole",
+        "colHole": "Hole",
+        "colPar": "Par",
+        "colScore": "Score",
+        "colDiff": "+/-",
+        "labelOut": "OUT:",
+        "labelIn": "IN:",
+        "labelTotal": "TOTAL:",
+        "submitScore": "Score Submit Karo",
+        "backButton": "← Wapas",
+        "backA11y": "Wapas jao",
+        "seeScorecard": "Scorecard Dekho →",
+        "seeScoreA11y": "Scorecard dekho",
+        "startPlaying": "Khelna Shuru Karo!",
+        "starting": "Shuru ho raha hai...",
+        "startA11y": "Khelna shuru karo"
+      },
+      "shotShape": {
+        "title": "Tumhara Natural Shot",
+        "subtitle": "Apni typical ball flight ke baare mein batao",
+        "shotShapeTitle": "Shot Shape",
+        "shotHeightTitle": "Shot Ki Unchai",
+        "curveTitle": "5-iron ke saath curve ke yards",
+        "curveYards": "yards",
+        "infoText": "Hum tumhari curve ko har club ke liye automatically adjust karte hain — driver ke liye zyada, wedges ke liye kam.",
+        "shapeDraw": "Draw",
+        "shapeStraight": "Seedha",
+        "shapeFade": "Fade",
+        "heightLow": "Neecha",
+        "heightMedium": "Beech mein",
+        "heightHigh": "Ooncha",
+        "goBack": "Wapas jao",
+        "continueToNextStep": "Agle step par jao"
+      },
+      "target": {
+        "title": "Apna View Chuno",
+        "subtitle": "Overlay drag karo aim karne ke liye. Shot ko target ya dispersion ellipse ke roop mein dekho.",
+        "holeInfo": "Hole {{holeNumber}} • Par {{par}}",
+        "dragHint": "Target move karne ke liye drag karo",
+        "distanceUnit": "yds",
+        "targetLabel": "Target",
+        "targetDesc": "Seedha aim point",
+        "ellipseLabel": "Ellipse",
+        "ellipseDesc": "Tumhara dispersion pattern",
+        "ellipseModeTitle": "ELLIPSE MODE KYUN?",
+        "ellipseModeText": "Tumhara dispersion pattern dikhata hai ki tumhare shots handicap ke hisaab se kahan girte hain. Optimizer is se dhundta hai",
+        "ellipseModeHighlight": "sabse safe aim point",
+        "ellipseModeTextSuffix": "jo hazards se bachata hai.",
+        "targetModeTitle": "TARGET MODE",
+        "targetModeText": "Simple crosshair tumhara exact aim point dikhata hai. Distance track karne ke liye sahi hai, lekin dispersion nahi dikhata.",
+        "backButton": "Wapas",
+        "continueButton": "Aage"
+      },
+      "walkthrough": {
+        "title": "Ek Hole Khelna",
+        "skipButton": "Walkthrough Skip Karo",
+        "progressText": "{{total}} mein se {{current}}",
+        "backButton": "Wapas",
+        "previousButton": "Pehla",
+        "nextButton": "Agla",
+        "nextScoring": "Agla: Scoring",
+        "overlayYards": "YARDS",
+        "overlayMph": "MPH",
+        "overlayHole": "HOLE",
+        "overlayPar": "PAR",
+        "overlayUphill": "CHADHAI ({{percent}}%)",
+        "overlayFromTee": "Tee Se",
+        "overlayRecommended": "SUGGESTED",
+        "overlayPinSide": "Pin Side",
+        "overlaySwipeScore": "Score ke liye upar swipe karo",
+        "elements": {
+          "hole": {
+            "title": "Hole Ki Jaankari",
+            "description": "Current hole number aur par dikhata hai. Scorecard dekhne ke liye tap karo."
+          },
+          "distance": {
+            "title": "Pin Se Doori",
+            "description": "Chalte waqt update hoti live GPS distance pin tak."
+          },
+          "wind": {
+            "title": "Hawa Ki Sthiti",
+            "description": "Tumhare shot ko affect karne wali real-time wind speed aur direction."
+          },
+          "elevation": {
+            "title": "Unchai Ka Fark",
+            "description": "Green tak kitna upar ya neeche hai — zyada ya kam distance play karta hai."
+          },
+          "target": {
+            "title": "Dispersion Ellipse",
+            "description": "Handicap par based tumhara shot pattern. Aim point adjust karne ke liye drag karo."
+          },
+          "optimizer": {
+            "title": "Club Optimizer",
+            "description": "Distance, wind, aur hazards ke hisaab se AI recommended clubs."
+          },
+          "voice": {
+            "title": "AI Caddie",
+            "description": "Natural speech se AI caddie se salah maangne ke liye tap karo."
+          },
+          "pinside": {
+            "title": "Pin Side",
+            "description": "Pin position left, middle ya right set karo. Map aur shot recommendations mein aim point adjust hoga."
+          },
+          "score": {
+            "title": "Score Entry",
+            "description": "Hole complete karne ke baad apna score log karo."
+          },
+          "navigation": {
+            "title": "Hole Navigation",
+            "description": "Swipe ya arrows se holes ke beech move karo."
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "Personal Info",
+      "golfProfile": "Golf Profile",
+      "experience": "Experience",
+      "skills": "Skills",
+      "preferences": "Preferences",
+      "accessibility": "Accessibility"
+    },
+    "buttons": {
+      "back": "← Wapas",
+      "continue": "Aage →",
+      "complete": "Setup Complete Karo"
+    },
+    "errors": {
+      "saveFailed": "Profile save nahi hua. Dobara try karo."
+    },
+    "a11y": {
+      "completeSetup": "Setup complete karo",
+      "continueStep": "Agle step mein jao",
+      "completeHint": "Onboarding finish karo aur app use karna shuru karo",
+      "continueHint": "Agle onboarding step pe jao"
+    },
+    "personalInfo": {
+      "description": "Kuch basic information se shuru karte hain",
+      "playerName": "Player ka naam",
+      "playerNamePlaceholder": "Apna naam likho",
+      "birthday": "Birthday (Optional)",
+      "birthdayPlaceholder": "MM/DD/YYYY",
+      "phone": "Phone (Optional)",
+      "phonePlaceholder": "(555) 555-5555",
+      "address": "Address (Optional)",
+      "addressPlaceholder": "City, State"
+    },
+    "golfProfile": {
+      "description": "Apni golf game ke baare mein batao",
+      "handicap": "Handicap Index",
+      "dominantHand": "Dominant Hand",
+      "rightHanded": "Right-handed",
+      "leftHanded": "Left-handed",
+      "naturalShot": "Natural Shot",
+      "shotStraight": "Straight",
+      "shotDraw": "Draw",
+      "shotFade": "Fade",
+      "shotHeight": "Shot Height",
+      "heightLow": "Low",
+      "heightMedium": "Medium",
+      "heightHigh": "High",
+      "yardsOfCurve": "5 Iron ke saath Yards of Curve",
+      "yardsOfCurvePlaceholder": "Jaise, 5, -5, ya 0",
+      "yardsOfCurveHelp": "Draw ke liye negative use karo (-5), fade ke liye positive (+5), ya straight ke liye 0"
+    },
+    "experience": {
+      "description": "Tumhara golf experience kitna hai?",
+      "yearsPlaying": "Kitne saal se golf khel rahe ho",
+      "yearsUnit": "saal",
+      "frequency": "Kitni baar kheldo ho?",
+      "frequencyPlaceholder": "Frequency choose karo...",
+      "rarely": "Kabhi kabhi (1-5 baar/saal)",
+      "occasionally": "Thoda thoda (6-15 baar/saal)",
+      "regularly": "Regularly (16-30 baar/saal)",
+      "frequently": "Zyada (31-50 baar/saal)",
+      "veryFrequently": "Bahut zyada (51+ baar/saal)"
+    },
+    "skills": {
+      "description": "Apni strengths aur focus areas samjhne mein help karo",
+      "averageDrive": "Average Drive (Carry Distance)",
+      "averageDriveUnit": "yds",
+      "averageDriveHelp": "Apni typical carry distance daalo, roll ke saath total nahi",
+      "strengthArea": "Tumhari Strength",
+      "improvementArea": "Improvement ka Focus Area",
+      "options": {
+        "driving": "Driving",
+        "drivingDistance": "Driving Distance",
+        "drivingAccuracy": "Driving Accuracy",
+        "approachShots": "Approach Shots",
+        "ironPlay": "Iron Play",
+        "wedgePlay": "Wedge Play",
+        "shortGame": "Short Game",
+        "chipping": "Chipping",
+        "bunkerPlay": "Bunker Play",
+        "putting": "Putting",
+        "courseManagement": "Course Management",
+        "courseStrategy": "Course Strategy",
+        "mentalGame": "Mental Game",
+        "allAround": "All-Around"
+      }
+    },
+    "preferences": {
+      "description": "Apna Copperline Golf experience customize karo",
+      "notificationsHeader": "Notifications"
+    },
+    "accessibility": {
+      "description": "Optional: Accessibility settings customize karo",
+      "textSize": "Text Size",
+      "textSizeUnit": "pt",
+      "highContrast": "High Contrast Mode",
+      "highContrastDescription": "Better visibility ke liye color contrast badhao",
+      "voiceFeedback": "Voice Feedback",
+      "voiceFeedbackDescription": "Actions ke liye audio feedback suno",
+      "reduceMotion": "Animations Kam Karo",
+      "reduceMotionDescription": "Motion effects aur transitions minimize karo",
+      "screenReader": "Screen Reader",
+      "screenReaderDescription": "Screen reader ke liye optimize karo",
+      "skip": "Accessibility Settings skip karo"
+    },
+    "complete": {
+      "title": "Sab Set Ho Gaya!",
+      "message": "Tumhara profile aur clubs configure ho gaye. Har shot ke liye personalized recommendations lena shuru karo.",
+      "profileConfigured": "Profile configure ho gaya",
+      "clubsAdded": "Bag mein clubs add ho gaye",
+      "readyForRecs": "Smart recommendations ke liye ready",
+      "startUsing": "Copperline Golf use karna shuru karo",
+      "helpText": "Tum apna profile aur clubs Settings mein kabhi bhi update kar sakte ho"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "Center tak {{distance}} meters hai. Wind {{windStr}} hai. Green {{elevationStr}} hai. Pin {{pinStr}} pe hai.",
+      "approachFull": "Tum {{lie}} se {{distance}} meters door ho. Wind {{windStr}} hai. {{elevationClause}}Tumhari lie aur stance kaisi hai?",
+      "approachElevation": "{{elevationStr}} khel rahe hain. ",
+      "teeboxMinimal": "Pin {{pinStr}} pe hai. Jab ready ho bolo.",
+      "approachMinimal": "{{distance}} meters. Tumhari lie aur stance kaisi hai?",
+      "windAtMph": "{{direction}} pe {{speed}} kph",
+      "calmConditions": "shaant maahaul",
+      "elevationFeetUphill": "{{value}} meters uphill",
+      "elevationFeetDownhill": "{{value}} meters downhill",
+      "elevationLevel": "level",
+      "pinSideOfGreen": "{{location}} {{side}}",
+      "pinMiddleOfGreen": "green ke middle mein"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "headwind",
+      "Tailwind": "tailwind",
+      "Crosswind Left": "left se crosswind",
+      "Crosswind Right": "right se crosswind",
+      "Diagonal Headwind Left": "left se diagonal headwind",
+      "Diagonal Headwind Right": "right se diagonal headwind",
+      "Diagonal Tailwind Left": "left se diagonal tailwind",
+      "Diagonal Tailwind Right": "right se diagonal tailwind",
+      "Calm": "calm"
+    },
+    "pinLocation": {
+      "Front": "front",
+      "Middle": "middle",
+      "Back": "back"
+    },
+    "pinSide": {
+      "Left": "left",
+      "Center": "center",
+      "Right": "right"
+    },
+    "lie": {
+      "Tee": "tee",
+      "Fairway": "fairway",
+      "Light Rough": "light rough",
+      "Heavy Rough": "heavy rough",
+      "Sand": "sand",
+      "Bunker": "bunker",
+      "Recovery": "recovery"
+    },
+    "stance": {
+      "Flat": "flat",
+      "Ball Above Feet": "ball paon ke upar",
+      "Ball Below Feet": "ball paon ke neeche",
+      "Uphill": "uphill",
+      "Downhill": "downhill"
+    },
+    "elevationDir": {
+      "uphill": "uphill",
+      "downhill": "neeche",
+      "level": "level"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "AI Caddy load ho raha hai...",
+      "subtitle": "Course, weather, aur player data gather ho raha hai",
+      "connecting": "AI Caddy se connect ho raha hai..."
+    },
+    "error": {
+      "title": "Connection Error",
+      "tryAgain": "Dobara try karo",
+      "goBack": "Wapas jao"
+    },
+    "header": {
+      "back": "← Wapas",
+      "title": "AI Caddy",
+      "holeFormat": "{{course}} • Hole {{hole}}"
+    },
+    "status": {
+      "connected": "Jude hue",
+      "disconnected": "Disconnect",
+      "contextLoaded": "Context load ho gaya"
+    },
+    "context": {
+      "windCalm": "Shaant maahaul",
+      "windMph": "{{speed}} mph wind",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "{{lie}} se {{distance}}y"
+    },
+    "modes": {
+      "idle": "Idle",
+      "listening": "Sun raha hai",
+      "speaking": "Bol raha hai",
+      "thinking": "Soch raha hai"
+    },
+    "instructions": {
+      "speakNow": "Abhi bolo...",
+      "aiResponding": "AI jawab de raha hai...",
+      "readyToListen": "Sunne ke liye ready",
+      "notConnected": "Connected nahi hai"
+    },
+    "buttons": {
+      "endConversation": "Baat khatam karo",
+      "startConversation": "Baat shuru karo",
+      "connecting": "Connect ho raha hai..."
+    },
+    "alerts": {
+      "notConnectedTitle": "Connected Nahi",
+      "notConnectedMessage": "Connection establish hone ka wait karo",
+      "sendFailedMessage": "Message send nahi hua. Dobara try karo."
+    },
+    "suggestions": {
+      "strategy": "Strategy kya hai?",
+      "windAffect": "Wind kaise affect karega?",
+      "windDoing": "Wind kya kar raha hai?",
+      "whichClub": "Kaun sa club maaru?",
+      "distance150": "Main 150 yards door hoon",
+      "anyTips": "Koi tips?",
+      "analyzeRisks": "Risks analyse karo",
+      "courseConditions": "Course conditions kaisi hain?"
+    },
+    "simple": {
+      "headerTitle": "Voice Assistant",
+      "skillLevel": "Skill Level",
+      "skillDesc": {
+        "beginner": "Kam questions, max defaults",
+        "intermediate": "Balanced questions aur defaults",
+        "advanced": "Detailed precise questions"
+      },
+      "recommendations": "Recommendations",
+      "clear": "Clear",
+      "calculating": "Recommendations calculate ho rahe hain…",
+      "underMaintenance": "Maintenance ke under",
+      "maintenanceMsg": "Voice assistant feature behtar experience ke liye improve ho raha hai.",
+      "useAlternative": "Quick Shot ya Advanced Shot screens use karein."
+    },
+    "enhanced": {
+      "loadingContext": "AI Caddy context load ho raha hai…",
+      "loadingSubtext": "Course, weather, aur player data gather ho raha hai",
+      "clearHistory": "History clear",
+      "clearHistoryTitle": "Conversation clear",
+      "clearHistoryMsg": "Kya aap sach mein conversation history clear karna chahte hain?",
+      "aiEnhanced": "AI Enhanced",
+      "notConfiguredTitle": "AI Caddy configure nahi",
+      "notConfiguredMsg": "OpenAI API key configure nahi hai. Voice conversation chalega, lekin advanced AI features limited honge.",
+      "initErrorTitle": "Initialization Error",
+      "initErrorMsg": "Context load nahi hua. Kuch features sahi se kaam nahi karenge.",
+      "history": "History",
+      "hide": "Chhupayein"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "Shot",
+      "scores": "Scores",
+      "clubs": "Clubs",
+      "settings": "Settings"
+    },
+    "titles": {
+      "shot": "Shot Recommendation",
+      "scores": "Score History",
+      "clubs": "Club Management",
+      "settings": "Settings",
+      "courses": "Courses"
+    },
+    "playGolf": {
+      "idle": "Golf Khelo",
+      "continue": "Aage",
+      "resume": "Resume"
+    },
+    "headers": {
+      "login": "CaddyAI - Login",
+      "onboarding": "CaddyAI - Onboarding",
+      "profileSetup": "CaddyAI - Profile Setup",
+      "ppmSetup": "CaddyAI - PPM Setup",
+      "clubManagement": "CaddyAI - Club Management",
+      "voiceAssistant": "CaddyAI - Voice Assistant",
+      "apiKeySetup": "CaddyAI - API Key Setup",
+      "setupComplete": "CaddyAI - Setup Complete",
+      "devMenu": "CaddyAI - Dev Menu"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "Tumhara Caddie, Har Jagah.",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "signIn": "Sign In karo",
+    "signUp": "Sign Up karo",
+    "switchToSignIn": "Pehle se account hai? Sign In karo",
+    "switchToSignUp": "Account nahi hai? Sign Up karo",
+    "forgotPassword": "Password bhool gaye?",
+    "continueWithApple": "Apple ke saath continue karo",
+    "continueWithGoogle": "Google ke saath continue karo",
+    "dividerOr": "ya",
+    "showPassword": "Password dikhaao",
+    "hidePassword": "Password chupaao",
+    "missingInfoTitle": "Jaankari Missing Hai",
+    "missingInfoMessage": "Continue karne ke liye email aur password dono enter karo.",
+    "invalidPasswordTitle": "Galat Password",
+    "invalidPasswordMessage": "Password kam se kam 6 characters ka hona chahiye.",
+    "accountCreatedTitle": "Account Ban Gaya!",
+    "accountCreatedMessage": "Tumhara account successfully create ho gaya. Copperline Golf mein welcome hai!",
+    "signUpFailedTitle": "Sign Up fail",
+    "signInFailedTitle": "Sign In fail",
+    "authFailedFallback": "Authentication fail ho gayi",
+    "resetPasswordTitle": "Password Reset Karo",
+    "resetPasswordPromptIos": "Password reset link paane ke liye apna email address enter karo",
+    "resetPasswordConfirmAndroid": "{{email}} pe password reset link bhejna hai?",
+    "resetPasswordNoEmail": "Pehle apna email address enter karo",
+    "resetPasswordSuccessTitle": "Email Bhej Di",
+    "resetPasswordSuccessMessage": "Password reset link ke liye apna email check karo.",
+    "resetPasswordError": "Password reset email nahi bheji ja saki",
+    "appleNotAvailableTitle": "Available Nahi",
+    "appleNotAvailableMessage": "Apple Sign-In sirf iOS 13+ devices pe available hai. Package install karo ya doosra sign-in method use karo.",
+    "appleSetupRequiredTitle": "Setup zaroori",
+    "appleSetupRequiredMessage": "Apple Sign-In setup incomplete hai. Instructions ke liye APPLE_SIGNIN_SETUP.md dekho.",
+    "appleFailedTitle": "Apple Sign-In fail",
+    "appleFailedFallback": "Apple se sign in nahi hua. Koi aur method try karo.",
+    "googleFailedTitle": "Google Sign-In fail",
+    "googleFailedMessage": "Google se sign in nahi hua. Dobara try karo ya koi aur method use karo.",
+    "googlePlayServicesTitle": "Google Play Services Chahiye",
+    "googlePlayServicesMessage": "Google Play Services available nahi hai ya update karne ki zaroorat hai.",
+    "signInInProgressTitle": "Sign-In Chal Raha Hai",
+    "signInInProgressMessage": "Ek sign-in pehle se chal raha hai. Thoda ruko.",
+    "welcomeTitle": "Swagat hai!",
+    "welcomeMessage": "{{identity}} ke naam se sign in ho gaye",
+    "emailA11yLabel": "Email input field",
+    "emailA11yHint": "Apna email address enter karo",
+    "passwordA11yLabel": "Password input field",
+    "passwordA11yHint": "Apna password enter karo",
+    "signUpA11yLabel": "Sign up button",
+    "signInA11yLabel": "Sign in button",
+    "signUpA11yHint": "Naya account banao",
+    "signInA11yHint": "Apne account mein sign in karo",
+    "appleA11yLabel": "Apple se sign in button",
+    "appleA11yHint": "Apni Apple ID se sign in karo",
+    "googleA11yLabel": "Google se sign in button",
+    "googleA11yHint": "Apne Google account se sign in karo",
+    "signin": {
+      "infoText": "Sign in karo aur apna profile, clubs aur shot history sabhi devices par save karo",
+      "tosLine": "Sign in karke aap hamare Terms of Service se agree karte hain",
+      "createAccount": "Account Banao",
+      "createOne": "Account nahi hai? Ek banao"
+    },
+    "apiKey": {
+      "title": "API Key Setup",
+      "subtitle": "Saare features unlock karne ke liye API keys configure karein",
+      "openAiLabel": "OpenAI API Key",
+      "openAiDesc": "Whisper speech-to-text ke liye zaroori (optional - device recognition iske bina bhi kaam karta hai)",
+      "anthropicLabel": "Anthropic API Key",
+      "anthropicDesc": "Voice conversation AI (Claude) ke liye zaroori",
+      "howToGet": "Yeh kaise milegi?",
+      "getOpenAiTitle": "OpenAI API Key paayein",
+      "getOpenAiSteps": "1. platform.openai.com par jaayein\n2. Sign in karein ya account banayein\n3. API Keys section par jaayein\n4. New secret key banayein",
+      "getAnthropicTitle": "Anthropic API Key paayein",
+      "getAnthropicSteps": "1. console.anthropic.com par jaayein\n2. Sign in karein ya account banayein\n3. API Keys section par jaayein\n4. New API key banayein",
+      "secureNote": "Aapki API keys aapke device par securely store hoti hain aur OpenAI/Anthropic ke alawa kisi bhi server par nahi bheji jaati.",
+      "saveKeys": "API Keys save",
+      "saving": "Save ho raha hai…",
+      "skipForNow": "Abhi skip karein",
+      "skipTitle": "Setup skip karein",
+      "skipMsg": "API keys ke bina kuch features kaam nahi karenge. Phir bhi continue?",
+      "noKeysTitle": "Koi key nahi di",
+      "noKeysMsg": "Continue karne ke liye kam se kam ek API key dijiye.",
+      "saveSuccess": "Successfully save ho gaya!",
+      "saveWarnings": "Successfully save ho gaya!\n\nWarnings:\n{{warnings}}",
+      "saveErrorMsg": "API keys save karne mein fail. Phir try karein."
+    }
+  },
+  "welcome": {
+    "title": "Copperline Golf mein Aapka Swagat Hai",
+    "subtitle": "Aapka intelligent golf companion",
+    "description": "8-step interactive tour complete karo aur course par har shot ke liye personalized recommendations pao.",
+    "features": {
+      "clubRecs": "Smart club recommendations",
+      "aiAnalysis": "AI-powered shot analysis",
+      "weatherAdvice": "Weather ke hisaab se advice",
+      "voiceAssist": "Voice-guided assistance"
+    },
+    "resumeRound": "Round Resume Karo",
+    "continueRound": "Round Continue Karo",
+    "getStarted": "Shuru Karein",
+    "skipSetup": "Setup Skip Karo"
+  },
+  "paywall": {
+    "headerTitle": "Upgrade Karo\nCopperline Pro mein",
+    "headerSubtitle": "Apne AI caddie ki poori power unlock karo",
+    "featuresSectionTitle": "Pro mein Sab Kuch",
+    "packagesSectionTitle": "Apna Plan Chuno",
+    "loading": "Plans load ho rahe hain...",
+    "tos": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "restorePurchases": "Purchases Restore Karo",
+    "redeemCode": "Offer Code Redeem Karo",
+    "errors": {
+      "selectPlanTitle": "Plan Chuno",
+      "selectPlanBody": "Aage badhne ke liye ek subscription plan select karo."
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "Bhasha",
+      "languagePlaceholder": "Language choose karo..."
+    },
+    "sections": {
+      "account": "Account",
+      "subscription": "Subscription",
+      "playerProfile": "Player Profile",
+      "preferences": "Preferences",
+      "notifications": "Notifications",
+      "about": "Baare Mein",
+      "backup": "Backup aur Restore",
+      "diagnostics": "Diagnostic Tools",
+      "appFeatures": "App Features",
+      "caddyAi": "CADDY AI"
+    },
+    "account": {
+      "guestUser": "Guest User",
+      "notSignedIn": "Sign in nahi hua"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "Free",
+      "renews": "{{date}} ko renew hoga",
+      "noActive": "Koi active subscription nahi",
+      "upgrade": "Copperline Pro pe upgrade karo"
+    },
+    "playerProfile": {
+      "edit": "Player Profile edit karo",
+      "editSubtitle": "Handicap, club distances, aur golf preferences"
+    },
+    "preferences": {
+      "distanceUnits": "Distance Units",
+      "distanceUnitsPlaceholder": "Units choose karo...",
+      "yards": "Yards",
+      "meters": "Meters",
+      "temperatureUnits": "Temperature Units",
+      "temperatureUnitsPlaceholder": "Temperature units choose karo...",
+      "fahrenheit": "Fahrenheit",
+      "celsius": "Celsius",
+      "theme": "Theme",
+      "themePlaceholder": "Theme choose karo...",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "System",
+      "themeAuto": "Auto",
+      "targetOverlay": "Target Overlay",
+      "targetOverlayPlaceholder": "Target mode choose karo...",
+      "targetLines": "Target Lines",
+      "playerEllipse": "Player Ellipse"
+    },
+    "notifications": {
+      "courseRecommendations": "Course Recommendations",
+      "courseRecommendationsDescription": "Personalized course aur shot recommendations pao",
+      "weatherAlerts": "Weather Alerts",
+      "weatherAlertsDescription": "Weather conditions ke baare mein notifications pao",
+      "practiceReminders": "Practice Reminders",
+      "practiceRemindersDescription": "Practice karne aur game improve karne ke liye helpful reminders",
+      "achievementNotifications": "Achievement Notifications",
+      "achievementNotificationsDescription": "Apne golf milestones aur achievements celebrate karo"
+    },
+    "about": {
+      "version": "Version",
+      "build": "Build",
+      "support": "Support"
+    },
+    "backup": {
+      "title": "Clubs aur Shots Backups",
+      "subtitle": "Apne bag ke pehle ke versions dekho ya restore karo"
+    },
+    "diagnostics": {
+      "igolf": "iGolf API Test",
+      "igolfSubtitle": "Course lookup aur API connectivity test karo"
+    },
+    "appFeatures": {
+      "restartOnboarding": "Onboarding Restart Karo",
+      "restartOnboardingSubtitle": "App tutorial dobara dekho aur profile update karo"
+    },
+    "actions": {
+      "clearAllData": "Saara Data Clear Karo",
+      "signOut": "Sign Out Karo"
+    },
+    "deleteAccount": {
+      "button": "Account Delete Karo",
+      "hint": "Tumhara account aur saara associated data permanently remove ho jaayega.",
+      "confirmTitle": "Account Delete Karo",
+      "confirmMessage": "Isse tumhara account aur saara golf data permanently delete ho jaayega — rounds, clubs, shots, preferences, aur handicap history. Ye undo nahi ho sakta.",
+      "confirmButton": "Mera Account Delete Karo",
+      "reauthTitle": "Re-authentication Zaroori Hai",
+      "reauthMessage": "Security ke liye, sign out karo aur wapas sign in karo, phir account delete karne ki koshish karo. Tumhara data pehle se remove ho gaya hai.",
+      "noUserMessage": "Koi user sign in nahi hai.",
+      "failedTitle": "Delete fail",
+      "failedMessage": "Kuch gadbad ho gayi. Dobara try karo ya support@copperlinegolf.com pe contact karo."
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "Tumhara Caddie, Har Jagah."
+    },
+    "signOutDialog": {
+      "title": "Sign Out Karo",
+      "message": "Kya sach mein sign out karna chahte ho?",
+      "confirmButton": "Sign Out Karo",
+      "fallbackTitle": "Sign Out Karo",
+      "fallbackMessage": "Sign out complete karne ke liye app restart karo."
+    },
+    "clearDataDialog": {
+      "title": "Saara Data Clear Karo",
+      "message": "Isse tumhara saara profile data, club distances, aur settings delete ho jaayengi. Ye action undo nahi ho sakta.",
+      "confirmButton": "Data Clear Karo",
+      "successTitle": "Data Clear Ho Gaya",
+      "successMessage": "Saara app data clear ho gaya",
+      "errorMessage": "Data clear nahi hua"
+    },
+    "restartOnboardingDialog": {
+      "title": "Onboarding Restart Karo",
+      "message": "Isse tum app tutorial dobara dekhoge. Tumhara profile data safe rahega.",
+      "confirmButton": "Restart karo",
+      "errorMessage": "Onboarding restart nahi hua. Dobara try karo."
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "AI Skill Level",
+        "question": "AI ke questions kitne detailed hone chahiye?",
+        "label": "Skill Level",
+        "placeholder": "Apna skill level select karo...",
+        "helpBeginner": "Bina kisi sawaal ke turant recommendations.",
+        "helpIntermediate": "AI lie aur wind conditions ke baare mein poochta hai.",
+        "helpAdvanced": "AI lie, wind, elevation aur temperature ke baare mein poochta hai.",
+        "helpPro": "AI stance aur shot shape samet detailed sawaal karta hai.",
+        "helpTourPro": "Sabhi factors ke saath poora pro-level analysis."
+      },
+      "verbosity": {
+        "title": "AI Verbosity",
+        "label": "Verbosity",
+        "placeholder": "Verbosity mode select karo...",
+        "helpTalkItThrough": "Full conversation - AI sab data padhta hai aur sawaal karta hai",
+        "helpMinimal": "Quick flow - AI sirf lie aur stance poochta hai",
+        "helpJustFacts": "Aap pehle bolo - mujhe lie aur stance batao",
+        "agentLabel": "Agent: {{id}}",
+        "option": {
+          "talk_it_through": "Poori baat karo",
+          "just_facts": "Sirf facts",
+          "minimal": "Minimal"
+        }
+      },
+      "footer": "AI settings recommendations ko aapke playing style aur skill level ke hisaab se customize karne mein madad karti hain. Changes turant laagu hote hain."
+    },
+    "backupScreen": {
+      "title": "Backup aur Restore",
+      "back": "‹ Wapas",
+      "tabClubs": "Clubs",
+      "tabShots": "Shots",
+      "helpText": "Har save automatic previous version ka backup leta hai. Har list ke liye 20 versions tak rakhe jaate hain. Restore bhi backup banata hai, isliye koi bhi restore reverse ho sakta hai.",
+      "emptyText": "Abhi tak koi {{tab}} backups nahi. Agli baar save karne par automatic ban jaayenge.",
+      "restore": "Restore",
+      "loadFailed": "Backups load nahi ho saake",
+      "confirmClubsTitle": "Kya yeh clubs backup restore karein?",
+      "confirmClubsMsg": "Yeh aapke current bag ko {{date}} ki {{count}}-club version se replace karega.\n\nAapka current bag pehle naya backup ban kar save hoga, isliye mind change kar sakte hain.",
+      "confirmShotsTitle": "Kya yeh shots backup restore karein?",
+      "confirmShotsMsg": "Yeh aapke shots ko {{date}} ki {{count}}-shot version se replace karega.\n\nAapke current shots pehle naya backup ban kar save honge.",
+      "restoredTitle": "Restore ho gaya",
+      "restoredClubs": "Aapke clubs restore ho gaye.",
+      "restoredShots": "Aapke shots restore ho gaye.",
+      "restoreFailedTitle": "Restore fail",
+      "clubsCount": "{{count}} clubs",
+      "shotsCount": "{{count}} shots"
+    },
+    "caddyVoice": {
+      "title": "Caddy Voice",
+      "option": {
+        "default": "Caddy (Default)"
+      },
+      "optionDesc": {
+        "default": "Standard CaddyAI voice"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "Landing Zones",
+    "errorTitle": "Error",
+    "invalidParams": "Invalid Parameters",
+    "invalidParamsDesc": "Yeh screen landing zones dikhane ke liye specific course aur player data maangti hai.",
+    "gpsError": "GPS Error",
+    "acquiringGps": "GPS location le rahe hain…",
+    "acquiringSubtext": "Aapki precise location milne tak intzaar karein",
+    "tipOpenArea": "Khuli jagah par jaayein",
+    "tipClearSky": "Aasmaan saaf dikhna chahiye",
+    "tipWaitAccuracy": "Accuracy <15m tak wait karein",
+    "yourPosition": "Aapki position",
+    "pin": "Pin",
+    "primaryZone": "Primary Zone",
+    "secondaryZone": "Secondary Zone",
+    "lowAccuracyTitle": "⚠️ GPS Accuracy kam hai",
+    "lowAccuracyMsg": "Current GPS accuracy {{accuracy}}m hai. Best results ke liye 15m se kam honi chahiye.\n\nKhuli jagah par jaayein jahaan aasmaan saaf dikhe.",
+    "gpsErrorMsg": "GPS location lene mein fail",
+    "continueAnyway": "Phir bhi continue"
+  },
+  "tournament": {
+    "casual": {
+      "label": "Casual Round",
+      "description": "Saare features active"
+    },
+    "tournament-dmd": {
+      "label": "Tournament (DMD)",
+      "description": "Sirf GPS distance - USGA Rule 4.3 compliant"
+    },
+    "tournament-no-dmd": {
+      "label": "Tournament (No DMD)",
+      "description": "Electronic aids nahi - Local Rule G-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "विशेषताएँ",
+      "pricing": "मूल्य",
+      "about": "हमारे बारे में",
+      "contact": "संपर्क",
+      "signIn": "साइन इन",
+      "getStarted": "शुरू करें",
+      "getStartedFree": "मुफ्त में शुरू करें",
+      "tagline": "आपका स्मार्ट गोल्फ साथी"
+    },
+    "contact": {
+      "meta": {
+        "title": "संपर्क करें | Copperline Golf",
+        "description": "Copperline Golf सपोर्ट टीम से संपर्क करें। गोल्फ कैडी ऐप के लिए मदद पाएँ, फीडबैक भेजें, या हमारी AI-संचालित गोल्फ सिफारिशों के बारे में पूछें।"
+      },
+      "hero": {
+        "titleStart": "हमसे",
+        "titleHighlight": "जुड़ें",
+        "subtitle": "कोई सवाल या फीडबैक है? हम आपसे सुनना चाहेंगे। हमारी टीम Copperline Golf से अधिकतम लाभ उठाने में आपकी मदद के लिए तैयार है।"
+      },
+      "info": {
+        "emailTitle": "ईमेल",
+        "phoneTitle": "फ़ोन",
+        "officeTitle": "कार्यालय",
+        "office": "स्कॉट्सडेल, AZ 85260"
+      },
+      "form": {
+        "heading": "हमें संदेश भेजें",
+        "subheading": "नीचे दिया गया फ़ॉर्म भरें और हम जल्द से जल्द आपसे संपर्क करेंगे।",
+        "nameLabel": "नाम",
+        "namePlaceholder": "आपका नाम",
+        "emailLabel": "ईमेल",
+        "emailPlaceholder": "aapka.email@example.com",
+        "subjectLabel": "विषय",
+        "subjectPlaceholder": "हम कैसे मदद कर सकते हैं?",
+        "messageLabel": "संदेश",
+        "messagePlaceholder": "अपनी पूछताछ के बारे में और बताएं...",
+        "submit": "संदेश भेजें",
+        "submitting": "भेजा जा रहा है...",
+        "successMessage": "संदेश सफलतापूर्वक भेजा गया! हम जल्द ही जवाब देंगे।",
+        "errorMessage": "संदेश भेजने में विफल। कृपया पुनः प्रयास करें या सीधे ईमेल करें।",
+        "errors": {
+          "nameRequired": "नाम आवश्यक है",
+          "nameTooShort": "नाम कम से कम 2 अक्षर का होना चाहिए",
+          "emailRequired": "ईमेल आवश्यक है",
+          "emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
+          "subjectRequired": "विषय आवश्यक है",
+          "subjectTooShort": "विषय कम से कम 3 अक्षर का होना चाहिए",
+          "messageRequired": "संदेश आवश्यक है",
+          "messageTooShort": "संदेश कम से कम 10 अक्षर का होना चाहिए"
+        }
+      },
+      "hours": {
+        "heading": "कार्यालय समय",
+        "weekdaysLabel": "सोमवार - शुक्रवार",
+        "weekdays": "9:00 AM - 6:00 PM PST",
+        "saturdayLabel": "शनिवार",
+        "saturday": "10:00 AM - 4:00 PM PST",
+        "sundayLabel": "रविवार",
+        "sunday": "बंद",
+        "responseNote": "व्यावसायिक दिनों में हम आमतौर पर 24 घंटों के भीतर सभी पूछताछ का जवाब देते हैं।"
+      },
+      "social": {
+        "heading": "हमसे जुड़ें",
+        "body": "नवीनतम अपडेट, टिप्स और गोल्फ इनसाइट्स के लिए सोशल मीडिया पर हमें फ़ॉलो करें।"
+      },
+      "faq": {
+        "heading": "त्वरित उत्तर चाहिए?",
+        "body": "सामान्य प्रश्नों के तुरंत उत्तर के लिए हमारा हेल्प सेंटर देखें।",
+        "cta": "हेल्प सेंटर पर जाएँ"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "स्मार्ट क्लब चयन",
+        "smartClubDesc": "आपकी स्विंग प्रोफ़ाइल और रीयल-टाइम स्थितियों पर आधारित AI सिफारिशें। हर शॉट के लिए सही क्लब।",
+        "profileTitle": "व्यक्तिगत प्रोफ़ाइल",
+        "profileDesc": "अपने बैग के हर क्लब के लिए दूरी और व्यक्तिगत इनसाइट्स ट्रैक करें। आपका खेल, अनुकूलित।",
+        "conditionsTitle": "रीयल-टाइम स्थितियाँ",
+        "conditionsDesc": "हर शॉट के लिए लाइव मौसम, हवा और ऊँचाई के डेटा। वास्तविक स्थितियों के आधार पर सूचित निर्णय लें।",
+        "sectionTitleLine1": "Copperline Golf आपके लिए",
+        "sectionTitleLine2": "सही साथी क्यों है",
+        "sectionSubtitle": "तीन मुख्य विशेषताएँ जो मिलकर आपके खेल को बदल देती हैं"
+      },
+      "aiCta": {
+        "heading": "AI-संचालित क्लब चयन आज़माएँ",
+        "body": "हमारे इंटेलिजेंट वॉइस असिस्टेंट का अनुभव करें जो किसी भी शॉट के लिए परफेक्ट क्लब चुनने में मदद करता है। अपना स्तर चुनें, शॉट का वर्णन करें और तुरंत व्यक्तिगत सिफारिशें पाएँ।",
+        "button": "AI असिस्टेंट लॉन्च करें"
+      },
+      "stats": {
+        "titleStart": "दुनिया भर के",
+        "titleHighlight": "गोल्फ़र्स का भरोसा",
+        "subtitle": "हज़ारों खिलाड़ियों के साथ जुड़ें जिन्होंने Copperline Golf से अपना खेल सुधारा है"
+      },
+      "howItWorks": {
+        "titleStart": "सिर्फ़",
+        "titleHighlight": "3 आसान चरण",
+        "step1Title": "अपनी प्रोफ़ाइल बनाएँ",
+        "step1Desc": "अपने खेल के बारे में कुछ त्वरित प्रश्नों के उत्तर दें और अपनी क्लब दूरियाँ जोड़ें।",
+        "step2Title": "कोर्स पर जाएँ",
+        "step2Desc": "अपने फ़ोन पर Copperline Golf खोलें और इसे स्थितियों को स्वचालित रूप से ट्रैक करने दें।",
+        "step3Title": "स्मार्ट खेलें",
+        "step3Desc": "हर शॉट के लिए तुरंत व्यक्तिगत क्लब सिफारिशें प्राप्त करें।"
+      },
+      "testimonials": {
+        "titleStart": "गोल्फ़र्स",
+        "titleHighlight": "क्या कहते हैं",
+        "subtitle": "उन गोल्फ़र्स के असली फीडबैक जिन्होंने अपना खेल बदल दिया"
+      }
+    }
+  }
+}

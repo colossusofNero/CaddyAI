@@ -1,0 +1,1916 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "send": "Envoyer",
+    "retry": "Réessayer",
+    "skip": "Passer",
+    "tryAgain": "Réessayer",
+    "error": "Erreur",
+    "numericStepper": {
+      "enterField": "Saisir {{label}}"
+    },
+    "back": "Retour"
+  },
+  "profile": {
+    "loading": "Chargement de votre profil...",
+    "loadDefaultsTitle": "Continuer avec les valeurs par défaut",
+    "loadDefaultsMessage": "Les paramètres de profil par défaut seront utilisés. Vous pouvez les mettre à jour maintenant.",
+    "continueDefaults": "Continuer avec les valeurs par défaut",
+    "header": {
+      "title": "Modifier le profil du joueur",
+      "subtitle": "Mettez à jour votre profil de golf",
+      "syncedBadge": "☁️ Synchronisé dans le cloud"
+    },
+    "ageGroup": "Tranche d'âge",
+    "handicapHelp": "+12 (plus) à 54",
+    "yardsOfCurveHelp": "De combien de yards courbe votre fer 5 habituellement ?\nUtilisez négatif pour draw (-5), positif pour fade (+5) ou 0 pour droit",
+    "yearsPlayingShort": "Années de pratique",
+    "yearsUnit": "ans",
+    "playFrequency": "Fréquence de jeu",
+    "freq": {
+      "rarely": "Rarement",
+      "rarelyDesc": "<5 parties/an",
+      "occasionally": "Occasionnellement",
+      "occasionallyDesc": "5-15 parties/an",
+      "regularly": "Régulièrement",
+      "regularlyDesc": "15-30 parties/an",
+      "frequently": "Fréquemment",
+      "frequentlyDesc": "30-50 parties/an",
+      "veryFrequently": "Très fréquemment",
+      "veryFrequentlyDesc": "50+ parties/an"
+    },
+    "aiCaddySettings": "Paramètres de l'AI Caddy",
+    "skillLevelHelp": "Sélectionnez votre niveau pour contrôler le nombre de questions de l'IA",
+    "skill": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "pro": "Pro",
+      "tourPro": "Tour Pro"
+    },
+    "verbosityMode": "Mode de verbosité",
+    "displayPreferences": "Préférences d'affichage",
+    "targetOverlayMode": "Mode de superposition de cible",
+    "target": "Cible",
+    "ellipse": "Ellipse",
+    "cancel": "Annuler",
+    "saveProfile": "Enregistrer le profil",
+    "successTitle": "Succès",
+    "successMessage": "Profil mis à jour avec succès !",
+    "saveErrorTitle": "Erreur d'enregistrement",
+    "ppm": {
+      "title": "Configuration du joueur",
+      "subtitle": "Système de golf personnalisé",
+      "progressComplete": "{{percent}}% terminé",
+      "sectionProfile": "Profil",
+      "sectionSkills": "Compétences",
+      "sectionPreferences": "Préférences",
+      "sectionAccessibility": "Accessibilité",
+      "sectionGrade": "Évaluation",
+      "profileDesc": "Parlez-nous de vous pour personnaliser votre expérience de golf",
+      "skillsDesc": "Aidez-nous à comprendre votre niveau de golf actuel",
+      "preferencesDesc": "Personnalisez le fonctionnement de l'application",
+      "accessibilityDesc": "Configurez les fonctionnalités d'accessibilité pour la meilleure expérience",
+      "gradeDesc": "Votre évaluation de profil et recommandations",
+      "incompleteTitle": "Configuration incomplète",
+      "incompleteMessage": "Veuillez remplir tous les champs requis avant de terminer la configuration.",
+      "completeTitle": "Configuration terminée ! 🎉",
+      "completeMessage": "Votre profil Player Performance Management a été créé. Le système d'IA est maintenant calibré à votre niveau et préférences.",
+      "startPlaying": "Commencer à jouer",
+      "completeSetup": "✅ Terminer la configuration",
+      "nextSection": "➡️ Suivant : {{section}}",
+      "completeSetupA11y": "Terminer la configuration",
+      "continueA11y": "Passer à la section suivante",
+      "sectionA11y": "Section {{section}}"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "Oui",
+      "no": "Non",
+      "na": "N/A",
+      "strokes": "Coups",
+      "totalStrokes": "Total des coups",
+      "putts": "Putts",
+      "totalPutts": "Total des putts",
+      "fairwayHit": "Fairway touché",
+      "fairways": "Fairways",
+      "fairwaysHit": "Fairways touchés",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "Green en régulation",
+      "greensInRegulation": "Greens en régulation",
+      "penalties": "Pénalités",
+      "diff": "Diff.",
+      "differential": "Différentiel",
+      "gross": "Brut",
+      "grossScore": "Score brut",
+      "adjusted": "Ajusté",
+      "totalScore": "Score total",
+      "toPar": "Par rapport au par",
+      "total": "Total",
+      "totalUpper": "TOTAL",
+      "out": "ALLER",
+      "in": "RETOUR",
+      "front9": "9 premiers",
+      "back9": "9 derniers",
+      "hole": "Trou",
+      "holeWithNumber": "Trou {{n}}",
+      "saveScore": "Enregistrer le score",
+      "rounds": "Parties",
+      "avgDiff": "Diff. moy.",
+      "bestDiff": "Meilleure diff.",
+      "ghin": "GHIN",
+      "par": "Par",
+      "handicap": "Handicap",
+      "distance": "Distance"
+    },
+    "entry": {
+      "invalidInputTitle": "Saisie invalide",
+      "invalidStrokesMessage": "Veuillez saisir un nombre valide de coups (1 ou plus)",
+      "invalidPuttsMessage": "Veuillez saisir un nombre valide de putts (0 ou plus)",
+      "invalidPenaltiesMessage": "Veuillez saisir un nombre valide de pénalités (0 ou plus)",
+      "puttsExceedStrokesMessage": "Le nombre de putts ne peut pas dépasser le total des coups",
+      "scoreSavedTitle": "Score enregistré",
+      "movedToHole": "Passage au trou {{hole}}",
+      "roundCompleteSimple": "Partie terminée !",
+      "viewSummary": "Voir le résumé",
+      "noActiveRound": "Aucune partie en cours",
+      "notesLabel": "Notes (facultatif)",
+      "notesPlaceholder": "Ajouter des notes sur ce trou..."
+    },
+    "holeScore": {
+      "title": "Score du trou {{n}}",
+      "roundCompleteTitle": "Partie terminée",
+      "roundCompleteMessage": "Trou {{hole}} : {{strokes}} coups, {{putts}} putts\n\nVotre partie est terminée !",
+      "viewScorecard": "Voir la carte"
+    },
+    "navigation": {
+      "loadFailed": "Impossible de charger les données du parcours",
+      "noHoleData": "Aucune donnée de trou disponible",
+      "hazardsOnHole": "Obstacles sur ce trou :",
+      "holeLayout": "Plan du trou",
+      "quickActions": "Actions rapides",
+      "profile": "Profil",
+      "clubs": "Clubs"
+    },
+    "complete": {
+      "loadFailed": "Impossible de charger les données de la partie.",
+      "savedTitle": "Enregistré",
+      "savedMessage": "Vos modifications ont été enregistrées.",
+      "saveChangesFailed": "Impossible d'enregistrer les modifications. Veuillez réessayer.",
+      "loginRequired": "Vous devez être connecté·e pour enregistrer un score.",
+      "scoreSavedTitle": "Score enregistré",
+      "scoreSavedMessage": "Votre partie a été enregistrée avec succès.",
+      "saveScoreFailed": "Impossible d'enregistrer votre score. Veuillez réessayer.",
+      "loading": "Chargement des données de la partie...",
+      "title": "Partie terminée",
+      "unsavedChanges": "Modifications non enregistrées",
+      "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Voulez-vous les enregistrer ?",
+      "discard": "Ignorer",
+      "save": "Enregistrer",
+      "unsavedScoreTitle": "Score non enregistré",
+      "unsavedScoreMessage": "Votre score n'a pas été enregistré. Voulez-vous vraiment quitter ?",
+      "exitWithoutSaving": "Quitter sans enregistrer",
+      "scorecard": "Carte de score",
+      "tapToEdit": "Appuyez sur un trou pour le modifier",
+      "statistics": "Statistiques",
+      "ghinPosting": "Publication GHIN",
+      "postedToGHIN": "Publié sur GHIN",
+      "saveChanges": "Enregistrer les modifications",
+      "saveRound": "Enregistrer la partie",
+      "savedButton": "Enregistrée",
+      "postOnGHIN": "Publier sur GHIN",
+      "finish": "Terminer"
+    },
+    "summary": {
+      "endRoundTitle": "Terminer la partie",
+      "endRoundMessage": "Voulez-vous vraiment terminer cette partie ? Elle sera enregistrée dans votre historique.",
+      "holeByHole": "Trou par trou",
+      "roundStatistics": "Statistiques de la partie",
+      "continueRound": "Continuer la partie",
+      "endRound": "Terminer la partie"
+    },
+    "history": {
+      "noScoresTitle": "Aucun score pour le moment",
+      "findCourse": "Trouver un parcours",
+      "loading": "Chargement des scores...",
+      "back": "Retour",
+      "title": "Historique des scores",
+      "tabHistory": "Historique",
+      "tabAnalytics": "Analyse",
+      "filterAll": "Tous les tours",
+      "filterRecent": "Récents",
+      "filterBest": "Meilleurs"
+    },
+    "detail": {
+      "shareScorecard": "Partager la carte"
+    },
+    "terms": {
+      "albatross": "Albatros",
+      "eagle": "Eagle",
+      "birdie": "Birdie",
+      "par": "Par",
+      "bogey": "Bogey",
+      "double": "Double",
+      "triple": "Triple"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "Score",
+      "tapForScorecard": "Appuyez pour voir la carte",
+      "round": "PARTIE",
+      "nextHole": "Trou suivant",
+      "endRound": "Terminer la partie",
+      "fix": "CORRIGER",
+      "viewFullScorecard": "Voir la carte complète"
+    },
+    "shotVars": {
+      "adjust": "Ajuster",
+      "pinPosition": "Position du drapeau",
+      "back": "Arrière",
+      "front": "Avant",
+      "left": "G",
+      "right": "D",
+      "lie": "Lie",
+      "stance": "Posture",
+      "slope": "Pente",
+      "distance": "Distance",
+      "wind": "Vent",
+      "yds": "yds"
+    },
+    "endRoundModal": {
+      "title": "Terminer la partie ?",
+      "holesPlayed": "Trous joués",
+      "strokes": "Coups",
+      "toPar": "Par rapport au par",
+      "incompleteWarning": "{{count}} trou sans score.",
+      "incompleteWarning_other": "{{count}} trous sans score.",
+      "incompleteSubtext": "Les trous incomplets ne compteront pas pour la publication GHIN.",
+      "ghin18": "Cette partie est éligible à la publication GHIN.",
+      "ghin9": "Cette partie est éligible à la publication GHIN 9 trous.",
+      "ghinNeedMore": "Il faut {{count}} trous de plus pour l'éligibilité GHIN.",
+      "continuePlaying": "Continuer à jouer",
+      "endRound": "Terminer la partie"
+    },
+    "loadingCourseData": "Chargement des données du parcours...",
+    "mapDisabledTournament": "Carte désactivée en mode tournoi",
+    "yards": "M",
+    "tournament": "TOURNOI",
+    "mph": "KM/H",
+    "holeLabel": "TROU",
+    "par": "Par",
+    "holeWithNumber": "TROU {{n}}",
+    "parWithNumber": "PAR {{n}}",
+    "uphill": "MONTÉE",
+    "downhill": "DESCENTE",
+    "fromTee": "Depuis le départ",
+    "fromPosition": "Depuis la position",
+    "feet": "m",
+    "conditionsModal": {
+      "title": "Conditions du parcours",
+      "subtitle": "Quelles sont les conditions aujourd'hui ?",
+      "setConditions": "Définir les conditions du parcours",
+      "skip": "Passer pour l'instant"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "Optimiseur indisponible",
+      "optimizerUnavailableMessage": "Données requises manquantes",
+      "optimizerErrorTitle": "Erreur de l'optimiseur",
+      "optimizerErrorMessage": "Impossible de calculer les recommandations"
+    },
+    "overlay": {
+      "analyzing": "Analyse du trou...",
+      "suggestedClub": "Club suggéré",
+      "shotShape": "Trajectoire",
+      "landingZoneSafety": "Sécurité de la zone d'atterrissage",
+      "successRate": "Taux de réussite",
+      "aimPoint": "Point de visée",
+      "courseConditions": "Conditions du parcours",
+      "groundFirmness": "Dureté du sol",
+      "roughHeight": "Hauteur du rough",
+      "greenSpeed": "Vitesse du green",
+      "windSpeed": "Vitesse du vent",
+      "windDirection": "Direction du vent",
+      "shotDetails": "Détails du coup"
+    },
+    "quickShot": {
+      "title": "Tir rapide",
+      "subtitle": "Recommandations IA rapides",
+      "voiceCardTitle": "Commande vocale",
+      "listeningHint": "Écoute… Décrivez votre coup",
+      "idleHint": "Maintenez pour parler ou utilisez la saisie manuelle ci-dessous",
+      "holdToSpeak": "Maintenez pour parler",
+      "listening": "Écoute…",
+      "youSaid": "Vous avez dit :",
+      "manualInput": "Saisie manuelle",
+      "distanceToTarget": "Distance à la cible",
+      "getRecommendation": "⚡ Obtenir une recommandation",
+      "readyTitle": "Prêt à analyser votre coup",
+      "readyText": "Utilisez la commande vocale ou la saisie manuelle pour obtenir votre recommandation de club personnalisée"
+    },
+    "shotVarsScreen": {
+      "title": "Variables du coup",
+      "subtitle": "Toutes les données d'entrée pour les recommandations",
+      "dataSources": "Sources de données",
+      "howVarsAffect": "Comment ces variables affectent votre coup",
+      "recommendedClub": "Club recommandé",
+      "getRecPrompt": "Obtenez une recommandation de club pour voir comment chaque variable affecte votre choix.",
+      "categories": {
+        "location": "Emplacement et distance",
+        "weather": "Conditions météorologiques",
+        "elevation": "Données d'élévation",
+        "conditions": "Conditions du parcours",
+        "player": "Profil du joueur",
+        "shot": "Détails du coup",
+        "conversational": "Variables IA"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "Manuel",
+        "ai": "IA",
+        "course": "Parcours",
+        "profile": "Profil",
+        "calculated": "Calculé"
+      },
+      "timestamp": {
+        "never": "Jamais",
+        "justNow": "À l'instant",
+        "oneMinAgo": "il y a 1 min",
+        "minsAgo": "il y a {{count}} min",
+        "oneHourAgo": "il y a 1 heure",
+        "hoursAgo": "il y a {{count}} heures",
+        "updated": "Mis à jour {{when}}"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "Préparation de votre partie...",
+      "failedTitle": "Échec du chargement",
+      "failedMessage": "Impossible de charger les données du parcours. Vérifiez votre connexion.",
+      "retry": "Réessayer",
+      "cancel": "Annuler"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "Erreur",
+      "loadFailedMessage": "Impossible de charger les détails du parcours. Veuillez réessayer.",
+      "goBack": "Retour",
+      "retry": "Réessayer",
+      "tryAgain": "Réessayer",
+      "loading": "Chargement de {{courseName}}...",
+      "loadingFallback": "Chargement des détails du parcours...",
+      "openMapsError": "Impossible d'ouvrir Plans",
+      "phoneError": "Impossible de passer l'appel",
+      "selectTeeFirst": "Veuillez d'abord sélectionner un départ",
+      "notFound": "Parcours introuvable",
+      "infoHoles": "Trous",
+      "infoPar": "Par",
+      "infoYardage": "Distance",
+      "selectTeeBox": "Sélectionner le départ",
+      "directions": "Itinéraire",
+      "call": "Appeler",
+      "hazards": "Obstacles",
+      "about": "À propos",
+      "continue": "Continuer",
+      "googleOnlyTitle": "Parcours absent de notre base de scoring",
+      "googleOnlyBody": "Nous pouvons afficher l'emplacement de ce parcours, mais les parties, le scoring et les départs ne sont pas encore disponibles.",
+      "startUnavailable": "Impossible de démarrer la partie",
+      "selectTeeA11y": "Sélectionner le départ {{teeName}}",
+      "teeStats": "{{yardage}} yds • Par {{par}}",
+      "teeRating": "SSS : {{rating}} • Slope : {{slope}}"
+    },
+    "setup": {
+      "loadingTees": "Chargement des informations de départ...",
+      "loadFailedTitle": "Échec du chargement du parcours",
+      "loadFailedMessage": "Impossible de charger les informations de départ et de carte. Veuillez réessayer.",
+      "selectTeeTitle": "Sélectionner le départ",
+      "selectTeeMessage": "Veuillez sélectionner un départ avant de commencer.",
+      "cancel": "Annuler",
+      "subtitle": "Configurer la partie",
+      "ratingType": "Type de SSS",
+      "mens": "Hommes",
+      "womens": "Femmes",
+      "roundType": "Type de partie",
+      "type18": "18 trous",
+      "type18Description": "Partie complète",
+      "typeFront9": "9 premiers",
+      "typeFront9Description": "Trous 1-9",
+      "typeBack9": "9 derniers",
+      "typeBack9Description": "Trous 10-18",
+      "courseHandicap": "Votre handicap de parcours",
+      "startRound": "Démarrer la partie"
+    },
+    "startingHole": {
+      "selectStartingHole": "Sélectionner le trou de départ",
+      "holesLabel": "{{count}} trous",
+      "doubleLabel": "2x{{n}} ({{total}} trous)",
+      "front9": "9 premiers",
+      "full18": "18 complets",
+      "back9": "9 derniers",
+      "swingThoughtTitle": "Pensée de swing (facultatif)",
+      "swingThoughtDescription": "Votre caddie IA vous le rappellera avant chaque coup",
+      "swingThoughtPlaceholder": "Ex. backswing lent, tempo régulier...",
+      "selectedHoleTitle": "Trou sélectionné",
+      "selectedHoleNumber": "Trou {{hole}}",
+      "playingTwice": "Jouer {{n}} trous deux fois ({{total}} au total)",
+      "front9Description": "9 premiers (trous 1-9)",
+      "back9Description": "9 derniers (trous 10-{{end}})",
+      "fullDescription": "{{n}} trous complets",
+      "starting": "Démarrage de la partie...",
+      "startPlayingHole": "Commencer le trou {{hole}} →",
+      "errorTitle": "Erreur",
+      "errorMessage": "Impossible de démarrer la partie. Veuillez réessayer."
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "RECOMMANDATION PRINCIPALE",
+    "secondaryHeader": "RECOMMANDATION SECONDAIRE",
+    "calculating": "Calcul en cours",
+    "addClubsPrompt": "Ajoutez des clubs pour commencer",
+    "swingFace": "Swing et face",
+    "aimPoint": "Point de visée",
+    "expectedCarry": "Distance de vol attendue",
+    "fullSquare": "Complet | Carré",
+    "aimStraight": "Visez droit",
+    "unknown": "Inconnu",
+    "youSaid": "Vous avez dit :",
+    "currentRecommendation": "Recommandation actuelle :",
+    "close": "Fermer",
+    "manualVariables": "Variables manuelles",
+    "done": "Terminé",
+    "hazardType": "Type d'obstacle",
+    "location": "Emplacement",
+    "riskLevel": "Niveau de risque",
+    "cancel": "Annuler",
+    "body": {
+      "section": {
+        "shotVariables": "VARIABLES DU COUP",
+        "shotEffects": "EFFETS DU COUP (Pré-Optimiseur)",
+        "totalAdjustments": "AJUSTEMENTS TOTAUX"
+      },
+      "pickers": {
+        "pinLocation": "Position du drapeau",
+        "pinSide": "Côté du drapeau",
+        "lie": "Lie",
+        "stance": "Posture",
+        "slopeAngle": "Angle de pente",
+        "distance": "Distance au trou",
+        "windSpeed": "Vitesse du vent",
+        "windDirection": "Direction du vent"
+      },
+      "pinLocations": {
+        "Front": "Avant",
+        "Middle": "Milieu",
+        "Back": "Arrière"
+      },
+      "pinSides": {
+        "Left": "Gauche",
+        "Center": "Centre",
+        "Right": "Droite"
+      },
+      "lies": {
+        "Tee": "Départ",
+        "Fairway": "Fairway",
+        "Light_Rough": "Rough léger",
+        "Heavy_Rough": "Rough dense",
+        "Sand": "Sable",
+        "Recovery": "Récupération"
+      },
+      "stances": {
+        "Flat": "Plat",
+        "Ball_Above_Feet": "Balle au-dessus des pieds",
+        "Ball_Below_Feet": "Balle en dessous des pieds",
+        "Uphill": "Montée",
+        "Downhill": "Descente"
+      },
+      "categories": {
+        "course": "ÉLÉMENTS DU PARCOURS",
+        "hole": "ÉLÉMENTS DU TROU",
+        "player": "ÉLÉMENTS DU JOUEUR",
+        "environment": "ÉLÉMENTS DE L'ENVIRONNEMENT",
+        "shot": "ÉLÉMENTS DU COUP INDIVIDUEL"
+      },
+      "columns": {
+        "carry": "Portée",
+        "roll": "Roulement",
+        "aim": "Visée"
+      },
+      "aimSummary": {
+        "straight": "Droit",
+        "right": "Droite",
+        "left": "Gauche"
+      },
+      "aimSuffix": {
+        "right": " D",
+        "left": " G"
+      },
+      "variables": {
+        "Altitude": "Altitude",
+        "Firmness": "Dureté",
+        "GreenSpeed": "Vitesse du green",
+        "ElevationChange": "Dénivelé",
+        "PinLocation": "Position du drapeau",
+        "PinSide": "Côté du drapeau",
+        "WaterHazard": "Obstacle d'eau",
+        "Bunkers": "Bunkers",
+        "Handicap": "Handicap",
+        "NaturalShot": "Coup naturel",
+        "ShotHeight": "Hauteur du coup",
+        "DominantHand": "Main dominante",
+        "Wind": "Vent",
+        "Temperature": "Température",
+        "Humidity": "Humidité",
+        "Weather": "Météo",
+        "Distance": "Distance",
+        "Confidence": "Confiance",
+        "Lie": "Lie",
+        "RoughLength": "Longueur du rough",
+        "Stance": "Posture"
+      },
+      "units": {
+        "yards": "yds",
+        "mph": "mph",
+        "feet": "ft",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "N",
+        "NE": "NE",
+        "E": "E",
+        "SE": "SE",
+        "S": "S",
+        "SW": "SO",
+        "W": "O",
+        "NW": "NO"
+      },
+      "empty": "Aucun ajustement actif - calculs standard utilisés",
+      "activeAdjustments_one": "{{count}} ajustement actif",
+      "activeAdjustments_other": "{{count}} ajustements actifs",
+      "recalculate": "Recalculer",
+      "recCard": {
+        "primary": "RECOMMANDATION PRINCIPALE",
+        "secondary": "RECOMMANDATION SECONDAIRE",
+        "calculating": "Calcul en cours...",
+        "setDistance": "Définissez la distance pour calculer",
+        "unknown": "Inconnu",
+        "swing": "Swing : {{value}}",
+        "aim": "Visée : {{value}}",
+        "expectedCarry": "Portée prévue : {{yards}}y",
+        "defaultSwing": "Complet | Carré",
+        "aimStraight": "Visée droite"
+      },
+      "values": {
+        "aimRight": "Viser {{yards}}y à droite",
+        "aimLeft": "Viser {{yards}}y à gauche",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "Montée {{value}} ft",
+        "downhillFt": "Descente {{value}} ft",
+        "distanceYards": "{{value}} yards",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "Niveau {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y avec {{club}})",
+        "shotHeightTrajectory": "Trajectoire {{height}}",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "Enregistrer votre coup",
+      "clubUsed": "Club utilisé :",
+      "targetDistance": "Distance cible :",
+      "howWasShot": "Comment était votre coup ?",
+      "whereLanded": "Où a-t-il atterri ?"
+    }
+  },
+  "clubs": {
+    "loading": "Chargement des clubs...",
+    "clubDistances": "Distances des clubs",
+    "specialtyShots": "Coups spéciaux",
+    "fullSwingShots": "Coups en swing complet",
+    "shortGameShots": "COUPS DE PETIT JEU",
+    "reset": "Réinitialiser",
+    "addClub": "+ Ajouter un club",
+    "addShot": "+ Ajouter un coup",
+    "addCustomClub": "Ajouter un club personnalisé",
+    "addCustomShot": "Ajouter un coup personnalisé",
+    "editShot": "Modifier le coup",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "club": "Club",
+    "clubName": "Nom du club",
+    "clubNamePlaceholder": "Nom du club",
+    "clubUsed": "Club utilisé",
+    "takeback": {
+      "Full": "Complet",
+      "Three-Quarter": "Trois quarts",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "Punch",
+      "ThreeQuarter": "3/4",
+      "Chip": "Chip",
+      "Flop": "Flop",
+      "Pitch": "Pitch"
+    },
+    "face": {
+      "Square": "Carrée",
+      "Draw": "Draw",
+      "Fade": "Fade",
+      "Hood": "Fermée",
+      "Open": "Ouverte",
+      "Flat": "Plate"
+    },
+    "shotType": "Type de coup",
+    "customShotName": "Nom personnalisé du coup",
+    "carryDistance": "Distance de vol",
+    "rollDistance": "Distance de roulement",
+    "totalDistance": "Distance totale :",
+    "calculatedRest": "Nous calculerons le reste à l'enregistrement",
+    "carryHelp": "Où la balle atterrit avant de rouler",
+    "rollHelp": "À quelle distance la balle roule après l'atterrissage",
+    "totalHelp": "Distance finale (vol + roulement)",
+    "totalHelpStop": "Où la balle s'arrête finalement",
+    "rollNegativeHelp": "Utilisez négatif pour le backspin (la balle revient)",
+    "idealLies": "Lies idéaux (facultatif)",
+    "idealLiesHelp": "Sélectionnez où ce coup fonctionne le mieux",
+    "notes": "Notes (facultatif)",
+    "alerts": {
+      "loadFailed": "Impossible de charger les données. Veuillez réessayer plus tard.",
+      "addClubSuccess": "Club ajouté avec succès",
+      "addClubFailed": "Impossible d'ajouter le club",
+      "updateDistanceFailed": "Impossible de mettre à jour la distance",
+      "updateClubFailed": "Impossible de mettre à jour le club",
+      "deleteClubFailed": "Impossible de supprimer le club",
+      "syncCompleteTitle": "Synchronisation terminée",
+      "syncCompleteMessage": "Vos modifications ont été enregistrées dans le cloud.",
+      "syncFailedTitle": "Échec de la synchronisation",
+      "syncFailedMessage": "Impossible de synchroniser les modifications. Vérifiez votre connexion et réessayez.",
+      "syncErrorTitle": "Erreur de synchronisation",
+      "syncErrorMessage": "Une erreur s'est produite lors de la synchronisation. Veuillez réessayer.",
+      "resetClubsSuccess": "Clubs réinitialisés par défaut (14 clubs chargés)",
+      "resetClubsFailed": "Impossible de réinitialiser les clubs",
+      "addShotSuccess": "Coup ajouté avec succès",
+      "addShotFailed": "Impossible d'ajouter le coup",
+      "modifiedShotsFailed": "Impossible de créer les coups modifiés",
+      "resetShotsSuccess": "Coups réinitialisés par défaut (18 coups chargés)",
+      "resetShotsFailed": "Impossible de réinitialiser les coups",
+      "toggleShotFailed": "Impossible de changer le statut du coup",
+      "cannotDeleteTitle": "Suppression impossible",
+      "cannotDeleteMessage": "Les coups par défaut ne peuvent pas être supprimés. Vous pouvez les désactiver à la place.",
+      "deleteShotFailed": "Impossible de supprimer le coup",
+      "updateShotFailed": "Impossible de mettre à jour le coup",
+      "successTitle": "Succès",
+      "errorTitle": "Erreur",
+      "invalidDistanceTitle": "Distance invalide",
+      "invalidDistanceMessage": "La distance doit être supérieure à 0",
+      "calculateDistancesFailed": "Impossible de calculer les distances",
+      "selectClub": "Veuillez sélectionner un club",
+      "selectShotType": "Veuillez sélectionner un type de coup",
+      "enterCustomName": "Veuillez saisir un nom personnalisé pour le coup",
+      "enterCarry": "Veuillez saisir une distance de vol valide",
+      "enterRoll": "Veuillez saisir la distance de roulement (négative pour backspin)",
+      "unusualDistanceTitle": "Valeurs de distance inhabituelles",
+      "unusualDistanceBody": "Voulez-vous quand même ajouter ce club ?",
+      "addAnyway": "Ajouter quand même"
+    },
+    "modifier": {
+      "headerTitle": "Modificateur de coup",
+      "selectTitle": "Sélectionnez un modificateur",
+      "selectSubtitle": "Choisissez un modificateur à appliquer à vos clubs",
+      "howManyUnits": "Combien de {{unit}}s ?",
+      "effect": "Effet : {{sign}}{{pct}}%",
+      "selectClubs": "Sélectionnez les clubs",
+      "selectAll": "Tout sélectionner",
+      "deselectAll": "Tout désélectionner",
+      "previewBtn": "Aperçu ({{count}} clubs)",
+      "previewTitle": "Aperçu des coups modifiés",
+      "previewSubtitle": "{{count}} coups seront créés ({{sign}}{{pct}}%)",
+      "totalLabel": "Total",
+      "createBtn": "Créer {{count}} coups",
+      "successTitle": "Réussi",
+      "successMessage": "{{count}} coups modifiés créés !"
+    },
+    "stashed": "STOCKÉ",
+    "carry": "Portée",
+    "roll": "Roulement",
+    "yourBag": "Votre sac ({{count}} clubs)",
+    "tabClubs": "Clubs ({{count}})",
+    "tabShots": "Coups ({{count}})",
+    "edit": {
+      "title": "Modifier : {{name}}",
+      "clubName": "Nom du club",
+      "clubNamePlaceholder": "Nom du club",
+      "face": "Face",
+      "fillAny": "💡 Remplis 1, 2 ou les 3 champs",
+      "calculateRest": "Nous calculerons le reste à la sauvegarde",
+      "carryDistance": "Distance de portée",
+      "rollDistance": "Distance de roulement",
+      "totalDistance": "Distance totale",
+      "yards": "yards",
+      "carryHelp": "Où la balle atterrit avant de rouler",
+      "rollHelp": "Distance parcourue par la balle après l'atterrissage",
+      "totalHelp": "Où la balle s'arrête finalement",
+      "totalHelpAddClub": "Distance finale (portée + roulement)"
+    },
+    "addClubForm": {
+      "title": "Ajouter un club personnalisé",
+      "club": "Club",
+      "takeback": "Backswing",
+      "submit": "Ajouter le club"
+    },
+    "addShotForm": {
+      "title": "Ajouter un coup personnalisé",
+      "clubUsed": "Club utilisé",
+      "shotType": "Type de coup",
+      "customShotName": "Nom du coup personnalisé",
+      "customShotPlaceholder": "p. ex. Mon bump spécial",
+      "enterDistances": "📏 Entrez les distances",
+      "rollNegativeHelp": "Le roulement peut être négatif pour les coups avec backspin (p. ex. -2 pour un flop)",
+      "carryPlaceholder": "p. ex. 50",
+      "rollPlaceholder": "p. ex. 5 ou -2",
+      "rollNegativeHint": "Utilisez un nombre négatif pour le backspin (la balle revient en arrière)",
+      "totalDistanceLabel": "Distance totale :",
+      "fullSwing": "Swing complet",
+      "shortGame": "Petit jeu",
+      "idealLies": "Lies idéaux (optionnel)",
+      "idealLiesHelp": "Sélectionnez où ce coup fonctionne le mieux",
+      "notes": "Notes (optionnel)",
+      "notesPlaceholder": "p. ex. posture ouverte, mains souples",
+      "submit": "Ajouter le coup",
+      "errSelectClub": "Veuillez sélectionner un club",
+      "errSelectShotType": "Veuillez sélectionner un type de coup",
+      "errCustomName": "Veuillez entrer un nom personnalisé pour le coup",
+      "errCarry": "Veuillez entrer une distance de portée valide",
+      "errRoll": "Veuillez entrer la distance de roulement (peut être négative pour le backspin)"
+    },
+    "category": {
+      "Woods": "Bois",
+      "Hybrids": "Hybrides",
+      "Irons": "Fers",
+      "Wedges": "Wedges",
+      "Putters": "Putters"
+    },
+    "shotNames": {
+      "Standard": "Standard",
+      "Pitch": "Pitch",
+      "Flop": "Flop",
+      "Chokedown": "Choke Down",
+      "Stinger": "Stinger",
+      "Fairway Finder": "Trouve-fairway",
+      "Knockdown": "Knockdown",
+      "Spinner": "Spinner",
+      "Power": "Puissance",
+      "Runner": "Runner",
+      "Punch": "Punch",
+      "Bump & Run": "Bump & Run",
+      "Lob": "Lob",
+      "Chip": "Chip",
+      "Custom": "Personnalisé"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "Choke Down",
+        "description": "Descends la prise pour plus de contrôle, moins de distance. -4% par pouce."
+      },
+      "power": {
+        "name": "Puissance",
+        "description": "Swingue plus fort pour plus de distance. +5% à tous les clubs sélectionnés."
+      },
+      "knockdown": {
+        "name": "Knockdown",
+        "description": "Coup à trajectoire basse contre le vent. -10% de distance."
+      },
+      "punch": {
+        "name": "Punch",
+        "description": "Coup punch bas sous les arbres. -25% de distance."
+      },
+      "three_quarter": {
+        "name": "Swing 3/4",
+        "description": "Swing 3/4 contrôlé pour la précision. -15% de distance."
+      }
+    },
+    "modifierBtn": "Modificateur"
+  },
+  "course": {
+    "list": {
+      "title": "Parcours de golf",
+      "nearby": "À proximité",
+      "searchPlaceholder": "Rechercher par nom, ville, état ou pays...",
+      "searchResultsCount": "{{count}} résultats pour « {{query}} »",
+      "nearbyCount": "{{count}} parcours à proximité",
+      "emptyTitle": "Aucun parcours trouvé",
+      "emptySubtitle": "Impossible de charger les parcours à proximité.",
+      "emptySearchSubtitle": "Aucun parcours trouvé pour « {{query}} ».",
+      "runDiagnostics": "Lancer le diagnostic",
+      "tryAgain": "Réessayer",
+      "clearSearch": "Effacer la recherche",
+      "locationUnavailableTitle": "Localisation indisponible",
+      "locationUnavailableMessage": "Impossible d'accéder à votre position. Affichage des parcours près de Phoenix, AZ.",
+      "retry": "Réessayer"
+    },
+    "activeRound": {
+      "title": "Partie en cours",
+      "active": "Active",
+      "paused": "En pause",
+      "holeProgress": "Trou {{current}}/{{total}}",
+      "scoreLine": "Score : {{toPar}} ({{score}} coups)",
+      "noScoresYet": "Aucun score pour le moment",
+      "delete": "Supprimer",
+      "complete": "Terminer",
+      "continue": "Continuer"
+    },
+    "completeDialog": {
+      "title": "Terminer la partie",
+      "message": "Êtes-vous sûr·e de vouloir terminer cette partie ? Vos scores seront enregistrés.",
+      "confirmButton": "Terminer",
+      "successTitle": "Partie terminée",
+      "successMessage": "Votre partie a été enregistrée dans l'historique de vos scores.",
+      "errorMessage": "Impossible de terminer la partie. Veuillez réessayer."
+    },
+    "deleteDialog": {
+      "title": "Supprimer la partie",
+      "message": "Êtes-vous sûr·e de vouloir supprimer cette partie ? Tous les scores seront perdus et ne pourront pas être récupérés.",
+      "confirmButton": "Supprimer"
+    },
+    "abandonDialog": {
+      "title": "Abandonner la partie ?",
+      "message": "Cela supprimera définitivement votre partie en cours. Cette action est irréversible.",
+      "keepPlaying": "Continuer à jouer",
+      "confirmAbandon": "Oui, abandonner"
+    },
+    "roundInProgressDialog": {
+      "message": "Vous êtes au trou {{current}} sur {{total}} à {{course}}\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "Score : {{toPar}} ({{score}} coups après {{holes}})",
+      "scoreDisplayEmpty": "Aucun score enregistré pour le moment",
+      "continueRound": "Continuer la partie",
+      "pauseBrowse": "Mettre en pause et explorer",
+      "abandonRound": "Abandonner la partie"
+    },
+    "conditions": {
+      "title": "Conditions du parcours",
+      "weatherConditions": "Conditions météorologiques",
+      "groundFirmness": "Fermeté du sol",
+      "roughLength": "Longueur du rough",
+      "greenFirmness": "Fermeté du green",
+      "pinLocationRotation": "Rotation des drapeaux",
+      "pinRotationDesc": "Sélectionnez la position de départ du drapeau. Les drapeaux tourneront Avant → Milieu → Arrière pendant le tour.",
+      "rotationPreview": "Aperçu de rotation :",
+      "rotationFront": "Trou 1 : Avant → Trou 2 : Milieu → Trou 3 : Arrière → Trou 4 : Avant…",
+      "rotationMiddle": "Trou 1 : Milieu → Trou 2 : Arrière → Trou 3 : Avant → Trou 4 : Milieu…",
+      "rotationBack": "Trou 1 : Arrière → Trou 2 : Avant → Trou 3 : Milieu → Trou 4 : Arrière…",
+      "starting": "Départ",
+      "impactOnPlay": "Impact sur le jeu",
+      "rollLabel": "Roulement :",
+      "roughLabel": "Rough :",
+      "greenSpeedLabel": "Vitesse du green :",
+      "saveAndContinue": "Enregistrer et continuer",
+      "firmDescSoft": "La balle s'enfonce à l'atterrissage",
+      "firmDescMedium": "Rebond et roulement standard",
+      "firmDescFirm": "Roulement supplémentaire",
+      "firmDescUsOpen": "Rebond et roulement maximum",
+      "roughDescShort": "Facile à sortir",
+      "roughDescMedium": "Difficulté standard",
+      "roughDescLong": "Difficile à avancer",
+      "roughDescUsOpen": "Extrêmement difficile",
+      "greenDescSlow": "8–9 stimp",
+      "greenDescMedium": "10–11 stimp",
+      "greenDescFast": "12–13 stimp",
+      "greenDescUsOpen": "14+ stimp",
+      "rollNormal": "Normal",
+      "rollSoft": "-10–15 yds",
+      "rollFirm": "+8–12 yds",
+      "rollUsOpen": "+15–20 yds",
+      "roughMinimal": "Impact minimal",
+      "roughStandard": "Standard",
+      "roughSignificant": "Pénalité significative",
+      "roughSevere": "Pénalité sévère",
+      "greenEasier": "Contrôle plus facile",
+      "greenLightning": "Très rapide",
+      "weatherSunny": "Ensoleillé",
+      "weatherCloudy": "Nuageux",
+      "weatherRaining": "Pluie",
+      "weatherSnowing": "Neige",
+      "firmSoft": "Mou",
+      "firmMedium": "Moyen",
+      "firmFirm": "Ferme",
+      "firmUsOpen": "US Open",
+      "roughShort": "Court",
+      "roughMedium": "Moyen",
+      "roughLong": "Long",
+      "roughUsOpen": "US Open",
+      "greenSlow": "Lent",
+      "greenMedium": "Moyen",
+      "greenFast": "Rapide",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "Configuration du parcours",
+      "findYourCourse": "Trouvez votre parcours",
+      "findSubtitle": "Recherchez des parcours près de chez vous ou parcourez vos favoris",
+      "recentCourses": "Parcours récents",
+      "favoriteCourses": "Parcours favoris",
+      "searchByName": "Rechercher par nom",
+      "searchPlaceholder": "Entrez le nom du parcours ou de la ville…",
+      "searchByNameBtn": "🔍 Rechercher par nom",
+      "searchNearbyBtn": "📍 Rechercher des parcours à proximité",
+      "selectCourse": "Sélectionner un parcours",
+      "selectSubtitle": "{{count}} parcours trouvés à proximité",
+      "downloadingCourse": "Téléchargement du parcours",
+      "continueToCond": "Continuer vers les conditions →",
+      "backToSearch": "← Retour à la recherche",
+      "changeCourse": "← Changer de parcours",
+      "milesAway": "à {{dist}} miles",
+      "retryDownload": "Réessayer"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← Retour",
+        "backShort": "Retour",
+        "previous": "Précédent",
+        "continue": "Continuer →",
+        "continueShort": "Continuer",
+        "goBack": "Retour",
+        "continueToNextStep": "Passer à l'étape suivante"
+      },
+      "ai": {
+        "title": "Paramètres du Caddie IA",
+        "subtitle": "Personnalisez la façon dont votre caddie IA communique avec vous",
+        "skillSectionTitle": "Quel est votre niveau ?",
+        "verbositySectionTitle": "Combien votre caddie doit-il parler ?",
+        "testButtonConnecting": "Connexion...",
+        "testButtonStop": "Arrêter la démo",
+        "testButtonAgain": "Tester à nouveau",
+        "testButtonStart": "Tester votre Caddie",
+        "testHintActive": "Parlez à votre caddie IA ! Appuyez sur Arrêter quand vous avez terminé.",
+        "testHintIdle": "Démarrez une conversation en direct avec votre caddie IA.",
+        "testA11yLabel": "Tester votre caddie IA",
+        "alertNotAvailableTitle": "Non disponible",
+        "alertNotAvailableBody": "L'IA vocale n'est pas disponible sur cet appareil.",
+        "alertMicTitle": "Microphone requis",
+        "alertMicBody": "Veuillez autoriser l'accès au microphone pour tester votre caddie IA.",
+        "alertComingSoonTitle": "Bientôt disponible",
+        "alertComingSoonBody": "Les fonctionnalités d'IA vocale arrivent bientôt sur iOS.",
+        "alertFailedTitle": "Échec du test",
+        "alertFailedBody": "Impossible de démarrer la démo vocale. Veuillez réessayer."
+      },
+      "clubs": {
+        "title": "Votre sac est prêt",
+        "subtitle": "Nous avons préchargé des clubs et des coups pour vous démarrer",
+        "clubsCardTitle": "CLUBS",
+        "clubsCardBadge": "{{count}} sur {{total}}",
+        "shotsCardTitle": "COUPS",
+        "shotsCardBadge": "{{count}} préchargés",
+        "shotsCardDescription": "Swings complets et jeu court pour chaque situation.",
+        "infoTitle": "Ajoutez des coups personnalisés à tout moment :",
+        "shotExampleChoke": "Grip réduit (-4% par pouce)",
+        "shotExamplePower": "Puissance (+5% de distance)",
+        "shotExampleOther": "Punch, Flop, Knockdown...",
+        "viewAllClubs": "Voir tous ({{count}} clubs)",
+        "showLess": "Voir moins",
+        "hideShotsButton": "Masquer les coups",
+        "viewAllShotsButton": "Voir tous les coups",
+        "noteText": "Vous pouvez tout personnaliser dans",
+        "noteHighlight": "Paramètres → Gestion des clubs",
+        "excelTitle": "Option de configuration rapide",
+        "excelText": "Téléchargez notre modèle Excel depuis",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "pour ajouter tous vos clubs et coups d'un coup !",
+        "goBack": "Retour",
+        "continueToNextStep": "Passer à l'étape suivante"
+      },
+      "conditions": {
+        "title": "Conditions du parcours",
+        "subtitle": "Définissez-les une fois au départ, puis jouez sans interruption",
+        "setOnceTitle": "À définir une fois au début de votre partie :",
+        "bulletWind": "Vitesse et direction du vent",
+        "bulletTemp": "Température",
+        "bulletPin": "Position de la feuille de drapeau",
+        "pinSheetTitle": "FEUILLE DE DRAPEAU",
+        "pinExplanation": "Sélectionnez la position de départ (Avant, Milieu ou Arrière) et le drapeau tourne automatiquement à chaque trou.",
+        "confirmLabel": "Vous n'avez qu'à confirmer :",
+        "confirmLeft": "Gauche",
+        "confirmCenter": "Centre",
+        "confirmRight": "Droite",
+        "infoText": "Vous définirez les conditions du parcours en commençant une partie.",
+        "goBack": "Retour",
+        "continueToNextStep": "Passer à l'étape suivante"
+      },
+      "ellipse": {
+        "title": "Votre zone d'atterrissage",
+        "subtitle": "Découvrez comment votre handicap et votre main dominante affectent la dispersion de vos coups",
+        "infoText": "Votre zone d'atterrissage varie selon votre handicap et votre main dominante. Les handicaps élevés ont des patterns de dispersion plus larges.",
+        "dominantHandTitle": "Main dominante",
+        "handRight": "Droite",
+        "handLeft": "Gauche",
+        "handicapTitle": "Handicap",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "Scratch",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "Dispersion estimée avec le Driver :",
+        "dispersionValue": "{{yards}} m de large",
+        "continueButton": "Continuer",
+        "continueA11y": "Passer à l'étape suivante"
+      },
+      "ppm": {
+        "title": "Parlez-nous de vous",
+        "subtitle": "Aidez-nous à personnaliser votre expérience de caddie",
+        "nameLabelText": "Votre prénom",
+        "namePlaceholder": "Entrez votre prénom",
+        "ageLabelText": "Tranche d'âge",
+        "yearsLabelText": "Années de pratique du golf",
+        "yearsValue": "{{count}} ans",
+        "yearsNew": "Débutant",
+        "yearsFiftyPlus": "50+",
+        "frequencyLabelText": "À quelle fréquence jouez-vous ?",
+        "freq": {
+          "rarely": "Rarement",
+          "rarelyDesc": "< 5 parties/an",
+          "occasionally": "Occasionnellement",
+          "occasionallyDesc": "5-15 parties/an",
+          "regularly": "Régulièrement",
+          "regularlyDesc": "15-30 parties/an",
+          "frequently": "Fréquemment",
+          "frequentlyDesc": "30-50 parties/an",
+          "veryFrequently": "Très fréquemment",
+          "veryFrequentlyDesc": "> 50 parties/an"
+        },
+        "backButton": "Retour",
+        "continueButton": "Continuer"
+      },
+      "scoring": {
+        "titleScoring": "Scorer votre partie",
+        "titleScorecard": "Votre carte de score",
+        "subtitleScoring": "Après chaque trou, appuyez sur Score pour saisir :",
+        "subtitleScorecard": "Suivez votre progression tout au long de la partie",
+        "demoHoleTitle": "Trou 1 - Par 4",
+        "labelStrokes": "Coups :",
+        "labelPutts": "Putts :",
+        "labelFairway": "Fairway :",
+        "labelPenalties": "Pénalités :",
+        "fairwayHit": "Touché",
+        "fairwayLeft": "Gauche",
+        "fairwayRight": "Droite",
+        "saveNextHole": "Enregistrer & trou suivant",
+        "colHole": "Trou",
+        "colPar": "Par",
+        "colScore": "Score",
+        "colDiff": "+/-",
+        "labelOut": "ALLER :",
+        "labelIn": "RETOUR :",
+        "labelTotal": "TOTAL :",
+        "submitScore": "Valider le score",
+        "backButton": "← Retour",
+        "backA11y": "Retour",
+        "seeScorecard": "Voir la carte →",
+        "seeScoreA11y": "Voir la carte de score",
+        "startPlaying": "Commencer à jouer !",
+        "starting": "Démarrage...",
+        "startA11y": "Commencer à jouer"
+      },
+      "shotShape": {
+        "title": "Votre coup naturel",
+        "subtitle": "Parlez-nous de la trajectoire typique de votre balle",
+        "shotShapeTitle": "Forme du coup",
+        "shotHeightTitle": "Hauteur du coup",
+        "curveTitle": "Mètres de courbure avec le fer 5",
+        "curveYards": "m",
+        "infoText": "Nous ajustons automatiquement la courbure pour chaque club : plus pour le driver, moins pour les wedges.",
+        "shapeDraw": "Draw",
+        "shapeStraight": "Droit",
+        "shapeFade": "Fade",
+        "heightLow": "Bas",
+        "heightMedium": "Moyen",
+        "heightHigh": "Haut",
+        "goBack": "Retour",
+        "continueToNextStep": "Passer à l'étape suivante"
+      },
+      "target": {
+        "title": "Choisissez votre vue",
+        "subtitle": "Faites glisser la superposition pour viser. Visualisez votre coup comme une cible ou une ellipse de dispersion.",
+        "holeInfo": "Trou {{holeNumber}} • Par {{par}}",
+        "dragHint": "Glisser pour déplacer la cible",
+        "distanceUnit": "m",
+        "targetLabel": "Cible",
+        "targetDesc": "Point de visée simple",
+        "ellipseLabel": "Ellipse",
+        "ellipseDesc": "Votre pattern de dispersion",
+        "ellipseModeTitle": "POURQUOI LE MODE ELLIPSE ?",
+        "ellipseModeText": "Votre pattern de dispersion montre où atterrissent réellement vos coups selon votre handicap. L'optimiseur l'utilise pour trouver le",
+        "ellipseModeHighlight": "point de visée le plus sûr",
+        "ellipseModeTextSuffix": "qui évite les obstacles.",
+        "targetModeTitle": "MODE CIBLE",
+        "targetModeText": "Un réticule simple affiche votre point de visée exact. Idéal pour un suivi précis des distances, mais n'affiche pas la dispersion de vos coups.",
+        "backButton": "Retour",
+        "continueButton": "Continuer"
+      },
+      "walkthrough": {
+        "title": "Jouer un trou",
+        "skipButton": "Passer la visite guidée",
+        "progressText": "{{current}} sur {{total}}",
+        "backButton": "Retour",
+        "previousButton": "Précédent",
+        "nextButton": "Suivant",
+        "nextScoring": "Suivant : Score",
+        "overlayYards": "YARDS",
+        "overlayMph": "MPH",
+        "overlayHole": "TROU",
+        "overlayPar": "PAR",
+        "overlayUphill": "MONTÉE ({{percent}}%)",
+        "overlayFromTee": "Depuis le départ",
+        "overlayRecommended": "RECOMMANDÉ",
+        "overlayPinSide": "Côté du drapeau",
+        "overlaySwipeScore": "Glisser pour scorer",
+        "elements": {
+          "hole": {
+            "title": "Informations sur le trou",
+            "description": "Affiche le numéro du trou en cours et le par. Appuyez pour voir la carte."
+          },
+          "distance": {
+            "title": "Distance au drapeau",
+            "description": "Distance GPS en temps réel au drapeau, mise à jour pendant vos déplacements."
+          },
+          "wind": {
+            "title": "Conditions de vent",
+            "description": "Vitesse et direction du vent en temps réel affectant votre coup."
+          },
+          "elevation": {
+            "title": "Dénivelé",
+            "description": "De combien monte ou descend le terrain jusqu'au green — joue plus long ou plus court."
+          },
+          "target": {
+            "title": "Ellipse de dispersion",
+            "description": "Votre pattern de coups basé sur le handicap. Faites glisser pour ajuster le point de visée."
+          },
+          "optimizer": {
+            "title": "Optimiseur de clubs",
+            "description": "Clubs recommandés par l'IA selon la distance, le vent et les obstacles."
+          },
+          "voice": {
+            "title": "Caddie IA",
+            "description": "Appuyez pour demander conseil à votre caddie IA par la voix naturelle."
+          },
+          "pinside": {
+            "title": "Côté du drapeau",
+            "description": "Définissez la position du drapeau à gauche, au centre ou à droite. Ajuste le point de visée sur la carte et dans les recommandations."
+          },
+          "score": {
+            "title": "Saisie du score",
+            "description": "Enregistrez votre score après avoir complété le trou."
+          },
+          "navigation": {
+            "title": "Navigation entre les trous",
+            "description": "Naviguez entre les trous par glissement ou avec les flèches."
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "Infos personnelles",
+      "golfProfile": "Profil de golf",
+      "experience": "Expérience",
+      "skills": "Compétences",
+      "preferences": "Préférences",
+      "accessibility": "Accessibilité"
+    },
+    "buttons": {
+      "back": "← Retour",
+      "continue": "Continuer →",
+      "complete": "Terminer la configuration"
+    },
+    "errors": {
+      "saveFailed": "Échec de l'enregistrement du profil. Veuillez réessayer."
+    },
+    "a11y": {
+      "completeSetup": "Terminer la configuration",
+      "continueStep": "Passer à l'étape suivante",
+      "completeHint": "Terminer la prise en main et commencer à utiliser l'application",
+      "continueHint": "Passer à l'étape suivante de la prise en main"
+    },
+    "personalInfo": {
+      "description": "Commençons par quelques informations de base",
+      "playerName": "Nom du joueur",
+      "playerNamePlaceholder": "Saisissez votre nom",
+      "birthday": "Date de naissance (facultatif)",
+      "birthdayPlaceholder": "MM/JJ/AAAA",
+      "phone": "Téléphone (facultatif)",
+      "phonePlaceholder": "(555) 555-5555",
+      "address": "Adresse (facultatif)",
+      "addressPlaceholder": "Ville, État"
+    },
+    "golfProfile": {
+      "description": "Parlez-nous de votre jeu de golf",
+      "handicap": "Index de handicap",
+      "dominantHand": "Main dominante",
+      "rightHanded": "Droitier",
+      "leftHanded": "Gaucher",
+      "naturalShot": "Coup naturel",
+      "shotStraight": "Droit",
+      "shotDraw": "Draw",
+      "shotFade": "Fade",
+      "shotHeight": "Hauteur du coup",
+      "heightLow": "Bas",
+      "heightMedium": "Moyen",
+      "heightHigh": "Haut",
+      "yardsOfCurve": "Yards de courbe avec le fer 5",
+      "yardsOfCurvePlaceholder": "Ex. 5, -5 ou 0",
+      "yardsOfCurveHelp": "Utilisez un nombre négatif pour un draw (-5), positif pour un fade (+5) ou 0 pour un coup droit"
+    },
+    "experience": {
+      "description": "Quelle est votre expérience au golf ?",
+      "yearsPlaying": "Années de pratique du golf",
+      "yearsUnit": "ans",
+      "frequency": "À quelle fréquence jouez-vous ?",
+      "frequencyPlaceholder": "Sélectionner une fréquence...",
+      "rarely": "Rarement (1-5 fois/an)",
+      "occasionally": "Occasionnellement (6-15 fois/an)",
+      "regularly": "Régulièrement (16-30 fois/an)",
+      "frequently": "Fréquemment (31-50 fois/an)",
+      "veryFrequently": "Très fréquemment (51+ fois/an)"
+    },
+    "skills": {
+      "description": "Aidez-nous à comprendre vos forces et vos axes de progression",
+      "averageDrive": "Drive moyen (distance de vol)",
+      "averageDriveUnit": "yds",
+      "averageDriveHelp": "Indiquez votre distance de vol habituelle, sans le roulement",
+      "strengthArea": "Votre point fort",
+      "improvementArea": "Axe de progression principal",
+      "options": {
+        "driving": "Drive",
+        "drivingDistance": "Distance au drive",
+        "drivingAccuracy": "Précision au drive",
+        "approachShots": "Coups d'approche",
+        "ironPlay": "Jeu de fers",
+        "wedgePlay": "Jeu de wedges",
+        "shortGame": "Petit jeu",
+        "chipping": "Chipping",
+        "bunkerPlay": "Jeu en bunker",
+        "putting": "Putting",
+        "courseManagement": "Gestion du parcours",
+        "courseStrategy": "Stratégie sur le parcours",
+        "mentalGame": "Jeu mental",
+        "allAround": "Polyvalent"
+      }
+    },
+    "preferences": {
+      "description": "Personnalisez votre expérience Copperline Golf",
+      "notificationsHeader": "Notifications"
+    },
+    "accessibility": {
+      "description": "Facultatif : personnalisez les paramètres d'accessibilité",
+      "textSize": "Taille du texte",
+      "textSizeUnit": "pt",
+      "highContrast": "Mode contraste élevé",
+      "highContrastDescription": "Augmente le contraste pour une meilleure lisibilité",
+      "voiceFeedback": "Retour vocal",
+      "voiceFeedbackDescription": "Recevoir un retour audio pour les actions",
+      "reduceMotion": "Réduire les animations",
+      "reduceMotionDescription": "Minimise les effets de mouvement et les transitions",
+      "screenReader": "Lecteur d'écran",
+      "screenReaderDescription": "Optimiser pour l'utilisation d'un lecteur d'écran",
+      "skip": "Ignorer les paramètres d'accessibilité"
+    },
+    "complete": {
+      "title": "Tout est prêt !",
+      "message": "Votre profil et vos clubs sont configurés. Recevez des recommandations personnalisées pour chaque coup.",
+      "profileConfigured": "Profil configuré",
+      "clubsAdded": "Clubs ajoutés au sac",
+      "readyForRecs": "Prêt pour des recommandations intelligentes",
+      "startUsing": "Commencer à utiliser Copperline Golf",
+      "helpText": "Vous pouvez à tout moment mettre à jour votre profil et vos clubs dans les Réglages"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "Vous êtes à {{distance}} mètres du centre. Vent {{windStr}}. Le green est {{elevationStr}}. Le drapeau est {{pinStr}}.",
+      "approachFull": "Vous êtes à {{distance}} mètres depuis le {{lie}}. Vent {{windStr}}. {{elevationClause}}Quels sont votre lie et votre stance ?",
+      "approachElevation": "Coup {{elevationStr}}. ",
+      "teeboxMinimal": "Le drapeau est {{pinStr}}. Quand vous voulez.",
+      "approachMinimal": "{{distance}} mètres. Quels sont votre lie et votre stance ?",
+      "windAtMph": "{{direction}} à {{speed}} km/h",
+      "calmConditions": "sans vent",
+      "elevationFeetUphill": "{{value}} mètres en montée",
+      "elevationFeetDownhill": "{{value}} mètres en descente",
+      "elevationLevel": "plat",
+      "pinSideOfGreen": "{{location}} {{side}}",
+      "pinMiddleOfGreen": "au milieu du green"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "vent de face",
+      "Tailwind": "vent arrière",
+      "Crosswind Left": "vent latéral de gauche",
+      "Crosswind Right": "vent latéral de droite",
+      "Diagonal Headwind Left": "vent de face en diagonale gauche",
+      "Diagonal Headwind Right": "vent de face en diagonale droite",
+      "Diagonal Tailwind Left": "vent arrière en diagonale gauche",
+      "Diagonal Tailwind Right": "vent arrière en diagonale droite",
+      "Calm": "sans vent"
+    },
+    "pinLocation": {
+      "Front": "avant",
+      "Middle": "milieu",
+      "Back": "arrière"
+    },
+    "pinSide": {
+      "Left": "gauche",
+      "Center": "centre",
+      "Right": "droite"
+    },
+    "lie": {
+      "Tee": "départ",
+      "Fairway": "fairway",
+      "Light Rough": "rough léger",
+      "Heavy Rough": "rough dense",
+      "Sand": "sable",
+      "Bunker": "bunker",
+      "Recovery": "récupération"
+    },
+    "stance": {
+      "Flat": "plat",
+      "Ball Above Feet": "balle au-dessus des pieds",
+      "Ball Below Feet": "balle en dessous des pieds",
+      "Uphill": "montée",
+      "Downhill": "descente"
+    },
+    "elevationDir": {
+      "uphill": "montée",
+      "downhill": "descente",
+      "level": "plat"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "Chargement de l'AI Caddy...",
+      "subtitle": "Récupération des données du parcours, de la météo et du joueur",
+      "connecting": "Connexion à l'AI Caddy..."
+    },
+    "error": {
+      "title": "Erreur de connexion",
+      "tryAgain": "Réessayer",
+      "goBack": "Retour"
+    },
+    "header": {
+      "back": "← Retour",
+      "title": "Caddie IA",
+      "holeFormat": "{{course}} • Trou {{hole}}"
+    },
+    "status": {
+      "connected": "Connecté",
+      "disconnected": "Déconnecté",
+      "contextLoaded": "Contexte chargé"
+    },
+    "context": {
+      "windCalm": "Conditions calmes",
+      "windMph": "Vent à {{speed}} mph",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "{{distance}} y depuis {{lie}}"
+    },
+    "modes": {
+      "idle": "Inactif",
+      "listening": "À l'écoute",
+      "speaking": "Parle",
+      "thinking": "Réfléchit"
+    },
+    "instructions": {
+      "speakNow": "Parlez maintenant...",
+      "aiResponding": "L'IA répond...",
+      "readyToListen": "Prêt à écouter",
+      "notConnected": "Non connecté"
+    },
+    "buttons": {
+      "endConversation": "Terminer la conversation",
+      "startConversation": "Démarrer la conversation",
+      "connecting": "Connexion..."
+    },
+    "alerts": {
+      "notConnectedTitle": "Non connecté",
+      "notConnectedMessage": "Veuillez attendre l'établissement de la connexion",
+      "sendFailedMessage": "Échec de l'envoi du message. Veuillez réessayer."
+    },
+    "suggestions": {
+      "strategy": "Quelle est la stratégie ?",
+      "windAffect": "Quel sera l'effet du vent ?",
+      "windDoing": "Que fait le vent ?",
+      "whichClub": "Quel club dois-je prendre ?",
+      "distance150": "Je suis à 150 yards",
+      "anyTips": "Des conseils ?",
+      "analyzeRisks": "Analyse les risques",
+      "courseConditions": "Conditions du parcours ?"
+    },
+    "simple": {
+      "headerTitle": "Assistant vocal",
+      "skillLevel": "Niveau",
+      "skillDesc": {
+        "beginner": "Questions minimales, valeurs par défaut max",
+        "intermediate": "Questions et valeurs par défaut équilibrées",
+        "advanced": "Questions détaillées, précises"
+      },
+      "recommendations": "Recommandations",
+      "clear": "Effacer",
+      "calculating": "Calcul des recommandations…",
+      "underMaintenance": "En maintenance",
+      "maintenanceMsg": "La fonction d'assistant vocal est en cours d'amélioration pour une meilleure expérience.",
+      "useAlternative": "Veuillez utiliser les écrans Tir rapide ou Tir avancé."
+    },
+    "enhanced": {
+      "loadingContext": "Chargement du contexte du Caddie IA…",
+      "loadingSubtext": "Collecte des données du parcours, de la météo et du joueur",
+      "clearHistory": "Effacer l'historique",
+      "clearHistoryTitle": "Effacer la conversation",
+      "clearHistoryMsg": "Voulez-vous vraiment effacer l'historique de la conversation ?",
+      "aiEnhanced": "IA améliorée",
+      "notConfiguredTitle": "Caddie IA non configuré",
+      "notConfiguredMsg": "La clé API OpenAI n'est pas configurée. La conversation vocale fonctionnera, mais les fonctionnalités IA avancées seront limitées.",
+      "initErrorTitle": "Erreur d'initialisation",
+      "initErrorMsg": "Échec du chargement du contexte. Certaines fonctionnalités pourraient ne pas fonctionner correctement.",
+      "history": "Historique",
+      "hide": "Masquer"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "Coup",
+      "scores": "Scores",
+      "clubs": "Clubs",
+      "settings": "Réglages"
+    },
+    "titles": {
+      "shot": "Recommandation de coup",
+      "scores": "Historique des scores",
+      "clubs": "Gestion des clubs",
+      "settings": "Réglages",
+      "courses": "Parcours"
+    },
+    "playGolf": {
+      "idle": "Jouer au golf",
+      "continue": "Continuer",
+      "resume": "Reprendre"
+    },
+    "headers": {
+      "login": "CaddyAI - Connexion",
+      "onboarding": "CaddyAI - Configuration",
+      "profileSetup": "CaddyAI - Configuration du profil",
+      "ppmSetup": "CaddyAI - Configuration PPM",
+      "clubManagement": "CaddyAI - Gestion des clubs",
+      "voiceAssistant": "CaddyAI - Assistant vocal",
+      "apiKeySetup": "CaddyAI - Configuration des clés API",
+      "setupComplete": "CaddyAI - Configuration terminée",
+      "devMenu": "CaddyAI - Menu développeur"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "Votre Caddie, partout.",
+    "emailPlaceholder": "E-mail",
+    "passwordPlaceholder": "Mot de passe",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "switchToSignIn": "Vous avez déjà un compte ? Se connecter",
+    "switchToSignUp": "Vous n'avez pas de compte ? S'inscrire",
+    "forgotPassword": "Mot de passe oublié ?",
+    "continueWithApple": "Continuer avec Apple",
+    "continueWithGoogle": "Continuer avec Google",
+    "dividerOr": "ou",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "missingInfoTitle": "Informations manquantes",
+    "missingInfoMessage": "Veuillez saisir l'e-mail et le mot de passe pour continuer.",
+    "invalidPasswordTitle": "Mot de passe invalide",
+    "invalidPasswordMessage": "Le mot de passe doit contenir au moins 6 caractères.",
+    "accountCreatedTitle": "Compte créé !",
+    "accountCreatedMessage": "Votre compte a été créé avec succès. Bienvenue sur Copperline Golf !",
+    "signUpFailedTitle": "Échec de l'inscription",
+    "signInFailedTitle": "Échec de la connexion",
+    "authFailedFallback": "Échec de l'authentification",
+    "resetPasswordTitle": "Réinitialiser le mot de passe",
+    "resetPasswordPromptIos": "Saisissez votre adresse e-mail pour recevoir un lien de réinitialisation",
+    "resetPasswordConfirmAndroid": "Envoyer le lien de réinitialisation à {{email}} ?",
+    "resetPasswordNoEmail": "Veuillez d'abord saisir votre adresse e-mail",
+    "resetPasswordSuccessTitle": "E-mail envoyé",
+    "resetPasswordSuccessMessage": "Consultez votre boîte de réception pour le lien de réinitialisation.",
+    "resetPasswordError": "Impossible d'envoyer l'e-mail de réinitialisation",
+    "appleNotAvailableTitle": "Non disponible",
+    "appleNotAvailableMessage": "La connexion avec Apple n'est disponible que sur les appareils iOS 13 et ultérieurs. Veuillez installer le package ou utiliser une autre méthode de connexion.",
+    "appleSetupRequiredTitle": "Configuration requise",
+    "appleSetupRequiredMessage": "La configuration de la connexion Apple est incomplète. Veuillez consulter APPLE_SIGNIN_SETUP.md pour les instructions.",
+    "appleFailedTitle": "Échec de la connexion Apple",
+    "appleFailedFallback": "Impossible de se connecter avec Apple. Veuillez essayer une autre méthode.",
+    "googleFailedTitle": "Échec de la connexion Google",
+    "googleFailedMessage": "Impossible de se connecter avec Google. Veuillez réessayer ou utiliser une autre méthode.",
+    "googlePlayServicesTitle": "Google Play Services requis",
+    "googlePlayServicesMessage": "Google Play Services n'est pas disponible ou doit être mis à jour.",
+    "signInInProgressTitle": "Connexion en cours",
+    "signInInProgressMessage": "Une tentative de connexion est déjà en cours. Veuillez patienter.",
+    "welcomeTitle": "Bienvenue !",
+    "welcomeMessage": "Connecté en tant que {{identity}}",
+    "emailA11yLabel": "Champ d'e-mail",
+    "emailA11yHint": "Saisissez votre adresse e-mail",
+    "passwordA11yLabel": "Champ de mot de passe",
+    "passwordA11yHint": "Saisissez votre mot de passe",
+    "signUpA11yLabel": "Bouton d'inscription",
+    "signInA11yLabel": "Bouton de connexion",
+    "signUpA11yHint": "Créer un nouveau compte",
+    "signInA11yHint": "Se connecter à votre compte",
+    "appleA11yLabel": "Bouton de connexion avec Apple",
+    "appleA11yHint": "Se connecter avec votre identifiant Apple",
+    "googleA11yLabel": "Bouton de connexion avec Google",
+    "googleA11yHint": "Se connecter avec votre compte Google",
+    "signin": {
+      "infoText": "Connectez-vous pour sauvegarder votre profil, vos clubs et votre historique de coups sur tous vos appareils",
+      "tosLine": "En vous connectant, vous acceptez nos Conditions d'utilisation",
+      "createAccount": "Créer un compte",
+      "createOne": "Pas de compte ? En créer un"
+    },
+    "apiKey": {
+      "title": "Configuration des clés API",
+      "subtitle": "Configurez vos clés API pour débloquer toutes les fonctionnalités",
+      "openAiLabel": "Clé API OpenAI",
+      "openAiDesc": "Requis pour Whisper (reconnaissance vocale) — optionnel, la reconnaissance de l'appareil fonctionne sans cela",
+      "anthropicLabel": "Clé API Anthropic",
+      "anthropicDesc": "Requis pour la conversation IA vocale (Claude)",
+      "howToGet": "Comment obtenir cela ?",
+      "getOpenAiTitle": "Obtenir une clé API OpenAI",
+      "getOpenAiSteps": "1. Allez sur platform.openai.com\n2. Connectez-vous ou créez un compte\n3. Allez dans la section API Keys\n4. Créez une nouvelle clé secrète",
+      "getAnthropicTitle": "Obtenir une clé API Anthropic",
+      "getAnthropicSteps": "1. Allez sur console.anthropic.com\n2. Connectez-vous ou créez un compte\n3. Allez dans la section API Keys\n4. Créez une nouvelle clé API",
+      "secureNote": "Vos clés API sont stockées en toute sécurité sur votre appareil et ne sont jamais envoyées à un serveur autre qu'OpenAI/Anthropic.",
+      "saveKeys": "Enregistrer les clés API",
+      "saving": "Enregistrement…",
+      "skipForNow": "Passer pour le moment",
+      "skipTitle": "Passer la configuration",
+      "skipMsg": "Certaines fonctionnalités peuvent ne pas fonctionner sans clés API. Continuer quand même ?",
+      "noKeysTitle": "Aucune clé saisie",
+      "noKeysMsg": "Veuillez saisir au moins une clé API pour continuer.",
+      "saveSuccess": "Enregistré avec succès !",
+      "saveWarnings": "Enregistré avec succès !\n\nAvertissements :\n{{warnings}}",
+      "saveErrorMsg": "Échec de l'enregistrement des clés API. Veuillez réessayer."
+    }
+  },
+  "welcome": {
+    "title": "Bienvenue sur Copperline Golf",
+    "subtitle": "Votre compagnon de golf intelligent",
+    "description": "Effectuez un tour interactif en 8 étapes pour obtenir des recommandations personnalisées à chaque coup.",
+    "features": {
+      "clubRecs": "Recommandations de club intelligentes",
+      "aiAnalysis": "Analyse de coup par IA",
+      "weatherAdvice": "Conseils adaptés à la météo",
+      "voiceAssist": "Assistance guidée par la voix"
+    },
+    "resumeRound": "Reprendre le tour",
+    "continueRound": "Continuer le tour",
+    "getStarted": "Commencer",
+    "skipSetup": "Passer la configuration"
+  },
+  "paywall": {
+    "headerTitle": "Passer à\nCopperline Pro",
+    "headerSubtitle": "Profitez de toute la puissance de votre caddie IA",
+    "featuresSectionTitle": "Tout en Pro",
+    "packagesSectionTitle": "Choisissez votre abonnement",
+    "loading": "Chargement des abonnements...",
+    "tos": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "restorePurchases": "Restaurer les achats",
+    "redeemCode": "Échanger un code d'offre",
+    "errors": {
+      "selectPlanTitle": "Sélectionnez un abonnement",
+      "selectPlanBody": "Veuillez sélectionner un abonnement pour continuer."
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "Langue",
+      "languagePlaceholder": "Sélectionner la langue..."
+    },
+    "sections": {
+      "account": "Compte",
+      "subscription": "Abonnement",
+      "playerProfile": "Profil du joueur",
+      "preferences": "Préférences",
+      "notifications": "Notifications",
+      "about": "À propos",
+      "backup": "Sauvegarde et restauration",
+      "diagnostics": "Outils de diagnostic",
+      "appFeatures": "Fonctionnalités de l'application",
+      "caddyAi": "CADDIE IA"
+    },
+    "account": {
+      "guestUser": "Invité",
+      "notSignedIn": "Non connecté"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "Gratuit",
+      "renews": "Renouvellement le {{date}}",
+      "noActive": "Aucun abonnement actif",
+      "upgrade": "Passer à Copperline Pro"
+    },
+    "playerProfile": {
+      "edit": "Modifier le profil du joueur",
+      "editSubtitle": "Handicap, distances des clubs et préférences de golf"
+    },
+    "preferences": {
+      "distanceUnits": "Unités de distance",
+      "distanceUnitsPlaceholder": "Sélectionner l'unité...",
+      "yards": "Yards",
+      "meters": "Mètres",
+      "temperatureUnits": "Unités de température",
+      "temperatureUnitsPlaceholder": "Sélectionner l'unité de température...",
+      "fahrenheit": "Fahrenheit",
+      "celsius": "Celsius",
+      "theme": "Thème",
+      "themePlaceholder": "Sélectionner le thème...",
+      "themeLight": "Clair",
+      "themeDark": "Sombre",
+      "themeSystem": "Système",
+      "themeAuto": "Automatique",
+      "targetOverlay": "Superposition de cible",
+      "targetOverlayPlaceholder": "Sélectionner le mode de cible...",
+      "targetLines": "Lignes de cible",
+      "playerEllipse": "Ellipse du joueur"
+    },
+    "notifications": {
+      "courseRecommendations": "Recommandations de parcours",
+      "courseRecommendationsDescription": "Recevez des recommandations personnalisées de parcours et de coups",
+      "weatherAlerts": "Alertes météo",
+      "weatherAlertsDescription": "Recevez des notifications sur les conditions météo",
+      "practiceReminders": "Rappels d'entraînement",
+      "practiceRemindersDescription": "Rappels utiles pour vous entraîner et améliorer votre jeu",
+      "achievementNotifications": "Notifications de succès",
+      "achievementNotificationsDescription": "Célébrez vos étapes et succès au golf"
+    },
+    "about": {
+      "version": "Version",
+      "build": "Build",
+      "support": "Support"
+    },
+    "backup": {
+      "title": "Sauvegardes des clubs et coups",
+      "subtitle": "Consultez ou restaurez les versions précédentes de votre sac"
+    },
+    "diagnostics": {
+      "igolf": "Test de l'API iGolf",
+      "igolfSubtitle": "Tester la recherche de parcours et la connectivité de l'API"
+    },
+    "appFeatures": {
+      "restartOnboarding": "Recommencer la prise en main",
+      "restartOnboardingSubtitle": "Revoir le tutoriel et mettre à jour votre profil"
+    },
+    "actions": {
+      "clearAllData": "Effacer toutes les données",
+      "signOut": "Se déconnecter"
+    },
+    "deleteAccount": {
+      "button": "Supprimer le compte",
+      "hint": "Supprime définitivement votre compte et toutes les données associées.",
+      "confirmTitle": "Supprimer le compte",
+      "confirmMessage": "Cela supprimera définitivement votre compte et toutes vos données de golf — parties, clubs, coups, préférences et historique du handicap. Cette action est irréversible.",
+      "confirmButton": "Supprimer mon compte",
+      "reauthTitle": "Nouvelle authentification requise",
+      "reauthMessage": "Pour des raisons de sécurité, déconnectez-vous puis reconnectez-vous, et essayez à nouveau de supprimer votre compte. Vos données ont déjà été supprimées.",
+      "noUserMessage": "Aucun utilisateur connecté.",
+      "failedTitle": "Échec de la suppression",
+      "failedMessage": "Une erreur s'est produite. Veuillez réessayer ou contacter support@copperlinegolf.com."
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "Votre Caddie, partout."
+    },
+    "signOutDialog": {
+      "title": "Se déconnecter",
+      "message": "Voulez-vous vraiment vous déconnecter ?",
+      "confirmButton": "Se déconnecter",
+      "fallbackTitle": "Se déconnecter",
+      "fallbackMessage": "Veuillez redémarrer l'application pour terminer la déconnexion."
+    },
+    "clearDataDialog": {
+      "title": "Effacer toutes les données",
+      "message": "Cela supprimera toutes les données de votre profil, les distances des clubs et les paramètres. Cette action est irréversible.",
+      "confirmButton": "Effacer",
+      "successTitle": "Données effacées",
+      "successMessage": "Toutes les données de l'application ont été effacées",
+      "errorMessage": "Échec de l'effacement des données"
+    },
+    "restartOnboardingDialog": {
+      "title": "Recommencer la prise en main",
+      "message": "Cela vous guidera à nouveau dans le tutoriel de l'application. Les données de votre profil seront conservées.",
+      "confirmButton": "Recommencer",
+      "errorMessage": "Impossible de relancer la prise en main. Veuillez réessayer."
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "Niveau IA",
+        "question": "Quel niveau de détail pour les questions de l'IA ?",
+        "label": "Niveau de compétence",
+        "placeholder": "Sélectionnez votre niveau...",
+        "helpBeginner": "Recommandations instantanées sans questions.",
+        "helpIntermediate": "L'IA pose des questions sur le lie et le vent.",
+        "helpAdvanced": "L'IA pose des questions sur le lie, le vent, l'élévation et la température.",
+        "helpPro": "L'IA pose des questions détaillées incluant la posture et la forme du coup.",
+        "helpTourPro": "Analyse complète de niveau pro avec tous les facteurs pris en compte."
+      },
+      "verbosity": {
+        "title": "Verbosité de l'IA",
+        "label": "Verbosité",
+        "placeholder": "Sélectionnez le mode de verbosité...",
+        "helpTalkItThrough": "Conversation complète - l'IA lit toutes les données et pose des questions",
+        "helpMinimal": "Flux rapide - l'IA ne demande que le lie et la posture",
+        "helpJustFacts": "Vous parlez en premier - dites-moi le lie et la posture",
+        "agentLabel": "Agent : {{id}}",
+        "option": {
+          "talk_it_through": "Conversation complète",
+          "just_facts": "L'essentiel",
+          "minimal": "Minimal"
+        }
+      },
+      "footer": "Les paramètres IA personnalisent les recommandations selon votre style de jeu et votre niveau. Les changements prennent effet immédiatement."
+    },
+    "backupScreen": {
+      "title": "Sauvegarde et restauration",
+      "back": "‹ Retour",
+      "tabClubs": "Clubs",
+      "tabShots": "Coups",
+      "helpText": "Chaque enregistrement sauvegarde automatiquement la version précédente. Jusqu'à 20 versions sont conservées par liste. La restauration crée également une sauvegarde, donc toute restauration est réversible.",
+      "emptyText": "Aucune sauvegarde de {{tab}} pour le moment. Les sauvegardes sont créées automatiquement la prochaine fois que vous enregistrez.",
+      "restore": "Restaurer",
+      "loadFailed": "Impossible de charger les sauvegardes",
+      "confirmClubsTitle": "Restaurer cette sauvegarde de clubs ?",
+      "confirmClubsMsg": "Cela remplacera votre sac actuel par cette version de {{count}} clubs du {{date}}.\n\nVotre sac actuel sera d'abord enregistré comme nouvelle sauvegarde, vous pouvez donc annuler si vous changez d'avis.",
+      "confirmShotsTitle": "Restaurer cette sauvegarde de coups ?",
+      "confirmShotsMsg": "Cela remplacera vos coups par cette version de {{count}} coups du {{date}}.\n\nVos coups actuels seront d'abord enregistrés comme nouvelle sauvegarde.",
+      "restoredTitle": "Restauré",
+      "restoredClubs": "Vos clubs ont été restaurés.",
+      "restoredShots": "Vos coups ont été restaurés.",
+      "restoreFailedTitle": "Échec de la restauration",
+      "clubsCount": "{{count}} clubs",
+      "shotsCount": "{{count}} coups"
+    },
+    "caddyVoice": {
+      "title": "Voix du caddie",
+      "option": {
+        "default": "Caddie (Par défaut)"
+      },
+      "optionDesc": {
+        "default": "La voix standard de CaddyAI"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "Zones d'atterrissage",
+    "errorTitle": "Erreur",
+    "invalidParams": "Paramètres invalides",
+    "invalidParamsDesc": "Cet écran nécessite des données spécifiques du parcours et du joueur pour afficher les zones d'atterrissage.",
+    "gpsError": "Erreur GPS",
+    "acquiringGps": "Acquisition de la position GPS…",
+    "acquiringSubtext": "Veuillez patienter pendant que nous obtenons votre position précise",
+    "tipOpenArea": "Déplacez-vous vers une zone dégagée",
+    "tipClearSky": "Assurez-vous d'une vue dégagée du ciel",
+    "tipWaitAccuracy": "Attendre une précision <15m",
+    "yourPosition": "Votre position",
+    "pin": "Drapeau",
+    "primaryZone": "Zone primaire",
+    "secondaryZone": "Zone secondaire",
+    "lowAccuracyTitle": "⚠️ Faible précision GPS",
+    "lowAccuracyMsg": "La précision GPS actuelle est de {{accuracy}}m. Pour de meilleurs résultats, elle devrait être inférieure à 15m.\n\nEssayez de vous déplacer vers une zone dégagée avec une vue claire du ciel.",
+    "gpsErrorMsg": "Échec de l'acquisition de la position GPS",
+    "continueAnyway": "Continuer quand même"
+  },
+  "tournament": {
+    "casual": {
+      "label": "Partie amicale",
+      "description": "Toutes les fonctionnalités activées"
+    },
+    "tournament-dmd": {
+      "label": "Tournoi (DMD)",
+      "description": "Distance GPS uniquement - Conforme Règle USGA 4.3"
+    },
+    "tournament-no-dmd": {
+      "label": "Tournoi (Sans DMD)",
+      "description": "Pas d'aides électroniques - Règle locale G-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "pricing": "Tarifs",
+      "about": "À propos",
+      "contact": "Contact",
+      "signIn": "Se connecter",
+      "getStarted": "Commencer",
+      "getStartedFree": "Commencer gratuitement",
+      "tagline": "Votre compagnon de golf intelligent"
+    },
+    "contact": {
+      "meta": {
+        "title": "Contactez-nous | Copperline Golf - Restons en contact",
+        "description": "Contactez l'équipe d'assistance Copperline Golf. Obtenez de l'aide pour l'application, envoyez vos commentaires ou renseignez-vous sur nos recommandations golf alimentées par l'IA."
+      },
+      "hero": {
+        "titleStart": "Restons en",
+        "titleHighlight": "contact",
+        "subtitle": "Une question ou un commentaire ? Nous serions ravis de vous lire. Notre équipe est là pour vous aider à tirer le meilleur de Copperline Golf."
+      },
+      "info": {
+        "emailTitle": "E-mail",
+        "phoneTitle": "Téléphone",
+        "officeTitle": "Bureau",
+        "office": "Scottsdale, AZ 85260"
+      },
+      "form": {
+        "heading": "Envoyez-nous un message",
+        "subheading": "Remplissez le formulaire ci-dessous et nous reviendrons vers vous dans les plus brefs délais.",
+        "nameLabel": "Nom",
+        "namePlaceholder": "Votre nom",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "votre.email@exemple.com",
+        "subjectLabel": "Sujet",
+        "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Dites-nous en plus sur votre demande...",
+        "submit": "Envoyer le message",
+        "submitting": "Envoi en cours...",
+        "successMessage": "Message envoyé avec succès ! Nous vous répondrons bientôt.",
+        "errorMessage": "Échec de l'envoi. Veuillez réessayer ou nous écrire directement par e-mail.",
+        "errors": {
+          "nameRequired": "Le nom est requis",
+          "nameTooShort": "Le nom doit comporter au moins 2 caractères",
+          "emailRequired": "L'e-mail est requis",
+          "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+          "subjectRequired": "Le sujet est requis",
+          "subjectTooShort": "Le sujet doit comporter au moins 3 caractères",
+          "messageRequired": "Le message est requis",
+          "messageTooShort": "Le message doit comporter au moins 10 caractères"
+        }
+      },
+      "hours": {
+        "heading": "Heures de bureau",
+        "weekdaysLabel": "Lundi - Vendredi",
+        "weekdays": "9h00 - 18h00 PST",
+        "saturdayLabel": "Samedi",
+        "saturday": "10h00 - 16h00 PST",
+        "sundayLabel": "Dimanche",
+        "sunday": "Fermé",
+        "responseNote": "Nous répondons généralement à toutes les demandes dans les 24 heures ouvrées."
+      },
+      "social": {
+        "heading": "Suivez-nous",
+        "body": "Suivez-nous sur les réseaux sociaux pour les dernières actualités, astuces et conseils golf."
+      },
+      "faq": {
+        "heading": "Besoin de réponses rapides ?",
+        "body": "Consultez notre centre d'aide pour des réponses immédiates aux questions fréquentes.",
+        "cta": "Voir le centre d'aide"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "Sélection intelligente du club",
+        "smartClubDesc": "Des recommandations alimentées par l'IA, basées sur votre profil de swing et les conditions en temps réel. Le bon club pour chaque coup.",
+        "profileTitle": "Profil personnel",
+        "profileDesc": "Suivez vos clubs et vos distances avec des analyses personnalisées pour chaque club de votre sac. Votre jeu, optimisé.",
+        "conditionsTitle": "Conditions en temps réel",
+        "conditionsDesc": "Météo, vent et altitude en direct pour chaque coup. Prenez des décisions éclairées basées sur les conditions réelles.",
+        "sectionTitleLine1": "Pourquoi Copperline Golf est",
+        "sectionTitleLine2": "votre partenaire idéal",
+        "sectionSubtitle": "Trois fonctionnalités essentielles qui transforment votre jeu"
+      },
+      "aiCta": {
+        "heading": "Essayez la sélection de club par IA",
+        "body": "Découvrez notre assistant vocal intelligent qui vous aide à choisir le club parfait pour chaque coup. Indiquez votre niveau et décrivez votre coup pour recevoir des recommandations personnalisées instantanées.",
+        "button": "Lancer l'assistant IA"
+      },
+      "stats": {
+        "titleStart": "La confiance des golfeurs",
+        "titleHighlight": "dans le monde entier",
+        "subtitle": "Rejoignez des milliers de joueurs qui ont amélioré leur jeu avec Copperline Golf"
+      },
+      "howItWorks": {
+        "titleStart": "Démarrez en",
+        "titleHighlight": "3 étapes simples",
+        "step1Title": "Créez votre profil",
+        "step1Desc": "Répondez à quelques questions sur votre jeu et ajoutez les distances de vos clubs.",
+        "step2Title": "Allez sur le parcours",
+        "step2Desc": "Ouvrez Copperline Golf sur votre téléphone et laissez-le suivre les conditions automatiquement.",
+        "step3Title": "Jouez plus intelligemment",
+        "step3Desc": "Recevez instantanément des recommandations de club personnalisées pour chaque coup."
+      },
+      "testimonials": {
+        "titleStart": "Ce que disent les",
+        "titleHighlight": "golfeurs",
+        "subtitle": "Vrais retours de golfeurs qui ont transformé leur jeu"
+      }
+    }
+  }
+}

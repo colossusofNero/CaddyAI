@@ -1,37 +1,26 @@
 /**
- * Next.js Middleware — Route Protection (WEB-02)
+ * Next.js Middleware — Route Protection + i18n locale routing
  *
- * This middleware is the first layer of defence for premium and authenticated
- * routes. It runs before any page or API route is rendered.
+ * This middleware composes two responsibilities:
+ *  1. Auth gating for the (app) route group and guest-only pages.
+ *  2. Locale routing for marketing pages via next-intl.
  *
- * What it does:
- *  - Redirects completely unauthenticated visitors away from the (app) group
- *    (dashboard, analytics, recommendations, etc.) to /login.
- *  - Adds security headers (CSP, HSTS, etc.) to every response.
+ * For now, only marketing routes are localized. The (app) group, /api,
+ * /admin, /debug, /diagnostics still serve English-only until Phase 3.
  *
- * Limitations of Edge runtime:
- *  Firebase Admin SDK cannot run in the Edge runtime, so full token
- *  verification is not possible here. The real server-side enforcement of
- *  subscription status happens in:
- *    1. /api/stripe/subscription  — verifies Firebase ID token + ownership
- *    2. /api/stripe/checkout      — verifies Firebase ID token + ownership
- *    3. /api/stripe/portal        — verifies Firebase ID token + ownership
- *    4. AppGate (app/(app)/layout.tsx) — client-side guard that redirects to
- *       /start-trial when the server-verified subscription status is "free".
- *
- * This middleware protects against casual/bot direct-URL access to premium
- * pages and hardens HTTP headers across the whole application.
+ * Edge runtime limitations: Firebase Admin SDK cannot run here, so full
+ * token verification still happens in API route handlers and AppGate.
  */
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import createIntlMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-// ─── Route groups ────────────────────────────────────────────────────────────
+const intlMiddleware = createIntlMiddleware(routing);
 
-/**
- * Routes that require the user to be authenticated.
- * These map to the Next.js (app) route group.
- */
+// ─── Route groups (locale-prefix-agnostic) ──────────────────────────────────
+
 const AUTHENTICATED_ROUTES = [
   '/dashboard',
   '/analytics',
@@ -45,81 +34,59 @@ const AUTHENTICATED_ROUTES = [
   '/settings',
 ];
 
-/**
- * Routes that should only be accessible to unauthenticated users.
- * Redirect to /dashboard if a session cookie is present.
- */
 const GUEST_ONLY_ROUTES = ['/login', '/signup'];
 
-/**
- * API routes that are public (no auth required).
- * Everything not in this list will pass through — API auth is enforced
- * inside each individual route handler with the Admin SDK.
- */
 const PUBLIC_API_ROUTES = [
-  '/api/stripe/webhook', // must be public for Stripe to call it
+  '/api/stripe/webhook',
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+const NON_LOCALIZED_PREFIXES = [
+  '/api',
+  '/admin',
+  '/debug',
+  '/diagnostics',
+];
 
-/**
- * Returns true when the request carries a Firebase auth session cookie.
- *
- * Firebase Auth (client SDK) stores tokens in IndexedDB, not cookies, so
- * this check looks for the presence of the `__session` cookie that
- * Firebase Hosting sets, OR a custom `auth-token` cookie that can be
- * written by the app on sign-in for middleware use.
- *
- * If neither cookie is present the middleware conservatively treats the
- * user as unauthenticated and redirects to /login — the client-side auth
- * state will hydrate immediately and redirect back if the user actually
- * has a valid Firebase session stored in IndexedDB.
- */
+// Match a leading locale segment (excluding 'en', which is the unprefixed
+// default). Used to strip the prefix before route-class checks.
+const LOCALE_PREFIX_PATTERN = /^\/(es|fr|de|ja|it|pt-BR|ko|zh|ru|hi)(?=\/|$)/;
+
+function stripLocale(pathname: string): string {
+  const stripped = pathname.replace(LOCALE_PREFIX_PATTERN, '');
+  return stripped === '' ? '/' : stripped;
+}
+
 function hasSessionCookie(request: NextRequest): boolean {
-  return (
-    request.cookies.has('__session') ||
-    request.cookies.has('auth-token')
-  );
+  return request.cookies.has('__session') || request.cookies.has('auth-token');
+}
+
+function matchesRouteList(pathname: string, list: string[]): boolean {
+  return list.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 }
 
 function isAuthenticatedRoute(pathname: string): boolean {
-  return AUTHENTICATED_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
-  );
+  return matchesRouteList(stripLocale(pathname), AUTHENTICATED_ROUTES);
 }
 
 function isGuestOnlyRoute(pathname: string): boolean {
-  return GUEST_ONLY_ROUTES.some(
-    (route) => pathname === route || pathname.startsWith(`${route}/`)
-  );
+  return matchesRouteList(stripLocale(pathname), GUEST_ONLY_ROUTES);
+}
+
+function isNonLocalizedRoute(pathname: string): boolean {
+  return NON_LOCALIZED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 function isPublicApiRoute(pathname: string): boolean {
   return PUBLIC_API_ROUTES.some((route) => pathname.startsWith(route));
 }
 
-// ─── Security headers ────────────────────────────────────────────────────────
+// ─── Security headers ───────────────────────────────────────────────────────
 
-/**
- * Content Security Policy.
- *
- * Tightened to limit what third-party scripts can do (WEB-05).
- *
- * Key decisions:
- *  - script-src: allows 'self', Next.js inline scripts (via nonce would be
- *    better but requires dynamic rendering — this is a pragmatic baseline).
- *    unpkg is allowed only for the pinned ElevenLabs widget version.
- *  - connect-src: Firebase, Stripe, RevenueCat, GA4.
- *  - frame-src: Stripe Checkout iframe.
- *  - object-src 'none': prevents Flash/plugin exploits.
- */
 const CSP_HEADER = [
   "default-src 'self'",
-  // Allow Next.js hydration inline scripts + Google Sign-In + ElevenLabs from pinned version
   "script-src 'self' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com https://apis.google.com https://vercel.live",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  // Firebase, Stripe, RevenueCat, ElevenLabs API, GA
   [
     "connect-src 'self'",
     'https://*.firebaseio.com',
@@ -136,7 +103,6 @@ const CSP_HEADER = [
     'https://*.cloudfunctions.net',
     'wss://*.firebaseio.com',
   ].join(' '),
-  // Stripe Checkout + Google Sign-In + Apple Sign-In + Firebase auth popups + Vercel
   "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com https://vercel.live",
   "img-src 'self' data: https: blob:",
   "media-src 'self' blob: https://api.elevenlabs.io",
@@ -149,26 +115,16 @@ const CSP_HEADER = [
 
 function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('Content-Security-Policy', CSP_HEADER);
-  // Allow Firebase signInWithPopup to communicate back from the popup window.
-  // Without this, Chrome's COOP enforcement blocks window.closed checks.
   response.headers.set('Cross-Origin-Opener-Policy', 'unsafe-none');
-  // HSTS — tell browsers to use HTTPS for 1 year
-  response.headers.set(
-    'Strict-Transport-Security',
-    'max-age=31536000; includeSubDomains; preload'
-  );
-  // Already set in next.config.ts but reinforce here
+  response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set(
-    'Permissions-Policy',
-    'camera=(), microphone=(self), geolocation=(self)'
-  );
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(self)');
   return response;
 }
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
+// ─── Middleware ─────────────────────────────────────────────────────────────
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -185,40 +141,50 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Stripe webhook is intentionally public
+  // Stripe webhook is intentionally public — no locale, no auth gate.
   if (isPublicApiRoute(pathname)) {
     return addSecurityHeaders(NextResponse.next());
   }
 
   const sessionExists = hasSessionCookie(request);
 
-  // Redirect authenticated users away from guest-only pages
-  // BUT: if they have a ?redirect param, honor it (e.g., coming from promo flow)
+  // Authenticated routes aren't localized yet — if a locale-prefixed URL
+  // points to one (e.g. /de/dashboard) redirect to the unprefixed version.
+  if (LOCALE_PREFIX_PATTERN.test(pathname)) {
+    const stripped = stripLocale(pathname);
+    if (matchesRouteList(stripped, AUTHENTICATED_ROUTES) || isNonLocalizedRoute(stripped)) {
+      const url = new URL(stripped + request.nextUrl.search, request.url);
+      return NextResponse.redirect(url);
+    }
+  }
+
+  // Guest-only routes: redirect signed-in users to the app.
   if (isGuestOnlyRoute(pathname) && sessionExists) {
     const redirectParam = request.nextUrl.searchParams.get('redirect');
     const destination = redirectParam || '/dashboard';
     return NextResponse.redirect(new URL(destination, request.url));
   }
 
-  // Redirect unauthenticated users away from authenticated routes
+  // Authenticated routes: gate unauthenticated users.
   if (isAuthenticatedRoute(pathname) && !sessionExists) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // All other requests — pass through with security headers
-  return addSecurityHeaders(NextResponse.next());
+  // Non-localized paths (api, admin, debug, diagnostics) and authenticated
+  // routes: skip locale routing, just add headers.
+  if (isNonLocalizedRoute(pathname) || isAuthenticatedRoute(pathname)) {
+    return addSecurityHeaders(NextResponse.next());
+  }
+
+  // Marketing routes: hand off to next-intl for locale rewrite/redirect.
+  const intlResponse = intlMiddleware(request);
+  return addSecurityHeaders(intlResponse);
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths EXCEPT:
-     * - _next/static  (static files)
-     * - _next/image   (image optimisation)
-     * - favicon.ico
-     */
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

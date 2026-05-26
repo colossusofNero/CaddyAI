@@ -1,0 +1,1918 @@
+{
+  "common": {
+    "ok": "ОК",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "send": "Отправить",
+    "retry": "Повторить",
+    "skip": "Пропустить",
+    "tryAgain": "Попробовать снова",
+    "error": "Ошибка",
+    "numericStepper": {
+      "enterField": "Введите {{label}}"
+    },
+    "back": "Назад"
+  },
+  "profile": {
+    "loading": "Загрузка профиля...",
+    "loadDefaultsTitle": "Продолжить с настройками по умолчанию",
+    "loadDefaultsMessage": "Используются настройки профиля по умолчанию. Вы можете изменить их прямо сейчас.",
+    "continueDefaults": "Продолжить с настройками по умолчанию",
+    "header": {
+      "title": "Редактировать профиль игрока",
+      "subtitle": "Обновите настройки вашего гольф-профиля",
+      "syncedBadge": "☁️ Синхронизировано с облаком"
+    },
+    "ageGroup": "Возрастная группа",
+    "handicapHelp": "от +12 (плюс) до 54",
+    "yardsOfCurveHelp": "На сколько ярдов обычно закручивается мяч при ударе 5-м айроном?\nОтрицательное значение — дро (-5), положительное — фейд (+5), 0 — прямо",
+    "yearsPlayingShort": "Лет в игре",
+    "yearsUnit": "лет",
+    "playFrequency": "Частота игры",
+    "freq": {
+      "rarely": "Редко",
+      "rarelyDesc": "<5 раундов/год",
+      "occasionally": "Иногда",
+      "occasionallyDesc": "5–15 раундов/год",
+      "regularly": "Регулярно",
+      "regularlyDesc": "15–30 раундов/год",
+      "frequently": "Часто",
+      "frequentlyDesc": "30–50 раундов/год",
+      "veryFrequently": "Очень часто",
+      "veryFrequentlyDesc": "50+ раундов/год"
+    },
+    "aiCaddySettings": "Настройки AI-кэдди",
+    "skillLevelHelp": "Выберите уровень мастерства — это влияет на количество вопросов от AI",
+    "skill": {
+      "beginner": "Новичок",
+      "intermediate": "Средний уровень",
+      "advanced": "Продвинутый",
+      "pro": "Профессионал",
+      "tourPro": "Турнирный профессионал"
+    },
+    "verbosityMode": "Режим подробности",
+    "displayPreferences": "Настройки отображения",
+    "targetOverlayMode": "Режим наложения цели",
+    "target": "Цель",
+    "ellipse": "Эллипс",
+    "cancel": "Отмена",
+    "saveProfile": "Сохранить профиль",
+    "successTitle": "Успешно",
+    "successMessage": "Профиль успешно обновлён!",
+    "saveErrorTitle": "Ошибка сохранения",
+    "ppm": {
+      "title": "Настройка показателей игрока",
+      "subtitle": "Персонализированная система гольф-аналитики",
+      "progressComplete": "{{percent}}% завершено",
+      "sectionProfile": "Профиль",
+      "sectionSkills": "Навыки",
+      "sectionPreferences": "Предпочтения",
+      "sectionAccessibility": "Доступность",
+      "sectionGrade": "Оценка",
+      "profileDesc": "Расскажите о себе, чтобы персонализировать ваш гольф-опыт",
+      "skillsDesc": "Помогите нам понять ваш текущий уровень игры в гольф",
+      "preferencesDesc": "Настройте приложение под себя",
+      "accessibilityDesc": "Настройте функции доступности для комфортного использования",
+      "gradeDesc": "Оценка завершённости профиля и рекомендации",
+      "incompleteTitle": "Настройка не завершена",
+      "incompleteMessage": "Пожалуйста, заполните все обязательные поля перед завершением настройки.",
+      "completeTitle": "Настройка завершена! 🎉",
+      "completeMessage": "Ваш профиль управления показателями игрока создан. Система AI откалибрована под ваш уровень мастерства и предпочтения.",
+      "startPlaying": "Начать игру",
+      "completeSetup": "✅ Завершить настройку",
+      "nextSection": "➡️ Далее: {{section}}",
+      "completeSetupA11y": "Завершить настройку",
+      "continueA11y": "Перейти к следующему разделу",
+      "sectionA11y": "Раздел {{section}}"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "Да",
+      "no": "Нет",
+      "na": "Н/Д",
+      "strokes": "Удары",
+      "totalStrokes": "Всего ударов",
+      "putts": "Патты",
+      "totalPutts": "Всего паттов",
+      "fairwayHit": "Фэрвей",
+      "fairways": "Фэрвеи",
+      "fairwaysHit": "Фэрвеев поражено",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "Грин с норматива",
+      "greensInRegulation": "Гринов с норматива",
+      "penalties": "Штрафы",
+      "diff": "Разн.",
+      "differential": "Дифференциал",
+      "gross": "Брутто",
+      "grossScore": "Счёт брутто",
+      "adjusted": "Скорректированный",
+      "totalScore": "Итоговый счёт",
+      "toPar": "К пару",
+      "total": "Итого",
+      "totalUpper": "ИТОГО",
+      "out": "OUT",
+      "in": "IN",
+      "front9": "Первые 9",
+      "back9": "Вторые 9",
+      "hole": "Лунка",
+      "holeWithNumber": "Лунка {{n}}",
+      "saveScore": "Сохранить счёт",
+      "rounds": "Раунды",
+      "avgDiff": "Ср. дифф.",
+      "bestDiff": "Лучший дифф.",
+      "ghin": "GHIN",
+      "par": "Пар",
+      "handicap": "Гандикап",
+      "distance": "Дистанция"
+    },
+    "entry": {
+      "invalidInputTitle": "Неверный ввод",
+      "invalidStrokesMessage": "Пожалуйста, введите корректное количество ударов (1 или больше)",
+      "invalidPuttsMessage": "Пожалуйста, введите корректное количество паттов (0 или больше)",
+      "invalidPenaltiesMessage": "Пожалуйста, введите корректное количество штрафов (0 или больше)",
+      "puttsExceedStrokesMessage": "Количество паттов не может превышать общее число ударов",
+      "scoreSavedTitle": "Счёт сохранён",
+      "movedToHole": "Переход к лунке {{hole}}",
+      "roundCompleteSimple": "Раунд завершён!",
+      "viewSummary": "Посмотреть итоги",
+      "noActiveRound": "Нет активного раунда",
+      "notesLabel": "Заметки (необязательно)",
+      "notesPlaceholder": "Добавьте заметки об этой лунке..."
+    },
+    "holeScore": {
+      "title": "Счёт по лунке {{n}}",
+      "roundCompleteTitle": "Раунд завершён",
+      "roundCompleteMessage": "Лунка {{hole}}: {{strokes}} ударов, {{putts}} паттов\n\nВы завершили раунд!",
+      "viewScorecard": "Посмотреть карточку"
+    },
+    "navigation": {
+      "loadFailed": "Не удалось загрузить данные поля",
+      "noHoleData": "Данные о лунках отсутствуют",
+      "hazardsOnHole": "Препятствия на этой лунке:",
+      "holeLayout": "Схема лунки",
+      "quickActions": "Быстрые действия",
+      "profile": "Профиль",
+      "clubs": "Клюшки"
+    },
+    "complete": {
+      "loadFailed": "Не удалось загрузить данные раунда.",
+      "savedTitle": "Сохранено",
+      "savedMessage": "Ваши изменения сохранены.",
+      "saveChangesFailed": "Не удалось сохранить изменения. Попробуйте ещё раз.",
+      "loginRequired": "Чтобы сохранить счёт, необходимо войти в аккаунт.",
+      "scoreSavedTitle": "Счёт сохранён",
+      "scoreSavedMessage": "Ваш раунд успешно сохранён.",
+      "saveScoreFailed": "Не удалось сохранить счёт. Попробуйте ещё раз.",
+      "loading": "Загрузка данных раунда...",
+      "title": "Раунд завершён",
+      "unsavedChanges": "Несохранённые изменения",
+      "unsavedChangesMessage": "У вас есть несохранённые изменения. Хотите их сохранить?",
+      "discard": "Отклонить",
+      "save": "Сохранить",
+      "unsavedScoreTitle": "Счёт не сохранён",
+      "unsavedScoreMessage": "Ваш счёт не сохранён. Вы уверены, что хотите выйти?",
+      "exitWithoutSaving": "Выйти без сохранения",
+      "scorecard": "Карточка счёта",
+      "tapToEdit": "Нажмите на лунку для редактирования",
+      "statistics": "Статистика",
+      "ghinPosting": "Отправка в GHIN",
+      "postedToGHIN": "Отправлено в GHIN",
+      "saveChanges": "Сохранить изменения",
+      "saveRound": "Сохранить раунд",
+      "savedButton": "Сохранено",
+      "postOnGHIN": "Опубликовать в GHIN",
+      "finish": "Завершить"
+    },
+    "summary": {
+      "endRoundTitle": "Завершить раунд",
+      "endRoundMessage": "Вы уверены, что хотите завершить раунд? Раунд будет сохранён в истории.",
+      "holeByHole": "По лункам",
+      "roundStatistics": "Статистика раунда",
+      "continueRound": "Продолжить раунд",
+      "endRound": "Завершить раунд"
+    },
+    "history": {
+      "noScoresTitle": "Счётов пока нет",
+      "findCourse": "Найти поле",
+      "loading": "Загрузка счётов...",
+      "back": "Назад",
+      "title": "История счётов",
+      "tabHistory": "История",
+      "tabAnalytics": "Аналитика",
+      "filterAll": "Все раунды",
+      "filterRecent": "Недавние",
+      "filterBest": "Лучшие"
+    },
+    "detail": {
+      "shareScorecard": "Поделиться карточкой"
+    },
+    "terms": {
+      "albatross": "Альбатрос",
+      "eagle": "Игл",
+      "birdie": "Берди",
+      "par": "Пар",
+      "bogey": "Боги",
+      "double": "Дабл",
+      "triple": "Трипл"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "Счёт",
+      "tapForScorecard": "Нажмите для карточки",
+      "round": "РАУНД",
+      "nextHole": "Следующая лунка",
+      "endRound": "Завершить раунд",
+      "fix": "ИСПРАВИТЬ",
+      "viewFullScorecard": "Полная карточка"
+    },
+    "shotVars": {
+      "adjust": "Настроить",
+      "pinPosition": "Позиция флага",
+      "back": "Дальний",
+      "front": "Ближний",
+      "left": "Л",
+      "right": "П",
+      "lie": "Положение мяча",
+      "stance": "Стойка",
+      "slope": "Уклон",
+      "distance": "Дистанция",
+      "wind": "Ветер",
+      "yds": "ярд"
+    },
+    "endRoundModal": {
+      "title": "Завершить раунд?",
+      "holesPlayed": "Сыграно лунок",
+      "strokes": "Удары",
+      "toPar": "К пару",
+      "incompleteWarning": "{{count}} лунка без счёта.",
+      "incompleteWarning_other": "{{count}} лунок без счёта.",
+      "incompleteSubtext": "Незавершённые лунки не будут учтены при отправке в GHIN.",
+      "ghin18": "Этот раунд подходит для отправки в GHIN.",
+      "ghin9": "Этот раунд подходит для отправки в GHIN как 9-луночный.",
+      "ghinNeedMore": "Необходимо ещё {{count}} лунок для соответствия требованиям GHIN.",
+      "continuePlaying": "Продолжить игру",
+      "endRound": "Завершить раунд"
+    },
+    "loadingCourseData": "Загрузка данных поля...",
+    "mapDisabledTournament": "Карта отключена в турнирном режиме",
+    "yards": "М",
+    "tournament": "ТУРНИР",
+    "mph": "КМ/Ч",
+    "holeLabel": "ЛУНКА",
+    "par": "Пар",
+    "holeWithNumber": "ЛУНКА {{n}}",
+    "parWithNumber": "ПАР {{n}}",
+    "uphill": "В ГОРУ",
+    "downhill": "ВНИЗ",
+    "fromTee": "С ти",
+    "fromPosition": "С позиции",
+    "feet": "м",
+    "conditionsModal": {
+      "title": "Условия на поле",
+      "subtitle": "Как сегодня играется поле?",
+      "setConditions": "Задать условия",
+      "skip": "Пропустить"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "Оптимизатор недоступен",
+      "optimizerUnavailableMessage": "Отсутствуют необходимые данные",
+      "optimizerErrorTitle": "Ошибка оптимизатора",
+      "optimizerErrorMessage": "Не удалось рассчитать рекомендации"
+    },
+    "overlay": {
+      "analyzing": "Анализ лунки...",
+      "suggestedClub": "Рекомендуемая клюшка",
+      "shotShape": "Форма удара",
+      "landingZoneSafety": "Безопасность зоны приземления",
+      "successRate": "Процент успеха",
+      "aimPoint": "Точка прицеливания",
+      "courseConditions": "Условия поля",
+      "groundFirmness": "Плотность грунта",
+      "roughHeight": "Высота рафа",
+      "greenSpeed": "Скорость грина",
+      "windSpeed": "Скорость ветра",
+      "windDirection": "Направление ветра",
+      "shotDetails": "Детали удара"
+    },
+    "quickShot": {
+      "title": "Быстрый удар",
+      "subtitle": "Быстрые ИИ-рекомендации",
+      "voiceCardTitle": "Голосовая команда",
+      "listeningHint": "Слушаю… Опишите свой удар",
+      "idleHint": "Удерживайте чтобы говорить или используйте ручной ввод ниже",
+      "holdToSpeak": "Удерживайте для речи",
+      "listening": "Слушаю…",
+      "youSaid": "Вы сказали:",
+      "manualInput": "Ручной ввод",
+      "distanceToTarget": "Расстояние до цели",
+      "getRecommendation": "⚡ Получить рекомендацию",
+      "readyTitle": "Готов анализировать ваш удар",
+      "readyText": "Используйте голосовую команду или ручной ввод для персональной рекомендации клюшки"
+    },
+    "shotVarsScreen": {
+      "title": "Параметры удара",
+      "subtitle": "Все входные данные для рекомендаций",
+      "dataSources": "Источники данных",
+      "howVarsAffect": "Как эти параметры влияют на удар",
+      "recommendedClub": "Рекомендуемая клюшка",
+      "getRecPrompt": "Получите рекомендацию, чтобы увидеть, как каждый параметр влияет на выбор клюшки.",
+      "categories": {
+        "location": "Местоположение и расстояние",
+        "weather": "Погодные условия",
+        "elevation": "Данные о высоте",
+        "conditions": "Состояние поля",
+        "player": "Профиль игрока",
+        "shot": "Детали удара",
+        "conversational": "ИИ-параметры"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "Вручную",
+        "ai": "ИИ",
+        "course": "Поле",
+        "profile": "Профиль",
+        "calculated": "Вычислено"
+      },
+      "timestamp": {
+        "never": "Никогда",
+        "justNow": "Только что",
+        "oneMinAgo": "1 мин назад",
+        "minsAgo": "{{count}} мин назад",
+        "oneHourAgo": "1 час назад",
+        "hoursAgo": "{{count}} ч назад",
+        "updated": "Обновлено {{when}}"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "Подготовка раунда...",
+      "failedTitle": "Ошибка загрузки",
+      "failedMessage": "Не удалось загрузить данные поля. Проверьте подключение к сети.",
+      "retry": "Повторить",
+      "cancel": "Отмена"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "Ошибка",
+      "loadFailedMessage": "Не удалось загрузить информацию о поле. Попробуйте ещё раз.",
+      "goBack": "Назад",
+      "retry": "Повторить",
+      "tryAgain": "Попробовать снова",
+      "loading": "Загрузка {{courseName}}...",
+      "loadingFallback": "Загрузка информации о поле...",
+      "openMapsError": "Не удалось открыть карты",
+      "phoneError": "Не удалось совершить звонок",
+      "selectTeeFirst": "Пожалуйста, сначала выберите площадку для ти",
+      "notFound": "Поле не найдено",
+      "infoHoles": "Лунки",
+      "infoPar": "Пар",
+      "infoYardage": "Ярдаж",
+      "selectTeeBox": "Выбрать площадку для ти",
+      "directions": "Маршрут",
+      "call": "Позвонить",
+      "hazards": "Препятствия",
+      "about": "О поле",
+      "continue": "Продолжить",
+      "googleOnlyTitle": "Поле отсутствует в нашей базе счёта",
+      "googleOnlyBody": "Мы можем показать расположение этого поля, но раунды, счёт и данные о ти пока недоступны.",
+      "startUnavailable": "Начало раунда недоступно",
+      "selectTeeA11y": "Выбрать ти {{teeName}}",
+      "teeStats": "{{yardage}} ярд • Пар {{par}}",
+      "teeRating": "Рейтинг: {{rating}} • Слоп: {{slope}}"
+    },
+    "setup": {
+      "loadingTees": "Загрузка информации о ти...",
+      "loadFailedTitle": "Ошибка загрузки поля",
+      "loadFailedMessage": "Не удалось загрузить данные о ти и карточке счёта. Попробуйте ещё раз.",
+      "selectTeeTitle": "Выбрать ти",
+      "selectTeeMessage": "Пожалуйста, выберите площадку для ти перед началом.",
+      "cancel": "Отмена",
+      "subtitle": "Настройка раунда",
+      "ratingType": "Тип рейтинга",
+      "mens": "Мужской",
+      "womens": "Женский",
+      "roundType": "Тип раунда",
+      "type18": "18 лунок",
+      "type18Description": "Полный раунд",
+      "typeFront9": "Первые 9",
+      "typeFront9Description": "Лунки 1–9",
+      "typeBack9": "Вторые 9",
+      "typeBack9Description": "Лунки 10–18",
+      "courseHandicap": "Ваш гандикап на поле",
+      "startRound": "Начать раунд"
+    },
+    "startingHole": {
+      "selectStartingHole": "Выбрать стартовую лунку",
+      "holesLabel": "{{count}} лунок",
+      "doubleLabel": "2x{{n}} ({{total}} лунок)",
+      "front9": "Первые 9",
+      "full18": "Полные 18",
+      "back9": "Вторые 9",
+      "swingThoughtTitle": "Мысль о свинге (необязательно)",
+      "swingThoughtDescription": "Ваш AI-кэдди будет напоминать вам об этом перед каждым ударом",
+      "swingThoughtPlaceholder": "Напр.: Медленный замах, плавный темп...",
+      "selectedHoleTitle": "Выбранная лунка",
+      "selectedHoleNumber": "Лунка {{hole}}",
+      "playingTwice": "Играем {{n}} лунок дважды ({{total}} всего)",
+      "front9Description": "Первые 9 (лунки 1–9)",
+      "back9Description": "Вторые 9 (лунки 10–{{end}})",
+      "fullDescription": "Полные {{n}} лунок",
+      "starting": "Начинаем раунд...",
+      "startPlayingHole": "Начать игру с лунки {{hole}} →",
+      "errorTitle": "Ошибка",
+      "errorMessage": "Не удалось начать раунд. Попробуйте ещё раз."
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "ОСНОВНАЯ РЕКОМЕНДАЦИЯ",
+    "secondaryHeader": "ДОПОЛНИТЕЛЬНАЯ РЕКОМЕНДАЦИЯ",
+    "calculating": "Вычисление",
+    "addClubsPrompt": "Добавьте клюшки для начала",
+    "swingFace": "Свинг и фейс",
+    "aimPoint": "Точка прицеливания",
+    "expectedCarry": "Ожидаемый кэрри",
+    "fullSquare": "Полный | Квадратный",
+    "aimStraight": "Целиться прямо",
+    "unknown": "Неизвестно",
+    "youSaid": "Вы сказали:",
+    "currentRecommendation": "Текущая рекомендация:",
+    "close": "Закрыть",
+    "manualVariables": "Ручные параметры",
+    "done": "Готово",
+    "hazardType": "Тип препятствия",
+    "location": "Расположение",
+    "riskLevel": "Уровень риска",
+    "cancel": "Отмена",
+    "body": {
+      "section": {
+        "shotVariables": "ПАРАМЕТРЫ УДАРА",
+        "shotEffects": "ЭФФЕКТЫ УДАРА (До оптимизации)",
+        "totalAdjustments": "ОБЩИЕ КОРРЕКТИРОВКИ"
+      },
+      "pickers": {
+        "pinLocation": "Положение флажка",
+        "pinSide": "Сторона флажка",
+        "lie": "Лай",
+        "stance": "Стойка",
+        "slopeAngle": "Угол уклона",
+        "distance": "Расстояние до лунки",
+        "windSpeed": "Скорость ветра",
+        "windDirection": "Направление ветра"
+      },
+      "pinLocations": {
+        "Front": "Ближний",
+        "Middle": "Средний",
+        "Back": "Дальний"
+      },
+      "pinSides": {
+        "Left": "Левый",
+        "Center": "Центр",
+        "Right": "Правый"
+      },
+      "lies": {
+        "Tee": "Ти",
+        "Fairway": "Фэрвей",
+        "Light_Rough": "Лёгкий раф",
+        "Heavy_Rough": "Густой раф",
+        "Sand": "Песок",
+        "Recovery": "Восстановительный"
+      },
+      "stances": {
+        "Flat": "Ровная",
+        "Ball_Above_Feet": "Мяч выше ног",
+        "Ball_Below_Feet": "Мяч ниже ног",
+        "Uphill": "В гору",
+        "Downhill": "Под уклон"
+      },
+      "categories": {
+        "course": "ЭЛЕМЕНТЫ ПОЛЯ",
+        "hole": "ЭЛЕМЕНТЫ ЛУНКИ",
+        "player": "ЭЛЕМЕНТЫ ИГРОКА",
+        "environment": "ЭЛЕМЕНТЫ СРЕДЫ",
+        "shot": "ЭЛЕМЕНТЫ КОНКРЕТНОГО УДАРА"
+      },
+      "columns": {
+        "carry": "Дальность",
+        "roll": "Накат",
+        "aim": "Прицел"
+      },
+      "aimSummary": {
+        "straight": "Прямо",
+        "right": "Вправо",
+        "left": "Влево"
+      },
+      "aimSuffix": {
+        "right": " П",
+        "left": " Л"
+      },
+      "variables": {
+        "Altitude": "Высота над уровнем моря",
+        "Firmness": "Жёсткость",
+        "GreenSpeed": "Скорость грина",
+        "ElevationChange": "Перепад высот",
+        "PinLocation": "Положение флажка",
+        "PinSide": "Сторона флажка",
+        "WaterHazard": "Водное препятствие",
+        "Bunkers": "Бункеры",
+        "Handicap": "Гандикап",
+        "NaturalShot": "Естественный удар",
+        "ShotHeight": "Высота удара",
+        "DominantHand": "Ведущая рука",
+        "Wind": "Ветер",
+        "Temperature": "Температура",
+        "Humidity": "Влажность",
+        "Weather": "Погода",
+        "Distance": "Расстояние",
+        "Confidence": "Уверенность",
+        "Lie": "Лай",
+        "RoughLength": "Длина рафа",
+        "Stance": "Стойка"
+      },
+      "units": {
+        "yards": "ярд",
+        "mph": "миль/ч",
+        "feet": "фут",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "С",
+        "NE": "СВ",
+        "E": "В",
+        "SE": "ЮВ",
+        "S": "Ю",
+        "SW": "ЮЗ",
+        "W": "З",
+        "NW": "СЗ"
+      },
+      "empty": "Нет активных корректировок — используются стандартные расчёты",
+      "activeAdjustments_one": "{{count}} активная корректировка",
+      "activeAdjustments_few": "{{count}} активные корректировки",
+      "activeAdjustments_many": "{{count}} активных корректировок",
+      "activeAdjustments_other": "{{count}} активных корректировок",
+      "recalculate": "Пересчитать",
+      "recCard": {
+        "primary": "ОСНОВНАЯ РЕКОМЕНДАЦИЯ",
+        "secondary": "ДОПОЛНИТЕЛЬНАЯ РЕКОМЕНДАЦИЯ",
+        "calculating": "Расчёт...",
+        "setDistance": "Укажите расстояние для расчёта",
+        "unknown": "Неизвестно",
+        "swing": "Свинг: {{value}}",
+        "aim": "Прицел: {{value}}",
+        "expectedCarry": "Ожидаемая дальность: {{yards}}y",
+        "defaultSwing": "Полный | Квадратный",
+        "aimStraight": "Прямо"
+      },
+      "values": {
+        "aimRight": "Прицел {{yards}}y вправо",
+        "aimLeft": "Прицел {{yards}}y влево",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "Подъём {{value}} ft",
+        "downhillFt": "Спуск {{value}} ft",
+        "distanceYards": "{{value}} ярдов",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "Уровень {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y с {{club}})",
+        "shotHeightTrajectory": "Траектория {{height}}",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "Записать удар",
+      "clubUsed": "Использованная клюшка:",
+      "targetDistance": "Целевая дистанция:",
+      "howWasShot": "Как получился удар?",
+      "whereLanded": "Где приземлился мяч?"
+    }
+  },
+  "clubs": {
+    "loading": "Загрузка клюшек...",
+    "clubDistances": "Дистанции клюшек",
+    "specialtyShots": "Специальные удары",
+    "fullSwingShots": "Удары с полным свингом",
+    "shortGameShots": "УДАРЫ КОРОТКОЙ ИГРЫ",
+    "reset": "Сбросить",
+    "addClub": "+ Добавить клюшку",
+    "addShot": "+ Добавить удар",
+    "addCustomClub": "Добавить свою клюшку",
+    "addCustomShot": "Добавить свой удар",
+    "editShot": "Редактировать удар",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "club": "Клюшка",
+    "clubName": "Название клюшки",
+    "clubNamePlaceholder": "Название клюшки",
+    "clubUsed": "Использованная клюшка",
+    "takeback": {
+      "Full": "Полный",
+      "Three-Quarter": "Три четверти",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "Панч",
+      "ThreeQuarter": "3/4",
+      "Chip": "Чип",
+      "Flop": "Флоп",
+      "Pitch": "Питч"
+    },
+    "face": {
+      "Square": "Прямо",
+      "Draw": "Дро",
+      "Fade": "Фейд",
+      "Hood": "Закрытая",
+      "Open": "Открытая",
+      "Flat": "Плоская"
+    },
+    "shotType": "Тип удара",
+    "customShotName": "Название своего удара",
+    "carryDistance": "Дистанция кэрри",
+    "rollDistance": "Дистанция роллинга",
+    "totalDistance": "Общая дистанция:",
+    "calculatedRest": "Остальное будет рассчитано при сохранении",
+    "carryHelp": "Место, где мяч приземляется до роллинга",
+    "rollHelp": "Расстояние, которое мяч катится после приземления",
+    "totalHelp": "Итоговая дистанция (кэрри + роллинг)",
+    "totalHelpStop": "Место остановки мяча",
+    "rollNegativeHelp": "Используйте отрицательное значение для бэкспина (мяч откатывается назад)",
+    "idealLies": "Идеальное положение мяча (необязательно)",
+    "idealLiesHelp": "Выберите, где этот удар работает лучше всего",
+    "notes": "Заметки (необязательно)",
+    "alerts": {
+      "loadFailed": "Не удалось загрузить данные. Попробуйте позже.",
+      "addClubSuccess": "Клюшка успешно добавлена",
+      "addClubFailed": "Не удалось добавить клюшку",
+      "updateDistanceFailed": "Не удалось обновить дистанцию",
+      "updateClubFailed": "Не удалось обновить клюшку",
+      "deleteClubFailed": "Не удалось удалить клюшку",
+      "syncCompleteTitle": "Синхронизация завершена",
+      "syncCompleteMessage": "Ваши изменения сохранены в облаке.",
+      "syncFailedTitle": "Ошибка синхронизации",
+      "syncFailedMessage": "Не удалось синхронизировать изменения. Проверьте подключение к интернету и попробуйте снова.",
+      "syncErrorTitle": "Ошибка синхронизации",
+      "syncErrorMessage": "Произошла ошибка при синхронизации. Попробуйте ещё раз.",
+      "resetClubsSuccess": "Клюшки сброшены до настроек по умолчанию (загружено 14 клюшек)",
+      "resetClubsFailed": "Не удалось сбросить клюшки",
+      "addShotSuccess": "Удар успешно добавлен",
+      "addShotFailed": "Не удалось добавить удар",
+      "modifiedShotsFailed": "Не удалось создать изменённые удары",
+      "resetShotsSuccess": "Удары сброшены до настроек по умолчанию (загружено 18 ударов)",
+      "resetShotsFailed": "Не удалось сбросить удары",
+      "toggleShotFailed": "Не удалось изменить статус удара",
+      "cannotDeleteTitle": "Невозможно удалить",
+      "cannotDeleteMessage": "Стандартные удары нельзя удалить. Вы можете деактивировать их.",
+      "deleteShotFailed": "Не удалось удалить удар",
+      "updateShotFailed": "Не удалось обновить удар",
+      "successTitle": "Успешно",
+      "errorTitle": "Ошибка",
+      "invalidDistanceTitle": "Неверная дистанция",
+      "invalidDistanceMessage": "Дистанция должна быть больше 0",
+      "calculateDistancesFailed": "Не удалось рассчитать дистанции",
+      "selectClub": "Пожалуйста, выберите клюшку",
+      "selectShotType": "Пожалуйста, выберите тип удара",
+      "enterCustomName": "Пожалуйста, введите название для своего удара",
+      "enterCarry": "Пожалуйста, введите корректную дистанцию кэрри",
+      "enterRoll": "Пожалуйста, введите дистанцию роллинга (может быть отрицательной для бэкспина)",
+      "unusualDistanceTitle": "Необычные значения дальности",
+      "unusualDistanceBody": "Всё равно добавить эту клюшку?",
+      "addAnyway": "Всё равно добавить"
+    },
+    "modifier": {
+      "headerTitle": "Модификатор удара",
+      "selectTitle": "Выберите модификатор",
+      "selectSubtitle": "Выберите модификатор для применения к клюшкам",
+      "howManyUnits": "Сколько {{unit}}?",
+      "effect": "Эффект: {{sign}}{{pct}}%",
+      "selectClubs": "Выберите клюшки",
+      "selectAll": "Выбрать всё",
+      "deselectAll": "Снять выделение",
+      "previewBtn": "Превью ({{count}} клюшек)",
+      "previewTitle": "Превью модифицированных ударов",
+      "previewSubtitle": "Будет создано {{count}} ударов ({{sign}}{{pct}}%)",
+      "totalLabel": "Итого",
+      "createBtn": "Создать {{count}} ударов",
+      "successTitle": "Готово",
+      "successMessage": "Создано {{count}} модифицированных ударов!"
+    },
+    "stashed": "УБРАНА",
+    "carry": "Дальность",
+    "roll": "Накат",
+    "yourBag": "Ваша сумка ({{count}} клюшек)",
+    "tabClubs": "Клюшки ({{count}})",
+    "tabShots": "Удары ({{count}})",
+    "edit": {
+      "title": "Изменить: {{name}}",
+      "clubName": "Название клюшки",
+      "clubNamePlaceholder": "Название клюшки",
+      "face": "Лицо",
+      "fillAny": "💡 Заполните 1, 2 или все 3 поля",
+      "calculateRest": "Мы рассчитаем остальное при сохранении",
+      "carryDistance": "Дальность полёта",
+      "rollDistance": "Дальность наката",
+      "totalDistance": "Общая дальность",
+      "yards": "ярды",
+      "carryHelp": "Где мяч приземляется до качения",
+      "rollHelp": "Насколько мяч катится после приземления",
+      "totalHelp": "Где мяч окончательно останавливается",
+      "totalHelpAddClub": "Итоговая дальность (полёт + накат)"
+    },
+    "addClubForm": {
+      "title": "Добавить свою клюшку",
+      "club": "Клюшка",
+      "takeback": "Отвод",
+      "submit": "Добавить клюшку"
+    },
+    "addShotForm": {
+      "title": "Добавить свой удар",
+      "clubUsed": "Используемая клюшка",
+      "shotType": "Тип удара",
+      "customShotName": "Название своего удара",
+      "customShotPlaceholder": "напр. Мой особый bump",
+      "enterDistances": "📏 Введите дальности",
+      "rollNegativeHelp": "Накат может быть отрицательным для ударов с обратным вращением (напр. -2 для флоп)",
+      "carryPlaceholder": "напр. 50",
+      "rollPlaceholder": "напр. 5 или -2",
+      "rollNegativeHint": "Отрицательное значение для обратного вращения (мяч откатывается)",
+      "totalDistanceLabel": "Общая дальность:",
+      "fullSwing": "Полный замах",
+      "shortGame": "Короткая игра",
+      "idealLies": "Идеальные лай (необязательно)",
+      "idealLiesHelp": "Выберите, где этот удар работает лучше всего",
+      "notes": "Заметки (необязательно)",
+      "notesPlaceholder": "напр. открытая стойка, мягкие руки",
+      "submit": "Добавить удар",
+      "errSelectClub": "Выберите клюшку",
+      "errSelectShotType": "Выберите тип удара",
+      "errCustomName": "Введите название для своего удара",
+      "errCarry": "Введите корректную дальность полёта",
+      "errRoll": "Введите дальность наката (может быть отрицательной для обратного вращения)"
+    },
+    "category": {
+      "Woods": "Вуды",
+      "Hybrids": "Гибриды",
+      "Irons": "Айроны",
+      "Wedges": "Веджи",
+      "Putters": "Паттеры"
+    },
+    "shotNames": {
+      "Standard": "Стандартный",
+      "Pitch": "Питч",
+      "Flop": "Флоп",
+      "Chokedown": "Чок-даун",
+      "Stinger": "Стингер",
+      "Fairway Finder": "Фарвей-файндер",
+      "Knockdown": "Нокдаун",
+      "Spinner": "Спиннер",
+      "Power": "Силовой",
+      "Runner": "Раннер",
+      "Punch": "Панч",
+      "Bump & Run": "Bump & Run",
+      "Lob": "Лоб",
+      "Chip": "Чип",
+      "Custom": "Свой"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "Чок-даун",
+        "description": "Хват ниже для большего контроля, меньше дистанция. -4% за дюйм."
+      },
+      "power": {
+        "name": "Сила",
+        "description": "Бейте сильнее для большей дальности. +5% ко всем выбранным клюшкам."
+      },
+      "knockdown": {
+        "name": "Нокдаун",
+        "description": "Низкая траектория против ветра. -10% дистанции."
+      },
+      "punch": {
+        "name": "Панч",
+        "description": "Низкий панч-удар под деревьями. -25% дистанции."
+      },
+      "three_quarter": {
+        "name": "Свинг 3/4",
+        "description": "Контролируемый свинг 3/4 для точности. -15% дистанции."
+      }
+    },
+    "modifierBtn": "Модификатор"
+  },
+  "course": {
+    "list": {
+      "title": "Поля для гольфа",
+      "nearby": "Рядом",
+      "searchPlaceholder": "Поиск по названию, городу, региону или стране...",
+      "searchResultsCount": "{{count}} результатов для «{{query}}»",
+      "nearbyCount": "{{count}} полей рядом",
+      "emptyTitle": "Поля не найдены",
+      "emptySubtitle": "Не удалось загрузить ближайшие поля.",
+      "emptySearchSubtitle": "Поля, соответствующие «{{query}}», не найдены.",
+      "runDiagnostics": "Запустить диагностику",
+      "tryAgain": "Попробовать снова",
+      "clearSearch": "Очистить поиск",
+      "locationUnavailableTitle": "Местоположение недоступно",
+      "locationUnavailableMessage": "Не удалось определить местоположение. Показываем поля рядом с Финиксом, Аризона.",
+      "retry": "Повторить"
+    },
+    "activeRound": {
+      "title": "Раунд в процессе",
+      "active": "Активный",
+      "paused": "На паузе",
+      "holeProgress": "Лунка {{current}}/{{total}}",
+      "scoreLine": "Счёт: {{toPar}} ({{score}} ударов)",
+      "noScoresYet": "Счёт ещё не записан",
+      "delete": "Удалить",
+      "complete": "Завершить",
+      "continue": "Продолжить"
+    },
+    "completeDialog": {
+      "title": "Завершить раунд",
+      "message": "Вы уверены, что хотите завершить раунд? Ваш счёт будет сохранён.",
+      "confirmButton": "Завершить",
+      "successTitle": "Раунд завершён",
+      "successMessage": "Ваш раунд сохранён в истории счётов.",
+      "errorMessage": "Не удалось завершить раунд. Попробуйте ещё раз."
+    },
+    "deleteDialog": {
+      "title": "Удалить раунд",
+      "message": "Вы уверены, что хотите удалить этот раунд? Все счёта будут потеряны и не могут быть восстановлены.",
+      "confirmButton": "Удалить"
+    },
+    "abandonDialog": {
+      "title": "Прервать раунд?",
+      "message": "Это безвозвратно удалит ваш текущий раунд. Действие нельзя отменить.",
+      "keepPlaying": "Продолжить игру",
+      "confirmAbandon": "Да, прервать"
+    },
+    "roundInProgressDialog": {
+      "message": "Вы на лунке {{current}} из {{total}} на поле {{course}}\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "Счёт: {{toPar}} ({{score}} ударов, {{holes}} лунок)",
+      "scoreDisplayEmpty": "Счёт пока не записан",
+      "continueRound": "Продолжить раунд",
+      "pauseBrowse": "Пауза и просмотр",
+      "abandonRound": "Прервать раунд"
+    },
+    "conditions": {
+      "title": "Состояние поля",
+      "weatherConditions": "Погодные условия",
+      "groundFirmness": "Плотность грунта",
+      "roughLength": "Длина раффа",
+      "greenFirmness": "Плотность грина",
+      "pinLocationRotation": "Ротация флагов",
+      "pinRotationDesc": "Выберите стартовую позицию флага. Флаги будут ротировать Перед → Центр → Назад в течение раунда.",
+      "rotationPreview": "Предпросмотр ротации:",
+      "rotationFront": "Лунка 1: Перед → Лунка 2: Центр → Лунка 3: Назад → Лунка 4: Перед…",
+      "rotationMiddle": "Лунка 1: Центр → Лунка 2: Назад → Лунка 3: Перед → Лунка 4: Центр…",
+      "rotationBack": "Лунка 1: Назад → Лунка 2: Перед → Лунка 3: Центр → Лунка 4: Назад…",
+      "starting": "Старт",
+      "impactOnPlay": "Влияние на игру",
+      "rollLabel": "Прокат:",
+      "roughLabel": "Рафф:",
+      "greenSpeedLabel": "Скорость грина:",
+      "saveAndContinue": "Сохранить и продолжить",
+      "firmDescSoft": "Мяч застревает при приземлении",
+      "firmDescMedium": "Стандартный отскок и прокат",
+      "firmDescFirm": "Дополнительный прокат",
+      "firmDescUsOpen": "Максимальный отскок и прокат",
+      "roughDescShort": "Легко выйти",
+      "roughDescMedium": "Стандартная сложность",
+      "roughDescLong": "Трудно продвинуться",
+      "roughDescUsOpen": "Чрезвычайно сложно",
+      "greenDescSlow": "8–9 стимп",
+      "greenDescMedium": "10–11 стимп",
+      "greenDescFast": "12–13 стимп",
+      "greenDescUsOpen": "14+ стимп",
+      "rollNormal": "Нормально",
+      "rollSoft": "-10–15 ярд",
+      "rollFirm": "+8–12 ярд",
+      "rollUsOpen": "+15–20 ярд",
+      "roughMinimal": "Минимальное влияние",
+      "roughStandard": "Стандарт",
+      "roughSignificant": "Значительный штраф",
+      "roughSevere": "Серьёзный штраф",
+      "greenEasier": "Лучший контроль",
+      "greenLightning": "Молниеносный",
+      "weatherSunny": "Солнечно",
+      "weatherCloudy": "Облачно",
+      "weatherRaining": "Дождь",
+      "weatherSnowing": "Снег",
+      "firmSoft": "Мягкий",
+      "firmMedium": "Средний",
+      "firmFirm": "Плотный",
+      "firmUsOpen": "US Open",
+      "roughShort": "Короткий",
+      "roughMedium": "Средний",
+      "roughLong": "Длинный",
+      "roughUsOpen": "US Open",
+      "greenSlow": "Медленный",
+      "greenMedium": "Средний",
+      "greenFast": "Быстрый",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "Настройка поля",
+      "findYourCourse": "Найдите ваше поле",
+      "findSubtitle": "Ищите поля рядом или просматривайте избранное",
+      "recentCourses": "Недавние поля",
+      "favoriteCourses": "Избранные поля",
+      "searchByName": "Поиск по имени",
+      "searchPlaceholder": "Введите название поля или города…",
+      "searchByNameBtn": "🔍 Поиск по имени",
+      "searchNearbyBtn": "📍 Поиск ближайших полей",
+      "selectCourse": "Выберите поле",
+      "selectSubtitle": "Найдено {{count}} полей поблизости",
+      "downloadingCourse": "Загрузка поля",
+      "continueToCond": "Перейти к условиям →",
+      "backToSearch": "← Назад к поиску",
+      "changeCourse": "← Сменить поле",
+      "milesAway": "{{dist}} миль отсюда",
+      "retryDownload": "Повторить"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← Назад",
+        "backShort": "Назад",
+        "previous": "Предыдущий",
+        "continue": "Далее →",
+        "continueShort": "Далее",
+        "goBack": "Назад",
+        "continueToNextStep": "Перейти к следующему шагу"
+      },
+      "ai": {
+        "title": "Настройки ИИ-кэдди",
+        "subtitle": "Настройте способ общения вашего ИИ-кэдди с вами",
+        "skillSectionTitle": "Каков ваш уровень игры?",
+        "verbositySectionTitle": "Сколько должен говорить ваш кэдди?",
+        "testButtonConnecting": "Подключение...",
+        "testButtonStop": "Остановить демо",
+        "testButtonAgain": "Проверить снова",
+        "testButtonStart": "Проверить кэдди",
+        "testHintActive": "Говорите с вашим ИИ-кэдди! Нажмите Стоп, когда закончите.",
+        "testHintIdle": "Начните живой разговор с вашим ИИ-кэдди.",
+        "testA11yLabel": "Проверить ИИ-кэдди",
+        "alertNotAvailableTitle": "Недоступно",
+        "alertNotAvailableBody": "Голосовой ИИ недоступен на этом устройстве.",
+        "alertMicTitle": "Требуется микрофон",
+        "alertMicBody": "Разрешите доступ к микрофону для проверки ИИ-кэдди.",
+        "alertComingSoonTitle": "Скоро",
+        "alertComingSoonBody": "Функции голосового ИИ скоро появятся на iOS.",
+        "alertFailedTitle": "Ошибка теста",
+        "alertFailedBody": "Не удалось запустить голосовое демо. Попробуйте ещё раз."
+      },
+      "clubs": {
+        "title": "Ваша сумка готова",
+        "subtitle": "Мы заранее загрузили клюшки и удары для начала",
+        "clubsCardTitle": "КЛЮШКИ",
+        "clubsCardBadge": "{{count}} из {{total}}",
+        "shotsCardTitle": "УДАРЫ",
+        "shotsCardBadge": "{{count}} предзагружено",
+        "shotsCardDescription": "Полные свинги и игра с короткой дистанции для любой ситуации.",
+        "infoTitle": "Добавляйте собственные удары в любое время:",
+        "shotExampleChoke": "Choke Down (-4% на дюйм)",
+        "shotExamplePower": "Силовой (+5% дистанции)",
+        "shotExampleOther": "Punch, Flop, Knockdown...",
+        "viewAllClubs": "Показать все ({{count}} клюшки)",
+        "showLess": "Скрыть",
+        "hideShotsButton": "Скрыть удары",
+        "viewAllShotsButton": "Показать все удары",
+        "noteText": "Всё можно настроить в разделе",
+        "noteHighlight": "Настройки → Управление клюшками",
+        "excelTitle": "Быстрая настройка",
+        "excelText": "Скачайте шаблон Excel на сайте",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "чтобы добавить все клюшки и удары сразу!",
+        "goBack": "Назад",
+        "continueToNextStep": "Перейти к следующему шагу"
+      },
+      "conditions": {
+        "title": "Условия на поле",
+        "subtitle": "Задайте один раз в начале и играйте без остановок",
+        "setOnceTitle": "Задайте один раз в начале раунда:",
+        "bulletWind": "Скорость и направление ветра",
+        "bulletTemp": "Температура",
+        "bulletPin": "Позиция флага",
+        "pinSheetTitle": "ЛИСТ ФЛАГОВ",
+        "pinExplanation": "Выберите начальную позицию (Перед, Середина или Зад) — флаг будет автоматически меняться на каждой лунке.",
+        "confirmLabel": "Вам нужно только подтвердить:",
+        "confirmLeft": "Слева",
+        "confirmCenter": "По центру",
+        "confirmRight": "Справа",
+        "infoText": "Условия на поле задаются при старте раунда.",
+        "goBack": "Назад",
+        "continueToNextStep": "Перейти к следующему шагу"
+      },
+      "ellipse": {
+        "title": "Ваша зона приземления",
+        "subtitle": "Посмотрите, как гандикап и ведущая рука влияют на разброс ударов",
+        "infoText": "Ваша зона приземления меняется в зависимости от гандикапа и ведущей руки. При более высоком гандикапе разброс больше.",
+        "dominantHandTitle": "Ведущая рука",
+        "handRight": "Правая",
+        "handLeft": "Левая",
+        "handicapTitle": "Гандикап",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "Scratch",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "Оценочный разброс с Driver:",
+        "dispersionValue": "{{yards}} м в ширину",
+        "continueButton": "Далее",
+        "continueA11y": "Перейти к следующему шагу"
+      },
+      "ppm": {
+        "title": "Расскажите о себе",
+        "subtitle": "Помогите нам персонализировать ваш опыт с кэдди",
+        "nameLabelText": "Ваше имя",
+        "namePlaceholder": "Введите ваше имя",
+        "ageLabelText": "Возрастная группа",
+        "yearsLabelText": "Лет в гольфе",
+        "yearsValue": "{{count}} лет",
+        "yearsNew": "Новичок",
+        "yearsFiftyPlus": "50+",
+        "frequencyLabelText": "Как часто вы играете?",
+        "freq": {
+          "rarely": "Редко",
+          "rarelyDesc": "< 5 раундов/год",
+          "occasionally": "Иногда",
+          "occasionallyDesc": "5-15 раундов/год",
+          "regularly": "Регулярно",
+          "regularlyDesc": "15-30 раундов/год",
+          "frequently": "Часто",
+          "frequentlyDesc": "30-50 раундов/год",
+          "veryFrequently": "Очень часто",
+          "veryFrequentlyDesc": "> 50 раундов/год"
+        },
+        "backButton": "Назад",
+        "continueButton": "Далее"
+      },
+      "scoring": {
+        "titleScoring": "Подсчёт очков",
+        "titleScorecard": "Ваша карточка результатов",
+        "subtitleScoring": "После каждой лунки нажмите Счёт для ввода:",
+        "subtitleScorecard": "Следите за прогрессом по ходу раунда",
+        "demoHoleTitle": "Лунка 1 — Пар 4",
+        "labelStrokes": "Удары:",
+        "labelPutts": "Патты:",
+        "labelFairway": "Фервей:",
+        "labelPenalties": "Штрафы:",
+        "fairwayHit": "Попал",
+        "fairwayLeft": "Влево",
+        "fairwayRight": "Вправо",
+        "saveNextHole": "Сохранить и следующая лунка",
+        "colHole": "Лунка",
+        "colPar": "Пар",
+        "colScore": "Счёт",
+        "colDiff": "+/-",
+        "labelOut": "ТУДА:",
+        "labelIn": "ОБРАТНО:",
+        "labelTotal": "ИТОГО:",
+        "submitScore": "Отправить счёт",
+        "backButton": "← Назад",
+        "backA11y": "Назад",
+        "seeScorecard": "Карточка →",
+        "seeScoreA11y": "Посмотреть карточку результатов",
+        "startPlaying": "Начать игру!",
+        "starting": "Запуск...",
+        "startA11y": "Начать игру"
+      },
+      "shotShape": {
+        "title": "Ваш естественный удар",
+        "subtitle": "Расскажите о типичной траектории вашего мяча",
+        "shotShapeTitle": "Форма удара",
+        "shotHeightTitle": "Высота удара",
+        "curveTitle": "Метры кривизны с айрон 5",
+        "curveYards": "м",
+        "infoText": "Мы автоматически учитываем кривизну для каждой клюшки — больше для драйвера, меньше для ведж.",
+        "shapeDraw": "Draw",
+        "shapeStraight": "Прямой",
+        "shapeFade": "Fade",
+        "heightLow": "Низкий",
+        "heightMedium": "Средний",
+        "heightHigh": "Высокий",
+        "goBack": "Назад",
+        "continueToNextStep": "Перейти к следующему шагу"
+      },
+      "target": {
+        "title": "Выберите вид отображения",
+        "subtitle": "Потяните наложение для прицеливания. Смотрите удар как мишень или эллипс рассеивания.",
+        "holeInfo": "Лунка {{holeNumber}} • Пар {{par}}",
+        "dragHint": "Перетащите для перемещения цели",
+        "distanceUnit": "м",
+        "targetLabel": "Мишень",
+        "targetDesc": "Простая точка прицела",
+        "ellipseLabel": "Эллипс",
+        "ellipseDesc": "Ваш паттерн рассеивания",
+        "ellipseModeTitle": "ЗАЧЕМ РЕЖИМ ЭЛЛИПС?",
+        "ellipseModeText": "Ваш паттерн рассеивания показывает, где на самом деле приземляются удары с учётом гандикапа. Оптимизатор использует это для нахождения",
+        "ellipseModeHighlight": "наиболее безопасной точки прицела",
+        "ellipseModeTextSuffix": "вдали от препятствий.",
+        "targetModeTitle": "РЕЖИМ МИШЕНЬ",
+        "targetModeText": "Простой прицел показывает точную точку прицеливания. Подходит для точного отслеживания дистанции, но не показывает рассеивание.",
+        "backButton": "Назад",
+        "continueButton": "Далее"
+      },
+      "walkthrough": {
+        "title": "Игра на лунке",
+        "skipButton": "Пропустить обучение",
+        "progressText": "{{current}} из {{total}}",
+        "backButton": "Назад",
+        "previousButton": "Предыдущий",
+        "nextButton": "Далее",
+        "nextScoring": "Далее: Подсчёт",
+        "overlayYards": "МЕТРЫ",
+        "overlayMph": "км/ч",
+        "overlayHole": "ЛУНКА",
+        "overlayPar": "ПАР",
+        "overlayUphill": "ПОДЪЁМ ({{percent}}%)",
+        "overlayFromTee": "От тира",
+        "overlayRecommended": "РЕКОМЕНДУЕТСЯ",
+        "overlayPinSide": "Сторона флага",
+        "overlaySwipeScore": "Свайп для счёта",
+        "elements": {
+          "hole": {
+            "title": "Информация о лунке",
+            "description": "Показывает номер лунки и пар. Нажмите для просмотра карточки."
+          },
+          "distance": {
+            "title": "Расстояние до флага",
+            "description": "Расстояние GPS до флага в реальном времени, обновляется по мере движения."
+          },
+          "wind": {
+            "title": "Ветровые условия",
+            "description": "Скорость и направление ветра в реальном времени, влияющие на удар."
+          },
+          "elevation": {
+            "title": "Перепад высот",
+            "description": "Насколько круто или полого до грина — играет длиннее/короче."
+          },
+          "target": {
+            "title": "Эллипс рассеивания",
+            "description": "Паттерн ударов по гандикапу. Потяните для настройки точки прицела."
+          },
+          "optimizer": {
+            "title": "Оптимизатор клюшек",
+            "description": "Клюшки, рекомендованные ИИ на основе дистанции, ветра и препятствий."
+          },
+          "voice": {
+            "title": "ИИ-кэдди",
+            "description": "Нажмите, чтобы спросить совет у ИИ-кэдди голосом."
+          },
+          "pinside": {
+            "title": "Сторона флага",
+            "description": "Задайте позицию флага: слева, по центру или справа. Регулирует точку прицела на карте и в рекомендациях."
+          },
+          "score": {
+            "title": "Ввод счёта",
+            "description": "Запишите счёт после завершения лунки."
+          },
+          "navigation": {
+            "title": "Навигация по лункам",
+            "description": "Переходите между лунками свайпом или стрелками."
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "Личные данные",
+      "golfProfile": "Гольф-профиль",
+      "experience": "Опыт",
+      "skills": "Навыки",
+      "preferences": "Предпочтения",
+      "accessibility": "Доступность"
+    },
+    "buttons": {
+      "back": "← Назад",
+      "continue": "Продолжить →",
+      "complete": "Завершить настройку"
+    },
+    "errors": {
+      "saveFailed": "Не удалось сохранить профиль. Попробуйте ещё раз."
+    },
+    "a11y": {
+      "completeSetup": "Завершить настройку",
+      "continueStep": "Перейти к следующему шагу",
+      "completeHint": "Завершить знакомство с приложением и начать использование",
+      "continueHint": "Перейти к следующему шагу знакомства с приложением"
+    },
+    "personalInfo": {
+      "description": "Начнём с основной информации",
+      "playerName": "Имя игрока",
+      "playerNamePlaceholder": "Введите ваше имя",
+      "birthday": "День рождения (необязательно)",
+      "birthdayPlaceholder": "ДД/ММ/ГГГГ",
+      "phone": "Телефон (необязательно)",
+      "phonePlaceholder": "+7 (555) 555-5555",
+      "address": "Адрес (необязательно)",
+      "addressPlaceholder": "Город, регион"
+    },
+    "golfProfile": {
+      "description": "Расскажите нам о вашей игре в гольф",
+      "handicap": "Индекс гандикапа",
+      "dominantHand": "Ведущая рука",
+      "rightHanded": "Правша",
+      "leftHanded": "Левша",
+      "naturalShot": "Естественный удар",
+      "shotStraight": "Прямой",
+      "shotDraw": "Дро",
+      "shotFade": "Фейд",
+      "shotHeight": "Высота удара",
+      "heightLow": "Низкий",
+      "heightMedium": "Средний",
+      "heightHigh": "Высокий",
+      "yardsOfCurve": "Изгиб мяча с 5-го айрона (в ярдах)",
+      "yardsOfCurvePlaceholder": "Напр.: 5, -5 или 0",
+      "yardsOfCurveHelp": "Отрицательное значение — дро (-5), положительное — фейд (+5), 0 — прямо"
+    },
+    "experience": {
+      "description": "Как долго вы играете в гольф?",
+      "yearsPlaying": "Лет в гольфе",
+      "yearsUnit": "лет",
+      "frequency": "Как часто вы играете?",
+      "frequencyPlaceholder": "Выберите частоту...",
+      "rarely": "Редко (1–5 раз в год)",
+      "occasionally": "Иногда (6–15 раз в год)",
+      "regularly": "Регулярно (16–30 раз в год)",
+      "frequently": "Часто (31–50 раз в год)",
+      "veryFrequently": "Очень часто (51+ раз в год)"
+    },
+    "skills": {
+      "description": "Помогите нам понять ваши сильные стороны и области для роста",
+      "averageDrive": "Средний драйв (дистанция кэрри)",
+      "averageDriveUnit": "ярд",
+      "averageDriveHelp": "Введите типичную дистанцию кэрри, без учёта роллинга",
+      "strengthArea": "Ваша сильная сторона",
+      "improvementArea": "Область для улучшения",
+      "options": {
+        "driving": "Драйв",
+        "drivingDistance": "Дальность драйва",
+        "drivingAccuracy": "Точность драйва",
+        "approachShots": "Прицельные удары",
+        "ironPlay": "Игра айронами",
+        "wedgePlay": "Игра ведж-клюшками",
+        "shortGame": "Короткая игра",
+        "chipping": "Чиппинг",
+        "bunkerPlay": "Игра из бункера",
+        "putting": "Паттинг",
+        "courseManagement": "Управление игрой на поле",
+        "courseStrategy": "Стратегия на поле",
+        "mentalGame": "Психологическая игра",
+        "allAround": "Всесторонняя игра"
+      }
+    },
+    "preferences": {
+      "description": "Настройте Copperline Golf под себя",
+      "notificationsHeader": "Уведомления"
+    },
+    "accessibility": {
+      "description": "Необязательно: настройте параметры доступности",
+      "textSize": "Размер текста",
+      "textSizeUnit": "пт",
+      "highContrast": "Режим высокого контраста",
+      "highContrastDescription": "Увеличить контрастность цветов для лучшей видимости",
+      "voiceFeedback": "Голосовой отклик",
+      "voiceFeedbackDescription": "Слышать звуковой отклик при действиях",
+      "reduceMotion": "Уменьшить анимацию",
+      "reduceMotionDescription": "Свести к минимуму движение и переходы",
+      "screenReader": "Программа чтения экрана",
+      "screenReaderDescription": "Оптимизировать для использования с программой чтения экрана",
+      "skip": "Пропустить настройки доступности"
+    },
+    "complete": {
+      "title": "Всё готово!",
+      "message": "Ваш профиль и клюшки настроены. Получайте персонализированные рекомендации для каждого удара.",
+      "profileConfigured": "Профиль настроен",
+      "clubsAdded": "Клюшки добавлены в сумку",
+      "readyForRecs": "Готово к умным рекомендациям",
+      "startUsing": "Начать использовать Copperline Golf",
+      "helpText": "Вы всегда можете обновить профиль и клюшки в настройках"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "До центра грина {{distance}} метров. Ветер — {{windStr}}. Грин {{elevationStr}}. Флаг {{pinStr}}.",
+      "approachFull": "До флага {{distance}} метров, мяч на {{lie}}. Ветер — {{windStr}}. {{elevationClause}}Как положение мяча и стойка?",
+      "approachElevation": "Играем {{elevationStr}}. ",
+      "teeboxMinimal": "Флаг {{pinStr}}. Готов, когда вы.",
+      "approachMinimal": "{{distance}} метров. Как положение мяча и стойка?",
+      "windAtMph": "{{direction}} {{speed}} км/ч",
+      "calmConditions": "тихие условия",
+      "elevationFeetUphill": "{{value}} метров в гору",
+      "elevationFeetDownhill": "{{value}} метров вниз",
+      "elevationLevel": "ровно",
+      "pinSideOfGreen": "{{location}} {{side}}",
+      "pinMiddleOfGreen": "середина грина"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "встречный ветер",
+      "Tailwind": "попутный ветер",
+      "Crosswind Left": "боковой ветер слева",
+      "Crosswind Right": "боковой ветер справа",
+      "Diagonal Headwind Left": "диагональный встречный ветер слева",
+      "Diagonal Headwind Right": "диагональный встречный ветер справа",
+      "Diagonal Tailwind Left": "диагональный попутный ветер слева",
+      "Diagonal Tailwind Right": "диагональный попутный ветер справа",
+      "Calm": "штиль"
+    },
+    "pinLocation": {
+      "Front": "ближний",
+      "Middle": "средний",
+      "Back": "дальний"
+    },
+    "pinSide": {
+      "Left": "левый",
+      "Center": "центр",
+      "Right": "правый"
+    },
+    "lie": {
+      "Tee": "ти",
+      "Fairway": "фэрвей",
+      "Light Rough": "лёгкий раф",
+      "Heavy Rough": "густой раф",
+      "Sand": "песок",
+      "Bunker": "бункер",
+      "Recovery": "восстановительный удар"
+    },
+    "stance": {
+      "Flat": "ровная",
+      "Ball Above Feet": "мяч выше ног",
+      "Ball Below Feet": "мяч ниже ног",
+      "Uphill": "в гору",
+      "Downhill": "под уклон"
+    },
+    "elevationDir": {
+      "uphill": "в гору",
+      "downhill": "под уклон",
+      "level": "ровно"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "Загрузка AI-кэдди...",
+      "subtitle": "Сбор данных о поле, погоде и игроке",
+      "connecting": "Подключение к AI-кэдди..."
+    },
+    "error": {
+      "title": "Ошибка подключения",
+      "tryAgain": "Попробовать снова",
+      "goBack": "Назад"
+    },
+    "header": {
+      "back": "← Назад",
+      "title": "ИИ-кэдди",
+      "holeFormat": "{{course}} • Лунка {{hole}}"
+    },
+    "status": {
+      "connected": "Подключено",
+      "disconnected": "Отключено",
+      "contextLoaded": "Контекст загружен"
+    },
+    "context": {
+      "windCalm": "Тихие условия",
+      "windMph": "Ветер {{speed}} миль/ч",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "{{distance}} ярд с {{lie}}"
+    },
+    "modes": {
+      "idle": "Ожидание",
+      "listening": "Слушаю",
+      "speaking": "Говорю",
+      "thinking": "Думаю"
+    },
+    "instructions": {
+      "speakNow": "Говорите...",
+      "aiResponding": "AI отвечает...",
+      "readyToListen": "Готов слушать",
+      "notConnected": "Нет подключения"
+    },
+    "buttons": {
+      "endConversation": "Завершить разговор",
+      "startConversation": "Начать разговор",
+      "connecting": "Подключение..."
+    },
+    "alerts": {
+      "notConnectedTitle": "Нет подключения",
+      "notConnectedMessage": "Пожалуйста, подождите установки соединения",
+      "sendFailedMessage": "Не удалось отправить сообщение. Попробуйте ещё раз."
+    },
+    "suggestions": {
+      "strategy": "Какова стратегия?",
+      "windAffect": "Как ветер повлияет на удар?",
+      "windDoing": "Что делает ветер?",
+      "whichClub": "Какой клюшкой бить?",
+      "distance150": "До флага 150 ярдов",
+      "anyTips": "Есть советы?",
+      "analyzeRisks": "Оцени риски",
+      "courseConditions": "Условия на поле?"
+    },
+    "simple": {
+      "headerTitle": "Голосовой ассистент",
+      "skillLevel": "Уровень",
+      "skillDesc": {
+        "beginner": "Минимум вопросов, максимум значений по умолчанию",
+        "intermediate": "Сбалансированные вопросы и значения",
+        "advanced": "Подробные точные вопросы"
+      },
+      "recommendations": "Рекомендации",
+      "clear": "Очистить",
+      "calculating": "Расчёт рекомендаций…",
+      "underMaintenance": "Техобслуживание",
+      "maintenanceMsg": "Функция голосового ассистента улучшается для лучшего опыта.",
+      "useAlternative": "Используйте экраны Быстрый удар или Расширенный удар."
+    },
+    "enhanced": {
+      "loadingContext": "Загрузка контекста ИИ-кэдди…",
+      "loadingSubtext": "Сбор данных поля, погоды и игрока",
+      "clearHistory": "Очистить историю",
+      "clearHistoryTitle": "Очистить разговор",
+      "clearHistoryMsg": "Вы уверены, что хотите очистить историю разговора?",
+      "aiEnhanced": "Улучшено ИИ",
+      "notConfiguredTitle": "ИИ-кэдди не настроен",
+      "notConfiguredMsg": "API-ключ OpenAI не настроен. Голосовой разговор будет работать, но расширенные функции ИИ будут ограничены.",
+      "initErrorTitle": "Ошибка инициализации",
+      "initErrorMsg": "Не удалось загрузить контекст. Некоторые функции могут работать неправильно.",
+      "history": "История",
+      "hide": "Скрыть"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "Удар",
+      "scores": "Счёт",
+      "clubs": "Клюшки",
+      "settings": "Настройки"
+    },
+    "titles": {
+      "shot": "Рекомендация удара",
+      "scores": "История счётов",
+      "clubs": "Управление клюшками",
+      "settings": "Настройки",
+      "courses": "Поля"
+    },
+    "playGolf": {
+      "idle": "Играть в гольф",
+      "continue": "Продолжить",
+      "resume": "Возобновить"
+    },
+    "headers": {
+      "login": "CaddyAI - Вход",
+      "onboarding": "CaddyAI - Знакомство",
+      "profileSetup": "CaddyAI - Настройка профиля",
+      "ppmSetup": "CaddyAI - Настройка PPM",
+      "clubManagement": "CaddyAI - Управление клюшками",
+      "voiceAssistant": "CaddyAI - Голосовой ассистент",
+      "apiKeySetup": "CaddyAI - Настройка API-ключей",
+      "setupComplete": "CaddyAI - Настройка завершена",
+      "devMenu": "CaddyAI - Меню разработчика"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "Ваш кэдди — всегда рядом.",
+    "emailPlaceholder": "Электронная почта",
+    "passwordPlaceholder": "Пароль",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться",
+    "switchToSignIn": "Уже есть аккаунт? Войти",
+    "switchToSignUp": "Нет аккаунта? Зарегистрироваться",
+    "forgotPassword": "Забыли пароль?",
+    "continueWithApple": "Продолжить с Apple",
+    "continueWithGoogle": "Продолжить с Google",
+    "dividerOr": "или",
+    "showPassword": "Показать пароль",
+    "hidePassword": "Скрыть пароль",
+    "missingInfoTitle": "Отсутствует информация",
+    "missingInfoMessage": "Пожалуйста, введите адрес электронной почты и пароль для продолжения.",
+    "invalidPasswordTitle": "Неверный пароль",
+    "invalidPasswordMessage": "Пароль должен содержать не менее 6 символов.",
+    "accountCreatedTitle": "Аккаунт создан!",
+    "accountCreatedMessage": "Ваш аккаунт успешно создан. Добро пожаловать в Copperline Golf!",
+    "signUpFailedTitle": "Ошибка регистрации",
+    "signInFailedTitle": "Ошибка входа",
+    "authFailedFallback": "Ошибка аутентификации",
+    "resetPasswordTitle": "Сброс пароля",
+    "resetPasswordPromptIos": "Введите адрес электронной почты для получения ссылки сброса пароля",
+    "resetPasswordConfirmAndroid": "Отправить ссылку сброса пароля на {{email}}?",
+    "resetPasswordNoEmail": "Пожалуйста, сначала введите адрес электронной почты",
+    "resetPasswordSuccessTitle": "Письмо отправлено",
+    "resetPasswordSuccessMessage": "Проверьте почту — там есть ссылка для сброса пароля.",
+    "resetPasswordError": "Не удалось отправить письмо для сброса пароля",
+    "appleNotAvailableTitle": "Недоступно",
+    "appleNotAvailableMessage": "Вход через Apple доступен только на устройствах с iOS 13 и выше. Установите пакет или используйте другой способ входа.",
+    "appleSetupRequiredTitle": "Требуется настройка",
+    "appleSetupRequiredMessage": "Настройка входа через Apple не завершена. Ознакомьтесь с инструкциями в файле APPLE_SIGNIN_SETUP.md.",
+    "appleFailedTitle": "Ошибка входа через Apple",
+    "appleFailedFallback": "Не удалось войти через Apple. Попробуйте другой способ.",
+    "googleFailedTitle": "Ошибка входа через Google",
+    "googleFailedMessage": "Не удалось войти через Google. Попробуйте ещё раз или используйте другой способ.",
+    "googlePlayServicesTitle": "Требуются сервисы Google Play",
+    "googlePlayServicesMessage": "Сервисы Google Play недоступны или требуют обновления.",
+    "signInInProgressTitle": "Вход выполняется",
+    "signInInProgressMessage": "Уже выполняется попытка входа. Пожалуйста, подождите.",
+    "welcomeTitle": "Добро пожаловать!",
+    "welcomeMessage": "Вы вошли как {{identity}}",
+    "emailA11yLabel": "Поле ввода электронной почты",
+    "emailA11yHint": "Введите адрес электронной почты",
+    "passwordA11yLabel": "Поле ввода пароля",
+    "passwordA11yHint": "Введите ваш пароль",
+    "signUpA11yLabel": "Кнопка регистрации",
+    "signInA11yLabel": "Кнопка входа",
+    "signUpA11yHint": "Создать новый аккаунт",
+    "signInA11yHint": "Войти в аккаунт",
+    "appleA11yLabel": "Кнопка входа через Apple",
+    "appleA11yHint": "Войти с использованием Apple ID",
+    "googleA11yLabel": "Кнопка входа через Google",
+    "googleA11yHint": "Войти с использованием аккаунта Google",
+    "signin": {
+      "infoText": "Войдите, чтобы сохранить профиль, клюшки и историю ударов на всех устройствах",
+      "tosLine": "Входя в систему, вы принимаете наши Условия использования",
+      "createAccount": "Создать аккаунт",
+      "createOne": "Нет аккаунта? Создать"
+    },
+    "apiKey": {
+      "title": "Настройка API-ключей",
+      "subtitle": "Настройте API-ключи, чтобы разблокировать все функции",
+      "openAiLabel": "API-ключ OpenAI",
+      "openAiDesc": "Требуется для Whisper (распознавание речи) — опционально, распознавание устройства работает без этого",
+      "anthropicLabel": "API-ключ Anthropic",
+      "anthropicDesc": "Требуется для голосового разговора с ИИ (Claude)",
+      "howToGet": "Как получить?",
+      "getOpenAiTitle": "Получить API-ключ OpenAI",
+      "getOpenAiSteps": "1. Перейдите на platform.openai.com\n2. Войдите или создайте аккаунт\n3. Перейдите в раздел API Keys\n4. Создайте новый секретный ключ",
+      "getAnthropicTitle": "Получить API-ключ Anthropic",
+      "getAnthropicSteps": "1. Перейдите на console.anthropic.com\n2. Войдите или создайте аккаунт\n3. Перейдите в раздел API Keys\n4. Создайте новый API-ключ",
+      "secureNote": "Ваши API-ключи надёжно хранятся на устройстве и никогда не отправляются ни на какой сервер кроме OpenAI/Anthropic.",
+      "saveKeys": "Сохранить API-ключи",
+      "saving": "Сохранение…",
+      "skipForNow": "Пропустить пока",
+      "skipTitle": "Пропустить настройку",
+      "skipMsg": "Некоторые функции могут не работать без API-ключей. Всё равно продолжить?",
+      "noKeysTitle": "Ключи не введены",
+      "noKeysMsg": "Пожалуйста, введите хотя бы один API-ключ для продолжения.",
+      "saveSuccess": "Успешно сохранено!",
+      "saveWarnings": "Успешно сохранено!\n\nПредупреждения:\n{{warnings}}",
+      "saveErrorMsg": "Не удалось сохранить API-ключи. Попробуйте снова."
+    }
+  },
+  "welcome": {
+    "title": "Добро пожаловать в Copperline Golf",
+    "subtitle": "Ваш интеллектуальный помощник в гольфе",
+    "description": "Пройдите быстрый интерактивный тур из 8 шагов и получайте персональные рекомендации для каждого удара.",
+    "features": {
+      "clubRecs": "Умные рекомендации по клюшкам",
+      "aiAnalysis": "Анализ ударов на основе ИИ",
+      "weatherAdvice": "Советы с учётом погоды",
+      "voiceAssist": "Голосовая помощь"
+    },
+    "resumeRound": "Продолжить раунд",
+    "continueRound": "Продолжить раунд",
+    "getStarted": "Начать",
+    "skipSetup": "Пропустить настройку"
+  },
+  "paywall": {
+    "headerTitle": "Перейти на\nCopperline Pro",
+    "headerSubtitle": "Откройте всю мощь вашего ИИ-кэдди",
+    "featuresSectionTitle": "Всё в Pro",
+    "packagesSectionTitle": "Выберите тариф",
+    "loading": "Загрузка тарифов...",
+    "tos": "Условия использования",
+    "privacy": "Политика конфиденциальности",
+    "restorePurchases": "Восстановить покупки",
+    "redeemCode": "Активировать промокод",
+    "errors": {
+      "selectPlanTitle": "Выберите тариф",
+      "selectPlanBody": "Пожалуйста, выберите тарифный план для продолжения."
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "Язык",
+      "languagePlaceholder": "Выберите язык..."
+    },
+    "sections": {
+      "account": "Аккаунт",
+      "subscription": "Подписка",
+      "playerProfile": "Профиль игрока",
+      "preferences": "Предпочтения",
+      "notifications": "Уведомления",
+      "about": "О приложении",
+      "backup": "Резервное копирование",
+      "diagnostics": "Инструменты диагностики",
+      "appFeatures": "Функции приложения",
+      "caddyAi": "КЭДДИ ИИ"
+    },
+    "account": {
+      "guestUser": "Гость",
+      "notSignedIn": "Не вошли в аккаунт"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "Бесплатная",
+      "renews": "Продлевается {{date}}",
+      "noActive": "Нет активной подписки",
+      "upgrade": "Перейти на Copperline Pro"
+    },
+    "playerProfile": {
+      "edit": "Редактировать профиль игрока",
+      "editSubtitle": "Гандикап, дистанции клюшек и гольф-предпочтения"
+    },
+    "preferences": {
+      "distanceUnits": "Единицы дистанции",
+      "distanceUnitsPlaceholder": "Выбрать единицы...",
+      "yards": "Ярды",
+      "meters": "Метры",
+      "temperatureUnits": "Единицы температуры",
+      "temperatureUnitsPlaceholder": "Выбрать единицы температуры...",
+      "fahrenheit": "Фаренгейт",
+      "celsius": "Цельсий",
+      "theme": "Тема",
+      "themePlaceholder": "Выбрать тему...",
+      "themeLight": "Светлая",
+      "themeDark": "Тёмная",
+      "themeSystem": "Системная",
+      "themeAuto": "Авто",
+      "targetOverlay": "Наложение цели",
+      "targetOverlayPlaceholder": "Выбрать режим цели...",
+      "targetLines": "Линии цели",
+      "playerEllipse": "Эллипс игрока"
+    },
+    "notifications": {
+      "courseRecommendations": "Рекомендации по полям",
+      "courseRecommendationsDescription": "Получайте персонализированные рекомендации по полям и ударам",
+      "weatherAlerts": "Погодные предупреждения",
+      "weatherAlertsDescription": "Получайте уведомления об условиях погоды",
+      "practiceReminders": "Напоминания о тренировках",
+      "practiceRemindersDescription": "Полезные напоминания для тренировок и улучшения игры",
+      "achievementNotifications": "Уведомления о достижениях",
+      "achievementNotificationsDescription": "Отмечайте свои гольф-успехи и достижения"
+    },
+    "about": {
+      "version": "Версия",
+      "build": "Сборка",
+      "support": "Поддержка"
+    },
+    "backup": {
+      "title": "Резервные копии клюшек и ударов",
+      "subtitle": "Просматривайте и восстанавливайте предыдущие версии вашей сумки"
+    },
+    "diagnostics": {
+      "igolf": "Тест API iGolf",
+      "igolfSubtitle": "Проверить поиск полей и подключение к API"
+    },
+    "appFeatures": {
+      "restartOnboarding": "Перезапустить знакомство с приложением",
+      "restartOnboardingSubtitle": "Пройти обучение заново и обновить профиль"
+    },
+    "actions": {
+      "clearAllData": "Очистить все данные",
+      "signOut": "Выйти"
+    },
+    "deleteAccount": {
+      "button": "Удалить аккаунт",
+      "hint": "Окончательно удаляет ваш аккаунт и все связанные данные.",
+      "confirmTitle": "Удалить аккаунт",
+      "confirmMessage": "Это безвозвратно удалит ваш аккаунт и все данные гольфа — раунды, клюшки, удары, предпочтения и историю гандикапа. Действие нельзя отменить.",
+      "confirmButton": "Удалить мой аккаунт",
+      "reauthTitle": "Требуется повторная аутентификация",
+      "reauthMessage": "В целях безопасности выйдите и войдите снова, затем повторите попытку удаления аккаунта. Ваши данные уже удалены.",
+      "noUserMessage": "Нет вошедшего пользователя.",
+      "failedTitle": "Ошибка удаления",
+      "failedMessage": "Что-то пошло не так. Попробуйте ещё раз или обратитесь на support@copperlinegolf.com."
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "Ваш кэдди — всегда рядом."
+    },
+    "signOutDialog": {
+      "title": "Выйти",
+      "message": "Вы уверены, что хотите выйти?",
+      "confirmButton": "Выйти",
+      "fallbackTitle": "Выйти",
+      "fallbackMessage": "Пожалуйста, перезапустите приложение для завершения выхода."
+    },
+    "clearDataDialog": {
+      "title": "Очистить все данные",
+      "message": "Это удалит все данные профиля, дистанции клюшек и настройки. Действие нельзя отменить.",
+      "confirmButton": "Очистить данные",
+      "successTitle": "Данные очищены",
+      "successMessage": "Все данные приложения удалены",
+      "errorMessage": "Не удалось очистить данные"
+    },
+    "restartOnboardingDialog": {
+      "title": "Перезапустить знакомство с приложением",
+      "message": "Вы снова пройдёте обучение по приложению. Данные профиля будут сохранены.",
+      "confirmButton": "Перезапустить",
+      "errorMessage": "Не удалось перезапустить знакомство с приложением. Попробуйте ещё раз."
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "Уровень ИИ",
+        "question": "Насколько детальными должны быть вопросы ИИ?",
+        "label": "Уровень игры",
+        "placeholder": "Выберите уровень...",
+        "helpBeginner": "Мгновенные рекомендации без вопросов.",
+        "helpIntermediate": "ИИ спрашивает о положении мяча и ветре.",
+        "helpAdvanced": "ИИ спрашивает о положении мяча, ветре, высоте и температуре.",
+        "helpPro": "ИИ задаёт детальные вопросы о стойке и форме удара.",
+        "helpTourPro": "Полный анализ профессионального уровня со всеми факторами."
+      },
+      "verbosity": {
+        "title": "Разговорчивость ИИ",
+        "label": "Разговорчивость",
+        "placeholder": "Выберите режим...",
+        "helpTalkItThrough": "Полный диалог — ИИ читает все данные и задаёт вопросы",
+        "helpMinimal": "Быстрый режим — ИИ спрашивает только о положении и стойке",
+        "helpJustFacts": "Вы говорите первым — назовите положение и стойку",
+        "agentLabel": "Агент: {{id}}",
+        "option": {
+          "talk_it_through": "Полный диалог",
+          "just_facts": "Только факты",
+          "minimal": "Минимум"
+        }
+      },
+      "footer": "Настройки ИИ помогают персонализировать рекомендации под ваш стиль игры и уровень. Изменения вступают в силу немедленно."
+    },
+    "backupScreen": {
+      "title": "Резервная копия и восстановление",
+      "back": "‹ Назад",
+      "tabClubs": "Клюшки",
+      "tabShots": "Удары",
+      "helpText": "Каждое сохранение автоматически создаёт резервную копию предыдущей версии. До 20 версий хранится на список. Восстановление также создаёт резервную копию, поэтому любое восстановление обратимо.",
+      "emptyText": "Пока нет резервных копий {{tab}}. Резервные копии создаются автоматически при следующем сохранении.",
+      "restore": "Восстановить",
+      "loadFailed": "Не удалось загрузить резервные копии",
+      "confirmClubsTitle": "Восстановить эту резервную копию клюшек?",
+      "confirmClubsMsg": "Это заменит вашу текущую сумку этой версией из {{count}} клюшек от {{date}}.\n\nВаша текущая сумка сначала сохранится как новая резервная копия, чтобы вы могли отменить, если передумаете.",
+      "confirmShotsTitle": "Восстановить эту резервную копию ударов?",
+      "confirmShotsMsg": "Это заменит ваши удары этой версией из {{count}} ударов от {{date}}.\n\nВаши текущие удары сначала сохранятся как новая резервная копия.",
+      "restoredTitle": "Восстановлено",
+      "restoredClubs": "Ваши клюшки восстановлены.",
+      "restoredShots": "Ваши удары восстановлены.",
+      "restoreFailedTitle": "Восстановление не удалось",
+      "clubsCount": "{{count}} клюшек",
+      "shotsCount": "{{count}} ударов"
+    },
+    "caddyVoice": {
+      "title": "Голос кэдди",
+      "option": {
+        "default": "Кэдди (по умолчанию)"
+      },
+      "optionDesc": {
+        "default": "Стандартный голос CaddyAI"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "Зоны приземления",
+    "errorTitle": "Ошибка",
+    "invalidParams": "Неверные параметры",
+    "invalidParamsDesc": "Этот экран требует специфических данных поля и игрока для отображения зон приземления.",
+    "gpsError": "Ошибка GPS",
+    "acquiringGps": "Получение позиции GPS…",
+    "acquiringSubtext": "Пожалуйста, подождите, пока мы получаем вашу точную позицию",
+    "tipOpenArea": "Перейдите в открытое место",
+    "tipClearSky": "Обеспечьте чистый вид неба",
+    "tipWaitAccuracy": "Дождитесь точности <15м",
+    "yourPosition": "Ваша позиция",
+    "pin": "Флаг",
+    "primaryZone": "Основная зона",
+    "secondaryZone": "Вторичная зона",
+    "lowAccuracyTitle": "⚠️ Низкая точность GPS",
+    "lowAccuracyMsg": "Текущая точность GPS {{accuracy}}м. Для лучших результатов точность должна быть менее 15м.\n\nПопробуйте перейти в открытое место с чистым видом неба.",
+    "gpsErrorMsg": "Не удалось получить позицию GPS",
+    "continueAnyway": "Всё равно продолжить"
+  },
+  "tournament": {
+    "casual": {
+      "label": "Дружеский раунд",
+      "description": "Все функции включены"
+    },
+    "tournament-dmd": {
+      "label": "Турнир (DMD)",
+      "description": "Только GPS-дистанция - Соответствует Правилу USGA 4.3"
+    },
+    "tournament-no-dmd": {
+      "label": "Турнир (Без DMD)",
+      "description": "Без электронных средств - Местное правило G-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "Функции",
+      "pricing": "Тарифы",
+      "about": "О нас",
+      "contact": "Контакты",
+      "signIn": "Войти",
+      "getStarted": "Начать",
+      "getStartedFree": "Начать бесплатно",
+      "tagline": "Ваш умный гольф-помощник"
+    },
+    "contact": {
+      "meta": {
+        "title": "Связаться с нами | Copperline Golf",
+        "description": "Свяжитесь со службой поддержки Copperline Golf. Получите помощь по приложению, отправьте отзыв или задайте вопрос о наших рекомендациях с ИИ."
+      },
+      "hero": {
+        "titleStart": "Свяжитесь",
+        "titleHighlight": "с нами",
+        "subtitle": "Есть вопрос или отзыв? Мы будем рады услышать вас. Наша команда поможет вам получить максимум от Copperline Golf."
+      },
+      "info": {
+        "emailTitle": "Email",
+        "phoneTitle": "Телефон",
+        "officeTitle": "Офис",
+        "office": "Скоттсдейл, штат Аризона, 85260"
+      },
+      "form": {
+        "heading": "Отправьте нам сообщение",
+        "subheading": "Заполните форму ниже, и мы ответим как можно скорее.",
+        "nameLabel": "Имя",
+        "namePlaceholder": "Ваше имя",
+        "emailLabel": "Email",
+        "emailPlaceholder": "your.email@example.com",
+        "subjectLabel": "Тема",
+        "subjectPlaceholder": "Чем мы можем помочь?",
+        "messageLabel": "Сообщение",
+        "messagePlaceholder": "Расскажите подробнее о вашем вопросе...",
+        "submit": "Отправить",
+        "submitting": "Отправка...",
+        "successMessage": "Сообщение успешно отправлено! Мы скоро ответим.",
+        "errorMessage": "Не удалось отправить сообщение. Попробуйте снова или напишите нам напрямую.",
+        "errors": {
+          "nameRequired": "Введите имя",
+          "nameTooShort": "Имя должно содержать не менее 2 символов",
+          "emailRequired": "Введите email",
+          "emailInvalid": "Введите корректный email-адрес",
+          "subjectRequired": "Введите тему",
+          "subjectTooShort": "Тема должна содержать не менее 3 символов",
+          "messageRequired": "Введите сообщение",
+          "messageTooShort": "Сообщение должно содержать не менее 10 символов"
+        }
+      },
+      "hours": {
+        "heading": "Часы работы",
+        "weekdaysLabel": "Понедельник - Пятница",
+        "weekdays": "9:00 - 18:00 PST",
+        "saturdayLabel": "Суббота",
+        "saturday": "10:00 - 16:00 PST",
+        "sundayLabel": "Воскресенье",
+        "sunday": "Выходной",
+        "responseNote": "Обычно мы отвечаем на все обращения в течение 24 часов в рабочие дни."
+      },
+      "social": {
+        "heading": "Мы в соцсетях",
+        "body": "Подписывайтесь на наши соцсети, чтобы узнавать новости, советы и инсайты о гольфе."
+      },
+      "faq": {
+        "heading": "Нужны быстрые ответы?",
+        "body": "Загляните в наш Справочный центр — там собраны ответы на популярные вопросы.",
+        "cta": "Перейти в Справочный центр"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "Умный выбор клюшки",
+        "smartClubDesc": "Рекомендации на основе ИИ с учётом вашего профиля свинга и условий в реальном времени. Правильная клюшка для каждого удара.",
+        "profileTitle": "Личный профиль",
+        "profileDesc": "Следите за клюшками и расстояниями с персонализированной аналитикой. Ваша игра — оптимизирована.",
+        "conditionsTitle": "Условия в реальном времени",
+        "conditionsDesc": "Актуальные данные о погоде, ветре и высоте для каждого удара. Принимайте решения на основе реальных условий.",
+        "sectionTitleLine1": "Почему Copperline Golf —",
+        "sectionTitleLine2": "ваш идеальный партнёр",
+        "sectionSubtitle": "Три ключевые функции, которые вместе преобразят вашу игру"
+      },
+      "aiCta": {
+        "heading": "Попробуйте выбор клюшки с ИИ",
+        "body": "Познакомьтесь с нашим умным голосовым ассистентом, который поможет выбрать идеальную клюшку для любого удара. Выберите свой уровень, опишите удар — и получите мгновенные персональные рекомендации.",
+        "button": "Запустить ИИ-ассистента"
+      },
+      "stats": {
+        "titleStart": "Нам доверяют гольфисты",
+        "titleHighlight": "по всему миру",
+        "subtitle": "Присоединяйтесь к тысячам игроков, улучшивших свою игру с Copperline Golf"
+      },
+      "howItWorks": {
+        "titleStart": "Начните за",
+        "titleHighlight": "3 простых шага",
+        "step1Title": "Создайте профиль",
+        "step1Desc": "Ответьте на несколько коротких вопросов и укажите расстояния для ваших клюшек.",
+        "step2Title": "Выходите на поле",
+        "step2Desc": "Откройте Copperline Golf на телефоне — он автоматически отслеживает условия.",
+        "step3Title": "Играйте умнее",
+        "step3Desc": "Получайте мгновенные персональные рекомендации по клюшкам для каждого удара."
+      },
+      "testimonials": {
+        "titleStart": "Что говорят",
+        "titleHighlight": "гольфисты",
+        "subtitle": "Реальные отзывы игроков, преобразивших свою игру"
+      }
+    }
+  }
+}

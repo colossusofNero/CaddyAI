@@ -12,7 +12,9 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { fadeInDown, slideInRight } from '@/lib/animations';
 
 interface NavLink {
@@ -24,18 +26,19 @@ interface NavigationProps {
   hideLogo?: boolean;
 }
 
-const navLinks: NavLink[] = [
-  { label: 'Features', href: '/features' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-];
-
 export function Navigation({ hideLogo = false }: NavigationProps = {}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const pathname = usePathname();
+  const t = useTranslations('marketing.nav');
+
+  const navLinks: NavLink[] = [
+    { label: t('features'), href: '/features' },
+    { label: t('pricing'), href: '/pricing' },
+    { label: t('about'), href: '/about' },
+    { label: t('contact'), href: '/contact' },
+  ];
 
   // Handle scroll for blur effect
   useEffect(() => {
@@ -169,14 +172,15 @@ export function Navigation({ hideLogo = false }: NavigationProps = {}) {
 
             {/* Desktop CTAs */}
             <div className="hidden lg:flex items-center gap-4">
+              <LanguageSwitcher />
               <Link href="/login">
                 <Button variant="ghost" size="sm">
-                  Sign In
+                  {t('signIn')}
                 </Button>
               </Link>
               <Link href="/signup">
                 <Button variant="primary" size="sm">
-                  Get Started
+                  {t('getStarted')}
                 </Button>
               </Link>
             </div>
@@ -253,6 +257,12 @@ export function Navigation({ hideLogo = false }: NavigationProps = {}) {
                 {/* Divider */}
                 <div className="border-t border-secondary-700" />
 
+                {/* Language Switcher (Mobile) */}
+                <LanguageSwitcher variant="mobile" />
+
+                {/* Divider */}
+                <div className="border-t border-secondary-700" />
+
                 {/* Mobile CTAs */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -262,12 +272,12 @@ export function Navigation({ hideLogo = false }: NavigationProps = {}) {
                 >
                   <Link href="/login" className="block">
                     <Button variant="outline" size="lg" className="w-full">
-                      Sign In
+                      {t('signIn')}
                     </Button>
                   </Link>
                   <Link href="/signup" className="block">
                     <Button variant="primary" size="lg" className="w-full">
-                      Get Started Free
+                      {t('getStartedFree')}
                     </Button>
                   </Link>
                 </motion.div>
@@ -280,7 +290,7 @@ export function Navigation({ hideLogo = false }: NavigationProps = {}) {
                   className="pt-6 border-t border-secondary-700"
                 >
                   <p className="text-sm text-text-muted text-center">
-                    Your intelligent golf companion
+                    {t('tagline')}
                   </p>
                 </motion.div>
               </div>

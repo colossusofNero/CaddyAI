@@ -1,0 +1,1916 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "send": "送信",
+    "retry": "再試行",
+    "skip": "スキップ",
+    "tryAgain": "もう一度試す",
+    "error": "エラー",
+    "numericStepper": {
+      "enterField": "{{label}}を入力"
+    },
+    "back": "戻る"
+  },
+  "profile": {
+    "loading": "プロフィールを読み込み中...",
+    "loadDefaultsTitle": "既定値で続行",
+    "loadDefaultsMessage": "既定のプロフィール設定を使用します。今すぐ更新できます。",
+    "continueDefaults": "既定の設定で続行",
+    "header": {
+      "title": "プレーヤープロフィールを編集",
+      "subtitle": "ゴルフプロフィール設定を更新",
+      "syncedBadge": "☁️ クラウドに同期済み"
+    },
+    "ageGroup": "年齢層",
+    "handicapHelp": "+12（プラス）〜 54",
+    "yardsOfCurveHelp": "5番アイアンは通常どのくらい曲がりますか？\nドローはマイナス（-5）、フェードはプラス（+5）、ストレートは 0 を入力",
+    "yearsPlayingShort": "ゴルフ歴",
+    "yearsUnit": "年",
+    "playFrequency": "プレー頻度",
+    "freq": {
+      "rarely": "まれ",
+      "rarelyDesc": "年 5 回未満",
+      "occasionally": "ときどき",
+      "occasionallyDesc": "年 5〜15 回",
+      "regularly": "定期的",
+      "regularlyDesc": "年 15〜30 回",
+      "frequently": "頻繁",
+      "frequentlyDesc": "年 30〜50 回",
+      "veryFrequently": "非常に頻繁",
+      "veryFrequentlyDesc": "年 50 回以上"
+    },
+    "aiCaddySettings": "AI キャディ設定",
+    "skillLevelHelp": "AI からの質問数を調整するため、レベルを選択してください",
+    "skill": {
+      "beginner": "初心者",
+      "intermediate": "中級",
+      "advanced": "上級",
+      "pro": "プロ",
+      "tourPro": "ツアープロ"
+    },
+    "verbosityMode": "詳細モード",
+    "displayPreferences": "表示設定",
+    "targetOverlayMode": "ターゲットオーバーレイモード",
+    "target": "ターゲット",
+    "ellipse": "楕円",
+    "cancel": "キャンセル",
+    "saveProfile": "プロフィールを保存",
+    "successTitle": "完了",
+    "successMessage": "プロフィールを更新しました！",
+    "saveErrorTitle": "保存エラー",
+    "ppm": {
+      "title": "プレーヤーパフォーマンス設定",
+      "subtitle": "パーソナライズされたゴルフインテリジェンスシステム",
+      "progressComplete": "{{percent}}% 完了",
+      "sectionProfile": "プロフィール",
+      "sectionSkills": "スキル",
+      "sectionPreferences": "環境設定",
+      "sectionAccessibility": "アクセシビリティ",
+      "sectionGrade": "評価",
+      "profileDesc": "あなたについて教えてください。ゴルフ体験をパーソナライズします",
+      "skillsDesc": "あなたの現在のゴルフレベルを教えてください",
+      "preferencesDesc": "アプリの動作をカスタマイズ",
+      "accessibilityDesc": "最適な体験のためにアクセシビリティ機能を設定",
+      "gradeDesc": "プロフィール完成度の評価とおすすめ",
+      "incompleteTitle": "設定が未完了",
+      "incompleteMessage": "設定を完了する前に、すべての必須項目を入力してください。",
+      "completeTitle": "設定完了！🎉",
+      "completeMessage": "プレーヤーパフォーマンスマネジメントプロフィールが作成されました。AI システムがあなたのレベルと好みに合わせて調整されました。",
+      "startPlaying": "プレーを開始",
+      "completeSetup": "✅ 設定を完了",
+      "nextSection": "➡️ 次へ：{{section}}",
+      "completeSetupA11y": "設定を完了",
+      "continueA11y": "次のセクションへ",
+      "sectionA11y": "{{section}} セクション"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "はい",
+      "no": "いいえ",
+      "na": "該当なし",
+      "strokes": "ストローク",
+      "totalStrokes": "合計ストローク",
+      "putts": "パット",
+      "totalPutts": "合計パット",
+      "fairwayHit": "フェアウェイキープ",
+      "fairways": "フェアウェイ",
+      "fairwaysHit": "フェアウェイキープ",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "グリーン・イン・レギュレーション",
+      "greensInRegulation": "グリーン・イン・レギュレーション",
+      "penalties": "ペナルティ",
+      "diff": "差",
+      "differential": "差",
+      "gross": "グロス",
+      "grossScore": "グロススコア",
+      "adjusted": "調整後",
+      "totalScore": "合計スコア",
+      "toPar": "対パー",
+      "total": "合計",
+      "totalUpper": "合計",
+      "out": "アウト",
+      "in": "イン",
+      "front9": "アウト 9",
+      "back9": "イン 9",
+      "hole": "ホール",
+      "holeWithNumber": "{{n}} 番ホール",
+      "saveScore": "スコアを保存",
+      "rounds": "ラウンド",
+      "avgDiff": "平均差",
+      "bestDiff": "ベスト差",
+      "ghin": "GHIN",
+      "par": "パー",
+      "handicap": "ハンディキャップ",
+      "distance": "距離"
+    },
+    "entry": {
+      "invalidInputTitle": "入力が正しくありません",
+      "invalidStrokesMessage": "ストローク数は 1 以上で入力してください",
+      "invalidPuttsMessage": "パット数は 0 以上で入力してください",
+      "invalidPenaltiesMessage": "ペナルティ数は 0 以上で入力してください",
+      "puttsExceedStrokesMessage": "パット数は合計ストローク数を超えられません",
+      "scoreSavedTitle": "スコアを保存しました",
+      "movedToHole": "{{hole}} 番ホールへ進みました",
+      "roundCompleteSimple": "ラウンド完了！",
+      "viewSummary": "サマリーを表示",
+      "noActiveRound": "進行中のラウンドはありません",
+      "notesLabel": "メモ（任意）",
+      "notesPlaceholder": "このホールのメモを追加..."
+    },
+    "holeScore": {
+      "title": "{{n}} 番ホールのスコア",
+      "roundCompleteTitle": "ラウンド完了",
+      "roundCompleteMessage": "{{hole}} 番ホール：{{strokes}} ストローク、{{putts}} パット\n\nラウンドが完了しました！",
+      "viewScorecard": "スコアカードを表示"
+    },
+    "navigation": {
+      "loadFailed": "コースデータを読み込めませんでした",
+      "noHoleData": "ホールのデータがありません",
+      "hazardsOnHole": "このホールのハザード：",
+      "holeLayout": "ホールレイアウト",
+      "quickActions": "クイックアクション",
+      "profile": "プロフィール",
+      "clubs": "クラブ"
+    },
+    "complete": {
+      "loadFailed": "ラウンドデータを読み込めませんでした。",
+      "savedTitle": "保存しました",
+      "savedMessage": "変更を保存しました。",
+      "saveChangesFailed": "変更を保存できませんでした。もう一度お試しください。",
+      "loginRequired": "スコアを保存するにはサインインが必要です。",
+      "scoreSavedTitle": "スコアを保存しました",
+      "scoreSavedMessage": "ラウンドを正常に保存しました。",
+      "saveScoreFailed": "スコアを保存できませんでした。もう一度お試しください。",
+      "loading": "ラウンドデータを読み込み中...",
+      "title": "ラウンド完了",
+      "unsavedChanges": "未保存の変更",
+      "unsavedChangesMessage": "未保存の変更があります。保存しますか？",
+      "discard": "破棄",
+      "save": "保存",
+      "unsavedScoreTitle": "未保存のスコア",
+      "unsavedScoreMessage": "スコアが保存されていません。本当に終了しますか？",
+      "exitWithoutSaving": "保存せずに終了",
+      "scorecard": "スコアカード",
+      "tapToEdit": "編集するにはホールをタップ",
+      "statistics": "統計",
+      "ghinPosting": "GHIN への投稿",
+      "postedToGHIN": "GHIN に投稿済み",
+      "saveChanges": "変更を保存",
+      "saveRound": "ラウンドを保存",
+      "savedButton": "保存済み",
+      "postOnGHIN": "GHIN に投稿",
+      "finish": "完了"
+    },
+    "summary": {
+      "endRoundTitle": "ラウンドを終了",
+      "endRoundMessage": "このラウンドを終了してよろしいですか？履歴に保存されます。",
+      "holeByHole": "ホールごと",
+      "roundStatistics": "ラウンドの統計",
+      "continueRound": "ラウンドを続ける",
+      "endRound": "ラウンドを終了"
+    },
+    "history": {
+      "noScoresTitle": "まだスコアはありません",
+      "findCourse": "コースを探す",
+      "loading": "スコアを読み込み中...",
+      "back": "戻る",
+      "title": "スコア履歴",
+      "tabHistory": "履歴",
+      "tabAnalytics": "分析",
+      "filterAll": "全ラウンド",
+      "filterRecent": "最近",
+      "filterBest": "ベスト"
+    },
+    "detail": {
+      "shareScorecard": "スコアカードを共有"
+    },
+    "terms": {
+      "albatross": "アルバトロス",
+      "eagle": "イーグル",
+      "birdie": "バーディ",
+      "par": "パー",
+      "bogey": "ボギー",
+      "double": "ダブル",
+      "triple": "トリプル"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "スコア",
+      "tapForScorecard": "タップしてスコアカード表示",
+      "round": "ラウンド",
+      "nextHole": "次のホール",
+      "endRound": "ラウンドを終了",
+      "fix": "修正",
+      "viewFullScorecard": "スコアカード全体を見る"
+    },
+    "shotVars": {
+      "adjust": "調整",
+      "pinPosition": "ピン位置",
+      "back": "奥",
+      "front": "手前",
+      "left": "左",
+      "right": "右",
+      "lie": "ライ",
+      "stance": "スタンス",
+      "slope": "傾斜",
+      "distance": "距離",
+      "wind": "風",
+      "yds": "ヤード"
+    },
+    "endRoundModal": {
+      "title": "ラウンドを終了しますか？",
+      "holesPlayed": "プレー済みホール",
+      "strokes": "ストローク",
+      "toPar": "対パー",
+      "incompleteWarning": "スコア未記録のホール {{count}}",
+      "incompleteWarning_other": "スコア未記録のホール {{count}}",
+      "incompleteSubtext": "未完了のホールは GHIN への投稿に含まれません。",
+      "ghin18": "このラウンドは GHIN への投稿対象です。",
+      "ghin9": "このラウンドは 9 ホール GHIN 投稿対象です。",
+      "ghinNeedMore": "GHIN 対象まであと {{count}} ホール必要です。",
+      "continuePlaying": "プレーを続ける",
+      "endRound": "ラウンドを終了"
+    },
+    "loadingCourseData": "コースデータを読み込み中...",
+    "mapDisabledTournament": "トーナメントモードではマップは無効です",
+    "yards": "m",
+    "tournament": "トーナメント",
+    "mph": "km/h",
+    "holeLabel": "ホール",
+    "par": "パー",
+    "holeWithNumber": "{{n}} 番ホール",
+    "parWithNumber": "パー {{n}}",
+    "uphill": "上り",
+    "downhill": "下り",
+    "fromTee": "ティーから",
+    "fromPosition": "現在地から",
+    "feet": "m",
+    "conditionsModal": {
+      "title": "コースの状況",
+      "subtitle": "今日のコンディションはいかがですか？",
+      "setConditions": "コースの状況を設定",
+      "skip": "後で設定"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "オプティマイザを利用できません",
+      "optimizerUnavailableMessage": "必要なデータが不足しています",
+      "optimizerErrorTitle": "オプティマイザのエラー",
+      "optimizerErrorMessage": "おすすめを計算できませんでした"
+    },
+    "overlay": {
+      "analyzing": "ホールを分析中...",
+      "suggestedClub": "推奨クラブ",
+      "shotShape": "ショット形状",
+      "landingZoneSafety": "落下地点の安全性",
+      "successRate": "成功率",
+      "aimPoint": "エイムポイント",
+      "courseConditions": "コースコンディション",
+      "groundFirmness": "地面の硬さ",
+      "roughHeight": "ラフの高さ",
+      "greenSpeed": "グリーンスピード",
+      "windSpeed": "風速",
+      "windDirection": "風向き",
+      "shotDetails": "ショット詳細"
+    },
+    "quickShot": {
+      "title": "クイックショット",
+      "subtitle": "素早いAI推奨",
+      "voiceCardTitle": "音声コマンド",
+      "listeningHint": "聞き取り中…ショットを説明してください",
+      "idleHint": "長押しして話す、または下で手動入力",
+      "holdToSpeak": "長押しで話す",
+      "listening": "聞き取り中…",
+      "youSaid": "あなたは言いました:",
+      "manualInput": "手動入力",
+      "distanceToTarget": "ターゲットまでの距離",
+      "getRecommendation": "⚡ 推奨を取得",
+      "readyTitle": "ショットを分析する準備完了",
+      "readyText": "音声コマンドまたは手動入力で、パーソナライズされたクラブ推奨を取得"
+    },
+    "shotVarsScreen": {
+      "title": "ショット変数",
+      "subtitle": "推奨用のすべての入力データ",
+      "dataSources": "データソース",
+      "howVarsAffect": "これらの変数がショットに与える影響",
+      "recommendedClub": "推奨クラブ",
+      "getRecPrompt": "クラブ推奨を取得して、各変数がクラブ選択にどう影響するか確認します。",
+      "categories": {
+        "location": "位置と距離",
+        "weather": "天候",
+        "elevation": "標高データ",
+        "conditions": "コースコンディション",
+        "player": "プレーヤープロフィール",
+        "shot": "ショットの詳細",
+        "conversational": "AI変数"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "手動",
+        "ai": "AI",
+        "course": "コース",
+        "profile": "プロフィール",
+        "calculated": "計算済み"
+      },
+      "timestamp": {
+        "never": "なし",
+        "justNow": "たった今",
+        "oneMinAgo": "1分前",
+        "minsAgo": "{{count}}分前",
+        "oneHourAgo": "1時間前",
+        "hoursAgo": "{{count}}時間前",
+        "updated": "{{when}}更新"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "ラウンドを準備中...",
+      "failedTitle": "読み込みに失敗",
+      "failedMessage": "コースデータを読み込めませんでした。接続を確認してください。",
+      "retry": "再試行",
+      "cancel": "キャンセル"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "エラー",
+      "loadFailedMessage": "コースの詳細を読み込めませんでした。もう一度お試しください。",
+      "goBack": "戻る",
+      "retry": "再試行",
+      "tryAgain": "もう一度",
+      "loading": "{{courseName}} を読み込み中...",
+      "loadingFallback": "コースの詳細を読み込み中...",
+      "openMapsError": "マップを開けませんでした",
+      "phoneError": "通話を発信できませんでした",
+      "selectTeeFirst": "まずティーを選択してください",
+      "notFound": "コースが見つかりません",
+      "infoHoles": "ホール",
+      "infoPar": "パー",
+      "infoYardage": "ヤード",
+      "selectTeeBox": "ティーを選択",
+      "directions": "経路",
+      "call": "電話",
+      "hazards": "ハザード",
+      "about": "コース情報",
+      "continue": "続ける",
+      "googleOnlyTitle": "このコースはスコア記録に対応していません",
+      "googleOnlyBody": "コースの位置は表示できますが、ラウンド、スコア記録、ティー情報はまだご利用いただけません。",
+      "startUnavailable": "ラウンドを開始できません",
+      "selectTeeA11y": "{{teeName}} ティーを選択",
+      "teeStats": "{{yardage}} ヤード • パー {{par}}",
+      "teeRating": "レーティング：{{rating}} • スロープ：{{slope}}"
+    },
+    "setup": {
+      "loadingTees": "ティー情報を読み込み中...",
+      "loadFailedTitle": "コースの読み込みに失敗",
+      "loadFailedMessage": "ティーとスコアカードの情報を読み込めませんでした。もう一度お試しください。",
+      "selectTeeTitle": "ティーを選択",
+      "selectTeeMessage": "開始する前にティーを選択してください。",
+      "cancel": "キャンセル",
+      "subtitle": "ラウンド設定",
+      "ratingType": "レーティング種別",
+      "mens": "メンズ",
+      "womens": "レディース",
+      "roundType": "ラウンド種別",
+      "type18": "18 ホール",
+      "type18Description": "フルラウンド",
+      "typeFront9": "アウト 9",
+      "typeFront9Description": "1-9 番ホール",
+      "typeBack9": "イン 9",
+      "typeBack9Description": "10-18 番ホール",
+      "courseHandicap": "あなたのコースハンディキャップ",
+      "startRound": "ラウンドを開始"
+    },
+    "startingHole": {
+      "selectStartingHole": "スタートホールを選択",
+      "holesLabel": "{{count}} ホール",
+      "doubleLabel": "2x{{n}}（合計 {{total}} ホール）",
+      "front9": "アウト 9",
+      "full18": "18 フル",
+      "back9": "イン 9",
+      "swingThoughtTitle": "スイングの心がけ（任意）",
+      "swingThoughtDescription": "AI キャディがショットの前にお知らせします",
+      "swingThoughtPlaceholder": "例：ゆっくりとしたバックスイング、スムーズなテンポ...",
+      "selectedHoleTitle": "選択中のホール",
+      "selectedHoleNumber": "{{hole}} 番ホール",
+      "playingTwice": "{{n}} ホールを 2 周（合計 {{total}}）",
+      "front9Description": "アウト 9（1-9 番ホール）",
+      "back9Description": "イン 9（10-{{end}} 番ホール）",
+      "fullDescription": "{{n}} ホール フル",
+      "starting": "ラウンドを開始しています...",
+      "startPlayingHole": "{{hole}} 番ホールから開始 →",
+      "errorTitle": "エラー",
+      "errorMessage": "ラウンドを開始できませんでした。もう一度お試しください。"
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "メインのおすすめ",
+    "secondaryHeader": "サブのおすすめ",
+    "calculating": "計算中",
+    "addClubsPrompt": "クラブを追加して始めましょう",
+    "swingFace": "スイングとフェース",
+    "aimPoint": "狙い目",
+    "expectedCarry": "予想キャリー",
+    "fullSquare": "フル | スクエア",
+    "aimStraight": "まっすぐ狙う",
+    "unknown": "不明",
+    "youSaid": "あなたの発言：",
+    "currentRecommendation": "現在のおすすめ：",
+    "close": "閉じる",
+    "manualVariables": "手動変数",
+    "done": "完了",
+    "hazardType": "ハザードの種類",
+    "location": "位置",
+    "riskLevel": "リスクレベル",
+    "cancel": "キャンセル",
+    "body": {
+      "section": {
+        "shotVariables": "ショット変数",
+        "shotEffects": "ショット効果（最適化前）",
+        "totalAdjustments": "合計調整値"
+      },
+      "pickers": {
+        "pinLocation": "ピン位置（奥行き）",
+        "pinSide": "ピン位置（横）",
+        "lie": "ライ",
+        "stance": "スタンス",
+        "slopeAngle": "傾斜角度",
+        "distance": "ホールまでの距離",
+        "windSpeed": "風速",
+        "windDirection": "風向き"
+      },
+      "pinLocations": {
+        "Front": "手前",
+        "Middle": "中央",
+        "Back": "奥"
+      },
+      "pinSides": {
+        "Left": "左",
+        "Center": "中央",
+        "Right": "右"
+      },
+      "lies": {
+        "Tee": "ティー",
+        "Fairway": "フェアウェイ",
+        "Light_Rough": "ライトラフ",
+        "Heavy_Rough": "ヘビーラフ",
+        "Sand": "バンカー",
+        "Recovery": "リカバリー"
+      },
+      "stances": {
+        "Flat": "フラット",
+        "Ball_Above_Feet": "つま先下がり",
+        "Ball_Below_Feet": "つま先上がり",
+        "Uphill": "上り",
+        "Downhill": "下り"
+      },
+      "categories": {
+        "course": "コース要素",
+        "hole": "ホール要素",
+        "player": "プレイヤー要素",
+        "environment": "環境要素",
+        "shot": "個別ショット要素"
+      },
+      "columns": {
+        "carry": "キャリー",
+        "roll": "ラン",
+        "aim": "エイム"
+      },
+      "aimSummary": {
+        "straight": "まっすぐ",
+        "right": "右",
+        "left": "左"
+      },
+      "aimSuffix": {
+        "right": "R",
+        "left": "L"
+      },
+      "variables": {
+        "Altitude": "高度",
+        "Firmness": "地面の硬さ",
+        "GreenSpeed": "グリーンスピード",
+        "ElevationChange": "高低差",
+        "PinLocation": "ピン位置",
+        "PinSide": "ピン側面",
+        "WaterHazard": "ウォーターハザード",
+        "Bunkers": "バンカー",
+        "Handicap": "ハンディキャップ",
+        "NaturalShot": "自然な球筋",
+        "ShotHeight": "弾道の高さ",
+        "DominantHand": "利き手",
+        "Wind": "風",
+        "Temperature": "気温",
+        "Humidity": "湿度",
+        "Weather": "天気",
+        "Distance": "距離",
+        "Confidence": "自信",
+        "Lie": "ライ",
+        "RoughLength": "ラフの長さ",
+        "Stance": "スタンス"
+      },
+      "units": {
+        "yards": "yd",
+        "mph": "mph",
+        "feet": "ft",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "北",
+        "NE": "北東",
+        "E": "東",
+        "SE": "南東",
+        "S": "南",
+        "SW": "南西",
+        "W": "西",
+        "NW": "北西"
+      },
+      "empty": "有効な調整なし — 標準計算を使用",
+      "activeAdjustments_one": "{{count}}件の有効な調整",
+      "activeAdjustments_other": "{{count}}件の有効な調整",
+      "recalculate": "再計算",
+      "recCard": {
+        "primary": "メインおすすめ",
+        "secondary": "サブおすすめ",
+        "calculating": "計算中...",
+        "setDistance": "距離を設定して計算",
+        "unknown": "不明",
+        "swing": "スウィング: {{value}}",
+        "aim": "エイム: {{value}}",
+        "expectedCarry": "予想キャリー: {{yards}}y",
+        "defaultSwing": "フル | スクエア",
+        "aimStraight": "まっすぐ狙う"
+      },
+      "values": {
+        "aimRight": "右に{{yards}}yエイム",
+        "aimLeft": "左に{{yards}}yエイム",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "上り {{value}} ft",
+        "downhillFt": "下り {{value}} ft",
+        "distanceYards": "{{value}} ヤード",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "レベル {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y {{club}}にて)",
+        "shotHeightTrajectory": "{{height}}弾道",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "ショットを記録",
+      "clubUsed": "使用クラブ:",
+      "targetDistance": "目標距離:",
+      "howWasShot": "ショットはどうでしたか？",
+      "whereLanded": "どこに落ちましたか？"
+    }
+  },
+  "clubs": {
+    "loading": "クラブを読み込み中...",
+    "clubDistances": "クラブの飛距離",
+    "specialtyShots": "スペシャリティショット",
+    "fullSwingShots": "フルスイングショット",
+    "shortGameShots": "ショートゲームショット",
+    "reset": "リセット",
+    "addClub": "+ クラブを追加",
+    "addShot": "+ ショットを追加",
+    "addCustomClub": "カスタムクラブを追加",
+    "addCustomShot": "カスタムショットを追加",
+    "editShot": "ショットを編集",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "club": "クラブ",
+    "clubName": "クラブ名",
+    "clubNamePlaceholder": "クラブ名",
+    "clubUsed": "使用クラブ",
+    "takeback": {
+      "Full": "フル",
+      "Three-Quarter": "スリークォーター",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "パンチ",
+      "ThreeQuarter": "3/4",
+      "Chip": "チップ",
+      "Flop": "フロップ",
+      "Pitch": "ピッチ"
+    },
+    "face": {
+      "Square": "スクエア",
+      "Draw": "ドロー",
+      "Fade": "フェード",
+      "Hood": "フード",
+      "Open": "オープン",
+      "Flat": "フラット"
+    },
+    "shotType": "ショットタイプ",
+    "customShotName": "カスタムショット名",
+    "carryDistance": "キャリー距離",
+    "rollDistance": "ラン距離",
+    "totalDistance": "合計距離：",
+    "calculatedRest": "保存時に残りを計算します",
+    "carryHelp": "ボールがランする前に着地する地点",
+    "rollHelp": "着地後にボールが転がる距離",
+    "totalHelp": "最終距離（キャリー + ラン）",
+    "totalHelpStop": "ボールが最終的に止まる地点",
+    "rollNegativeHelp": "バックスピンの場合はマイナス（ボールが戻る）",
+    "idealLies": "理想的なライ（任意）",
+    "idealLiesHelp": "このショットが最も有効な状況を選択",
+    "notes": "メモ（任意）",
+    "alerts": {
+      "loadFailed": "データを読み込めませんでした。後ほどもう一度お試しください。",
+      "addClubSuccess": "クラブを追加しました",
+      "addClubFailed": "クラブを追加できませんでした",
+      "updateDistanceFailed": "距離を更新できませんでした",
+      "updateClubFailed": "クラブを更新できませんでした",
+      "deleteClubFailed": "クラブを削除できませんでした",
+      "syncCompleteTitle": "同期完了",
+      "syncCompleteMessage": "変更がクラウドに保存されました。",
+      "syncFailedTitle": "同期に失敗",
+      "syncFailedMessage": "変更を同期できませんでした。インターネット接続を確認してもう一度お試しください。",
+      "syncErrorTitle": "同期エラー",
+      "syncErrorMessage": "同期中にエラーが発生しました。もう一度お試しください。",
+      "resetClubsSuccess": "クラブを既定にリセットしました（14 本読み込み）",
+      "resetClubsFailed": "クラブをリセットできませんでした",
+      "addShotSuccess": "ショットを追加しました",
+      "addShotFailed": "ショットを追加できませんでした",
+      "modifiedShotsFailed": "変更後のショットを作成できませんでした",
+      "resetShotsSuccess": "ショットを既定にリセットしました（18 本読み込み）",
+      "resetShotsFailed": "ショットをリセットできませんでした",
+      "toggleShotFailed": "ショットの状態を切り替えられませんでした",
+      "cannotDeleteTitle": "削除できません",
+      "cannotDeleteMessage": "既定のショットは削除できません。代わりに無効化できます。",
+      "deleteShotFailed": "ショットを削除できませんでした",
+      "updateShotFailed": "ショットを更新できませんでした",
+      "successTitle": "完了",
+      "errorTitle": "エラー",
+      "invalidDistanceTitle": "無効な距離",
+      "invalidDistanceMessage": "距離は 0 より大きい必要があります",
+      "calculateDistancesFailed": "距離を計算できませんでした",
+      "selectClub": "クラブを選択してください",
+      "selectShotType": "ショットタイプを選択してください",
+      "enterCustomName": "ショットのカスタム名を入力してください",
+      "enterCarry": "有効なキャリー距離を入力してください",
+      "enterRoll": "ラン距離を入力してください（バックスピンの場合はマイナス）",
+      "unusualDistanceTitle": "異常な距離の値",
+      "unusualDistanceBody": "それでもこのクラブを追加しますか？",
+      "addAnyway": "それでも追加"
+    },
+    "modifier": {
+      "headerTitle": "ショットモディファイア",
+      "selectTitle": "モディファイアを選択",
+      "selectSubtitle": "クラブに適用するモディファイアを選んでください",
+      "howManyUnits": "{{unit}}は何個？",
+      "effect": "効果: {{sign}}{{pct}}%",
+      "selectClubs": "クラブを選択",
+      "selectAll": "すべて選択",
+      "deselectAll": "すべて解除",
+      "previewBtn": "プレビュー ({{count}}クラブ)",
+      "previewTitle": "修正ショットのプレビュー",
+      "previewSubtitle": "{{count}}ショットが作成されます ({{sign}}{{pct}}%)",
+      "totalLabel": "トータル",
+      "createBtn": "{{count}}ショット作成",
+      "successTitle": "成功",
+      "successMessage": "{{count}}個の修正ショットを作成しました！"
+    },
+    "stashed": "収納中",
+    "carry": "キャリー",
+    "roll": "ラン",
+    "yourBag": "あなたのバッグ ({{count}}本)",
+    "tabClubs": "クラブ ({{count}})",
+    "tabShots": "ショット ({{count}})",
+    "edit": {
+      "title": "編集: {{name}}",
+      "clubName": "クラブ名",
+      "clubNamePlaceholder": "クラブ名",
+      "face": "フェース",
+      "fillAny": "💡 1つ、2つ、または3つすべてのフィールドを入力",
+      "calculateRest": "保存時に残りを計算します",
+      "carryDistance": "キャリー距離",
+      "rollDistance": "ラン距離",
+      "totalDistance": "トータル距離",
+      "yards": "ヤード",
+      "carryHelp": "ボールが転がる前に着地する位置",
+      "rollHelp": "着地後にボールが転がる距離",
+      "totalHelp": "ボールが最終的に止まる位置",
+      "totalHelpAddClub": "最終距離 (キャリー + ラン)"
+    },
+    "addClubForm": {
+      "title": "カスタムクラブを追加",
+      "club": "クラブ",
+      "takeback": "テイクバック",
+      "submit": "クラブを追加"
+    },
+    "addShotForm": {
+      "title": "カスタムショットを追加",
+      "clubUsed": "使用クラブ",
+      "shotType": "ショットタイプ",
+      "customShotName": "カスタムショット名",
+      "customShotPlaceholder": "例: マイ・スペシャル・バンプ",
+      "enterDistances": "📏 距離を入力",
+      "rollNegativeHelp": "バックスピンのショットではランをマイナスにできます (例: フロップは -2)",
+      "carryPlaceholder": "例: 50",
+      "rollPlaceholder": "例: 5 または -2",
+      "rollNegativeHint": "バックスピンにはマイナス値を使用 (ボールが戻る)",
+      "totalDistanceLabel": "トータル距離:",
+      "fullSwing": "フルスイング",
+      "shortGame": "ショートゲーム",
+      "idealLies": "理想のライ (任意)",
+      "idealLiesHelp": "このショットが最も効果的な場面を選択",
+      "notes": "メモ (任意)",
+      "notesPlaceholder": "例: オープンスタンス、ソフトハンド",
+      "submit": "ショットを追加",
+      "errSelectClub": "クラブを選択してください",
+      "errSelectShotType": "ショットタイプを選択してください",
+      "errCustomName": "カスタムショット名を入力してください",
+      "errCarry": "有効なキャリー距離を入力してください",
+      "errRoll": "ラン距離を入力してください (バックスピンの場合はマイナス可)"
+    },
+    "category": {
+      "Woods": "ウッド",
+      "Hybrids": "ハイブリッド",
+      "Irons": "アイアン",
+      "Wedges": "ウェッジ",
+      "Putters": "パター"
+    },
+    "shotNames": {
+      "Standard": "スタンダード",
+      "Pitch": "ピッチ",
+      "Flop": "フロップ",
+      "Chokedown": "チョークダウン",
+      "Stinger": "スティンガー",
+      "Fairway Finder": "フェアウェイ・ファインダー",
+      "Knockdown": "ノックダウン",
+      "Spinner": "スピナー",
+      "Power": "パワー",
+      "Runner": "ランナー",
+      "Punch": "パンチ",
+      "Bump & Run": "バンプ＆ラン",
+      "Lob": "ロブ",
+      "Chip": "チップ",
+      "Custom": "カスタム"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "チョークダウン",
+        "description": "短く握ってコントロール優先、距離は減少。1インチあたり-4%。"
+      },
+      "power": {
+        "name": "パワー",
+        "description": "より強く振って距離アップ。選択したクラブに+5%。"
+      },
+      "knockdown": {
+        "name": "ノックダウン",
+        "description": "風に対抗する低い弾道。距離-10%。"
+      },
+      "punch": {
+        "name": "パンチ",
+        "description": "木の下を抜ける低いパンチショット。距離-25%。"
+      },
+      "three_quarter": {
+        "name": "3/4スイング",
+        "description": "精度重視の3/4スイング。距離-15%。"
+      }
+    },
+    "modifierBtn": "モディファイア"
+  },
+  "course": {
+    "list": {
+      "title": "ゴルフコース",
+      "nearby": "近くのコース",
+      "searchPlaceholder": "名前、市区町村、州、国で検索...",
+      "searchResultsCount": "「{{query}}」の検索結果 {{count}} 件",
+      "nearbyCount": "近くのコース {{count}} 件",
+      "emptyTitle": "コースが見つかりません",
+      "emptySubtitle": "近くのコースを読み込めませんでした。",
+      "emptySearchSubtitle": "「{{query}}」に一致するコースは見つかりませんでした。",
+      "runDiagnostics": "診断を実行",
+      "tryAgain": "もう一度",
+      "clearSearch": "検索をクリア",
+      "locationUnavailableTitle": "位置情報を取得できません",
+      "locationUnavailableMessage": "位置情報にアクセスできません。フェニックス（アリゾナ）周辺のコースを表示します。",
+      "retry": "再試行"
+    },
+    "activeRound": {
+      "title": "ラウンド進行中",
+      "active": "アクティブ",
+      "paused": "一時停止中",
+      "holeProgress": "{{current}}/{{total}} ホール",
+      "scoreLine": "スコア：{{toPar}}（{{score}} 打）",
+      "noScoresYet": "まだスコアはありません",
+      "delete": "削除",
+      "complete": "終了",
+      "continue": "続ける"
+    },
+    "completeDialog": {
+      "title": "ラウンドを終了",
+      "message": "このラウンドを終了してよろしいですか？スコアが保存されます。",
+      "confirmButton": "終了",
+      "successTitle": "ラウンド終了",
+      "successMessage": "ラウンドをスコア履歴に保存しました。",
+      "errorMessage": "ラウンドを終了できませんでした。もう一度お試しください。"
+    },
+    "deleteDialog": {
+      "title": "ラウンドを削除",
+      "message": "このラウンドを削除してよろしいですか？スコアはすべて失われ、復元できません。",
+      "confirmButton": "削除"
+    },
+    "abandonDialog": {
+      "title": "ラウンドを中止しますか？",
+      "message": "現在のラウンドが完全に削除されます。この操作は取り消せません。",
+      "keepPlaying": "続けてプレー",
+      "confirmAbandon": "はい、中止"
+    },
+    "roundInProgressDialog": {
+      "message": "{{course}} の {{total}} ホール中 {{current}} ホール目です\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "スコア：{{toPar}}（{{holes}} ホールまでで {{score}} 打）",
+      "scoreDisplayEmpty": "まだスコアはありません",
+      "continueRound": "ラウンドを続ける",
+      "pauseBrowse": "一時停止して探す",
+      "abandonRound": "ラウンドを中止"
+    },
+    "conditions": {
+      "title": "コースコンディション",
+      "weatherConditions": "天候",
+      "groundFirmness": "地面の硬さ",
+      "roughLength": "ラフの長さ",
+      "greenFirmness": "グリーンの硬さ",
+      "pinLocationRotation": "ピン位置ローテーション",
+      "pinRotationDesc": "ピンの開始位置を選択します。ラウンド中、ピンは前→中→奥でローテーションします。",
+      "rotationPreview": "ローテーションプレビュー:",
+      "rotationFront": "ホール1: 前 → ホール2: 中 → ホール3: 奥 → ホール4: 前…",
+      "rotationMiddle": "ホール1: 中 → ホール2: 奥 → ホール3: 前 → ホール4: 中…",
+      "rotationBack": "ホール1: 奥 → ホール2: 前 → ホール3: 中 → ホール4: 奥…",
+      "starting": "開始",
+      "impactOnPlay": "プレーへの影響",
+      "rollLabel": "ラン:",
+      "roughLabel": "ラフ:",
+      "greenSpeedLabel": "グリーン速度:",
+      "saveAndContinue": "保存して続行",
+      "firmDescSoft": "着地でボールが食い込む",
+      "firmDescMedium": "標準のバウンドとラン",
+      "firmDescFirm": "追加のラン",
+      "firmDescUsOpen": "最大のバウンドとラン",
+      "roughDescShort": "簡単に脱出",
+      "roughDescMedium": "標準の難しさ",
+      "roughDescLong": "前進が難しい",
+      "roughDescUsOpen": "非常に難しい",
+      "greenDescSlow": "8–9 スティンプ",
+      "greenDescMedium": "10–11 スティンプ",
+      "greenDescFast": "12–13 スティンプ",
+      "greenDescUsOpen": "14+ スティンプ",
+      "rollNormal": "通常",
+      "rollSoft": "-10–15 ヤード",
+      "rollFirm": "+8–12 ヤード",
+      "rollUsOpen": "+15–20 ヤード",
+      "roughMinimal": "影響少",
+      "roughStandard": "標準",
+      "roughSignificant": "大きなペナルティ",
+      "roughSevere": "深刻なペナルティ",
+      "greenEasier": "コントロールしやすい",
+      "greenLightning": "超高速",
+      "weatherSunny": "晴れ",
+      "weatherCloudy": "曇り",
+      "weatherRaining": "雨",
+      "weatherSnowing": "雪",
+      "firmSoft": "柔らかい",
+      "firmMedium": "標準",
+      "firmFirm": "硬い",
+      "firmUsOpen": "US Open",
+      "roughShort": "短い",
+      "roughMedium": "標準",
+      "roughLong": "長い",
+      "roughUsOpen": "US Open",
+      "greenSlow": "遅い",
+      "greenMedium": "標準",
+      "greenFast": "速い",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "コースのセットアップ",
+      "findYourCourse": "コースを見つける",
+      "findSubtitle": "近くのコースを検索するか、お気に入りを閲覧",
+      "recentCourses": "最近のコース",
+      "favoriteCourses": "お気に入りのコース",
+      "searchByName": "名前で検索",
+      "searchPlaceholder": "コース名または都市を入力…",
+      "searchByNameBtn": "🔍 名前で検索",
+      "searchNearbyBtn": "📍 近くのコースを検索",
+      "selectCourse": "コースを選択",
+      "selectSubtitle": "近くに{{count}}個のコースが見つかりました",
+      "downloadingCourse": "コースをダウンロード中",
+      "continueToCond": "コンディションに進む →",
+      "backToSearch": "← 検索に戻る",
+      "changeCourse": "← コースを変更",
+      "milesAway": "{{dist}}マイル離れています",
+      "retryDownload": "再試行"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← 戻る",
+        "backShort": "戻る",
+        "previous": "前へ",
+        "continue": "次へ →",
+        "continueShort": "次へ",
+        "goBack": "戻る",
+        "continueToNextStep": "次のステップへ進む"
+      },
+      "ai": {
+        "title": "AIキャディ設定",
+        "subtitle": "AIキャディのコミュニケーション方法をカスタマイズしましょう",
+        "skillSectionTitle": "あなたのレベルは？",
+        "verbositySectionTitle": "キャディにどれくらい話してほしいですか？",
+        "testButtonConnecting": "接続中...",
+        "testButtonStop": "デモ停止",
+        "testButtonAgain": "もう一度テスト",
+        "testButtonStart": "キャディをテスト",
+        "testHintActive": "AIキャディに話しかけてみてください！終わったら停止をタップ。",
+        "testHintIdle": "AIキャディとのライブ会話を始めましょう。",
+        "testA11yLabel": "AIキャディをテスト",
+        "alertNotAvailableTitle": "利用不可",
+        "alertNotAvailableBody": "このデバイスでは音声AIが利用できません。",
+        "alertMicTitle": "マイクが必要です",
+        "alertMicBody": "AIキャディをテストするにはマイクへのアクセスを許可してください。",
+        "alertComingSoonTitle": "近日公開",
+        "alertComingSoonBody": "音声AI機能はiOSに近日登場予定です。",
+        "alertFailedTitle": "テスト失敗",
+        "alertFailedBody": "音声デモを起動できませんでした。もう一度お試しください。"
+      },
+      "clubs": {
+        "title": "バッグの準備ができました",
+        "subtitle": "クラブとショットをあらかじめ読み込みました",
+        "clubsCardTitle": "クラブ",
+        "clubsCardBadge": "{{count}} / {{total}}",
+        "shotsCardTitle": "ショット",
+        "shotsCardBadge": "{{count}} プリセット",
+        "shotsCardDescription": "フルスイングからショートゲームまであらゆる状況に対応。",
+        "infoTitle": "いつでもカスタムショットを追加できます：",
+        "shotExampleChoke": "チョークダウン（1インチごとに -4%）",
+        "shotExamplePower": "パワー（距離 +5%）",
+        "shotExampleOther": "パンチ、フロップ、ノックダウン...",
+        "viewAllClubs": "すべて表示（{{count}} 本）",
+        "showLess": "折りたたむ",
+        "hideShotsButton": "ショットを隠す",
+        "viewAllShotsButton": "すべてのショットを表示",
+        "noteText": "すべてカスタマイズできます：",
+        "noteHighlight": "設定 → クラブ管理",
+        "excelTitle": "クイックセットアップ",
+        "excelText": "Excelテンプレートをダウンロード：",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "で全クラブとショットを一括追加！",
+        "goBack": "戻る",
+        "continueToNextStep": "次のステップへ進む"
+      },
+      "conditions": {
+        "title": "コース状況",
+        "subtitle": "スタート時に1回設定すれば、あとはプレーに集中できます",
+        "setOnceTitle": "ラウンド開始時に1回設定：",
+        "bulletWind": "風速・風向き",
+        "bulletTemp": "気温",
+        "bulletPin": "ピンポジション",
+        "pinSheetTitle": "ピンシート",
+        "pinExplanation": "開始位置（フロント・ミドル・バック）を選ぶと、ピンはホールごとに自動回転します。",
+        "confirmLabel": "毎ホール確認するだけ：",
+        "confirmLeft": "左",
+        "confirmCenter": "センター",
+        "confirmRight": "右",
+        "infoText": "ラウンド開始時にコース状況を設定します。",
+        "goBack": "戻る",
+        "continueToNextStep": "次のステップへ進む"
+      },
+      "ellipse": {
+        "title": "あなたの着弾ゾーン",
+        "subtitle": "ハンディキャップと利き手がショットの散布に与える影響を確認しましょう",
+        "infoText": "着弾ゾーンはハンディキャップと利き手によって変わります。ハンディが高いほど散布が広くなります。",
+        "dominantHandTitle": "利き手",
+        "handRight": "右",
+        "handLeft": "左",
+        "handicapTitle": "ハンディキャップ",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "スクラッチ",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "ドライバーでの推定散布幅：",
+        "dispersionValue": "{{yards}}y 幅",
+        "continueButton": "次へ",
+        "continueA11y": "次のステップへ進む"
+      },
+      "ppm": {
+        "title": "あなたのことを教えてください",
+        "subtitle": "キャディ体験をパーソナライズするためにお聞きします",
+        "nameLabelText": "お名前",
+        "namePlaceholder": "名前を入力",
+        "ageLabelText": "年齢層",
+        "yearsLabelText": "ゴルフ歴",
+        "yearsValue": "{{count}} 年",
+        "yearsNew": "ビギナー",
+        "yearsFiftyPlus": "50年以上",
+        "frequencyLabelText": "プレー頻度は？",
+        "freq": {
+          "rarely": "ほとんどしない",
+          "rarelyDesc": "年5回未満",
+          "occasionally": "たまに",
+          "occasionallyDesc": "年5〜15回",
+          "regularly": "定期的に",
+          "regularlyDesc": "年15〜30回",
+          "frequently": "頻繁に",
+          "frequentlyDesc": "年30〜50回",
+          "veryFrequently": "とても頻繁に",
+          "veryFrequentlyDesc": "年50回以上"
+        },
+        "backButton": "戻る",
+        "continueButton": "次へ"
+      },
+      "scoring": {
+        "titleScoring": "スコアリング",
+        "titleScorecard": "スコアカード",
+        "subtitleScoring": "各ホール終了後にスコアをタップして入力：",
+        "subtitleScorecard": "ラウンド中の進捗を確認",
+        "demoHoleTitle": "ホール1 - パー4",
+        "labelStrokes": "打数：",
+        "labelPutts": "パット：",
+        "labelFairway": "フェアウェイ：",
+        "labelPenalties": "ペナルティ：",
+        "fairwayHit": "フェアウェイキープ",
+        "fairwayLeft": "左",
+        "fairwayRight": "右",
+        "saveNextHole": "保存して次のホールへ",
+        "colHole": "ホール",
+        "colPar": "パー",
+        "colScore": "スコア",
+        "colDiff": "+/-",
+        "labelOut": "OUT：",
+        "labelIn": "IN：",
+        "labelTotal": "合計：",
+        "submitScore": "スコアを送信",
+        "backButton": "← 戻る",
+        "backA11y": "戻る",
+        "seeScorecard": "スコアカードを見る →",
+        "seeScoreA11y": "スコアカードを見る",
+        "startPlaying": "プレーを開始！",
+        "starting": "起動中...",
+        "startA11y": "プレーを開始"
+      },
+      "shotShape": {
+        "title": "あなたのナチュラルショット",
+        "subtitle": "典型的なボールフライトについて教えてください",
+        "shotShapeTitle": "ショット形状",
+        "shotHeightTitle": "ショットの高さ",
+        "curveTitle": "5番アイアンの曲がり幅（ヤード）",
+        "curveYards": "ヤード",
+        "infoText": "すべてのクラブに対して曲がりを自動調整します — ドライバーは多く、ウェッジは少なく。",
+        "shapeDraw": "ドロー",
+        "shapeStraight": "ストレート",
+        "shapeFade": "フェード",
+        "heightLow": "低め",
+        "heightMedium": "普通",
+        "heightHigh": "高め",
+        "goBack": "戻る",
+        "continueToNextStep": "次のステップへ進む"
+      },
+      "target": {
+        "title": "表示モードを選択",
+        "subtitle": "オーバーレイをドラッグして狙いを定めましょう。ターゲットか散布楕円で確認できます。",
+        "holeInfo": "ホール{{holeNumber}} • パー{{par}}",
+        "dragHint": "ドラッグしてターゲットを移動",
+        "distanceUnit": "ヤード",
+        "targetLabel": "ターゲット",
+        "targetDesc": "シンプルな狙いポイント",
+        "ellipseLabel": "楕円",
+        "ellipseDesc": "あなたの散布パターン",
+        "ellipseModeTitle": "楕円モードとは？",
+        "ellipseModeText": "散布パターンはハンディキャップに基づいた実際の着弾範囲を示します。オプティマイザーはこれを使って",
+        "ellipseModeHighlight": "最も安全な狙いポイント",
+        "ellipseModeTextSuffix": "ハザードを避けるよう計算します。",
+        "targetModeTitle": "ターゲットモード",
+        "targetModeText": "シンプルな照準で正確な狙いポイントを表示。距離の精密な把握に最適ですが、散布は表示しません。",
+        "backButton": "戻る",
+        "continueButton": "次へ"
+      },
+      "walkthrough": {
+        "title": "ホールのプレー方法",
+        "skipButton": "チュートリアルをスキップ",
+        "progressText": "{{current}} / {{total}}",
+        "backButton": "戻る",
+        "previousButton": "前へ",
+        "nextButton": "次へ",
+        "nextScoring": "次：スコアリング",
+        "overlayYards": "ヤード",
+        "overlayMph": "MPH",
+        "overlayHole": "ホール",
+        "overlayPar": "パー",
+        "overlayUphill": "上り坂（{{percent}}%）",
+        "overlayFromTee": "ティーから",
+        "overlayRecommended": "おすすめ",
+        "overlayPinSide": "ピンサイド",
+        "overlaySwipeScore": "スワイプしてスコア入力",
+        "elements": {
+          "hole": {
+            "title": "ホール情報",
+            "description": "現在のホール番号とパーを表示。タップでスコアカードを確認。"
+          },
+          "distance": {
+            "title": "ピンまでの距離",
+            "description": "移動に合わせてリアルタイムで更新されるピンまでのGPS距離。"
+          },
+          "wind": {
+            "title": "風の状況",
+            "description": "ショットに影響するリアルタイムの風速・風向き。"
+          },
+          "elevation": {
+            "title": "高低差",
+            "description": "グリーンまでの上り・下りの度合い — 距離が長く/短く感じます。"
+          },
+          "target": {
+            "title": "散布楕円",
+            "description": "ハンディキャップに基づくショットパターン。ドラッグして狙いを調整。"
+          },
+          "optimizer": {
+            "title": "クラブオプティマイザー",
+            "description": "距離・風・ハザードに基づくAI推薦クラブ。"
+          },
+          "voice": {
+            "title": "AIキャディ",
+            "description": "タップして自然な音声でAIキャディにアドバイスを求めましょう。"
+          },
+          "pinside": {
+            "title": "ピンサイド",
+            "description": "ピン位置を左・中央・右に設定。マップと推薦ショットの狙いポイントを調整します。"
+          },
+          "score": {
+            "title": "スコア入力",
+            "description": "ホール終了後にスコアを記録します。"
+          },
+          "navigation": {
+            "title": "ホール移動",
+            "description": "スワイプまたは矢印でホール間を移動します。"
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "個人情報",
+      "golfProfile": "ゴルフプロフィール",
+      "experience": "経験",
+      "skills": "スキル",
+      "preferences": "環境設定",
+      "accessibility": "アクセシビリティ"
+    },
+    "buttons": {
+      "back": "← 戻る",
+      "continue": "続ける →",
+      "complete": "セットアップを完了"
+    },
+    "errors": {
+      "saveFailed": "プロフィールの保存に失敗しました。もう一度お試しください。"
+    },
+    "a11y": {
+      "completeSetup": "セットアップを完了",
+      "continueStep": "次のステップへ進む",
+      "completeHint": "オンボーディングを完了してアプリを使い始める",
+      "continueHint": "オンボーディングの次のステップへ進む"
+    },
+    "personalInfo": {
+      "description": "まずは基本情報からはじめましょう",
+      "playerName": "プレーヤー名",
+      "playerNamePlaceholder": "名前を入力",
+      "birthday": "誕生日（任意）",
+      "birthdayPlaceholder": "MM/DD/YYYY",
+      "phone": "電話番号（任意）",
+      "phonePlaceholder": "(555) 555-5555",
+      "address": "住所（任意）",
+      "addressPlaceholder": "市区町村、都道府県"
+    },
+    "golfProfile": {
+      "description": "あなたのゴルフについて教えてください",
+      "handicap": "ハンディキャップ",
+      "dominantHand": "利き手",
+      "rightHanded": "右利き",
+      "leftHanded": "左利き",
+      "naturalShot": "ナチュラルショット",
+      "shotStraight": "ストレート",
+      "shotDraw": "ドロー",
+      "shotFade": "フェード",
+      "shotHeight": "球の高さ",
+      "heightLow": "低い",
+      "heightMedium": "中くらい",
+      "heightHigh": "高い",
+      "yardsOfCurve": "5番アイアンの曲がりヤード",
+      "yardsOfCurvePlaceholder": "例：5、-5、または 0",
+      "yardsOfCurveHelp": "ドローはマイナス（-5）、フェードはプラス（+5）、ストレートは 0 を入力"
+    },
+    "experience": {
+      "description": "ゴルフの経験はどのくらいですか？",
+      "yearsPlaying": "ゴルフ歴",
+      "yearsUnit": "年",
+      "frequency": "プレー頻度は？",
+      "frequencyPlaceholder": "頻度を選択...",
+      "rarely": "まれ（年に 1〜5 回）",
+      "occasionally": "ときどき（年に 6〜15 回）",
+      "regularly": "定期的（年に 16〜30 回）",
+      "frequently": "頻繁（年に 31〜50 回）",
+      "veryFrequently": "非常に頻繁（年に 51 回以上）"
+    },
+    "skills": {
+      "description": "あなたの得意分野と改善したい分野を教えてください",
+      "averageDrive": "平均ドライブ（キャリー距離）",
+      "averageDriveUnit": "ヤード",
+      "averageDriveHelp": "ロールを含まない、通常のキャリー距離を入力してください",
+      "strengthArea": "得意分野",
+      "improvementArea": "改善したい分野",
+      "options": {
+        "driving": "ドライブ",
+        "drivingDistance": "ドライブの飛距離",
+        "drivingAccuracy": "ドライブの正確性",
+        "approachShots": "アプローチショット",
+        "ironPlay": "アイアンショット",
+        "wedgePlay": "ウェッジショット",
+        "shortGame": "ショートゲーム",
+        "chipping": "チッピング",
+        "bunkerPlay": "バンカーショット",
+        "putting": "パッティング",
+        "courseManagement": "コースマネジメント",
+        "courseStrategy": "コース戦略",
+        "mentalGame": "メンタルゲーム",
+        "allAround": "オールラウンド"
+      }
+    },
+    "preferences": {
+      "description": "Copperline Golf の体験をカスタマイズ",
+      "notificationsHeader": "通知"
+    },
+    "accessibility": {
+      "description": "任意：アクセシビリティ設定をカスタマイズ",
+      "textSize": "文字サイズ",
+      "textSizeUnit": "pt",
+      "highContrast": "ハイコントラストモード",
+      "highContrastDescription": "色のコントラストを上げて視認性を高めます",
+      "voiceFeedback": "音声フィードバック",
+      "voiceFeedbackDescription": "操作に対して音声で応答します",
+      "reduceMotion": "アニメーションを減らす",
+      "reduceMotionDescription": "モーション効果やトランジションを最小限にします",
+      "screenReader": "スクリーンリーダー",
+      "screenReaderDescription": "スクリーンリーダーでの利用に最適化",
+      "skip": "アクセシビリティ設定をスキップ"
+    },
+    "complete": {
+      "title": "準備完了！",
+      "message": "プロフィールとクラブの設定が完了しました。これからすべてのショットでパーソナライズされたおすすめを受け取れます。",
+      "profileConfigured": "プロフィールを設定しました",
+      "clubsAdded": "クラブをバッグに追加しました",
+      "readyForRecs": "スマートな提案を受け取る準備ができました",
+      "startUsing": "Copperline Golf を使い始める",
+      "helpText": "プロフィールとクラブはいつでも設定から更新できます"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "センターまで {{distance}} メートルです。風は {{windStr}}。グリーンは {{elevationStr}}。ピンは {{pinStr}} です。",
+      "approachFull": "{{lie}} から {{distance}} メートルです。風は {{windStr}}。{{elevationClause}}ライとスタンスはどうですか？",
+      "approachElevation": "{{elevationStr}} のショットです。",
+      "teeboxMinimal": "ピンは {{pinStr}} です。準備ができたら教えてください。",
+      "approachMinimal": "{{distance}} メートルです。ライとスタンスはどうですか？",
+      "windAtMph": "{{direction}} 約 {{speed}} km/h",
+      "calmConditions": "無風",
+      "elevationFeetUphill": "{{value}} メートル上り",
+      "elevationFeetDownhill": "{{value}} メートル下り",
+      "elevationLevel": "平坦",
+      "pinSideOfGreen": "グリーンの {{location}}{{side}}",
+      "pinMiddleOfGreen": "グリーンの中央"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "向かい風",
+      "Tailwind": "追い風",
+      "Crosswind Left": "左からの横風",
+      "Crosswind Right": "右からの横風",
+      "Diagonal Headwind Left": "左斜め向かい風",
+      "Diagonal Headwind Right": "右斜め向かい風",
+      "Diagonal Tailwind Left": "左斜め追い風",
+      "Diagonal Tailwind Right": "右斜め追い風",
+      "Calm": "無風"
+    },
+    "pinLocation": {
+      "Front": "手前",
+      "Middle": "中央",
+      "Back": "奥"
+    },
+    "pinSide": {
+      "Left": "左",
+      "Center": "中央",
+      "Right": "右"
+    },
+    "lie": {
+      "Tee": "ティー",
+      "Fairway": "フェアウェイ",
+      "Light Rough": "ライトラフ",
+      "Heavy Rough": "ヘビーラフ",
+      "Sand": "バンカー",
+      "Bunker": "バンカー",
+      "Recovery": "リカバリー"
+    },
+    "stance": {
+      "Flat": "フラット",
+      "Ball Above Feet": "つま先下がり",
+      "Ball Below Feet": "つま先上がり",
+      "Uphill": "上り",
+      "Downhill": "下り"
+    },
+    "elevationDir": {
+      "uphill": "上り",
+      "downhill": "下り",
+      "level": "平坦"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "AI キャディを読み込み中...",
+      "subtitle": "コース、天候、プレーヤーのデータを収集しています",
+      "connecting": "AI キャディに接続しています..."
+    },
+    "error": {
+      "title": "接続エラー",
+      "tryAgain": "再試行",
+      "goBack": "戻る"
+    },
+    "header": {
+      "back": "← 戻る",
+      "title": "AIキャディ",
+      "holeFormat": "{{course}} • {{hole}} 番ホール"
+    },
+    "status": {
+      "connected": "接続済み",
+      "disconnected": "未接続",
+      "contextLoaded": "コンテキスト読み込み済み"
+    },
+    "context": {
+      "windCalm": "穏やかな状況",
+      "windMph": "風 {{speed}} mph",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "{{lie}} から {{distance}} ヤード"
+    },
+    "modes": {
+      "idle": "待機中",
+      "listening": "聞いています",
+      "speaking": "話しています",
+      "thinking": "考え中"
+    },
+    "instructions": {
+      "speakNow": "話してください...",
+      "aiResponding": "AI が応答しています...",
+      "readyToListen": "聞く準備ができました",
+      "notConnected": "未接続"
+    },
+    "buttons": {
+      "endConversation": "会話を終了",
+      "startConversation": "会話を開始",
+      "connecting": "接続中..."
+    },
+    "alerts": {
+      "notConnectedTitle": "未接続",
+      "notConnectedMessage": "接続が確立されるまでお待ちください",
+      "sendFailedMessage": "メッセージを送信できませんでした。もう一度お試しください。"
+    },
+    "suggestions": {
+      "strategy": "戦略は？",
+      "windAffect": "風はどう影響しますか？",
+      "windDoing": "風はどうですか？",
+      "whichClub": "どのクラブを使うべき？",
+      "distance150": "150ヤード残っています",
+      "anyTips": "アドバイスはありますか？",
+      "analyzeRisks": "リスクを分析して",
+      "courseConditions": "コースの状況は？"
+    },
+    "simple": {
+      "headerTitle": "音声アシスタント",
+      "skillLevel": "スキルレベル",
+      "skillDesc": {
+        "beginner": "最小限の質問、デフォルト最大",
+        "intermediate": "バランスの取れた質問とデフォルト",
+        "advanced": "詳細な質問、精密"
+      },
+      "recommendations": "推奨",
+      "clear": "クリア",
+      "calculating": "推奨を計算中…",
+      "underMaintenance": "メンテナンス中",
+      "maintenanceMsg": "音声アシスタント機能は、より良い体験のため改善中です。",
+      "useAlternative": "クイックショットまたはアドバンスドショット画面をご利用ください。"
+    },
+    "enhanced": {
+      "loadingContext": "AIキャディコンテキストを読み込み中…",
+      "loadingSubtext": "コース、天候、プレーヤーデータを収集中",
+      "clearHistory": "履歴を消去",
+      "clearHistoryTitle": "会話を消去",
+      "clearHistoryMsg": "会話履歴を消去してもよろしいですか？",
+      "aiEnhanced": "AI強化",
+      "notConfiguredTitle": "AIキャディが設定されていません",
+      "notConfiguredMsg": "OpenAI APIキーが設定されていません。音声会話は動作しますが、高度なAI機能は制限されます。",
+      "initErrorTitle": "初期化エラー",
+      "initErrorMsg": "コンテキストの読み込みに失敗しました。一部の機能が正しく動作しない場合があります。",
+      "history": "履歴",
+      "hide": "非表示"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "ショット",
+      "scores": "スコア",
+      "clubs": "クラブ",
+      "settings": "設定"
+    },
+    "titles": {
+      "shot": "ショットの提案",
+      "scores": "スコア履歴",
+      "clubs": "クラブ管理",
+      "settings": "設定",
+      "courses": "コース"
+    },
+    "playGolf": {
+      "idle": "ゴルフをする",
+      "continue": "続ける",
+      "resume": "再開"
+    },
+    "headers": {
+      "login": "CaddyAI - ログイン",
+      "onboarding": "CaddyAI - 初期設定",
+      "profileSetup": "CaddyAI - プロフィール設定",
+      "ppmSetup": "CaddyAI - PPM設定",
+      "clubManagement": "CaddyAI - クラブ管理",
+      "voiceAssistant": "CaddyAI - 音声アシスタント",
+      "apiKeySetup": "CaddyAI - APIキー設定",
+      "setupComplete": "CaddyAI - 設定完了",
+      "devMenu": "CaddyAI - 開発メニュー"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "あなたのキャディ、どこでも。",
+    "emailPlaceholder": "メールアドレス",
+    "passwordPlaceholder": "パスワード",
+    "signIn": "サインイン",
+    "signUp": "新規登録",
+    "switchToSignIn": "すでにアカウントをお持ちですか？サインイン",
+    "switchToSignUp": "アカウントをお持ちでないですか？新規登録",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "continueWithApple": "Appleで続ける",
+    "continueWithGoogle": "Googleで続ける",
+    "dividerOr": "または",
+    "showPassword": "パスワードを表示",
+    "hidePassword": "パスワードを非表示",
+    "missingInfoTitle": "情報が不足しています",
+    "missingInfoMessage": "続行するには、メールアドレスとパスワードの両方を入力してください。",
+    "invalidPasswordTitle": "無効なパスワード",
+    "invalidPasswordMessage": "パスワードは6文字以上である必要があります。",
+    "accountCreatedTitle": "アカウントを作成しました！",
+    "accountCreatedMessage": "アカウントが正常に作成されました。Copperline Golfへようこそ！",
+    "signUpFailedTitle": "新規登録に失敗しました",
+    "signInFailedTitle": "サインインに失敗しました",
+    "authFailedFallback": "認証に失敗しました",
+    "resetPasswordTitle": "パスワードをリセット",
+    "resetPasswordPromptIos": "パスワードリセット用のリンクを受け取るメールアドレスを入力してください",
+    "resetPasswordConfirmAndroid": "{{email}} にパスワードリセットリンクを送信しますか？",
+    "resetPasswordNoEmail": "先にメールアドレスを入力してください",
+    "resetPasswordSuccessTitle": "メールを送信しました",
+    "resetPasswordSuccessMessage": "パスワードリセット用のリンクをメールでご確認ください。",
+    "resetPasswordError": "パスワードリセット用メールを送信できませんでした",
+    "appleNotAvailableTitle": "利用できません",
+    "appleNotAvailableMessage": "Appleでサインインは iOS 13 以上のデバイスでのみ利用できます。パッケージをインストールするか、別のサインイン方法をご利用ください。",
+    "appleSetupRequiredTitle": "設定が必要です",
+    "appleSetupRequiredMessage": "Appleサインインの設定が完了していません。手順については APPLE_SIGNIN_SETUP.md をご確認ください。",
+    "appleFailedTitle": "Appleでのサインインに失敗しました",
+    "appleFailedFallback": "Appleでサインインできませんでした。別の方法をお試しください。",
+    "googleFailedTitle": "Googleでのサインインに失敗しました",
+    "googleFailedMessage": "Googleでサインインできませんでした。もう一度お試しいただくか、別の方法をご利用ください。",
+    "googlePlayServicesTitle": "Google Play サービスが必要です",
+    "googlePlayServicesMessage": "Google Play サービスが利用できないか、更新が必要です。",
+    "signInInProgressTitle": "サインイン処理中",
+    "signInInProgressMessage": "サインインの処理中です。しばらくお待ちください。",
+    "welcomeTitle": "ようこそ！",
+    "welcomeMessage": "{{identity}} としてサインインしました",
+    "emailA11yLabel": "メールアドレス入力欄",
+    "emailA11yHint": "メールアドレスを入力してください",
+    "passwordA11yLabel": "パスワード入力欄",
+    "passwordA11yHint": "パスワードを入力してください",
+    "signUpA11yLabel": "新規登録ボタン",
+    "signInA11yLabel": "サインインボタン",
+    "signUpA11yHint": "新しいアカウントを作成",
+    "signInA11yHint": "アカウントにサインイン",
+    "appleA11yLabel": "Appleでサインインボタン",
+    "appleA11yHint": "Apple IDでサインイン",
+    "googleA11yLabel": "Googleでサインインボタン",
+    "googleA11yHint": "Googleアカウントでサインイン",
+    "signin": {
+      "infoText": "サインインして、プロフィール・クラブ・ショット履歴をすべてのデバイスに保存",
+      "tosLine": "サインインすることで、利用規約に同意したことになります",
+      "createAccount": "アカウント作成",
+      "createOne": "アカウントをお持ちでない方はこちら"
+    },
+    "apiKey": {
+      "title": "APIキーの設定",
+      "subtitle": "すべての機能を解除するためにAPIキーを設定",
+      "openAiLabel": "OpenAI APIキー",
+      "openAiDesc": "Whisperの音声認識に必要(任意 - デバイス認識は不要)",
+      "anthropicLabel": "Anthropic APIキー",
+      "anthropicDesc": "音声会話AI(Claude)に必要",
+      "howToGet": "入手方法は？",
+      "getOpenAiTitle": "OpenAI APIキーを取得",
+      "getOpenAiSteps": "1. platform.openai.comにアクセス\n2. ログインまたはアカウント作成\n3. API Keysセクションに移動\n4. 新しいシークレットキーを作成",
+      "getAnthropicTitle": "Anthropic APIキーを取得",
+      "getAnthropicSteps": "1. console.anthropic.comにアクセス\n2. ログインまたはアカウント作成\n3. API Keysセクションに移動\n4. 新しいAPIキーを作成",
+      "secureNote": "APIキーはお使いの端末に安全に保存され、OpenAI/Anthropic以外のサーバーには送信されません。",
+      "saveKeys": "APIキーを保存",
+      "saving": "保存中…",
+      "skipForNow": "スキップ",
+      "skipTitle": "設定をスキップ",
+      "skipMsg": "APIキーなしでは一部の機能が動作しません。続行しますか？",
+      "noKeysTitle": "キーが入力されていません",
+      "noKeysMsg": "続行するには少なくとも1つのAPIキーを入力してください。",
+      "saveSuccess": "保存しました！",
+      "saveWarnings": "保存しました！\n\n警告:\n{{warnings}}",
+      "saveErrorMsg": "APIキーの保存に失敗しました。もう一度お試しください。"
+    }
+  },
+  "welcome": {
+    "title": "Copperline Golfへようこそ",
+    "subtitle": "あなたのインテリジェントなゴルフ・コンパニオン",
+    "description": "8ステップのインタラクティブツアーを完了して、コースのすべてのショットに合わせたパーソナライズされた推奨を受けましょう。",
+    "features": {
+      "clubRecs": "スマートなクラブ推奨",
+      "aiAnalysis": "AIによるショット分析",
+      "weatherAdvice": "天候に合わせたアドバイス",
+      "voiceAssist": "音声ガイドによるサポート"
+    },
+    "resumeRound": "ラウンドを再開",
+    "continueRound": "ラウンドを続ける",
+    "getStarted": "はじめる",
+    "skipSetup": "セットアップをスキップ"
+  },
+  "paywall": {
+    "headerTitle": "Copperline Pro\nにアップグレード",
+    "headerSubtitle": "AIキャディの全機能を解放",
+    "featuresSectionTitle": "Proのすべて",
+    "packagesSectionTitle": "プランを選択",
+    "loading": "プランを読み込み中...",
+    "tos": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "restorePurchases": "購入を復元",
+    "redeemCode": "オファーコードを使う",
+    "errors": {
+      "selectPlanTitle": "プランを選択",
+      "selectPlanBody": "続行するにはサブスクリプションプランを選択してください。"
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "言語",
+      "languagePlaceholder": "言語を選択..."
+    },
+    "sections": {
+      "account": "アカウント",
+      "subscription": "サブスクリプション",
+      "playerProfile": "プレーヤープロフィール",
+      "preferences": "環境設定",
+      "notifications": "通知",
+      "about": "アプリについて",
+      "backup": "バックアップと復元",
+      "diagnostics": "診断ツール",
+      "appFeatures": "アプリの機能",
+      "caddyAi": "キャディAI"
+    },
+    "account": {
+      "guestUser": "ゲストユーザー",
+      "notSignedIn": "サインインしていません"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "無料",
+      "renews": "{{date}} に更新",
+      "noActive": "有効なサブスクリプションはありません",
+      "upgrade": "Copperline Pro にアップグレード"
+    },
+    "playerProfile": {
+      "edit": "プレーヤープロフィールを編集",
+      "editSubtitle": "ハンディキャップ、クラブの飛距離、ゴルフの設定"
+    },
+    "preferences": {
+      "distanceUnits": "距離の単位",
+      "distanceUnitsPlaceholder": "単位を選択...",
+      "yards": "ヤード",
+      "meters": "メートル",
+      "temperatureUnits": "温度の単位",
+      "temperatureUnitsPlaceholder": "温度の単位を選択...",
+      "fahrenheit": "華氏",
+      "celsius": "摂氏",
+      "theme": "テーマ",
+      "themePlaceholder": "テーマを選択...",
+      "themeLight": "ライト",
+      "themeDark": "ダーク",
+      "themeSystem": "システム",
+      "themeAuto": "自動",
+      "targetOverlay": "ターゲットオーバーレイ",
+      "targetOverlayPlaceholder": "ターゲットモードを選択...",
+      "targetLines": "ターゲットライン",
+      "playerEllipse": "プレーヤー楕円"
+    },
+    "notifications": {
+      "courseRecommendations": "コースのおすすめ",
+      "courseRecommendationsDescription": "コースとショットのおすすめをパーソナライズして受け取る",
+      "weatherAlerts": "天気アラート",
+      "weatherAlertsDescription": "天候に関する通知を受け取る",
+      "practiceReminders": "練習のリマインダー",
+      "practiceRemindersDescription": "ゴルフの上達に役立つ練習のリマインダー",
+      "achievementNotifications": "達成通知",
+      "achievementNotificationsDescription": "ゴルフの節目や達成を祝う"
+    },
+    "about": {
+      "version": "バージョン",
+      "build": "ビルド",
+      "support": "サポート"
+    },
+    "backup": {
+      "title": "クラブとショットのバックアップ",
+      "subtitle": "バッグの過去のバージョンを表示または復元"
+    },
+    "diagnostics": {
+      "igolf": "iGolf API テスト",
+      "igolfSubtitle": "コース検索と API 接続をテスト"
+    },
+    "appFeatures": {
+      "restartOnboarding": "オンボーディングを再開",
+      "restartOnboardingSubtitle": "アプリのチュートリアルを見直し、プロフィールを更新"
+    },
+    "actions": {
+      "clearAllData": "すべてのデータを消去",
+      "signOut": "サインアウト"
+    },
+    "deleteAccount": {
+      "button": "アカウントを削除",
+      "hint": "アカウントとすべての関連データを完全に削除します。",
+      "confirmTitle": "アカウントを削除",
+      "confirmMessage": "アカウントとすべてのゴルフデータ — ラウンド、クラブ、ショット、設定、ハンディキャップ履歴 — を完全に削除します。この操作は取り消せません。",
+      "confirmButton": "自分のアカウントを削除",
+      "reauthTitle": "再認証が必要です",
+      "reauthMessage": "セキュリティのため、いったんサインアウトしてから再度サインインし、もう一度アカウント削除をお試しください。データは既に削除されています。",
+      "noUserMessage": "サインインしているユーザーがいません。",
+      "failedTitle": "削除に失敗しました",
+      "failedMessage": "問題が発生しました。もう一度お試しいただくか、support@copperlinegolf.com までご連絡ください。"
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "あなたのキャディ、どこでも。"
+    },
+    "signOutDialog": {
+      "title": "サインアウト",
+      "message": "本当にサインアウトしますか？",
+      "confirmButton": "サインアウト",
+      "fallbackTitle": "サインアウト",
+      "fallbackMessage": "サインアウトを完了するためにアプリを再起動してください。"
+    },
+    "clearDataDialog": {
+      "title": "すべてのデータを消去",
+      "message": "プロフィールデータ、クラブの飛距離、設定をすべて削除します。この操作は取り消せません。",
+      "confirmButton": "データを消去",
+      "successTitle": "データを消去しました",
+      "successMessage": "すべてのアプリデータを消去しました",
+      "errorMessage": "データの消去に失敗しました"
+    },
+    "restartOnboardingDialog": {
+      "title": "オンボーディングを再開",
+      "message": "アプリのチュートリアルを再度ご案内します。プロフィールデータは保持されます。",
+      "confirmButton": "再開",
+      "errorMessage": "オンボーディングを再開できませんでした。もう一度お試しください。"
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "AIスキルレベル",
+        "question": "AIの質問はどれくらい詳しくしますか？",
+        "label": "スキルレベル",
+        "placeholder": "スキルレベルを選択...",
+        "helpBeginner": "質問なしで即座に推奨。",
+        "helpIntermediate": "AIがライと風の状況を確認します。",
+        "helpAdvanced": "AIがライ、風、高低差、気温を確認します。",
+        "helpPro": "AIがスタンスやショット形状を含む詳細な質問をします。",
+        "helpTourPro": "すべての要素を考慮したプロレベルの完全分析。"
+      },
+      "verbosity": {
+        "title": "AI発話量",
+        "label": "発話量",
+        "placeholder": "モードを選択...",
+        "helpTalkItThrough": "完全な会話 - AIがすべてのデータを読み取り質問します",
+        "helpMinimal": "クイックフロー - AIはライとスタンスのみを確認",
+        "helpJustFacts": "あなたが先に話す - ライとスタンスを伝えてください",
+        "agentLabel": "エージェント: {{id}}",
+        "option": {
+          "talk_it_through": "完全な会話",
+          "just_facts": "要点のみ",
+          "minimal": "最小限"
+        }
+      },
+      "footer": "AI設定により、プレースタイルとスキルレベルに合わせた推奨がカスタマイズされます。変更は即時反映されます。"
+    },
+    "backupScreen": {
+      "title": "バックアップと復元",
+      "back": "‹ 戻る",
+      "tabClubs": "クラブ",
+      "tabShots": "ショット",
+      "helpText": "保存するたびに前のバージョンが自動的にバックアップされます。リストごとに最大20バージョンが保持されます。復元時もバックアップが作成されるため、任意の復元は元に戻せます。",
+      "emptyText": "{{tab}}のバックアップはまだありません。次に保存するときに自動的に作成されます。",
+      "restore": "復元",
+      "loadFailed": "バックアップを読み込めませんでした",
+      "confirmClubsTitle": "このクラブバックアップを復元しますか？",
+      "confirmClubsMsg": "{{date}}の{{count}}本のクラブバージョンで、現在のバッグを置き換えます。\n\n現在のバッグはまず新しいバックアップとして保存されるので、考えが変わった場合は元に戻せます。",
+      "confirmShotsTitle": "このショットバックアップを復元しますか？",
+      "confirmShotsMsg": "{{date}}の{{count}}本のショットバージョンで、現在のショットを置き換えます。\n\n現在のショットはまず新しいバックアップとして保存されます。",
+      "restoredTitle": "復元しました",
+      "restoredClubs": "クラブを復元しました。",
+      "restoredShots": "ショットを復元しました。",
+      "restoreFailedTitle": "復元に失敗しました",
+      "clubsCount": "{{count}}本のクラブ",
+      "shotsCount": "{{count}}本のショット"
+    },
+    "caddyVoice": {
+      "title": "キャディ音声",
+      "option": {
+        "default": "キャディ (デフォルト)"
+      },
+      "optionDesc": {
+        "default": "CaddyAIの標準音声"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "着地ゾーン",
+    "errorTitle": "エラー",
+    "invalidParams": "無効なパラメータ",
+    "invalidParamsDesc": "この画面では、着地ゾーンを表示するために特定のコースとプレーヤーのデータが必要です。",
+    "gpsError": "GPSエラー",
+    "acquiringGps": "GPS位置を取得中…",
+    "acquiringSubtext": "正確な位置を取得しています、お待ちください",
+    "tipOpenArea": "開けた場所に移動",
+    "tipClearSky": "空が見える場所を確保",
+    "tipWaitAccuracy": "精度<15mまで待機",
+    "yourPosition": "現在地",
+    "pin": "ピン",
+    "primaryZone": "主要ゾーン",
+    "secondaryZone": "副次ゾーン",
+    "lowAccuracyTitle": "⚠️ GPS精度が低い",
+    "lowAccuracyMsg": "現在のGPS精度は{{accuracy}}mです。最良の結果を得るには、精度は15m未満である必要があります。\n\n空が見える開けた場所に移動してみてください。",
+    "gpsErrorMsg": "GPS位置の取得に失敗しました",
+    "continueAnyway": "それでも続行"
+  },
+  "tournament": {
+    "casual": {
+      "label": "カジュアルラウンド",
+      "description": "全機能有効"
+    },
+    "tournament-dmd": {
+      "label": "トーナメント (DMD)",
+      "description": "GPS距離のみ - USGAルール4.3準拠"
+    },
+    "tournament-no-dmd": {
+      "label": "トーナメント (DMDなし)",
+      "description": "電子機器なし - ローカルルールG-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "機能",
+      "pricing": "料金",
+      "about": "私たちについて",
+      "contact": "お問い合わせ",
+      "signIn": "サインイン",
+      "getStarted": "始める",
+      "getStartedFree": "無料で始める",
+      "tagline": "あなたの賢いゴルフパートナー"
+    },
+    "contact": {
+      "meta": {
+        "title": "お問い合わせ | Copperline Golf",
+        "description": "Copperline Golf サポートチームへのお問い合わせ。アプリのヘルプ、フィードバック、AI ゴルフレコメンデーションに関するご質問にお答えします。"
+      },
+      "hero": {
+        "titleStart": "お気軽に",
+        "titleHighlight": "ご連絡ください",
+        "subtitle": "ご質問やご感想はありませんか？皆様のお声をお待ちしております。チーム一同、Copperline Golf を最大限に活用していただけるようサポートいたします。"
+      },
+      "info": {
+        "emailTitle": "メール",
+        "phoneTitle": "電話",
+        "officeTitle": "オフィス",
+        "office": "スコッツデール、アリゾナ州 85260"
+      },
+      "form": {
+        "heading": "メッセージを送る",
+        "subheading": "以下のフォームにご記入ください。できるだけ早くご返信いたします。",
+        "nameLabel": "お名前",
+        "namePlaceholder": "お名前",
+        "emailLabel": "メール",
+        "emailPlaceholder": "your.email@example.com",
+        "subjectLabel": "件名",
+        "subjectPlaceholder": "どのようなご用件ですか？",
+        "messageLabel": "メッセージ",
+        "messagePlaceholder": "お問い合わせ内容を詳しくお聞かせください...",
+        "submit": "メッセージを送信",
+        "submitting": "送信中...",
+        "successMessage": "メッセージを送信しました。まもなくご返信いたします。",
+        "errorMessage": "送信に失敗しました。再度お試しいただくか、直接メールにてご連絡ください。",
+        "errors": {
+          "nameRequired": "お名前は必須です",
+          "nameTooShort": "お名前は2文字以上で入力してください",
+          "emailRequired": "メールアドレスは必須です",
+          "emailInvalid": "有効なメールアドレスを入力してください",
+          "subjectRequired": "件名は必須です",
+          "subjectTooShort": "件名は3文字以上で入力してください",
+          "messageRequired": "メッセージは必須です",
+          "messageTooShort": "メッセージは10文字以上で入力してください"
+        }
+      },
+      "hours": {
+        "heading": "営業時間",
+        "weekdaysLabel": "月曜日 - 金曜日",
+        "weekdays": "午前9:00 - 午後6:00 PST",
+        "saturdayLabel": "土曜日",
+        "saturday": "午前10:00 - 午後4:00 PST",
+        "sundayLabel": "日曜日",
+        "sunday": "休業",
+        "responseNote": "営業日は通常24時間以内にすべてのお問い合わせにご返信いたします。"
+      },
+      "social": {
+        "heading": "SNSでフォロー",
+        "body": "最新情報、ヒント、ゴルフのインサイトはSNSで配信しています。"
+      },
+      "faq": {
+        "heading": "すぐに答えが欲しい方へ",
+        "body": "ヘルプセンターでよくある質問への回答をすぐに確認できます。",
+        "cta": "ヘルプセンターを見る"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "スマートなクラブ選択",
+        "smartClubDesc": "あなたのスイングプロファイルとリアルタイムの状況に基づくAIレコメンデーション。すべてのショットに最適なクラブを。",
+        "profileTitle": "パーソナルプロファイル",
+        "profileDesc": "バッグの中の各クラブを管理し、距離とパーソナライズされたインサイトを把握。あなたのゲームを最適化。",
+        "conditionsTitle": "リアルタイムの状況",
+        "conditionsDesc": "すべてのショットの天候・風・標高データをライブで取得。実際のコンディションに基づいて判断。",
+        "sectionTitleLine1": "Copperline Golfが",
+        "sectionTitleLine2": "最高のパートナーである理由",
+        "sectionSubtitle": "あなたのゲームを変える3つの中核機能"
+      },
+      "aiCta": {
+        "heading": "AIクラブ選択を試す",
+        "body": "音声インテリジェントアシスタントで、どんなショットにも最適なクラブを選択。スキルレベルを選び、ショットを説明するだけで即座にパーソナライズされたレコメンデーションが得られます。",
+        "button": "AIアシスタントを起動"
+      },
+      "stats": {
+        "titleStart": "世界中のゴルファーに",
+        "titleHighlight": "信頼されています",
+        "subtitle": "Copperline Golfでゲームを向上させた数千人のプレーヤーに加わりませんか"
+      },
+      "howItWorks": {
+        "titleStart": "簡単",
+        "titleHighlight": "3ステップで開始",
+        "step1Title": "プロファイルを作成",
+        "step1Desc": "ゲームについていくつかの簡単な質問に答え、クラブの飛距離を入力します。",
+        "step2Title": "コースに出る",
+        "step2Desc": "スマートフォンでCopperline Golfを開き、自動でコンディションを記録します。",
+        "step3Title": "スマートにプレー",
+        "step3Desc": "すべてのショットに即座にパーソナライズされたクラブ推奨を受け取れます。"
+      },
+      "testimonials": {
+        "titleStart": "ゴルファーの",
+        "titleHighlight": "声",
+        "subtitle": "ゲームを変えた本物のゴルファーからのフィードバック"
+      }
+    }
+  }
+}

@@ -1,0 +1,1916 @@
+{
+  "common": {
+    "ok": "확인",
+    "cancel": "취소",
+    "save": "저장",
+    "send": "보내기",
+    "retry": "다시 시도",
+    "skip": "건너뛰기",
+    "tryAgain": "다시 시도",
+    "error": "오류",
+    "numericStepper": {
+      "enterField": "{{label}} 입력"
+    },
+    "back": "뒤로"
+  },
+  "profile": {
+    "loading": "프로필을 불러오는 중...",
+    "loadDefaultsTitle": "기본값으로 계속하기",
+    "loadDefaultsMessage": "기본 프로필 설정을 사용합니다. 지금 업데이트할 수 있습니다.",
+    "continueDefaults": "기본 설정으로 계속하기",
+    "header": {
+      "title": "플레이어 프로필 편집",
+      "subtitle": "골프 프로필 설정 업데이트",
+      "syncedBadge": "☁️ 클라우드에 동기화됨"
+    },
+    "ageGroup": "연령대",
+    "handicapHelp": "+12(플러스)에서 54까지",
+    "yardsOfCurveHelp": "5번 아이언으로 보통 몇 야드나 휘나요?\n드로우는 음수(-5), 페이드는 양수(+5), 직구는 0으로 입력하세요",
+    "yearsPlayingShort": "경력",
+    "yearsUnit": "년",
+    "playFrequency": "라운드 빈도",
+    "freq": {
+      "rarely": "거의 안 함",
+      "rarelyDesc": "<연 5회",
+      "occasionally": "가끔",
+      "occasionallyDesc": "연 5-15회",
+      "regularly": "정기적으로",
+      "regularlyDesc": "연 15-30회",
+      "frequently": "자주",
+      "frequentlyDesc": "연 30-50회",
+      "veryFrequently": "매우 자주",
+      "veryFrequentlyDesc": "연 50회 이상"
+    },
+    "aiCaddySettings": "AI 캐디 설정",
+    "skillLevelHelp": "AI가 질문하는 횟수를 조절하려면 실력 수준을 선택하세요",
+    "skill": {
+      "beginner": "초보자",
+      "intermediate": "중급자",
+      "advanced": "상급자",
+      "pro": "프로",
+      "tourPro": "투어 프로"
+    },
+    "verbosityMode": "응답 상세도",
+    "displayPreferences": "화면 설정",
+    "targetOverlayMode": "목표 오버레이 모드",
+    "target": "목표",
+    "ellipse": "타원",
+    "cancel": "취소",
+    "saveProfile": "프로필 저장",
+    "successTitle": "성공",
+    "successMessage": "프로필이 성공적으로 업데이트되었습니다!",
+    "saveErrorTitle": "저장 오류",
+    "ppm": {
+      "title": "플레이어 퍼포먼스 설정",
+      "subtitle": "맞춤형 골프 인텔리전스 시스템",
+      "progressComplete": "{{percent}}% 완료",
+      "sectionProfile": "프로필",
+      "sectionSkills": "실력",
+      "sectionPreferences": "설정",
+      "sectionAccessibility": "접근성",
+      "sectionGrade": "등급",
+      "profileDesc": "골프 경험을 맞춤화하기 위해 간단히 소개해 주세요",
+      "skillsDesc": "현재 골프 실력 수준을 알려주세요",
+      "preferencesDesc": "앱이 나에게 맞게 작동하도록 설정하세요",
+      "accessibilityDesc": "최상의 경험을 위한 접근성 기능을 설정하세요",
+      "gradeDesc": "프로필 완성도 등급 및 추천 사항",
+      "incompleteTitle": "설정 미완료",
+      "incompleteMessage": "설정을 완료하기 전에 모든 필수 항목을 입력해 주세요.",
+      "completeTitle": "설정 완료! 🎉",
+      "completeMessage": "플레이어 퍼포먼스 관리 프로필이 생성되었습니다. AI 시스템이 귀하의 실력과 설정에 맞게 조정되었습니다.",
+      "startPlaying": "플레이 시작",
+      "completeSetup": "✅ 설정 완료",
+      "nextSection": "➡️ 다음: {{section}}",
+      "completeSetupA11y": "설정 완료",
+      "continueA11y": "다음 섹션으로 이동",
+      "sectionA11y": "{{section}} 섹션"
+    }
+  },
+  "score": {
+    "common": {
+      "yes": "예",
+      "no": "아니오",
+      "na": "해당 없음",
+      "strokes": "타수",
+      "totalStrokes": "총 타수",
+      "putts": "퍼트",
+      "totalPutts": "총 퍼트",
+      "fairwayHit": "페어웨이 안착",
+      "fairways": "페어웨이",
+      "fairwaysHit": "페어웨이 안착 수",
+      "fwShort": "FW",
+      "fir": "FIR",
+      "gir": "GIR",
+      "greenInRegulation": "규정 타수 내 그린 적중",
+      "greensInRegulation": "규정 타수 내 그린 적중 수",
+      "penalties": "페널티",
+      "diff": "디퍼",
+      "differential": "디퍼렌셜",
+      "gross": "그로스",
+      "grossScore": "그로스 스코어",
+      "adjusted": "조정",
+      "totalScore": "총 스코어",
+      "toPar": "파 대비",
+      "total": "합계",
+      "totalUpper": "합계",
+      "out": "아웃",
+      "in": "인",
+      "front9": "전반 9홀",
+      "back9": "후반 9홀",
+      "hole": "홀",
+      "holeWithNumber": "{{n}}번 홀",
+      "saveScore": "스코어 저장",
+      "rounds": "라운드",
+      "avgDiff": "평균 디퍼",
+      "bestDiff": "최고 디퍼",
+      "ghin": "GHIN",
+      "par": "파",
+      "handicap": "핸디캡",
+      "distance": "거리"
+    },
+    "entry": {
+      "invalidInputTitle": "잘못된 입력",
+      "invalidStrokesMessage": "유효한 타수(1 이상)를 입력해 주세요",
+      "invalidPuttsMessage": "유효한 퍼트 수(0 이상)를 입력해 주세요",
+      "invalidPenaltiesMessage": "유효한 페널티 수(0 이상)를 입력해 주세요",
+      "puttsExceedStrokesMessage": "퍼트 수는 총 타수를 초과할 수 없습니다",
+      "scoreSavedTitle": "스코어 저장됨",
+      "movedToHole": "{{hole}}번 홀로 이동했습니다",
+      "roundCompleteSimple": "라운드 완료!",
+      "viewSummary": "요약 보기",
+      "noActiveRound": "진행 중인 라운드 없음",
+      "notesLabel": "메모 (선택)",
+      "notesPlaceholder": "이 홀에 대한 메모를 추가하세요..."
+    },
+    "holeScore": {
+      "title": "{{n}}번 홀 스코어",
+      "roundCompleteTitle": "라운드 완료",
+      "roundCompleteMessage": "{{hole}}번 홀: {{strokes}}타, 퍼트 {{putts}}번\n\n라운드를 완료했습니다!",
+      "viewScorecard": "스코어카드 보기"
+    },
+    "navigation": {
+      "loadFailed": "코스 데이터를 불러오지 못했습니다",
+      "noHoleData": "홀 데이터 없음",
+      "hazardsOnHole": "이 홀의 해저드:",
+      "holeLayout": "홀 레이아웃",
+      "quickActions": "빠른 실행",
+      "profile": "프로필",
+      "clubs": "클럽"
+    },
+    "complete": {
+      "loadFailed": "라운드 데이터를 불러오지 못했습니다.",
+      "savedTitle": "저장됨",
+      "savedMessage": "변경 사항이 저장되었습니다.",
+      "saveChangesFailed": "변경 사항 저장에 실패했습니다. 다시 시도해 주세요.",
+      "loginRequired": "스코어를 저장하려면 로그인해야 합니다.",
+      "scoreSavedTitle": "스코어 저장됨",
+      "scoreSavedMessage": "라운드가 성공적으로 저장되었습니다.",
+      "saveScoreFailed": "스코어 저장에 실패했습니다. 다시 시도해 주세요.",
+      "loading": "라운드 데이터를 불러오는 중...",
+      "title": "라운드 완료",
+      "unsavedChanges": "저장되지 않은 변경 사항",
+      "unsavedChangesMessage": "저장되지 않은 변경 사항이 있습니다. 저장하시겠습니까?",
+      "discard": "버리기",
+      "save": "저장",
+      "unsavedScoreTitle": "저장되지 않은 스코어",
+      "unsavedScoreMessage": "스코어가 저장되지 않았습니다. 정말 종료하시겠습니까?",
+      "exitWithoutSaving": "저장 없이 종료",
+      "scorecard": "스코어카드",
+      "tapToEdit": "홀을 탭하여 편집",
+      "statistics": "통계",
+      "ghinPosting": "GHIN 등록",
+      "postedToGHIN": "GHIN에 등록됨",
+      "saveChanges": "변경 사항 저장",
+      "saveRound": "라운드 저장",
+      "savedButton": "저장됨",
+      "postOnGHIN": "GHIN에 등록",
+      "finish": "완료"
+    },
+    "summary": {
+      "endRoundTitle": "라운드 종료",
+      "endRoundMessage": "이 라운드를 종료하시겠습니까? 라운드가 기록에 저장됩니다.",
+      "holeByHole": "홀별 스코어",
+      "roundStatistics": "라운드 통계",
+      "continueRound": "라운드 계속",
+      "endRound": "라운드 종료"
+    },
+    "history": {
+      "noScoresTitle": "스코어 없음",
+      "findCourse": "코스 찾기",
+      "loading": "스코어를 불러오는 중...",
+      "back": "뒤로",
+      "title": "스코어 기록",
+      "tabHistory": "기록",
+      "tabAnalytics": "분석",
+      "filterAll": "전체 라운드",
+      "filterRecent": "최근",
+      "filterBest": "베스트"
+    },
+    "detail": {
+      "shareScorecard": "스코어카드 공유"
+    },
+    "terms": {
+      "albatross": "알바트로스",
+      "eagle": "이글",
+      "birdie": "버디",
+      "par": "파",
+      "bogey": "보기",
+      "double": "더블",
+      "triple": "트리플"
+    }
+  },
+  "holePlay": {
+    "scorecard": {
+      "score": "스코어",
+      "tapForScorecard": "스코어카드 보기",
+      "round": "라운드",
+      "nextHole": "다음 홀",
+      "endRound": "라운드 종료",
+      "fix": "수정",
+      "viewFullScorecard": "전체 스코어카드 보기"
+    },
+    "shotVars": {
+      "adjust": "조정",
+      "pinPosition": "핀 위치",
+      "back": "뒤쪽",
+      "front": "앞쪽",
+      "left": "좌",
+      "right": "우",
+      "lie": "라이",
+      "stance": "스탠스",
+      "slope": "경사",
+      "distance": "거리",
+      "wind": "바람",
+      "yds": "야드"
+    },
+    "endRoundModal": {
+      "title": "라운드를 종료하시겠습니까?",
+      "holesPlayed": "플레이한 홀",
+      "strokes": "타수",
+      "toPar": "파 대비",
+      "incompleteWarning": "스코어 없는 홀이 {{count}}개 있습니다.",
+      "incompleteWarning_other": "스코어 없는 홀이 {{count}}개 있습니다.",
+      "incompleteSubtext": "완료되지 않은 홀은 GHIN 등록에 포함되지 않습니다.",
+      "ghin18": "이 라운드는 GHIN 등록 조건을 충족합니다.",
+      "ghin9": "이 라운드는 9홀 GHIN 등록 조건을 충족합니다.",
+      "ghinNeedMore": "GHIN 등록을 위해 {{count}}홀이 더 필요합니다.",
+      "continuePlaying": "계속 플레이",
+      "endRound": "라운드 종료"
+    },
+    "loadingCourseData": "코스 데이터를 불러오는 중...",
+    "mapDisabledTournament": "토너먼트 모드에서는 지도를 사용할 수 없습니다",
+    "yards": "m",
+    "tournament": "토너먼트",
+    "mph": "km/h",
+    "holeLabel": "홀",
+    "par": "파",
+    "holeWithNumber": "{{n}}번 홀",
+    "parWithNumber": "파 {{n}}",
+    "uphill": "오르막",
+    "downhill": "내리막",
+    "fromTee": "티에서",
+    "fromPosition": "현재 위치에서",
+    "feet": "m",
+    "conditionsModal": {
+      "title": "코스 컨디션",
+      "subtitle": "오늘 코스 상태는 어떤가요?",
+      "setConditions": "코스 컨디션 설정",
+      "skip": "나중에 하기"
+    },
+    "alerts": {
+      "optimizerUnavailableTitle": "최적화 불가",
+      "optimizerUnavailableMessage": "필요한 데이터가 없습니다",
+      "optimizerErrorTitle": "최적화 오류",
+      "optimizerErrorMessage": "추천 계산에 실패했습니다"
+    },
+    "overlay": {
+      "analyzing": "홀 분석 중...",
+      "suggestedClub": "추천 클럽",
+      "shotShape": "샷 형태",
+      "landingZoneSafety": "낙구 지점 안전성",
+      "successRate": "성공률",
+      "aimPoint": "에임 포인트",
+      "courseConditions": "코스 컨디션",
+      "groundFirmness": "지면 단단함",
+      "roughHeight": "러프 높이",
+      "greenSpeed": "그린 스피드",
+      "windSpeed": "바람 속도",
+      "windDirection": "바람 방향",
+      "shotDetails": "샷 상세 정보"
+    },
+    "quickShot": {
+      "title": "퀵 샷",
+      "subtitle": "빠른 AI 추천",
+      "voiceCardTitle": "음성 명령",
+      "listeningHint": "듣는 중… 샷을 설명해 주세요",
+      "idleHint": "눌러서 말하거나 아래에서 수동 입력",
+      "holdToSpeak": "눌러서 말하기",
+      "listening": "듣는 중…",
+      "youSaid": "말씀하셨습니다:",
+      "manualInput": "수동 입력",
+      "distanceToTarget": "목표까지의 거리",
+      "getRecommendation": "⚡ 추천 받기",
+      "readyTitle": "샷 분석 준비 완료",
+      "readyText": "음성 명령 또는 수동 입력으로 맞춤형 클럽 추천을 받으세요"
+    },
+    "shotVarsScreen": {
+      "title": "샷 변수",
+      "subtitle": "추천을 위한 모든 입력 데이터",
+      "dataSources": "데이터 소스",
+      "howVarsAffect": "이 변수들이 샷에 미치는 영향",
+      "recommendedClub": "추천 클럽",
+      "getRecPrompt": "클럽 추천을 받아 각 변수가 선택에 어떻게 영향을 미치는지 확인하세요.",
+      "categories": {
+        "location": "위치 및 거리",
+        "weather": "날씨 상태",
+        "elevation": "고도 데이터",
+        "conditions": "코스 상태",
+        "player": "플레이어 프로필",
+        "shot": "샷 세부사항",
+        "conversational": "AI 변수"
+      },
+      "sourceLabels": {
+        "api": "API",
+        "manual": "수동",
+        "ai": "AI",
+        "course": "코스",
+        "profile": "프로필",
+        "calculated": "계산됨"
+      },
+      "timestamp": {
+        "never": "없음",
+        "justNow": "방금",
+        "oneMinAgo": "1분 전",
+        "minsAgo": "{{count}}분 전",
+        "oneHourAgo": "1시간 전",
+        "hoursAgo": "{{count}}시간 전",
+        "updated": "{{when}} 업데이트"
+      }
+    }
+  },
+  "round": {
+    "loading": {
+      "preparing": "라운드를 준비하는 중...",
+      "failedTitle": "불러오기 실패",
+      "failedMessage": "코스 데이터를 불러올 수 없습니다. 연결 상태를 확인해 주세요.",
+      "retry": "다시 시도",
+      "cancel": "취소"
+    },
+    "courseDetail": {
+      "loadFailedTitle": "오류",
+      "loadFailedMessage": "코스 정보를 불러올 수 없습니다. 다시 시도해 주세요.",
+      "goBack": "뒤로 가기",
+      "retry": "다시 시도",
+      "tryAgain": "다시 시도",
+      "loading": "{{courseName}} 불러오는 중...",
+      "loadingFallback": "코스 정보를 불러오는 중...",
+      "openMapsError": "지도를 열 수 없습니다",
+      "phoneError": "전화를 걸 수 없습니다",
+      "selectTeeFirst": "먼저 티박스를 선택해 주세요",
+      "notFound": "코스를 찾을 수 없습니다",
+      "infoHoles": "홀 수",
+      "infoPar": "파",
+      "infoYardage": "야디지",
+      "selectTeeBox": "티박스 선택",
+      "directions": "길 안내",
+      "call": "전화",
+      "hazards": "해저드",
+      "about": "소개",
+      "continue": "계속",
+      "googleOnlyTitle": "스코어링 데이터베이스에 없는 코스",
+      "googleOnlyBody": "이 코스의 위치는 확인할 수 있지만, 라운드·스코어링·티 데이터는 아직 제공되지 않습니다.",
+      "startUnavailable": "라운드 시작 불가",
+      "selectTeeA11y": "{{teeName}} 티 선택",
+      "teeStats": "{{yardage}}야드 • 파 {{par}}",
+      "teeRating": "레이팅: {{rating}} • 슬로프: {{slope}}"
+    },
+    "setup": {
+      "loadingTees": "티 정보를 불러오는 중...",
+      "loadFailedTitle": "코스 불러오기 오류",
+      "loadFailedMessage": "티 및 스코어카드 정보를 불러올 수 없습니다. 다시 시도해 주세요.",
+      "selectTeeTitle": "티 선택",
+      "selectTeeMessage": "시작하기 전에 티박스를 선택해 주세요.",
+      "cancel": "취소",
+      "subtitle": "라운드 설정",
+      "ratingType": "레이팅 유형",
+      "mens": "남성",
+      "womens": "여성",
+      "roundType": "라운드 유형",
+      "type18": "18홀",
+      "type18Description": "풀 라운드",
+      "typeFront9": "전반 9홀",
+      "typeFront9Description": "1~9번 홀",
+      "typeBack9": "후반 9홀",
+      "typeBack9Description": "10~18번 홀",
+      "courseHandicap": "코스 핸디캡",
+      "startRound": "라운드 시작"
+    },
+    "startingHole": {
+      "selectStartingHole": "시작 홀 선택",
+      "holesLabel": "{{count}}홀",
+      "doubleLabel": "2x{{n}} (총 {{total}}홀)",
+      "front9": "전반 9홀",
+      "full18": "풀 18홀",
+      "back9": "후반 9홀",
+      "swingThoughtTitle": "스윙 생각 (선택)",
+      "swingThoughtDescription": "AI 캐디가 매 샷 전에 이것을 상기시켜 드립니다",
+      "swingThoughtPlaceholder": "예: 천천히 백스윙, 부드러운 템포...",
+      "selectedHoleTitle": "선택한 홀",
+      "selectedHoleNumber": "{{hole}}번 홀",
+      "playingTwice": "{{n}}홀을 두 번 플레이 (총 {{total}}홀)",
+      "front9Description": "전반 9홀 (1~9번 홀)",
+      "back9Description": "후반 9홀 (10~{{end}}번 홀)",
+      "fullDescription": "풀 {{n}}홀",
+      "starting": "라운드를 시작하는 중...",
+      "startPlayingHole": "{{hole}}번 홀 시작 →",
+      "errorTitle": "오류",
+      "errorMessage": "라운드를 시작하지 못했습니다. 다시 시도해 주세요."
+    }
+  },
+  "recommendation": {
+    "primaryHeader": "주요 추천",
+    "secondaryHeader": "보조 추천",
+    "calculating": "계산 중",
+    "addClubsPrompt": "클럽을 추가하여 시작하세요",
+    "swingFace": "스윙 & 페이스",
+    "aimPoint": "조준점",
+    "expectedCarry": "예상 캐리",
+    "fullSquare": "풀 스윙 | 스퀘어",
+    "aimStraight": "직선 조준",
+    "unknown": "알 수 없음",
+    "youSaid": "말씀하신 내용:",
+    "currentRecommendation": "현재 추천:",
+    "close": "닫기",
+    "manualVariables": "수동 변수",
+    "done": "완료",
+    "hazardType": "해저드 유형",
+    "location": "위치",
+    "riskLevel": "위험 수준",
+    "cancel": "취소",
+    "body": {
+      "section": {
+        "shotVariables": "샷 변수",
+        "shotEffects": "샷 효과 (사전 최적화)",
+        "totalAdjustments": "총 조정"
+      },
+      "pickers": {
+        "pinLocation": "핀 위치 (깊이)",
+        "pinSide": "핀 위치 (방향)",
+        "lie": "라이",
+        "stance": "스탠스",
+        "slopeAngle": "경사 각도",
+        "distance": "홀까지의 거리",
+        "windSpeed": "풍속",
+        "windDirection": "풍향"
+      },
+      "pinLocations": {
+        "Front": "앞쪽",
+        "Middle": "중간",
+        "Back": "뒤쪽"
+      },
+      "pinSides": {
+        "Left": "왼쪽",
+        "Center": "중앙",
+        "Right": "오른쪽"
+      },
+      "lies": {
+        "Tee": "티",
+        "Fairway": "페어웨이",
+        "Light_Rough": "가벼운 러프",
+        "Heavy_Rough": "깊은 러프",
+        "Sand": "모래",
+        "Recovery": "리커버리"
+      },
+      "stances": {
+        "Flat": "평지",
+        "Ball_Above_Feet": "발보다 볼이 높은 경사",
+        "Ball_Below_Feet": "발보다 볼이 낮은 경사",
+        "Uphill": "오르막 스탠스",
+        "Downhill": "내리막 스탠스"
+      },
+      "categories": {
+        "course": "코스 요소",
+        "hole": "홀 요소",
+        "player": "플레이어 요소",
+        "environment": "환경 요소",
+        "shot": "개별 샷 요소"
+      },
+      "columns": {
+        "carry": "캐리",
+        "roll": "굴림",
+        "aim": "조준"
+      },
+      "aimSummary": {
+        "straight": "직선",
+        "right": "오른쪽",
+        "left": "왼쪽"
+      },
+      "aimSuffix": {
+        "right": "R",
+        "left": "L"
+      },
+      "variables": {
+        "Altitude": "고도",
+        "Firmness": "지면 강도",
+        "GreenSpeed": "그린 속도",
+        "ElevationChange": "고저 변화",
+        "PinLocation": "핀 위치",
+        "PinSide": "핀 방향",
+        "WaterHazard": "워터 해저드",
+        "Bunkers": "벙커",
+        "Handicap": "핸디캡",
+        "NaturalShot": "자연 구질",
+        "ShotHeight": "탄도 높이",
+        "DominantHand": "주 손",
+        "Wind": "바람",
+        "Temperature": "온도",
+        "Humidity": "습도",
+        "Weather": "날씨",
+        "Distance": "거리",
+        "Confidence": "자신감",
+        "Lie": "라이",
+        "RoughLength": "러프 길이",
+        "Stance": "스탠스"
+      },
+      "units": {
+        "yards": "야드",
+        "mph": "mph",
+        "feet": "ft",
+        "degrees": "°",
+        "percent": "%"
+      },
+      "compass": {
+        "N": "북",
+        "NE": "북동",
+        "E": "동",
+        "SE": "남동",
+        "S": "남",
+        "SW": "남서",
+        "W": "서",
+        "NW": "북서"
+      },
+      "empty": "활성 조정 없음 - 표준 계산 사용 중",
+      "activeAdjustments_one": "{{count}}개 활성 조정",
+      "activeAdjustments_other": "{{count}}개 활성 조정",
+      "recalculate": "재계산",
+      "recCard": {
+        "primary": "메인 추천",
+        "secondary": "보조 추천",
+        "calculating": "계산 중...",
+        "setDistance": "거리를 설정하여 계산",
+        "unknown": "알 수 없음",
+        "swing": "스윙: {{value}}",
+        "aim": "조준: {{value}}",
+        "expectedCarry": "예상 캐리: {{yards}}y",
+        "defaultSwing": "풀 스윙 | 스퀘어",
+        "aimStraight": "직선 조준"
+      },
+      "values": {
+        "aimRight": "오른쪽 {{yards}}y 조준",
+        "aimLeft": "왼쪽 {{yards}}y 조준",
+        "altitudeFt": "{{value}} ft",
+        "uphillFt": "오르막 {{value}} ft",
+        "downhillFt": "내리막 {{value}} ft",
+        "distanceYards": "{{value}} 야드",
+        "tempF": "{{value}}°F",
+        "humidityPct": "{{value}}%",
+        "hazardCountWithLocations": "{{count}} ({{locations}})",
+        "confidenceLevel": "레벨 {{level}}/5 ({{dispersion}})",
+        "naturalCurveWithClub": "{{shot}} ({{curve}}y {{club}}와)",
+        "shotHeightTrajectory": "{{height}} 탄도",
+        "windWithMph": "{{speed}} mph {{direction}}",
+        "stanceWithSlope": "{{stance}} • {{percent}}%",
+        "lieWithRoughHeight": "{{lie}} ({{roughHeight}})"
+      }
+    }
+  },
+  "shot": {
+    "logger": {
+      "title": "샷 기록하기",
+      "clubUsed": "사용한 클럽:",
+      "targetDistance": "목표 거리:",
+      "howWasShot": "샷은 어땠나요?",
+      "whereLanded": "어디에 떨어졌나요?"
+    }
+  },
+  "clubs": {
+    "loading": "클럽을 불러오는 중...",
+    "clubDistances": "클럽 거리",
+    "specialtyShots": "특수 샷",
+    "fullSwingShots": "풀 스윙 샷",
+    "shortGameShots": "쇼트 게임 샷",
+    "reset": "초기화",
+    "addClub": "+ 클럽 추가",
+    "addShot": "+ 샷 추가",
+    "addCustomClub": "커스텀 클럽 추가",
+    "addCustomShot": "커스텀 샷 추가",
+    "editShot": "샷 편집",
+    "save": "저장",
+    "cancel": "취소",
+    "club": "클럽",
+    "clubName": "클럽 이름",
+    "clubNamePlaceholder": "클럽 이름",
+    "clubUsed": "사용한 클럽",
+    "takeback": {
+      "Full": "풀",
+      "Three-Quarter": "쓰리쿼터",
+      "Half": "1/2",
+      "Quarter": "1/4",
+      "Punch": "펀치",
+      "ThreeQuarter": "3/4",
+      "Chip": "칩",
+      "Flop": "플롭",
+      "Pitch": "피치"
+    },
+    "face": {
+      "Square": "스퀘어",
+      "Draw": "드로",
+      "Fade": "페이드",
+      "Hood": "후드",
+      "Open": "오픈",
+      "Flat": "플랫"
+    },
+    "shotType": "샷 유형",
+    "customShotName": "커스텀 샷 이름",
+    "carryDistance": "캐리 거리",
+    "rollDistance": "롤 거리",
+    "totalDistance": "총 거리:",
+    "calculatedRest": "저장 시 나머지를 자동으로 계산합니다",
+    "carryHelp": "볼이 굴러가기 전에 착지하는 지점",
+    "rollHelp": "볼이 착지 후 굴러가는 거리",
+    "totalHelp": "최종 거리 (캐리 + 롤)",
+    "totalHelpStop": "볼이 최종적으로 멈추는 위치",
+    "rollNegativeHelp": "백스핀으로 볼이 뒤로 굴러가는 경우 음수로 입력",
+    "idealLies": "이상적인 라이 (선택)",
+    "idealLiesHelp": "이 샷이 가장 잘 맞는 상황을 선택하세요",
+    "notes": "메모 (선택)",
+    "alerts": {
+      "loadFailed": "데이터를 불러오지 못했습니다. 나중에 다시 시도해 주세요.",
+      "addClubSuccess": "클럽이 추가되었습니다",
+      "addClubFailed": "클럽 추가에 실패했습니다",
+      "updateDistanceFailed": "거리 업데이트에 실패했습니다",
+      "updateClubFailed": "클럽 업데이트에 실패했습니다",
+      "deleteClubFailed": "클럽 삭제에 실패했습니다",
+      "syncCompleteTitle": "동기화 완료",
+      "syncCompleteMessage": "변경 사항이 클라우드에 저장되었습니다.",
+      "syncFailedTitle": "동기화 실패",
+      "syncFailedMessage": "변경 사항을 동기화할 수 없습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.",
+      "syncErrorTitle": "동기화 오류",
+      "syncErrorMessage": "동기화 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      "resetClubsSuccess": "클럽이 기본값으로 초기화되었습니다 (14개 클럽 불러옴)",
+      "resetClubsFailed": "클럽 초기화에 실패했습니다",
+      "addShotSuccess": "샷이 추가되었습니다",
+      "addShotFailed": "샷 추가에 실패했습니다",
+      "modifiedShotsFailed": "수정된 샷 생성에 실패했습니다",
+      "resetShotsSuccess": "샷이 기본값으로 초기화되었습니다 (18개 샷 불러옴)",
+      "resetShotsFailed": "샷 초기화에 실패했습니다",
+      "toggleShotFailed": "샷 상태 변경에 실패했습니다",
+      "cannotDeleteTitle": "삭제 불가",
+      "cannotDeleteMessage": "기본 샷은 삭제할 수 없습니다. 비활성화할 수 있습니다.",
+      "deleteShotFailed": "샷 삭제에 실패했습니다",
+      "updateShotFailed": "샷 업데이트에 실패했습니다",
+      "successTitle": "성공",
+      "errorTitle": "오류",
+      "invalidDistanceTitle": "잘못된 거리",
+      "invalidDistanceMessage": "거리는 0보다 커야 합니다",
+      "calculateDistancesFailed": "거리 계산에 실패했습니다",
+      "selectClub": "클럽을 선택해 주세요",
+      "selectShotType": "샷 유형을 선택해 주세요",
+      "enterCustomName": "샷의 커스텀 이름을 입력해 주세요",
+      "enterCarry": "유효한 캐리 거리를 입력해 주세요",
+      "enterRoll": "롤 거리를 입력해 주세요 (백스핀은 음수로 입력)",
+      "unusualDistanceTitle": "비정상적인 거리 값",
+      "unusualDistanceBody": "그래도 이 클럽을 추가하시겠습니까?",
+      "addAnyway": "그래도 추가"
+    },
+    "modifier": {
+      "headerTitle": "샷 수정자",
+      "selectTitle": "샷 수정자 선택",
+      "selectSubtitle": "클럽에 적용할 수정자를 선택하세요",
+      "howManyUnits": "{{unit}}는 몇 개?",
+      "effect": "효과: {{sign}}{{pct}}%",
+      "selectClubs": "클럽 선택",
+      "selectAll": "모두 선택",
+      "deselectAll": "모두 해제",
+      "previewBtn": "미리보기 ({{count}}개 클럽)",
+      "previewTitle": "수정된 샷 미리보기",
+      "previewSubtitle": "{{count}}개의 샷이 생성됩니다 ({{sign}}{{pct}}%)",
+      "totalLabel": "총",
+      "createBtn": "{{count}}개 샷 생성",
+      "successTitle": "성공",
+      "successMessage": "{{count}}개의 수정된 샷을 만들었습니다!"
+    },
+    "stashed": "보관됨",
+    "carry": "캐리",
+    "roll": "런",
+    "yourBag": "내 가방 ({{count}}개 클럽)",
+    "tabClubs": "클럽 ({{count}})",
+    "tabShots": "샷 ({{count}})",
+    "edit": {
+      "title": "편집: {{name}}",
+      "clubName": "클럽 이름",
+      "clubNamePlaceholder": "클럽 이름",
+      "face": "페이스",
+      "fillAny": "💡 1개, 2개 또는 3개 필드 모두 입력",
+      "calculateRest": "저장 시 나머지를 계산합니다",
+      "carryDistance": "캐리 거리",
+      "rollDistance": "런 거리",
+      "totalDistance": "총 거리",
+      "yards": "야드",
+      "carryHelp": "공이 굴러가기 전에 떨어지는 곳",
+      "rollHelp": "착지 후 공이 굴러가는 거리",
+      "totalHelp": "공이 최종적으로 멈추는 곳",
+      "totalHelpAddClub": "최종 거리 (캐리 + 런)"
+    },
+    "addClubForm": {
+      "title": "사용자 정의 클럽 추가",
+      "club": "클럽",
+      "takeback": "테이크백",
+      "submit": "클럽 추가"
+    },
+    "addShotForm": {
+      "title": "사용자 정의 샷 추가",
+      "clubUsed": "사용 클럽",
+      "shotType": "샷 유형",
+      "customShotName": "사용자 정의 샷 이름",
+      "customShotPlaceholder": "예: 내 특별한 범프",
+      "enterDistances": "📏 거리 입력",
+      "rollNegativeHelp": "백스핀 샷에서 런이 음수일 수 있습니다 (예: 플롭은 -2)",
+      "carryPlaceholder": "예: 50",
+      "rollPlaceholder": "예: 5 또는 -2",
+      "rollNegativeHint": "백스핀에는 음수 사용 (공이 뒤로 굴러옴)",
+      "totalDistanceLabel": "총 거리:",
+      "fullSwing": "풀 스윙",
+      "shortGame": "쇼트 게임",
+      "idealLies": "이상적인 라이 (선택)",
+      "idealLiesHelp": "이 샷이 가장 잘 작동하는 곳 선택",
+      "notes": "메모 (선택)",
+      "notesPlaceholder": "예: 오픈 스탠스, 부드러운 손",
+      "submit": "샷 추가",
+      "errSelectClub": "클럽을 선택하세요",
+      "errSelectShotType": "샷 유형을 선택하세요",
+      "errCustomName": "샷의 사용자 정의 이름을 입력하세요",
+      "errCarry": "유효한 캐리 거리를 입력하세요",
+      "errRoll": "런 거리를 입력하세요 (백스핀 시 음수 가능)"
+    },
+    "category": {
+      "Woods": "우드",
+      "Hybrids": "하이브리드",
+      "Irons": "아이언",
+      "Wedges": "웨지",
+      "Putters": "퍼터"
+    },
+    "shotNames": {
+      "Standard": "표준",
+      "Pitch": "피치",
+      "Flop": "플롭",
+      "Chokedown": "초크다운",
+      "Stinger": "스팅어",
+      "Fairway Finder": "페어웨이 파인더",
+      "Knockdown": "녹다운",
+      "Spinner": "스피너",
+      "Power": "파워",
+      "Runner": "러너",
+      "Punch": "펀치",
+      "Bump & Run": "범프 앤 런",
+      "Lob": "로브",
+      "Chip": "칩",
+      "Custom": "사용자 정의"
+    },
+    "modifiers": {
+      "choke_down": {
+        "name": "초크다운",
+        "description": "클럽을 내려 잡아 컨트롤 우선, 거리는 감소. 인치당 -4%."
+      },
+      "power": {
+        "name": "파워",
+        "description": "더 세게 스윙해 거리 증가. 선택한 클럽에 +5%."
+      },
+      "knockdown": {
+        "name": "녹다운",
+        "description": "바람에 맞서는 낮은 탄도. 거리 -10%."
+      },
+      "punch": {
+        "name": "펀치",
+        "description": "나무 아래의 낮은 펀치 샷. 거리 -25%."
+      },
+      "three_quarter": {
+        "name": "3/4 스윙",
+        "description": "정확성을 위한 컨트롤된 3/4 스윙. 거리 -15%."
+      }
+    },
+    "modifierBtn": "수정자"
+  },
+  "course": {
+    "list": {
+      "title": "골프 코스",
+      "nearby": "주변",
+      "searchPlaceholder": "이름, 도시, 주, 국가로 검색...",
+      "searchResultsCount": "\"{{query}}\" 검색 결과 {{count}}개",
+      "nearbyCount": "주변 코스 {{count}}개",
+      "emptyTitle": "코스를 찾을 수 없음",
+      "emptySubtitle": "주변 코스를 불러올 수 없습니다.",
+      "emptySearchSubtitle": "\"{{query}}\"에 해당하는 코스가 없습니다.",
+      "runDiagnostics": "진단 실행",
+      "tryAgain": "다시 시도",
+      "clearSearch": "검색 지우기",
+      "locationUnavailableTitle": "위치 사용 불가",
+      "locationUnavailableMessage": "위치에 접근할 수 없습니다. Phoenix, AZ 근처 코스를 표시합니다.",
+      "retry": "다시 시도"
+    },
+    "activeRound": {
+      "title": "진행 중인 라운드",
+      "active": "활성",
+      "paused": "일시 정지",
+      "holeProgress": "{{current}}/{{total}}번 홀",
+      "scoreLine": "스코어: {{toPar}} ({{score}}타)",
+      "noScoresYet": "스코어 없음",
+      "delete": "삭제",
+      "complete": "완료",
+      "continue": "계속"
+    },
+    "completeDialog": {
+      "title": "라운드 완료",
+      "message": "이 라운드를 완료하시겠습니까? 스코어가 저장됩니다.",
+      "confirmButton": "완료",
+      "successTitle": "라운드 완료",
+      "successMessage": "라운드가 스코어 기록에 저장되었습니다.",
+      "errorMessage": "라운드 완료에 실패했습니다. 다시 시도해 주세요."
+    },
+    "deleteDialog": {
+      "title": "라운드 삭제",
+      "message": "이 라운드를 삭제하시겠습니까? 모든 스코어가 삭제되며 복구할 수 없습니다.",
+      "confirmButton": "삭제"
+    },
+    "abandonDialog": {
+      "title": "라운드를 포기하시겠습니까?",
+      "message": "현재 라운드가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+      "keepPlaying": "계속 플레이",
+      "confirmAbandon": "예, 포기하겠습니다"
+    },
+    "roundInProgressDialog": {
+      "message": "{{course}}에서 {{total}}홀 중 {{current}}번 홀을 플레이 중입니다\n\n{{scoreDisplay}}",
+      "scoreDisplayWith": "스코어: {{toPar}} ({{holes}}홀까지 {{score}}타)",
+      "scoreDisplayEmpty": "아직 스코어가 없습니다",
+      "continueRound": "라운드 계속",
+      "pauseBrowse": "일시 정지 & 둘러보기",
+      "abandonRound": "라운드 포기"
+    },
+    "conditions": {
+      "title": "코스 상태",
+      "weatherConditions": "날씨 상태",
+      "groundFirmness": "지면 강도",
+      "roughLength": "러프 길이",
+      "greenFirmness": "그린 강도",
+      "pinLocationRotation": "핀 위치 회전",
+      "pinRotationDesc": "핀의 시작 위치를 선택하세요. 핀은 라운드 중 앞 → 중간 → 뒤로 회전합니다.",
+      "rotationPreview": "회전 미리보기:",
+      "rotationFront": "홀 1: 앞 → 홀 2: 중간 → 홀 3: 뒤 → 홀 4: 앞…",
+      "rotationMiddle": "홀 1: 중간 → 홀 2: 뒤 → 홀 3: 앞 → 홀 4: 중간…",
+      "rotationBack": "홀 1: 뒤 → 홀 2: 앞 → 홀 3: 중간 → 홀 4: 뒤…",
+      "starting": "시작",
+      "impactOnPlay": "플레이에 미치는 영향",
+      "rollLabel": "런:",
+      "roughLabel": "러프:",
+      "greenSpeedLabel": "그린 속도:",
+      "saveAndContinue": "저장하고 계속",
+      "firmDescSoft": "착지 시 볼이 박힘",
+      "firmDescMedium": "표준 바운스 및 런",
+      "firmDescFirm": "추가 런",
+      "firmDescUsOpen": "최대 바운스 및 런",
+      "roughDescShort": "쉽게 탈출",
+      "roughDescMedium": "표준 난이도",
+      "roughDescLong": "진행 어려움",
+      "roughDescUsOpen": "매우 어려움",
+      "greenDescSlow": "8–9 스팀프",
+      "greenDescMedium": "10–11 스팀프",
+      "greenDescFast": "12–13 스팀프",
+      "greenDescUsOpen": "14+ 스팀프",
+      "rollNormal": "보통",
+      "rollSoft": "-10–15 야드",
+      "rollFirm": "+8–12 야드",
+      "rollUsOpen": "+15–20 야드",
+      "roughMinimal": "최소 영향",
+      "roughStandard": "표준",
+      "roughSignificant": "상당한 페널티",
+      "roughSevere": "심각한 페널티",
+      "greenEasier": "제어 용이",
+      "greenLightning": "매우 빠름",
+      "weatherSunny": "맑음",
+      "weatherCloudy": "흐림",
+      "weatherRaining": "비",
+      "weatherSnowing": "눈",
+      "firmSoft": "부드러움",
+      "firmMedium": "보통",
+      "firmFirm": "단단함",
+      "firmUsOpen": "US Open",
+      "roughShort": "짧음",
+      "roughMedium": "보통",
+      "roughLong": "긺",
+      "roughUsOpen": "US Open",
+      "greenSlow": "느림",
+      "greenMedium": "보통",
+      "greenFast": "빠름",
+      "greenUsOpen": "US Open"
+    },
+    "setup": {
+      "title": "코스 설정",
+      "findYourCourse": "코스 찾기",
+      "findSubtitle": "근처 코스를 검색하거나 즐겨찾기를 둘러보세요",
+      "recentCourses": "최근 코스",
+      "favoriteCourses": "즐겨찾는 코스",
+      "searchByName": "이름으로 검색",
+      "searchPlaceholder": "코스 이름이나 도시 입력…",
+      "searchByNameBtn": "🔍 이름으로 검색",
+      "searchNearbyBtn": "📍 근처 코스 검색",
+      "selectCourse": "코스 선택",
+      "selectSubtitle": "근처에서 {{count}}개의 코스를 찾았습니다",
+      "downloadingCourse": "코스 다운로드 중",
+      "continueToCond": "상태로 계속 →",
+      "backToSearch": "← 검색으로 돌아가기",
+      "changeCourse": "← 코스 변경",
+      "milesAway": "{{dist}}마일 떨어짐",
+      "retryDownload": "재시도"
+    }
+  },
+  "onboarding": {
+    "interactive": {
+      "common": {
+        "back": "← 뒤로",
+        "backShort": "뒤로",
+        "previous": "이전",
+        "continue": "계속 →",
+        "continueShort": "계속",
+        "goBack": "뒤로 가기",
+        "continueToNextStep": "다음 단계로"
+      },
+      "ai": {
+        "title": "AI 캐디 설정",
+        "subtitle": "AI 캐디가 소통하는 방식을 맞춤 설정하세요",
+        "skillSectionTitle": "실력 수준이 어떻게 되세요?",
+        "verbositySectionTitle": "캐디가 얼마나 말하면 좋을까요?",
+        "testButtonConnecting": "연결 중...",
+        "testButtonStop": "데모 중지",
+        "testButtonAgain": "다시 테스트",
+        "testButtonStart": "캐디 테스트",
+        "testHintActive": "AI 캐디와 대화해보세요! 완료되면 중지를 탭하세요.",
+        "testHintIdle": "AI 캐디와 라이브 대화를 시작해보세요.",
+        "testA11yLabel": "AI 캐디 테스트",
+        "alertNotAvailableTitle": "사용 불가",
+        "alertNotAvailableBody": "이 기기에서는 음성 AI를 사용할 수 없습니다.",
+        "alertMicTitle": "마이크 필요",
+        "alertMicBody": "AI 캐디를 테스트하려면 마이크 접근을 허용해주세요.",
+        "alertComingSoonTitle": "곧 출시",
+        "alertComingSoonBody": "음성 AI 기능이 iOS에 곧 출시됩니다.",
+        "alertFailedTitle": "테스트 실패",
+        "alertFailedBody": "음성 데모를 시작하지 못했습니다. 다시 시도해 주세요."
+      },
+      "clubs": {
+        "title": "가방 준비 완료",
+        "subtitle": "클럽과 샷을 미리 불러와 바로 시작할 수 있습니다",
+        "clubsCardTitle": "클럽",
+        "clubsCardBadge": "{{total}} 중 {{count}}",
+        "shotsCardTitle": "샷",
+        "shotsCardBadge": "{{count}} 프리셋",
+        "shotsCardDescription": "모든 상황을 위한 풀스윙과 쇼트게임.",
+        "infoTitle": "언제든지 커스텀 샷 추가 가능:",
+        "shotExampleChoke": "초크 다운 (인치당 -4%)",
+        "shotExamplePower": "파워 (+5% 거리)",
+        "shotExampleOther": "펀치, 플롭, 녹다운...",
+        "viewAllClubs": "전체 보기 ({{count}}개 클럽)",
+        "showLess": "접기",
+        "hideShotsButton": "샷 숨기기",
+        "viewAllShotsButton": "모든 샷 보기",
+        "noteText": "모든 설정은 여기서 변경 가능합니다:",
+        "noteHighlight": "설정 → 클럽 관리",
+        "excelTitle": "빠른 설정 방법",
+        "excelText": "엑셀 템플릿 다운로드:",
+        "excelLink": "copperlinegolf.com",
+        "excelTextSuffix": "에서 클럽과 샷을 한 번에 추가하세요!",
+        "goBack": "뒤로 가기",
+        "continueToNextStep": "다음 단계로"
+      },
+      "conditions": {
+        "title": "코스 컨디션",
+        "subtitle": "라운드 시작 시 한 번 설정하면 방해 없이 플레이할 수 있습니다",
+        "setOnceTitle": "라운드 시작 시 한 번 설정:",
+        "bulletWind": "풍속 및 풍향",
+        "bulletTemp": "기온",
+        "bulletPin": "핀 위치",
+        "pinSheetTitle": "핀 시트",
+        "pinExplanation": "시작 위치(앞·중간·뒤)를 선택하면 매 홀마다 핀이 자동으로 순환합니다.",
+        "confirmLabel": "확인만 하면 됩니다:",
+        "confirmLeft": "왼쪽",
+        "confirmCenter": "중앙",
+        "confirmRight": "오른쪽",
+        "infoText": "라운드를 시작할 때 코스 컨디션을 설정합니다.",
+        "goBack": "뒤로 가기",
+        "continueToNextStep": "다음 단계로"
+      },
+      "ellipse": {
+        "title": "나의 착지 구역",
+        "subtitle": "핸디캡과 주력 손이 샷 분산에 미치는 영향을 확인하세요",
+        "infoText": "착지 구역은 핸디캡과 주력 손에 따라 달라집니다. 핸디가 높을수록 분산 패턴이 넓어집니다.",
+        "dominantHandTitle": "주력 손",
+        "handRight": "오른손",
+        "handLeft": "왼손",
+        "handicapTitle": "핸디캡",
+        "sliderLabelPlusTwelve": "+12",
+        "sliderLabelScratch": "스크래치",
+        "sliderLabelFiftyFour": "54",
+        "dispersionLabel": "드라이버 기준 예상 분산 폭:",
+        "dispersionValue": "{{yards}}y 폭",
+        "continueButton": "계속",
+        "continueA11y": "다음 단계로"
+      },
+      "ppm": {
+        "title": "본인 소개",
+        "subtitle": "캐디 경험을 개인화할 수 있도록 도와주세요",
+        "nameLabelText": "이름",
+        "namePlaceholder": "이름을 입력하세요",
+        "ageLabelText": "연령대",
+        "yearsLabelText": "골프 경력",
+        "yearsValue": "{{count}}년",
+        "yearsNew": "초보",
+        "yearsFiftyPlus": "50년 이상",
+        "frequencyLabelText": "얼마나 자주 플레이하시나요?",
+        "freq": {
+          "rarely": "거의 안 함",
+          "rarelyDesc": "연 5회 미만",
+          "occasionally": "가끔",
+          "occasionallyDesc": "연 5-15회",
+          "regularly": "정기적으로",
+          "regularlyDesc": "연 15-30회",
+          "frequently": "자주",
+          "frequentlyDesc": "연 30-50회",
+          "veryFrequently": "매우 자주",
+          "veryFrequentlyDesc": "연 50회 이상"
+        },
+        "backButton": "뒤로",
+        "continueButton": "계속"
+      },
+      "scoring": {
+        "titleScoring": "스코어 기록",
+        "titleScorecard": "스코어카드",
+        "subtitleScoring": "각 홀 후 스코어를 탭하여 입력하세요:",
+        "subtitleScorecard": "라운드 내내 진행 상황 추적",
+        "demoHoleTitle": "홀 1 - 파 4",
+        "labelStrokes": "타수:",
+        "labelPutts": "퍼트:",
+        "labelFairway": "페어웨이:",
+        "labelPenalties": "페널티:",
+        "fairwayHit": "안착",
+        "fairwayLeft": "왼쪽",
+        "fairwayRight": "오른쪽",
+        "saveNextHole": "저장 후 다음 홀",
+        "colHole": "홀",
+        "colPar": "파",
+        "colScore": "스코어",
+        "colDiff": "+/-",
+        "labelOut": "OUT:",
+        "labelIn": "IN:",
+        "labelTotal": "합계:",
+        "submitScore": "스코어 제출",
+        "backButton": "← 뒤로",
+        "backA11y": "뒤로 가기",
+        "seeScorecard": "스코어카드 보기 →",
+        "seeScoreA11y": "스코어카드 보기",
+        "startPlaying": "플레이 시작!",
+        "starting": "시작 중...",
+        "startA11y": "플레이 시작"
+      },
+      "shotShape": {
+        "title": "나의 자연스러운 샷",
+        "subtitle": "일반적인 볼 플라이트를 알려주세요",
+        "shotShapeTitle": "샷 모양",
+        "shotHeightTitle": "샷 높이",
+        "curveTitle": "5번 아이언 커브 거리(야드)",
+        "curveYards": "야드",
+        "infoText": "모든 클럽에 대해 커브를 자동 조정합니다 — 드라이버는 많이, 웨지는 적게.",
+        "shapeDraw": "드로우",
+        "shapeStraight": "스트레이트",
+        "shapeFade": "페이드",
+        "heightLow": "낮음",
+        "heightMedium": "보통",
+        "heightHigh": "높음",
+        "goBack": "뒤로 가기",
+        "continueToNextStep": "다음 단계로"
+      },
+      "target": {
+        "title": "보기 방식 선택",
+        "subtitle": "오버레이를 드래그하여 조준하세요. 타깃 또는 분산 타원으로 샷을 확인합니다.",
+        "holeInfo": "홀 {{holeNumber}} • 파 {{par}}",
+        "dragHint": "드래그하여 타깃 이동",
+        "distanceUnit": "야드",
+        "targetLabel": "타깃",
+        "targetDesc": "간단한 조준점",
+        "ellipseLabel": "타원",
+        "ellipseDesc": "나의 분산 패턴",
+        "ellipseModeTitle": "타원 모드란?",
+        "ellipseModeText": "분산 패턴은 핸디캡에 따라 실제 샷이 착지하는 범위를 보여줍니다. 최적화 도구는 이를 이용해",
+        "ellipseModeHighlight": "가장 안전한 조준점",
+        "ellipseModeTextSuffix": "을 찾아 해저드를 피합니다.",
+        "targetModeTitle": "타깃 모드",
+        "targetModeText": "간단한 조준선으로 정확한 조준점을 표시합니다. 거리 추적에 유용하지만 분산은 표시되지 않습니다.",
+        "backButton": "뒤로",
+        "continueButton": "계속"
+      },
+      "walkthrough": {
+        "title": "홀 플레이 방법",
+        "skipButton": "가이드 건너뛰기",
+        "progressText": "{{total}} 중 {{current}}",
+        "backButton": "뒤로",
+        "previousButton": "이전",
+        "nextButton": "다음",
+        "nextScoring": "다음: 스코어링",
+        "overlayYards": "야드",
+        "overlayMph": "MPH",
+        "overlayHole": "홀",
+        "overlayPar": "파",
+        "overlayUphill": "오르막 ({{percent}}%)",
+        "overlayFromTee": "티에서",
+        "overlayRecommended": "추천",
+        "overlayPinSide": "핀 사이드",
+        "overlaySwipeScore": "위로 스와이프하여 스코어 입력",
+        "elements": {
+          "hole": {
+            "title": "홀 정보",
+            "description": "현재 홀 번호와 파를 표시합니다. 탭하면 스코어카드가 열립니다."
+          },
+          "distance": {
+            "title": "핀까지 거리",
+            "description": "이동하는 동안 실시간으로 업데이트되는 GPS 거리."
+          },
+          "wind": {
+            "title": "바람 상태",
+            "description": "샷에 영향을 미치는 실시간 풍속 및 풍향."
+          },
+          "elevation": {
+            "title": "고도 변화",
+            "description": "그린까지 오르막·내리막 정도 — 거리가 길어지거나 짧아집니다."
+          },
+          "target": {
+            "title": "분산 타원",
+            "description": "핸디캡 기반 샷 패턴. 드래그하여 조준점을 조정하세요."
+          },
+          "optimizer": {
+            "title": "클럽 최적화",
+            "description": "거리, 바람, 해저드를 기반으로 AI가 추천하는 클럽."
+          },
+          "voice": {
+            "title": "AI 캐디",
+            "description": "자연스러운 음성으로 AI 캐디에게 조언을 구하세요."
+          },
+          "pinside": {
+            "title": "핀 사이드",
+            "description": "핀 위치를 왼쪽·중앙·오른쪽으로 설정합니다. 지도와 추천 샷의 조준점이 조정됩니다."
+          },
+          "score": {
+            "title": "스코어 입력",
+            "description": "홀을 완료한 후 스코어를 기록하세요."
+          },
+          "navigation": {
+            "title": "홀 이동",
+            "description": "스와이프 또는 화살표로 홀 사이를 이동합니다."
+          }
+        }
+      }
+    },
+    "steps": {
+      "personalInfo": "개인 정보",
+      "golfProfile": "골프 프로필",
+      "experience": "경력",
+      "skills": "실력",
+      "preferences": "설정",
+      "accessibility": "접근성"
+    },
+    "buttons": {
+      "back": "← 뒤로",
+      "continue": "계속 →",
+      "complete": "설정 완료"
+    },
+    "errors": {
+      "saveFailed": "프로필 저장에 실패했습니다. 다시 시도해 주세요."
+    },
+    "a11y": {
+      "completeSetup": "설정 완료",
+      "continueStep": "다음 단계로 이동",
+      "completeHint": "온보딩을 마치고 앱 사용 시작",
+      "continueHint": "다음 온보딩 단계로 이동"
+    },
+    "personalInfo": {
+      "description": "기본 정보를 입력해 주세요",
+      "playerName": "플레이어 이름",
+      "playerNamePlaceholder": "이름을 입력하세요",
+      "birthday": "생일 (선택)",
+      "birthdayPlaceholder": "MM/DD/YYYY",
+      "phone": "전화번호 (선택)",
+      "phonePlaceholder": "(555) 555-5555",
+      "address": "주소 (선택)",
+      "addressPlaceholder": "도시, 주"
+    },
+    "golfProfile": {
+      "description": "골프 게임에 대해 알려주세요",
+      "handicap": "핸디캡 인덱스",
+      "dominantHand": "주 사용 손",
+      "rightHanded": "오른손잡이",
+      "leftHanded": "왼손잡이",
+      "naturalShot": "자연스러운 샷",
+      "shotStraight": "직구",
+      "shotDraw": "드로우",
+      "shotFade": "페이드",
+      "shotHeight": "샷 높이",
+      "heightLow": "낮음",
+      "heightMedium": "중간",
+      "heightHigh": "높음",
+      "yardsOfCurve": "5번 아이언 곡선 야드",
+      "yardsOfCurvePlaceholder": "예: 5, -5, 또는 0",
+      "yardsOfCurveHelp": "드로우는 음수(-5), 페이드는 양수(+5), 직구는 0으로 입력하세요"
+    },
+    "experience": {
+      "description": "골프 경력이 얼마나 되시나요?",
+      "yearsPlaying": "골프 경력",
+      "yearsUnit": "년",
+      "frequency": "얼마나 자주 라운드하시나요?",
+      "frequencyPlaceholder": "빈도를 선택하세요...",
+      "rarely": "거의 안 함 (연 1~5회)",
+      "occasionally": "가끔 (연 6~15회)",
+      "regularly": "정기적으로 (연 16~30회)",
+      "frequently": "자주 (연 31~50회)",
+      "veryFrequently": "매우 자주 (연 51회 이상)"
+    },
+    "skills": {
+      "description": "강점과 개선 분야를 알려주세요",
+      "averageDrive": "평균 드라이브 (캐리 거리)",
+      "averageDriveUnit": "야드",
+      "averageDriveHelp": "롤 포함 총 거리가 아닌 일반적인 캐리 거리를 입력하세요",
+      "strengthArea": "강점 분야",
+      "improvementArea": "개선 집중 분야",
+      "options": {
+        "driving": "드라이빙",
+        "drivingDistance": "드라이빙 거리",
+        "drivingAccuracy": "드라이빙 정확도",
+        "approachShots": "어프로치 샷",
+        "ironPlay": "아이언 플레이",
+        "wedgePlay": "웨지 플레이",
+        "shortGame": "쇼트 게임",
+        "chipping": "칩핑",
+        "bunkerPlay": "벙커 플레이",
+        "putting": "퍼팅",
+        "courseManagement": "코스 매니지먼트",
+        "courseStrategy": "코스 전략",
+        "mentalGame": "멘탈 게임",
+        "allAround": "전반적인 실력"
+      }
+    },
+    "preferences": {
+      "description": "Copperline Golf 경험을 맞춤화하세요",
+      "notificationsHeader": "알림"
+    },
+    "accessibility": {
+      "description": "선택: 접근성 설정을 맞춤화하세요",
+      "textSize": "텍스트 크기",
+      "textSizeUnit": "pt",
+      "highContrast": "고대비 모드",
+      "highContrastDescription": "가시성을 높이기 위해 색상 대비를 강화합니다",
+      "voiceFeedback": "음성 피드백",
+      "voiceFeedbackDescription": "동작에 대한 오디오 피드백을 듣습니다",
+      "reduceMotion": "애니메이션 줄이기",
+      "reduceMotionDescription": "모션 효과와 전환을 최소화합니다",
+      "screenReader": "스크린 리더",
+      "screenReaderDescription": "스크린 리더 사용에 최적화합니다",
+      "skip": "접근성 설정 건너뛰기"
+    },
+    "complete": {
+      "title": "준비가 완료되었습니다!",
+      "message": "프로필과 클럽이 설정되었습니다. 이제 모든 샷에 맞는 맞춤 추천을 받아보세요.",
+      "profileConfigured": "프로필 설정 완료",
+      "clubsAdded": "백에 클럽 추가됨",
+      "readyForRecs": "스마트 추천 준비 완료",
+      "startUsing": "Copperline Golf 시작하기",
+      "helpText": "언제든지 설정에서 프로필과 클럽을 업데이트할 수 있습니다"
+    }
+  },
+  "caddyAgent": {
+    "firstMessage": {
+      "teeboxFull": "센터까지 {{distance}}미터입니다. 바람은 {{windStr}}이고, 그린은 {{elevationStr}}입니다. 핀은 {{pinStr}}에 있습니다.",
+      "approachFull": "{{lie}}에서 {{distance}}미터 남아 있습니다. 바람은 {{windStr}}입니다. {{elevationClause}}라이와 스탠스는 어떤가요?",
+      "approachElevation": "{{elevationStr}} 상황입니다. ",
+      "teeboxMinimal": "핀은 {{pinStr}}에 있습니다. 준비되시면 시작하세요.",
+      "approachMinimal": "{{distance}}미터 남았습니다. 라이와 스탠스는 어떤가요?",
+      "windAtMph": "{{direction}} {{speed}}km/h",
+      "calmConditions": "잔잔한 바람",
+      "elevationFeetUphill": "{{value}}미터 오르막",
+      "elevationFeetDownhill": "{{value}}미터 내리막",
+      "elevationLevel": "평지",
+      "pinSideOfGreen": "그린 {{location}} {{side}}",
+      "pinMiddleOfGreen": "그린 중앙"
+    }
+  },
+  "caddyTerms": {
+    "wind": {
+      "Headwind": "맞바람",
+      "Tailwind": "뒷바람",
+      "Crosswind Left": "왼쪽 옆바람",
+      "Crosswind Right": "오른쪽 옆바람",
+      "Diagonal Headwind Left": "왼쪽 대각선 맞바람",
+      "Diagonal Headwind Right": "오른쪽 대각선 맞바람",
+      "Diagonal Tailwind Left": "왼쪽 대각선 뒷바람",
+      "Diagonal Tailwind Right": "오른쪽 대각선 뒷바람",
+      "Calm": "무풍"
+    },
+    "pinLocation": {
+      "Front": "앞쪽",
+      "Middle": "중간",
+      "Back": "뒤쪽"
+    },
+    "pinSide": {
+      "Left": "왼쪽",
+      "Center": "중앙",
+      "Right": "오른쪽"
+    },
+    "lie": {
+      "Tee": "티",
+      "Fairway": "페어웨이",
+      "Light Rough": "가벼운 러프",
+      "Heavy Rough": "깊은 러프",
+      "Sand": "모래",
+      "Bunker": "벙커",
+      "Recovery": "리커버리"
+    },
+    "stance": {
+      "Flat": "평지",
+      "Ball Above Feet": "발보다 볼이 높은 경사",
+      "Ball Below Feet": "발보다 볼이 낮은 경사",
+      "Uphill": "오르막 스탠스",
+      "Downhill": "내리막 스탠스"
+    },
+    "elevationDir": {
+      "uphill": "오르막",
+      "downhill": "내리막",
+      "level": "평지"
+    }
+  },
+  "voice": {
+    "loading": {
+      "title": "AI 캐디 불러오는 중...",
+      "subtitle": "코스, 날씨, 플레이어 데이터를 수집하는 중",
+      "connecting": "AI 캐디에 연결하는 중..."
+    },
+    "error": {
+      "title": "연결 오류",
+      "tryAgain": "다시 시도",
+      "goBack": "뒤로 가기"
+    },
+    "header": {
+      "back": "← 뒤로",
+      "title": "AI 캐디",
+      "holeFormat": "{{course}} • {{hole}}번 홀"
+    },
+    "status": {
+      "connected": "연결됨",
+      "disconnected": "연결 끊김",
+      "contextLoaded": "컨텍스트 불러옴"
+    },
+    "context": {
+      "windCalm": "잔잔한 바람",
+      "windMph": "{{speed}}mph 바람",
+      "tempF": "{{temp}}°F",
+      "distanceFromLie": "{{lie}}에서 {{distance}}야드"
+    },
+    "modes": {
+      "idle": "대기 중",
+      "listening": "듣는 중",
+      "speaking": "말하는 중",
+      "thinking": "생각하는 중"
+    },
+    "instructions": {
+      "speakNow": "말씀하세요...",
+      "aiResponding": "AI가 응답하는 중...",
+      "readyToListen": "듣기 준비 완료",
+      "notConnected": "연결되지 않음"
+    },
+    "buttons": {
+      "endConversation": "대화 종료",
+      "startConversation": "대화 시작",
+      "connecting": "연결 중..."
+    },
+    "alerts": {
+      "notConnectedTitle": "연결되지 않음",
+      "notConnectedMessage": "연결이 될 때까지 잠시 기다려 주세요",
+      "sendFailedMessage": "메시지 전송에 실패했습니다. 다시 시도해 주세요."
+    },
+    "suggestions": {
+      "strategy": "전략이 뭔가요?",
+      "windAffect": "바람이 어떤 영향을 미칠까요?",
+      "windDoing": "바람 상황이 어떤가요?",
+      "whichClub": "어떤 클럽을 쳐야 할까요?",
+      "distance150": "150야드 남았습니다",
+      "anyTips": "팁이 있나요?",
+      "analyzeRisks": "위험 요소를 분석해 주세요",
+      "courseConditions": "코스 컨디션은 어떤가요?"
+    },
+    "simple": {
+      "headerTitle": "음성 어시스턴트",
+      "skillLevel": "실력 수준",
+      "skillDesc": {
+        "beginner": "최소 질문, 최대 기본값",
+        "intermediate": "균형 잡힌 질문 및 기본값",
+        "advanced": "상세하고 정확한 질문"
+      },
+      "recommendations": "추천",
+      "clear": "지우기",
+      "calculating": "추천 계산 중…",
+      "underMaintenance": "점검 중",
+      "maintenanceMsg": "음성 어시스턴트 기능은 더 나은 경험을 위해 개선 중입니다.",
+      "useAlternative": "퀵 샷 또는 어드밴스드 샷 화면을 이용해 주세요."
+    },
+    "enhanced": {
+      "loadingContext": "AI 캐디 컨텍스트 로딩 중…",
+      "loadingSubtext": "코스, 날씨, 플레이어 데이터 수집 중",
+      "clearHistory": "기록 지우기",
+      "clearHistoryTitle": "대화 지우기",
+      "clearHistoryMsg": "대화 기록을 지우시겠습니까?",
+      "aiEnhanced": "AI 향상됨",
+      "notConfiguredTitle": "AI 캐디 미구성",
+      "notConfiguredMsg": "OpenAI API 키가 구성되지 않았습니다. 음성 대화는 작동하지만 고급 AI 기능은 제한됩니다.",
+      "initErrorTitle": "초기화 오류",
+      "initErrorMsg": "컨텍스트 로드 실패. 일부 기능이 올바르게 작동하지 않을 수 있습니다.",
+      "history": "기록",
+      "hide": "숨기기"
+    }
+  },
+  "nav": {
+    "tabs": {
+      "shot": "샷",
+      "scores": "스코어",
+      "clubs": "클럽",
+      "settings": "설정"
+    },
+    "titles": {
+      "shot": "샷 추천",
+      "scores": "스코어 기록",
+      "clubs": "클럽 관리",
+      "settings": "설정",
+      "courses": "코스"
+    },
+    "playGolf": {
+      "idle": "골프 플레이",
+      "continue": "계속",
+      "resume": "재개"
+    },
+    "headers": {
+      "login": "CaddyAI - 로그인",
+      "onboarding": "CaddyAI - 초기 설정",
+      "profileSetup": "CaddyAI - 프로필 설정",
+      "ppmSetup": "CaddyAI - PPM 설정",
+      "clubManagement": "CaddyAI - 클럽 관리",
+      "voiceAssistant": "CaddyAI - 음성 어시스턴트",
+      "apiKeySetup": "CaddyAI - API 키 설정",
+      "setupComplete": "CaddyAI - 설정 완료",
+      "devMenu": "CaddyAI - 개발 메뉴"
+    }
+  },
+  "auth": {
+    "appName": "Copperline Golf",
+    "tagline": "어디서든 나만의 캐디.",
+    "emailPlaceholder": "이메일",
+    "passwordPlaceholder": "비밀번호",
+    "signIn": "로그인",
+    "signUp": "회원가입",
+    "switchToSignIn": "이미 계정이 있으신가요? 로그인",
+    "switchToSignUp": "계정이 없으신가요? 회원가입",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "continueWithApple": "Apple로 계속하기",
+    "continueWithGoogle": "Google로 계속하기",
+    "dividerOr": "또는",
+    "showPassword": "비밀번호 표시",
+    "hidePassword": "비밀번호 숨기기",
+    "missingInfoTitle": "정보 누락",
+    "missingInfoMessage": "계속하려면 이메일과 비밀번호를 모두 입력해 주세요.",
+    "invalidPasswordTitle": "잘못된 비밀번호",
+    "invalidPasswordMessage": "비밀번호는 6자 이상이어야 합니다.",
+    "accountCreatedTitle": "계정 생성됨!",
+    "accountCreatedMessage": "계정이 성공적으로 생성되었습니다. Copperline Golf에 오신 것을 환영합니다!",
+    "signUpFailedTitle": "회원가입 실패",
+    "signInFailedTitle": "로그인 실패",
+    "authFailedFallback": "인증에 실패했습니다",
+    "resetPasswordTitle": "비밀번호 재설정",
+    "resetPasswordPromptIos": "비밀번호 재설정 링크를 받으려면 이메일 주소를 입력하세요",
+    "resetPasswordConfirmAndroid": "{{email}}로 비밀번호 재설정 링크를 보내시겠습니까?",
+    "resetPasswordNoEmail": "먼저 이메일 주소를 입력해 주세요",
+    "resetPasswordSuccessTitle": "이메일 전송됨",
+    "resetPasswordSuccessMessage": "이메일에서 비밀번호 재설정 링크를 확인하세요.",
+    "resetPasswordError": "비밀번호 재설정 이메일을 전송할 수 없습니다",
+    "appleNotAvailableTitle": "사용 불가",
+    "appleNotAvailableMessage": "Apple 로그인은 iOS 13 이상 기기에서만 사용할 수 있습니다. 패키지를 설치하거나 다른 로그인 방법을 사용해 주세요.",
+    "appleSetupRequiredTitle": "설정 필요",
+    "appleSetupRequiredMessage": "Apple 로그인 설정이 완료되지 않았습니다. APPLE_SIGNIN_SETUP.md를 참고해 주세요.",
+    "appleFailedTitle": "Apple 로그인 실패",
+    "appleFailedFallback": "Apple로 로그인할 수 없습니다. 다른 방법을 사용해 주세요.",
+    "googleFailedTitle": "Google 로그인 실패",
+    "googleFailedMessage": "Google로 로그인할 수 없습니다. 다시 시도하거나 다른 방법을 사용해 주세요.",
+    "googlePlayServicesTitle": "Google Play 서비스 필요",
+    "googlePlayServicesMessage": "Google Play 서비스를 사용할 수 없거나 업데이트가 필요합니다.",
+    "signInInProgressTitle": "로그인 진행 중",
+    "signInInProgressMessage": "이미 로그인을 시도하고 있습니다. 잠시 기다려 주세요.",
+    "welcomeTitle": "환영합니다!",
+    "welcomeMessage": "{{identity}}로 로그인되었습니다",
+    "emailA11yLabel": "이메일 입력 필드",
+    "emailA11yHint": "이메일 주소를 입력하세요",
+    "passwordA11yLabel": "비밀번호 입력 필드",
+    "passwordA11yHint": "비밀번호를 입력하세요",
+    "signUpA11yLabel": "회원가입 버튼",
+    "signInA11yLabel": "로그인 버튼",
+    "signUpA11yHint": "새 계정 만들기",
+    "signInA11yHint": "계정에 로그인",
+    "appleA11yLabel": "Apple로 로그인 버튼",
+    "appleA11yHint": "Apple ID로 로그인",
+    "googleA11yLabel": "Google로 로그인 버튼",
+    "googleA11yHint": "Google 계정으로 로그인",
+    "signin": {
+      "infoText": "로그인하여 프로필, 클럽, 샷 기록을 모든 기기에 저장하세요",
+      "tosLine": "로그인하면 이용약관에 동의하는 것입니다",
+      "createAccount": "계정 만들기",
+      "createOne": "계정이 없으신가요? 만들기"
+    },
+    "apiKey": {
+      "title": "API 키 설정",
+      "subtitle": "API 키를 구성하여 모든 기능을 잠금 해제하세요",
+      "openAiLabel": "OpenAI API 키",
+      "openAiDesc": "Whisper 음성-텍스트에 필요 (선택사항 - 기기 인식은 이 없이도 작동)",
+      "anthropicLabel": "Anthropic API 키",
+      "anthropicDesc": "음성 대화 AI(Claude)에 필요",
+      "howToGet": "어떻게 얻나요?",
+      "getOpenAiTitle": "OpenAI API 키 받기",
+      "getOpenAiSteps": "1. platform.openai.com 접속\n2. 로그인 또는 계정 생성\n3. API Keys 섹션으로 이동\n4. 새 비밀 키 생성",
+      "getAnthropicTitle": "Anthropic API 키 받기",
+      "getAnthropicSteps": "1. console.anthropic.com 접속\n2. 로그인 또는 계정 생성\n3. API Keys 섹션으로 이동\n4. 새 API 키 생성",
+      "secureNote": "API 키는 기기에 안전하게 저장되며 OpenAI/Anthropic 외의 어떤 서버에도 전송되지 않습니다.",
+      "saveKeys": "API 키 저장",
+      "saving": "저장 중…",
+      "skipForNow": "지금은 건너뛰기",
+      "skipTitle": "설정 건너뛰기",
+      "skipMsg": "API 키 없이는 일부 기능이 작동하지 않을 수 있습니다. 계속하시겠습니까?",
+      "noKeysTitle": "키가 입력되지 않음",
+      "noKeysMsg": "계속하려면 적어도 하나의 API 키를 입력해 주세요.",
+      "saveSuccess": "저장 성공!",
+      "saveWarnings": "저장 성공!\n\n경고:\n{{warnings}}",
+      "saveErrorMsg": "API 키 저장 실패. 다시 시도해 주세요."
+    }
+  },
+  "welcome": {
+    "title": "Copperline Golf에 오신 것을 환영합니다",
+    "subtitle": "나만의 지능형 골프 동반자",
+    "description": "8단계 인터랙티브 투어를 완료하여 코스의 모든 샷에 맞춤 추천을 받아보세요.",
+    "features": {
+      "clubRecs": "스마트 클럽 추천",
+      "aiAnalysis": "AI 기반 샷 분석",
+      "weatherAdvice": "날씨 맞춤 조언",
+      "voiceAssist": "음성 안내 지원"
+    },
+    "resumeRound": "라운드 재개",
+    "continueRound": "라운드 계속",
+    "getStarted": "시작하기",
+    "skipSetup": "설정 건너뛰기"
+  },
+  "paywall": {
+    "headerTitle": "Copperline Pro로\n업그레이드",
+    "headerSubtitle": "AI 캐디의 모든 기능 잠금 해제",
+    "featuresSectionTitle": "Pro의 모든 것",
+    "packagesSectionTitle": "플랜 선택",
+    "loading": "플랜 불러오는 중...",
+    "tos": "이용약관",
+    "privacy": "개인정보 처리방침",
+    "restorePurchases": "구매 복원",
+    "redeemCode": "오퍼 코드 사용",
+    "errors": {
+      "selectPlanTitle": "플랜 선택",
+      "selectPlanBody": "계속하려면 구독 플랜을 선택해 주세요."
+    }
+  },
+  "settings": {
+    "appearance": {
+      "languageLabel": "언어",
+      "languagePlaceholder": "언어를 선택하세요..."
+    },
+    "sections": {
+      "account": "계정",
+      "subscription": "구독",
+      "playerProfile": "플레이어 프로필",
+      "preferences": "설정",
+      "notifications": "알림",
+      "about": "앱 정보",
+      "backup": "백업 및 복원",
+      "diagnostics": "진단 도구",
+      "appFeatures": "앱 기능",
+      "caddyAi": "캐디 AI"
+    },
+    "account": {
+      "guestUser": "게스트 사용자",
+      "notSignedIn": "로그인되지 않음"
+    },
+    "subscription": {
+      "proLabel": "Copperline Pro",
+      "freeLabel": "무료",
+      "renews": "{{date}}에 갱신",
+      "noActive": "활성 구독 없음",
+      "upgrade": "Copperline Pro로 업그레이드"
+    },
+    "playerProfile": {
+      "edit": "플레이어 프로필 편집",
+      "editSubtitle": "핸디캡, 클럽 거리 및 골프 설정"
+    },
+    "preferences": {
+      "distanceUnits": "거리 단위",
+      "distanceUnitsPlaceholder": "단위를 선택하세요...",
+      "yards": "야드",
+      "meters": "미터",
+      "temperatureUnits": "온도 단위",
+      "temperatureUnitsPlaceholder": "온도 단위를 선택하세요...",
+      "fahrenheit": "화씨",
+      "celsius": "섭씨",
+      "theme": "테마",
+      "themePlaceholder": "테마를 선택하세요...",
+      "themeLight": "라이트",
+      "themeDark": "다크",
+      "themeSystem": "시스템",
+      "themeAuto": "자동",
+      "targetOverlay": "목표 오버레이",
+      "targetOverlayPlaceholder": "목표 모드를 선택하세요...",
+      "targetLines": "목표 라인",
+      "playerEllipse": "플레이어 타원"
+    },
+    "notifications": {
+      "courseRecommendations": "코스 추천",
+      "courseRecommendationsDescription": "맞춤 코스 및 샷 추천을 받으세요",
+      "weatherAlerts": "날씨 알림",
+      "weatherAlertsDescription": "날씨 상황에 대한 알림을 받으세요",
+      "practiceReminders": "연습 알림",
+      "practiceRemindersDescription": "게임 향상을 위한 연습 알림",
+      "achievementNotifications": "성취 알림",
+      "achievementNotificationsDescription": "골프 마일스톤과 성취를 축하하세요"
+    },
+    "about": {
+      "version": "버전",
+      "build": "빌드",
+      "support": "지원"
+    },
+    "backup": {
+      "title": "클럽 및 샷 백업",
+      "subtitle": "가방의 이전 버전을 보거나 복원하세요"
+    },
+    "diagnostics": {
+      "igolf": "iGolf API 테스트",
+      "igolfSubtitle": "코스 검색 및 API 연결 테스트"
+    },
+    "appFeatures": {
+      "restartOnboarding": "온보딩 다시 시작",
+      "restartOnboardingSubtitle": "앱 튜토리얼을 다시 보고 프로필을 업데이트하세요"
+    },
+    "actions": {
+      "clearAllData": "모든 데이터 삭제",
+      "signOut": "로그아웃"
+    },
+    "deleteAccount": {
+      "button": "계정 삭제",
+      "hint": "계정과 모든 관련 데이터를 영구적으로 삭제합니다.",
+      "confirmTitle": "계정 삭제",
+      "confirmMessage": "계정과 모든 골프 데이터(라운드, 클럽, 샷, 설정, 핸디캡 기록)가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+      "confirmButton": "내 계정 삭제",
+      "reauthTitle": "재인증 필요",
+      "reauthMessage": "보안을 위해 로그아웃 후 다시 로그인하여 계정 삭제를 다시 시도해 주세요. 데이터는 이미 삭제되었습니다.",
+      "noUserMessage": "로그인된 사용자가 없습니다.",
+      "failedTitle": "삭제 실패",
+      "failedMessage": "오류가 발생했습니다. 다시 시도하거나 support@copperlinegolf.com으로 문의해 주세요."
+    },
+    "footer": {
+      "appName": "Copperline Golf",
+      "tagline": "어디서든 나만의 캐디."
+    },
+    "signOutDialog": {
+      "title": "로그아웃",
+      "message": "정말 로그아웃하시겠습니까?",
+      "confirmButton": "로그아웃",
+      "fallbackTitle": "로그아웃",
+      "fallbackMessage": "로그아웃을 완료하려면 앱을 다시 시작해 주세요."
+    },
+    "clearDataDialog": {
+      "title": "모든 데이터 삭제",
+      "message": "프로필 데이터, 클럽 거리, 설정이 모두 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+      "confirmButton": "데이터 삭제",
+      "successTitle": "데이터 삭제됨",
+      "successMessage": "모든 앱 데이터가 삭제되었습니다",
+      "errorMessage": "데이터 삭제에 실패했습니다"
+    },
+    "restartOnboardingDialog": {
+      "title": "온보딩 다시 시작",
+      "message": "앱 튜토리얼을 다시 진행합니다. 프로필 데이터는 유지됩니다.",
+      "confirmButton": "다시 시작",
+      "errorMessage": "온보딩을 다시 시작하지 못했습니다. 다시 시도해 주세요."
+    },
+    "ai": {
+      "skillLevel": {
+        "title": "AI 실력 수준",
+        "question": "AI 질문을 얼마나 자세하게 할까요?",
+        "label": "실력 수준",
+        "placeholder": "실력 수준 선택...",
+        "helpBeginner": "질문 없이 즉각적인 추천.",
+        "helpIntermediate": "AI가 라이와 바람 상태를 확인합니다.",
+        "helpAdvanced": "AI가 라이, 바람, 고도, 기온을 확인합니다.",
+        "helpPro": "AI가 스탠스와 샷 모양을 포함한 상세 질문을 합니다.",
+        "helpTourPro": "모든 요소를 고려한 투어 프로 수준의 완전 분석."
+      },
+      "verbosity": {
+        "title": "AI 발화량",
+        "label": "발화량",
+        "placeholder": "모드 선택...",
+        "helpTalkItThrough": "전체 대화 - AI가 모든 데이터를 읽고 질문합니다",
+        "helpMinimal": "빠른 흐름 - AI가 라이와 스탠스만 확인",
+        "helpJustFacts": "당신이 먼저 말하기 - 라이와 스탠스를 알려주세요",
+        "agentLabel": "에이전트: {{id}}",
+        "option": {
+          "talk_it_through": "전체 대화",
+          "just_facts": "핵심만",
+          "minimal": "최소"
+        }
+      },
+      "footer": "AI 설정은 플레이 스타일과 실력에 맞게 추천을 맞춤화합니다. 변경 사항은 즉시 적용됩니다."
+    },
+    "backupScreen": {
+      "title": "백업 및 복원",
+      "back": "‹ 뒤로",
+      "tabClubs": "클럽",
+      "tabShots": "샷",
+      "helpText": "저장할 때마다 이전 버전이 자동으로 백업됩니다. 목록당 최대 20개의 버전이 유지됩니다. 복원도 백업을 생성하므로 모든 복원은 되돌릴 수 있습니다.",
+      "emptyText": "아직 {{tab}} 백업이 없습니다. 다음에 저장할 때 자동으로 생성됩니다.",
+      "restore": "복원",
+      "loadFailed": "백업을 로드할 수 없음",
+      "confirmClubsTitle": "이 클럽 백업을 복원하시겠습니까?",
+      "confirmClubsMsg": "{{date}}의 {{count}}개 클럽 버전으로 현재 가방을 교체합니다.\n\n현재 가방은 먼저 새 백업으로 저장되므로 마음이 바뀌면 되돌릴 수 있습니다.",
+      "confirmShotsTitle": "이 샷 백업을 복원하시겠습니까?",
+      "confirmShotsMsg": "{{date}}의 {{count}}개 샷 버전으로 현재 샷을 교체합니다.\n\n현재 샷은 먼저 새 백업으로 저장됩니다.",
+      "restoredTitle": "복원됨",
+      "restoredClubs": "클럽이 복원되었습니다.",
+      "restoredShots": "샷이 복원되었습니다.",
+      "restoreFailedTitle": "복원 실패",
+      "clubsCount": "{{count}}개의 클럽",
+      "shotsCount": "{{count}}개의 샷"
+    },
+    "caddyVoice": {
+      "title": "캐디 음성",
+      "option": {
+        "default": "캐디 (기본)"
+      },
+      "optionDesc": {
+        "default": "기본 CaddyAI 음성"
+      }
+    }
+  },
+  "landingZone": {
+    "title": "착륙 구역",
+    "errorTitle": "오류",
+    "invalidParams": "잘못된 매개변수",
+    "invalidParamsDesc": "이 화면은 착륙 구역을 표시하기 위해 특정 코스 및 플레이어 데이터가 필요합니다.",
+    "gpsError": "GPS 오류",
+    "acquiringGps": "GPS 위치 획득 중…",
+    "acquiringSubtext": "정확한 위치를 가져오는 동안 기다려 주세요",
+    "tipOpenArea": "개방된 지역으로 이동",
+    "tipClearSky": "하늘이 잘 보이는 곳 확보",
+    "tipWaitAccuracy": "정확도 <15m 대기",
+    "yourPosition": "내 위치",
+    "pin": "핀",
+    "primaryZone": "주 구역",
+    "secondaryZone": "보조 구역",
+    "lowAccuracyTitle": "⚠️ GPS 정확도 낮음",
+    "lowAccuracyMsg": "현재 GPS 정확도는 {{accuracy}}m입니다. 최상의 결과를 위해서는 15m 미만이어야 합니다.\n\n하늘이 잘 보이는 개방된 지역으로 이동해 보세요.",
+    "gpsErrorMsg": "GPS 위치 획득 실패",
+    "continueAnyway": "계속 진행"
+  },
+  "tournament": {
+    "casual": {
+      "label": "캐주얼 라운드",
+      "description": "모든 기능 활성화"
+    },
+    "tournament-dmd": {
+      "label": "토너먼트 (DMD)",
+      "description": "GPS 거리만 - USGA 규칙 4.3 준수"
+    },
+    "tournament-no-dmd": {
+      "label": "토너먼트 (DMD 없음)",
+      "description": "전자 보조 없음 - 로컬 규칙 G-5"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "features": "기능",
+      "pricing": "요금제",
+      "about": "소개",
+      "contact": "문의",
+      "signIn": "로그인",
+      "getStarted": "시작하기",
+      "getStartedFree": "무료로 시작",
+      "tagline": "당신의 똑똑한 골프 파트너"
+    },
+    "contact": {
+      "meta": {
+        "title": "문의하기 | Copperline Golf",
+        "description": "Copperline Golf 지원팀에 문의하세요. 캐디 앱 관련 도움, 피드백, AI 기반 골프 추천에 대해 알려드립니다."
+      },
+      "hero": {
+        "titleStart": "연락",
+        "titleHighlight": "주세요",
+        "subtitle": "질문이나 의견이 있으신가요? 여러분의 목소리를 듣고 싶습니다. 저희 팀이 Copperline Golf를 최대한 활용하실 수 있도록 도와드립니다."
+      },
+      "info": {
+        "emailTitle": "이메일",
+        "phoneTitle": "전화",
+        "officeTitle": "사무실",
+        "office": "스카츠데일, 애리조나주 85260"
+      },
+      "form": {
+        "heading": "메시지 보내기",
+        "subheading": "아래 양식을 작성해 주시면 최대한 빨리 답변드리겠습니다.",
+        "nameLabel": "이름",
+        "namePlaceholder": "이름",
+        "emailLabel": "이메일",
+        "emailPlaceholder": "your.email@example.com",
+        "subjectLabel": "제목",
+        "subjectPlaceholder": "어떻게 도와드릴까요?",
+        "messageLabel": "메시지",
+        "messagePlaceholder": "문의 내용을 자세히 알려주세요...",
+        "submit": "메시지 보내기",
+        "submitting": "전송 중...",
+        "successMessage": "메시지가 성공적으로 전송되었습니다! 곧 답변드리겠습니다.",
+        "errorMessage": "메시지 전송에 실패했습니다. 다시 시도하시거나 직접 이메일을 보내주세요.",
+        "errors": {
+          "nameRequired": "이름은 필수입니다",
+          "nameTooShort": "이름은 2자 이상이어야 합니다",
+          "emailRequired": "이메일은 필수입니다",
+          "emailInvalid": "유효한 이메일 주소를 입력해 주세요",
+          "subjectRequired": "제목은 필수입니다",
+          "subjectTooShort": "제목은 3자 이상이어야 합니다",
+          "messageRequired": "메시지는 필수입니다",
+          "messageTooShort": "메시지는 10자 이상이어야 합니다"
+        }
+      },
+      "hours": {
+        "heading": "운영 시간",
+        "weekdaysLabel": "월요일 - 금요일",
+        "weekdays": "오전 9:00 - 오후 6:00 PST",
+        "saturdayLabel": "토요일",
+        "saturday": "오전 10:00 - 오후 4:00 PST",
+        "sundayLabel": "일요일",
+        "sunday": "휴무",
+        "responseNote": "평일에는 일반적으로 24시간 이내에 모든 문의에 답변드립니다."
+      },
+      "social": {
+        "heading": "소셜에서 만나요",
+        "body": "소셜 미디어에서 최신 소식, 팁, 골프 인사이트를 받아보세요."
+      },
+      "faq": {
+        "heading": "빠른 답변이 필요하신가요?",
+        "body": "도움말 센터에서 자주 묻는 질문에 대한 즉각적인 답변을 확인하세요.",
+        "cta": "도움말 센터로 이동"
+      }
+    },
+    "home": {
+      "features": {
+        "smartClubTitle": "스마트 클럽 선택",
+        "smartClubDesc": "당신의 스윙 프로필과 실시간 조건에 기반한 AI 추천. 모든 샷에 맞는 클럽을 추천합니다.",
+        "profileTitle": "개인 프로필",
+        "profileDesc": "백 속 모든 클럽의 거리와 맞춤형 인사이트를 추적하세요. 당신의 게임을 최적화합니다.",
+        "conditionsTitle": "실시간 조건",
+        "conditionsDesc": "모든 샷에 대한 실시간 날씨, 바람, 고도 데이터. 실제 조건을 바탕으로 정보에 기반한 결정을 내리세요.",
+        "sectionTitleLine1": "Copperline Golf가",
+        "sectionTitleLine2": "최고의 파트너인 이유",
+        "sectionSubtitle": "당신의 게임을 바꿔주는 세 가지 핵심 기능"
+      },
+      "aiCta": {
+        "heading": "AI 클럽 선택 체험하기",
+        "body": "어떤 샷에서든 완벽한 클럽을 선택할 수 있도록 도와주는 지능형 음성 어시스턴트를 경험해 보세요. 실력 수준을 선택하고 샷을 설명하면 즉시 맞춤형 추천을 받을 수 있습니다.",
+        "button": "AI 어시스턴트 시작"
+      },
+      "stats": {
+        "titleStart": "전 세계 골퍼들의",
+        "titleHighlight": "신뢰",
+        "subtitle": "Copperline Golf와 함께 게임을 향상시킨 수천 명의 플레이어에 합류하세요"
+      },
+      "howItWorks": {
+        "titleStart": "간단한",
+        "titleHighlight": "3단계로 시작",
+        "step1Title": "프로필 만들기",
+        "step1Desc": "게임에 대한 몇 가지 간단한 질문에 답하고 클럽별 거리를 입력하세요.",
+        "step2Title": "필드로 나가기",
+        "step2Desc": "휴대폰에서 Copperline Golf를 열면 조건을 자동으로 추적합니다.",
+        "step3Title": "더 스마트하게 플레이",
+        "step3Desc": "모든 샷에 대해 즉시 맞춤형 클럽 추천을 받으세요."
+      },
+      "testimonials": {
+        "titleStart": "골퍼들의",
+        "titleHighlight": "이야기",
+        "subtitle": "게임을 바꾼 실제 골퍼들의 피드백"
+      }
+    }
+  }
+}

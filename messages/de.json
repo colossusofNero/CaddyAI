@@ -2140,6 +2140,134 @@
         "buttonDefault": "Weiter",
         "buttonSettingUp": "Wird eingerichtet..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Mit fortschrittlicher KI",
+        "titleStart": "Alles, was Sie zum",
+        "titleHighlight": "klügeren Spiel brauchen",
+        "subtitle": "Copperline Golf kombiniert künstliche Intelligenz, Echtzeitdaten und personalisierte Einblicke, damit Sie bei jedem Schlag bessere Entscheidungen treffen."
+      },
+      "core": {
+        "heading": "Kernfunktionen",
+        "subheading": "Die wesentlichen Werkzeuge, die Copperline Golf zu Ihrem perfekten Golf-Begleiter machen",
+        "aiTitle": "KI-Schlägerwahl",
+        "aiDesc": "Unsere KI analysiert Distanz, Wind, Höhe und Ihre persönliche Schlag-Historie und empfiehlt den perfekten Schläger für jede Situation.",
+        "patternsTitle": "Personalisierte Schlagmuster",
+        "patternsDesc": "Erfassen Sie die Streuung Ihrer Schläge je Schläger. Copperline Golf lernt Ihre Tendenzen und passt die Empfehlungen an.",
+        "weatherTitle": "Wetter in Echtzeit",
+        "weatherDesc": "Automatischer Wetterabruf liefert Windgeschwindigkeit, -richtung und Temperatur und passt die Schlägerwahl in Echtzeit an.",
+        "elevationTitle": "Höhenkorrektur",
+        "elevationDesc": "Präzise Höhenberechnungen berücksichtigen Berg- und Tal-Schläge für genaue Distanz-Empfehlungen.",
+        "analyticsTitle": "Leistungsanalysen",
+        "analyticsDesc": "Detaillierte Statistiken und Einblicke helfen, Stärken, Schwächen und Verbesserungspotenziale zu erkennen.",
+        "coursesTitle": "Über 15.000 Plätze",
+        "coursesDesc": "Detaillierte Platzinfos, GPS-Koordinaten und Loch-Layouts für tausende Plätze weltweit."
+      },
+      "stats": {
+        "heading": "Weltweit von Golfern vertraut",
+        "subheading": "Schließen Sie sich tausenden Spielern an, die ihr Spiel mit Copperline Golf verbessern"
+      },
+      "advanced": {
+        "heading": "Erweiterte Funktionen",
+        "subheading": "Gehen Sie über die Grundlagen hinaus mit leistungsstarken Funktionen für ambitionierte Golfer",
+        "mobileTitle": "Mobile-First-Design",
+        "mobileDesc": "Optimiert für den Einsatz auf dem Platz: schneller Zugriff auf Empfehlungen, minimaler Akkuverbrauch.",
+        "cloudTitle": "Cloud-Synchronisierung",
+        "cloudDesc": "Ihr Profil, Schläger und Statistiken synchronisieren sich automatisch über alle Geräte.",
+        "instantTitle": "Sofort-Empfehlungen",
+        "instantDesc": "Schläger-Vorschläge in Millisekunden, ohne Ihre Runde zu verlangsamen.",
+        "socialTitle": "Soziale Funktionen",
+        "socialDesc": "Teilen Sie Runden mit Freunden, vergleichen Sie Statistiken und treten Sie in Bestenlisten gegeneinander an.",
+        "handicapTitle": "Handicap-Tracking",
+        "handicapDesc": "Verfolgen Sie Ihre Handicap-Entwicklung und sehen Sie, wie Copperline Golf Sie verbessert.",
+        "insightsTitle": "Verbesserungs-Einblicke",
+        "insightsDesc": "Personalisierte Tipps und Vorschläge basierend auf Ihren Leistungstrends."
+      },
+      "demo": {
+        "badge": "Jetzt ausprobieren",
+        "heading": "Erleben Sie Copperline Golf in Aktion",
+        "subheading": "Interagieren Sie mit unserer App direkt im Browser. Kein Download nötig.",
+        "instructionsTitle": "So nutzen Sie diese Demo",
+        "step1": "Warten Sie, bis der Emulator lädt (das kann ein paar Sekunden dauern)",
+        "step2": "Tippen Sie und interagieren Sie mit der App wie auf einem echten Gerät",
+        "step3Bold": "Zu einem Loch wechseln:",
+        "step3": "Starten Sie eine Runde, wählen Sie einen Platz, wischen Sie nach links oder rechts auf der Lochkarte oder nutzen Sie die Lochauswahl oben",
+        "step4Bold": "Optimizer testen:",
+        "step4": "In der Loch-Ansicht auf \"Optimieren\" tippen, um KI-Empfehlungen basierend auf Distanz, Wind, Höhe und Ihren persönlichen Daten zu erhalten",
+        "step5": "Entdecken Sie weitere Funktionen wie Schlag-Tracking, Wetter-Integration und Leistungsanalysen",
+        "step6": "Bereit, es auf Ihrem Gerät zu erleben? Melden Sie sich unten kostenlos an!"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Hilfe-Center",
+        "titleStart": "Wie können wir",
+        "titleHighlight": "helfen?",
+        "subtitle": "Antworten auf häufige Fragen oder kontaktieren Sie unser Support-Team",
+        "searchPlaceholder": "Hilfe suchen..."
+      },
+      "support": {
+        "headingStart": "Support",
+        "headingHighlight": "erhalten",
+        "subheading": "Wählen Sie den besten Weg, Hilfe zu bekommen",
+        "liveChatTitle": "Live-Chat",
+        "liveChatDesc": "Chatten Sie mit unserem Support",
+        "liveChatAction": "Chat starten",
+        "emailTitle": "E-Mail-Support",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "E-Mail senden",
+        "docsTitle": "Dokumentation",
+        "docsDesc": "Durchsuchen Sie unsere Hilfe-Dokumente",
+        "docsAction": "Dokumente ansehen",
+        "videoTitle": "Video-Tutorials",
+        "videoDesc": "Schauen Sie Anleitungen",
+        "videoAction": "Videos ansehen"
+      },
+      "faq": {
+        "headingStart": "Häufig gestellte",
+        "headingHighlight": "Fragen",
+        "subheading": "Schnelle Antworten auf häufige Fragen",
+        "catGettingStarted": "Erste Schritte",
+        "gs1q": "Wie erstelle ich mein Profil?",
+        "gs1a": "Nach der Registrierung gehen Sie zu den Profileinstellungen und tragen Ihre Schlägerdistanzen ein. Copperline Golf nutzt diese Informationen für personalisierte Empfehlungen. Sie können Ihr Profil jederzeit aktualisieren.",
+        "gs2q": "Wie genau sind die Schläger-Empfehlungen?",
+        "gs2a": "Copperline Golf nutzt fortgeschrittene Algorithmen, die Schlägerdistanzen, Echtzeit-Wetter, Höhenunterschiede und Schlag-Historie berücksichtigen. Die meisten Nutzer berichten über 90% Genauigkeit bei gut kalibriertem Profil.",
+        "gs3q": "Brauche ich eine Internetverbindung?",
+        "gs3a": "Eine Internetverbindung wird für Echtzeit-Wetter und GPS-Kartierung benötigt. Profil und grundlegende Empfehlungen funktionieren nach dem Download jedoch auch offline.",
+        "catUsing": "App-Nutzung",
+        "u1q": "Wie erfasse ich eine Runde?",
+        "u1a": "Öffnen Sie die App auf dem Platz und tippen Sie auf \"Runde starten\". Wählen Sie Ihren Platz aus der GPS-Liste — Copperline Golf erfasst automatisch Ihre Position und gibt Empfehlungen für jeden Schlag.",
+        "u2q": "Kann ich vergangene Runden bearbeiten?",
+        "u2a": "Ja! Gehen Sie zur Rundenhistorie, wählen Sie die zu bearbeitende Runde und tippen Sie auf das Bearbeiten-Symbol. Sie können Scores, Schlägerauswahl und Notizen anpassen.",
+        "u3q": "Wie teile ich meine Runden mit Freunden?",
+        "u3a": "Nach einer Runde tippen Sie auf das Teilen-Symbol auf Ihrer Scorekarte. Sie können per Nachricht, E-Mail oder Social Media mit detaillierten Statistiken und Platz-Karte teilen.",
+        "catBilling": "Konto & Abrechnung",
+        "b1q": "Was ist in der kostenlosen Version enthalten?",
+        "b1a": "Die kostenlose Version umfasst grundlegende Schläger-Empfehlungen, Schlag-Tracking und GPS-Zugriff. Premium-Funktionen wie erweiterte Analysen, Wetter-Radar und unbegrenzte Platzdownloads erfordern ein Pro-Abo.",
+        "b2q": "Wie wechsele ich zu Pro?",
+        "b2a": "Gehen Sie zu Einstellungen > Abo und tippen Sie auf \"Auf Pro upgraden\". Wählen Sie zwischen monatlich ($9,99) oder jährlich ($79,99). Sie können jederzeit aus den Kontoeinstellungen kündigen.",
+        "b3q": "Wie kündige ich mein Abo?",
+        "b3a": "Für iOS: Einstellungen > [Ihr Name] > Abos > Copperline Golf. Für Android: Play Store > Menü > Abos > Copperline Golf. Sie können Abos auch auf unserer Website verwalten.",
+        "catTrouble": "Fehlerbehebung",
+        "t1q": "Das GPS ist ungenau. Was tun?",
+        "t1a": "Stellen Sie sicher, dass die Ortungsdienste für Copperline Golf aktiviert sind. Versuchen Sie, App oder Gerät neu zu starten. Bei anhaltenden Problemen kalibrieren Sie das GPS, indem Sie 30 Sekunden ruhig in einem offenen Bereich stehen.",
+        "t2q": "Meine Schlägerdistanzen wirken falsch. Wie korrigieren?",
+        "t2a": "Gehen Sie zu Profil > Schläger und überprüfen Sie die Eingaben. Stellen Sie sicher, dass es Ihre durchschnittliche Distanz ist, nicht die maximale. Nutzen Sie unsere Kalibrierungsfunktion während einer Übungsrunde.",
+        "t3q": "Die App leert meinen Akku. Was kann ich tun?",
+        "t3a": "Aktivieren Sie den Akkusparmodus in den App-Einstellungen — das reduziert die GPS-Aktualisierungsrate und Hintergrundaktivität. Achten Sie auch darauf, die neueste Version zu nutzen.",
+        "catPremium": "Premium-Funktionen",
+        "p1q": "Was ist der KI-Schlag-Berater?",
+        "p1a": "Der KI-Schlag-Berater analysiert Ihre vergangene Leistung, aktuelle Bedingungen und das Platz-Layout und schlägt den optimalen Schläger und die optimale Strategie für jeden Schlag vor. Er lernt mit der Zeit von Ihrem Spiel.",
+        "p2q": "Wie funktioniert die Windkorrektur?",
+        "p2a": "Copperline Golf nutzt Echtzeit-Winddaten, um zu berechnen, wie Windgeschwindigkeit und -richtung Ihre Schlagdistanz beeinflussen. Die Empfehlung passt die Schlägerwahl automatisch entsprechend an."
+      },
+      "cta": {
+        "heading": "Brauchen Sie weitere Hilfe?",
+        "subtitle": "Unser Support-Team hilft Ihnen, das Beste aus Copperline Golf herauszuholen",
+        "liveChatButton": "Live-Chat starten",
+        "emailButton": "E-Mail-Support"
+      }
     }
   }
 }

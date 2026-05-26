@@ -2140,6 +2140,134 @@
         "buttonDefault": "Continuar",
         "buttonSettingUp": "Configurando..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Movido por IA avançada",
+        "titleStart": "Tudo o que você precisa para",
+        "titleHighlight": "jogar com mais inteligência",
+        "subtitle": "O Copperline Golf combina inteligência artificial, dados em tempo real e insights personalizados para ajudar você a tomar melhores decisões em cada tacada."
+      },
+      "core": {
+        "heading": "Recursos principais",
+        "subheading": "As ferramentas essenciais que tornam o Copperline Golf seu parceiro de golfe perfeito",
+        "aiTitle": "Seleção de taco com IA",
+        "aiDesc": "Nossa IA avançada analisa distância, vento, elevação e seu histórico pessoal para recomendar o taco perfeito em cada situação.",
+        "patternsTitle": "Padrões de tacada personalizados",
+        "patternsDesc": "Acompanhe os padrões de dispersão para cada taco. O Copperline Golf aprende suas tendências e ajusta as recomendações.",
+        "weatherTitle": "Integração de clima em tempo real",
+        "weatherDesc": "A obtenção automática de dados climáticos fornece velocidade e direção do vento e temperatura para ajustar a escolha do taco em tempo real.",
+        "elevationTitle": "Ajustes de elevação",
+        "elevationDesc": "Cálculos precisos de elevação consideram tacadas em aclive e declive para recomendações de distância exatas.",
+        "analyticsTitle": "Análise de desempenho",
+        "analyticsDesc": "Estatísticas detalhadas e insights sobre seu jogo ajudam a identificar pontos fortes, fraquezas e áreas de melhoria.",
+        "coursesTitle": "Mais de 15.000 campos no banco de dados",
+        "coursesDesc": "Acesse informações detalhadas, coordenadas GPS e layouts de buracos para milhares de campos no mundo todo."
+      },
+      "stats": {
+        "heading": "A confiança de golfistas no mundo todo",
+        "subheading": "Junte-se a milhares de jogadores que estão melhorando seu jogo com o Copperline Golf"
+      },
+      "advanced": {
+        "heading": "Recursos avançados",
+        "subheading": "Vá além do básico com recursos poderosos para golfistas sérios",
+        "mobileTitle": "Design mobile-first",
+        "mobileDesc": "Otimizado para uso no campo com acesso rápido às recomendações e mínimo consumo de bateria.",
+        "cloudTitle": "Sincronização na nuvem",
+        "cloudDesc": "Seu perfil, tacos e estatísticas sincronizam automaticamente em todos os seus dispositivos.",
+        "instantTitle": "Recomendações instantâneas",
+        "instantDesc": "Receba sugestões de taco em milissegundos sem atrasar sua rodada.",
+        "socialTitle": "Recursos sociais",
+        "socialDesc": "Compartilhe rodadas com amigos, compare estatísticas e compita em rankings.",
+        "handicapTitle": "Acompanhamento de handicap",
+        "handicapDesc": "Monitore o progresso do seu handicap ao longo do tempo e veja como o Copperline Golf te ajuda a melhorar.",
+        "insightsTitle": "Insights de melhoria",
+        "insightsDesc": "Dicas e sugestões personalizadas com base nas suas tendências de desempenho."
+      },
+      "demo": {
+        "badge": "Experimente agora",
+        "heading": "Conheça o Copperline Golf em ação",
+        "subheading": "Interaja com nosso app direto no navegador. Sem download.",
+        "instructionsTitle": "Como usar esta demo",
+        "step1": "Aguarde o emulador carregar (pode levar alguns segundos)",
+        "step2": "Toque e interaja com o app como faria em um dispositivo real",
+        "step3Bold": "Ir para um buraco:",
+        "step3": "Inicie uma rodada selecionando um campo, depois deslize para a esquerda ou direita no card do buraco, ou use o seletor no topo para ir a qualquer buraco",
+        "step4Bold": "Experimente o otimizador:",
+        "step4": "Na tela do buraco, toque em \"Otimizar\" para receber recomendações de taco com IA baseadas em distância, vento, elevação e seus dados pessoais",
+        "step5": "Explore outros recursos como rastreamento de tacadas, integração climática e análise de desempenho",
+        "step6": "Pronto para experimentar no seu dispositivo? Cadastre-se grátis abaixo!"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Central de ajuda",
+        "titleStart": "Como podemos",
+        "titleHighlight": "te ajudar?",
+        "subtitle": "Encontre respostas para dúvidas comuns ou fale com nossa equipe de suporte",
+        "searchPlaceholder": "Buscar ajuda..."
+      },
+      "support": {
+        "headingStart": "Obter",
+        "headingHighlight": "suporte",
+        "subheading": "Escolha a melhor forma de receber ajuda",
+        "liveChatTitle": "Chat ao vivo",
+        "liveChatDesc": "Converse com nossa equipe de suporte",
+        "liveChatAction": "Iniciar chat",
+        "emailTitle": "Suporte por e-mail",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "Enviar e-mail",
+        "docsTitle": "Documentação",
+        "docsDesc": "Veja nossa documentação",
+        "docsAction": "Ver documentação",
+        "videoTitle": "Tutoriais em vídeo",
+        "videoDesc": "Assista aos guias passo a passo",
+        "videoAction": "Ver vídeos"
+      },
+      "faq": {
+        "headingStart": "Perguntas",
+        "headingHighlight": "frequentes",
+        "subheading": "Respostas rápidas para as dúvidas mais comuns",
+        "catGettingStarted": "Primeiros passos",
+        "gs1q": "Como crio meu perfil?",
+        "gs1a": "Após se cadastrar, vá em Configurações do perfil e insira as distâncias dos seus tacos. O Copperline Golf usará essas informações para fornecer recomendações personalizadas. Você pode atualizar o perfil sempre que quiser.",
+        "gs2q": "Qual a precisão das recomendações de taco?",
+        "gs2a": "O Copperline Golf usa algoritmos avançados que consideram suas distâncias de taco, clima em tempo real, mudanças de elevação e histórico de tacadas. A maioria dos usuários relata mais de 90% de precisão quando o perfil está bem calibrado.",
+        "gs3q": "Preciso de conexão com a internet?",
+        "gs3a": "É preciso ter conexão para dados climáticos em tempo real e mapeamento por GPS. Porém, os dados do perfil e as recomendações básicas funcionam offline após o download.",
+        "catUsing": "Usando o app",
+        "u1q": "Como acompanho uma rodada?",
+        "u1a": "Abra o app no campo e toque em \"Iniciar rodada\". Selecione seu campo da lista de GPS e o Copperline Golf vai rastrear sua localização automaticamente e fornecer recomendações para cada tacada.",
+        "u2q": "Posso editar rodadas passadas?",
+        "u2a": "Sim! Vá no histórico de rodadas, selecione a rodada que quer editar e toque no ícone de edição. Você pode ajustar pontuações, escolhas de taco e adicionar notas.",
+        "u3q": "Como compartilho minhas rodadas com amigos?",
+        "u3a": "Após terminar uma rodada, toque no ícone de compartilhar no seu scorecard. Você pode compartilhar por mensagem, e-mail ou redes sociais com estatísticas detalhadas e mapa do campo.",
+        "catBilling": "Conta e cobrança",
+        "b1q": "O que está incluído na versão grátis?",
+        "b1a": "A versão grátis inclui recomendações básicas de tacos, rastreamento de tacadas e acesso ao GPS dos campos. Recursos premium como análise avançada, radar meteorológico e downloads ilimitados exigem uma assinatura Pro.",
+        "b2q": "Como faço upgrade para o Pro?",
+        "b2a": "Vá em Configurações > Assinatura e toque em \"Fazer upgrade para Pro\". Escolha entre cobrança mensal (US$ 9,99) ou anual (US$ 79,99). Você pode cancelar a qualquer momento nas configurações da conta.",
+        "b3q": "Como cancelo minha assinatura?",
+        "b3a": "Para iOS: Ajustes > [Seu nome] > Assinaturas > Copperline Golf. Para Android: Play Store > Menu > Assinaturas > Copperline Golf. Você também pode gerenciar assinaturas no nosso site.",
+        "catTrouble": "Solução de problemas",
+        "t1q": "O GPS não está preciso. O que fazer?",
+        "t1a": "Garanta que os serviços de localização estão ativados para o Copperline Golf nas configurações do dispositivo. Tente reiniciar o app ou o aparelho. Se persistir, recalibre o GPS ficando parado por 30 segundos em uma área aberta.",
+        "t2q": "As distâncias dos meus tacos parecem erradas. Como corrigir?",
+        "t2a": "Vá em Perfil > Tacos e revise as distâncias inseridas. Certifique-se de que representam sua distância média, não a máxima. Você também pode usar nosso recurso de calibração durante uma rodada de treino.",
+        "t3q": "O app está consumindo muita bateria. O que faço?",
+        "t3a": "Ative o modo de economia de bateria nas configurações do app, que reduz a taxa de atualização do GPS e a atividade em segundo plano. Certifique-se também de estar com a versão mais recente.",
+        "catPremium": "Recursos premium",
+        "p1q": "O que é o AI Shot Advisor?",
+        "p1a": "O AI Shot Advisor analisa seu desempenho anterior, condições atuais e layout do campo para sugerir o taco e a estratégia ideais para cada tacada. Ele aprende com seu jogo ao longo do tempo.",
+        "p2q": "Como funciona o ajuste de vento?",
+        "p2a": "O Copperline Golf usa dados de vento em tempo real para calcular como a velocidade e direção do vento afetam a distância da sua tacada. A recomendação ajusta automaticamente a escolha do taco com base nesses fatores."
+      },
+      "cta": {
+        "heading": "Ainda precisa de ajuda?",
+        "subtitle": "Nossa equipe de suporte está aqui para ajudar você a aproveitar ao máximo o Copperline Golf",
+        "liveChatButton": "Iniciar chat ao vivo",
+        "emailButton": "Suporte por e-mail"
+      }
     }
   }
 }

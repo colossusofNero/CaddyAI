@@ -1,6 +1,6 @@
 /**
  * Features Page
- * Detailed showcase of Copperline Golf features
+ * Detailed showcase of Copperline Golf features — localized.
  */
 
 'use client';
@@ -32,9 +32,11 @@ import {
   Map,
   TrendingUp,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function FeaturesPage() {
+  const t = useTranslations('marketing.features');
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const [isShotPatternsModalOpen, setIsShotPatternsModalOpen] = useState(false);
   const [isWeatherModalOpen, setIsWeatherModalOpen] = useState(false);
@@ -42,41 +44,20 @@ export default function FeaturesPage() {
   const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState(false);
   const [isCoursesModalOpen, setIsCoursesModalOpen] = useState(false);
 
-  // Check for hash navigation and open appropriate modal
   useEffect(() => {
     const checkHash = () => {
       const hash = window.location.hash;
-      console.log('[Features] Checking hash:', hash);
-
       switch (hash) {
-        case '#ai-selection':
-          setIsAIModalOpen(true);
-          break;
-        case '#shot-patterns':
-          setIsShotPatternsModalOpen(true);
-          break;
-        case '#weather':
-          setIsWeatherModalOpen(true);
-          break;
-        case '#elevation':
-          setIsElevationModalOpen(true);
-          break;
-        case '#analytics':
-          setIsAnalyticsModalOpen(true);
-          break;
-        case '#courses':
-          setIsCoursesModalOpen(true);
-          break;
+        case '#ai-selection': setIsAIModalOpen(true); break;
+        case '#shot-patterns': setIsShotPatternsModalOpen(true); break;
+        case '#weather': setIsWeatherModalOpen(true); break;
+        case '#elevation': setIsElevationModalOpen(true); break;
+        case '#analytics': setIsAnalyticsModalOpen(true); break;
+        case '#courses': setIsCoursesModalOpen(true); break;
       }
     };
-
-    // Check on mount with a small delay to ensure hash is available
     checkHash();
-
-    // Also check after a brief delay for client-side navigation
     const timer = setTimeout(checkHash, 100);
-
-    // Listen for hash changes
     window.addEventListener('hashchange', checkHash);
     return () => {
       window.removeEventListener('hashchange', checkHash);
@@ -91,93 +72,21 @@ export default function FeaturesPage() {
   };
 
   const coreFeatures = [
-    {
-      icon: Brain,
-      title: 'AI-Powered Club Selection',
-      description:
-        'Our advanced AI analyzes distance, wind, elevation, and your personal shot history to recommend the perfect club for every situation.',
-      href: '#ai-selection',
-      onClick: handleFeatureClick('ai-selection', setIsAIModalOpen),
-    },
-    {
-      icon: Target,
-      title: 'Personalized Shot Patterns',
-      description:
-        'Track your shot dispersion patterns for each club. Copperline Golf learns your tendencies and adjusts recommendations accordingly.',
-      href: '#shot-patterns',
-      onClick: handleFeatureClick('shot-patterns', setIsShotPatternsModalOpen),
-    },
-    {
-      icon: Wind,
-      title: 'Real-Time Weather Integration',
-      description:
-        'Automatic weather data fetching provides wind speed, direction, and temperature to adjust your club selection in real-time.',
-      href: '#weather',
-      onClick: handleFeatureClick('weather', setIsWeatherModalOpen),
-    },
-    {
-      icon: Mountain,
-      title: 'Elevation Adjustments',
-      description:
-        'Precise elevation calculations help you account for uphill and downhill shots, ensuring accurate distance recommendations.',
-      href: '#elevation',
-      onClick: handleFeatureClick('elevation', setIsElevationModalOpen),
-    },
-    {
-      icon: BarChart3,
-      title: 'Performance Analytics',
-      description:
-        'Detailed statistics and insights about your game help you identify strengths, weaknesses, and areas for improvement.',
-      href: '#analytics',
-      onClick: handleFeatureClick('analytics', setIsAnalyticsModalOpen),
-    },
-    {
-      icon: Map,
-      title: '15,000+ Course Database',
-      description:
-        'Access detailed course information, GPS coordinates, and hole layouts for thousands of courses worldwide.',
-      href: '#courses',
-      onClick: handleFeatureClick('courses', setIsCoursesModalOpen),
-    },
+    { icon: Brain, title: t('core.aiTitle'), description: t('core.aiDesc'), href: '#ai-selection', onClick: handleFeatureClick('ai-selection', setIsAIModalOpen) },
+    { icon: Target, title: t('core.patternsTitle'), description: t('core.patternsDesc'), href: '#shot-patterns', onClick: handleFeatureClick('shot-patterns', setIsShotPatternsModalOpen) },
+    { icon: Wind, title: t('core.weatherTitle'), description: t('core.weatherDesc'), href: '#weather', onClick: handleFeatureClick('weather', setIsWeatherModalOpen) },
+    { icon: Mountain, title: t('core.elevationTitle'), description: t('core.elevationDesc'), href: '#elevation', onClick: handleFeatureClick('elevation', setIsElevationModalOpen) },
+    { icon: BarChart3, title: t('core.analyticsTitle'), description: t('core.analyticsDesc'), href: '#analytics', onClick: handleFeatureClick('analytics', setIsAnalyticsModalOpen) },
+    { icon: Map, title: t('core.coursesTitle'), description: t('core.coursesDesc'), href: '#courses', onClick: handleFeatureClick('courses', setIsCoursesModalOpen) },
   ];
 
   const advancedFeatures = [
-    {
-      icon: Smartphone,
-      title: 'Mobile-First Design',
-      description:
-        'Optimized for on-course use with quick access to recommendations and minimal battery drain.',
-    },
-    {
-      icon: Cloud,
-      title: 'Cloud Sync',
-      description:
-        'Your profile, clubs, and stats sync across all your devices automatically.',
-    },
-    {
-      icon: Zap,
-      title: 'Instant Recommendations',
-      description:
-        'Get club suggestions in milliseconds without slowing down your round.',
-    },
-    {
-      icon: Users,
-      title: 'Social Features',
-      description:
-        'Share rounds with friends, compare stats, and compete on leaderboards.',
-    },
-    {
-      icon: Trophy,
-      title: 'Handicap Tracking',
-      description:
-        'Monitor your handicap progress over time and see how Copperline Golf helps you improve.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Improvement Insights',
-      description:
-        'Personalized tips and suggestions based on your performance trends.',
-    },
+    { icon: Smartphone, title: t('advanced.mobileTitle'), description: t('advanced.mobileDesc') },
+    { icon: Cloud, title: t('advanced.cloudTitle'), description: t('advanced.cloudDesc') },
+    { icon: Zap, title: t('advanced.instantTitle'), description: t('advanced.instantDesc') },
+    { icon: Users, title: t('advanced.socialTitle'), description: t('advanced.socialDesc') },
+    { icon: Trophy, title: t('advanced.handicapTitle'), description: t('advanced.handicapDesc') },
+    { icon: TrendingUp, title: t('advanced.insightsTitle'), description: t('advanced.insightsDesc') },
   ];
 
   return (
@@ -196,33 +105,18 @@ export default function FeaturesPage() {
             animate="visible"
             className="text-center max-w-4xl mx-auto"
           >
-            <motion.div
-              variants={staggerItem}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6"
-            >
+            <motion.div variants={staggerItem} className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6">
               <Zap className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">
-                Powered by Advanced AI
-              </span>
+              <span className="text-sm font-medium text-primary">{t('hero.badge')}</span>
             </motion.div>
 
-            <motion.h1
-              variants={staggerItem}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
-            >
-              Everything You Need to{' '}
-              <span className="text-primary">
-                Play Smarter
-              </span>
+            <motion.h1 variants={staggerItem} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6">
+              {t('hero.titleStart')}{' '}
+              <span className="text-primary">{t('hero.titleHighlight')}</span>
             </motion.h1>
 
-            <motion.p
-              variants={staggerItem}
-              className="text-xl text-text-secondary max-w-3xl mx-auto"
-            >
-              Copperline Golf combines artificial intelligence, real-time data, and
-              personalized insights to help you make better decisions on every
-              shot.
+            <motion.p variants={staggerItem} className="text-xl text-text-secondary max-w-3xl mx-auto">
+              {t('hero.subtitle')}
             </motion.p>
           </motion.div>
         </div>
@@ -233,10 +127,10 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-              Core Features
+              {t('core.heading')}
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              The essential tools that make Copperline Golf your perfect golf companion
+              {t('core.subheading')}
             </p>
           </div>
 
@@ -253,10 +147,10 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-              Trusted by Golfers Worldwide
+              {t('stats.heading')}
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Join thousands of players improving their game with Copperline Golf
+              {t('stats.subheading')}
             </p>
           </div>
 
@@ -269,11 +163,10 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-              Advanced Capabilities
+              {t('advanced.heading')}
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Go beyond the basics with powerful features designed for serious
-              golfers
+              {t('advanced.subheading')}
             </p>
           </div>
 
@@ -289,38 +182,23 @@ export default function FeaturesPage() {
       <section id="demo" className="py-16 lg:py-24 bg-gradient-to-b from-background to-background-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6">
                 <Smartphone className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-primary">
-                  Try It Now
-                </span>
+                <span className="text-sm font-medium text-primary">{t('demo.badge')}</span>
               </div>
               <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-                Experience Copperline Golf in Action
+                {t('demo.heading')}
               </h2>
               <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-                Interact with our app directly in your browser. No download required.
+                {t('demo.subheading')}
               </p>
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-secondary-800 rounded-2xl p-6 md:p-10 border border-secondary-700"
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="bg-secondary-800 rounded-2xl p-6 md:p-10 border border-secondary-700">
             <div className="grid md:grid-cols-2 gap-8 items-start">
-              {/* Emulator Container - Left Column */}
               <div className="flex justify-center overflow-hidden">
-                {/* Appetize.io emulator configured for Pixel 7 Pro with Android 14.0 */}
                 <iframe
                   src="https://appetize.io/embed/b_kw2eurfjmjgiqlrgz3lbgvlqwm?device=pixel7pro&osVersion=14.0&scale=60&centered=both"
                   width="100%"
@@ -334,59 +212,34 @@ export default function FeaturesPage() {
                 />
               </div>
 
-              {/* Demo Instructions - Right Column */}
               <div className="bg-secondary-900 rounded-lg px-6 pb-6 pt-32 self-start">
                 <h3 className="text-lg font-bold text-text-primary mb-4 mt-0">
-                  How to Use This Demo
+                  {t('demo.instructionsTitle')}
                 </h3>
                 <ol className="space-y-3 text-text-secondary">
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      1
-                    </span>
-                    <span>
-                      Wait for the emulator to load (this may take a few seconds)
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">1</span>
+                    <span>{t('demo.step1')}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      2
-                    </span>
-                    <span>
-                      Tap and interact with the app just like you would on a real device
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">2</span>
+                    <span>{t('demo.step2')}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      3
-                    </span>
-                    <span>
-                      <strong>Navigate to a hole:</strong> Start a round by selecting a course, then swipe left or right on the hole card, or use the hole selector at the top to jump to any hole
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">3</span>
+                    <span><strong>{t('demo.step3Bold')}</strong> {t('demo.step3')}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      4
-                    </span>
-                    <span>
-                      <strong>Try the optimizer:</strong> On the hole view, tap the "Optimize" button to get AI-powered club recommendations based on distance, wind, elevation, and your personal shot data
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">4</span>
+                    <span><strong>{t('demo.step4Bold')}</strong> {t('demo.step4')}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      5
-                    </span>
-                    <span>
-                      Explore other features like shot tracking, weather integration, and performance analytics
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">5</span>
+                    <span>{t('demo.step5')}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      6
-                    </span>
-                    <span>
-                      Ready to experience it on your own device? Sign up for free below!
-                    </span>
+                    <span className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold">6</span>
+                    <span>{t('demo.step6')}</span>
                   </li>
                 </ol>
               </div>
@@ -395,71 +248,15 @@ export default function FeaturesPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <CTASection />
-
       <Footer />
 
-      {/* Feature Modals */}
-      <AIClubSelectionModal
-        isOpen={isAIModalOpen}
-        onClose={() => {
-          setIsAIModalOpen(false);
-          if (window.location.hash === '#ai-selection') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
-
-      <ShotPatternsModal
-        isOpen={isShotPatternsModalOpen}
-        onClose={() => {
-          setIsShotPatternsModalOpen(false);
-          if (window.location.hash === '#shot-patterns') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
-
-      <WeatherModal
-        isOpen={isWeatherModalOpen}
-        onClose={() => {
-          setIsWeatherModalOpen(false);
-          if (window.location.hash === '#weather') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
-
-      <ElevationModal
-        isOpen={isElevationModalOpen}
-        onClose={() => {
-          setIsElevationModalOpen(false);
-          if (window.location.hash === '#elevation') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
-
-      <PerformanceAnalyticsModal
-        isOpen={isAnalyticsModalOpen}
-        onClose={() => {
-          setIsAnalyticsModalOpen(false);
-          if (window.location.hash === '#analytics') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
-
-      <CoursesDatabaseModal
-        isOpen={isCoursesModalOpen}
-        onClose={() => {
-          setIsCoursesModalOpen(false);
-          if (window.location.hash === '#courses') {
-            history.pushState(null, '', window.location.pathname + window.location.search);
-          }
-        }}
-      />
+      <AIClubSelectionModal isOpen={isAIModalOpen} onClose={() => { setIsAIModalOpen(false); if (window.location.hash === '#ai-selection') history.pushState(null, '', window.location.pathname + window.location.search); }} />
+      <ShotPatternsModal isOpen={isShotPatternsModalOpen} onClose={() => { setIsShotPatternsModalOpen(false); if (window.location.hash === '#shot-patterns') history.pushState(null, '', window.location.pathname + window.location.search); }} />
+      <WeatherModal isOpen={isWeatherModalOpen} onClose={() => { setIsWeatherModalOpen(false); if (window.location.hash === '#weather') history.pushState(null, '', window.location.pathname + window.location.search); }} />
+      <ElevationModal isOpen={isElevationModalOpen} onClose={() => { setIsElevationModalOpen(false); if (window.location.hash === '#elevation') history.pushState(null, '', window.location.pathname + window.location.search); }} />
+      <PerformanceAnalyticsModal isOpen={isAnalyticsModalOpen} onClose={() => { setIsAnalyticsModalOpen(false); if (window.location.hash === '#analytics') history.pushState(null, '', window.location.pathname + window.location.search); }} />
+      <CoursesDatabaseModal isOpen={isCoursesModalOpen} onClose={() => { setIsCoursesModalOpen(false); if (window.location.hash === '#courses') history.pushState(null, '', window.location.pathname + window.location.search); }} />
     </div>
   );
 }

@@ -2140,6 +2140,134 @@
         "buttonDefault": "Continua",
         "buttonSettingUp": "Configurazione..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Alimentato da IA avanzata",
+        "titleStart": "Tutto ciò che serve per",
+        "titleHighlight": "giocare più intelligentemente",
+        "subtitle": "Copperline Golf combina intelligenza artificiale, dati in tempo reale e insight personalizzati per aiutarti a prendere decisioni migliori a ogni colpo."
+      },
+      "core": {
+        "heading": "Funzionalità principali",
+        "subheading": "Gli strumenti essenziali che rendono Copperline Golf il tuo compagno di golf perfetto",
+        "aiTitle": "Selezione bastone con IA",
+        "aiDesc": "La nostra IA avanzata analizza distanza, vento, elevazione e il tuo storico di colpi per consigliare il bastone perfetto in ogni situazione.",
+        "patternsTitle": "Pattern di colpi personalizzati",
+        "patternsDesc": "Monitora i pattern di dispersione per ogni bastone. Copperline Golf impara le tue tendenze e adatta le raccomandazioni.",
+        "weatherTitle": "Integrazione meteo in tempo reale",
+        "weatherDesc": "Il recupero automatico del meteo fornisce velocità e direzione del vento e temperatura per adattare la scelta del bastone in tempo reale.",
+        "elevationTitle": "Regolazioni di elevazione",
+        "elevationDesc": "Calcoli precisi di elevazione tengono conto dei colpi in salita e in discesa per raccomandazioni di distanza accurate.",
+        "analyticsTitle": "Analisi delle prestazioni",
+        "analyticsDesc": "Statistiche dettagliate e insight sul tuo gioco per identificare punti di forza, debolezze e aree di miglioramento.",
+        "coursesTitle": "Oltre 15.000 campi nel database",
+        "coursesDesc": "Accedi a informazioni dettagliate sui campi, coordinate GPS e layout delle buche per migliaia di campi nel mondo."
+      },
+      "stats": {
+        "heading": "La fiducia dei golfisti in tutto il mondo",
+        "subheading": "Unisciti a migliaia di giocatori che migliorano il loro gioco con Copperline Golf"
+      },
+      "advanced": {
+        "heading": "Capacità avanzate",
+        "subheading": "Vai oltre le basi con funzioni potenti pensate per i golfisti seri",
+        "mobileTitle": "Design mobile-first",
+        "mobileDesc": "Ottimizzato per l'uso in campo con accesso rapido alle raccomandazioni e minimo consumo della batteria.",
+        "cloudTitle": "Sincronizzazione cloud",
+        "cloudDesc": "Il tuo profilo, i bastoni e le statistiche si sincronizzano automaticamente su tutti i tuoi dispositivi.",
+        "instantTitle": "Raccomandazioni istantanee",
+        "instantDesc": "Ricevi suggerimenti di bastone in millisecondi senza rallentare la partita.",
+        "socialTitle": "Funzionalità sociali",
+        "socialDesc": "Condividi le partite con gli amici, confronta le statistiche e competi nelle classifiche.",
+        "handicapTitle": "Tracciamento handicap",
+        "handicapDesc": "Monitora la progressione del tuo handicap nel tempo e scopri come Copperline Golf ti aiuta a migliorare.",
+        "insightsTitle": "Insight di miglioramento",
+        "insightsDesc": "Consigli e suggerimenti personalizzati basati sulle tue tendenze di prestazione."
+      },
+      "demo": {
+        "badge": "Provalo ora",
+        "heading": "Vivi Copperline Golf in azione",
+        "subheading": "Interagisci con la nostra app direttamente nel browser. Nessun download richiesto.",
+        "instructionsTitle": "Come usare questa demo",
+        "step1": "Attendi il caricamento dell'emulatore (può richiedere qualche secondo)",
+        "step2": "Tocca e interagisci con l'app come faresti su un dispositivo reale",
+        "step3Bold": "Vai a una buca:",
+        "step3": "Inizia una partita selezionando un campo, poi scorri a destra o sinistra sulla card della buca, o usa il selettore in alto per andare a qualsiasi buca",
+        "step4Bold": "Prova l'ottimizzatore:",
+        "step4": "Nella vista della buca, tocca \"Ottimizza\" per ricevere raccomandazioni con IA basate su distanza, vento, elevazione e i tuoi dati personali",
+        "step5": "Esplora altre funzioni come tracciamento dei colpi, integrazione meteo e analisi delle prestazioni",
+        "step6": "Pronto a provarlo sul tuo dispositivo? Registrati gratuitamente qui sotto!"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Centro assistenza",
+        "titleStart": "Come possiamo",
+        "titleHighlight": "aiutarti?",
+        "subtitle": "Trova risposte alle domande comuni o contatta il nostro team di supporto",
+        "searchPlaceholder": "Cerca aiuto..."
+      },
+      "support": {
+        "headingStart": "Ricevi",
+        "headingHighlight": "supporto",
+        "subheading": "Scegli il modo migliore per ricevere aiuto",
+        "liveChatTitle": "Chat dal vivo",
+        "liveChatDesc": "Chatta con il nostro team di supporto",
+        "liveChatAction": "Avvia chat",
+        "emailTitle": "Supporto via email",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "Invia email",
+        "docsTitle": "Documentazione",
+        "docsDesc": "Sfoglia la nostra documentazione",
+        "docsAction": "Vedi documenti",
+        "videoTitle": "Tutorial video",
+        "videoDesc": "Guarda le nostre guide",
+        "videoAction": "Guarda i video"
+      },
+      "faq": {
+        "headingStart": "Domande",
+        "headingHighlight": "frequenti",
+        "subheading": "Risposte rapide alle domande comuni",
+        "catGettingStarted": "Per iniziare",
+        "gs1q": "Come creo il mio profilo?",
+        "gs1a": "Dopo la registrazione, vai in Impostazioni del profilo e inserisci le distanze dei tuoi bastoni. Copperline Golf userà queste informazioni per fornire raccomandazioni personalizzate. Puoi aggiornare il profilo in qualsiasi momento.",
+        "gs2q": "Quanto sono precise le raccomandazioni di bastone?",
+        "gs2a": "Copperline Golf utilizza algoritmi avanzati che considerano le tue distanze di bastone, il meteo in tempo reale, i dislivelli e lo storico dei colpi. La maggior parte degli utenti riporta una precisione superiore al 90% con un profilo ben calibrato.",
+        "gs3q": "Mi serve una connessione internet?",
+        "gs3a": "È necessaria una connessione internet per i dati meteo in tempo reale e la mappatura GPS. Tuttavia, i dati del profilo e le raccomandazioni di base funzionano offline una volta scaricati.",
+        "catUsing": "Utilizzo dell'app",
+        "u1q": "Come registro un giro?",
+        "u1a": "Apri l'app in campo e tocca \"Inizia giro\". Seleziona il tuo campo dalla lista GPS, e Copperline Golf seguirà automaticamente la tua posizione fornendo raccomandazioni per ogni colpo.",
+        "u2q": "Posso modificare giri passati?",
+        "u2a": "Sì! Vai nello storico dei giri, seleziona quello che vuoi modificare e tocca l'icona di modifica. Puoi regolare punteggi, selezioni di bastone e aggiungere note.",
+        "u3q": "Come condivido i miei giri con gli amici?",
+        "u3a": "Dopo aver completato un giro, tocca l'icona di condivisione sulla scorecard. Puoi condividere via SMS, email o social media con statistiche dettagliate e mappa del campo.",
+        "catBilling": "Account e fatturazione",
+        "b1q": "Cosa include la versione gratuita?",
+        "b1a": "La versione gratuita include raccomandazioni di base sui bastoni, tracciamento dei colpi e accesso al GPS dei campi. Le funzionalità premium come analisi avanzate, radar meteo e download illimitati richiedono un abbonamento Pro.",
+        "b2q": "Come passo a Pro?",
+        "b2a": "Vai in Impostazioni > Abbonamento e tocca \"Passa a Pro\". Scegli tra fatturazione mensile ($9,99) o annuale ($79,99). Puoi disdire in qualsiasi momento dalle impostazioni dell'account.",
+        "b3q": "Come disdico l'abbonamento?",
+        "b3a": "Per iOS: Impostazioni > [Il tuo nome] > Abbonamenti > Copperline Golf. Per Android: Play Store > Menu > Abbonamenti > Copperline Golf. Puoi anche gestire gli abbonamenti dal nostro sito.",
+        "catTrouble": "Risoluzione problemi",
+        "t1q": "Il GPS non è preciso. Cosa devo fare?",
+        "t1a": "Assicurati che i servizi di localizzazione siano attivi per Copperline Golf. Prova a riavviare l'app o il dispositivo. Se il problema persiste, ricalibra il GPS restando fermo per 30 secondi in un'area aperta.",
+        "t2q": "Le distanze dei miei bastoni sembrano sbagliate. Come correggo?",
+        "t2a": "Vai in Profilo > Bastoni e verifica le distanze inserite. Assicurati che rappresentino la tua distanza media, non il massimo. Puoi anche usare la funzione di calibrazione durante un giro di allenamento.",
+        "t3q": "L'app consuma molta batteria. Cosa posso fare?",
+        "t3a": "Attiva la modalità risparmio energetico nelle impostazioni dell'app, che riduce la frequenza di aggiornamento GPS e l'attività in background. Assicurati anche di avere l'ultima versione dell'app.",
+        "catPremium": "Funzionalità premium",
+        "p1q": "Cos'è l'Advisor di colpo IA?",
+        "p1a": "L'Advisor di colpo IA analizza le prestazioni passate, le condizioni attuali e il layout del campo per suggerire il bastone e la strategia ottimali per ogni colpo. Impara dal tuo gioco nel tempo.",
+        "p2q": "Come funziona la regolazione del vento?",
+        "p2a": "Copperline Golf usa dati di vento in tempo reale per calcolare come velocità e direzione del vento influenzano la distanza del colpo. La raccomandazione adatta automaticamente la scelta del bastone in base a questi fattori."
+      },
+      "cta": {
+        "heading": "Hai ancora bisogno di aiuto?",
+        "subtitle": "Il nostro team di supporto è qui per aiutarti a sfruttare al massimo Copperline Golf",
+        "liveChatButton": "Avvia chat dal vivo",
+        "emailButton": "Supporto via email"
+      }
     }
   }
 }

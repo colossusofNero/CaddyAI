@@ -2140,6 +2140,134 @@
         "buttonDefault": "Continue",
         "buttonSettingUp": "Setting up..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Powered by Advanced AI",
+        "titleStart": "Everything You Need to",
+        "titleHighlight": "Play Smarter",
+        "subtitle": "Copperline Golf combines artificial intelligence, real-time data, and personalized insights to help you make better decisions on every shot."
+      },
+      "core": {
+        "heading": "Core Features",
+        "subheading": "The essential tools that make Copperline Golf your perfect golf companion",
+        "aiTitle": "AI-Powered Club Selection",
+        "aiDesc": "Our advanced AI analyzes distance, wind, elevation, and your personal shot history to recommend the perfect club for every situation.",
+        "patternsTitle": "Personalized Shot Patterns",
+        "patternsDesc": "Track your shot dispersion patterns for each club. Copperline Golf learns your tendencies and adjusts recommendations accordingly.",
+        "weatherTitle": "Real-Time Weather Integration",
+        "weatherDesc": "Automatic weather data fetching provides wind speed, direction, and temperature to adjust your club selection in real-time.",
+        "elevationTitle": "Elevation Adjustments",
+        "elevationDesc": "Precise elevation calculations help you account for uphill and downhill shots, ensuring accurate distance recommendations.",
+        "analyticsTitle": "Performance Analytics",
+        "analyticsDesc": "Detailed statistics and insights about your game help you identify strengths, weaknesses, and areas for improvement.",
+        "coursesTitle": "15,000+ Course Database",
+        "coursesDesc": "Access detailed course information, GPS coordinates, and hole layouts for thousands of courses worldwide."
+      },
+      "stats": {
+        "heading": "Trusted by Golfers Worldwide",
+        "subheading": "Join thousands of players improving their game with Copperline Golf"
+      },
+      "advanced": {
+        "heading": "Advanced Capabilities",
+        "subheading": "Go beyond the basics with powerful features designed for serious golfers",
+        "mobileTitle": "Mobile-First Design",
+        "mobileDesc": "Optimized for on-course use with quick access to recommendations and minimal battery drain.",
+        "cloudTitle": "Cloud Sync",
+        "cloudDesc": "Your profile, clubs, and stats sync across all your devices automatically.",
+        "instantTitle": "Instant Recommendations",
+        "instantDesc": "Get club suggestions in milliseconds without slowing down your round.",
+        "socialTitle": "Social Features",
+        "socialDesc": "Share rounds with friends, compare stats, and compete on leaderboards.",
+        "handicapTitle": "Handicap Tracking",
+        "handicapDesc": "Monitor your handicap progress over time and see how Copperline Golf helps you improve.",
+        "insightsTitle": "Improvement Insights",
+        "insightsDesc": "Personalized tips and suggestions based on your performance trends."
+      },
+      "demo": {
+        "badge": "Try It Now",
+        "heading": "Experience Copperline Golf in Action",
+        "subheading": "Interact with our app directly in your browser. No download required.",
+        "instructionsTitle": "How to Use This Demo",
+        "step1": "Wait for the emulator to load (this may take a few seconds)",
+        "step2": "Tap and interact with the app just like you would on a real device",
+        "step3Bold": "Navigate to a hole:",
+        "step3": "Start a round by selecting a course, then swipe left or right on the hole card, or use the hole selector at the top to jump to any hole",
+        "step4Bold": "Try the optimizer:",
+        "step4": "On the hole view, tap the \"Optimize\" button to get AI-powered club recommendations based on distance, wind, elevation, and your personal shot data",
+        "step5": "Explore other features like shot tracking, weather integration, and performance analytics",
+        "step6": "Ready to experience it on your own device? Sign up for free below!"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Help Center",
+        "titleStart": "How Can We",
+        "titleHighlight": "Help You?",
+        "subtitle": "Find answers to common questions or get in touch with our support team",
+        "searchPlaceholder": "Search for help..."
+      },
+      "support": {
+        "headingStart": "Get",
+        "headingHighlight": "Support",
+        "subheading": "Choose the best way to get help",
+        "liveChatTitle": "Live Chat",
+        "liveChatDesc": "Chat with our support team",
+        "liveChatAction": "Start Chat",
+        "emailTitle": "Email Support",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "Send Email",
+        "docsTitle": "Documentation",
+        "docsDesc": "Browse our help docs",
+        "docsAction": "View Docs",
+        "videoTitle": "Video Tutorials",
+        "videoDesc": "Watch how-to guides",
+        "videoAction": "Watch Videos"
+      },
+      "faq": {
+        "headingStart": "Frequently Asked",
+        "headingHighlight": "Questions",
+        "subheading": "Find quick answers to common questions",
+        "catGettingStarted": "Getting Started",
+        "gs1q": "How do I create my profile?",
+        "gs1a": "After signing up, go to Profile Settings and enter your club distances. Copperline Golf will use this information to provide personalized recommendations. You can update your profile anytime as your game improves.",
+        "gs2q": "How accurate are the club recommendations?",
+        "gs2a": "Copperline Golf uses advanced algorithms that consider your club distances, real-time weather conditions, elevation changes, and shot history. Most users report 90%+ accuracy when their profile is properly calibrated.",
+        "gs3q": "Do I need an internet connection?",
+        "gs3a": "An internet connection is required for real-time weather data and GPS mapping. However, your profile data and basic club recommendations work offline once downloaded.",
+        "catUsing": "Using the App",
+        "u1q": "How do I track a round?",
+        "u1a": "Open the app on the course and tap \"Start Round\". Select your course from the GPS list, and Copperline Golf will automatically track your location and provide recommendations for each shot.",
+        "u2q": "Can I edit past rounds?",
+        "u2a": "Yes! Go to your round history, select the round you want to edit, and tap the edit icon. You can adjust scores, club selections, and add notes.",
+        "u3q": "How do I share my rounds with friends?",
+        "u3a": "After completing a round, tap the share icon on your scorecard. You can share via text, email, or social media with detailed statistics and a course map.",
+        "catBilling": "Account & Billing",
+        "b1q": "What is included in the free version?",
+        "b1a": "The free version includes basic club recommendations, shot tracking, and access to course GPS. Premium features like advanced analytics, weather radar, and unlimited course downloads require a Pro subscription.",
+        "b2q": "How do I upgrade to Pro?",
+        "b2a": "Go to Settings > Subscription and tap \"Upgrade to Pro\". Choose between monthly ($9.99) or annual ($79.99) billing. You can cancel anytime from your account settings.",
+        "b3q": "How do I cancel my subscription?",
+        "b3a": "For iOS: Settings > [Your Name] > Subscriptions > Copperline Golf. For Android: Play Store > Menu > Subscriptions > Copperline Golf. You can also manage subscriptions from our website.",
+        "catTrouble": "Troubleshooting",
+        "t1q": "The GPS is not accurate. What should I do?",
+        "t1a": "Ensure location services are enabled for Copperline Golf in your device settings. Try restarting the app or your device. If issues persist, recalibrate your GPS by standing still for 30 seconds in an open area.",
+        "t2q": "My club distances seem wrong. How do I fix this?",
+        "t2a": "Go to Profile > Clubs and review your distance inputs. Make sure they represent your average distance, not your maximum. You can also use our calibration feature during a practice round.",
+        "t3q": "The app is draining my battery. What can I do?",
+        "t3a": "Enable battery saver mode in app settings, which reduces GPS refresh rate and background activity. Also ensure you're running the latest version of the app.",
+        "catPremium": "Premium Features",
+        "p1q": "What is the AI Shot Advisor?",
+        "p1a": "The AI Shot Advisor analyzes your past performance, current conditions, and course layout to suggest the optimal club and strategy for each shot. It learns from your game over time.",
+        "p2q": "How does wind adjustment work?",
+        "p2a": "Copperline Golf uses real-time wind data to calculate how wind speed and direction affect your shot distance. The recommendation automatically adjusts club selection based on these factors."
+      },
+      "cta": {
+        "heading": "Still Need Help?",
+        "subtitle": "Our support team is here to help you get the most out of Copperline Golf",
+        "liveChatButton": "Start Live Chat",
+        "emailButton": "Email Support"
+      }
     }
   }
 }

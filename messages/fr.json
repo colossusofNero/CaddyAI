@@ -2140,6 +2140,134 @@
         "buttonDefault": "Continuer",
         "buttonSettingUp": "Configuration..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Propulsé par une IA avancée",
+        "titleStart": "Tout ce dont vous avez besoin pour",
+        "titleHighlight": "jouer plus intelligemment",
+        "subtitle": "Copperline Golf combine intelligence artificielle, données en temps réel et insights personnalisés pour vous aider à prendre de meilleures décisions sur chaque coup."
+      },
+      "core": {
+        "heading": "Fonctionnalités principales",
+        "subheading": "Les outils essentiels qui font de Copperline Golf votre compagnon parfait",
+        "aiTitle": "Sélection de club par IA",
+        "aiDesc": "Notre IA avancée analyse la distance, le vent, l'altitude et votre historique pour recommander le club parfait dans chaque situation.",
+        "patternsTitle": "Schémas de coups personnalisés",
+        "patternsDesc": "Suivez la dispersion de vos coups pour chaque club. Copperline Golf apprend vos tendances et ajuste ses recommandations.",
+        "weatherTitle": "Météo en temps réel",
+        "weatherDesc": "La récupération automatique des données météo fournit vitesse et direction du vent et température pour ajuster le club en temps réel.",
+        "elevationTitle": "Ajustements d'altitude",
+        "elevationDesc": "Des calculs précis d'altitude tiennent compte des coups en montée et en descente pour des recommandations de distance exactes.",
+        "analyticsTitle": "Analyses de performance",
+        "analyticsDesc": "Statistiques détaillées et insights sur votre jeu pour identifier forces, faiblesses et axes de progrès.",
+        "coursesTitle": "Plus de 15 000 parcours",
+        "coursesDesc": "Accédez à des informations détaillées sur les parcours, coordonnées GPS et plans des trous pour des milliers de parcours dans le monde."
+      },
+      "stats": {
+        "heading": "La confiance des golfeurs dans le monde",
+        "subheading": "Rejoignez des milliers de joueurs qui améliorent leur jeu avec Copperline Golf"
+      },
+      "advanced": {
+        "heading": "Capacités avancées",
+        "subheading": "Allez plus loin avec des fonctionnalités puissantes conçues pour les golfeurs sérieux",
+        "mobileTitle": "Conçu mobile-first",
+        "mobileDesc": "Optimisé pour le parcours, avec un accès rapide aux recommandations et une consommation de batterie minimale.",
+        "cloudTitle": "Synchronisation cloud",
+        "cloudDesc": "Votre profil, vos clubs et vos stats se synchronisent automatiquement sur tous vos appareils.",
+        "instantTitle": "Recommandations instantanées",
+        "instantDesc": "Recevez des suggestions de club en quelques millisecondes sans ralentir votre partie.",
+        "socialTitle": "Fonctionnalités sociales",
+        "socialDesc": "Partagez vos parties avec vos amis, comparez vos stats et participez aux classements.",
+        "handicapTitle": "Suivi du handicap",
+        "handicapDesc": "Suivez la progression de votre handicap et voyez comment Copperline Golf vous aide à progresser.",
+        "insightsTitle": "Insights de progression",
+        "insightsDesc": "Conseils et suggestions personnalisés basés sur vos tendances de performance."
+      },
+      "demo": {
+        "badge": "Essayez maintenant",
+        "heading": "Découvrez Copperline Golf en action",
+        "subheading": "Interagissez avec notre app directement dans votre navigateur. Aucun téléchargement.",
+        "instructionsTitle": "Comment utiliser cette démo",
+        "step1": "Attendez que l'émulateur charge (cela peut prendre quelques secondes)",
+        "step2": "Touchez et interagissez avec l'app comme sur un vrai appareil",
+        "step3Bold": "Aller à un trou :",
+        "step3": "Démarrez une partie en sélectionnant un parcours, puis glissez à gauche ou à droite sur la carte du trou, ou utilisez le sélecteur en haut pour passer à n'importe quel trou",
+        "step4Bold": "Essayez l'optimiseur :",
+        "step4": "Sur la vue du trou, appuyez sur \"Optimiser\" pour obtenir des recommandations IA basées sur la distance, le vent, l'altitude et vos données personnelles",
+        "step5": "Explorez les autres fonctionnalités : suivi des coups, météo, analyses de performance",
+        "step6": "Prêt à l'essayer sur votre propre appareil ? Inscrivez-vous gratuitement ci-dessous !"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Centre d'aide",
+        "titleStart": "Comment pouvons-nous",
+        "titleHighlight": "vous aider ?",
+        "subtitle": "Trouvez les réponses aux questions courantes ou contactez notre équipe de support",
+        "searchPlaceholder": "Rechercher de l'aide..."
+      },
+      "support": {
+        "headingStart": "Obtenir",
+        "headingHighlight": "de l'aide",
+        "subheading": "Choisissez la meilleure façon d'obtenir de l'aide",
+        "liveChatTitle": "Chat en direct",
+        "liveChatDesc": "Discutez avec notre équipe de support",
+        "liveChatAction": "Démarrer le chat",
+        "emailTitle": "Support par e-mail",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "Envoyer un e-mail",
+        "docsTitle": "Documentation",
+        "docsDesc": "Parcourez notre documentation",
+        "docsAction": "Voir la doc",
+        "videoTitle": "Tutoriels vidéo",
+        "videoDesc": "Regardez nos guides vidéo",
+        "videoAction": "Voir les vidéos"
+      },
+      "faq": {
+        "headingStart": "Questions",
+        "headingHighlight": "fréquentes",
+        "subheading": "Réponses rapides aux questions courantes",
+        "catGettingStarted": "Pour commencer",
+        "gs1q": "Comment créer mon profil ?",
+        "gs1a": "Après inscription, allez dans Paramètres du profil et saisissez les distances de vos clubs. Copperline Golf utilisera ces informations pour fournir des recommandations personnalisées. Vous pouvez mettre à jour votre profil à tout moment.",
+        "gs2q": "Quelle est la précision des recommandations ?",
+        "gs2a": "Copperline Golf utilise des algorithmes avancés prenant en compte vos distances de club, les conditions météo en temps réel, les variations d'altitude et votre historique. La plupart des utilisateurs rapportent plus de 90% de précision avec un profil bien calibré.",
+        "gs3q": "Faut-il une connexion Internet ?",
+        "gs3a": "Une connexion Internet est requise pour la météo en temps réel et la cartographie GPS. Toutefois, les données de profil et les recommandations de base fonctionnent hors ligne une fois téléchargées.",
+        "catUsing": "Utiliser l'app",
+        "u1q": "Comment suivre une partie ?",
+        "u1a": "Ouvrez l'app sur le parcours et appuyez sur \"Démarrer la partie\". Sélectionnez votre parcours dans la liste GPS, et Copperline Golf suivra automatiquement votre position et fournira des recommandations.",
+        "u2q": "Puis-je modifier des parties passées ?",
+        "u2a": "Oui ! Allez dans l'historique, sélectionnez la partie à modifier et appuyez sur l'icône d'édition. Vous pouvez ajuster scores, sélections de club et ajouter des notes.",
+        "u3q": "Comment partager mes parties avec des amis ?",
+        "u3a": "Après une partie, appuyez sur l'icône de partage de votre carte de score. Vous pouvez partager par SMS, e-mail ou réseaux sociaux avec des statistiques détaillées et une carte du parcours.",
+        "catBilling": "Compte et facturation",
+        "b1q": "Que comprend la version gratuite ?",
+        "b1a": "La version gratuite inclut les recommandations de club de base, le suivi des coups et l'accès au GPS. Les fonctions premium comme les analyses avancées, le radar météo et les téléchargements illimités nécessitent un abonnement Pro.",
+        "b2q": "Comment passer à Pro ?",
+        "b2a": "Allez dans Paramètres > Abonnement et appuyez sur \"Passer à Pro\". Choisissez la facturation mensuelle (9,99 $) ou annuelle (79,99 $). Vous pouvez annuler à tout moment depuis les paramètres du compte.",
+        "b3q": "Comment annuler mon abonnement ?",
+        "b3a": "Sur iOS : Réglages > [Votre nom] > Abonnements > Copperline Golf. Sur Android : Play Store > Menu > Abonnements > Copperline Golf. Vous pouvez aussi gérer vos abonnements depuis notre site.",
+        "catTrouble": "Dépannage",
+        "t1q": "Le GPS n'est pas précis. Que faire ?",
+        "t1a": "Assurez-vous que les services de localisation sont activés pour Copperline Golf. Essayez de redémarrer l'app ou l'appareil. Si le problème persiste, recalibrez le GPS en restant immobile 30 secondes dans un espace ouvert.",
+        "t2q": "Mes distances de club semblent erronées. Comment corriger ?",
+        "t2a": "Allez dans Profil > Clubs et vérifiez les distances saisies. Assurez-vous qu'elles représentent votre distance moyenne, pas votre maximum. Vous pouvez aussi utiliser notre fonction de calibration lors d'une partie d'entraînement.",
+        "t3q": "L'app vide ma batterie. Que faire ?",
+        "t3a": "Activez le mode économie d'énergie dans les paramètres de l'app, qui réduit la fréquence GPS et l'activité en arrière-plan. Assurez-vous aussi d'avoir la dernière version de l'app.",
+        "catPremium": "Fonctionnalités premium",
+        "p1q": "Qu'est-ce que le Conseiller de coup IA ?",
+        "p1a": "Le Conseiller de coup IA analyse vos performances passées, les conditions actuelles et le tracé du parcours pour suggérer le club et la stratégie optimaux. Il apprend de votre jeu au fil du temps.",
+        "p2q": "Comment fonctionne l'ajustement au vent ?",
+        "p2a": "Copperline Golf utilise des données de vent en temps réel pour calculer l'effet de la vitesse et de la direction du vent sur la distance de votre coup. La recommandation ajuste automatiquement la sélection du club en fonction."
+      },
+      "cta": {
+        "heading": "Encore besoin d'aide ?",
+        "subtitle": "Notre équipe de support est là pour vous aider à tirer le meilleur de Copperline Golf",
+        "liveChatButton": "Démarrer le chat en direct",
+        "emailButton": "Support par e-mail"
+      }
     }
   }
 }

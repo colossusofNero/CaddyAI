@@ -2140,6 +2140,134 @@
         "buttonDefault": "继续",
         "buttonSettingUp": "正在设置..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "由先进 AI 驱动",
+        "titleStart": "更聪明地打球",
+        "titleHighlight": "所需的一切",
+        "subtitle": "Copperline Golf 结合人工智能、实时数据和个性化洞察，帮助您在每一杆中做出更好的决定。"
+      },
+      "core": {
+        "heading": "核心功能",
+        "subheading": "让 Copperline Golf 成为您完美高尔夫伙伴的必备工具",
+        "aiTitle": "AI 选杆",
+        "aiDesc": "我们的高级 AI 分析距离、风、海拔以及您的个人击球历史，在任何情况下推荐完美的球杆。",
+        "patternsTitle": "个性化击球模式",
+        "patternsDesc": "跟踪每支球杆的击球散布模式。Copperline Golf 学习您的倾向并相应调整推荐。",
+        "weatherTitle": "实时天气集成",
+        "weatherDesc": "自动获取天气数据，提供风速、风向和温度，实时调整球杆选择。",
+        "elevationTitle": "海拔调整",
+        "elevationDesc": "精确的海拔计算帮助您考虑上坡和下坡击球，确保准确的距离推荐。",
+        "analyticsTitle": "表现分析",
+        "analyticsDesc": "关于您比赛的详细统计和洞察，帮助识别优势、劣势和改进领域。",
+        "coursesTitle": "15,000 多个球场数据库",
+        "coursesDesc": "访问全球数千个球场的详细信息、GPS 坐标和洞布局。"
+      },
+      "stats": {
+        "heading": "深受全球高尔夫球手信赖",
+        "subheading": "加入数千名借助 Copperline Golf 提升比赛水平的玩家"
+      },
+      "advanced": {
+        "heading": "高级功能",
+        "subheading": "通过为认真球手设计的强大功能超越基础",
+        "mobileTitle": "移动优先设计",
+        "mobileDesc": "专为球场使用而优化，快速访问推荐，最大限度地减少电池消耗。",
+        "cloudTitle": "云同步",
+        "cloudDesc": "您的资料、球杆和统计数据会自动在所有设备间同步。",
+        "instantTitle": "即时推荐",
+        "instantDesc": "毫秒级获得球杆建议，不会拖慢您的比赛。",
+        "socialTitle": "社交功能",
+        "socialDesc": "与朋友分享比赛、比较统计数据，并在排行榜上竞争。",
+        "handicapTitle": "差点跟踪",
+        "handicapDesc": "随时间监测您的差点进展，看看 Copperline Golf 如何帮助您进步。",
+        "insightsTitle": "进步洞察",
+        "insightsDesc": "基于您表现趋势的个性化提示和建议。"
+      },
+      "demo": {
+        "badge": "立即试用",
+        "heading": "亲身体验 Copperline Golf",
+        "subheading": "直接在浏览器中与我们的应用程序互动。无需下载。",
+        "instructionsTitle": "如何使用此演示",
+        "step1": "等待模拟器加载（这可能需要几秒钟）",
+        "step2": "像在真实设备上一样点击和与应用程序交互",
+        "step3Bold": "导航到一个洞：",
+        "step3": "通过选择球场开始一轮比赛，然后在洞卡上左右滑动，或使用顶部的洞选择器跳转到任意洞",
+        "step4Bold": "尝试优化器：",
+        "step4": "在洞视图中，点击\"优化\"按钮以根据距离、风、海拔和您的个人击球数据获取由 AI 驱动的球杆推荐",
+        "step5": "探索其他功能，如击球跟踪、天气集成和表现分析",
+        "step6": "准备好在您自己的设备上体验了吗？在下方免费注册！"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "帮助中心",
+        "titleStart": "我们如何",
+        "titleHighlight": "帮助您？",
+        "subtitle": "查找常见问题的答案或联系我们的支持团队",
+        "searchPlaceholder": "搜索帮助..."
+      },
+      "support": {
+        "headingStart": "获取",
+        "headingHighlight": "支持",
+        "subheading": "选择最适合您的获取帮助的方式",
+        "liveChatTitle": "在线聊天",
+        "liveChatDesc": "与我们的支持团队聊天",
+        "liveChatAction": "开始聊天",
+        "emailTitle": "电子邮件支持",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "发送邮件",
+        "docsTitle": "文档",
+        "docsDesc": "浏览我们的帮助文档",
+        "docsAction": "查看文档",
+        "videoTitle": "视频教程",
+        "videoDesc": "观看操作指南",
+        "videoAction": "观看视频"
+      },
+      "faq": {
+        "headingStart": "常见",
+        "headingHighlight": "问题",
+        "subheading": "快速找到常见问题的答案",
+        "catGettingStarted": "入门",
+        "gs1q": "如何创建我的资料？",
+        "gs1a": "注册后，转到资料设置并输入您的球杆距离。Copperline Golf 将使用此信息提供个性化推荐。您可以随着比赛的进步随时更新您的资料。",
+        "gs2q": "球杆推荐的准确性如何？",
+        "gs2a": "Copperline Golf 使用先进的算法，考虑您的球杆距离、实时天气条件、海拔变化和击球历史。大多数用户在资料正确校准的情况下报告超过 90% 的准确性。",
+        "gs3q": "我需要网络连接吗？",
+        "gs3a": "实时天气数据和 GPS 地图需要网络连接。但您的资料数据和基本球杆推荐在下载后可离线使用。",
+        "catUsing": "使用应用",
+        "u1q": "如何跟踪一轮比赛？",
+        "u1a": "在球场上打开应用，点击\"开始比赛\"。从 GPS 列表中选择您的球场，Copperline Golf 将自动跟踪您的位置并为每一杆提供推荐。",
+        "u2q": "我可以编辑过去的比赛吗？",
+        "u2a": "可以！转到您的比赛历史，选择要编辑的比赛，然后点击编辑图标。您可以调整分数、球杆选择并添加备注。",
+        "u3q": "如何与朋友分享我的比赛？",
+        "u3a": "完成一轮比赛后，点击记分卡上的分享图标。您可以通过短信、电子邮件或社交媒体分享详细统计数据和球场地图。",
+        "catBilling": "账户和账单",
+        "b1q": "免费版本包含什么？",
+        "b1a": "免费版本包括基本球杆推荐、击球跟踪和球场 GPS 访问。高级分析、天气雷达和无限球场下载等高级功能需要 Pro 订阅。",
+        "b2q": "如何升级到 Pro？",
+        "b2a": "转到设置 > 订阅并点击\"升级到 Pro\"。在月度（$9.99）或年度（$79.99）计费之间选择。您可以随时从账户设置中取消。",
+        "b3q": "如何取消我的订阅？",
+        "b3a": "对于 iOS：设置 > [您的名字] > 订阅 > Copperline Golf。对于 Android：Play 商店 > 菜单 > 订阅 > Copperline Golf。您还可以从我们的网站管理订阅。",
+        "catTrouble": "故障排除",
+        "t1q": "GPS 不准确。我该怎么办？",
+        "t1a": "确保在设备设置中为 Copperline Golf 启用了定位服务。尝试重启应用或设备。如果问题仍然存在，请在开阔区域静止站立 30 秒以重新校准 GPS。",
+        "t2q": "我的球杆距离似乎不对。如何修正？",
+        "t2a": "转到资料 > 球杆并检查您输入的距离。确保它们代表您的平均距离，而不是最大距离。您还可以在练习轮次中使用我们的校准功能。",
+        "t3q": "应用消耗我的电量。我能做什么？",
+        "t3a": "在应用设置中启用电池节省模式，这会降低 GPS 刷新率和后台活动。还要确保您运行的是应用的最新版本。",
+        "catPremium": "高级功能",
+        "p1q": "什么是 AI 击球顾问？",
+        "p1a": "AI 击球顾问分析您过去的表现、当前条件和球场布局，为每一杆建议最佳球杆和策略。它会随着时间从您的比赛中学习。",
+        "p2q": "风调整如何工作？",
+        "p2a": "Copperline Golf 使用实时风数据来计算风速和风向如何影响您的击球距离。推荐会根据这些因素自动调整球杆选择。"
+      },
+      "cta": {
+        "heading": "仍然需要帮助？",
+        "subtitle": "我们的支持团队随时帮助您充分利用 Copperline Golf",
+        "liveChatButton": "开始在线聊天",
+        "emailButton": "电子邮件支持"
+      }
     }
   }
 }

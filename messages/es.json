@@ -2140,6 +2140,134 @@
         "buttonDefault": "Continuar",
         "buttonSettingUp": "Configurando..."
       }
+    },
+    "features": {
+      "hero": {
+        "badge": "Impulsado por IA avanzada",
+        "titleStart": "Todo lo que necesitas para",
+        "titleHighlight": "jugar más inteligente",
+        "subtitle": "Copperline Golf combina inteligencia artificial, datos en tiempo real e información personalizada para ayudarte a tomar mejores decisiones en cada golpe."
+      },
+      "core": {
+        "heading": "Funciones principales",
+        "subheading": "Las herramientas esenciales que hacen de Copperline Golf tu compañero perfecto de golf",
+        "aiTitle": "Selección de palo con IA",
+        "aiDesc": "Nuestra IA avanzada analiza distancia, viento, elevación y tu historial de golpes para recomendar el palo perfecto en cada situación.",
+        "patternsTitle": "Patrones de golpe personalizados",
+        "patternsDesc": "Registra tus patrones de dispersión por cada palo. Copperline Golf aprende tus tendencias y ajusta las recomendaciones.",
+        "weatherTitle": "Integración meteorológica en tiempo real",
+        "weatherDesc": "La obtención automática del clima proporciona velocidad y dirección del viento y temperatura para ajustar la selección del palo en tiempo real.",
+        "elevationTitle": "Ajustes por elevación",
+        "elevationDesc": "Los cálculos precisos de elevación te ayudan a considerar golpes cuesta arriba y cuesta abajo, asegurando recomendaciones de distancia exactas.",
+        "analyticsTitle": "Análisis de rendimiento",
+        "analyticsDesc": "Estadísticas detalladas e insights sobre tu juego para identificar fortalezas, debilidades y áreas de mejora.",
+        "coursesTitle": "Base de datos con más de 15.000 campos",
+        "coursesDesc": "Accede a información detallada de campos, coordenadas GPS y diseños de hoyo para miles de campos en todo el mundo."
+      },
+      "stats": {
+        "heading": "La confianza de golfistas en todo el mundo",
+        "subheading": "Únete a miles de jugadores que mejoran su juego con Copperline Golf"
+      },
+      "advanced": {
+        "heading": "Capacidades avanzadas",
+        "subheading": "Ve más allá de lo básico con funciones potentes diseñadas para golfistas serios",
+        "mobileTitle": "Diseño mobile-first",
+        "mobileDesc": "Optimizado para uso en el campo con acceso rápido a recomendaciones y mínimo consumo de batería.",
+        "cloudTitle": "Sincronización en la nube",
+        "cloudDesc": "Tu perfil, palos y estadísticas se sincronizan automáticamente en todos tus dispositivos.",
+        "instantTitle": "Recomendaciones instantáneas",
+        "instantDesc": "Obtén sugerencias de palo en milisegundos sin retrasar tu ronda.",
+        "socialTitle": "Funciones sociales",
+        "socialDesc": "Comparte rondas con amigos, compara estadísticas y compite en clasificaciones.",
+        "handicapTitle": "Seguimiento del hándicap",
+        "handicapDesc": "Sigue el progreso de tu hándicap a lo largo del tiempo y ve cómo Copperline Golf te ayuda a mejorar.",
+        "insightsTitle": "Insights de mejora",
+        "insightsDesc": "Consejos y sugerencias personalizados según tus tendencias de rendimiento."
+      },
+      "demo": {
+        "badge": "Pruébalo ahora",
+        "heading": "Vive Copperline Golf en acción",
+        "subheading": "Interactúa con nuestra app directamente en tu navegador. Sin descarga.",
+        "instructionsTitle": "Cómo usar esta demo",
+        "step1": "Espera a que el emulador cargue (puede tardar unos segundos)",
+        "step2": "Toca e interactúa con la app como lo harías en un dispositivo real",
+        "step3Bold": "Ir a un hoyo:",
+        "step3": "Empieza una ronda eligiendo un campo, luego desliza a la izquierda o derecha sobre la tarjeta del hoyo, o usa el selector superior para ir a cualquier hoyo",
+        "step4Bold": "Prueba el optimizador:",
+        "step4": "En la vista del hoyo, pulsa \"Optimizar\" para obtener recomendaciones con IA basadas en distancia, viento, elevación y tus datos personales de golpe",
+        "step5": "Explora otras funciones como seguimiento de golpes, integración meteorológica y análisis de rendimiento",
+        "step6": "¿Listo para probarlo en tu propio dispositivo? ¡Regístrate gratis abajo!"
+      }
+    },
+    "help": {
+      "hero": {
+        "badge": "Centro de ayuda",
+        "titleStart": "¿Cómo podemos",
+        "titleHighlight": "ayudarte?",
+        "subtitle": "Encuentra respuestas a preguntas comunes o contacta con nuestro equipo de soporte",
+        "searchPlaceholder": "Buscar ayuda..."
+      },
+      "support": {
+        "headingStart": "Obtener",
+        "headingHighlight": "soporte",
+        "subheading": "Elige la mejor forma de obtener ayuda",
+        "liveChatTitle": "Chat en vivo",
+        "liveChatDesc": "Chatea con nuestro equipo de soporte",
+        "liveChatAction": "Iniciar chat",
+        "emailTitle": "Soporte por correo",
+        "emailDesc": "support@copperlinegolf.com",
+        "emailAction": "Enviar correo",
+        "docsTitle": "Documentación",
+        "docsDesc": "Explora nuestra documentación",
+        "docsAction": "Ver documentos",
+        "videoTitle": "Tutoriales en vídeo",
+        "videoDesc": "Mira guías paso a paso",
+        "videoAction": "Ver vídeos"
+      },
+      "faq": {
+        "headingStart": "Preguntas",
+        "headingHighlight": "frecuentes",
+        "subheading": "Respuestas rápidas a las dudas más comunes",
+        "catGettingStarted": "Primeros pasos",
+        "gs1q": "¿Cómo creo mi perfil?",
+        "gs1a": "Después de registrarte, ve a Configuración del perfil e introduce las distancias de tus palos. Copperline Golf usará esta información para ofrecer recomendaciones personalizadas. Puedes actualizar tu perfil cuando quieras a medida que mejora tu juego.",
+        "gs2q": "¿Qué tan precisas son las recomendaciones de palo?",
+        "gs2a": "Copperline Golf utiliza algoritmos avanzados que tienen en cuenta tus distancias de palo, las condiciones meteorológicas en tiempo real, los cambios de elevación y el historial de golpes. La mayoría de usuarios reportan más del 90% de precisión cuando su perfil está bien calibrado.",
+        "gs3q": "¿Necesito conexión a internet?",
+        "gs3a": "Se requiere conexión a internet para los datos meteorológicos en tiempo real y el GPS. Sin embargo, los datos del perfil y las recomendaciones básicas funcionan sin conexión una vez descargados.",
+        "catUsing": "Uso de la app",
+        "u1q": "¿Cómo registro una ronda?",
+        "u1a": "Abre la app en el campo y pulsa \"Iniciar ronda\". Selecciona tu campo de la lista GPS y Copperline Golf seguirá automáticamente tu ubicación y ofrecerá recomendaciones para cada golpe.",
+        "u2q": "¿Puedo editar rondas pasadas?",
+        "u2a": "Sí. Ve a tu historial de rondas, selecciona la ronda que quieras editar y pulsa el icono de edición. Puedes ajustar puntuaciones, selecciones de palo y añadir notas.",
+        "u3q": "¿Cómo comparto mis rondas con amigos?",
+        "u3a": "Tras terminar una ronda, pulsa el icono de compartir en tu tarjeta de puntuación. Puedes compartir por SMS, correo o redes sociales con estadísticas detalladas y un mapa del campo.",
+        "catBilling": "Cuenta y facturación",
+        "b1q": "¿Qué incluye la versión gratuita?",
+        "b1a": "La versión gratuita incluye recomendaciones básicas de palo, seguimiento de golpes y acceso al GPS de campo. Las funciones premium como análisis avanzado, radar meteorológico y descargas ilimitadas requieren una suscripción Pro.",
+        "b2q": "¿Cómo me actualizo a Pro?",
+        "b2a": "Ve a Configuración > Suscripción y pulsa \"Actualizar a Pro\". Elige entre facturación mensual ($9,99) o anual ($79,99). Puedes cancelar cuando quieras desde la configuración de tu cuenta.",
+        "b3q": "¿Cómo cancelo mi suscripción?",
+        "b3a": "Para iOS: Ajustes > [Tu nombre] > Suscripciones > Copperline Golf. Para Android: Play Store > Menú > Suscripciones > Copperline Golf. También puedes gestionar tus suscripciones desde nuestro sitio web.",
+        "catTrouble": "Resolución de problemas",
+        "t1q": "El GPS no es preciso. ¿Qué debo hacer?",
+        "t1a": "Asegúrate de que los servicios de ubicación estén activados para Copperline Golf. Intenta reiniciar la app o el dispositivo. Si persisten los problemas, recalibra el GPS quedándote quieto 30 segundos en un área abierta.",
+        "t2q": "Mis distancias de palo parecen incorrectas. ¿Cómo lo arreglo?",
+        "t2a": "Ve a Perfil > Palos y revisa las distancias introducidas. Asegúrate de que representen tu distancia promedio, no la máxima. También puedes usar nuestra función de calibración durante una ronda de práctica.",
+        "t3q": "La app está agotando mi batería. ¿Qué puedo hacer?",
+        "t3a": "Activa el modo ahorro de batería en los ajustes de la app, que reduce la frecuencia de actualización del GPS y la actividad en segundo plano. Asegúrate también de tener la última versión de la app.",
+        "catPremium": "Funciones premium",
+        "p1q": "¿Qué es el Asesor de golpe con IA?",
+        "p1a": "El Asesor de golpe con IA analiza tu rendimiento pasado, las condiciones actuales y el diseño del campo para sugerir el palo y la estrategia óptimos para cada golpe. Aprende de tu juego con el tiempo.",
+        "p2q": "¿Cómo funciona el ajuste por viento?",
+        "p2a": "Copperline Golf usa datos de viento en tiempo real para calcular cómo la velocidad y dirección del viento afectan la distancia de tu golpe. La recomendación ajusta automáticamente la selección de palo según estos factores."
+      },
+      "cta": {
+        "heading": "¿Aún necesitas ayuda?",
+        "subtitle": "Nuestro equipo de soporte está aquí para ayudarte a aprovechar al máximo Copperline Golf",
+        "liveChatButton": "Iniciar chat en vivo",
+        "emailButton": "Soporte por correo"
+      }
     }
   }
 }

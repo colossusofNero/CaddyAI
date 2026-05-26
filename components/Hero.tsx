@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { ChevronDown, Play, Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { Icon, iconConfig } from '@/components/ui/Icon';
 import { fadeIn, fadeInUp, staggerContainer, staggerItem, bounce } from '@/lib/animations';
@@ -25,9 +26,12 @@ interface HeroProps {
 export function Hero({
   videoSrc = '/videos/golf-hero.mp4',
   fallbackImage = 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=2070&auto=format&fit=crop',
-  title = 'Your AI Caddy in Your Pocket',
-  subtitle = 'Make every shot count with real-time club recommendations powered by AI',
+  title,
+  subtitle,
 }: HeroProps) {
+  const t = useTranslations('marketing.hero');
+  const heading = title ?? t('title');
+  const sub = subtitle ?? t('subtitle');
   const [videoError, setVideoError] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const phoneRef = useRef<HTMLDivElement>(null);
@@ -121,7 +125,7 @@ export function Hero({
             >
               <Icon icon={Sparkles} {...iconConfig.badge} variant="secondary" />
               <span className="text-sm font-semibold text-white">
-                AI-Powered Golf Assistant
+                {t('badge')}
               </span>
             </motion.div>
 
@@ -130,7 +134,7 @@ export function Hero({
               variants={staggerItem}
               className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[72px] font-bold text-white mb-4 sm:mb-6 leading-[1.1] tracking-tight"
             >
-              {title}
+              {heading}
             </motion.h1>
 
             {/* Subtitle - Mobile-optimized (min 16px for iOS) */}
@@ -138,7 +142,7 @@ export function Hero({
               variants={staggerItem}
               className="font-sans text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed"
             >
-              {subtitle}
+              {sub}
             </motion.p>
 
             {/* CTAs - Design System: Primary + Secondary */}
@@ -151,7 +155,7 @@ export function Hero({
                   size="lg"
                   className="w-full sm:w-auto min-w-[200px] bg-primary hover:bg-primary-600 text-white font-semibold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all"
                 >
-                  Start Free Trial →
+                  {t('ctaPrimary')}
                 </Button>
               </Link>
               <Link href="/features#demo">
@@ -161,7 +165,7 @@ export function Hero({
                   className="w-full sm:w-auto min-w-[200px] group border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 backdrop-blur-sm"
                 >
                   <Icon icon={Play} {...iconConfig.button} className="mr-2 group-hover:scale-110 transition-transform" />
-                  Try Demo
+                  {t('ctaSecondary')}
                 </Button>
               </Link>
             </motion.div>
@@ -171,9 +175,9 @@ export function Hero({
               variants={staggerItem}
               className="mt-8 flex items-center gap-4 justify-center lg:justify-start text-sm text-neutral-700 font-sans"
             >
-              <span className="font-semibold">Join 50,000+ golfers</span>
+              <span className="font-semibold">{t('statGolfers')}</span>
               <span className="text-neutral-400">|</span>
-              <span className="font-semibold">2M+ shots analyzed</span>
+              <span className="font-semibold">{t('statShots')}</span>
             </motion.div>
           </motion.div>
 
@@ -225,7 +229,7 @@ export function Hero({
         animate="animate"
         onClick={handleScrollDown}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 p-2 rounded-full hover:bg-primary/10 transition-colors cursor-pointer group"
-        aria-label="Scroll to features"
+        aria-label={t('scrollAria')}
       >
         <Icon icon={ChevronDown} size="lg" variant="primary" className="group-hover:text-primary-400 transition-colors" />
       </motion.button>

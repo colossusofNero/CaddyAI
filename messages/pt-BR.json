@@ -1911,6 +1911,86 @@
         "titleHighlight": "golfistas dizem",
         "subtitle": "Feedback real de golfistas que transformaram seu jogo"
       }
+    },
+    "footer": {
+      "brandTagline": "Seu parceiro de golfe inteligente para decisões de tacada mais certeiras. Movido a IA para te ajudar a jogar seu melhor jogo.",
+      "sectionProduct": "Produto",
+      "sectionCompany": "Empresa",
+      "sectionResources": "Recursos",
+      "sectionLegal": "Jurídico",
+      "linkFeatures": "Recursos",
+      "linkPricing": "Preços",
+      "linkDownloadApp": "Baixar app",
+      "linkIntegrations": "Integrações",
+      "linkAboutUs": "Sobre nós",
+      "linkCareers": "Carreiras",
+      "linkBlog": "Blog",
+      "linkPressKit": "Press kit",
+      "linkHelpCenter": "Central de ajuda",
+      "linkCommunity": "Comunidade",
+      "linkTutorials": "Tutoriais",
+      "linkApiDocs": "Docs da API",
+      "linkPrivacyPolicy": "Política de privacidade",
+      "linkTermsOfService": "Termos de serviço",
+      "linkCookiePolicy": "Política de cookies",
+      "linkGdpr": "LGPD/GDPR",
+      "copyright": "© {year} Copperline Golf, Inc. Todos os direitos reservados.",
+      "madeWith": "Feito com ❤️ para golfistas em todo lugar"
+    },
+    "hero": {
+      "badge": "Assistente de golfe com IA",
+      "title": "Seu caddie de IA no bolso",
+      "subtitle": "Faça cada tacada valer com recomendações de tacos em tempo real alimentadas por IA",
+      "ctaPrimary": "Começar teste grátis →",
+      "ctaSecondary": "Ver demo",
+      "statGolfers": "Junte-se a mais de 50.000 golfistas",
+      "statShots": "Mais de 2 milhões de tacadas analisadas",
+      "scrollAria": "Rolar para recursos"
+    },
+    "ctaSection": {
+      "badge": "Oferta por tempo limitado",
+      "title": "Pronto para melhorar seu jogo?",
+      "subtitle": "Junte-se a milhares de golfistas que usam o Copperline Golf para tomar melhores decisões no campo. Comece hoje e veja a diferença no seu jogo.",
+      "ctaPrimary": "Comece grátis",
+      "ctaSecondary": "Ver preços",
+      "mini1Title": "Com IA",
+      "mini1Subtitle": "Recomendações inteligentes",
+      "mini2Title": "Acompanhe seu progresso",
+      "mini2Subtitle": "Reduza seu handicap",
+      "mini3Title": "Grátis para começar",
+      "mini3Subtitle": "Sem cartão de crédito"
+    },
+    "about": {
+      "meta": {
+        "title": "Sobre | Copperline Golf - Golfe mais acessível e divertido",
+        "description": "O Copperline Golf nasceu de uma ideia simples: todo golfista merece os insights e a confiança de ter um caddie experiente."
+      },
+      "hero": {
+        "titleStart": "Tornar o golfe mais",
+        "titleHighlight": "divertido e acessível",
+        "subtitle": "O Copperline Golf nasceu de uma ideia simples: todo golfista merece os insights e a confiança de ter um caddie experiente."
+      },
+      "mission": {
+        "heading": "Nossa missão",
+        "body": "Nossa missão é ajudar golfistas de todos os níveis a jogar com mais inteligência, e não com mais esforço. Combinando inteligência artificial com dados do campo em tempo real, oferecemos recomendações personalizadas que tornam cada rodada mais agradável e cada tacada mais confiante."
+      },
+      "values": {
+        "heading": "Nossos valores",
+        "precisionTitle": "Precisão",
+        "precisionDesc": "Acreditamos em recomendações precisas e baseadas em dados, em que os golfistas podem confiar.",
+        "communityTitle": "Comunidade",
+        "communityDesc": "Golfe é melhor em grupo. Criamos recursos que conectam e apoiam os golfistas.",
+        "innovationTitle": "Inovação",
+        "innovationDesc": "Usamos IA de ponta para resolver problemas reais que os golfistas enfrentam no campo.",
+        "passionTitle": "Paixão",
+        "passionDesc": "Feito por golfistas, para golfistas. Amamos o jogo tanto quanto você."
+      },
+      "stats": {
+        "activeUsers": "Usuários ativos",
+        "shotsTracked": "Tacadas registradas",
+        "founded": "Fundada em",
+        "satisfaction": "Satisfação"
+      }
     }
   }
 }

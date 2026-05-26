@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Target, TrendingUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { IconWithBackground, Icon, iconConfig } from '@/components/ui/Icon';
 import { fadeInUp, staggerContainer, staggerItem } from '@/lib/animations';
@@ -28,18 +29,17 @@ interface CTASectionProps {
 }
 
 export function CTASection({
-  title = 'Ready to Improve Your Game?',
-  subtitle = 'Join thousands of golfers using Copperline Golf to make better decisions on the course. Get started today and see the difference in your game.',
-  primaryCTA = {
-    text: 'Get Started Free',
-    href: '/signup',
-  },
-  secondaryCTA = {
-    text: 'View Pricing',
-    href: '/pricing',
-  },
+  title,
+  subtitle,
+  primaryCTA,
+  secondaryCTA,
   showStats = true,
 }: CTASectionProps) {
+  const t = useTranslations('marketing.ctaSection');
+  const heading = title ?? t('title');
+  const sub = subtitle ?? t('subtitle');
+  const primary = primaryCTA ?? { text: t('ctaPrimary'), href: '/signup' };
+  const secondary = secondaryCTA ?? { text: t('ctaSecondary'), href: '/pricing' };
   return (
     <section id="cta" className="relative py-20 lg:py-32 overflow-hidden">
       {/* Background Image */}
@@ -81,7 +81,7 @@ export function CTASection({
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
                 <Icon icon={Sparkles} {...iconConfig.badge} />
                 <span className="text-sm font-medium text-primary">
-                  Limited Time Offer
+                  {t('badge')}
                 </span>
               </div>
             </motion.div>
@@ -91,7 +91,7 @@ export function CTASection({
               variants={staggerItem}
               className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary text-center mb-6"
             >
-              {title}
+              {heading}
             </motion.h2>
 
             {/* Subtitle */}
@@ -99,7 +99,7 @@ export function CTASection({
               variants={staggerItem}
               className="text-lg lg:text-xl text-text-secondary text-center max-w-2xl mx-auto mb-10"
             >
-              {subtitle}
+              {sub}
             </motion.p>
 
             {/* CTAs */}
@@ -107,20 +107,20 @@ export function CTASection({
               variants={staggerItem}
               className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
             >
-              <Link href={primaryCTA.href}>
+              <Link href={primary.href}>
                 <Button variant="primary" size="lg" className="w-full sm:w-auto min-w-[200px] group">
-                  {primaryCTA.text}
+                  {primary.text}
                   <Icon icon={ArrowRight} {...iconConfig.button} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              {secondaryCTA && (
-                <Link href={secondaryCTA.href}>
+              {secondary && (
+                <Link href={secondary.href}>
                   <Button
                     variant="outline"
                     size="lg"
                     className="w-full sm:w-auto min-w-[200px]"
                   >
-                    {secondaryCTA.text}
+                    {secondary.text}
                   </Button>
                 </Link>
               )}
@@ -141,9 +141,9 @@ export function CTASection({
                     className="flex-shrink-0"
                   />
                   <div>
-                    <p className="font-bold text-text-primary">AI-Powered</p>
+                    <p className="font-bold text-text-primary">{t('mini1Title')}</p>
                     <p className="text-sm text-text-muted">
-                      Smart Recommendations
+                      {t('mini1Subtitle')}
                     </p>
                   </div>
                 </div>
@@ -157,9 +157,9 @@ export function CTASection({
                     className="flex-shrink-0"
                   />
                   <div>
-                    <p className="font-bold text-text-primary">Track Progress</p>
+                    <p className="font-bold text-text-primary">{t('mini2Title')}</p>
                     <p className="text-sm text-text-muted">
-                      Lower Your Handicap
+                      {t('mini2Subtitle')}
                     </p>
                   </div>
                 </div>
@@ -173,8 +173,8 @@ export function CTASection({
                     className="flex-shrink-0"
                   />
                   <div>
-                    <p className="font-bold text-text-primary">Free to Start</p>
-                    <p className="text-sm text-text-muted">No Credit Card</p>
+                    <p className="font-bold text-text-primary">{t('mini3Title')}</p>
+                    <p className="text-sm text-text-muted">{t('mini3Subtitle')}</p>
                   </div>
                 </div>
               </motion.div>

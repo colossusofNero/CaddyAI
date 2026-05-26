@@ -1911,6 +1911,86 @@
         "titleHighlight": "Saying",
         "subtitle": "Real feedback from golfers who have transformed their game"
       }
+    },
+    "footer": {
+      "brandTagline": "Your intelligent golf companion for smarter shot decisions. Powered by AI to help you play your best game.",
+      "sectionProduct": "Product",
+      "sectionCompany": "Company",
+      "sectionResources": "Resources",
+      "sectionLegal": "Legal",
+      "linkFeatures": "Features",
+      "linkPricing": "Pricing",
+      "linkDownloadApp": "Download App",
+      "linkIntegrations": "Integrations",
+      "linkAboutUs": "About Us",
+      "linkCareers": "Careers",
+      "linkBlog": "Blog",
+      "linkPressKit": "Press Kit",
+      "linkHelpCenter": "Help Center",
+      "linkCommunity": "Community",
+      "linkTutorials": "Tutorials",
+      "linkApiDocs": "API Docs",
+      "linkPrivacyPolicy": "Privacy Policy",
+      "linkTermsOfService": "Terms of Service",
+      "linkCookiePolicy": "Cookie Policy",
+      "linkGdpr": "GDPR",
+      "copyright": "© {year} Copperline Golf, Inc. All rights reserved.",
+      "madeWith": "Made with ❤️ for golfers everywhere"
+    },
+    "hero": {
+      "badge": "AI-Powered Golf Assistant",
+      "title": "Your AI Caddy in Your Pocket",
+      "subtitle": "Make every shot count with real-time club recommendations powered by AI",
+      "ctaPrimary": "Start Free Trial →",
+      "ctaSecondary": "Try Demo",
+      "statGolfers": "Join 50,000+ golfers",
+      "statShots": "2M+ shots analyzed",
+      "scrollAria": "Scroll to features"
+    },
+    "ctaSection": {
+      "badge": "Limited Time Offer",
+      "title": "Ready to Improve Your Game?",
+      "subtitle": "Join thousands of golfers using Copperline Golf to make better decisions on the course. Get started today and see the difference in your game.",
+      "ctaPrimary": "Get Started Free",
+      "ctaSecondary": "View Pricing",
+      "mini1Title": "AI-Powered",
+      "mini1Subtitle": "Smart Recommendations",
+      "mini2Title": "Track Progress",
+      "mini2Subtitle": "Lower Your Handicap",
+      "mini3Title": "Free to Start",
+      "mini3Subtitle": "No Credit Card"
+    },
+    "about": {
+      "meta": {
+        "title": "About | Copperline Golf - Making Golf Enjoyable & Accessible",
+        "description": "Copperline Golf was born from a simple idea: every golfer deserves the insights and confidence that come from having an expert caddy."
+      },
+      "hero": {
+        "titleStart": "Making Golf More",
+        "titleHighlight": "Enjoyable & Accessible",
+        "subtitle": "Copperline Golf was born from a simple idea: every golfer deserves the insights and confidence that come from having an expert caddy."
+      },
+      "mission": {
+        "heading": "Our Mission",
+        "body": "We're on a mission to help golfers of all skill levels play smarter, not harder. By combining artificial intelligence with real-time course data, we provide personalized recommendations that make every round more enjoyable and every shot more confident."
+      },
+      "values": {
+        "heading": "Our Values",
+        "precisionTitle": "Precision",
+        "precisionDesc": "We believe in accurate, data-driven recommendations that golfers can trust.",
+        "communityTitle": "Community",
+        "communityDesc": "Golf is better together. We build features that connect and support golfers.",
+        "innovationTitle": "Innovation",
+        "innovationDesc": "Leveraging cutting-edge AI to solve real problems golfers face on the course.",
+        "passionTitle": "Passion",
+        "passionDesc": "Built by golfers, for golfers. We love the game as much as you do."
+      },
+      "stats": {
+        "activeUsers": "Active Users",
+        "shotsTracked": "Shots Tracked",
+        "founded": "Founded",
+        "satisfaction": "Satisfaction"
+      }
     }
   }
 }

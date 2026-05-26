@@ -1911,6 +1911,86 @@
         "titleHighlight": "声",
         "subtitle": "ゲームを変えた本物のゴルファーからのフィードバック"
       }
+    },
+    "footer": {
+      "brandTagline": "よりスマートなショット判断のためのインテリジェントなゴルフパートナー。AI でベストプレーを引き出します。",
+      "sectionProduct": "プロダクト",
+      "sectionCompany": "会社情報",
+      "sectionResources": "リソース",
+      "sectionLegal": "法的情報",
+      "linkFeatures": "機能",
+      "linkPricing": "料金",
+      "linkDownloadApp": "アプリをダウンロード",
+      "linkIntegrations": "連携",
+      "linkAboutUs": "私たちについて",
+      "linkCareers": "採用情報",
+      "linkBlog": "ブログ",
+      "linkPressKit": "プレスキット",
+      "linkHelpCenter": "ヘルプセンター",
+      "linkCommunity": "コミュニティ",
+      "linkTutorials": "チュートリアル",
+      "linkApiDocs": "API ドキュメント",
+      "linkPrivacyPolicy": "プライバシーポリシー",
+      "linkTermsOfService": "利用規約",
+      "linkCookiePolicy": "クッキーポリシー",
+      "linkGdpr": "GDPR",
+      "copyright": "© {year} Copperline Golf, Inc. 無断複写・転載を禁じます。",
+      "madeWith": "世界中のゴルファーに ❤️ を込めて"
+    },
+    "hero": {
+      "badge": "AI ゴルフアシスタント",
+      "title": "ポケットの中の AI キャディ",
+      "subtitle": "AI による リアルタイムのクラブレコメンデーションで、すべてのショットを価値ある一打に。",
+      "ctaPrimary": "無料トライアルを開始 →",
+      "ctaSecondary": "デモを試す",
+      "statGolfers": "50,000 人以上のゴルファーが利用",
+      "statShots": "200 万ショット以上を分析",
+      "scrollAria": "機能までスクロール"
+    },
+    "ctaSection": {
+      "badge": "期間限定オファー",
+      "title": "プレーをもっと向上させませんか？",
+      "subtitle": "何千人ものゴルファーが Copperline Golf を使い、コースでより良い判断を下しています。今日から始めて、違いを実感してください。",
+      "ctaPrimary": "無料で始める",
+      "ctaSecondary": "料金を見る",
+      "mini1Title": "AI 駆動",
+      "mini1Subtitle": "スマートなレコメンデーション",
+      "mini2Title": "進捗を追跡",
+      "mini2Subtitle": "ハンディキャップを下げる",
+      "mini3Title": "無料で開始",
+      "mini3Subtitle": "クレジットカード不要"
+    },
+    "about": {
+      "meta": {
+        "title": "私たちについて | Copperline Golf - ゴルフをもっと楽しく身近に",
+        "description": "Copperline Golf は、すべてのゴルファーが熟練したキャディーから得られる洞察と自信を持つに値するという、シンプルなアイデアから生まれました。"
+      },
+      "hero": {
+        "titleStart": "ゴルフをもっと",
+        "titleHighlight": "楽しく身近に",
+        "subtitle": "Copperline Golf は、すべてのゴルファーが熟練したキャディーから得られる洞察と自信を持つに値するという、シンプルなアイデアから生まれました。"
+      },
+      "mission": {
+        "heading": "私たちのミッション",
+        "body": "すべてのスキルレベルのゴルファーが、より賢く、より楽にプレーできるよう支援することが私たちの使命です。AI とリアルタイムのコースデータを組み合わせ、ラウンドをより楽しく、ショットをより自信あるものにする、パーソナライズされたレコメンデーションを提供します。"
+      },
+      "values": {
+        "heading": "私たちの価値観",
+        "precisionTitle": "正確性",
+        "precisionDesc": "ゴルファーが信頼できる、正確でデータに基づくレコメンデーションを大切にしています。",
+        "communityTitle": "コミュニティ",
+        "communityDesc": "ゴルフは仲間と楽しむもの。ゴルファーをつなぎ支える機能を開発しています。",
+        "innovationTitle": "イノベーション",
+        "innovationDesc": "最先端の AI を活用して、ゴルファーがコースで直面する実際の問題を解決します。",
+        "passionTitle": "情熱",
+        "passionDesc": "ゴルファーによる、ゴルファーのためのアプリ。私たちもゴルフを愛しています。"
+      },
+      "stats": {
+        "activeUsers": "アクティブユーザー",
+        "shotsTracked": "記録ショット",
+        "founded": "設立年",
+        "satisfaction": "満足度"
+      }
     }
   }
 }

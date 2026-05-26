@@ -1,6 +1,6 @@
 /**
  * Footer Component
- * Comprehensive footer with links, social media, and newsletter signup
+ * Comprehensive footer with links, social media — localized.
  */
 
 'use client';
@@ -18,6 +18,7 @@ import {
   MapPin,
   Phone,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { fadeInUp } from '@/lib/animations';
 
 interface FooterLink {
@@ -30,45 +31,6 @@ interface FooterSection {
   links: FooterLink[];
 }
 
-const footerSections: FooterSection[] = [
-  {
-    title: 'Product',
-    links: [
-      { label: 'Features', href: '/features' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Download App', href: '/download' },
-      { label: 'Integrations', href: '/integrations' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Press Kit', href: '/press' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Help Center', href: '/help' },
-      { label: 'Community', href: '/community' },
-      { label: 'Tutorials', href: '/tutorials' },
-      { label: 'API Docs', href: '/docs' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'GDPR', href: '/gdpr' },
-    ],
-  },
-];
-
 const socialLinks = [
   { icon: Facebook, href: 'https://facebook.com/copperlinegolf', label: 'Facebook' },
   { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
@@ -78,14 +40,53 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const t = useTranslations('marketing.footer');
   const currentYear = new Date().getFullYear();
+
+  const footerSections: FooterSection[] = [
+    {
+      title: t('sectionProduct'),
+      links: [
+        { label: t('linkFeatures'), href: '/features' },
+        { label: t('linkPricing'), href: '/pricing' },
+        { label: t('linkDownloadApp'), href: '/download' },
+        { label: t('linkIntegrations'), href: '/integrations' },
+      ],
+    },
+    {
+      title: t('sectionCompany'),
+      links: [
+        { label: t('linkAboutUs'), href: '/about' },
+        { label: t('linkCareers'), href: '/careers' },
+        { label: t('linkBlog'), href: '/blog' },
+        { label: t('linkPressKit'), href: '/press' },
+      ],
+    },
+    {
+      title: t('sectionResources'),
+      links: [
+        { label: t('linkHelpCenter'), href: '/help' },
+        { label: t('linkCommunity'), href: '/community' },
+        { label: t('linkTutorials'), href: '/tutorials' },
+        { label: t('linkApiDocs'), href: '/docs' },
+      ],
+    },
+    {
+      title: t('sectionLegal'),
+      links: [
+        { label: t('linkPrivacyPolicy'), href: '/privacy' },
+        { label: t('linkTermsOfService'), href: '/terms' },
+        { label: t('linkCookiePolicy'), href: '/cookies' },
+        { label: t('linkGdpr'), href: '/gdpr' },
+      ],
+    },
+  ];
 
   return (
     <footer className="relative bg-background-light border-t border-secondary-700">
-      {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Brand Column - Full width on mobile */}
+          {/* Brand Column */}
           <div className="md:col-span-2 lg:col-span-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -93,7 +94,6 @@ export function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              {/* Logo */}
               <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
                 <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
                   <Image
@@ -107,11 +107,9 @@ export function Footer() {
               </Link>
 
               <p className="text-text-secondary mb-6 max-w-sm">
-                Your intelligent golf companion for smarter shot decisions.
-                Powered by AI to help you play your best game.
+                {t('brandTagline')}
               </p>
 
-              {/* Contact Info */}
               <div className="space-y-3 text-sm text-text-secondary">
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-primary" />
@@ -139,7 +137,7 @@ export function Footer() {
             </motion.div>
           </div>
 
-          {/* Links Columns - 2 columns on mobile/tablet, 4 on desktop */}
+          {/* Links Columns */}
           <div className="md:col-span-2 lg:col-span-8 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {footerSections.map((section, index) => (
               <motion.div
@@ -170,12 +168,9 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="border-t border-secondary-700 my-8 lg:my-12" />
 
-        {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
-          {/* Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -201,7 +196,6 @@ export function Footer() {
             })}
           </motion.div>
 
-          {/* Copyright */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -210,16 +204,15 @@ export function Footer() {
             className="text-center md:text-right"
           >
             <p className="text-sm text-text-muted">
-              &copy; {currentYear} Copperline Golf, Inc. All rights reserved.
+              {t('copyright', { year: currentYear })}
             </p>
             <p className="text-xs text-text-muted mt-1">
-              Made with ❤️ for golfers everywhere
+              {t('madeWith')}
             </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Background Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(5,161,70,0.05),transparent_50%)] pointer-events-none" />
     </footer>
   );

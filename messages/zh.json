@@ -1911,6 +1911,86 @@
         "titleHighlight": "怎么说",
         "subtitle": "来自改变了比赛方式的真实球手的反馈"
       }
+    },
+    "footer": {
+      "brandTagline": "您的智能高尔夫伙伴，助您做出更明智的击球决策。AI 驱动，让您发挥最佳水平。",
+      "sectionProduct": "产品",
+      "sectionCompany": "公司",
+      "sectionResources": "资源",
+      "sectionLegal": "法律信息",
+      "linkFeatures": "功能",
+      "linkPricing": "价格",
+      "linkDownloadApp": "下载应用",
+      "linkIntegrations": "集成",
+      "linkAboutUs": "关于我们",
+      "linkCareers": "招聘",
+      "linkBlog": "博客",
+      "linkPressKit": "媒体资料",
+      "linkHelpCenter": "帮助中心",
+      "linkCommunity": "社区",
+      "linkTutorials": "教程",
+      "linkApiDocs": "API 文档",
+      "linkPrivacyPolicy": "隐私政策",
+      "linkTermsOfService": "服务条款",
+      "linkCookiePolicy": "Cookie 政策",
+      "linkGdpr": "GDPR",
+      "copyright": "© {year} Copperline Golf, Inc. 保留所有权利。",
+      "madeWith": "怀着 ❤️ 为全球高尔夫球手打造"
+    },
+    "hero": {
+      "badge": "AI 高尔夫助手",
+      "title": "口袋里的 AI 球童",
+      "subtitle": "通过 AI 实时球杆推荐，让每一杆都有价值",
+      "ctaPrimary": "开始免费试用 →",
+      "ctaSecondary": "试用演示",
+      "statGolfers": "加入超过 50,000 名球手",
+      "statShots": "分析了超过 200 万次击球",
+      "scrollAria": "滚动至功能区"
+    },
+    "ctaSection": {
+      "badge": "限时优惠",
+      "title": "准备好提升您的水平了吗？",
+      "subtitle": "数千名球手使用 Copperline Golf 在球场上做出更明智的决定。立即开始，体验差别。",
+      "ctaPrimary": "免费开始",
+      "ctaSecondary": "查看价格",
+      "mini1Title": "AI 驱动",
+      "mini1Subtitle": "智能推荐",
+      "mini2Title": "跟踪进步",
+      "mini2Subtitle": "降低差点",
+      "mini3Title": "免费开始",
+      "mini3Subtitle": "无需信用卡"
+    },
+    "about": {
+      "meta": {
+        "title": "关于我们 | Copperline Golf - 让高尔夫更易享受",
+        "description": "Copperline Golf 源于一个简单的想法：每位球手都应享受专业球童带来的洞察和自信。"
+      },
+      "hero": {
+        "titleStart": "让高尔夫",
+        "titleHighlight": "更易享受",
+        "subtitle": "Copperline Golf 源于一个简单的想法：每位球手都应享受专业球童带来的洞察和自信。"
+      },
+      "mission": {
+        "heading": "我们的使命",
+        "body": "我们的使命是帮助各水平的高尔夫球手以更聪明的方式打球，而不是更费力。通过结合人工智能与实时球场数据，我们提供个性化推荐，让每一轮更愉快，每一杆更有信心。"
+      },
+      "values": {
+        "heading": "我们的价值观",
+        "precisionTitle": "精准",
+        "precisionDesc": "我们相信精准、以数据为依据的推荐，球手可以信赖。",
+        "communityTitle": "社区",
+        "communityDesc": "高尔夫与人共享更好。我们打造连接和支持球手的功能。",
+        "innovationTitle": "创新",
+        "innovationDesc": "利用前沿 AI 解决球手在球场上面临的真实问题。",
+        "passionTitle": "热爱",
+        "passionDesc": "由球手为球手打造。我们和您一样热爱这项运动。"
+      },
+      "stats": {
+        "activeUsers": "活跃用户",
+        "shotsTracked": "已记录击球",
+        "founded": "成立",
+        "satisfaction": "满意度"
+      }
     }
   }
 }

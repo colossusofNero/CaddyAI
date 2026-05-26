@@ -1,41 +1,37 @@
 /**
  * About Page
- * Company story, mission, and team
+ * Company story, mission, and team — localized.
  */
 
 'use client';
 
+import { useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { StatsCounter } from '@/components/StatsCounter';
 import { CTASection } from '@/components/CTASection';
 import { motion } from 'framer-motion';
 import { Target, Users, Zap, Heart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function AboutPage() {
+  const t = useTranslations('marketing.about');
+
   const values = [
-    {
-      icon: Target,
-      title: 'Precision',
-      description: 'We believe in accurate, data-driven recommendations that golfers can trust.',
-    },
-    {
-      icon: Users,
-      title: 'Community',
-      description: 'Golf is better together. We build features that connect and support golfers.',
-    },
-    {
-      icon: Zap,
-      title: 'Innovation',
-      description: 'Leveraging cutting-edge AI to solve real problems golfers face on the course.',
-    },
-    {
-      icon: Heart,
-      title: 'Passion',
-      description: 'Built by golfers, for golfers. We love the game as much as you do.',
-    },
+    { icon: Target, title: t('values.precisionTitle'), description: t('values.precisionDesc') },
+    { icon: Users, title: t('values.communityTitle'), description: t('values.communityDesc') },
+    { icon: Zap, title: t('values.innovationTitle'), description: t('values.innovationDesc') },
+    { icon: Heart, title: t('values.passionTitle'), description: t('values.passionDesc') },
   ];
+
+  useEffect(() => {
+    document.title = t('meta.title');
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t('meta.description'));
+    }
+  }, [t]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,16 +50,14 @@ export default function AboutPage() {
               variants={staggerItem}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
-              Making Golf More{' '}
-              <span className="text-primary">
-                Enjoyable & Accessible
-              </span>
+              {t('hero.titleStart')}{' '}
+              <span className="text-primary">{t('hero.titleHighlight')}</span>
             </motion.h1>
             <motion.p
               variants={staggerItem}
               className="text-xl text-text-secondary"
             >
-              Copperline Golf was born from a simple idea: every golfer deserves the insights and confidence that come from having an expert caddy.
+              {t('hero.subtitle')}
             </motion.p>
           </motion.div>
         </div>
@@ -74,10 +68,10 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
-              Our Mission
+              {t('mission.heading')}
             </h2>
             <p className="text-lg text-text-secondary leading-relaxed">
-              We're on a mission to help golfers of all skill levels play smarter, not harder. By combining artificial intelligence with real-time course data, we provide personalized recommendations that make every round more enjoyable and every shot more confident.
+              {t('mission.body')}
             </p>
           </div>
         </div>
@@ -88,7 +82,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-              Our Values
+              {t('values.heading')}
             </h2>
           </div>
 
@@ -123,10 +117,10 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <StatsCounter
             stats={[
-              { value: 50000, label: 'Active Users', suffix: '+' },
-              { value: 2000000, label: 'Shots Tracked', suffix: '+' },
-              { value: 2020, label: 'Founded' },
-              { value: 98, label: 'Satisfaction', suffix: '%' },
+              { value: 50000, label: t('stats.activeUsers'), suffix: '+' },
+              { value: 2000000, label: t('stats.shotsTracked'), suffix: '+' },
+              { value: 2020, label: t('stats.founded') },
+              { value: 98, label: t('stats.satisfaction'), suffix: '%' },
             ]}
           />
         </div>

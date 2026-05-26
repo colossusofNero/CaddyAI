@@ -1911,6 +1911,86 @@
         "titleHighlight": "golfeurs",
         "subtitle": "Vrais retours de golfeurs qui ont transformé leur jeu"
       }
+    },
+    "footer": {
+      "brandTagline": "Votre compagnon de golf intelligent pour des décisions de coup plus sûres. Propulsé par l'IA pour vous aider à jouer votre meilleur golf.",
+      "sectionProduct": "Produit",
+      "sectionCompany": "Entreprise",
+      "sectionResources": "Ressources",
+      "sectionLegal": "Mentions légales",
+      "linkFeatures": "Fonctionnalités",
+      "linkPricing": "Tarifs",
+      "linkDownloadApp": "Télécharger l'app",
+      "linkIntegrations": "Intégrations",
+      "linkAboutUs": "À propos",
+      "linkCareers": "Carrières",
+      "linkBlog": "Blog",
+      "linkPressKit": "Kit de presse",
+      "linkHelpCenter": "Centre d'aide",
+      "linkCommunity": "Communauté",
+      "linkTutorials": "Tutoriels",
+      "linkApiDocs": "Docs API",
+      "linkPrivacyPolicy": "Politique de confidentialité",
+      "linkTermsOfService": "Conditions d'utilisation",
+      "linkCookiePolicy": "Politique des cookies",
+      "linkGdpr": "RGPD",
+      "copyright": "© {year} Copperline Golf, Inc. Tous droits réservés.",
+      "madeWith": "Fait avec ❤️ pour les golfeurs du monde entier"
+    },
+    "hero": {
+      "badge": "Assistant golf alimenté par IA",
+      "title": "Votre caddie IA dans votre poche",
+      "subtitle": "Tirez le meilleur de chaque coup avec des recommandations de club en temps réel propulsées par IA",
+      "ctaPrimary": "Démarrer l'essai gratuit →",
+      "ctaSecondary": "Essayer la démo",
+      "statGolfers": "Rejoignez plus de 50 000 golfeurs",
+      "statShots": "Plus de 2M de coups analysés",
+      "scrollAria": "Aller aux fonctionnalités"
+    },
+    "ctaSection": {
+      "badge": "Offre limitée",
+      "title": "Prêt à améliorer votre jeu ?",
+      "subtitle": "Rejoignez des milliers de golfeurs qui utilisent Copperline Golf pour prendre de meilleures décisions sur le parcours. Commencez aujourd'hui et voyez la différence.",
+      "ctaPrimary": "Commencer gratuitement",
+      "ctaSecondary": "Voir les tarifs",
+      "mini1Title": "Propulsé par IA",
+      "mini1Subtitle": "Recommandations intelligentes",
+      "mini2Title": "Suivez vos progrès",
+      "mini2Subtitle": "Baissez votre handicap",
+      "mini3Title": "Gratuit pour commencer",
+      "mini3Subtitle": "Sans carte bancaire"
+    },
+    "about": {
+      "meta": {
+        "title": "À propos | Copperline Golf - Un golf plus accessible et agréable",
+        "description": "Copperline Golf est né d'une idée simple : chaque golfeur mérite la confiance et les conseils d'un caddie expert."
+      },
+      "hero": {
+        "titleStart": "Rendre le golf plus",
+        "titleHighlight": "agréable et accessible",
+        "subtitle": "Copperline Golf est né d'une idée simple : chaque golfeur mérite la confiance et les conseils d'un caddie expert."
+      },
+      "mission": {
+        "heading": "Notre mission",
+        "body": "Notre mission est d'aider les golfeurs de tous niveaux à jouer plus intelligemment, pas plus difficilement. En combinant l'intelligence artificielle avec les données du parcours en temps réel, nous fournissons des recommandations personnalisées qui rendent chaque tour plus agréable et chaque coup plus confiant."
+      },
+      "values": {
+        "heading": "Nos valeurs",
+        "precisionTitle": "Précision",
+        "precisionDesc": "Nous croyons en des recommandations précises, basées sur les données, auxquelles les golfeurs peuvent se fier.",
+        "communityTitle": "Communauté",
+        "communityDesc": "Le golf est meilleur ensemble. Nous créons des fonctionnalités qui connectent et soutiennent les golfeurs.",
+        "innovationTitle": "Innovation",
+        "innovationDesc": "Tirer parti de l'IA de pointe pour résoudre les problèmes réels que rencontrent les golfeurs sur le parcours.",
+        "passionTitle": "Passion",
+        "passionDesc": "Conçu par des golfeurs, pour des golfeurs. Nous aimons ce jeu autant que vous."
+      },
+      "stats": {
+        "activeUsers": "Utilisateurs actifs",
+        "shotsTracked": "Coups suivis",
+        "founded": "Fondée",
+        "satisfaction": "Satisfaction"
+      }
     }
   }
 }

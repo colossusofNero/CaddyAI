@@ -1911,6 +1911,86 @@
         "titleHighlight": "golfistas",
         "subtitle": "Comentarios reales de golfistas que han transformado su juego"
       }
+    },
+    "footer": {
+      "brandTagline": "Tu compañero de golf inteligente para decisiones de golpe más acertadas. Impulsado por IA para ayudarte a jugar tu mejor juego.",
+      "sectionProduct": "Producto",
+      "sectionCompany": "Empresa",
+      "sectionResources": "Recursos",
+      "sectionLegal": "Legal",
+      "linkFeatures": "Funciones",
+      "linkPricing": "Precios",
+      "linkDownloadApp": "Descargar app",
+      "linkIntegrations": "Integraciones",
+      "linkAboutUs": "Sobre nosotros",
+      "linkCareers": "Empleo",
+      "linkBlog": "Blog",
+      "linkPressKit": "Kit de prensa",
+      "linkHelpCenter": "Centro de ayuda",
+      "linkCommunity": "Comunidad",
+      "linkTutorials": "Tutoriales",
+      "linkApiDocs": "Docs API",
+      "linkPrivacyPolicy": "Política de privacidad",
+      "linkTermsOfService": "Términos del servicio",
+      "linkCookiePolicy": "Política de cookies",
+      "linkGdpr": "RGPD",
+      "copyright": "© {year} Copperline Golf, Inc. Todos los derechos reservados.",
+      "madeWith": "Hecho con ❤️ para golfistas en todo el mundo"
+    },
+    "hero": {
+      "badge": "Asistente de golf con IA",
+      "title": "Tu caddie con IA en el bolsillo",
+      "subtitle": "Aprovecha cada golpe con recomendaciones de palo en tiempo real impulsadas por IA",
+      "ctaPrimary": "Empieza la prueba gratis →",
+      "ctaSecondary": "Probar demo",
+      "statGolfers": "Únete a más de 50.000 golfistas",
+      "statShots": "Más de 2M de golpes analizados",
+      "scrollAria": "Desplazar a funciones"
+    },
+    "ctaSection": {
+      "badge": "Oferta por tiempo limitado",
+      "title": "¿Listo para mejorar tu juego?",
+      "subtitle": "Únete a miles de golfistas que usan Copperline Golf para tomar mejores decisiones en el campo. Empieza hoy y nota la diferencia en tu juego.",
+      "ctaPrimary": "Empieza gratis",
+      "ctaSecondary": "Ver precios",
+      "mini1Title": "Con IA",
+      "mini1Subtitle": "Recomendaciones inteligentes",
+      "mini2Title": "Sigue tu progreso",
+      "mini2Subtitle": "Reduce tu hándicap",
+      "mini3Title": "Gratis para empezar",
+      "mini3Subtitle": "Sin tarjeta de crédito"
+    },
+    "about": {
+      "meta": {
+        "title": "Acerca de | Copperline Golf - Golf más accesible y disfrutable",
+        "description": "Copperline Golf nació de una idea simple: cada golfista merece la información y la confianza de tener un caddie experto."
+      },
+      "hero": {
+        "titleStart": "Hacer el golf más",
+        "titleHighlight": "accesible y disfrutable",
+        "subtitle": "Copperline Golf nació de una idea simple: cada golfista merece la información y la confianza de tener un caddie experto."
+      },
+      "mission": {
+        "heading": "Nuestra misión",
+        "body": "Nuestra misión es ayudar a los golfistas de todos los niveles a jugar de forma más inteligente, no más dura. Combinando inteligencia artificial con datos del campo en tiempo real, ofrecemos recomendaciones personalizadas que hacen que cada ronda sea más disfrutable y cada golpe más seguro."
+      },
+      "values": {
+        "heading": "Nuestros valores",
+        "precisionTitle": "Precisión",
+        "precisionDesc": "Creemos en recomendaciones precisas y basadas en datos en las que los golfistas pueden confiar.",
+        "communityTitle": "Comunidad",
+        "communityDesc": "El golf es mejor en equipo. Creamos funciones que conectan y apoyan a los golfistas.",
+        "innovationTitle": "Innovación",
+        "innovationDesc": "Aprovechamos la IA más avanzada para resolver problemas reales que los golfistas enfrentan en el campo.",
+        "passionTitle": "Pasión",
+        "passionDesc": "Hecho por golfistas, para golfistas. Amamos el juego tanto como tú."
+      },
+      "stats": {
+        "activeUsers": "Usuarios activos",
+        "shotsTracked": "Golpes registrados",
+        "founded": "Fundado",
+        "satisfaction": "Satisfacción"
+      }
     }
   }
 }

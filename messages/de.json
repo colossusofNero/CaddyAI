@@ -1911,6 +1911,86 @@
         "titleHighlight": "sagen",
         "subtitle": "Echtes Feedback von Golfern, die ihr Spiel verändert haben"
       }
+    },
+    "footer": {
+      "brandTagline": "Ihr intelligenter Golf-Begleiter für klügere Schlag-Entscheidungen. KI-gestützt, damit Sie Ihr bestes Spiel spielen.",
+      "sectionProduct": "Produkt",
+      "sectionCompany": "Unternehmen",
+      "sectionResources": "Ressourcen",
+      "sectionLegal": "Rechtliches",
+      "linkFeatures": "Funktionen",
+      "linkPricing": "Preise",
+      "linkDownloadApp": "App herunterladen",
+      "linkIntegrations": "Integrationen",
+      "linkAboutUs": "Über uns",
+      "linkCareers": "Karriere",
+      "linkBlog": "Blog",
+      "linkPressKit": "Pressekit",
+      "linkHelpCenter": "Hilfe-Center",
+      "linkCommunity": "Community",
+      "linkTutorials": "Tutorials",
+      "linkApiDocs": "API-Docs",
+      "linkPrivacyPolicy": "Datenschutzerklärung",
+      "linkTermsOfService": "Nutzungsbedingungen",
+      "linkCookiePolicy": "Cookie-Richtlinie",
+      "linkGdpr": "DSGVO",
+      "copyright": "© {year} Copperline Golf, Inc. Alle Rechte vorbehalten.",
+      "madeWith": "Mit ❤️ für Golfer überall gemacht"
+    },
+    "hero": {
+      "badge": "KI-gestützter Golf-Assistent",
+      "title": "Ihr KI-Caddie in der Hosentasche",
+      "subtitle": "Holen Sie das Beste aus jedem Schlag heraus — mit KI-gestützten Schläger-Empfehlungen in Echtzeit",
+      "ctaPrimary": "Kostenlos testen →",
+      "ctaSecondary": "Demo testen",
+      "statGolfers": "Über 50.000 Golfer dabei",
+      "statShots": "Über 2 Mio. Schläge analysiert",
+      "scrollAria": "Zu den Funktionen scrollen"
+    },
+    "ctaSection": {
+      "badge": "Zeitlich begrenztes Angebot",
+      "title": "Bereit, Ihr Spiel zu verbessern?",
+      "subtitle": "Schließen Sie sich tausenden Golfern an, die Copperline Golf nutzen, um bessere Entscheidungen auf dem Platz zu treffen. Heute starten und den Unterschied spüren.",
+      "ctaPrimary": "Kostenlos starten",
+      "ctaSecondary": "Preise ansehen",
+      "mini1Title": "KI-gestützt",
+      "mini1Subtitle": "Intelligente Empfehlungen",
+      "mini2Title": "Fortschritt verfolgen",
+      "mini2Subtitle": "Handicap senken",
+      "mini3Title": "Kostenlos starten",
+      "mini3Subtitle": "Keine Kreditkarte nötig"
+    },
+    "about": {
+      "meta": {
+        "title": "Über uns | Copperline Golf - Golf zugänglicher und schöner machen",
+        "description": "Copperline Golf entstand aus einer einfachen Idee: Jeder Golfer verdient die Einsichten und das Selbstvertrauen, die ein erfahrener Caddie bietet."
+      },
+      "hero": {
+        "titleStart": "Golf",
+        "titleHighlight": "schöner und zugänglicher machen",
+        "subtitle": "Copperline Golf entstand aus einer einfachen Idee: Jeder Golfer verdient die Einsichten und das Selbstvertrauen, die ein erfahrener Caddie bietet."
+      },
+      "mission": {
+        "heading": "Unsere Mission",
+        "body": "Unsere Mission ist es, Golfern aller Spielstärken zu helfen, klüger zu spielen — nicht härter. Durch die Kombination aus künstlicher Intelligenz und Echtzeit-Platzdaten bieten wir personalisierte Empfehlungen, die jede Runde angenehmer und jeden Schlag selbstbewusster machen."
+      },
+      "values": {
+        "heading": "Unsere Werte",
+        "precisionTitle": "Präzision",
+        "precisionDesc": "Wir setzen auf präzise, datenbasierte Empfehlungen, denen Golfer vertrauen können.",
+        "communityTitle": "Gemeinschaft",
+        "communityDesc": "Golf macht zusammen mehr Spaß. Wir bauen Funktionen, die Golfer verbinden und unterstützen.",
+        "innovationTitle": "Innovation",
+        "innovationDesc": "Modernste KI, um echte Probleme zu lösen, die Golfer auf dem Platz haben.",
+        "passionTitle": "Leidenschaft",
+        "passionDesc": "Von Golfern für Golfer entwickelt. Wir lieben das Spiel genauso wie Sie."
+      },
+      "stats": {
+        "activeUsers": "Aktive Nutzer",
+        "shotsTracked": "Erfasste Schläge",
+        "founded": "Gegründet",
+        "satisfaction": "Zufriedenheit"
+      }
     }
   }
 }

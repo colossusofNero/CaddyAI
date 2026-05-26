@@ -1911,6 +1911,86 @@
         "titleHighlight": "golfisti",
         "subtitle": "Feedback reali da golfisti che hanno trasformato il loro gioco"
       }
+    },
+    "footer": {
+      "brandTagline": "Il tuo compagno di golf intelligente per decisioni di colpo più sicure. Alimentato dall'IA per aiutarti a giocare al meglio.",
+      "sectionProduct": "Prodotto",
+      "sectionCompany": "Azienda",
+      "sectionResources": "Risorse",
+      "sectionLegal": "Note legali",
+      "linkFeatures": "Funzionalità",
+      "linkPricing": "Prezzi",
+      "linkDownloadApp": "Scarica l'app",
+      "linkIntegrations": "Integrazioni",
+      "linkAboutUs": "Chi siamo",
+      "linkCareers": "Lavora con noi",
+      "linkBlog": "Blog",
+      "linkPressKit": "Press kit",
+      "linkHelpCenter": "Centro assistenza",
+      "linkCommunity": "Community",
+      "linkTutorials": "Tutorial",
+      "linkApiDocs": "Docs API",
+      "linkPrivacyPolicy": "Informativa sulla privacy",
+      "linkTermsOfService": "Termini di servizio",
+      "linkCookiePolicy": "Cookie policy",
+      "linkGdpr": "GDPR",
+      "copyright": "© {year} Copperline Golf, Inc. Tutti i diritti riservati.",
+      "madeWith": "Fatto con ❤️ per i golfisti di tutto il mondo"
+    },
+    "hero": {
+      "badge": "Assistente golf con IA",
+      "title": "Il tuo caddie IA in tasca",
+      "subtitle": "Ottieni il massimo da ogni colpo con raccomandazioni di bastone in tempo reale alimentate dall'IA",
+      "ctaPrimary": "Inizia la prova gratuita →",
+      "ctaSecondary": "Prova la demo",
+      "statGolfers": "Unisciti a oltre 50.000 golfisti",
+      "statShots": "Oltre 2 milioni di colpi analizzati",
+      "scrollAria": "Scorri alle funzionalità"
+    },
+    "ctaSection": {
+      "badge": "Offerta a tempo limitato",
+      "title": "Pronto a migliorare il tuo gioco?",
+      "subtitle": "Unisciti a migliaia di golfisti che usano Copperline Golf per prendere decisioni migliori in campo. Inizia oggi e nota la differenza nel tuo gioco.",
+      "ctaPrimary": "Inizia gratis",
+      "ctaSecondary": "Vedi prezzi",
+      "mini1Title": "Con IA",
+      "mini1Subtitle": "Raccomandazioni intelligenti",
+      "mini2Title": "Monitora i progressi",
+      "mini2Subtitle": "Abbassa il tuo handicap",
+      "mini3Title": "Gratis per iniziare",
+      "mini3Subtitle": "Nessuna carta richiesta"
+    },
+    "about": {
+      "meta": {
+        "title": "Chi siamo | Copperline Golf - Il golf più accessibile e divertente",
+        "description": "Copperline Golf è nato da un'idea semplice: ogni golfista merita le intuizioni e la sicurezza che derivano dall'avere un caddie esperto."
+      },
+      "hero": {
+        "titleStart": "Rendere il golf più",
+        "titleHighlight": "divertente e accessibile",
+        "subtitle": "Copperline Golf è nato da un'idea semplice: ogni golfista merita le intuizioni e la sicurezza che derivano dall'avere un caddie esperto."
+      },
+      "mission": {
+        "heading": "La nostra missione",
+        "body": "La nostra missione è aiutare i golfisti di tutti i livelli a giocare in modo più intelligente, non più faticoso. Combinando intelligenza artificiale e dati del campo in tempo reale, offriamo raccomandazioni personalizzate che rendono ogni giro più piacevole e ogni colpo più sicuro."
+      },
+      "values": {
+        "heading": "I nostri valori",
+        "precisionTitle": "Precisione",
+        "precisionDesc": "Crediamo in raccomandazioni precise e basate sui dati su cui i golfisti possono contare.",
+        "communityTitle": "Comunità",
+        "communityDesc": "Il golf è meglio se condiviso. Creiamo funzioni che collegano e supportano i golfisti.",
+        "innovationTitle": "Innovazione",
+        "innovationDesc": "Sfruttiamo l'IA all'avanguardia per risolvere problemi reali che i golfisti incontrano in campo.",
+        "passionTitle": "Passione",
+        "passionDesc": "Creato da golfisti, per golfisti. Amiamo il gioco quanto te."
+      },
+      "stats": {
+        "activeUsers": "Utenti attivi",
+        "shotsTracked": "Colpi registrati",
+        "founded": "Fondata nel",
+        "satisfaction": "Soddisfazione"
+      }
     }
   }
 }

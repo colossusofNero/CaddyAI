@@ -1991,6 +1991,89 @@
         "founded": "Fundado",
         "satisfaction": "Satisfacción"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "Precios | Copperline Golf - Precios simples y transparentes",
+        "description": "Elige el plan adecuado para tu juego. Todos los planes incluyen una prueba gratuita de 14 días sin tarjeta de crédito."
+      },
+      "hero": {
+        "titleStart": "Precios simples y",
+        "titleHighlight": "transparentes",
+        "subtitle": "Elige el plan adecuado para tu juego. Todos los planes incluyen una prueba gratuita de 14 días sin tarjeta de crédito."
+      },
+      "proName": "Pro",
+      "proDesc": "Para golfistas serios que quieren la experiencia completa",
+      "proBadge": "Ideal para golfistas estacionales",
+      "features": {
+        "aiRecommendations": "Recomendaciones con IA",
+        "unlimitedClubs": "Palos ilimitados en la bolsa",
+        "shotDispersion": "Seguimiento de dispersión de golpes",
+        "weatherElevation": "Clima y elevación en tiempo real",
+        "unlimitedRounds": "Rondas ilimitadas",
+        "performanceAnalytics": "Análisis de rendimiento",
+        "courseDatabase": "Acceso a base de datos de campos",
+        "prioritySupport": "Soporte prioritario"
+      },
+      "tooltips": {
+        "aiRecommendations": "Algoritmos avanzados de aprendizaje automático analizan tu juego para ofrecer sugerencias de palo personalizadas.",
+        "shotDispersion": "Registra cómo se dispersan tus golpes con cada palo para mejorar la consistencia y la gestión del campo.",
+        "performanceAnalytics": "Estadísticas detalladas e insights para identificar y mejorar las áreas débiles de tu juego."
+      },
+      "cta": {
+        "startTrial": "Iniciar prueba Pro",
+        "manage": "Gestionar suscripción",
+        "switchPlan": "Cambiar plan"
+      },
+      "seasonal": {
+        "badge": "❄️ Perfecto para golfistas de climas fríos",
+        "titleStart": "¿No juegas 4 meses al año?",
+        "titleHighlight": "¡Pausa y ahorra!",
+        "body": "¿Vives en el norte de EE. UU., Canadá u otros climas fríos? Lo entendemos: la temporada de golf no dura todo el año. Con suscripciones mensuales puedes:",
+        "check1": "Cancelar cuando cierren los campos (octubre/noviembre)",
+        "check2": "Reactivar cuando reabran (marzo/abril)",
+        "check3": "Pagar solo los meses que juegues",
+        "check4": "Conservar todos tus datos todo el año",
+        "savingsLabel": "Ejemplo de ahorro anual:",
+        "savingsMonths": "por 8 meses",
+        "vsLine": "frente a $119.40 todo el año (12 meses × $9.95)",
+        "savingsTotal": "¡Ahorra $39.80 al año!",
+        "benefitsHeading": "Beneficios de la suscripción mensual",
+        "benefit1Title": "Flexibilidad",
+        "benefit1Desc": "Suscríbete y pausa cuando quieras",
+        "benefit2Title": "Sin desperdicio",
+        "benefit2Desc": "Paga solo por la temporada",
+        "benefit3Title": "Datos guardados",
+        "benefit3Desc": "Tus estadísticas se conservan para siempre",
+        "benefit4Title": "Fácil reactivación",
+        "benefit4Desc": "Vuelve con un solo clic en primavera",
+        "platforms": "Disponible en iOS y Android",
+        "cancelAnytime": "Cancela cuando quieras, sin preguntas"
+      },
+      "faq": {
+        "heading": "Preguntas frecuentes",
+        "subheading": "¿Tienes preguntas? Tenemos respuestas.",
+        "q1": "¿Puedo cambiar de plan más adelante?",
+        "a1": "¡Sí! Puedes mejorar, bajar de plan o cancelar en cualquier momento. Los cambios se aplican al inicio del siguiente ciclo de facturación.",
+        "q2": "¿Hay una prueba gratuita?",
+        "a2": "Todos los planes de pago incluyen una prueba gratuita de 14 días. No se requiere tarjeta de crédito para empezar.",
+        "q3": "¿Qué métodos de pago aceptan?",
+        "a3": "Aceptamos las principales tarjetas de crédito y débito, y PayPal. Los planes anuales también se pueden pagar por transferencia bancaria.",
+        "q4": "¿Puedo usar Copperline Golf en varios dispositivos?",
+        "a4": "¡Sí! Tu cuenta se sincroniza en todos los dispositivos. Usa Copperline Golf en el móvil durante las rondas y revisa las estadísticas en la tableta o el ordenador después.",
+        "q5": "¿Qué pasa con mis datos si cancelo?",
+        "a5": "Tus datos se conservan durante 90 días tras la cancelación. Puedes reactivar cuando quieras y continuar donde lo dejaste."
+      },
+      "contactSales": {
+        "heading": "¿Sigues teniendo dudas?",
+        "body": "Nuestro equipo está aquí para ayudarte a elegir el plan adecuado para tu juego.",
+        "cta": "Contacta con ventas →"
+      },
+      "stickyCta": {
+        "cta": "Iniciar prueba gratuita",
+        "loading": "Cargando...",
+        "subtitle": "Prueba gratuita de 14 días · Sin tarjeta de crédito"
+      }
     }
   }
 }

@@ -1991,6 +1991,89 @@
         "founded": "成立",
         "satisfaction": "满意度"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "价格 | Copperline Golf - 简单透明的价格",
+        "description": "为您的比赛选择合适的方案。所有方案均含 14 天免费试用，无需信用卡。"
+      },
+      "hero": {
+        "titleStart": "简单、",
+        "titleHighlight": "透明的价格",
+        "subtitle": "为您的比赛选择合适的方案。所有方案均含 14 天免费试用，无需信用卡。"
+      },
+      "proName": "Pro",
+      "proDesc": "为追求完整体验的认真球手而设",
+      "proBadge": "最适合季节性球手",
+      "features": {
+        "aiRecommendations": "AI 智能推荐",
+        "unlimitedClubs": "球包内不限球杆数",
+        "shotDispersion": "击球散布追踪",
+        "weatherElevation": "实时天气与海拔",
+        "unlimitedRounds": "无限场次",
+        "performanceAnalytics": "表现分析",
+        "courseDatabase": "球场数据库访问",
+        "prioritySupport": "优先客服"
+      },
+      "tooltips": {
+        "aiRecommendations": "先进的机器学习算法分析您的比赛，提供个性化球杆建议。",
+        "shotDispersion": "追踪每支球杆的击球散布情况，提升一致性与球场管理能力。",
+        "performanceAnalytics": "详细统计与洞察，帮助识别并改进比赛中的薄弱环节。"
+      },
+      "cta": {
+        "startTrial": "开始 Pro 试用",
+        "manage": "管理订阅",
+        "switchPlan": "更换方案"
+      },
+      "seasonal": {
+        "badge": "❄️ 适合寒冷地区球手",
+        "titleStart": "每年有 4 个月无法打球？",
+        "titleHighlight": "暂停并省钱！",
+        "body": "住在寒冷地区？我们理解 — 高尔夫赛季不会全年持续。月度订阅可以让您：",
+        "check1": "球场关闭时取消（10/11 月）",
+        "check2": "球场开放时重新激活（3/4 月）",
+        "check3": "只为您实际打球的月份付费",
+        "check4": "全年保留所有数据",
+        "savingsLabel": "年度节省示例：",
+        "savingsMonths": "8 个月",
+        "vsLine": "对比全年 $119.40（12 个月 × $9.95）",
+        "savingsTotal": "每年节省 $39.80！",
+        "benefitsHeading": "月度订阅的好处",
+        "benefit1Title": "灵活",
+        "benefit1Desc": "按需订阅与暂停",
+        "benefit2Title": "不浪费",
+        "benefit2Desc": "只为高尔夫赛季付费",
+        "benefit3Title": "数据保留",
+        "benefit3Desc": "您的统计永久保留",
+        "benefit4Title": "轻松重启",
+        "benefit4Desc": "春天一键恢复",
+        "platforms": "可在 iOS 和 Android 上使用",
+        "cancelAnytime": "随时取消，无需说明"
+      },
+      "faq": {
+        "heading": "常见问题",
+        "subheading": "有疑问？我们有答案。",
+        "q1": "我以后可以更改方案吗？",
+        "a1": "可以！您可以随时升级、降级或取消。变更将在下一个计费周期开始时生效。",
+        "q2": "有免费试用吗？",
+        "a2": "所有付费方案均包含 14 天免费试用。开始试用无需信用卡。",
+        "q3": "你们接受哪些支付方式？",
+        "a3": "我们接受所有主要信用卡、借记卡和 PayPal。年付方案还可以通过银行转账支付。",
+        "q4": "我可以在多个设备上使用 Copperline Golf 吗？",
+        "a4": "可以！您的账户在所有设备之间同步。比赛时在手机上使用，稍后在平板或电脑上查看统计。",
+        "q5": "取消后我的数据怎么办？",
+        "a5": "取消后数据将保留 90 天。您可以随时重新激活，从上次中断的地方继续。"
+      },
+      "contactSales": {
+        "heading": "还有疑问？",
+        "body": "我们的团队随时帮助您选择最合适的方案。",
+        "cta": "联系销售 →"
+      },
+      "stickyCta": {
+        "cta": "开始免费试用",
+        "loading": "加载中...",
+        "subtitle": "14 天免费试用 · 无需信用卡"
+      }
     }
   }
 }

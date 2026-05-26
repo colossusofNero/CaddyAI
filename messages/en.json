@@ -1991,6 +1991,89 @@
         "founded": "Founded",
         "satisfaction": "Satisfaction"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "Pricing | Copperline Golf - Simple, Transparent Pricing",
+        "description": "Choose the plan that's right for your game. All plans include a 14-day free trial with no credit card required."
+      },
+      "hero": {
+        "titleStart": "Simple,",
+        "titleHighlight": "Transparent Pricing",
+        "subtitle": "Choose the plan that's right for your game. All plans include a 14-day free trial with no credit card required."
+      },
+      "proName": "Pro",
+      "proDesc": "For serious golfers who want the full experience",
+      "proBadge": "Best for Seasonal Golfers",
+      "features": {
+        "aiRecommendations": "AI-powered recommendations",
+        "unlimitedClubs": "Unlimited clubs in bag",
+        "shotDispersion": "Shot dispersion tracking",
+        "weatherElevation": "Real-time weather & elevation",
+        "unlimitedRounds": "Unlimited rounds",
+        "performanceAnalytics": "Performance analytics",
+        "courseDatabase": "Course database access",
+        "prioritySupport": "Priority support"
+      },
+      "tooltips": {
+        "aiRecommendations": "Advanced machine learning algorithms analyze your game to provide personalized club suggestions.",
+        "shotDispersion": "Track how your shots spread for each club to improve consistency and course management.",
+        "performanceAnalytics": "Detailed statistics and insights to help you identify and improve weak areas of your game."
+      },
+      "cta": {
+        "startTrial": "Start Pro Trial",
+        "manage": "Manage Subscription",
+        "switchPlan": "Switch Plan"
+      },
+      "seasonal": {
+        "badge": "❄️ Perfect for Cold-Climate Golfers",
+        "titleStart": "Can't Golf 4 Months a Year?",
+        "titleHighlight": "Pause & Save!",
+        "body": "Live in the Northeast, Midwest, or Canada? We get it — golf season doesn't last all year. With monthly subscriptions, you can:",
+        "check1": "Cancel when courses close (October/November)",
+        "check2": "Reactivate when they open (March/April)",
+        "check3": "Pay only for the months you actually golf",
+        "check4": "Keep all your data year-round",
+        "savingsLabel": "Annual Savings Example:",
+        "savingsMonths": "for 8 months",
+        "vsLine": "vs. $119.40 year-round (12 months × $9.95)",
+        "savingsTotal": "Save $39.80 per year!",
+        "benefitsHeading": "Monthly Subscription Benefits",
+        "benefit1Title": "Flexibility",
+        "benefit1Desc": "Subscribe & pause as needed",
+        "benefit2Title": "No Waste",
+        "benefit2Desc": "Pay only for golf season",
+        "benefit3Title": "Data Retained",
+        "benefit3Desc": "Your stats stay forever",
+        "benefit4Title": "Easy Reactivation",
+        "benefit4Desc": "One-click restart in spring",
+        "platforms": "Available on iOS & Android",
+        "cancelAnytime": "Cancel anytime, no questions asked"
+      },
+      "faq": {
+        "heading": "Frequently Asked Questions",
+        "subheading": "Have questions? We've got answers.",
+        "q1": "Can I change plans later?",
+        "a1": "Yes! You can upgrade, downgrade, or cancel your plan at any time. Changes take effect at the start of your next billing cycle.",
+        "q2": "Is there a free trial?",
+        "a2": "All paid plans include a 14-day free trial. No credit card required to start your trial.",
+        "q3": "What payment methods do you accept?",
+        "a3": "We accept all major credit cards, debit cards, and PayPal. Annual plans can also be paid via bank transfer.",
+        "q4": "Can I use Copperline Golf on multiple devices?",
+        "a4": "Yes! Your account syncs across all devices. Use Copperline Golf on your phone during rounds and review stats on your tablet or computer later.",
+        "q5": "What happens to my data if I cancel?",
+        "a5": "Your data is preserved for 90 days after cancellation. You can reactivate anytime and pick up where you left off."
+      },
+      "contactSales": {
+        "heading": "Still Have Questions?",
+        "body": "Our team is here to help you choose the right plan for your game.",
+        "cta": "Contact Sales →"
+      },
+      "stickyCta": {
+        "cta": "Start Free Trial",
+        "loading": "Loading...",
+        "subtitle": "14-day free trial · No credit card required"
+      }
     }
   }
 }

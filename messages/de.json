@@ -1991,6 +1991,89 @@
         "founded": "Gegründet",
         "satisfaction": "Zufriedenheit"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "Preise | Copperline Golf - Einfache, transparente Preise",
+        "description": "Wählen Sie den passenden Plan für Ihr Spiel. Alle Pläne enthalten eine 14-tägige kostenlose Testphase ohne Kreditkarte."
+      },
+      "hero": {
+        "titleStart": "Einfache,",
+        "titleHighlight": "transparente Preise",
+        "subtitle": "Wählen Sie den passenden Plan für Ihr Spiel. Alle Pläne enthalten eine 14-tägige kostenlose Testphase ohne Kreditkarte."
+      },
+      "proName": "Pro",
+      "proDesc": "Für ambitionierte Golfer, die das volle Erlebnis wollen",
+      "proBadge": "Optimal für saisonale Golfer",
+      "features": {
+        "aiRecommendations": "KI-gestützte Empfehlungen",
+        "unlimitedClubs": "Unbegrenzt viele Schläger im Bag",
+        "shotDispersion": "Schlag-Streuungsanalyse",
+        "weatherElevation": "Wetter & Höhe in Echtzeit",
+        "unlimitedRounds": "Unbegrenzte Runden",
+        "performanceAnalytics": "Leistungsanalysen",
+        "courseDatabase": "Zugriff auf Platz-Datenbank",
+        "prioritySupport": "Priorisierter Support"
+      },
+      "tooltips": {
+        "aiRecommendations": "Fortschrittliche Machine-Learning-Algorithmen analysieren Ihr Spiel und liefern personalisierte Schläger-Empfehlungen.",
+        "shotDispersion": "Verfolgen Sie die Streuung Ihrer Schläge je Schläger, um Konstanz und Course-Management zu verbessern.",
+        "performanceAnalytics": "Detaillierte Statistiken und Einblicke, um Schwachstellen Ihres Spiels zu erkennen und zu verbessern."
+      },
+      "cta": {
+        "startTrial": "Pro testen",
+        "manage": "Abo verwalten",
+        "switchPlan": "Plan wechseln"
+      },
+      "seasonal": {
+        "badge": "❄️ Perfekt für Golfer in kalten Regionen",
+        "titleStart": "Können Sie 4 Monate im Jahr nicht spielen?",
+        "titleHighlight": "Pausieren & sparen!",
+        "body": "In Mitteleuropa oder anderen kalten Regionen? Verständlich — die Golf-Saison dauert nicht das ganze Jahr. Mit dem Monatsabo können Sie:",
+        "check1": "Kündigen, wenn Plätze schließen (Oktober/November)",
+        "check2": "Reaktivieren, wenn sie öffnen (März/April)",
+        "check3": "Nur für die Monate zahlen, in denen Sie wirklich golfen",
+        "check4": "Ihre Daten ganzjährig behalten",
+        "savingsLabel": "Beispiel jährliche Ersparnis:",
+        "savingsMonths": "für 8 Monate",
+        "vsLine": "vs. 119,40 $ ganzjährig (12 Monate × 9,95 $)",
+        "savingsTotal": "Sparen Sie 39,80 $ pro Jahr!",
+        "benefitsHeading": "Vorteile des Monatsabos",
+        "benefit1Title": "Flexibilität",
+        "benefit1Desc": "Abonnieren & pausieren nach Bedarf",
+        "benefit2Title": "Keine Verschwendung",
+        "benefit2Desc": "Nur für die Golf-Saison zahlen",
+        "benefit3Title": "Daten bleiben",
+        "benefit3Desc": "Ihre Statistiken bleiben für immer",
+        "benefit4Title": "Einfache Reaktivierung",
+        "benefit4Desc": "Mit einem Klick im Frühjahr starten",
+        "platforms": "Verfügbar für iOS & Android",
+        "cancelAnytime": "Jederzeit kündbar, ohne Wenn und Aber"
+      },
+      "faq": {
+        "heading": "Häufig gestellte Fragen",
+        "subheading": "Fragen? Wir haben die Antworten.",
+        "q1": "Kann ich später den Plan wechseln?",
+        "a1": "Ja! Sie können jederzeit upgraden, downgraden oder kündigen. Änderungen werden zum Beginn des nächsten Abrechnungszeitraums wirksam.",
+        "q2": "Gibt es eine kostenlose Testphase?",
+        "a2": "Alle bezahlten Pläne enthalten eine 14-tägige kostenlose Testphase. Keine Kreditkarte erforderlich.",
+        "q3": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "a3": "Wir akzeptieren alle gängigen Kredit- und Debitkarten sowie PayPal. Jahrespläne können auch per Überweisung bezahlt werden.",
+        "q4": "Kann ich Copperline Golf auf mehreren Geräten nutzen?",
+        "a4": "Ja! Ihr Konto synchronisiert sich über alle Geräte. Nutzen Sie Copperline Golf auf dem Smartphone während der Runde und sehen Sie sich Statistiken später auf Tablet oder Computer an.",
+        "q5": "Was passiert mit meinen Daten nach einer Kündigung?",
+        "a5": "Ihre Daten bleiben 90 Tage nach der Kündigung erhalten. Sie können jederzeit reaktivieren und dort weitermachen, wo Sie aufgehört haben."
+      },
+      "contactSales": {
+        "heading": "Noch Fragen?",
+        "body": "Unser Team hilft Ihnen, den richtigen Plan für Ihr Spiel zu finden.",
+        "cta": "Vertrieb kontaktieren →"
+      },
+      "stickyCta": {
+        "cta": "Kostenlos testen",
+        "loading": "Lädt...",
+        "subtitle": "14 Tage gratis · Keine Kreditkarte nötig"
+      }
     }
   }
 }

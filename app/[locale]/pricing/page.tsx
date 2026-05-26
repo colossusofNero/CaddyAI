@@ -1,6 +1,6 @@
 /**
  * Pricing Page
- * Pricing tiers with comparison and toggle
+ * Pricing tiers with comparison and toggle — localized.
  */
 
 'use client';
@@ -12,49 +12,56 @@ import { Footer } from '@/components/Footer';
 import { PricingCard, PricingToggle, PricingTier } from '@/components/PricingCard';
 import { motion } from 'framer-motion';
 import { Check, HelpCircle, RefreshCw, DollarSign, Database, Calendar as CalendarIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
-import type { BillingPeriod } from '@/types/subscription';
-
-const pricingTiers: PricingTier[] = [
-  {
-    id: 'pro',
-    name: 'Pro',
-    description: 'For serious golfers who want the full experience',
-    priceMonthly: 9.95,
-    priceAnnual: 79.60,
-    popular: true,
-    badge: 'Best for Seasonal Golfers',
-    features: [
-      'AI-powered recommendations',
-      'Unlimited clubs in bag',
-      'Shot dispersion tracking',
-      'Real-time weather & elevation',
-      'Unlimited rounds',
-      'Performance analytics',
-      'Course database access',
-      'Priority support',
-    ],
-    featureTooltips: {
-      'AI-powered recommendations':
-        'Advanced machine learning algorithms analyze your game to provide personalized club suggestions.',
-      'Shot dispersion tracking':
-        'Track how your shots spread for each club to improve consistency and course management.',
-      'Performance analytics':
-        'Detailed statistics and insights to help you identify and improve weak areas of your game.',
-    },
-    cta: 'Start Pro Trial',
-    ctaLink: '/signup?plan=pro',
-  },
-];
 
 export default function PricingPage() {
   const router = useRouter();
+  const t = useTranslations('marketing.pricing');
   const { user } = useAuth();
-  const { createCheckoutSession, subscription, getSubscriptionStatus, isLoading, error } = useSubscription();
+  const { createCheckoutSession, subscription, getSubscriptionStatus, isLoading: _isLoading, error } = useSubscription();
   const [isAnnual, setIsAnnual] = useState(true);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  // Build localized tiers (memo would be nicer but t() is cheap)
+  const pricingTiers: PricingTier[] = [
+    {
+      id: 'pro',
+      name: t('proName'),
+      description: t('proDesc'),
+      priceMonthly: 9.95,
+      priceAnnual: 79.60,
+      popular: true,
+      badge: t('proBadge'),
+      features: [
+        t('features.aiRecommendations'),
+        t('features.unlimitedClubs'),
+        t('features.shotDispersion'),
+        t('features.weatherElevation'),
+        t('features.unlimitedRounds'),
+        t('features.performanceAnalytics'),
+        t('features.courseDatabase'),
+        t('features.prioritySupport'),
+      ],
+      featureTooltips: {
+        [t('features.aiRecommendations')]: t('tooltips.aiRecommendations'),
+        [t('features.shotDispersion')]: t('tooltips.shotDispersion'),
+        [t('features.performanceAnalytics')]: t('tooltips.performanceAnalytics'),
+      },
+      cta: t('cta.startTrial'),
+      ctaLink: '/signup?plan=pro',
+    },
+  ];
+
+  useEffect(() => {
+    document.title = t('meta.title');
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t('meta.description'));
+    }
+  }, [t]);
 
   // Fetch subscription status on mount if user is logged in
   useEffect(() => {
@@ -63,21 +70,17 @@ export default function PricingPage() {
     }
   }, [user, getSubscriptionStatus]);
 
-  // Handle subscription button click
   const handleSubscribe = async (planId: string) => {
-    // Not logged in - redirect to signup with plan
     if (!user) {
       router.push(`/signup?plan=${planId}`);
       return;
     }
 
-    // Already subscribed to this plan - go to settings
     if (subscription?.plan === planId && subscription?.hasActiveSubscription) {
       router.push('/settings/subscription');
       return;
     }
 
-    // Create checkout session
     try {
       setLoadingPlan(planId);
       await createCheckoutSession({
@@ -92,22 +95,35 @@ export default function PricingPage() {
     }
   };
 
-  // Get button text based on user state and subscription
   const getButtonText = (planId: string): string => {
     if (!user) {
-      return 'Start Pro Trial';
+      return t('cta.startTrial');
     }
-
     if (subscription?.plan === planId && subscription?.hasActiveSubscription) {
-      return 'Manage Subscription';
+      return t('cta.manage');
     }
-
     if (subscription?.plan && subscription?.hasActiveSubscription) {
-      return 'Switch Plan';
+      return t('cta.switchPlan');
     }
-
-    return 'Start Pro Trial';
+    return t('cta.startTrial');
   };
+
+  const seasonalChecklist = [t('seasonal.check1'), t('seasonal.check2'), t('seasonal.check3'), t('seasonal.check4')];
+
+  const seasonalBenefits = [
+    { Icon: CalendarIcon, title: t('seasonal.benefit1Title'), desc: t('seasonal.benefit1Desc') },
+    { Icon: DollarSign, title: t('seasonal.benefit2Title'), desc: t('seasonal.benefit2Desc') },
+    { Icon: Database, title: t('seasonal.benefit3Title'), desc: t('seasonal.benefit3Desc') },
+    { Icon: RefreshCw, title: t('seasonal.benefit4Title'), desc: t('seasonal.benefit4Desc') },
+  ];
+
+  const faqs = [
+    { question: t('faq.q1'), answer: t('faq.a1') },
+    { question: t('faq.q2'), answer: t('faq.a2') },
+    { question: t('faq.q3'), answer: t('faq.a3') },
+    { question: t('faq.q4'), answer: t('faq.a4') },
+    { question: t('faq.q5'), answer: t('faq.a5') },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,18 +145,15 @@ export default function PricingPage() {
               variants={staggerItem}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
             >
-              Simple,{' '}
-              <span className="text-primary">
-                Transparent Pricing
-              </span>
+              {t('hero.titleStart')}{' '}
+              <span className="text-primary">{t('hero.titleHighlight')}</span>
             </motion.h1>
 
             <motion.p
               variants={staggerItem}
               className="text-xl text-text-secondary max-w-3xl mx-auto mb-12"
             >
-              Choose the plan that's right for your game. All plans include a
-              14-day free trial with no credit card required.
+              {t('hero.subtitle')}
             </motion.p>
 
             <motion.div variants={staggerItem}>
@@ -162,10 +175,7 @@ export default function PricingPage() {
             {pricingTiers.map((tier, index) => (
               <PricingCard
                 key={tier.id}
-                tier={{
-                  ...tier,
-                  cta: getButtonText(tier.id),
-                }}
+                tier={{ ...tier, cta: getButtonText(tier.id) }}
                 isAnnual={isAnnual}
                 index={index}
                 onSubscribe={() => handleSubscribe(tier.id)}
@@ -189,24 +199,16 @@ export default function PricingPage() {
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="inline-flex items-center gap-2 bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                  ❄️ Perfect for Cold-Climate Golfers
+                  {t('seasonal.badge')}
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-                  Can't Golf 4 Months a Year?
+                  {t('seasonal.titleStart')}
                   <br />
-                  <span className="text-primary">Pause &amp; Save!</span>
+                  <span className="text-primary">{t('seasonal.titleHighlight')}</span>
                 </h2>
-                <p className="text-lg text-gray-300 mb-6">
-                  Live in the Northeast, Midwest, or Canada? We get it — golf season doesn't last all year.
-                  With monthly subscriptions, you can:
-                </p>
+                <p className="text-lg text-gray-300 mb-6">{t('seasonal.body')}</p>
                 <ul className="space-y-3 mb-6">
-                  {[
-                    'Cancel when courses close (October/November)',
-                    'Reactivate when they open (March/April)',
-                    'Pay only for the months you actually golf',
-                    'Keep all your data year-round',
-                  ].map((item, index) => (
+                  {seasonalChecklist.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <Check className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-gray-300">{item}</span>
@@ -214,30 +216,21 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <div className="bg-secondary-700 border border-secondary-600 rounded-xl p-6">
-                  <div className="text-sm text-gray-400 mb-2">Annual Savings Example:</div>
+                  <div className="text-sm text-gray-400 mb-2">{t('seasonal.savingsLabel')}</div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-primary">$79.60</span>
-                    <span className="text-gray-300">for 8 months</span>
+                    <span className="text-gray-300">{t('seasonal.savingsMonths')}</span>
                   </div>
-                  <div className="text-sm text-gray-400 mt-2">
-                    vs. $119.40 year-round (12 months × $9.95)
-                  </div>
-                  <div className="text-lg font-bold text-primary mt-3">
-                    Save $39.80 per year!
-                  </div>
+                  <div className="text-sm text-gray-400 mt-2">{t('seasonal.vsLine')}</div>
+                  <div className="text-lg font-bold text-primary mt-3">{t('seasonal.savingsTotal')}</div>
                 </div>
               </div>
               <div className="bg-secondary-700 border border-secondary-600 rounded-2xl p-8">
                 <h3 className="text-2xl font-bold text-white mb-6 text-center">
-                  Monthly Subscription Benefits
+                  {t('seasonal.benefitsHeading')}
                 </h3>
                 <div className="space-y-5">
-                  {[
-                    { Icon: CalendarIcon, title: 'Flexibility', desc: 'Subscribe & pause as needed' },
-                    { Icon: DollarSign,   title: 'No Waste',    desc: 'Pay only for golf season' },
-                    { Icon: Database,     title: 'Data Retained', desc: 'Your stats stay forever' },
-                    { Icon: RefreshCw,    title: 'Easy Reactivation', desc: 'One-click restart in spring' },
-                  ].map((benefit, index) => (
+                  {seasonalBenefits.map((benefit, index) => (
                     <div key={index} className="flex items-start gap-4">
                       <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                         <benefit.Icon className="w-5 h-5 text-primary" />
@@ -250,8 +243,8 @@ export default function PricingPage() {
                   ))}
                 </div>
                 <div className="mt-8 p-4 bg-secondary-800 border border-secondary-600 rounded-xl text-center">
-                  <p className="text-sm text-gray-300 mb-1">Available on iOS &amp; Android</p>
-                  <p className="text-xs text-gray-400">Cancel anytime, no questions asked</p>
+                  <p className="text-sm text-gray-300 mb-1">{t('seasonal.platforms')}</p>
+                  <p className="text-xs text-gray-400">{t('seasonal.cancelAnytime')}</p>
                 </div>
               </div>
             </div>
@@ -264,41 +257,13 @@ export default function PricingPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-              Frequently Asked Questions
+              {t('faq.heading')}
             </h2>
-            <p className="text-lg text-text-secondary">
-              Have questions? We've got answers.
-            </p>
+            <p className="text-lg text-text-secondary">{t('faq.subheading')}</p>
           </div>
 
           <div className="space-y-6">
-            {[
-              {
-                question: 'Can I change plans later?',
-                answer:
-                  'Yes! You can upgrade, downgrade, or cancel your plan at any time. Changes take effect at the start of your next billing cycle.',
-              },
-              {
-                question: 'Is there a free trial?',
-                answer:
-                  'All paid plans include a 14-day free trial. No credit card required to start your trial.',
-              },
-              {
-                question: 'What payment methods do you accept?',
-                answer:
-                  'We accept all major credit cards, debit cards, and PayPal. Annual plans can also be paid via bank transfer.',
-              },
-              {
-                question: 'Can I use Copperline Golf on multiple devices?',
-                answer:
-                  'Yes! Your account syncs across all devices. Use Copperline Golf on your phone during rounds and review stats on your tablet or computer later.',
-              },
-              {
-                question: 'What happens to my data if I cancel?',
-                answer:
-                  'Your data is preserved for 90 days after cancellation. You can reactivate anytime and pick up where you left off.',
-              },
-            ].map((faq, index) => (
+            {faqs.map((faq, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -322,16 +287,16 @@ export default function PricingPage() {
       <section className="py-16 lg:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-            Still Have Questions?
+            {t('contactSales.heading')}
           </h2>
           <p className="text-lg text-text-secondary mb-8">
-            Our team is here to help you choose the right plan for your game.
+            {t('contactSales.body')}
           </p>
           <a
             href="mailto:support@copperlinegolf.com"
             className="inline-flex items-center gap-2 text-primary hover:text-primary-400 font-medium transition-colors"
           >
-            Contact Sales →
+            {t('contactSales.cta')}
           </a>
         </div>
       </section>
@@ -343,10 +308,10 @@ export default function PricingPage() {
           disabled={loadingPlan === 'pro'}
           className="w-full py-4 px-6 bg-primary hover:bg-primary-600 disabled:opacity-60 text-secondary-900 font-bold text-lg rounded-xl transition-colors touch-manipulation"
         >
-          {loadingPlan === 'pro' ? 'Loading...' : 'Start Free Trial'}
+          {loadingPlan === 'pro' ? t('stickyCta.loading') : t('stickyCta.cta')}
         </button>
         <p className="text-center text-xs text-text-muted mt-2">
-          14-day free trial · No credit card required
+          {t('stickyCta.subtitle')}
         </p>
       </div>
 

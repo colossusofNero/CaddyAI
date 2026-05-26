@@ -1991,6 +1991,89 @@
         "founded": "Fondée",
         "satisfaction": "Satisfaction"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "Tarifs | Copperline Golf - Tarifs simples et transparents",
+        "description": "Choisissez le plan qui correspond à votre jeu. Tous les plans incluent un essai gratuit de 14 jours sans carte bancaire requise."
+      },
+      "hero": {
+        "titleStart": "Tarifs simples,",
+        "titleHighlight": "transparents",
+        "subtitle": "Choisissez le plan qui correspond à votre jeu. Tous les plans incluent un essai gratuit de 14 jours sans carte bancaire requise."
+      },
+      "proName": "Pro",
+      "proDesc": "Pour les golfeurs sérieux qui veulent toute l'expérience",
+      "proBadge": "Idéal pour les golfeurs saisonniers",
+      "features": {
+        "aiRecommendations": "Recommandations basées sur l'IA",
+        "unlimitedClubs": "Clubs illimités dans le sac",
+        "shotDispersion": "Suivi de la dispersion des coups",
+        "weatherElevation": "Météo et altitude en temps réel",
+        "unlimitedRounds": "Parcours illimités",
+        "performanceAnalytics": "Analyses de performance",
+        "courseDatabase": "Accès à la base des parcours",
+        "prioritySupport": "Support prioritaire"
+      },
+      "tooltips": {
+        "aiRecommendations": "Des algorithmes avancés d'apprentissage automatique analysent votre jeu pour proposer des suggestions de club personnalisées.",
+        "shotDispersion": "Suivez la dispersion de vos coups pour chaque club afin d'améliorer la régularité et la gestion du parcours.",
+        "performanceAnalytics": "Statistiques détaillées et insights pour identifier et améliorer les points faibles de votre jeu."
+      },
+      "cta": {
+        "startTrial": "Démarrer l'essai Pro",
+        "manage": "Gérer l'abonnement",
+        "switchPlan": "Changer de plan"
+      },
+      "seasonal": {
+        "badge": "❄️ Parfait pour les golfeurs en climat froid",
+        "titleStart": "Vous ne jouez pas 4 mois par an ?",
+        "titleHighlight": "Mettez en pause et économisez !",
+        "body": "Vous habitez dans une région froide ? Nous comprenons : la saison de golf ne dure pas toute l'année. Avec un abonnement mensuel, vous pouvez :",
+        "check1": "Annuler à la fermeture des parcours (octobre/novembre)",
+        "check2": "Réactiver à la réouverture (mars/avril)",
+        "check3": "Ne payer que les mois où vous jouez vraiment",
+        "check4": "Conserver toutes vos données toute l'année",
+        "savingsLabel": "Exemple d'économies annuelles :",
+        "savingsMonths": "pour 8 mois",
+        "vsLine": "contre 119,40 $ toute l'année (12 mois × 9,95 $)",
+        "savingsTotal": "Économisez 39,80 $ par an !",
+        "benefitsHeading": "Avantages de l'abonnement mensuel",
+        "benefit1Title": "Flexibilité",
+        "benefit1Desc": "Abonnez-vous et mettez en pause au besoin",
+        "benefit2Title": "Pas de gaspillage",
+        "benefit2Desc": "Payez seulement pour la saison de golf",
+        "benefit3Title": "Données conservées",
+        "benefit3Desc": "Vos stats sont conservées pour toujours",
+        "benefit4Title": "Réactivation facile",
+        "benefit4Desc": "Redémarrez en un clic au printemps",
+        "platforms": "Disponible sur iOS et Android",
+        "cancelAnytime": "Annulez à tout moment, sans question"
+      },
+      "faq": {
+        "heading": "Questions fréquentes",
+        "subheading": "Des questions ? Nous avons les réponses.",
+        "q1": "Puis-je changer de plan plus tard ?",
+        "a1": "Oui ! Vous pouvez monter, descendre ou annuler votre plan à tout moment. Les changements prennent effet au début du cycle de facturation suivant.",
+        "q2": "Y a-t-il un essai gratuit ?",
+        "a2": "Tous les plans payants incluent un essai gratuit de 14 jours. Aucune carte bancaire requise pour démarrer.",
+        "q3": "Quels moyens de paiement acceptez-vous ?",
+        "a3": "Nous acceptons les principales cartes de crédit, cartes de débit et PayPal. Les plans annuels peuvent aussi être réglés par virement bancaire.",
+        "q4": "Puis-je utiliser Copperline Golf sur plusieurs appareils ?",
+        "a4": "Oui ! Votre compte se synchronise sur tous vos appareils. Utilisez Copperline Golf sur le téléphone pendant le parcours et consultez les stats sur tablette ou ordinateur plus tard.",
+        "q5": "Que deviennent mes données si j'annule ?",
+        "a5": "Vos données sont conservées pendant 90 jours après l'annulation. Vous pouvez réactiver à tout moment et reprendre là où vous vous étiez arrêté."
+      },
+      "contactSales": {
+        "heading": "Encore des questions ?",
+        "body": "Notre équipe est là pour vous aider à choisir le bon plan.",
+        "cta": "Contacter les ventes →"
+      },
+      "stickyCta": {
+        "cta": "Démarrer l'essai gratuit",
+        "loading": "Chargement...",
+        "subtitle": "Essai gratuit de 14 jours · Sans carte bancaire"
+      }
     }
   }
 }

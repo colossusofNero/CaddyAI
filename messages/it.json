@@ -1991,6 +1991,89 @@
         "founded": "Fondata nel",
         "satisfaction": "Soddisfazione"
       }
+    },
+    "pricing": {
+      "meta": {
+        "title": "Prezzi | Copperline Golf - Prezzi semplici e trasparenti",
+        "description": "Scegli il piano giusto per il tuo gioco. Tutti i piani includono una prova gratuita di 14 giorni senza carta di credito."
+      },
+      "hero": {
+        "titleStart": "Prezzi semplici e",
+        "titleHighlight": "trasparenti",
+        "subtitle": "Scegli il piano giusto per il tuo gioco. Tutti i piani includono una prova gratuita di 14 giorni senza carta di credito."
+      },
+      "proName": "Pro",
+      "proDesc": "Per golfisti seri che vogliono l'esperienza completa",
+      "proBadge": "Ideale per golfisti stagionali",
+      "features": {
+        "aiRecommendations": "Raccomandazioni con IA",
+        "unlimitedClubs": "Bastoni illimitati nella sacca",
+        "shotDispersion": "Tracciamento dispersione colpi",
+        "weatherElevation": "Meteo ed elevazione in tempo reale",
+        "unlimitedRounds": "Giri illimitati",
+        "performanceAnalytics": "Analisi delle prestazioni",
+        "courseDatabase": "Accesso al database dei campi",
+        "prioritySupport": "Supporto prioritario"
+      },
+      "tooltips": {
+        "aiRecommendations": "Algoritmi avanzati di machine learning analizzano il tuo gioco per fornire suggerimenti di bastone personalizzati.",
+        "shotDispersion": "Monitora la dispersione dei tuoi colpi con ciascun bastone per migliorare costanza e gestione del campo.",
+        "performanceAnalytics": "Statistiche dettagliate e analisi per identificare e migliorare le aree deboli del tuo gioco."
+      },
+      "cta": {
+        "startTrial": "Inizia prova Pro",
+        "manage": "Gestisci abbonamento",
+        "switchPlan": "Cambia piano"
+      },
+      "seasonal": {
+        "badge": "❄️ Perfetto per i golfisti dei climi freddi",
+        "titleStart": "Non giochi 4 mesi all'anno?",
+        "titleHighlight": "Metti in pausa e risparmia!",
+        "body": "Vivi in un clima freddo? Lo capiamo: la stagione del golf non dura tutto l'anno. Con l'abbonamento mensile puoi:",
+        "check1": "Disdire alla chiusura dei campi (ottobre/novembre)",
+        "check2": "Riattivare alla riapertura (marzo/aprile)",
+        "check3": "Pagare solo i mesi in cui giochi davvero",
+        "check4": "Conservare tutti i tuoi dati tutto l'anno",
+        "savingsLabel": "Esempio di risparmio annuale:",
+        "savingsMonths": "per 8 mesi",
+        "vsLine": "rispetto a $119.40 tutto l'anno (12 mesi × $9.95)",
+        "savingsTotal": "Risparmia $39.80 all'anno!",
+        "benefitsHeading": "Vantaggi dell'abbonamento mensile",
+        "benefit1Title": "Flessibilità",
+        "benefit1Desc": "Iscriviti e metti in pausa quando vuoi",
+        "benefit2Title": "Nessuno spreco",
+        "benefit2Desc": "Paghi solo per la stagione del golf",
+        "benefit3Title": "Dati conservati",
+        "benefit3Desc": "Le tue statistiche restano per sempre",
+        "benefit4Title": "Riattivazione facile",
+        "benefit4Desc": "Riparti con un clic in primavera",
+        "platforms": "Disponibile su iOS e Android",
+        "cancelAnytime": "Disdici quando vuoi, senza domande"
+      },
+      "faq": {
+        "heading": "Domande frequenti",
+        "subheading": "Hai domande? Abbiamo risposte.",
+        "q1": "Posso cambiare piano in seguito?",
+        "a1": "Sì! Puoi fare upgrade, downgrade o disdire in qualsiasi momento. Le modifiche entrano in vigore all'inizio del ciclo di fatturazione successivo.",
+        "q2": "C'è una prova gratuita?",
+        "a2": "Tutti i piani a pagamento includono una prova gratuita di 14 giorni. Nessuna carta di credito richiesta.",
+        "q3": "Quali metodi di pagamento accettate?",
+        "a3": "Accettiamo le principali carte di credito, di debito e PayPal. I piani annuali si possono pagare anche tramite bonifico.",
+        "q4": "Posso usare Copperline Golf su più dispositivi?",
+        "a4": "Sì! Il tuo account si sincronizza su tutti i dispositivi. Usa Copperline Golf sul telefono durante i giri e rivedi le statistiche su tablet o computer dopo.",
+        "q5": "Cosa succede ai miei dati se disdico?",
+        "a5": "I tuoi dati restano per 90 giorni dopo la disdetta. Puoi riattivare quando vuoi e riprendere da dove eri."
+      },
+      "contactSales": {
+        "heading": "Ancora domande?",
+        "body": "Il nostro team è qui per aiutarti a scegliere il piano giusto per il tuo gioco.",
+        "cta": "Contatta il team commerciale →"
+      },
+      "stickyCta": {
+        "cta": "Inizia prova gratuita",
+        "loading": "Caricamento...",
+        "subtitle": "Prova gratuita di 14 giorni · Senza carta di credito"
+      }
     }
   }
 }

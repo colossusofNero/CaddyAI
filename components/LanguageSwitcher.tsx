@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect, useTransition } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useTransition } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { routing, localeNames, type Locale } from '@/i18n/routing';
@@ -51,17 +52,58 @@ export function LanguageSwitcher({ variant = 'header' }: LanguageSwitcherProps) 
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLUListElement | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Position the portaled menu under the button. Recomputes on open and on
+  // window resize/scroll so the dropdown stays anchored.
+  useLayoutEffect(() => {
+    if (!open || variant !== 'header') return;
+    const compute = () => {
+      const btn = buttonRef.current;
+      if (!btn) return;
+      const rect = btn.getBoundingClientRect();
+      setMenuPos({
+        top: rect.bottom + 8,
+        right: window.innerWidth - rect.right,
+      });
+    };
+    compute();
+    window.addEventListener('resize', compute);
+    window.addEventListener('scroll', compute, true);
+    return () => {
+      window.removeEventListener('resize', compute);
+      window.removeEventListener('scroll', compute, true);
+    };
+  }, [open, variant]);
 
   useEffect(() => {
     if (!open) return;
     const handle = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
+      const target = e.target as Node;
+      if (
+        buttonRef.current?.contains(target) ||
+        menuRef.current?.contains(target)
+      ) {
+        return;
       }
+      setOpen(false);
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
     };
     document.addEventListener('mousedown', handle);
-    return () => document.removeEventListener('mousedown', handle);
+    document.addEventListener('keydown', onEsc);
+    return () => {
+      document.removeEventListener('mousedown', handle);
+      document.removeEventListener('keydown', onEsc);
+    };
   }, [open]);
 
   function pick(next: Locale) {
@@ -99,9 +141,45 @@ export function LanguageSwitcher({ variant = 'header' }: LanguageSwitcherProps) 
     );
   }
 
+  const menu = open && menuPos && (
+    <ul
+      ref={menuRef}
+      role="listbox"
+      style={{
+        position: 'fixed',
+        top: menuPos.top,
+        right: menuPos.right,
+        width: 224,
+        maxHeight: 320,
+        zIndex: 9999,
+        backgroundColor: '#1a1a1a',
+      }}
+      className="overflow-auto rounded-xl border border-secondary-700 shadow-2xl py-1"
+    >
+      {routing.locales.map((l) => (
+        <li key={l}>
+          <button
+            type="button"
+            onClick={() => pick(l)}
+            className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
+              l === locale
+                ? 'text-primary bg-primary/10'
+                : 'text-text-secondary hover:text-text-primary hover:bg-secondary-800'
+            }`}
+          >
+            <Flag locale={l} className="w-6 h-4 flex-shrink-0" />
+            <span className="flex-1 text-left truncate">{localeNames[l]}</span>
+            {l === locale && <Check className="w-4 h-4 flex-shrink-0" />}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
-    <div ref={containerRef} className="relative">
+    <>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
         disabled={isPending}
@@ -114,30 +192,7 @@ export function LanguageSwitcher({ variant = 'header' }: LanguageSwitcherProps) 
         <span className="hidden md:inline">{localeNames[locale]}</span>
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
-      {open && (
-        <ul
-          role="listbox"
-          className="absolute right-0 mt-2 w-56 max-h-80 overflow-auto rounded-xl border border-secondary-700 bg-background-light shadow-xl z-50 py-1"
-        >
-          {routing.locales.map((l) => (
-            <li key={l}>
-              <button
-                type="button"
-                onClick={() => pick(l)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
-                  l === locale
-                    ? 'text-primary bg-primary/10'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-secondary-800'
-                }`}
-              >
-                <Flag locale={l} className="w-6 h-4 flex-shrink-0" />
-                <span className="flex-1 text-left truncate">{localeNames[l]}</span>
-                {l === locale && <Check className="w-4 h-4 flex-shrink-0" />}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      {mounted && menu ? createPortal(menu, document.body) : null}
+    </>
   );
 }

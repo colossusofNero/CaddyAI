@@ -168,10 +168,10 @@ export default function ContactPage() {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com/copperlinegolf', label: 'Facebook' },
+    { icon: Facebook, href: 'https://www.facebook.com/people/Copperline-Golf/61588227593801/', label: 'Facebook' },
     { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
     { icon: Instagram, href: 'https://www.instagram.com/copperlinegolfaz', label: 'Instagram' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/copperlinegolf', label: 'LinkedIn' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/copperline-golf/', label: 'LinkedIn' },
   ];
 
   useEffect(() => {

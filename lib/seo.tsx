@@ -117,7 +117,9 @@ export function generateOrganizationSchema() {
     sameAs: [
       'https://twitter.com/copperlinegolf',
       'https://www.instagram.com/copperlinegolfaz',
-      'https://facebook.com/copperlinegolf',
+      'https://www.facebook.com/people/Copperline-Golf/61588227593801/',
+      'https://www.linkedin.com/company/copperline-golf/',
+      'https://www.youtube.com/channel/UCKePPCxL_9LTVgT7HiJytOw',
     ],
     contactPoint: {
       '@type': 'ContactPoint',

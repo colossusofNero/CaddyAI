@@ -8,40 +8,18 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, Star, TrendingUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 
-const featuredCourses = [
-  {
-    name: 'Pebble Beach',
-    location: 'California, USA',
-    image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=800&auto=format&fit=crop',
-    rating: 4.9,
-    plays: '15.2K',
-  },
-  {
-    name: 'St Andrews Links',
-    location: 'Scotland, UK',
-    image: 'https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=800&auto=format&fit=crop',
-    rating: 4.8,
-    plays: '12.8K',
-  },
-  {
-    name: 'Augusta National',
-    location: 'Georgia, USA',
-    image: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800&auto=format&fit=crop',
-    rating: 5.0,
-    plays: '8.5K',
-  },
-  {
-    name: 'Royal Melbourne',
-    location: 'Australia',
-    image: 'https://images.unsplash.com/photo-1593111774240-d529f12cb0ee?q=80&w=800&auto=format&fit=crop',
-    rating: 4.7,
-    plays: '9.3K',
-  },
-];
-
 export function CourseShowcase() {
+  const t = useTranslations('marketing.courseShowcase');
+
+  const featuredCourses = [
+    { name: 'Pebble Beach', location: t('locPebbleBeach'), image: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=800&auto=format&fit=crop', rating: 4.9, plays: '15.2K' },
+    { name: 'St Andrews Links', location: t('locStAndrews'), image: 'https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=800&auto=format&fit=crop', rating: 4.8, plays: '12.8K' },
+    { name: 'Augusta National', location: t('locAugusta'), image: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800&auto=format&fit=crop', rating: 5.0, plays: '8.5K' },
+    { name: 'Royal Melbourne', location: t('locRoyalMelbourne'), image: 'https://images.unsplash.com/photo-1593111774240-d529f12cb0ee?q=80&w=800&auto=format&fit=crop', rating: 4.7, plays: '9.3K' },
+  ];
   return (
     <section className="py-20 lg:py-32 bg-gradient-to-b from-background via-background-light to-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,7 +37,7 @@ export function CourseShowcase() {
           >
             <MapPin className="w-4 h-4 text-primary" />
             <span className="text-sm font-semibold text-primary">
-              15,000+ Courses Mapped
+              {t('badge')}
             </span>
           </motion.div>
 
@@ -67,15 +45,14 @@ export function CourseShowcase() {
             variants={staggerItem}
             className="text-3xl sm:text-4xl lg:text-5xl font-sans font-bold text-text-primary mb-6"
           >
-            Play the World's Best Courses
+            {t('heading')}
           </motion.h2>
 
           <motion.p
             variants={staggerItem}
             className="text-lg text-text-secondary max-w-2xl mx-auto"
           >
-            Access detailed course information, GPS coordinates, and AI-powered recommendations
-            for thousands of courses worldwide
+            {t('subheading')}
           </motion.p>
         </motion.div>
 
@@ -127,7 +104,7 @@ export function CourseShowcase() {
                   </div>
                   <div className="flex items-center gap-1.5 text-white/90">
                     <TrendingUp className="w-4 h-4" />
-                    <span>{course.plays} plays</span>
+                    <span>{t('plays', { count: course.plays })}</span>
                   </div>
                 </div>
               </div>
@@ -135,7 +112,7 @@ export function CourseShowcase() {
               {/* Hover Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-accent/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <div className="text-white text-center px-4">
-                  <p className="text-sm font-semibold mb-2">View Course Details</p>
+                  <p className="text-sm font-semibold mb-2">{t('hoverCta')}</p>
                   <div className="w-12 h-0.5 bg-white/50 mx-auto" />
                 </div>
               </div>
@@ -152,10 +129,10 @@ export function CourseShowcase() {
           className="mt-12 text-center"
         >
           <p className="text-text-secondary mb-4">
-            And thousands more courses available in the app
+            {t('andMore')}
           </p>
           <div className="flex items-center justify-center gap-2 text-primary font-semibold group cursor-pointer">
-            <span>Explore all courses</span>
+            <span>{t('exploreAll')}</span>
             <TrendingUp className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </div>
         </motion.div>

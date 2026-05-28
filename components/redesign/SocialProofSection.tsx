@@ -12,39 +12,17 @@ import { TestimonialCard, TestimonialCardProps } from './TestimonialCard';
 import { TrustBadge } from './TrustBadge';
 import { StatCounter } from './StatCounter';
 import { Star, Smartphone, Award, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { fadeInUp } from '@/lib/animations';
 
-const testimonials: TestimonialCardProps[] = [
-  {
-    quote: "Copperline Golf helped me drop 5 strokes in my first month. The club recommendations are spot-on every time.",
-    author: "Sarah Johnson",
-    role: "Amateur Golfer",
-    location: "California",
-    avatar: "",
-    rating: 5,
-    verified: true,
-  },
-  {
-    quote: "Best golf app I've used hands down. The AI recommendations are incredibly accurate and easy to use.",
-    author: "Mike Torres",
-    role: "Club Champion",
-    location: "Texas",
-    avatar: "",
-    rating: 4,
-    verified: true,
-  },
-  {
-    quote: "This changed my game completely. I finally have the confidence to make the right club choice every time.",
-    author: "David Lee",
-    role: "Golf Pro",
-    location: "Florida",
-    avatar: "",
-    rating: 5,
-    verified: true,
-  },
-];
-
 export function SocialProofSection() {
+  const t = useTranslations('marketing.socialProof');
+
+  const testimonials: TestimonialCardProps[] = [
+    { quote: t('t1Quote'), author: 'Sarah Johnson', role: t('t1Role'), location: 'California', avatar: '', rating: 5, verified: true },
+    { quote: t('t2Quote'), author: 'Mike Torres', role: t('t2Role'), location: 'Texas', avatar: '', rating: 4, verified: true },
+    { quote: t('t3Quote'), author: 'David Lee', role: t('t3Role'), location: 'Florida', avatar: '', rating: 5, verified: true },
+  ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [golfersOnCourse, setGolfersOnCourse] = useState(
@@ -103,7 +81,7 @@ export function SocialProofSection() {
             viewport={{ once: true }}
             className="font-sans text-4xl lg:text-5xl font-semibold text-neutral-900 mb-4"
           >
-            Trusted by Thousands of Golfers
+            {t('heading')}
           </motion.h2>
           <motion.p
             variants={fadeInUp}
@@ -113,7 +91,7 @@ export function SocialProofSection() {
             transition={{ delay: 0.1 }}
             className="font-sans text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto"
           >
-            Join the community of players who have transformed their game with Copperline Golf
+            {t('subheading')}
           </motion.p>
         </div>
 
@@ -148,7 +126,7 @@ export function SocialProofSection() {
               <button
                 onClick={handlePrevious}
                 className="p-2 rounded-full bg-white border border-neutral-200 hover:border-primary hover:bg-primary-50 transition-colors"
-                aria-label="Previous testimonial"
+                aria-label={t('prevAria')}
               >
                 <ChevronLeft className="w-5 h-5 text-neutral-700" />
               </button>
@@ -167,7 +145,7 @@ export function SocialProofSection() {
                         ? 'bg-primary w-6'
                         : 'bg-neutral-300 hover:bg-neutral-400'
                     }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
+                    aria-label={t('dotAria', { n: index + 1 })}
                   />
                 ))}
               </div>
@@ -175,7 +153,7 @@ export function SocialProofSection() {
               <button
                 onClick={handleNext}
                 className="p-2 rounded-full bg-white border border-neutral-200 hover:border-primary hover:bg-primary-50 transition-colors"
-                aria-label="Next testimonial"
+                aria-label={t('nextAria')}
               >
                 <ChevronRight className="w-5 h-5 text-neutral-700" />
               </button>
@@ -212,26 +190,26 @@ export function SocialProofSection() {
         >
           <TrustBadge
             icon={Star}
-            label="4.8 App Store"
-            sublabel="2,450 reviews"
+            label={t('badge1Label')}
+            sublabel={t('badge1Sublabel')}
             delay={0}
           />
           <TrustBadge
             icon={Smartphone}
-            label="50K+ Downloads"
-            sublabel="Active users"
+            label={t('badge2Label')}
+            sublabel={t('badge2Sublabel')}
             delay={0.1}
           />
           <TrustBadge
             icon={Award}
-            label="Featured by"
-            sublabel="Golf Digest"
+            label={t('badge3Label')}
+            sublabel={t('badge3Sublabel')}
             delay={0.2}
           />
           <TrustBadge
             icon={Shield}
-            label="Privacy First"
-            sublabel="Data protected"
+            label={t('badge4Label')}
+            sublabel={t('badge4Sublabel')}
             delay={0.3}
           />
         </motion.div>
@@ -245,7 +223,7 @@ export function SocialProofSection() {
             viewport={{ once: true }}
             className="font-sans text-neutral-700 text-lg mb-4"
           >
-            Golfers currently on the course:
+            {t('liveCounter')}
           </motion.p>
           <StatCounter
             endValue={golfersOnCourse}

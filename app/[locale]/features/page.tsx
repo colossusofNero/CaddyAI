@@ -10,7 +10,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { FeatureCard, FeatureGrid } from '@/components/FeatureCard';
 import { CTASection } from '@/components/CTASection';
-import { StatsCounter, defaultStats } from '@/components/StatsCounter';
+import { StatsCounter, useDefaultStats } from '@/components/StatsCounter';
 import { AIClubSelectionModal } from '@/components/AIClubSelectionModal';
 import { ShotPatternsModal } from '@/components/ShotPatternsModal';
 import { WeatherModal } from '@/components/WeatherModal';
@@ -37,6 +37,7 @@ import { staggerContainer, staggerItem } from '@/lib/animations';
 
 export default function FeaturesPage() {
   const t = useTranslations('marketing.features');
+  const defaultStats = useDefaultStats();
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const [isShotPatternsModalOpen, setIsShotPatternsModalOpen] = useState(false);
   const [isWeatherModalOpen, setIsWeatherModalOpen] = useState(false);

@@ -207,7 +207,7 @@ export function Hero({
                   {/* Real App Screenshot */}
                   <Image
                     src="/screenshots/Screenshot_20251218-081027.png"
-                    alt="Copperline Golf App Screenshot"
+                    alt={t('screenshotAlt')}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 400px"

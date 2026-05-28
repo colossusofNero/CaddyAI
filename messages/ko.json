@@ -1945,7 +1945,8 @@
       "ctaSecondary": "데모 보기",
       "statGolfers": "50,000명 이상의 골퍼가 함께",
       "statShots": "200만 회 이상의 샷 분석",
-      "scrollAria": "기능으로 스크롤"
+      "scrollAria": "기능으로 스크롤",
+      "screenshotAlt": "Copperline Golf 앱 스크린샷"
     },
     "ctaSection": {
       "badge": "기간 한정 혜택",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "실시간 채팅 시작",
         "emailButton": "이메일 지원"
       }
+    },
+    "stats": {
+      "activeGolfers": "활성 골퍼",
+      "shotsAnalyzed": "분석된 샷",
+      "coursesMapped": "매핑된 코스",
+      "satisfactionRate": "만족도"
+    },
+    "pricingCard": {
+      "mostPopular": "가장 인기",
+      "perYear": "/년",
+      "perMonth": "/월",
+      "saveAmount": "${amount} 절약",
+      "savePercent": "({percent}% 할인)",
+      "loading": "로딩 중...",
+      "currentPlan": "현재 플랜",
+      "moreInfoAbout": "{feature} 자세히",
+      "monthly": "월간",
+      "annual": "연간",
+      "saveBadge": "(33% 할인)",
+      "toggleAria": "월간/연간 결제 전환"
+    },
+    "courseShowcase": {
+      "badge": "15,000개 이상의 코스 매핑",
+      "heading": "세계 최고의 코스에서 플레이하세요",
+      "subheading": "전 세계 수천 개 코스의 상세 정보, GPS 좌표 및 AI 기반 추천에 접근하세요",
+      "hoverCta": "코스 상세 보기",
+      "plays": "{count}회 플레이",
+      "andMore": "앱에서 수천 개의 추가 코스 이용 가능",
+      "exploreAll": "모든 코스 둘러보기",
+      "locPebbleBeach": "캘리포니아, 미국",
+      "locStAndrews": "스코틀랜드, 영국",
+      "locAugusta": "조지아, 미국",
+      "locRoyalMelbourne": "호주"
+    },
+    "socialProof": {
+      "heading": "수천 명의 골퍼가 신뢰합니다",
+      "subheading": "Copperline Golf로 게임을 변화시킨 플레이어 커뮤니티에 합류하세요",
+      "verified": "인증된 사용자",
+      "t1Quote": "Copperline Golf 덕분에 첫 달 만에 5타를 줄였습니다. 클럽 추천은 매번 정확합니다.",
+      "t1Role": "아마추어 골퍼",
+      "t2Quote": "제가 사용해본 골프 앱 중 단연 최고입니다. AI 추천이 매우 정확하고 사용하기 쉽습니다.",
+      "t2Role": "클럽 챔피언",
+      "t3Quote": "제 경기를 완전히 바꿔놓았습니다. 마침내 매번 올바른 클럽을 선택할 자신감이 생겼습니다.",
+      "t3Role": "골프 프로",
+      "badge1Label": "4.8 App Store",
+      "badge1Sublabel": "리뷰 2,450개",
+      "badge2Label": "5만+ 다운로드",
+      "badge2Sublabel": "활성 사용자",
+      "badge3Label": "추천",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "프라이버시 우선",
+      "badge4Sublabel": "데이터 보호",
+      "liveCounter": "현재 코스에 있는 골퍼:",
+      "prevAria": "이전 후기",
+      "nextAria": "다음 후기",
+      "dotAria": "후기 {n}로 이동"
+    },
+    "testimonials": {
+      "1": "Copperline Golf 덕분에 코스 접근 방식이 완전히 바뀌었습니다. 클럽 추천이 정확하고, 단 두 달 만에 핸디캡을 4타 낮췄습니다!",
+      "2": "초보자로서 Copperline Golf는 정말 귀중했습니다. 주머니 속의 프로 캐디처럼 모든 상황에서 어떤 클럽을 사용해야 할지 알려줍니다.",
+      "3": "바람과 고도 조정이 매우 정확합니다. 특히 익숙하지 않은 코스에서 클럽 선택에 큰 자신감을 얻었습니다.",
+      "4": "Copperline Golf가 제 샷 패턴을 학습하는 점이 정말 마음에 듭니다. 많이 사용할수록 추천이 더 좋아집니다. 정말 제 경기에 맞춰져 있습니다.",
+      "5": "라운드 중에도 인터페이스가 매우 깔끔하고 사용하기 쉽습니다. 플레이를 늦추지 않고 빠른 추천을 제공합니다. 우리 4인조 모두가 지금 사용합니다!",
+      "6": "Copperline Golf로 제가 생각했던 클럽 거리와 실제 거리의 차이를 이해하게 되었습니다. 코스 매니지먼트의 게임 체인저!"
     }
   }
 }

@@ -1945,7 +1945,8 @@
       "ctaSecondary": "Demo testen",
       "statGolfers": "Über 50.000 Golfer dabei",
       "statShots": "Über 2 Mio. Schläge analysiert",
-      "scrollAria": "Zu den Funktionen scrollen"
+      "scrollAria": "Zu den Funktionen scrollen",
+      "screenshotAlt": "Screenshot der Copperline-Golf-App"
     },
     "ctaSection": {
       "badge": "Zeitlich begrenztes Angebot",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "Live-Chat starten",
         "emailButton": "E-Mail-Support"
       }
+    },
+    "stats": {
+      "activeGolfers": "Aktive Golfer",
+      "shotsAnalyzed": "Analysierte Schläge",
+      "coursesMapped": "Erfasste Plätze",
+      "satisfactionRate": "Zufriedenheit"
+    },
+    "pricingCard": {
+      "mostPopular": "Beliebteste Wahl",
+      "perYear": "/Jahr",
+      "perMonth": "/Monat",
+      "saveAmount": "{amount} $ sparen",
+      "savePercent": "({percent}% Rabatt)",
+      "loading": "Lädt...",
+      "currentPlan": "Aktueller Plan",
+      "moreInfoAbout": "Mehr Infos zu {feature}",
+      "monthly": "Monatlich",
+      "annual": "Jährlich",
+      "saveBadge": "(33% sparen)",
+      "toggleAria": "Zwischen monatlicher und jährlicher Abrechnung wechseln"
+    },
+    "courseShowcase": {
+      "badge": "Über 15.000 Plätze erfasst",
+      "heading": "Spielen Sie die besten Plätze der Welt",
+      "subheading": "Greifen Sie auf detaillierte Platzinfos, GPS-Koordinaten und KI-gestützte Empfehlungen für tausende Plätze weltweit zu",
+      "hoverCta": "Platz-Details ansehen",
+      "plays": "{count} Runden",
+      "andMore": "Und tausende weitere Plätze in der App",
+      "exploreAll": "Alle Plätze entdecken",
+      "locPebbleBeach": "Kalifornien, USA",
+      "locStAndrews": "Schottland, Großbritannien",
+      "locAugusta": "Georgia, USA",
+      "locRoyalMelbourne": "Australien"
+    },
+    "socialProof": {
+      "heading": "Tausende Golfer vertrauen uns",
+      "subheading": "Schließen Sie sich der Community von Spielern an, die ihr Spiel mit Copperline Golf verändert haben",
+      "verified": "Verifizierter Nutzer",
+      "t1Quote": "Copperline Golf hat mir geholfen, im ersten Monat 5 Schläge weniger zu spielen. Die Schläger-Empfehlungen sitzen jedes Mal.",
+      "t1Role": "Amateur-Golfer",
+      "t2Quote": "Die beste Golf-App, die ich je benutzt habe. Die KI-Empfehlungen sind unglaublich präzise und einfach zu bedienen.",
+      "t2Role": "Clubmeister",
+      "t3Quote": "Das hat mein Spiel komplett verändert. Endlich habe ich das Vertrauen, jedes Mal den richtigen Schläger zu wählen.",
+      "t3Role": "Golf-Profi",
+      "badge1Label": "4,8 App Store",
+      "badge1Sublabel": "2.450 Bewertungen",
+      "badge2Label": "Über 50K Downloads",
+      "badge2Sublabel": "Aktive Nutzer",
+      "badge3Label": "Empfohlen von",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "Datenschutz zuerst",
+      "badge4Sublabel": "Daten geschützt",
+      "liveCounter": "Golfer aktuell auf dem Platz:",
+      "prevAria": "Vorheriges Testimonial",
+      "nextAria": "Nächstes Testimonial",
+      "dotAria": "Zum Testimonial {n}"
+    },
+    "testimonials": {
+      "1": "Copperline Golf hat verändert, wie ich an einen Platz herangehe. Die Schläger-Empfehlungen sitzen — und ich habe mein Handicap in zwei Monaten um 4 Schläge gesenkt!",
+      "2": "Als Anfänger war Copperline Golf unbezahlbar. Wie ein Profi-Caddie in der Hosentasche, der einem für jede Situation den richtigen Schläger zeigt.",
+      "3": "Die Wind- und Höhenkorrekturen sind unglaublich präzise. Ich habe enormes Vertrauen in meine Schlägerwahl gewonnen, besonders auf unbekannten Plätzen.",
+      "4": "Ich liebe es, wie Copperline Golf meine Schlagmuster lernt. Je mehr ich es nutze, desto besser die Empfehlungen. Wirklich auf mein Spiel zugeschnitten.",
+      "5": "Die Oberfläche ist so übersichtlich und einfach zu nutzen, sogar während der Runde. Schnelle Empfehlungen ohne das Spiel zu verlangsamen. Mein ganzer Flight nutzt es jetzt!",
+      "6": "Copperline Golf hat mir gezeigt, wie weit ich wirklich schlage — vs. dem, was ich dachte. Game-Changer fürs Course-Management!"
     }
   }
 }

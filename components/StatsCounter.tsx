@@ -8,6 +8,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 interface StatItem {
   value: number;
@@ -107,27 +108,16 @@ function AnimatedStat({ stat, index }: { stat: StatItem; index: number }) {
 }
 
 /**
- * Default Stats Data
+ * Locale-aware default stats. Returns labels from the active locale's
+ * marketing.stats namespace. Use this hook from Client Components
+ * instead of the static array; the hook re-runs on locale change.
  */
-export const defaultStats: StatItem[] = [
-  {
-    value: 50000,
-    label: 'Active Golfers',
-    suffix: '+',
-  },
-  {
-    value: 2000000,
-    label: 'Shots Analyzed',
-    suffix: '+',
-  },
-  {
-    value: 15000,
-    label: 'Courses Mapped',
-    suffix: '+',
-  },
-  {
-    value: 98,
-    label: 'Satisfaction Rate',
-    suffix: '%',
-  },
-];
+export function useDefaultStats(): StatItem[] {
+  const t = useTranslations('marketing.stats');
+  return [
+    { value: 50000, label: t('activeGolfers'), suffix: '+' },
+    { value: 2000000, label: t('shotsAnalyzed'), suffix: '+' },
+    { value: 15000, label: t('coursesMapped'), suffix: '+' },
+    { value: 98, label: t('satisfactionRate'), suffix: '%' },
+  ];
+}

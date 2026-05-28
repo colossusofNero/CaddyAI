@@ -1945,7 +1945,8 @@
       "ctaSecondary": "Ver demo",
       "statGolfers": "Junte-se a mais de 50.000 golfistas",
       "statShots": "Mais de 2 milhões de tacadas analisadas",
-      "scrollAria": "Rolar para recursos"
+      "scrollAria": "Rolar para recursos",
+      "screenshotAlt": "Captura de tela do app Copperline Golf"
     },
     "ctaSection": {
       "badge": "Oferta por tempo limitado",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "Iniciar chat ao vivo",
         "emailButton": "Suporte por e-mail"
       }
+    },
+    "stats": {
+      "activeGolfers": "Golfistas ativos",
+      "shotsAnalyzed": "Tacadas analisadas",
+      "coursesMapped": "Campos mapeados",
+      "satisfactionRate": "Taxa de satisfação"
+    },
+    "pricingCard": {
+      "mostPopular": "Mais popular",
+      "perYear": "/ano",
+      "perMonth": "/mês",
+      "saveAmount": "Economize US$ {amount}",
+      "savePercent": "({percent}% de desconto)",
+      "loading": "Carregando...",
+      "currentPlan": "Plano atual",
+      "moreInfoAbout": "Mais informações sobre {feature}",
+      "monthly": "Mensal",
+      "annual": "Anual",
+      "saveBadge": "(Economize 33%)",
+      "toggleAria": "Alternar entre cobrança mensal e anual"
+    },
+    "courseShowcase": {
+      "badge": "Mais de 15.000 campos mapeados",
+      "heading": "Jogue nos melhores campos do mundo",
+      "subheading": "Acesse informações detalhadas dos campos, coordenadas GPS e recomendações com IA para milhares de campos no mundo todo",
+      "hoverCta": "Ver detalhes do campo",
+      "plays": "{count} partidas",
+      "andMore": "E milhares de outros campos disponíveis no app",
+      "exploreAll": "Explorar todos os campos",
+      "locPebbleBeach": "Califórnia, EUA",
+      "locStAndrews": "Escócia, Reino Unido",
+      "locAugusta": "Geórgia, EUA",
+      "locRoyalMelbourne": "Austrália"
+    },
+    "socialProof": {
+      "heading": "A confiança de milhares de golfistas",
+      "subheading": "Junte-se à comunidade de jogadores que transformaram seu jogo com o Copperline Golf",
+      "verified": "Usuário verificado",
+      "t1Quote": "O Copperline Golf me ajudou a tirar 5 tacadas no primeiro mês. As recomendações de taco acertam em cheio toda vez.",
+      "t1Role": "Golfista amador",
+      "t2Quote": "O melhor app de golfe que já usei, sem dúvida. As recomendações com IA são extremamente precisas e fáceis de usar.",
+      "t2Role": "Campeão de clube",
+      "t3Quote": "Mudou meu jogo completamente. Agora finalmente tenho a confiança para escolher o taco certo toda vez.",
+      "t3Role": "Profissional de golfe",
+      "badge1Label": "4,8 App Store",
+      "badge1Sublabel": "2.450 avaliações",
+      "badge2Label": "Mais de 50 mil downloads",
+      "badge2Sublabel": "Usuários ativos",
+      "badge3Label": "Destaque por",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "Privacidade primeiro",
+      "badge4Sublabel": "Dados protegidos",
+      "liveCounter": "Golfistas atualmente no campo:",
+      "prevAria": "Depoimento anterior",
+      "nextAria": "Próximo depoimento",
+      "dotAria": "Ir para o depoimento {n}"
+    },
+    "testimonials": {
+      "1": "O Copperline Golf mudou completamente como eu abordo o campo. As recomendações de taco são certeiras e eu reduzi meu handicap em 4 tacadas em apenas dois meses!",
+      "2": "Como iniciante, o Copperline Golf foi inestimável. É como ter um caddie profissional no bolso me ajudando a entender qual taco usar em cada situação.",
+      "3": "Os ajustes de vento e elevação são incrivelmente precisos. Ganhei muita confiança na escolha de taco, principalmente em campos desconhecidos.",
+      "4": "Adoro como o Copperline Golf aprende meus padrões de tacada. Quanto mais uso, melhores ficam as recomendações. É realmente personalizado para o meu jogo.",
+      "5": "A interface é tão limpa e fácil de usar, mesmo durante a rodada. Recomendações rápidas sem atrasar o jogo. Meu quarteto inteiro usa agora!",
+      "6": "O Copperline Golf me ajudou a entender minhas distâncias reais de taco vs. o que eu achava que eram. Mudou tudo no manejo do campo!"
     }
   }
 }

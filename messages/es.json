@@ -1945,7 +1945,8 @@
       "ctaSecondary": "Probar demo",
       "statGolfers": "Únete a más de 50.000 golfistas",
       "statShots": "Más de 2M de golpes analizados",
-      "scrollAria": "Desplazar a funciones"
+      "scrollAria": "Desplazar a funciones",
+      "screenshotAlt": "Captura de pantalla de la app Copperline Golf"
     },
     "ctaSection": {
       "badge": "Oferta por tiempo limitado",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "Iniciar chat en vivo",
         "emailButton": "Soporte por correo"
       }
+    },
+    "stats": {
+      "activeGolfers": "Golfistas activos",
+      "shotsAnalyzed": "Golpes analizados",
+      "coursesMapped": "Campos mapeados",
+      "satisfactionRate": "Tasa de satisfacción"
+    },
+    "pricingCard": {
+      "mostPopular": "Más popular",
+      "perYear": "/año",
+      "perMonth": "/mes",
+      "saveAmount": "Ahorra ${amount}",
+      "savePercent": "({percent}% de descuento)",
+      "loading": "Cargando...",
+      "currentPlan": "Plan actual",
+      "moreInfoAbout": "Más información sobre {feature}",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "saveBadge": "(Ahorra 33%)",
+      "toggleAria": "Alternar entre facturación mensual y anual"
+    },
+    "courseShowcase": {
+      "badge": "Más de 15.000 campos mapeados",
+      "heading": "Juega los mejores campos del mundo",
+      "subheading": "Accede a información detallada de campos, coordenadas GPS y recomendaciones con IA para miles de campos en todo el mundo",
+      "hoverCta": "Ver detalles del campo",
+      "plays": "{count} partidas",
+      "andMore": "Y miles de campos más disponibles en la app",
+      "exploreAll": "Explorar todos los campos",
+      "locPebbleBeach": "California, EE. UU.",
+      "locStAndrews": "Escocia, Reino Unido",
+      "locAugusta": "Georgia, EE. UU.",
+      "locRoyalMelbourne": "Australia"
+    },
+    "socialProof": {
+      "heading": "La confianza de miles de golfistas",
+      "subheading": "Únete a la comunidad de jugadores que han transformado su juego con Copperline Golf",
+      "verified": "Usuario verificado",
+      "t1Quote": "Copperline Golf me ayudó a bajar 5 golpes en mi primer mes. Las recomendaciones de palo son precisas siempre.",
+      "t1Role": "Golfista amateur",
+      "t2Quote": "La mejor app de golf que he usado, sin duda. Las recomendaciones con IA son muy precisas y fáciles de usar.",
+      "t2Role": "Campeón de club",
+      "t3Quote": "Esto cambió mi juego por completo. Por fin tengo la confianza para elegir el palo correcto cada vez.",
+      "t3Role": "Profesional de golf",
+      "badge1Label": "4,8 App Store",
+      "badge1Sublabel": "2.450 reseñas",
+      "badge2Label": "Más de 50K descargas",
+      "badge2Sublabel": "Usuarios activos",
+      "badge3Label": "Destacado por",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "Privacidad primero",
+      "badge4Sublabel": "Datos protegidos",
+      "liveCounter": "Golfistas actualmente en el campo:",
+      "prevAria": "Testimonio anterior",
+      "nextAria": "Siguiente testimonio",
+      "dotAria": "Ir al testimonio {n}"
+    },
+    "testimonials": {
+      "1": "¡Copperline Golf cambió por completo cómo afronto el campo! Las recomendaciones de palo son precisas y he bajado mi hándicap 4 golpes en solo dos meses.",
+      "2": "Como principiante, Copperline Golf ha sido invaluable. Es como tener un caddie profesional en el bolsillo que me ayuda a entender qué palo usar en cada situación.",
+      "3": "Los ajustes de viento y elevación son increíblemente precisos. He ganado mucha confianza en mi selección de palo, sobre todo en campos desconocidos.",
+      "4": "Me encanta cómo Copperline Golf aprende mis patrones de golpe. Cuanto más lo uso, mejores son las recomendaciones. Está realmente personalizado para mi juego.",
+      "5": "La interfaz es muy limpia y fácil de usar, incluso durante la ronda. Recomendaciones rápidas sin frenar el juego. ¡Mi grupo entero la usa ya!",
+      "6": "Copperline Golf me ayudó a entender mis distancias reales por palo frente a lo que creía. ¡Un cambio total para la gestión del campo!"
     }
   }
 }

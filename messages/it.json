@@ -1945,7 +1945,8 @@
       "ctaSecondary": "Prova la demo",
       "statGolfers": "Unisciti a oltre 50.000 golfisti",
       "statShots": "Oltre 2 milioni di colpi analizzati",
-      "scrollAria": "Scorri alle funzionalità"
+      "scrollAria": "Scorri alle funzionalità",
+      "screenshotAlt": "Screenshot dell'app Copperline Golf"
     },
     "ctaSection": {
       "badge": "Offerta a tempo limitato",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "Avvia chat dal vivo",
         "emailButton": "Supporto via email"
       }
+    },
+    "stats": {
+      "activeGolfers": "Golfisti attivi",
+      "shotsAnalyzed": "Colpi analizzati",
+      "coursesMapped": "Campi mappati",
+      "satisfactionRate": "Tasso di soddisfazione"
+    },
+    "pricingCard": {
+      "mostPopular": "Più popolare",
+      "perYear": "/anno",
+      "perMonth": "/mese",
+      "saveAmount": "Risparmia ${amount}",
+      "savePercent": "({percent}% di sconto)",
+      "loading": "Caricamento...",
+      "currentPlan": "Piano attuale",
+      "moreInfoAbout": "Maggiori info su {feature}",
+      "monthly": "Mensile",
+      "annual": "Annuale",
+      "saveBadge": "(Risparmia 33%)",
+      "toggleAria": "Alterna tra fatturazione mensile e annuale"
+    },
+    "courseShowcase": {
+      "badge": "Oltre 15.000 campi mappati",
+      "heading": "Gioca i migliori campi del mondo",
+      "subheading": "Accedi a informazioni dettagliate dei campi, coordinate GPS e raccomandazioni con IA per migliaia di campi nel mondo",
+      "hoverCta": "Vedi dettagli del campo",
+      "plays": "{count} partite",
+      "andMore": "E migliaia di altri campi disponibili nell'app",
+      "exploreAll": "Esplora tutti i campi",
+      "locPebbleBeach": "California, USA",
+      "locStAndrews": "Scozia, Regno Unito",
+      "locAugusta": "Georgia, USA",
+      "locRoyalMelbourne": "Australia"
+    },
+    "socialProof": {
+      "heading": "La fiducia di migliaia di golfisti",
+      "subheading": "Unisciti alla community di giocatori che hanno trasformato il loro gioco con Copperline Golf",
+      "verified": "Utente verificato",
+      "t1Quote": "Copperline Golf mi ha aiutato a togliere 5 colpi nel primo mese. Le raccomandazioni del bastone sono sempre azzeccate.",
+      "t1Role": "Golfista amatoriale",
+      "t2Quote": "La migliore app di golf che abbia mai usato. Le raccomandazioni dell'IA sono incredibilmente accurate e facili da usare.",
+      "t2Role": "Campione di circolo",
+      "t3Quote": "Ha cambiato completamente il mio gioco. Finalmente ho la sicurezza per scegliere il bastone giusto ogni volta.",
+      "t3Role": "Pro di golf",
+      "badge1Label": "4,8 App Store",
+      "badge1Sublabel": "2.450 recensioni",
+      "badge2Label": "Oltre 50K download",
+      "badge2Sublabel": "Utenti attivi",
+      "badge3Label": "In primo piano su",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "Privacy prima di tutto",
+      "badge4Sublabel": "Dati protetti",
+      "liveCounter": "Golfisti attualmente in campo:",
+      "prevAria": "Testimonianza precedente",
+      "nextAria": "Testimonianza successiva",
+      "dotAria": "Vai alla testimonianza {n}"
+    },
+    "testimonials": {
+      "1": "Copperline Golf ha completamente cambiato il mio approccio al campo. Le raccomandazioni del bastone sono perfette e ho ridotto il mio handicap di 4 colpi in soli due mesi!",
+      "2": "Da principiante, Copperline Golf è stato preziosissimo. È come avere un caddie professionista in tasca che mi aiuta a capire quale bastone usare in ogni situazione.",
+      "3": "Le regolazioni di vento ed elevazione sono incredibilmente precise. Ho acquisito molta fiducia nella scelta del bastone, soprattutto su campi sconosciuti.",
+      "4": "Adoro come Copperline Golf impara i miei schemi di tiro. Più lo uso, migliori sono le raccomandazioni. È davvero personalizzato sul mio gioco.",
+      "5": "L'interfaccia è pulita e facile da usare, anche durante il giro. Raccomandazioni rapide senza rallentare il gioco. Tutto il mio foursome la usa ora!",
+      "6": "Copperline Golf mi ha aiutato a capire le mie reali distanze con ogni bastone rispetto a quelle che credevo. Rivoluzionario per la gestione del campo!"
     }
   }
 }

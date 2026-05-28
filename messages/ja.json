@@ -1945,7 +1945,8 @@
       "ctaSecondary": "デモを試す",
       "statGolfers": "50,000 人以上のゴルファーが利用",
       "statShots": "200 万ショット以上を分析",
-      "scrollAria": "機能までスクロール"
+      "scrollAria": "機能までスクロール",
+      "screenshotAlt": "Copperline Golf アプリのスクリーンショット"
     },
     "ctaSection": {
       "badge": "期間限定オファー",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "ライブチャット開始",
         "emailButton": "メールサポート"
       }
+    },
+    "stats": {
+      "activeGolfers": "アクティブゴルファー",
+      "shotsAnalyzed": "分析ショット",
+      "coursesMapped": "登録コース",
+      "satisfactionRate": "満足度"
+    },
+    "pricingCard": {
+      "mostPopular": "人気プラン",
+      "perYear": "/年",
+      "perMonth": "/月",
+      "saveAmount": "${amount} お得",
+      "savePercent": "({percent}% OFF)",
+      "loading": "読み込み中...",
+      "currentPlan": "現在のプラン",
+      "moreInfoAbout": "{feature} について詳しく",
+      "monthly": "月額",
+      "annual": "年額",
+      "saveBadge": "(33% お得)",
+      "toggleAria": "月額と年額の請求を切り替え"
+    },
+    "courseShowcase": {
+      "badge": "15,000以上のコース登録",
+      "heading": "世界最高のコースをプレー",
+      "subheading": "世界中の数千コースの詳細情報、GPS座標、AIによる推奨にアクセスできます",
+      "hoverCta": "コース詳細を見る",
+      "plays": "{count} プレー",
+      "andMore": "アプリではさらに数千のコースが利用可能",
+      "exploreAll": "すべてのコースを見る",
+      "locPebbleBeach": "カリフォルニア州、米国",
+      "locStAndrews": "スコットランド、英国",
+      "locAugusta": "ジョージア州、米国",
+      "locRoyalMelbourne": "オーストラリア"
+    },
+    "socialProof": {
+      "heading": "世界中のゴルファーに信頼されています",
+      "subheading": "Copperline Golf でゲームを変革したプレーヤーのコミュニティに参加しよう",
+      "verified": "認証済みユーザー",
+      "t1Quote": "Copperline Golf のおかげで最初の1ヶ月でスコアを5打縮められました。クラブの推奨は毎回ピッタリです。",
+      "t1Role": "アマチュアゴルファー",
+      "t2Quote": "今まで使った中で最高のゴルフアプリです。AI の推奨は非常に正確で使いやすい。",
+      "t2Role": "クラブチャンピオン",
+      "t3Quote": "私のゲームを完全に変えました。ようやく毎回正しいクラブを選ぶ自信が持てました。",
+      "t3Role": "ゴルフプロ",
+      "badge1Label": "4.8 App Store",
+      "badge1Sublabel": "2,450件のレビュー",
+      "badge2Label": "50K+ ダウンロード",
+      "badge2Sublabel": "アクティブユーザー",
+      "badge3Label": "掲載",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "プライバシー第一",
+      "badge4Sublabel": "データ保護",
+      "liveCounter": "現在コース上のゴルファー：",
+      "prevAria": "前の声",
+      "nextAria": "次の声",
+      "dotAria": "声 {n} へ移動"
+    },
+    "testimonials": {
+      "1": "Copperline Golf で、コースへの取り組み方が一変しました。クラブの推奨はピッタリで、わずか2ヶ月でハンディキャップを4打下げました！",
+      "2": "初心者にとって Copperline Golf はかけがえのない存在です。ポケットの中のプロキャディのように、どんな状況でも使うクラブを教えてくれます。",
+      "3": "風と標高の調整がとても正確です。特に初めてのコースでクラブ選びの自信がついた。",
+      "4": "Copperline Golf が私のショットパターンを学習してくれるのが気に入っています。使うほど推奨が良くなる。本当に私のゲームに合わせてくれています。",
+      "5": "ラウンド中でもインターフェースがとても見やすく使いやすい。プレーを遅らせずに素早く推奨してくれる。仲間4人全員が使っています！",
+      "6": "Copperline Golf で、自分が思っていた飛距離と実際の飛距離の差が分かりました。コースマネジメントが大きく変わりました！"
     }
   }
 }

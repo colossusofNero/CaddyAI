@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Check, HelpCircle, Sparkles } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { fadeInUp, scaleOnHover } from '@/lib/animations';
 
@@ -43,6 +44,7 @@ export function PricingCard({
   isLoading = false,
   isCurrentPlan = false
 }: PricingCardProps) {
+  const t = useTranslations('marketing.pricingCard');
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
 
   const price = isAnnual ? tier.priceAnnual : tier.priceMonthly;
@@ -82,7 +84,7 @@ export function PricingCard({
           <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
             <div className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-600 text-secondary-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               <Sparkles className="w-4 h-4" />
-              <span>Most Popular</span>
+              <span>{t('mostPopular')}</span>
             </div>
           </div>
         )}
@@ -109,7 +111,7 @@ export function PricingCard({
               ${price}
             </span>
             <span className="text-text-secondary">
-              /{isAnnual ? 'year' : 'month'}
+              {isAnnual ? t('perYear') : t('perMonth')}
             </span>
           </div>
 
@@ -119,8 +121,8 @@ export function PricingCard({
               animate={{ opacity: 1, y: 0 }}
               className="mt-2 inline-flex items-center gap-1 text-sm text-primary font-medium"
             >
-              <span>Save ${savings}</span>
-              <span className="text-text-muted">({savingsPercentage}% off)</span>
+              <span>{t('saveAmount', { amount: savings })}</span>
+              <span className="text-text-muted">{t('savePercent', { percent: savingsPercentage })}</span>
             </motion.div>
           )}
         </div>
@@ -141,7 +143,7 @@ export function PricingCard({
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Loading...
+                  {t('loading')}
                 </span>
               ) : (
                 tier.cta
@@ -160,7 +162,7 @@ export function PricingCard({
           )}
           {isCurrentPlan && (
             <div className="mt-2 text-center text-sm text-primary font-medium">
-              Current Plan
+              {t('currentPlan')}
             </div>
           )}
         </div>
@@ -193,7 +195,7 @@ export function PricingCard({
                         );
                       }}
                       className="text-text-muted hover:text-primary transition-colors"
-                      aria-label={`More info about ${feature}`}
+                      aria-label={t('moreInfoAbout', { feature })}
                     >
                       <HelpCircle className="w-4 h-4" />
                     </button>
@@ -239,6 +241,7 @@ interface PricingToggleProps {
 }
 
 export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
+  const t = useTranslations('marketing.pricingCard');
   return (
     <div className="flex items-center justify-center gap-4 mb-12">
       <span
@@ -246,7 +249,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
           !isAnnual ? 'text-text-primary' : 'text-text-muted'
         }`}
       >
-        Monthly
+        {t('monthly')}
       </span>
 
       <button
@@ -256,7 +259,7 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
         }`}
         role="switch"
         aria-checked={isAnnual}
-        aria-label="Toggle between monthly and annual billing"
+        aria-label={t('toggleAria')}
       >
         <motion.div
           animate={{ x: isAnnual ? 32 : 0 }}
@@ -270,8 +273,8 @@ export function PricingToggle({ isAnnual, onToggle }: PricingToggleProps) {
           isAnnual ? 'text-text-primary' : 'text-text-muted'
         }`}
       >
-        Annual
-        <span className="ml-2 text-sm text-primary font-semibold">(Save 33%)</span>
+        {t('annual')}
+        <span className="ml-2 text-sm text-primary font-semibold">{t('saveBadge')}</span>
       </span>
     </div>
   );

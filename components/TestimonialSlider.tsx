@@ -8,6 +8,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { testimonials, Testimonial } from '@/lib/testimonials';
 import { slideVariants, swipePower, swipeConfidenceThreshold } from '@/lib/animations';
 
@@ -134,9 +135,20 @@ export function TestimonialSlider({
 
 /**
  * TestimonialCard Component
- * Individual testimonial card with quote, rating, and user info
+ * Individual testimonial card with quote, rating, and user info.
+ * The quote text is looked up by testimonial.id in the active locale's
+ * marketing.testimonials.* namespace; falls back to the English copy
+ * baked into lib/testimonials.ts if the key is missing.
  */
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  const t = useTranslations('marketing.testimonials');
+  const quote = (() => {
+    try {
+      return t(testimonial.id);
+    } catch {
+      return testimonial.quote;
+    }
+  })();
   return (
     <div className="bg-gradient-to-br from-secondary-800/50 to-secondary-900/50 backdrop-blur-sm border border-secondary-700 rounded-3xl p-8 lg:p-12 relative">
       {/* Quote Icon */}
@@ -157,7 +169,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 
       {/* Quote */}
       <blockquote className="text-lg lg:text-xl text-text-primary leading-relaxed mb-8 relative z-10">
-        &ldquo;{testimonial.quote}&rdquo;
+        &ldquo;{quote}&rdquo;
       </blockquote>
 
       {/* User Info */}

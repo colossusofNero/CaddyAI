@@ -1945,7 +1945,8 @@
       "ctaSecondary": "试用演示",
       "statGolfers": "加入超过 50,000 名球手",
       "statShots": "分析了超过 200 万次击球",
-      "scrollAria": "滚动至功能区"
+      "scrollAria": "滚动至功能区",
+      "screenshotAlt": "Copperline Golf 应用截图"
     },
     "ctaSection": {
       "badge": "限时优惠",
@@ -2268,6 +2269,70 @@
         "liveChatButton": "开始在线聊天",
         "emailButton": "电子邮件支持"
       }
+    },
+    "stats": {
+      "activeGolfers": "活跃球手",
+      "shotsAnalyzed": "已分析击球",
+      "coursesMapped": "已收录球场",
+      "satisfactionRate": "满意度"
+    },
+    "pricingCard": {
+      "mostPopular": "最受欢迎",
+      "perYear": "/年",
+      "perMonth": "/月",
+      "saveAmount": "节省 ${amount}",
+      "savePercent": "（{percent}% 折扣）",
+      "loading": "加载中...",
+      "currentPlan": "当前方案",
+      "moreInfoAbout": "关于 {feature} 的更多信息",
+      "monthly": "按月",
+      "annual": "按年",
+      "saveBadge": "（节省 33%）",
+      "toggleAria": "切换按月/按年计费"
+    },
+    "courseShowcase": {
+      "badge": "15,000+ 球场收录",
+      "heading": "畅玩世界顶尖球场",
+      "subheading": "访问全球数千个球场的详细信息、GPS 坐标和 AI 推荐",
+      "hoverCta": "查看球场详情",
+      "plays": "{count} 次",
+      "andMore": "应用内还有数千个球场可用",
+      "exploreAll": "探索所有球场",
+      "locPebbleBeach": "美国加利福尼亚",
+      "locStAndrews": "英国苏格兰",
+      "locAugusta": "美国乔治亚",
+      "locRoyalMelbourne": "澳大利亚"
+    },
+    "socialProof": {
+      "heading": "深受数千名球手信赖",
+      "subheading": "加入借助 Copperline Golf 改变比赛的玩家社区",
+      "verified": "已认证用户",
+      "t1Quote": "Copperline Golf 帮助我在第一个月就降低了 5 杆。球杆推荐每次都精准到位。",
+      "t1Role": "业余球手",
+      "t2Quote": "这是我用过最棒的高尔夫应用，毫无疑问。AI 推荐非常准确且易于使用。",
+      "t2Role": "俱乐部冠军",
+      "t3Quote": "彻底改变了我的比赛。我终于有信心每次都选对球杆。",
+      "t3Role": "职业球手",
+      "badge1Label": "App Store 4.8 分",
+      "badge1Sublabel": "2,450 条评价",
+      "badge2Label": "50K+ 下载量",
+      "badge2Sublabel": "活跃用户",
+      "badge3Label": "专题报道",
+      "badge3Sublabel": "Golf Digest",
+      "badge4Label": "隐私优先",
+      "badge4Sublabel": "数据受保护",
+      "liveCounter": "当前球场上的球手：",
+      "prevAria": "上一条推荐",
+      "nextAria": "下一条推荐",
+      "dotAria": "跳至推荐 {n}"
+    },
+    "testimonials": {
+      "1": "Copperline Golf 完全改变了我打球的方式。球杆推荐总能命中，我在两个月内差点降低了 4 杆！",
+      "2": "作为初学者，Copperline Golf 太有用了。就像口袋里有一位专业球童，帮我了解每种情况下该用哪根球杆。",
+      "3": "风和海拔调整非常精准。我在球杆选择上更有信心了，尤其在不熟悉的球场上。",
+      "4": "我喜欢 Copperline Golf 学习我击球模式的方式。我用得越多，推荐就越准。真正为我的比赛量身定制。",
+      "5": "界面非常简洁易用，即使在比赛中也是如此。快速推荐不会拖慢节奏。我们四人组现在都在用！",
+      "6": "Copperline Golf 让我了解了实际的球杆距离与我以为的距离之差。对场地管理来说是颠覆性的！"
     }
   }
 }

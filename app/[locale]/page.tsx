@@ -11,7 +11,7 @@ import { Navigation } from '@/components/Navigation';
 import { Hero } from '@/components/Hero';
 import { FeatureCard, FeatureGrid } from '@/components/redesign/FeatureCard';
 import { TestimonialSlider } from '@/components/TestimonialSlider';
-import { StatsCounter, defaultStats } from '@/components/StatsCounter';
+import { StatsCounter, useDefaultStats } from '@/components/StatsCounter';
 import { CTASection } from '@/components/CTASection';
 import { Footer } from '@/components/Footer';
 import { SocialProofSection } from '@/components/redesign/SocialProofSection';
@@ -35,6 +35,7 @@ import {
 export default function LandingPage() {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const t = useTranslations('marketing.home');
+  const defaultStats = useDefaultStats();
 
   // Features per Design System - 3 core features
   const features = [

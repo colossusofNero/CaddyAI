@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { X, Mic, MicOff } from 'lucide-react';
 import { useConversation } from '@elevenlabs/react';
+import { useTranslations } from 'next-intl';
 import { useRecommendationTracking } from '@/hooks/useRecommendationTracking';
 
 type AgentType = 'Talk it Through' | 'Just the Facts' | 'Minimal';
@@ -42,6 +43,8 @@ export function AIClubSelectionModal({
   gpsPosition,
   weather,
 }: AIClubSelectionModalProps) {
+  const t = useTranslations('marketing.modal.ai');
+  const tCommon = useTranslations('marketing.modal.modalCommon');
   const [selectedLevel, setSelectedLevel] = useState<AgentType | null>(null);
   const [agentError, setAgentError] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -290,10 +293,10 @@ export function AIClubSelectionModal({
 
   if (!isOpen) return null;
 
-  const agentTypes: Array<{ level: AgentType; description: string }> = [
-    { level: 'Talk it Through', description: 'Detailed explanations and strategy discussion' },
-    { level: 'Just the Facts', description: 'Clear recommendations with key details' },
-    { level: 'Minimal', description: 'Quick club suggestion, no explanation' },
+  const agentTypes: Array<{ level: AgentType; title: string; description: string }> = [
+    { level: 'Talk it Through', title: t('typeTalkTitle'), description: t('typeTalkDesc') },
+    { level: 'Just the Facts', title: t('typeFactsTitle'), description: t('typeFactsDesc') },
+    { level: 'Minimal', title: t('typeMinimalTitle'), description: t('typeMinimalDesc') },
   ];
 
   return (
@@ -304,7 +307,7 @@ export function AIClubSelectionModal({
       {/* Modal */}
       <div className="relative z-10 bg-white border-2 border-primary rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 animate-scale-in">
         {/* Close Button */}
-        <button onClick={handleClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900" aria-label="Close modal">
+        <button onClick={handleClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900" aria-label={tCommon('closeAria')}>
           <X className="w-6 h-6" />
         </button>
 
@@ -318,17 +321,17 @@ export function AIClubSelectionModal({
                 </svg>
               </div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">AI Powered Club Selection</h2>
-            <p className="text-lg text-gray-600 text-center mb-8">Choose your AI agent style for personalized club recommendations</p>
+            <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">{t('title')}</h2>
+            <p className="text-lg text-gray-600 text-center mb-8">{t('subtitle')}</p>
             <div className="grid gap-4 md:grid-cols-3">
-              {agentTypes.map(({ level, description }) => (
+              {agentTypes.map(({ level, title, description }) => (
                 <button
                   key={level}
                   onClick={() => handleLevelSelect(level)}
                   className="group relative overflow-hidden bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-primary rounded-xl p-6"
                 >
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary">{level}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary">{title}</h3>
                     <p className="text-sm text-gray-600">{description}</p>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100" />
@@ -340,9 +343,9 @@ export function AIClubSelectionModal({
           <>
             {/* Widget View */}
             <div className="mb-6">
-              <Button variant="outline" size="sm" onClick={handleReset} className="mb-4">Change Agent</Button>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedLevel} Agent Selected</h2>
-              <p className="text-gray-600">Tell the AI assistant about your shot and get personalized recommendations</p>
+              <Button variant="outline" size="sm" onClick={handleReset} className="mb-4">{t('changeAgent')}</Button>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('agentSelected', { level: selectedLevel })}</h2>
+              <p className="text-gray-600">{t('agentSelectedSub')}</p>
             </div>
 
             <div className="bg-white rounded-xl p-6 min-h-[400px] flex flex-col items-center justify-center">
@@ -353,27 +356,27 @@ export function AIClubSelectionModal({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Connection Error</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{t('connError')}</h3>
                   <p className="text-sm text-gray-600 mb-4">{agentError}</p>
                   <Button onClick={startConversation} variant="primary">
-                    Try Again
+                    {t('tryAgain')}
                   </Button>
                 </div>
               ) : isConnecting || conversation.status === 'connecting' ? (
                 <div className="text-center">
                   <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4 mx-auto" />
-                  <p className="text-sm text-gray-600">Connecting to AI Agent...</p>
+                  <p className="text-sm text-gray-600">{t('connecting')}</p>
                 </div>
               ) : conversation.status === 'connected' ? (
                 <div className="text-center">
                   <div className="w-24 h-24 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mb-6 mx-auto animate-pulse">
                     <Mic className="w-12 h-12 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">AI Agent Connected</h3>
-                  <p className="text-gray-600 mb-6">The AI is listening. Describe your shot to get club recommendations.</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t('connectedTitle')}</h3>
+                  <p className="text-gray-600 mb-6">{t('connectedBody')}</p>
                   <Button onClick={stopConversation} variant="outline" className="gap-2">
                     <MicOff className="w-4 h-4" />
-                    End Conversation
+                    {t('endConv')}
                   </Button>
                 </div>
               ) : (
@@ -381,11 +384,11 @@ export function AIClubSelectionModal({
                   <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6 mx-auto">
                     <Mic className="w-12 h-12 text-gray-400" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Start</h3>
-                  <p className="text-gray-600 mb-6">Click below to start talking with the AI assistant</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t('readyTitle')}</h3>
+                  <p className="text-gray-600 mb-6">{t('readyBody')}</p>
                   <Button onClick={startConversation} variant="primary" className="gap-2">
                     <Mic className="w-4 h-4" />
-                    Start Conversation
+                    {t('startConv')}
                   </Button>
                 </div>
               )}
@@ -393,7 +396,7 @@ export function AIClubSelectionModal({
 
             <div className="mt-6 bg-gray-50 rounded-lg p-4">
               <p className="text-sm text-gray-700">
-                <strong className="text-gray-900">Tip:</strong> Describe your shot including distance to target, lie condition, wind, and any hazards.
+                <strong className="text-gray-900">{t('tipLabel')}</strong> {t('tipBody')}
               </p>
             </div>
           </>

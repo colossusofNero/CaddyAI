@@ -1,6 +1,7 @@
 'use client';
 
 import { X, Wind, Droplets, Thermometer, Eye, Compass, CloudRain } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 
 interface WeatherModalProps {
@@ -9,12 +10,14 @@ interface WeatherModalProps {
 }
 
 export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
+  const t = useTranslations('marketing.modal.weather');
+  const tCommon = useTranslations('marketing.modal.modalCommon');
   if (!isOpen) return null;
 
   const currentWeather = {
     temp: 72,
     feelsLike: 70,
-    condition: 'Partly Cloudy',
+    condition: t('condPartlyCloudy'),
     windSpeed: 12,
     windDirection: 'WSW',
     windDirectionDeg: 245,
@@ -25,17 +28,17 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
   };
 
   const hourlyForecast = [
-    { time: '2:00 PM', temp: 72, wind: 12, condition: 'Partly Cloudy' },
-    { time: '3:00 PM', temp: 73, wind: 14, condition: 'Partly Cloudy' },
-    { time: '4:00 PM', temp: 74, wind: 15, condition: 'Mostly Sunny' },
-    { time: '5:00 PM', temp: 72, wind: 13, condition: 'Partly Cloudy' },
-    { time: '6:00 PM', temp: 70, wind: 10, condition: 'Cloudy' },
+    { time: '2:00 PM', temp: 72, wind: 12, condition: t('condPartlyCloudy') },
+    { time: '3:00 PM', temp: 73, wind: 14, condition: t('condPartlyCloudy') },
+    { time: '4:00 PM', temp: 74, wind: 15, condition: t('condMostlySunny') },
+    { time: '5:00 PM', temp: 72, wind: 13, condition: t('condPartlyCloudy') },
+    { time: '6:00 PM', temp: 70, wind: 10, condition: t('condCloudy') },
   ];
 
   const clubAdjustments = [
-    { club: 'Driver', adjustment: '+8 yards', reason: 'Slight tailwind' },
-    { club: '7-Iron', adjustment: '-5 yards', reason: 'Headwind component' },
-    { club: 'Wedges', adjustment: '+2 yards', reason: 'Light tailwind' },
+    { club: 'Driver', adjustment: '+8 yards', reason: t('adj1Reason') },
+    { club: '7-Iron', adjustment: '-5 yards', reason: t('adj2Reason') },
+    { club: 'Wedges', adjustment: '+2 yards', reason: t('adj3Reason') },
   ];
 
   return (
@@ -46,7 +49,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
       {/* Modal */}
       <div className="relative z-10 bg-white border-2 border-primary rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto p-8 animate-scale-in">
         {/* Close Button */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900" aria-label="Close modal">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-900" aria-label={tCommon('closeAria')}>
           <X className="w-6 h-6" />
         </button>
 
@@ -56,8 +59,8 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
             <Wind className="w-8 h-8 text-primary" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Real-Time Weather Integration</h2>
-            <p className="text-gray-600">Live weather data for accurate club adjustments</p>
+            <h2 className="text-3xl font-bold text-gray-900">{t('title')}</h2>
+            <p className="text-gray-600">{t('subtitle')}</p>
           </div>
         </div>
 
@@ -65,12 +68,12 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 mb-6 border border-blue-200">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-blue-900 mb-1">Current Conditions</h3>
-              <p className="text-sm text-blue-700">Pebble Beach Golf Links · Updated 2 min ago</p>
+              <h3 className="text-lg font-semibold text-blue-900 mb-1">{t('currentConditions')}</h3>
+              <p className="text-sm text-blue-700">{t('currentLocationUpdated')}</p>
             </div>
             <div className="text-right">
               <div className="text-5xl font-bold text-blue-900">{currentWeather.temp}°F</div>
-              <div className="text-sm text-blue-700">Feels like {currentWeather.feelsLike}°F</div>
+              <div className="text-sm text-blue-700">{t('feelsLike', { temp: currentWeather.feelsLike })}</div>
             </div>
           </div>
 
@@ -78,7 +81,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
             <div className="bg-white/50 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-1">
                 <Wind className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-medium text-blue-900">Wind</span>
+                <span className="text-xs font-medium text-blue-900">{t('wind')}</span>
               </div>
               <p className="text-lg font-bold text-blue-900">{currentWeather.windSpeed} mph</p>
               <p className="text-xs text-blue-700">{currentWeather.windDirection}</p>
@@ -87,28 +90,28 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
             <div className="bg-white/50 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-1">
                 <Droplets className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-medium text-blue-900">Humidity</span>
+                <span className="text-xs font-medium text-blue-900">{t('humidity')}</span>
               </div>
               <p className="text-lg font-bold text-blue-900">{currentWeather.humidity}%</p>
-              <p className="text-xs text-blue-700">Comfortable</p>
+              <p className="text-xs text-blue-700">{t('humidityLabel')}</p>
             </div>
 
             <div className="bg-white/50 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-1">
                 <Eye className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-medium text-blue-900">Visibility</span>
+                <span className="text-xs font-medium text-blue-900">{t('visibility')}</span>
               </div>
               <p className="text-lg font-bold text-blue-900">{currentWeather.visibility} mi</p>
-              <p className="text-xs text-blue-700">Excellent</p>
+              <p className="text-xs text-blue-700">{t('visibilityLabel')}</p>
             </div>
 
             <div className="bg-white/50 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-1">
                 <Compass className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-medium text-blue-900">Pressure</span>
+                <span className="text-xs font-medium text-blue-900">{t('pressure')}</span>
               </div>
               <p className="text-lg font-bold text-blue-900">{currentWeather.pressure}</p>
-              <p className="text-xs text-blue-700">Rising</p>
+              <p className="text-xs text-blue-700">{t('pressureLabel')}</p>
             </div>
           </div>
         </div>
@@ -116,7 +119,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
         {/* Wind Compass */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Wind Direction</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t('windDirection')}</h3>
             <div className="relative w-48 h-48 mx-auto">
               <div className="absolute inset-0 rounded-full border-4 border-gray-300 flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -132,12 +135,12 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
               </div>
             </div>
             <p className="text-center mt-4 text-sm text-gray-600">
-              <span className="font-bold text-primary">{currentWeather.windSpeed} mph</span> from the {currentWeather.windDirection}
+              <span className="font-bold text-primary">{t('windFromDir', { speed: currentWeather.windSpeed, dir: currentWeather.windDirection })}</span>
             </p>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Club Adjustments</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t('clubAdjustments')}</h3>
             <div className="space-y-3">
               {clubAdjustments.map((adj) => (
                 <div key={adj.club} className="bg-white rounded-lg p-4 border border-gray-200">
@@ -153,7 +156,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
             </div>
             <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-xs text-blue-900">
-                <strong>Note:</strong> Adjustments are calculated based on wind speed, direction, and your shot trajectory.
+                <strong>{t('adjNoteLabel')}</strong> {t('adjNoteBody')}
               </p>
             </div>
           </div>
@@ -161,7 +164,7 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
 
         {/* Hourly Forecast */}
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Hourly Forecast</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{t('hourlyForecast')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             {hourlyForecast.map((hour) => (
               <div key={hour.time} className="bg-gray-50 rounded-lg p-4 border border-gray-200 text-center">
@@ -180,15 +183,14 @@ export function WeatherModal({ isOpen, onClose }: WeatherModalProps) {
         {/* Info Box */}
         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
           <p className="text-sm text-green-900">
-            <strong className="font-semibold">Perfect conditions:</strong> Low wind and excellent visibility make this an ideal time to play.
-            Copperline Golf will automatically adjust all distance recommendations based on current conditions.
+            <strong className="font-semibold">{t('perfectLabel')}</strong> {t('perfectBody')}
           </p>
         </div>
 
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6">
-          <Button variant="outline" onClick={onClose}>Close</Button>
-          <Button variant="primary">View 7-Day Forecast</Button>
+          <Button variant="outline" onClick={onClose}>{tCommon('close')}</Button>
+          <Button variant="primary">{t('cta')}</Button>
         </div>
       </div>
 

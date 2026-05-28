@@ -115,7 +115,7 @@ export function generateOrganizationSchema() {
     logo: `${siteConfig.url}/logo.png`,
     description: siteConfig.description,
     sameAs: [
-      'https://twitter.com/copperlinegolf',
+      'https://x.com/copperlinegolf',
       'https://www.instagram.com/copperlinegolfaz',
       'https://www.facebook.com/people/Copperline-Golf/61588227593801/',
       'https://www.linkedin.com/company/copperline-golf/',

@@ -20,10 +20,10 @@ import {
   AlertCircle,
   MessageSquare,
   Facebook,
-  Twitter,
   Instagram,
   Linkedin,
 } from 'lucide-react';
+import { XIcon } from '@/components/icons/XIcon';
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { firebaseService } from '@/services/firebaseService';
 
@@ -169,7 +169,7 @@ export default function ContactPage() {
 
   const socialLinks = [
     { icon: Facebook, href: 'https://www.facebook.com/people/Copperline-Golf/61588227593801/', label: 'Facebook' },
-    { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
+    { icon: XIcon, href: 'https://x.com/copperlinegolf', label: 'X' },
     { icon: Instagram, href: 'https://www.instagram.com/copperlinegolfaz', label: 'Instagram' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/copperline-golf/', label: 'LinkedIn' },
   ];

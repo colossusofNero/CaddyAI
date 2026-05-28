@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   Facebook,
-  Twitter,
   Instagram,
   Linkedin,
   Youtube,
@@ -19,6 +18,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { XIcon } from '@/components/icons/XIcon';
 import { fadeInUp } from '@/lib/animations';
 
 interface FooterLink {
@@ -33,7 +33,7 @@ interface FooterSection {
 
 const socialLinks = [
   { icon: Facebook, href: 'https://www.facebook.com/people/Copperline-Golf/61588227593801/', label: 'Facebook' },
-  { icon: Twitter, href: 'https://twitter.com/copperlinegolf', label: 'Twitter' },
+  { icon: XIcon, href: 'https://x.com/copperlinegolf', label: 'X' },
   { icon: Instagram, href: 'https://www.instagram.com/copperlinegolfaz', label: 'Instagram' },
   { icon: Linkedin, href: 'https://www.linkedin.com/company/copperline-golf/', label: 'LinkedIn' },
   { icon: Youtube, href: 'https://www.youtube.com/channel/UCKePPCxL_9LTVgT7HiJytOw', label: 'YouTube' },

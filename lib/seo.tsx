@@ -116,7 +116,7 @@ export function generateOrganizationSchema() {
     description: siteConfig.description,
     sameAs: [
       'https://twitter.com/copperlinegolf',
-      'https://instagram.com/copperlinegolf',
+      'https://www.instagram.com/copperlinegolfaz',
       'https://facebook.com/copperlinegolf',
     ],
     contactPoint: {

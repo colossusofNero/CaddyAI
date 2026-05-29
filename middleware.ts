@@ -103,7 +103,7 @@ const CSP_HEADER = [
     'https://*.cloudfunctions.net',
     'wss://*.firebaseio.com',
   ].join(' '),
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com https://vercel.live",
+  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://*.firebaseapp.com https://appleid.apple.com https://vercel.live https://appetize.io https://*.appetize.io",
   "img-src 'self' data: https: blob:",
   "media-src 'self' blob: https://api.elevenlabs.io",
   "object-src 'none'",

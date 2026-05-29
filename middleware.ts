@@ -185,6 +185,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    // Match everything except Next internals, favicon, and ANY file with
+    // an extension (e.g. /logo.png, /screenshots/*.png, /videos/*.mp4).
+    // Without the dot-pattern, next-intl tries to apply locale routing to
+    // public-folder assets and breaks image serving.
+    '/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 };

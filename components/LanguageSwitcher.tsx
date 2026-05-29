@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useLayoutEffect, useTransition } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { routing, localeNames, type Locale } from '@/i18n/routing';
 import { ChevronDown, Check } from 'lucide-react';
 import US from 'country-flag-icons/react/3x2/US';
@@ -48,10 +48,9 @@ interface LanguageSwitcherProps {
 
 export function LanguageSwitcher({ variant = 'header' }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale;
-  const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -109,9 +108,15 @@ export function LanguageSwitcher({ variant = 'header' }: LanguageSwitcherProps) 
   function pick(next: Locale) {
     setOpen(false);
     if (next === locale) return;
-    startTransition(() => {
-      router.replace(pathname, { locale: next });
-    });
+    setIsPending(true);
+    // Hard navigation so the new locale's server-rendered content fully
+    // reloads. router.replace() was leaving some inline strings stale and
+    // not all users realised a manual refresh was needed.
+    const search = typeof window !== 'undefined' ? window.location.search : '';
+    const hash = typeof window !== 'undefined' ? window.location.hash : '';
+    const prefix = next === routing.defaultLocale ? '' : `/${next}`;
+    const path = pathname === '/' ? '' : pathname;
+    window.location.assign(`${prefix}${path}${search}${hash}` || '/');
   }
 
   if (variant === 'mobile') {

@@ -133,6 +133,33 @@ service cloud.firestore {
     }
 
     // ============================================================================
+    // SHOT EVENTS (Flat per-call log: optimizer_run, ellipse_target, ai_conversation)
+    // ============================================================================
+
+    // Shot Events: /shotEvents/{eventId}
+    // Each doc carries its own userId field (NOT the doc id).
+    match /shotEvents/{eventId} {
+      // Users can read only their own events
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Users can create events stamped with their own userId.
+      // eventType must be one of the known event types.
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.eventType in ['optimizer_run', 'ellipse_target', 'ai_conversation'];
+
+      // The owner may patch ONLY actualLanding + actualLandedAt — this is how
+      // the next optimizer call chains its origin back as the previous shot's
+      // landing location. Everything else stays immutable.
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['actualLanding', 'actualLandedAt']);
+
+      allow delete: if false;
+    }
+
+    // ============================================================================
     // UNIFIED SCORES COLLECTION (Mobile + Web)
     // ============================================================================
 

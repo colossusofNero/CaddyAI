@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Shot Chain Demo — 18-hole round</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    #map { position: fixed; inset: 0; width: 100%; height: 100%; background: #e0e6eb; }
+
+    .topbar {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 320px; /* leave room for legend */
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      padding: 10px 14px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .topbar .hole-info {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .topbar .hole-info .small { font-weight: 400; color: #666; font-size: 12px; }
+    .topbar button {
+      padding: 6px 12px;
+      border: 1px solid #d4d4d8;
+      background: #fff;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .topbar button:hover:not(:disabled) { background: #f4f4f5; }
+    .topbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .topbar button.primary {
+      background: #22c55e;
+      color: #fff;
+      border-color: #16a34a;
+    }
+    .topbar button.primary:hover:not(:disabled) { background: #16a34a; }
+    .topbar button.primary:disabled { background: #d1d5db; border-color: #d1d5db; color: #6b7280; }
+    .topbar .saved-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #d1fae5;
+      color: #065f46;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .topbar .saved-count {
+      font-size: 11px;
+      color: #6b7280;
+      margin-left: 6px;
+    }
+
+    .legend {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      padding: 12px 14px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-size: 13px;
+      line-height: 1.5;
+      width: 280px;
+      box-sizing: border-box;
+    }
+    .legend h1 { margin: 0 0 6px 0; font-size: 14px; }
+    .legend .row { display: flex; align-items: center; gap: 8px; }
+    .swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .swatch.line { height: 3px; border-radius: 0; width: 16px; }
+    .muted { color: #666; font-size: 12px; }
+    .popup-title { font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+    .popup-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+    .lie-select {
+      padding: 4px 6px;
+      border: 1px solid #d4d4d8;
+      border-radius: 4px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .landing-dot {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #22c55e; border: 4px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: grab;
+    }
+    .landing-dot:active { cursor: grabbing; }
+    .landing-dot.last { background: #ef4444; border-color: #fde047; }
+    .landing-dot.lie-fairway    { box-shadow: 0 0 0 3px #16a34a, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-rough      { box-shadow: 0 0 0 3px #ca8a04, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-deep-rough { box-shadow: 0 0 0 3px #78350f, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-sand       { box-shadow: 0 0 0 3px #eab308, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-water      { box-shadow: 0 0 0 3px #3b82f6, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-fringe     { box-shadow: 0 0 0 3px #86efac, 0 2px 6px rgba(0,0,0,0.5); }
+    .landing-dot.lie-green      { box-shadow: 0 0 0 3px #15803d, 0 2px 6px rgba(0,0,0,0.5); }
+
+    .tee-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #fde047; border: 3px solid #b45309;
+    }
+    .green-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #fde047; border: 3px solid #eab308;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="topbar">
+    <button id="prev-hole" title="Previous hole">◀ Prev</button>
+    <div class="hole-info">
+      <div id="hole-label">Hole 1 / 18</div>
+      <div class="small"><span id="par-label">Par 5</span> · <span id="saved-label"></span></div>
+    </div>
+    <button id="next-hole" title="Next hole">Next ▶</button>
+    <button id="save-hole">Save hole</button>
+    <button id="save-round" class="primary" disabled>Save round (0/18)</button>
+  </div>
+
+  <div class="legend">
+    <h1>Shot chain — Starfire CC (demo)</h1>
+    <div class="row"><span class="tee-dot" style="width:10px;height:10px;border-width:2px"></span> Tee box (fixed)</div>
+    <div class="row"><span class="landing-dot" style="width:12px;height:12px;border-width:2px;box-shadow:none"></span> Shot landing (drag to move, click for lie)</div>
+    <div class="row"><span class="landing-dot last" style="width:12px;height:12px;border-width:2px;box-shadow:none"></span> Hole-out</div>
+    <div class="row"><span class="green-dot" style="width:12px;height:12px;border-width:2px"></span> Green / pin (fixed)</div>
+    <div class="row"><span class="swatch line" style="background:#22c55e"></span> Actual played path</div>
+    <div class="row"><span class="swatch line" style="background:#a78bfa"></span> Predicted (perfect shot)</div>
+    <p class="muted" style="margin: 8px 0 0 0;">
+      Walk through 18 holes with <strong>◀ Prev / Next ▶</strong>.
+      Drag landings, click for lie. <strong>Save hole</strong> when done; <strong>Save round</strong> activates after all 18.
+    </p>
+  </div>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+
+  <script>
+    // ----- Geo math -----
+    const EARTH_RADIUS_M = 6371000;
+    const M_PER_YARD = 0.9144;
+    const toRad = (d) => (d * Math.PI) / 180;
+    const toDeg = (r) => (r * 180) / Math.PI;
+
+    function destinationPoint(origin, bearingDeg, distanceYards) {
+      const distM = distanceYards * M_PER_YARD;
+      const ang = distM / EARTH_RADIUS_M;
+      const brg = toRad(bearingDeg);
+      const lat1 = toRad(origin.lat);
+      const lng1 = toRad(origin.lng);
+      const sinLat2 =
+        Math.sin(lat1) * Math.cos(ang) +
+        Math.cos(lat1) * Math.sin(ang) * Math.cos(brg);
+      const lat2 = Math.asin(sinLat2);
+      const y = Math.sin(brg) * Math.sin(ang) * Math.cos(lat1);
+      const x = Math.cos(ang) - Math.sin(lat1) * sinLat2;
+      const lng2 = lng1 + Math.atan2(y, x);
+      return { lat: toDeg(lat2), lng: (((toDeg(lng2)) + 540) % 360) - 180 };
+    }
+
+    function bearingBetween(a, b) {
+      const lat1 = toRad(a.lat);
+      const lat2 = toRad(b.lat);
+      const dLng = toRad(b.lng - a.lng);
+      const y = Math.sin(dLng) * Math.cos(lat2);
+      const x = Math.cos(lat1) * Math.sin(lat2)
+              - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+      return (toDeg(Math.atan2(y, x)) + 360) % 360;
+    }
+
+    // Realistic 95-shot round (par 70 → 95, 25 over).
+    // Each hole: score, putts, and explicit shots with planned carry,
+    // shortPct (% of planned actually carried), offsetDeg (off-line),
+    // and lie (initial landing surface — pre-tints the dot ring).
+    // Totals: 7+4+5+3+5+7+5+5+6 (47) + 4+5+6+7+4+5+6+4+7 (48) = 95.
+    const ROUND_PLAN = [
+      // H1 par 5 559y — 7 (3-over)
+      { score: 7, putts: 2, shots: [
+        { club: 'Driver', planned: 245, shortPct: 0.85, offsetDeg:  8, lie: 'rough' },
+        { club: '7-iron', planned: 150, shortPct: 0.97, offsetDeg: -2, lie: 'fairway' },
+        { club: '5-iron', planned: 180, shortPct: 0.91, offsetDeg:  3, lie: 'fairway' },
+        { club: 'PW',     planned:  65, shortPct: 0.88, offsetDeg: -1, lie: 'fringe' },
+        { club: 'LW',     planned:  10, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H2 par 3 188y — 4 (bogey)
+      { score: 4, putts: 2, shots: [
+        { club: '5-iron', planned: 195, shortPct: 0.90, offsetDeg: -5, lie: 'rough' },
+        { club: 'SW',     planned:  20, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H3 par 4 421y — 5 (bogey, sand save miss)
+      { score: 5, putts: 2, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.94, offsetDeg:  3, lie: 'fairway' },
+        { club: '6-iron', planned: 175, shortPct: 0.94, offsetDeg: -2, lie: 'sand' },
+        { club: 'SW',     planned:  25, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H4 par 3 144y — 3 (PAR!)
+      { score: 3, putts: 2, shots: [
+        { club: '8-iron', planned: 150, shortPct: 0.97, offsetDeg:  1, lie: 'green' },
+      ]},
+      // H5 par 4 349y — 5 (bogey)
+      { score: 5, putts: 2, shots: [
+        { club: 'Driver', planned: 240, shortPct: 0.90, offsetDeg: -4, lie: 'fairway' },
+        { club: '7-iron', planned: 145, shortPct: 0.90, offsetDeg:  2, lie: 'fringe' },
+        { club: 'PW',     planned:   8, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H6 par 5 498y — 7 (double, two crooked shots)
+      { score: 7, putts: 2, shots: [
+        { club: 'Driver', planned: 245, shortPct: 0.90, offsetDeg: -7, lie: 'rough' },
+        { club: '5-iron', planned: 180, shortPct: 0.92, offsetDeg:  4, lie: 'rough' },
+        { club: '6-iron', planned: 165, shortPct: 0.88, offsetDeg: -3, lie: 'fairway' },
+        { club: 'PW',     planned:  75, shortPct: 0.85, offsetDeg:  2, lie: 'fringe' },
+        { club: 'LW',     planned:   8, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H7 par 4 400y — 5 (bogey)
+      { score: 5, putts: 2, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.88, offsetDeg:  6, lie: 'rough' },
+        { club: '6-iron', planned: 180, shortPct: 0.92, offsetDeg: -2, lie: 'fringe' },
+        { club: 'PW',     planned:  15, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H8 par 3 203y — 5 (double, water!)
+      { score: 5, putts: 2, shots: [
+        { club: '4-iron', planned: 205, shortPct: 0.95, offsetDeg: -8, lie: 'water' },
+        { club: '5-iron', planned: 190, shortPct: 0.92, offsetDeg:  3, lie: 'sand' },
+        { club: 'SW',     planned:  20, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H9 par 5 504y — 6 (bogey)
+      { score: 6, putts: 2, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.94, offsetDeg:  2, lie: 'fairway' },
+        { club: '5-wood', planned: 210, shortPct: 0.93, offsetDeg: -3, lie: 'rough' },
+        { club: '9-iron', planned:  85, shortPct: 0.88, offsetDeg:  1, lie: 'fringe' },
+        { club: 'LW',     planned:  10, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H10 par 3 197y — 4 (bogey)
+      { score: 4, putts: 2, shots: [
+        { club: '4-iron', planned: 200, shortPct: 0.92, offsetDeg:  4, lie: 'rough' },
+        { club: 'PW',     planned:  20, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H11 par 4 396y — 5 (bogey, bunker)
+      { score: 5, putts: 2, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.92, offsetDeg: -3, lie: 'fairway' },
+        { club: '7-iron', planned: 170, shortPct: 0.91, offsetDeg:  4, lie: 'sand' },
+        { club: 'SW',     planned:  18, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H12 par 4 339y — 6 (double, sliced drive)
+      { score: 6, putts: 2, shots: [
+        { club: 'Driver', planned: 240, shortPct: 0.80, offsetDeg:  9, lie: 'rough' },
+        { club: '8-iron', planned: 145, shortPct: 0.90, offsetDeg: -4, lie: 'fairway' },
+        { club: 'PW',     planned: 100, shortPct: 0.90, offsetDeg:  2, lie: 'rough' },
+        { club: 'SW',     planned:  25, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H13 par 5 479y — 7 (double, water on layup)
+      { score: 7, putts: 2, shots: [
+        { club: 'Driver', planned: 245, shortPct: 0.88, offsetDeg: -6, lie: 'rough' },
+        { club: '5-iron', planned: 185, shortPct: 0.92, offsetDeg:  3, lie: 'water' },
+        { club: '6-iron', planned: 165, shortPct: 0.91, offsetDeg: -2, lie: 'fairway' },
+        { club: '9-iron', planned: 115, shortPct: 0.96, offsetDeg:  1, lie: 'fringe' },
+        { club: 'LW',     planned:  10, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H14 par 3 169y — 4 (bogey)
+      { score: 4, putts: 2, shots: [
+        { club: '6-iron', planned: 175, shortPct: 0.89, offsetDeg:  5, lie: 'rough' },
+        { club: 'PW',     planned:  20, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H15 par 4 385y — 5 (bogey)
+      { score: 5, putts: 2, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.92, offsetDeg:  2, lie: 'fairway' },
+        { club: '8-iron', planned: 160, shortPct: 0.88, offsetDeg: -3, lie: 'fringe' },
+        { club: 'PW',     planned:  18, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H16 par 4 369y — 6 (double, 3-putt)
+      { score: 6, putts: 3, shots: [
+        { club: 'Driver', planned: 245, shortPct: 0.92, offsetDeg: -2, lie: 'fairway' },
+        { club: '7-iron', planned: 160, shortPct: 0.85, offsetDeg:  3, lie: 'fringe' },
+        { club: 'PW',     planned:  25, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H17 par 3 153y — 4 (bogey)
+      { score: 4, putts: 2, shots: [
+        { club: '8-iron', planned: 155, shortPct: 0.92, offsetDeg: -4, lie: 'rough' },
+        { club: 'PW',     planned:  18, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+      // H18 par 4 353y — 7 (triple, blow-up + 3-putt)
+      { score: 7, putts: 3, shots: [
+        { club: 'Driver', planned: 250, shortPct: 0.78, offsetDeg: 10, lie: 'rough' },
+        { club: '7-iron', planned: 145, shortPct: 0.92, offsetDeg: -3, lie: 'fairway' },
+        { club: '9-iron', planned: 125, shortPct: 0.90, offsetDeg:  2, lie: 'sand' },
+        { club: 'SW',     planned:  30, shortPct: 1.00, offsetDeg:  0, lie: 'green' },
+      ]},
+    ];
+
+    // The King — Starfire Golf Club, Scottsdale AZ. Real per-hole tee + green
+    // coords from Firestore (courses/oYEPmjf4lKJK). 18 holes, par 70.
+    const HOLES_RAW = [
+      { par: 5, dist: 559, tee: { lat: 33.58947, lng: -111.90802 }, green: { lat: 33.59391, lng: -111.90807 } },
+      { par: 3, dist: 188, tee: { lat: 33.59466, lng: -111.90813 }, green: { lat: 33.59611, lng: -111.90791 } },
+      { par: 4, dist: 421, tee: { lat: 33.59564, lng: -111.90647 }, green: { lat: 33.59223, lng: -111.90614 } },
+      { par: 3, dist: 144, tee: { lat: 33.59212, lng: -111.90464 }, green: { lat: 33.59304, lng: -111.90380 } },
+      { par: 4, dist: 349, tee: { lat: 33.59471, lng: -111.90123 }, green: { lat: 33.59473, lng: -111.90459 } },
+      { par: 5, dist: 498, tee: { lat: 33.59625, lng: -111.90534 }, green: { lat: 33.59603, lng: -111.90052 } },
+      { par: 4, dist: 400, tee: { lat: 33.59530, lng: -111.90034 }, green: { lat: 33.59205, lng: -111.90055 } },
+      { par: 3, dist: 203, tee: { lat: 33.59239, lng: -111.90246 }, green: { lat: 33.59096, lng: -111.90340 } },
+      { par: 5, dist: 504, tee: { lat: 33.58956, lng: -111.90221 }, green: { lat: 33.58981, lng: -111.90714 } },
+      { par: 3, dist: 197, tee: { lat: 33.58822, lng: -111.90956 }, green: { lat: 33.58710, lng: -111.91084 } },
+      { par: 4, dist: 396, tee: { lat: 33.58667, lng: -111.91180 }, green: { lat: 33.58370, lng: -111.91226 } },
+      { par: 4, dist: 339, tee: { lat: 33.58380, lng: -111.91310 }, green: { lat: 33.58633, lng: -111.91396 } },
+      { par: 5, dist: 479, tee: { lat: 33.58724, lng: -111.91545 }, green: { lat: 33.58337, lng: -111.91502 } },
+      { par: 3, dist: 169, tee: { lat: 33.58302, lng: -111.91539 }, green: { lat: 33.58333, lng: -111.91385 } },
+      { par: 4, dist: 385, tee: { lat: 33.58298, lng: -111.91296 }, green: { lat: 33.58261, lng: -111.90940 } },
+      { par: 4, dist: 369, tee: { lat: 33.58246, lng: -111.90905 }, green: { lat: 33.58478, lng: -111.91069 } },
+      { par: 3, dist: 153, tee: { lat: 33.58512, lng: -111.91088 }, green: { lat: 33.58510, lng: -111.90945 } },
+      { par: 4, dist: 353, tee: { lat: 33.58538, lng: -111.90920 }, green: { lat: 33.58824, lng: -111.90921 } },
+    ];
+
+    const HOLES = HOLES_RAW.map((h, i) => {
+      const plan = ROUND_PLAN[i];
+      return {
+        holeNumber: i + 1,
+        par: h.par,
+        tee: h.tee,
+        green: h.green,
+        bearing: bearingBetween(h.tee, h.green),
+        lengthYds: h.dist,
+        shots: plan.shots,
+        score: plan.score,
+        putts: plan.putts,
+      };
+    });
+
+    const ROUND_TOTAL = HOLES.reduce((s, h) => s + h.score, 0);
+    const COURSE_PAR  = HOLES.reduce((s, h) => s + h.par,   0);
+
+    const LIE_OPTIONS = [
+      { value: '',            label: '(unset)' },
+      { value: 'fairway',     label: 'Fairway' },
+      { value: 'rough',       label: 'Light rough' },
+      { value: 'deep-rough',  label: 'Deep rough' },
+      { value: 'sand',        label: 'Sand / bunker' },
+      { value: 'water',       label: 'Water' },
+      { value: 'fringe',      label: 'Fringe' },
+      { value: 'green',       label: 'Green' },
+    ];
+
+    // ----- Per-hole state -----
+    // { 1: { landings: [{lat,lng,lie}], saved: bool }, 2: {...}, ... }
+    const holeStates = {};
+
+    function initialLandingsFor(hole) {
+      const out = [];
+      let origin = { ...hole.tee };
+      for (let i = 0; i < hole.shots.length; i++) {
+        const s = hole.shots[i];
+        const isLast = i === hole.shots.length - 1;
+        let land;
+        if (isLast) {
+          // The last non-putt shot must end on the green — putts follow.
+          // Ignore planned/shortPct/offsetDeg for the final shot and snap
+          // the landing to the green center. The played line still draws
+          // from the previous landing to this point, so it shows the
+          // recovery distance honestly.
+          land = { lat: hole.green.lat, lng: hole.green.lng };
+        } else {
+          const carry = s.planned * s.shortPct;
+          land = destinationPoint(origin, hole.bearing + s.offsetDeg, carry);
+        }
+        out.push({ lat: land.lat, lng: land.lng, lie: s.lie || '' });
+        origin = land;
+      }
+      return out;
+    }
+
+    function ensureHoleState(num) {
+      if (!holeStates[num]) {
+        const hole = HOLES[num - 1];
+        holeStates[num] = {
+          landings: initialLandingsFor(hole),
+          saved: false,
+        };
+      }
+      return holeStates[num];
+    }
+
+    // ----- Icons -----
+    function landingIconFor(lie, isLast) {
+      const cls = `landing-dot${isLast ? ' last' : ''}${lie ? ` lie-${lie}` : ''}`;
+      return L.divIcon({
+        className: '',
+        html: `<div class="${cls}"></div>`,
+        iconSize: [24, 24], iconAnchor: [12, 12],
+      });
+    }
+    const teeIcon = L.divIcon({
+      className: '', html: '<div class="tee-dot"></div>',
+      iconSize: [18, 18], iconAnchor: [9, 9],
+    });
+    const greenIcon = L.divIcon({
+      className: '', html: '<div class="green-dot"></div>',
+      iconSize: [20, 20], iconAnchor: [10, 10],
+    });
+
+    function popupHtml(holeNum, shotIdx, clubName) {
+      const land = holeStates[holeNum].landings[shotIdx];
+      const opts = LIE_OPTIONS.map(o =>
+        `<option value="${o.value}"${o.value === land.lie ? ' selected' : ''}>${o.label}</option>`
+      ).join('');
+      return `
+        <div class="popup-title">H${holeNum} · Shot ${shotIdx+1} — ${clubName}</div>
+        <div class="popup-row">
+          <span>Lie:</span>
+          <select class="lie-select" data-shot-index="${shotIdx}">${opts}</select>
+        </div>
+        <div class="muted" style="margin-top:6px;">Drag dot to reposition</div>
+      `;
+    }
+
+    // ----- Init -----
+    let currentHole = 1;
+    let map;
+    const persistentLayers = []; // markers + lines for the current hole, cleared on hole change
+
+    function clearPersistent() {
+      for (const l of persistentLayers) map.removeLayer(l);
+      persistentLayers.length = 0;
+    }
+
+    function renderHole(num) {
+      clearPersistent();
+      const hole = HOLES[num - 1];
+      const state = ensureHoleState(num);
+
+      // Tee + green markers (re-added per hole so they reflect that hole's coords)
+      persistentLayers.push(
+        L.marker([hole.tee.lat, hole.tee.lng], { icon: teeIcon })
+          .bindPopup(`<div class="popup-title">H${num} · Tee box (white)</div>`)
+          .addTo(map)
+      );
+      persistentLayers.push(
+        L.marker([hole.green.lat, hole.green.lng], { icon: greenIcon })
+          .bindPopup(`<div class="popup-title">H${num} · Green / pin</div>`)
+          .addTo(map)
+      );
+
+      // Lines (rebuilt on drag — held separately so we can clear without touching markers)
+      let lineLayers = [];
+      function clearLines() {
+        for (const l of lineLayers) map.removeLayer(l);
+        lineLayers = [];
+      }
+      function drawLines() {
+        clearLines();
+        const origins = [hole.tee, ...state.landings.slice(0, -1)];
+        hole.shots.forEach((shot, i) => {
+          const origin = origins[i];
+          const land = state.landings[i];
+          const predicted = destinationPoint(origin, hole.bearing, shot.planned);
+          lineLayers.push(L.polyline(
+            [[origin.lat, origin.lng], [predicted.lat, predicted.lng]],
+            { color: "#a78bfa", weight: 2, opacity: 0.6, dashArray: "6 6" }
+          ).addTo(map));
+          lineLayers.push(L.circleMarker([predicted.lat, predicted.lng], {
+            radius: 4, color: "#a78bfa", fillColor: "#a78bfa",
+            fillOpacity: 0.4, weight: 1
+          }).addTo(map));
+          lineLayers.push(L.polyline(
+            [[origin.lat, origin.lng], [land.lat, land.lng]],
+            { color: "#22c55e", weight: 3, opacity: 0.9 }
+          ).addTo(map));
+        });
+      }
+
+      // Landing markers — created fresh for this hole; persist them until next hole change
+      const markers = [];
+      hole.shots.forEach((shot, i) => {
+        const land = state.landings[i];
+        const isLast = i === hole.shots.length - 1;
+        const m = L.marker([land.lat, land.lng], {
+          draggable: true,
+          autoPan: true,
+          icon: landingIconFor(land.lie, isLast),
+        }).bindPopup(popupHtml(num, i, shot.club)).addTo(map);
+
+        m.on('drag', (e) => {
+          const ll = e.target.getLatLng();
+          state.landings[i].lat = ll.lat;
+          state.landings[i].lng = ll.lng;
+          drawLines();
+        });
+
+        m.on('popupopen', (e) => {
+          const root = e.popup.getElement();
+          if (!root) return;
+          const sel = root.querySelector('select.lie-select');
+          if (!sel) return;
+          sel.addEventListener('change', (ev) => {
+            const idx = Number(ev.target.getAttribute('data-shot-index'));
+            const lie = ev.target.value;
+            state.landings[idx].lie = lie;
+            markers[idx].setIcon(landingIconFor(lie, idx === hole.shots.length - 1));
+          });
+        });
+
+        markers.push(m);
+        persistentLayers.push(m);
+      });
+
+      // Track the line layers as persistent too so they get cleared on hole change.
+      // We push a sentinel that, on cleanup, also removes the line layers.
+      // Simpler: include lineLayers' parents in persistentLayers via the drawLines closure —
+      // we re-push the lines each drawLines() call. To clean up on hole change, we just
+      // need to also clear lines. So we expose the lineLayers via a closure:
+      const linesContainerCleanup = { remove: clearLines, _leaflet_id: -1 };
+      // We can't put a non-layer onto map.removeLayer — so just call clearLines() in renderHole's cleanup.
+      // Override clearPersistent for this scope: we extend it via a one-shot callback array.
+      currentHoleCleanup.push(clearLines);
+
+      drawLines();
+
+      // Compute a bbox of all points-of-interest with ~40yd padding.
+      // 1 yd ≈ 0.0000082° lat, ≈ 0.0000099° lng at this latitude (cos(33.6°)).
+      const points = [
+        [hole.tee.lat, hole.tee.lng], [hole.green.lat, hole.green.lng],
+        ...state.landings.map(l => [l.lat, l.lng]),
+      ];
+      let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+      for (const [lat, lng] of points) {
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+        if (lng < minLng) minLng = lng;
+        if (lng > maxLng) maxLng = lng;
+      }
+      const padLat = 40 * 0.0000082;
+      const padLng = 40 * 0.0000099;
+      const bbox = {
+        south: minLat - padLat, north: maxLat + padLat,
+        west:  minLng - padLng, east:  maxLng + padLng,
+      };
+
+      // Dark mask: an outer polygon covering a huge area around the hole,
+      // with the bbox as an inner hole (Leaflet renders polygons with
+      // multiple rings as outer + holes).
+      const HALO = 0.5; // ~55km — way more than any practical map view
+      const outerRing = [
+        [bbox.north + HALO, bbox.west - HALO],
+        [bbox.north + HALO, bbox.east + HALO],
+        [bbox.south - HALO, bbox.east + HALO],
+        [bbox.south - HALO, bbox.west - HALO],
+      ];
+      const innerHole = [
+        [bbox.south, bbox.west],
+        [bbox.south, bbox.east],
+        [bbox.north, bbox.east],
+        [bbox.north, bbox.west],
+      ];
+      const mask = L.polygon([outerRing, innerHole], {
+        color: 'transparent',
+        fillColor: '#000',
+        fillOpacity: 0.62,
+        stroke: false,
+        interactive: false,
+      }).addTo(map);
+      // Send mask to the bottom of the overlay stack so markers + lines
+      // remain interactive (Leaflet draws later-added paths on top).
+      mask.bringToBack();
+      persistentLayers.push(mask);
+
+      // Fit tightly to the hole bbox
+      map.fitBounds(
+        [[bbox.south, bbox.west], [bbox.north, bbox.east]],
+        { padding: [40, 40], maxZoom: 19 }
+      );
+    }
+
+    const currentHoleCleanup = [];
+    function clearHole() {
+      // Run hole-specific cleanup callbacks (line layers etc.)
+      while (currentHoleCleanup.length) currentHoleCleanup.pop()();
+      clearPersistent();
+    }
+
+    function setHole(num) {
+      const clamped = Math.max(1, Math.min(18, num));
+      currentHole = clamped;
+      clearHole();
+      renderHole(clamped);
+      updateTopbar();
+    }
+
+    function updateTopbar() {
+      const hole = HOLES[currentHole - 1];
+      const state = ensureHoleState(currentHole);
+      const overUnder = hole.score - hole.par;
+      const scoreTag =
+        overUnder === 0  ? 'PAR' :
+        overUnder === -1 ? 'BIRDIE' :
+        overUnder === -2 ? 'EAGLE' :
+        overUnder ===  1 ? 'bogey' :
+        overUnder ===  2 ? 'double' :
+        overUnder ===  3 ? 'triple' :
+        `+${overUnder}`;
+      document.getElementById('hole-label').textContent =
+        `Hole ${currentHole} / 18 · Round: ${ROUND_TOTAL} (${ROUND_TOTAL - COURSE_PAR >= 0 ? '+' : ''}${ROUND_TOTAL - COURSE_PAR} vs par ${COURSE_PAR})`;
+      document.getElementById('par-label').textContent =
+        `Par ${hole.par} · ${hole.lengthYds} yd · Scored ${hole.score} (${scoreTag}) · ${hole.putts} putts`;
+      document.getElementById('saved-label').innerHTML = state.saved
+        ? '<span class="saved-badge">saved</span>'
+        : '<span class="muted">unsaved</span>';
+      document.getElementById('prev-hole').disabled = currentHole === 1;
+      document.getElementById('next-hole').disabled = currentHole === 18;
+
+      const savedCount = Object.values(holeStates).filter(s => s.saved).length;
+      const btn = document.getElementById('save-round');
+      btn.textContent = `Save round (${savedCount}/18)`;
+      btn.disabled = savedCount < 18;
+    }
+
+    function saveCurrentHole() {
+      ensureHoleState(currentHole).saved = true;
+      updateTopbar();
+      // Auto-advance if not on hole 18
+      if (currentHole < 18) setHole(currentHole + 1);
+    }
+
+    function saveRound() {
+      const payload = {
+        courseId: 'starfire-king',
+        completedAt: new Date().toISOString(),
+        holes: HOLES.map((hole, i) => {
+          const state = holeStates[i + 1];
+          return {
+            holeNumber: hole.holeNumber,
+            par: hole.par,
+            shots: hole.shots.map((shot, j) => ({
+              club: shot.club,
+              planned: shot.planned,
+              landing: state ? state.landings[j] : null,
+            })),
+          };
+        }),
+      };
+      console.log('Round payload:', payload);
+
+      // Download as JSON
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `round-${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      alert('Round saved! Check downloads for the JSON, and the browser console for the payload.');
+    }
+
+    function initMap() {
+      map = L.map("map").setView([33.5921, -111.9082], 18);
+      window.__demoMap = map;
+
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        { maxZoom: 19, attribution: 'Tiles &copy; Esri' }
+      ).addTo(map);
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png",
+        { maxZoom: 19, attribution: '&copy; CARTO', subdomains: 'abcd', opacity: 0.85 }
+      ).addTo(map);
+
+      // Wire topbar buttons
+      document.getElementById('prev-hole').addEventListener('click', () => setHole(currentHole - 1));
+      document.getElementById('next-hole').addEventListener('click', () => setHole(currentHole + 1));
+      document.getElementById('save-hole').addEventListener('click', saveCurrentHole);
+      document.getElementById('save-round').addEventListener('click', saveRound);
+
+      setHole(1);
+
+      requestAnimationFrame(() => map.invalidateSize());
+      window.addEventListener('resize', () => map.invalidateSize());
+    }
+
+    if (document.readyState === 'complete') {
+      initMap();
+    } else {
+      window.addEventListener('load', initMap);
+    }
+  </script>
+</body>
+</html>

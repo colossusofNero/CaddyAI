@@ -33,6 +33,12 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# PII / one-off data exports & test artifacts — keep local only
+/users-export.csv
+/test-qr-code.png
+/test-decode.png
+/qr-COPPER-PRO-*.png
+
 # vercel
 .vercel
 

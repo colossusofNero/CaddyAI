@@ -139,6 +139,25 @@
         { "fieldPath": "timestamp", "order": "DESCENDING" }
       ]
     },
+
+    {
+      "collectionGroup": "shotEvents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "eventType", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "shotEvents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "roundId", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
     {
       "collectionGroup": "holeAnalytics",
       "queryScope": "COLLECTION",
@@ -243,8 +262,96 @@
         { "fieldPath": "outcome.landingArea", "order": "ASCENDING" },
         { "fieldPath": "timestamp", "order": "DESCENDING" }
       ]
+    },
+
+    {
+      "collectionGroup": "holes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "reviewStatus", "order": "ASCENDING" },
+        { "fieldPath": "metrics.confidenceScore", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "reviewStatus", "order": "ASCENDING" },
+        { "fieldPath": "processedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "noWater", "order": "ASCENDING" },
+        { "fieldPath": "boundary.points", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "noWater", "order": "ASCENDING" },
+        { "fieldPath": "boundary.points", "arrayConfig": "CONTAINS" }
+      ]
+    },
+
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "state", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "state", "order": "ASCENDING" },
+        { "fieldPath": "city", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "waterDetectionStatus", "order": "ASCENDING" },
+        { "fieldPath": "desertDetectionStatus", "order": "ASCENDING" }
+      ]
     }
 
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "holes",
+      "fieldPath": "noWater",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "fieldPath": "processedAt",
+      "indexes": [
+        { "order": "DESCENDING", "queryScope": "COLLECTION" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "fieldPath": "reviewStatus",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" }
+      ]
+    },
+    {
+      "collectionGroup": "holes",
+      "fieldPath": "version",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" }
+      ]
+    }
+  ]
 }

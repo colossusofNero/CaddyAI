@@ -26,6 +26,7 @@ import {
   Clock,
   Crosshair,
   Zap,
+  MapPin,
 } from 'lucide-react';
 
 function AnalyticsSubpageCards() {
@@ -35,7 +36,7 @@ function AnalyticsSubpageCards() {
         <Zap className="w-5 h-5 text-primary" />
         AI Shot Analytics
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link href="/analytics/shot-data" className="group">
           <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
             <BarChart3 className="w-7 h-7 text-primary mb-3" />
@@ -66,6 +67,17 @@ function AnalyticsSubpageCards() {
             </p>
             <p className="text-sm text-text-secondary mt-1">
               Club selection history and follow-through rates
+            </p>
+          </div>
+        </Link>
+        <Link href="/analytics/shot-map" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <MapPin className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              Shot Event Map
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Every optimizer call and AI conversation, plotted by GPS
             </p>
           </div>
         </Link>

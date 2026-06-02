@@ -3,10 +3,16 @@
 import { useState } from 'react';
 import { Button } from './ui/Button';
 import { Sparkles, Target } from 'lucide-react';
+import { getAuth } from 'firebase/auth';
 import { useRecommendationTracking } from '@/hooks/useRecommendationTracking';
 import { recommendClubForDistance } from '@/services/recommendationService';
+import { recordShotEvent, updateShotEventActualLanding } from '@/lib/shotEvents';
+import { destinationPoint } from '@/lib/geo';
 import { Club } from '@/types/club';
 import { WeatherData } from '@/types/weather';
+
+const LAST_EVENT_KEY = (userId: string, roundId: string) =>
+  `copperline:lastOptimizerEvent:${userId}:${roundId}`;
 
 interface ShotOptimizerButtonProps {
   distanceToTarget: number;
@@ -14,6 +20,10 @@ interface ShotOptimizerButtonProps {
   weather: WeatherData;
   elevation?: number;
   shotDirection?: number;
+  // Set to true when shotDirection is a real compass bearing (e.g. from a
+  // target picker). When false, we skip writing predictedLanding because
+  // shotDirection defaults to 0/north and would produce garbage data.
+  bearingKnown?: boolean;
   roundId?: string;
   holeNumber?: number;
   shotNumber?: number;
@@ -32,6 +42,7 @@ export function ShotOptimizerButton({
   weather,
   elevation = 0,
   shotDirection = 0,
+  bearingKnown = false,
   roundId,
   holeNumber,
   shotNumber,
@@ -157,7 +168,75 @@ export function ShotOptimizerButton({
         });
       }
 
-      // 4. Track the recommendation event
+      // 4. Build the chain link to the previous optimizer call.
+      //    On the second-and-later call of a round, the current origin GPS
+      //    *is* the previous shot's actual landing — patch it back.
+      const userId = getAuth().currentUser?.uid ?? null;
+      const chainRoundId = roundId ?? null;
+      let previousEventId: string | null = null;
+      if (userId && chainRoundId && typeof window !== 'undefined') {
+        const stored = window.localStorage.getItem(LAST_EVENT_KEY(userId, chainRoundId));
+        if (stored) {
+          previousEventId = stored;
+          if (gpsPosition) {
+            // Fire-and-forget: write current origin onto the prior event.
+            updateShotEventActualLanding(stored, {
+              latitude: gpsPosition.latitude,
+              longitude: gpsPosition.longitude,
+            });
+          }
+        }
+      }
+
+      // 5. Compute predicted landing — only when we have GPS *and* a real bearing.
+      const predictedLanding = gpsPosition && bearingKnown
+        ? destinationPoint(
+            { latitude: gpsPosition.latitude, longitude: gpsPosition.longitude },
+            shotDirection,
+            primaryRec.adjustedDistance
+          )
+        : null;
+
+      // 6. Log the raw optimizer invocation to shotEvents (one row per call)
+      const newEventId = recordShotEvent({
+        eventType: 'optimizer_run',
+        roundId: chainRoundId,
+        holeNumber: holeNumber ?? null,
+        gpsPosition: gpsPosition
+          ? { latitude: gpsPosition.latitude, longitude: gpsPosition.longitude }
+          : null,
+        predictedLanding,
+        previousEventId,
+        payload: {
+          shotNumber: shotNumber ?? null,
+          distanceToTarget,
+          elevation,
+          shotDirection,
+          bearingKnown,
+          predictedCarryYards: primaryRec.adjustedDistance,
+          recommendedClub: primaryRec.club.name,
+          weather: {
+            temperature: weather.temperature,
+            windSpeed: weather.windSpeed,
+            windDirection: weather.windDirection,
+            humidity: weather.humidity,
+            conditions: weather.conditions,
+          },
+          recommendations: recommendations.map(r => ({
+            rank: r.rank,
+            clubName: r.clubName,
+            adjustedCarry: r.adjustedCarry,
+            expectedValue: r.expectedValue,
+          })),
+        },
+      });
+
+      // 7. Stash the new event id so the *next* optimizer call can chain back.
+      if (newEventId && userId && chainRoundId && typeof window !== 'undefined') {
+        window.localStorage.setItem(LAST_EVENT_KEY(userId, chainRoundId), newEventId);
+      }
+
+      // 8. Track the recommendation event (separate analytics collection)
       const eventId = await trackRecommendation({
         source: 'optimizer-button',
         roundId: roundId || `round_${Date.now()}`,
@@ -185,7 +264,7 @@ export function ShotOptimizerButton({
 
       console.log('[ShotOptimizer] Tracked recommendation:', eventId);
 
-      // 5. Notify parent component
+      // 9. Notify parent component
       if (onRecommendationReceived) {
         onRecommendationReceived(recommendations);
       }

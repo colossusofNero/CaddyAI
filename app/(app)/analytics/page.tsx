@@ -27,6 +27,7 @@ import {
   Crosshair,
   Zap,
   MapPin,
+  Award,
 } from 'lucide-react';
 
 function AnalyticsSubpageCards() {
@@ -78,6 +79,17 @@ function AnalyticsSubpageCards() {
             </p>
             <p className="text-sm text-text-secondary mt-1">
               Every optimizer call and AI conversation, plotted by GPS
+            </p>
+          </div>
+        </Link>
+        <Link href="/analytics/round-summary" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <Award className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              Round Summary
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              Map + dispersion side-by-side, share with a PGA pro
             </p>
           </div>
         </Link>

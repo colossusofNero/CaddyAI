@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Shot Dispersion — Starfire King round</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #f4f4f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #111; }
+    .page { max-width: 1300px; margin: 16px auto; padding: 16px 24px; background: #fff; border: 1px solid #ccc; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    header { display: flex; flex-wrap: wrap; gap: 24px; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid #ddd; margin-bottom: 16px; }
+    header .field { font-size: 14px; }
+    header .field strong { display: block; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    header h1 { font-size: 18px; margin: 0; flex: 1 0 100%; }
+    .legend-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 12px; color: #555; margin-bottom: 14px; }
+    .legend-row .item { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-row .swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.2); }
+    .hole-picker {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      padding: 10px 12px; background: #f7f7f4; border: 1px solid #e3e3dd;
+      border-radius: 8px; margin-bottom: 14px; font-size: 13px;
+    }
+    .hole-picker .group-actions { display: flex; gap: 6px; padding-right: 8px; border-right: 1px solid #d4d4d4; }
+    .hole-picker .group-actions button {
+      padding: 4px 10px; border: 1px solid #c5c5c0; background: #fff; border-radius: 4px;
+      font-size: 12px; cursor: pointer;
+    }
+    .hole-picker .group-actions button:hover { background: #ebebe5; }
+    .hole-picker .holes { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+    .hole-picker label {
+      display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+      font-variant-numeric: tabular-nums;
+    }
+    .hole-picker label.par-3 { color: #7a5a00; }
+    .hole-picker label.par-4 { color: #1a1a1a; }
+    .hole-picker label.par-5 { color: #0a5d2a; }
+    .hole-picker input[type=checkbox] { margin: 0; }
+    svg { display: block; width: 100%; height: auto; }
+    .label-bg { paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Round Dispersion Chart</h1>
+    <div class="field"><strong>Course</strong>The King — Starfire Golf Club</div>
+    <div class="field"><strong>Date</strong><span id="date-field"></span></div>
+    <div class="field"><strong>Player</strong>Scott Roelofs</div>
+    <div class="field"><strong>Score</strong><span id="score-field"></span></div>
+    <div class="field"><strong>Shots plotted</strong><span id="shots-field"></span></div>
+  </header>
+
+  <div class="hole-picker">
+    <div class="group-actions">
+      <button id="select-all">All</button>
+      <button id="clear-all">Clear</button>
+      <button id="select-front">Front 9</button>
+      <button id="select-back">Back 9</button>
+    </div>
+    <div class="holes" id="hole-checkboxes"></div>
+  </div>
+
+  <div class="legend-row">
+    <span class="item">Label = <code>hole/shot#</code></span>
+    <span class="item"><span class="swatch" style="background:#22c55e"></span> fairway</span>
+    <span class="item"><span class="swatch" style="background:#ca8a04"></span> rough</span>
+    <span class="item"><span class="swatch" style="background:#eab308"></span> sand</span>
+    <span class="item"><span class="swatch" style="background:#3b82f6"></span> water</span>
+    <span class="item"><span class="swatch" style="background:#86efac"></span> fringe</span>
+    <span class="item"><span class="swatch" style="background:#15803d"></span> green</span>
+    <span class="item">Y = distance the landing was from the pin · X = lateral offset from tee→pin line</span>
+  </div>
+
+  <svg id="chart" viewBox="0 0 1200 880" preserveAspectRatio="xMidYMid meet"></svg>
+</div>
+
+<script>
+  // ----- Geo math (same model as the chain demo) -----
+  const EARTH_RADIUS_M = 6371000;
+  const M_PER_YARD = 0.9144;
+  const toRad = d => (d * Math.PI) / 180;
+  const toDeg = r => (r * 180) / Math.PI;
+
+  function destinationPoint(origin, bearingDeg, distanceYards) {
+    const distM = distanceYards * M_PER_YARD;
+    const ang = distM / EARTH_RADIUS_M;
+    const brg = toRad(bearingDeg);
+    const lat1 = toRad(origin.lat);
+    const lng1 = toRad(origin.lng);
+    const sinLat2 =
+      Math.sin(lat1) * Math.cos(ang) +
+      Math.cos(lat1) * Math.sin(ang) * Math.cos(brg);
+    const lat2 = Math.asin(sinLat2);
+    const y = Math.sin(brg) * Math.sin(ang) * Math.cos(lat1);
+    const x = Math.cos(ang) - Math.sin(lat1) * sinLat2;
+    const lng2 = lng1 + Math.atan2(y, x);
+    return { lat: toDeg(lat2), lng: (((toDeg(lng2)) + 540) % 360) - 180 };
+  }
+  function bearingBetween(a, b) {
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const dLng = toRad(b.lng - a.lng);
+    const y = Math.sin(dLng) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2)
+            - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+  }
+  function distanceYards(a, b) {
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const dLat = toRad(b.lat - a.lat);
+    const dLng = toRad(b.lng - a.lng);
+    const h = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLng/2)**2;
+    return (2 * EARTH_RADIUS_M * Math.asin(Math.sqrt(h))) / M_PER_YARD;
+  }
+
+  // ----- Course + Round (same as shot-chain-demo) -----
+  const HOLES_RAW = [
+    { par: 5, dist: 559, tee: { lat: 33.58947, lng: -111.90802 }, green: { lat: 33.59391, lng: -111.90807 } },
+    { par: 3, dist: 188, tee: { lat: 33.59466, lng: -111.90813 }, green: { lat: 33.59611, lng: -111.90791 } },
+    { par: 4, dist: 421, tee: { lat: 33.59564, lng: -111.90647 }, green: { lat: 33.59223, lng: -111.90614 } },
+    { par: 3, dist: 144, tee: { lat: 33.59212, lng: -111.90464 }, green: { lat: 33.59304, lng: -111.90380 } },
+    { par: 4, dist: 349, tee: { lat: 33.59471, lng: -111.90123 }, green: { lat: 33.59473, lng: -111.90459 } },
+    { par: 5, dist: 498, tee: { lat: 33.59625, lng: -111.90534 }, green: { lat: 33.59603, lng: -111.90052 } },
+    { par: 4, dist: 400, tee: { lat: 33.59530, lng: -111.90034 }, green: { lat: 33.59205, lng: -111.90055 } },
+    { par: 3, dist: 203, tee: { lat: 33.59239, lng: -111.90246 }, green: { lat: 33.59096, lng: -111.90340 } },
+    { par: 5, dist: 504, tee: { lat: 33.58956, lng: -111.90221 }, green: { lat: 33.58981, lng: -111.90714 } },
+    { par: 3, dist: 197, tee: { lat: 33.58822, lng: -111.90956 }, green: { lat: 33.58710, lng: -111.91084 } },
+    { par: 4, dist: 396, tee: { lat: 33.58667, lng: -111.91180 }, green: { lat: 33.58370, lng: -111.91226 } },
+    { par: 4, dist: 339, tee: { lat: 33.58380, lng: -111.91310 }, green: { lat: 33.58633, lng: -111.91396 } },
+    { par: 5, dist: 479, tee: { lat: 33.58724, lng: -111.91545 }, green: { lat: 33.58337, lng: -111.91502 } },
+    { par: 3, dist: 169, tee: { lat: 33.58302, lng: -111.91539 }, green: { lat: 33.58333, lng: -111.91385 } },
+    { par: 4, dist: 385, tee: { lat: 33.58298, lng: -111.91296 }, green: { lat: 33.58261, lng: -111.90940 } },
+    { par: 4, dist: 369, tee: { lat: 33.58246, lng: -111.90905 }, green: { lat: 33.58478, lng: -111.91069 } },
+    { par: 3, dist: 153, tee: { lat: 33.58512, lng: -111.91088 }, green: { lat: 33.58510, lng: -111.90945 } },
+    { par: 4, dist: 353, tee: { lat: 33.58538, lng: -111.90920 }, green: { lat: 33.58824, lng: -111.90921 } },
+  ];
+
+  const ROUND_PLAN = [
+    { score: 7, putts: 2, shots: [
+      { club:'Driver', planned:245, shortPct:0.85, offsetDeg: 8, lie:'rough' },
+      { club:'7-iron', planned:150, shortPct:0.97, offsetDeg:-2, lie:'fairway' },
+      { club:'5-iron', planned:180, shortPct:0.91, offsetDeg: 3, lie:'fairway' },
+      { club:'PW',     planned: 65, shortPct:0.88, offsetDeg:-1, lie:'fringe' },
+      { club:'LW',     planned: 10, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 4, putts: 2, shots: [
+      { club:'5-iron', planned:195, shortPct:0.90, offsetDeg:-5, lie:'rough' },
+      { club:'SW',     planned: 20, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'Driver', planned:250, shortPct:0.94, offsetDeg: 3, lie:'fairway' },
+      { club:'6-iron', planned:175, shortPct:0.94, offsetDeg:-2, lie:'sand' },
+      { club:'SW',     planned: 25, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 3, putts: 2, shots: [
+      { club:'8-iron', planned:150, shortPct:0.97, offsetDeg: 1, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'Driver', planned:240, shortPct:0.90, offsetDeg:-4, lie:'fairway' },
+      { club:'7-iron', planned:145, shortPct:0.90, offsetDeg: 2, lie:'fringe' },
+      { club:'PW',     planned:  8, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 7, putts: 2, shots: [
+      { club:'Driver', planned:245, shortPct:0.90, offsetDeg:-7, lie:'rough' },
+      { club:'5-iron', planned:180, shortPct:0.92, offsetDeg: 4, lie:'rough' },
+      { club:'6-iron', planned:165, shortPct:0.88, offsetDeg:-3, lie:'fairway' },
+      { club:'PW',     planned: 75, shortPct:0.85, offsetDeg: 2, lie:'fringe' },
+      { club:'LW',     planned:  8, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'Driver', planned:250, shortPct:0.88, offsetDeg: 6, lie:'rough' },
+      { club:'6-iron', planned:180, shortPct:0.92, offsetDeg:-2, lie:'fringe' },
+      { club:'PW',     planned: 15, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'4-iron', planned:205, shortPct:0.95, offsetDeg:-8, lie:'water' },
+      { club:'5-iron', planned:190, shortPct:0.92, offsetDeg: 3, lie:'sand' },
+      { club:'SW',     planned: 20, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 6, putts: 2, shots: [
+      { club:'Driver', planned:250, shortPct:0.94, offsetDeg: 2, lie:'fairway' },
+      { club:'5-wood', planned:210, shortPct:0.93, offsetDeg:-3, lie:'rough' },
+      { club:'9-iron', planned: 85, shortPct:0.88, offsetDeg: 1, lie:'fringe' },
+      { club:'LW',     planned: 10, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 4, putts: 2, shots: [
+      { club:'4-iron', planned:200, shortPct:0.92, offsetDeg: 4, lie:'rough' },
+      { club:'PW',     planned: 20, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'Driver', planned:250, shortPct:0.92, offsetDeg:-3, lie:'fairway' },
+      { club:'7-iron', planned:170, shortPct:0.91, offsetDeg: 4, lie:'sand' },
+      { club:'SW',     planned: 18, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 6, putts: 2, shots: [
+      { club:'Driver', planned:240, shortPct:0.80, offsetDeg: 9, lie:'rough' },
+      { club:'8-iron', planned:145, shortPct:0.90, offsetDeg:-4, lie:'fairway' },
+      { club:'PW',     planned:100, shortPct:0.90, offsetDeg: 2, lie:'rough' },
+      { club:'SW',     planned: 25, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 7, putts: 2, shots: [
+      { club:'Driver', planned:245, shortPct:0.88, offsetDeg:-6, lie:'rough' },
+      { club:'5-iron', planned:185, shortPct:0.92, offsetDeg: 3, lie:'water' },
+      { club:'6-iron', planned:165, shortPct:0.91, offsetDeg:-2, lie:'fairway' },
+      { club:'9-iron', planned:115, shortPct:0.96, offsetDeg: 1, lie:'fringe' },
+      { club:'LW',     planned: 10, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 4, putts: 2, shots: [
+      { club:'6-iron', planned:175, shortPct:0.89, offsetDeg: 5, lie:'rough' },
+      { club:'PW',     planned: 20, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 5, putts: 2, shots: [
+      { club:'Driver', planned:250, shortPct:0.92, offsetDeg: 2, lie:'fairway' },
+      { club:'8-iron', planned:160, shortPct:0.88, offsetDeg:-3, lie:'fringe' },
+      { club:'PW',     planned: 18, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 6, putts: 3, shots: [
+      { club:'Driver', planned:245, shortPct:0.92, offsetDeg:-2, lie:'fairway' },
+      { club:'7-iron', planned:160, shortPct:0.85, offsetDeg: 3, lie:'fringe' },
+      { club:'PW',     planned: 25, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 4, putts: 2, shots: [
+      { club:'8-iron', planned:155, shortPct:0.92, offsetDeg:-4, lie:'rough' },
+      { club:'PW',     planned: 18, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+    { score: 7, putts: 3, shots: [
+      { club:'Driver', planned:250, shortPct:0.78, offsetDeg:10, lie:'rough' },
+      { club:'7-iron', planned:145, shortPct:0.92, offsetDeg:-3, lie:'fairway' },
+      { club:'9-iron', planned:125, shortPct:0.90, offsetDeg: 2, lie:'sand' },
+      { club:'SW',     planned: 30, shortPct:1.00, offsetDeg: 0, lie:'green' }]},
+  ];
+
+  const HOLES = HOLES_RAW.map((h, i) => ({
+    holeNumber: i + 1,
+    par: h.par,
+    tee: h.tee,
+    green: h.green,
+    bearing: bearingBetween(h.tee, h.green),
+    lengthYds: h.dist,
+    shots: ROUND_PLAN[i].shots,
+    score: ROUND_PLAN[i].score,
+    putts: ROUND_PLAN[i].putts,
+  }));
+
+  const LIE_COLORS = {
+    fairway: '#22c55e',
+    rough: '#ca8a04',
+    'deep-rough': '#78350f',
+    sand: '#eab308',
+    water: '#3b82f6',
+    fringe: '#86efac',
+    green: '#15803d',
+    '': '#777',
+  };
+
+  // ----- Compute each shot's landing + its relative-to-pin coords -----
+  // For each hole, we build the chain the same way the demo does:
+  // origin of shot N+1 = actual landing of shot N. The LAST landing snaps
+  // exactly to the green (because putts follow). Earlier landings come from
+  // planned * shortPct along (bearing + offsetDeg).
+  function buildHoleLandings(hole) {
+    const out = [];
+    let origin = { ...hole.tee };
+    for (let i = 0; i < hole.shots.length; i++) {
+      const s = hole.shots[i];
+      const isLast = i === hole.shots.length - 1;
+      const land = isLast
+        ? { lat: hole.green.lat, lng: hole.green.lng }
+        : destinationPoint(origin, hole.bearing + s.offsetDeg, s.planned * s.shortPct);
+      out.push({ land, lie: s.lie });
+      origin = land;
+    }
+    return out;
+  }
+
+  // Given a landing and a hole, compute (distFromPin, lateral)
+  // distFromPin: positive = short of pin (closer to tee)
+  // lateral: positive = right of tee→pin line, negative = left
+  function dispersionPosition(land, hole) {
+    const teeToLandBearing = bearingBetween(hole.tee, land);
+    const teeToLandDist = distanceYards(hole.tee, land);
+    const angleDeg = teeToLandBearing - hole.bearing;
+    // normalise to [-180, 180]
+    const a = (((angleDeg + 540) % 360) - 180) * Math.PI / 180;
+    const fwdFromTee = teeToLandDist * Math.cos(a);
+    const lat = teeToLandDist * Math.sin(a); // + = right
+    const distFromPin = hole.lengthYds - fwdFromTee; // + = short of pin
+    return { distFromPin, lateral: lat };
+  }
+
+  // ----- Collect all shots -----
+  const allShots = [];
+  HOLES.forEach(hole => {
+    const landings = buildHoleLandings(hole);
+    landings.forEach((l, idx) => {
+      const pos = dispersionPosition(l.land, hole);
+      allShots.push({
+        holeNumber: hole.holeNumber,
+        shotNumber: idx + 1,
+        label: `${hole.holeNumber}/${idx + 1}`,
+        lie: l.lie,
+        distFromPin: pos.distFromPin,
+        lateral: pos.lateral,
+      });
+    });
+  });
+
+  // ----- SVG geometry -----
+  const VIEW_W = 1200, VIEW_H = 880;
+  const CENTER_X = VIEW_W / 2;
+  const TARGET_CX = CENTER_X;
+  const TARGET_CY = 130;
+  const TARGET_R  = 110;
+  const GRID_TOP = 230;
+  const GRID_BOTTOM = 850;
+  const GRID_LEFT = 50;
+  const GRID_RIGHT = 1150;
+  const GRID_HEIGHT = GRID_BOTTOM - GRID_TOP;
+  const Y_MAX_YDS = 300; // bottom of grid
+  const X_HALF_YDS = 60; // ±60yd visible laterally (clipped past that)
+
+  // Map (distFromPin, lateral) to SVG coords
+  function toSvg(distFromPin, lateral) {
+    // Y: 0 yd from pin = at the bullseye; 300 yd from pin = bottom of grid
+    const clampedY = Math.max(-50, Math.min(Y_MAX_YDS, distFromPin));
+    const y = GRID_TOP + (clampedY / Y_MAX_YDS) * GRID_HEIGHT;
+    // X: lateral 0 = centre; ±X_HALF_YDS = full half-width
+    const halfWidth = (GRID_RIGHT - GRID_LEFT) / 2;
+    const clampedX = Math.max(-X_HALF_YDS, Math.min(X_HALF_YDS, lateral));
+    const x = CENTER_X + (clampedX / X_HALF_YDS) * halfWidth;
+    return { x, y };
+  }
+
+  // ----- Render SVG -----
+  const svg = document.getElementById('chart');
+  const ns = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, children) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in (attrs || {})) e.setAttribute(k, attrs[k]);
+    for (const c of (children || [])) e.appendChild(c);
+    return e;
+  }
+  function text(content, attrs) {
+    const t = el('text', attrs);
+    t.textContent = content;
+    return t;
+  }
+
+  // Two layers — background (fixed) + shots (re-rendered on filter changes)
+  const bgLayer = el('g', { id: 'bg-layer' });
+  const shotsLayer = el('g', { id: 'shots-layer' });
+  svg.appendChild(bgLayer);
+  svg.appendChild(shotsLayer);
+
+  // Background
+  bgLayer.appendChild(el('rect', { x:0, y:0, width:VIEW_W, height:VIEW_H, fill:'#fff' }));
+
+  // Grid border + rows
+  const NUM_BANDS = 6;
+  for (let i = 0; i <= NUM_BANDS; i++) {
+    const yds = i * 50;
+    const y = GRID_TOP + (yds / Y_MAX_YDS) * GRID_HEIGHT;
+    bgLayer.appendChild(el('line', {
+      x1: GRID_LEFT, x2: GRID_RIGHT, y1: y, y2: y,
+      stroke:'#222', 'stroke-width': i === 0 || i === NUM_BANDS ? 2 : 1,
+    }));
+    bgLayer.appendChild(text(`${yds} YRD`, {
+      x: GRID_LEFT + 8, y: y + 22, 'font-size': 18, 'font-weight': 700, fill:'#222',
+    }));
+  }
+  // Vertical box edges (left, right, and the column dividers)
+  for (const x of [GRID_LEFT, GRID_RIGHT]) {
+    bgLayer.appendChild(el('line', { x1:x, x2:x, y1:GRID_TOP, y2:GRID_BOTTOM, stroke:'#222', 'stroke-width':2 }));
+  }
+  // Inner column dividers (matching the source graphic — three columns)
+  const COL1 = GRID_LEFT + (GRID_RIGHT - GRID_LEFT) * 0.32;
+  const COL2 = GRID_LEFT + (GRID_RIGHT - GRID_LEFT) * 0.68;
+  for (const x of [COL1, COL2]) {
+    bgLayer.appendChild(el('line', { x1:x, x2:x, y1:GRID_TOP, y2:GRID_BOTTOM, stroke:'#222', 'stroke-width':1 }));
+  }
+  // Dashed target line down the middle (between the two inner dividers)
+  bgLayer.appendChild(el('line', {
+    x1: CENTER_X, x2: CENTER_X, y1: GRID_TOP, y2: GRID_BOTTOM,
+    stroke:'#222', 'stroke-width':1, 'stroke-dasharray':'6 6',
+  }));
+
+  // Target rings (concentric)
+  for (const r of [TARGET_R, TARGET_R * 0.72, TARGET_R * 0.46, TARGET_R * 0.22]) {
+    bgLayer.appendChild(el('circle', { cx: TARGET_CX, cy: TARGET_CY, r, fill:'none', stroke:'#111', 'stroke-width':3 }));
+  }
+  bgLayer.appendChild(el('circle', { cx: TARGET_CX, cy: TARGET_CY, r: 9, fill:'#111' }));
+  // Continue the dashed centerline through the target
+  bgLayer.appendChild(el('line', {
+    x1: CENTER_X, x2: CENTER_X, y1: TARGET_CY, y2: GRID_TOP,
+    stroke:'#222', 'stroke-width':1, 'stroke-dasharray':'6 6',
+  }));
+
+  // ----- Plot shots (called on every filter change) -----
+  function renderShots(enabledHoleSet) {
+    // Clear the layer
+    while (shotsLayer.firstChild) shotsLayer.removeChild(shotsLayer.firstChild);
+
+    const placed = []; // { x, y, w, h }
+    const overlaps = (box) => placed.some(p =>
+      Math.abs(p.x - box.x) < (p.w + box.w) / 2 &&
+      Math.abs(p.y - box.y) < (p.h + box.h) / 2
+    );
+    const nudgeIfNeeded = (box) => {
+      if (!overlaps(box)) return box;
+      const tries = [];
+      for (let d = 1; d <= 6; d++) {
+        tries.push({ dx: 0, dy: -d * 6 });
+        tries.push({ dx: 0, dy: +d * 6 });
+        tries.push({ dx: -d * 10, dy: 0 });
+        tries.push({ dx: +d * 10, dy: 0 });
+        tries.push({ dx: -d * 8, dy: -d * 4 });
+        tries.push({ dx: +d * 8, dy: +d * 4 });
+      }
+      for (const t of tries) {
+        const b = { x: box.x + t.dx, y: box.y + t.dy, w: box.w, h: box.h };
+        if (!overlaps(b)) return b;
+      }
+      return box;
+    };
+
+    // Closer-to-pin labels get priority for their exact spot
+    const enabled = allShots
+      .filter(s => enabledHoleSet.has(s.holeNumber))
+      .slice()
+      .sort((a, b) => a.distFromPin - b.distFromPin);
+
+    for (const s of enabled) {
+      let { x, y } = toSvg(s.distFromPin, s.lateral);
+      const labelBox = nudgeIfNeeded({ x, y, w: 40, h: 16 });
+      x = labelBox.x;
+      y = labelBox.y;
+      placed.push(labelBox);
+
+      const color = LIE_COLORS[s.lie] || LIE_COLORS[''];
+      shotsLayer.appendChild(el('circle', {
+        cx: x, cy: y, r: 3.5, fill: color, stroke: '#222', 'stroke-width': 0.5,
+      }));
+      shotsLayer.appendChild(text(s.label, {
+        x: x + 6, y: y - 4,
+        'font-size': 12, 'font-weight': 700,
+        fill: color, class: 'label-bg',
+      }));
+    }
+
+    // Update the count chip
+    document.getElementById('shots-field').textContent =
+      `${enabled.length} of ${allShots.length}`;
+  }
+
+  // ----- Hole-picker UI -----
+  const enabledHoles = new Set(HOLES.map(h => h.holeNumber)); // all on by default
+  const cbContainer = document.getElementById('hole-checkboxes');
+  HOLES.forEach(h => {
+    const id = `hole-cb-${h.holeNumber}`;
+    const label = document.createElement('label');
+    label.className = `par-${h.par}`;
+    label.innerHTML = `<input type="checkbox" id="${id}" data-hole="${h.holeNumber}" checked> ${h.holeNumber}<sup>p${h.par}</sup>`;
+    cbContainer.appendChild(label);
+  });
+  cbContainer.addEventListener('change', (e) => {
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    const n = Number(t.getAttribute('data-hole'));
+    if (t.checked) enabledHoles.add(n); else enabledHoles.delete(n);
+    renderShots(enabledHoles);
+  });
+
+  function setHoles(predicate) {
+    enabledHoles.clear();
+    HOLES.forEach(h => {
+      if (predicate(h.holeNumber)) enabledHoles.add(h.holeNumber);
+    });
+    // sync checkboxes
+    document.querySelectorAll('#hole-checkboxes input[type=checkbox]').forEach(cb => {
+      const n = Number(cb.getAttribute('data-hole'));
+      cb.checked = enabledHoles.has(n);
+    });
+    renderShots(enabledHoles);
+  }
+  document.getElementById('select-all').addEventListener('click', () => setHoles(() => true));
+  document.getElementById('clear-all').addEventListener('click', () => setHoles(() => false));
+  document.getElementById('select-front').addEventListener('click', () => setHoles(n => n <= 9));
+  document.getElementById('select-back').addEventListener('click', () => setHoles(n => n >= 10));
+
+  // Initial render — all holes on
+  renderShots(enabledHoles);
+
+  // Header fields
+  const totalScore = HOLES.reduce((sum, h) => sum + h.score, 0);
+  const totalPar   = HOLES.reduce((sum, h) => sum + h.par,   0);
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('date-field').textContent = today;
+  document.getElementById('score-field').textContent =
+    `${totalScore} (${totalScore - totalPar >= 0 ? '+' : ''}${totalScore - totalPar} vs par ${totalPar})`;
+</script>
+</body>
+</html>

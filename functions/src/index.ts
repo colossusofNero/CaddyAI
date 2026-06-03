@@ -23,6 +23,7 @@ import {
   onActiveRoundUpdated as onActiveRoundUpdatedFn,
 } from './reconcile/function';
 import { saveHoleGeometryFn } from './courseHoles/function';
+import { sendShareRoundEmailFn } from './share/shareRound';
 
 // Hole-reconciliation agent: decides which optimizer calls are real shots
 // vs. exploratory, based on rules 1-6 + the user's scorecard.
@@ -33,6 +34,9 @@ export const reconcileHoleAmbiguousDemo = reconcileHoleAmbiguousDemoFn;
 export const onActiveRoundUpdated = onActiveRoundUpdatedFn;
 // Admin callable: persists course-hole geometry edited from the web UI.
 export const saveHoleGeometry = saveHoleGeometryFn;
+// Player → friend / PGA pro: sends a marketing-styled round summary email
+// via Loops, upserts the recipient as a Loops contact for follow-up.
+export const sendShareRoundEmail = sendShareRoundEmailFn;
 
 function splitDisplayName(displayName: string | null | undefined): {
   firstName?: string;

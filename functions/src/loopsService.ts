@@ -14,7 +14,10 @@ export type LoopsContactProperties = {
   firstName?: string;
   lastName?: string;
   userId?: string;
-  signupSource?: 'organic' | 'qr' | 'promo';
+  signupSource?: 'organic' | 'qr' | 'promo' | 'shared-round';
+  referralSource?: string;
+  referredBy?: string;
+  referredByEmail?: string;
   [key: string]: string | number | boolean | undefined | null;
 };
 
@@ -60,5 +63,43 @@ export async function upsertLoopsContact(
   } catch (err) {
     console.error('[Loops] Upsert error (non-blocking):', err);
     return false;
+  }
+}
+
+// Loops transactional email. The `transactionalId` is the ID Loops assigns
+// to a transactional template you create in their UI. `dataVariables` keys
+// must match the {{handlebars}} placeholders inside that template.
+export async function sendLoopsTransactional(
+  email: string,
+  transactionalId: string,
+  dataVariables: Record<string, string | number | boolean> = {}
+): Promise<{ ok: boolean; status?: number; error?: string }> {
+  const apiKey = process.env.LOOPS_API_KEY;
+  if (!apiKey) {
+    return { ok: false, error: 'LOOPS_API_KEY not configured' };
+  }
+  if (!email || !transactionalId) {
+    return { ok: false, error: 'email + transactionalId required' };
+  }
+
+  try {
+    const res = await fetch(`${LOOPS_API_BASE}/transactional`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ transactionalId, email, dataVariables }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      console.error('[Loops] Transactional send failed:', res.status, body);
+      return { ok: false, status: res.status, error: body || res.statusText };
+    }
+    return { ok: true, status: res.status };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('[Loops] Transactional send error:', err);
+    return { ok: false, error: msg };
   }
 }

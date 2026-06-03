@@ -4,8 +4,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, Mail } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, Mail, Send } from 'lucide-react';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useAuth } from '@/hooks/useAuth';
+import { app } from '@/lib/firebase';
 import { Button } from '@/components/ui/Button';
 import {
   HOLES,
@@ -37,8 +39,11 @@ export default function RoundSummaryPage() {
     () => new Set(HOLES.map(h => h.holeNumber))
   );
   const [shareTo, setShareTo] = useState('');
+  const [shareToName, setShareToName] = useState('');
   const [shareMessage, setShareMessage] = useState('');
   const [downloading, setDownloading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendStatus, setSendStatus] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
   const chartRef = useRef<DispersionChartHandle>(null);
 
   useEffect(() => {
@@ -125,6 +130,40 @@ export default function RoundSummaryPage() {
       URL.revokeObjectURL(dlUrl);
     } finally {
       setDownloading(false);
+    }
+  }
+
+  async function sendViaLoops() {
+    if (!shareTo.trim()) {
+      setSendStatus({ kind: 'err', text: 'Add a recipient email or pick a pro from the dropdown.' });
+      return;
+    }
+    if (!app) {
+      setSendStatus({ kind: 'err', text: 'Firebase app not initialized.' });
+      return;
+    }
+    setSending(true);
+    setSendStatus(null);
+    try {
+      const fn = httpsCallable<unknown, { sent: boolean }>(getFunctions(app), 'sendShareRoundEmail');
+      await fn({
+        recipientEmail: shareTo.trim(),
+        recipientName: shareToName.trim() || undefined,
+        message: shareMessage.trim() || undefined,
+        course: { name: COURSE_INFO.name, date: today },
+        score: { total: totalScore, par: totalPar },
+        shotsPlotted: visibleShots.length,
+        courseLocation: `${COURSE_INFO.city}, ${COURSE_INFO.state}`,
+      });
+      setSendStatus({
+        kind: 'ok',
+        text: `Sent — ${shareTo.trim()} also added to your Loops audience as a referral.`,
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Send failed';
+      setSendStatus({ kind: 'err', text: msg });
+    } finally {
+      setSending(false);
     }
   }
 
@@ -272,7 +311,7 @@ export default function RoundSummaryPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-3">
             Share dispersion chart
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <label className="flex flex-col gap-1 text-sm">
               <span className="text-xs uppercase tracking-wider text-text-secondary">Recipient email</span>
               <input
@@ -284,15 +323,29 @@ export default function RoundSummaryPage() {
               />
             </label>
             <label className="flex flex-col gap-1 text-sm">
+              <span className="text-xs uppercase tracking-wider text-text-secondary">Recipient name (optional)</span>
+              <input
+                type="text"
+                placeholder="Mike Larson"
+                value={shareToName}
+                onChange={e => setShareToName(e.target.value)}
+                className="px-3 py-2 border border-border rounded bg-background text-text-primary text-sm"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-sm">
               <span className="text-xs uppercase tracking-wider text-text-secondary">Or pick a local PGA professional</span>
               <select
                 className="px-3 py-2 border border-border rounded bg-background text-text-primary text-sm"
-                onChange={e => setShareTo(e.target.value)}
+                onChange={e => {
+                  const opt = e.target.options[e.target.selectedIndex];
+                  setShareTo(e.target.value);
+                  setShareToName(opt.dataset.name ?? '');
+                }}
                 value=""
               >
                 <option value="">— pick a pro —</option>
                 {PGA_PROS.map(p => (
-                  <option key={p.email} value={p.email}>
+                  <option key={p.email} value={p.email} data-name={p.name}>
                     {p.name} — {p.facility}
                   </option>
                 ))}
@@ -310,7 +363,11 @@ export default function RoundSummaryPage() {
             />
           </label>
           <div className="flex items-center gap-2 flex-wrap">
-            <Button onClick={downloadChartPng} disabled={downloading} variant="primary" size="sm" className="gap-1">
+            <Button onClick={sendViaLoops} disabled={sending} variant="primary" size="sm" className="gap-1">
+              <Send className="w-4 h-4" />
+              {sending ? 'Sending…' : 'Send branded email'}
+            </Button>
+            <Button onClick={downloadChartPng} disabled={downloading} variant="outline" size="sm" className="gap-1">
               <Download className="w-4 h-4" />
               {downloading ? 'Building PNG…' : 'Download chart as PNG'}
             </Button>
@@ -318,10 +375,23 @@ export default function RoundSummaryPage() {
               <Mail className="w-4 h-4" />
               Open in email app
             </Button>
-            <span className="text-xs text-text-secondary">
-              The PNG downloads to your computer — attach it in the email that opens. Server-side email send is a future enhancement.
-            </span>
           </div>
+          {sendStatus && (
+            <div
+              className={`mt-3 text-xs rounded-lg p-2 ${
+                sendStatus.kind === 'ok'
+                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-300 dark:border-green-700'
+                  : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-300 dark:border-red-700'
+              }`}
+            >
+              {sendStatus.text}
+            </div>
+          )}
+          <p className="mt-2 text-xs text-text-secondary">
+            <strong>Send branded email</strong> goes through Loops with your CopperLine Golf template — the
+            recipient also gets added to your audience as a referral, so you can follow up from Loops.
+            The other two buttons are fallbacks: download the chart PNG, then open in your own email app.
+          </p>
         </div>
       </div>
     </div>

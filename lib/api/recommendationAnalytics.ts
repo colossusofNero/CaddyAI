@@ -138,10 +138,13 @@ export class RecommendationAnalyticsApi {
         throw new Error('Firebase is not initialized');
       }
 
+      // We used to filter `where recommendationSnapshot != null` server-side,
+      // but `!= null` requires a composite index per subcollection path and
+      // the client already filters again below (`shotsWithRecs = ...`). Skip
+      // it to keep the query index-free.
       const shotsRef = collection(db, 'shots', this.userId, 'shots');
       let q = query(
         shotsRef,
-        where('recommendationSnapshot', '!=', null),
         orderBy('timestamp', 'desc'),
         limit(limitCount)
       );

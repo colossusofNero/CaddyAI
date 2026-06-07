@@ -132,14 +132,22 @@ export default function ScoreDetailPage() {
         {/* Header */}
         <section className="pt-32 pb-8 bg-gradient-to-b from-primary/10 to-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Button
-              variant="ghost"
-              onClick={() => router.push('/scores')}
-              className="mb-6"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Scores
-            </Button>
+            <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+              <Button
+                variant="ghost"
+                onClick={() => router.push('/scores')}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Scores
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => router.push(`/analytics/round-summary?round=${encodeURIComponent(score.id)}`)}
+              >
+                View Round Summary
+                <Trophy className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

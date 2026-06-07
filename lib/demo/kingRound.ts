@@ -241,6 +241,22 @@ export interface DispersionShot {
   lateral: number;     // yards right of tee→pin line (positive)
 }
 
+// Compute (distFromPin, lateral) for a single landing relative to the hole's
+// tee→pin axis. Positive distFromPin = short of pin, positive lateral = right
+// of the target line.
+export function dispersionFor(
+  hole: ResolvedHole,
+  land: LatLng
+): { distFromPin: number; lateral: number } {
+  const teeToLandBearing = bearingBetween(hole.tee, land);
+  const teeToLandDist = distanceYards(hole.tee, land);
+  const angleDeg = teeToLandBearing - hole.bearing;
+  const a = ((((angleDeg + 540) % 360) - 180) * Math.PI) / 180;
+  const fwdFromTee = teeToLandDist * Math.cos(a);
+  const lat = teeToLandDist * Math.sin(a);
+  return { distFromPin: hole.lengthYds - fwdFromTee, lateral: lat };
+}
+
 export function allDispersionShots(): DispersionShot[] {
   const out: DispersionShot[] = [];
   for (const hole of HOLES) {

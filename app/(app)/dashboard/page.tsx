@@ -31,6 +31,7 @@ import {
   Sparkles,
   Smartphone,
   Flag,
+  Trophy,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -367,8 +368,8 @@ export default function DashboardPage() {
                 const totalPutts = round.holes.reduce((sum, h) => sum + (h.putts || 0), 0);
 
                 return (
-                  <Card key={round.id} variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/50 cursor-pointer">
-                    <Link href={`/history/${round.id}`}>
+                  <Card key={round.id} variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/50">
+                    <Link href={`/analytics/round-summary?round=${encodeURIComponent(round.id)}`} className="block cursor-pointer">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
@@ -409,6 +410,20 @@ export default function DashboardPage() {
                             </span>
                           )}
                         </div>
+                        <div className="flex items-center justify-between text-xs pt-2 border-t border-border">
+                          <span className="text-primary font-medium">View Round Summary →</span>
+                          <button
+                            type="button"
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              router.push(`/history/${round.id}`);
+                            }}
+                            className="text-text-secondary hover:text-text-primary underline-offset-2 hover:underline cursor-pointer"
+                          >
+                            Scorecard
+                          </button>
+                        </div>
                       </div>
                     </Link>
                   </Card>
@@ -428,6 +443,21 @@ export default function DashboardPage() {
                   <Circle className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="font-medium text-white">Start Round</h4>
+              </button>
+            </Link>
+
+            <Link
+              href={
+                recentRounds[0]
+                  ? `/analytics/round-summary?round=${encodeURIComponent(recentRounds[0].id)}`
+                  : '/analytics/round-summary'
+              }
+            >
+              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-accent/50 hover:shadow-lg hover:-translate-y-1 group">
+                <div className="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
+                  <Trophy className="w-6 h-6 text-accent" />
+                </div>
+                <h4 className="font-medium text-text-primary">Round Summary</h4>
               </button>
             </Link>
 

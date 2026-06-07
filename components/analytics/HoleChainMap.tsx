@@ -1,8 +1,12 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
+import { Fragment, useCallback, useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+// Patches L.Map to support `rotate: true` + `bearing: deg`. Must be imported
+// before any L.map() is created — placed at module top so the side effect
+// runs once on first import.
+import 'leaflet-rotate';
 import {
   MapContainer,
   TileLayer,
@@ -19,8 +23,16 @@ import {
   type LatLng,
 } from '@/lib/demo/kingRound';
 
-const landingIcon = (lie: string, isLast: boolean) =>
-  L.divIcon({
+// Memoize icons by (lie, isLast). Creating a new L.divIcon on every render
+// causes react-leaflet to call marker.setIcon(), which swaps the marker's
+// DOM element mid-drag — interrupting Leaflet's Draggable handler and
+// making the drag stutter.
+const iconCache = new Map<string, L.DivIcon>();
+function getLandingIcon(lie: string, isLast: boolean): L.DivIcon {
+  const key = `${lie}|${isLast ? 'last' : ''}`;
+  let icon = iconCache.get(key);
+  if (icon) return icon;
+  icon = L.divIcon({
     className: '',
     html: `<div style="
       width:20px;height:20px;border-radius:50%;
@@ -31,6 +43,9 @@ const landingIcon = (lie: string, isLast: boolean) =>
     iconSize: [20, 20],
     iconAnchor: [10, 10],
   });
+  iconCache.set(key, icon);
+  return icon;
+}
 
 const LIE_RING: Record<string, string> = {
   fairway: '#16a34a',
@@ -57,21 +72,78 @@ const greenIcon = L.divIcon({
 
 const toLL = (p: LatLng): [number, number] => [p.lat, p.lng];
 
-function BoundsFitter({ bounds }: { bounds: [[number, number], [number, number]] }) {
+// Fit the map exactly ONCE per hole change AND set the bearing so the
+// tee→pin axis points up the screen ("player view"). We deliberately don't
+// list `bounds`/`bearing` as deps — otherwise every landing drag triggers a
+// refit and the whole map appears to follow the cursor.
+function BoundsFitter({
+  holeKey,
+  bounds,
+  bearing,
+}: {
+  holeKey: number | string;
+  bounds: [[number, number], [number, number]];
+  bearing: number;
+}) {
   const map = useMap();
   useEffect(() => {
     map.invalidateSize();
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 19 });
-  }, [map, bounds]);
+    // The hole's compass bearing is "where the pin is from the tee" (0=N).
+    // To make that direction point UP the screen, set the map's bearing to
+    // -hole.bearing (leaflet-rotate convention: positive bearing rotates
+    // the view clockwise, so we negate to spin counter-clockwise).
+    const m = map as unknown as { setBearing?: (deg: number) => void };
+    if (typeof m.setBearing === 'function') m.setBearing(-bearing);
+    // Pad bounds generously because rotated content can be cropped at the
+    // corners; ~60% extra padding ensures the inscribed circle of the
+    // rotated rectangle contains everything we care about.
+    map.fitBounds(bounds, { padding: [60, 60], maxZoom: 19 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, holeKey]);
   return null;
 }
 
 interface Props {
   hole: ResolvedHole;
   landings: HoleLanding[];
+  /** Called continuously as the user drags a landing marker. */
+  onLandingChange?: (shotIndex: number, latLng: LatLng) => void;
 }
 
-export default function HoleChainMap({ hole, landings }: Props) {
+export default function HoleChainMap({ hole, landings, onLandingChange }: Props) {
+  // Throttle drag state updates to one per animation frame. The marker
+  // itself moves smoothly because Leaflet updates it directly; what was
+  // jumpy is React re-rendering the 57-label dispersion chart + lines on
+  // every drag tick. rAF coalesces those to ~60fps.
+  const onLandingChangeRef = useRef(onLandingChange);
+  useEffect(() => {
+    onLandingChangeRef.current = onLandingChange;
+  });
+  const rafRef = useRef<number | null>(null);
+  const pendingRef = useRef<{ shotIndex: number; latLng: LatLng } | null>(null);
+  useEffect(() => () => {
+    if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+  }, []);
+  const queueDrag = useCallback((shotIndex: number, latLng: LatLng) => {
+    pendingRef.current = { shotIndex, latLng };
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const p = pendingRef.current;
+      if (p) {
+        onLandingChangeRef.current?.(p.shotIndex, p.latLng);
+        pendingRef.current = null;
+      }
+    });
+  }, []);
+  const flushDrag = useCallback((shotIndex: number, latLng: LatLng) => {
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    pendingRef.current = null;
+    onLandingChangeRef.current?.(shotIndex, latLng);
+  }, []);
   // Bounds + dark mask geometry
   const points: [number, number][] = [
     [hole.tee.lat, hole.tee.lng],
@@ -115,6 +187,12 @@ export default function HoleChainMap({ hole, landings }: Props) {
       center={[(north + south) / 2, (east + west) / 2]}
       zoom={17}
       scrollWheelZoom
+      dragging={false}
+      boxZoom={false}
+      keyboard={false}
+      doubleClickZoom={false}
+      // leaflet-rotate options — passed through to L.map()
+      {...({ rotate: true, bearing: -hole.bearing } as Record<string, unknown>)}
       style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
@@ -130,7 +208,7 @@ export default function HoleChainMap({ hole, landings }: Props) {
         maxZoom={19}
       />
 
-      <BoundsFitter bounds={[[south, west], [north, east]]} />
+      <BoundsFitter holeKey={hole.holeNumber} bounds={[[south, west], [north, east]]} bearing={hole.bearing} />
 
       {/* Dark mask outside the hole */}
       <Polygon
@@ -176,7 +254,25 @@ export default function HoleChainMap({ hole, landings }: Props) {
               positions={[toLL(origin), toLL(land)]}
               pathOptions={{ color: '#22c55e', weight: 3, opacity: 0.9 }}
             />
-            <Marker position={toLL(land)} icon={landingIcon(landings[i].lie, isLast)}>
+            <Marker
+              position={toLL(land)}
+              icon={getLandingIcon(landings[i].lie, isLast)}
+              draggable={!!onLandingChange}
+              eventHandlers={
+                onLandingChange
+                  ? {
+                      drag: (e: L.LeafletEvent) => {
+                        const ll = (e.target as L.Marker).getLatLng();
+                        queueDrag(i, { lat: ll.lat, lng: ll.lng });
+                      },
+                      dragend: (e: L.LeafletEvent) => {
+                        const ll = (e.target as L.Marker).getLatLng();
+                        flushDrag(i, { lat: ll.lat, lng: ll.lng });
+                      },
+                    }
+                  : undefined
+              }
+            >
               <Popup>
                 <div style={{ fontSize: 12, lineHeight: 1.4 }}>
                   <strong>
@@ -184,6 +280,12 @@ export default function HoleChainMap({ hole, landings }: Props) {
                   </strong>
                   <br />
                   Lie: {landings[i].lie || '—'}
+                  {onLandingChange && (
+                    <>
+                      <br />
+                      <em>Drag to reposition</em>
+                    </>
+                  )}
                 </div>
               </Popup>
             </Marker>

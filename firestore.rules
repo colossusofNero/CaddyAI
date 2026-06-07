@@ -81,6 +81,16 @@ service cloud.firestore {
       allow delete: if isOwner(userId);
     }
 
+    // Per-user shots subcollection: /shots/{userId}/shots/{shotId}
+    // Used by recommendation analytics (lib/api/recommendationAnalytics.ts).
+    // The shotId path segment matches the parent userId, not the shot's owner.
+    match /shots/{userId}/shots/{shotId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+
     // Profiles Collection (unified schema)
     // Document ID is the userId
     match /profiles/{userId} {
@@ -156,6 +166,26 @@ service cloud.firestore {
                     && request.resource.data.diff(resource.data).affectedKeys()
                         .hasOnly(['actualLanding', 'actualLandedAt']);
 
+      allow delete: if false;
+    }
+
+    // ============================================================================
+    // UI EVENTS (Mobile interaction log: optimizer_clicked, etc.)
+    // ============================================================================
+
+    // UI Events: /uiEvents/{eventId}
+    // Written by the mobile client; read by the web app to reconstruct
+    // sparse "caddy moments" for rounds that were never finalized.
+    match /uiEvents/{eventId} {
+      // Users can read only their own events
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Users can create events stamped with their own userId
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid;
+
+      // Interaction log is immutable
+      allow update: if false;
       allow delete: if false;
     }
 
@@ -343,6 +373,62 @@ service cloud.firestore {
     match /subscriptions/{docId} {
       allow read: if false;
       allow write: if false;
+    }
+
+    // ============================================================================
+    // SHOT ANALYTICS (inference engine output — see lib/api/shotAnalyticsService.ts)
+    // All five collections are owner-scoped via a `userId` field on every doc.
+    // Reads/writes are gated to that owner; userId cannot be changed on update.
+    // ============================================================================
+
+    // Raw optimizer + AI-club-selection events feeding the inference engine.
+    match /roundAnalyticsEvents/{eventId} {
+      allow read:   if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Per-shot inference output.
+    match /inferredShots/{shotId} {
+      allow read:   if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Per-hole analytics summary.
+    match /holeAnalytics/{docId} {
+      allow read:   if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Aggregated per-club stats.
+    match /clubAnalytics/{docId} {
+      allow read:   if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Round-level analytics summary.
+    match /roundSummaries/{roundId} {
+      allow read:   if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
   }
 }

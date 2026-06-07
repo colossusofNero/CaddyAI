@@ -93,6 +93,17 @@ function AnalyticsSubpageCards() {
             </p>
           </div>
         </Link>
+        <Link href="/analytics/caddy-recap" className="group">
+          <div className="border border-secondary-700 rounded-xl p-5 hover:border-primary hover:bg-primary/5 transition-all">
+            <Zap className="w-7 h-7 text-primary mb-3" />
+            <p className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+              Caddy Recap
+            </p>
+            <p className="text-sm text-text-secondary mt-1">
+              What your caddy measured for you — even on unfinished rounds
+            </p>
+          </div>
+        </Link>
       </div>
     </div>
   );

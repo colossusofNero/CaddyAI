@@ -106,7 +106,10 @@ export default function HistoryPage() {
 
   // Calculate statistics for each round
   const calculateRoundStats = (round: Round) => {
-    const totalPar = round.holes.reduce((sum, h) => sum + h.par, 0);
+    // Firestore can return rounds without a `holes` array (older schema or
+    // partial docs) even though the TS type says it's required.
+    const holes = round.holes ?? [];
+    const totalPar = holes.reduce((sum, h) => sum + h.par, 0);
     const parDiff = round.score - totalPar;
 
     let fairwaysHit = 0;
@@ -119,7 +122,7 @@ export default function HistoryPage() {
     let bogeys = 0;
     let doubleBogeys = 0;
 
-    round.holes.forEach(hole => {
+    holes.forEach(hole => {
       if (hole.fairwayHit !== undefined) {
         if (hole.fairwayHit) fairwaysHit++;
         fairwaysTotal++;
@@ -151,7 +154,7 @@ export default function HistoryPage() {
       greensTotal,
       greensPercent: greensTotal > 0 ? Math.round((greensHit / greensTotal) * 100) : 0,
       totalPutts,
-      avgPutts: round.holes.length > 0 ? (totalPutts / round.holes.length).toFixed(1) : '0.0',
+      avgPutts: holes.length > 0 ? (totalPutts / holes.length).toFixed(1) : '0.0',
       birdies,
       pars,
       bogeys,
@@ -177,13 +180,13 @@ export default function HistoryPage() {
 
     // Holes filter
     if (holesFilter !== 'all') {
-      filtered = filtered.filter(round => round.holes.length === holesFilter);
+      filtered = filtered.filter(round => (round.holes ?? []).length === holesFilter);
     }
 
     // Score filter
     if (scoreFilter !== 'all') {
       filtered = filtered.filter(round => {
-        const totalPar = round.holes.reduce((sum, h) => sum + h.par, 0);
+        const totalPar = (round.holes ?? []).reduce((sum, h) => sum + h.par, 0);
         const diff = round.score - totalPar;
 
         if (scoreFilter === 'under') return diff < 0;
@@ -294,8 +297,15 @@ export default function HistoryPage() {
     if (rounds.length === 0) return null;
 
     const totalRounds = rounds.length;
-    const avgScore = Math.round(rounds.reduce((sum, r) => sum + r.score, 0) / totalRounds);
-    const bestScore = Math.min(...rounds.map(r => r.score));
+    // Some legacy rounds in Firestore are missing `score`; ignore those for
+    // avg/best so we don't render NaN.
+    const scoredRounds = rounds.filter(r => typeof r.score === 'number' && !Number.isNaN(r.score));
+    const avgScore = scoredRounds.length > 0
+      ? Math.round(scoredRounds.reduce((sum, r) => sum + r.score, 0) / scoredRounds.length)
+      : null;
+    const bestScore = scoredRounds.length > 0
+      ? Math.min(...scoredRounds.map(r => r.score))
+      : null;
 
     return {
       totalRounds,
@@ -357,7 +367,7 @@ export default function HistoryPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-text-secondary text-sm mb-1">Average Score</p>
-                  <p className="text-3xl font-bold text-text-primary">{overallStats.avgScore}</p>
+                  <p className="text-3xl font-bold text-text-primary">{overallStats.avgScore ?? '—'}</p>
                 </div>
                 <div className="w-12 h-12 bg-primary bg-opacity-20 rounded-lg flex items-center justify-center">
                   <Target className="w-6 h-6 text-primary" />
@@ -369,7 +379,7 @@ export default function HistoryPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-text-secondary text-sm mb-1">Best Score</p>
-                  <p className="text-3xl font-bold text-text-primary">{overallStats.bestScore}</p>
+                  <p className="text-3xl font-bold text-text-primary">{overallStats.bestScore ?? '—'}</p>
                 </div>
                 <div className="w-12 h-12 bg-success bg-opacity-20 rounded-lg flex items-center justify-center">
                   <TrendingUp className="w-6 h-6 text-success" />
@@ -587,7 +597,7 @@ export default function HistoryPage() {
                             </div>
                             <div className="flex items-center gap-1">
                               <Clock className="w-4 h-4" />
-                              {calculateDuration(round.holes.length)}
+                              {calculateDuration((round.holes ?? []).length)}
                             </div>
                           </div>
                         </div>
@@ -611,7 +621,7 @@ export default function HistoryPage() {
                       <div className="text-center">
                         <p className="text-text-secondary text-xs mb-1">Holes</p>
                         <div className="text-2xl font-bold text-text-primary">
-                          {round.holes.length}
+                          {(round.holes ?? []).length}
                         </div>
                       </div>
 

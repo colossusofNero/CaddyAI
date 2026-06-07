@@ -98,3 +98,21 @@ if (isFirebaseConfigured) {
 
 export { app, auth, db, storage };
 export default app;
+
+// Dev-only: expose a sign-in hook to window so an automated test (Playwright
+// audit script) can authenticate via a custom token minted by Admin SDK.
+// Gated on NODE_ENV so it never ships in production builds.
+if (
+  process.env.NODE_ENV !== 'production' &&
+  typeof window !== 'undefined' &&
+  auth
+) {
+  (window as unknown as {
+    __authTestHooks?: { signInWithCustomToken: (t: string) => Promise<unknown> };
+  }).__authTestHooks = {
+    signInWithCustomToken: async (token: string) => {
+      const { signInWithCustomToken } = await import('firebase/auth');
+      return signInWithCustomToken(auth!, token);
+    },
+  };
+}

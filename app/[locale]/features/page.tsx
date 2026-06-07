@@ -155,7 +155,7 @@ export default function FeaturesPage() {
             </p>
           </div>
 
-          <StatsCounter stats={defaultStats} />
+          <StatsCounter stats={useDefaultStats()} />
         </div>
       </section>
 

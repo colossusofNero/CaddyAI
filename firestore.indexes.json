@@ -18,6 +18,14 @@
         { "fieldPath": "date", "order": "DESCENDING" }
       ]
     },
+    {
+      "collectionGroup": "rounds",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "completed", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "ASCENDING" }
+      ]
+    },
 
     {
       "collectionGroup": "scores",
@@ -114,6 +122,14 @@
         { "fieldPath": "result", "order": "ASCENDING" }
       ]
     },
+    {
+      "collectionGroup": "shots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "recommendationSnapshot", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
 
     {
       "collectionGroup": "clubAnalytics",
@@ -140,6 +156,14 @@
       ]
     },
 
+    {
+      "collectionGroup": "shotEvents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
     {
       "collectionGroup": "shotEvents",
       "queryScope": "COLLECTION",

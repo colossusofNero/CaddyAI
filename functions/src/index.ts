@@ -24,6 +24,7 @@ import {
 } from './reconcile/function';
 import { saveHoleGeometryFn } from './courseHoles/function';
 import { sendShareRoundEmailFn } from './share/shareRound';
+import { autoCloseRoundsFn } from './autoClose/function';
 
 // Hole-reconciliation agent: decides which optimizer calls are real shots
 // vs. exploratory, based on rules 1-6 + the user's scorecard.
@@ -37,6 +38,9 @@ export const saveHoleGeometry = saveHoleGeometryFn;
 // Player → friend / PGA pro: sends a marketing-styled round summary email
 // via Loops, upserts the recipient as a Loops contact for follow-up.
 export const sendShareRoundEmail = sendShareRoundEmailFn;
+// Scheduled (hourly): closes rounds abandoned >4h ago and emails the player
+// their Caddy Recap; also tidies stale legacy /rounds docs.
+export const autoCloseRounds = autoCloseRoundsFn;
 
 function splitDisplayName(displayName: string | null | undefined): {
   firstName?: string;

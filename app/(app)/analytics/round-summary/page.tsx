@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ArrowLeft, ChevronLeft, ChevronRight, Download, Mail, Send } from 'lucide-react';
@@ -10,12 +10,21 @@ import { useAuth } from '@/hooks/useAuth';
 import { app } from '@/lib/firebase';
 import { Button } from '@/components/ui/Button';
 import {
-  HOLES,
+  HOLES as DEMO_HOLES,
   buildHoleLandings,
-  allDispersionShots,
+  dispersionFor,
   PGA_PROS,
   COURSE_INFO,
+  type ResolvedHole,
+  type DispersionShot,
+  type HoleLanding,
+  type LatLng,
 } from '@/lib/demo/kingRound';
+import {
+  listUserRounds,
+  loadRound,
+  type RoundListItem,
+} from '@/lib/api/userRounds';
 import { DispersionChart, type DispersionChartHandle } from '@/components/analytics/DispersionChart';
 
 const HoleChainMap = dynamic(() => import('@/components/analytics/HoleChainMap'), {
@@ -31,13 +40,11 @@ type Scope = 'round' | 'hole' | 'custom';
 
 export default function RoundSummaryPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
 
   const [currentHole, setCurrentHole] = useState(1);
   const [scope, setScope] = useState<Scope>('round');
-  const [enabledHoles, setEnabledHoles] = useState<Set<number>>(
-    () => new Set(HOLES.map(h => h.holeNumber))
-  );
   const [shareTo, setShareTo] = useState('');
   const [shareToName, setShareToName] = useState('');
   const [shareMessage, setShareMessage] = useState('');
@@ -46,34 +53,149 @@ export default function RoundSummaryPage() {
   const [sendStatus, setSendStatus] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
   const chartRef = useRef<DispersionChartHandle>(null);
 
+  // Round source: either the synthetic demo or a real /scores doc
+  const [roundList, setRoundList] = useState<RoundListItem[]>([]);
+  const [selectedRoundId, setSelectedRoundId] = useState<'demo' | string>(
+    () => searchParams.get('round') ?? 'demo'
+  );
+
+  // If the URL ?round= changes after mount (e.g. clicked another round link),
+  // re-sync the selection.
+  useEffect(() => {
+    const fromUrl = searchParams.get('round');
+    if (fromUrl && fromUrl !== selectedRoundId) setSelectedRoundId(fromUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+  const [loadedHoles, setLoadedHoles] = useState<ResolvedHole[] | null>(null);
+  const [loadedMeta, setLoadedMeta] = useState<{
+    courseName: string;
+    date: string;
+    totalScore: number;
+    totalPar: number;
+    hasFullGeometry: boolean;
+  } | null>(null);
+  const [roundLoading, setRoundLoading] = useState(false);
+
+  // Active round data (demo or loaded)
+  const activeHoles = loadedHoles ?? DEMO_HOLES;
+
+  // Per-hole landings (mutable — drag updates these). Initialized lazily
+  // when a hole is first viewed. Drives both the map markers and the
+  // dispersion chart, so dragging a marker propagates everywhere live.
+  const [landingsByHole, setLandingsByHole] = useState<Record<number, HoleLanding[]>>({});
+
+  const [enabledHoles, setEnabledHoles] = useState<Set<number>>(
+    () => new Set(DEMO_HOLES.map(h => h.holeNumber))
+  );
+
   useEffect(() => {
     if (!authLoading && !user) router.push('/login');
   }, [user, authLoading, router]);
 
-  // All shots — memoised so we only compute once
-  const allShots = useMemo(() => allDispersionShots(), []);
-  const visibleShots = useMemo(
-    () => allShots.filter(s => enabledHoles.has(s.holeNumber)),
-    [allShots, enabledHoles]
-  );
+  // Load list of real rounds for the dropdown once authenticated
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    listUserRounds(user.uid, 50)
+      .then(list => { if (!cancelled) setRoundList(list); })
+      .catch(err => console.warn('[round-summary] list rounds failed:', err));
+    return () => { cancelled = true; };
+  }, [user]);
 
-  // When scope changes, update enabledHoles accordingly
+  // When the selection changes, load that round (or revert to demo)
+  useEffect(() => {
+    setLandingsByHole({}); // wipe landings whenever the round changes
+    if (selectedRoundId === 'demo') {
+      setLoadedHoles(null);
+      setLoadedMeta(null);
+      setCurrentHole(1);
+      return;
+    }
+    let cancelled = false;
+    setRoundLoading(true);
+    loadRound(selectedRoundId)
+      .then(r => {
+        if (cancelled || !r) return;
+        setLoadedHoles(r.holes);
+        setLoadedMeta(r.meta);
+        setCurrentHole(1);
+      })
+      .catch(err => console.warn('[round-summary] load round failed:', err))
+      .finally(() => { if (!cancelled) setRoundLoading(false); });
+    return () => { cancelled = true; };
+  }, [selectedRoundId]);
+
+  // Ensure landings exist for every active hole — initialize lazily.
+  useEffect(() => {
+    setLandingsByHole(prev => {
+      const next = { ...prev };
+      let changed = false;
+      for (const h of activeHoles) {
+        if (!next[h.holeNumber]) {
+          next[h.holeNumber] = buildHoleLandings(h);
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [activeHoles]);
+
+  // Keep enabledHoles in sync with active round + scope
   useEffect(() => {
     if (scope === 'round') {
-      setEnabledHoles(new Set(HOLES.map(h => h.holeNumber)));
+      setEnabledHoles(new Set(activeHoles.map(h => h.holeNumber)));
     } else if (scope === 'hole') {
       setEnabledHoles(new Set([currentHole]));
     }
-    // 'custom' — leave alone
-  }, [scope, currentHole]);
+    // 'custom' — leave as-is
+  }, [scope, currentHole, activeHoles]);
 
-  const hole = HOLES[currentHole - 1];
-  const landings = useMemo(() => buildHoleLandings(hole), [hole]);
+  // Dispersion is derived from the current landings — so drags update it live.
+  const activeShots: DispersionShot[] = useMemo(() => {
+    const out: DispersionShot[] = [];
+    for (const h of activeHoles) {
+      const landings = landingsByHole[h.holeNumber];
+      if (!landings) continue;
+      landings.forEach((l, i) => {
+        const pos = dispersionFor(h, l.land);
+        out.push({
+          holeNumber: h.holeNumber,
+          shotNumber: i + 1,
+          label: `${h.holeNumber}/${i + 1}`,
+          lie: l.lie,
+          distFromPin: pos.distFromPin,
+          lateral: pos.lateral,
+        });
+      });
+    }
+    return out;
+  }, [activeHoles, landingsByHole]);
 
-  const totalScore = useMemo(() => HOLES.reduce((s, h) => s + h.score, 0), []);
-  const totalPar = useMemo(() => HOLES.reduce((s, h) => s + h.par, 0), []);
+  const visibleShots = useMemo(
+    () => activeShots.filter(s => enabledHoles.has(s.holeNumber)),
+    [activeShots, enabledHoles]
+  );
+
+  const hole = activeHoles[Math.min(currentHole, activeHoles.length) - 1] ?? activeHoles[0];
+  const landings = landingsByHole[hole.holeNumber] ?? buildHoleLandings(hole);
+
+  function onLandingChange(shotIndex: number, latLng: LatLng) {
+    setLandingsByHole(prev => {
+      const current = prev[hole.holeNumber];
+      if (!current) return prev;
+      const updated = current.map((l, i) =>
+        i === shotIndex ? { ...l, land: latLng } : l
+      );
+      return { ...prev, [hole.holeNumber]: updated };
+    });
+  }
+
+  const totalScore = loadedMeta?.totalScore ?? activeHoles.reduce((s, h) => s + h.score, 0);
+  const totalPar = loadedMeta?.totalPar ?? activeHoles.reduce((s, h) => s + h.par, 0);
   const scoreLabel = `${totalScore} (${totalScore - totalPar >= 0 ? '+' : ''}${totalScore - totalPar} vs par ${totalPar})`;
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const activeCourseName = loadedMeta?.courseName ?? COURSE_INFO.name;
+  const activeDate = loadedMeta?.date ?? today;
 
   const scopeLabel =
     scope === 'round'
@@ -150,10 +272,10 @@ export default function RoundSummaryPage() {
         recipientEmail: shareTo.trim(),
         recipientName: shareToName.trim() || undefined,
         message: shareMessage.trim() || undefined,
-        course: { name: COURSE_INFO.name, date: today },
+        course: { name: activeCourseName, date: activeDate },
         score: { total: totalScore, par: totalPar },
         shotsPlotted: visibleShots.length,
-        courseLocation: `${COURSE_INFO.city}, ${COURSE_INFO.state}`,
+        courseLocation: selectedRoundId === 'demo' ? `${COURSE_INFO.city}, ${COURSE_INFO.state}` : '',
       });
       setSendStatus({
         kind: 'ok',
@@ -172,15 +294,15 @@ export default function RoundSummaryPage() {
       alert('Add a recipient email or pick a pro from the dropdown.');
       return;
     }
-    const subject = `My round at ${COURSE_INFO.name} (dispersion chart attached)`;
+    const subject = `My round at ${activeCourseName} (dispersion chart attached)`;
     const message =
       shareMessage.trim() ||
       'Hi — please find my latest round dispersion attached. Looking forward to your feedback.';
     const lines = [
-      `Course: ${COURSE_INFO.name}`,
-      `Date: ${today}`,
+      `Course: ${activeCourseName}`,
+      `Date: ${activeDate}`,
       `Score: ${scoreLabel}`,
-      `Shots plotted: ${visibleShots.length} of ${allShots.length} (${scopeLabel})`,
+      `Shots plotted: ${visibleShots.length} of ${activeShots.length} (${scopeLabel})`,
       '',
       message,
       '',
@@ -209,9 +331,37 @@ export default function RoundSummaryPage() {
             </Button>
           </Link>
           <h1 className="text-lg font-bold">Round Summary</h1>
+
+          <label className="flex items-center gap-2 text-xs">
+            <span className="text-text-secondary uppercase tracking-wider">Round</span>
+            <select
+              value={selectedRoundId}
+              onChange={e => {
+                const v = e.target.value as 'demo' | string;
+                setSelectedRoundId(v);
+                const url = v === 'demo'
+                  ? '/analytics/round-summary'
+                  : `/analytics/round-summary?round=${encodeURIComponent(v)}`;
+                router.replace(url);
+              }}
+              disabled={roundLoading}
+              className="px-2 py-1 border border-border rounded bg-background text-text-primary text-xs min-w-[300px]"
+            >
+              <option value="demo">Demo · The King — Starfire (95)</option>
+              {roundList.length > 0 && <option disabled>──────────</option>}
+              {roundList.map(r => (
+                <option key={r.id} value={r.id}>
+                  {r.date} · {r.courseName} · {r.grossScore}
+                  {r.par ? ` (${r.scoreVsPar >= 0 ? '+' : ''}${r.scoreVsPar} vs ${r.par})` : ''}
+                </option>
+              ))}
+            </select>
+            {roundLoading && <span className="text-text-secondary text-xs">loading…</span>}
+          </label>
+
           <div className="ml-auto flex items-center gap-4 text-xs text-text-secondary">
-            <div><span className="uppercase tracking-wider">Course</span> · {COURSE_INFO.name}</div>
-            <div><span className="uppercase tracking-wider">Date</span> · {today}</div>
+            <div><span className="uppercase tracking-wider">Course</span> · {activeCourseName}</div>
+            <div><span className="uppercase tracking-wider">Date</span> · {activeDate}</div>
             <div><span className="uppercase tracking-wider">Player</span> · {user?.displayName ?? user?.email ?? 'You'}</div>
             <div><span className="uppercase tracking-wider">Score</span> · <strong className="text-text-primary">{scoreLabel}</strong></div>
           </div>
@@ -219,6 +369,39 @@ export default function RoundSummaryPage() {
       </nav>
 
       <div className="max-w-[1600px] mx-auto px-4 py-4 space-y-4">
+        {/* Related analytics views */}
+        <div className="flex flex-wrap gap-2 text-xs">
+          <span className="text-text-secondary mr-1 self-center uppercase tracking-wider">Also see:</span>
+          <Link href="/analytics" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            All analytics
+          </Link>
+          <Link href="/analytics/shot-map" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            Shot map
+          </Link>
+          <Link href="/analytics/dispersion" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            Dispersion (approach)
+          </Link>
+          <Link href="/analytics/recommendations" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            AI recommendations
+          </Link>
+          <Link href="/scores" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            Score history
+          </Link>
+          <Link href="/clubs" className="px-3 py-1 rounded-full border border-border bg-card hover:border-primary hover:text-primary transition-colors">
+            Manage clubs
+          </Link>
+        </div>
+
+        {selectedRoundId !== 'demo' && loadedMeta && !loadedMeta.hasFullGeometry && (
+          <div className="text-xs bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 rounded-lg p-3">
+            <strong>Heads up:</strong> course geometry for this round isn&apos;t in Firestore yet,
+            so the per-hole map uses synthetic coords. The dispersion chart is computed from
+            your scorecard and is accurate. Add the course in <code>/courses/&#123;courseId&#125;</code>
+            with <code>gpsData.teeBox</code> + <code>gpsData.greenCenter</code> per hole and the
+            map will light up.
+          </div>
+        )}
+
         {/* Hole nav */}
         <div className="flex items-center gap-3 bg-card border border-border rounded-lg px-3 py-2">
           <Button
@@ -231,7 +414,7 @@ export default function RoundSummaryPage() {
             Prev hole
           </Button>
           <div className="flex-1 text-center">
-            <div className="font-semibold">Hole {currentHole} / 18</div>
+            <div className="font-semibold">Hole {currentHole} / {activeHoles.length}</div>
             <div className="text-xs text-text-secondary">
               Par {hole.par} · {hole.lengthYds} yd · Scored {hole.score} ({hole.putts} putts)
             </div>
@@ -239,8 +422,8 @@ export default function RoundSummaryPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentHole(n => Math.min(18, n + 1))}
-            disabled={currentHole === 18}
+            onClick={() => setCurrentHole(n => Math.min(activeHoles.length, n + 1))}
+            disabled={currentHole >= activeHoles.length}
           >
             Next hole
             <ChevronRight className="w-4 h-4" />
@@ -255,7 +438,12 @@ export default function RoundSummaryPage() {
               Map · current hole only
             </div>
             <div className="h-[560px]">
-              <HoleChainMap key={currentHole} hole={hole} landings={landings} />
+              <HoleChainMap
+                key={`${selectedRoundId}-${currentHole}`}
+                hole={hole}
+                landings={landings}
+                onLandingChange={onLandingChange}
+              />
             </div>
           </div>
 
@@ -280,7 +468,7 @@ export default function RoundSummaryPage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
-                {HOLES.map(h => (
+                {activeHoles.map(h => (
                   <label
                     key={h.holeNumber}
                     className={`flex items-center gap-1 cursor-pointer tabular-nums ${

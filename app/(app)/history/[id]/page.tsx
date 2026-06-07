@@ -184,11 +184,17 @@ export default function RoundDetailPage() {
       {/* Header */}
       <header className="border-b border-secondary-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
+          <div className="flex items-center justify-between h-16 gap-3 flex-wrap">
             <Link href="/history">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to History
+              </Button>
+            </Link>
+            <Link href={`/analytics/round-summary?round=${encodeURIComponent(round.id)}`}>
+              <Button variant="primary" size="sm">
+                <Flag className="w-4 h-4 mr-2" />
+                View Round Summary
               </Button>
             </Link>
           </div>

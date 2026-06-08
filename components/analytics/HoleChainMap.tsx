@@ -240,8 +240,13 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
 
       {/* Per-shot lines + markers */}
       {hole.shots.map((shot, i) => {
+        // Defensive: if landings is shorter than shots (e.g. a stale array from
+        // a just-switched round, before the parent rebuilds), skip rather than
+        // crash on landings[i].land.
+        const landing = landings[i];
+        if (!landing) return null;
         const origin = origins[i];
-        const land = landings[i].land;
+        const land = landing.land;
         const predicted = destinationPoint(origin, hole.bearing, shot.planned);
         const isLast = i === hole.shots.length - 1;
         return (
@@ -256,7 +261,7 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
             />
             <Marker
               position={toLL(land)}
-              icon={getLandingIcon(landings[i].lie, isLast)}
+              icon={getLandingIcon(landing.lie, isLast)}
               draggable={!!onLandingChange}
               eventHandlers={
                 onLandingChange
@@ -279,7 +284,7 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
                     H{hole.holeNumber} · Shot {i + 1} — {shot.club}
                   </strong>
                   <br />
-                  Lie: {landings[i].lie || '—'}
+                  Lie: {landing.lie || '—'}
                   {onLandingChange && (
                     <>
                       <br />

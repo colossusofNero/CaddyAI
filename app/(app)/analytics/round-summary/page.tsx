@@ -141,12 +141,17 @@ export default function RoundSummaryPage() {
   }, [selectedRoundId]);
 
   // Ensure landings exist for every active hole — initialize lazily.
+  // Rebuild when missing OR when a stored entry's length no longer matches the
+  // hole's shot count: switching rounds reuses hole numbers, so a stale entry
+  // from the previous round would otherwise be indexed against a different
+  // shot chain (causing landings[i] to be undefined downstream).
   useEffect(() => {
     setLandingsByHole(prev => {
       const next = { ...prev };
       let changed = false;
       for (const h of activeHoles) {
-        if (!next[h.holeNumber]) {
+        const stored = next[h.holeNumber];
+        if (!stored || stored.length !== h.shots.length) {
           next[h.holeNumber] = buildHoleLandings(h);
           changed = true;
         }
@@ -192,7 +197,14 @@ export default function RoundSummaryPage() {
   );
 
   const hole = activeHoles[Math.min(currentHole, activeHoles.length) - 1] ?? activeHoles[0];
-  const landings = landingsByHole[hole.holeNumber] ?? buildHoleLandings(hole);
+  // Use the stored landings only if they match the current hole's shot count;
+  // otherwise build fresh. Guards the render that happens after the active
+  // round changes but before the lazy-init effect above has rebuilt entries.
+  const storedLandings = landingsByHole[hole.holeNumber];
+  const landings =
+    storedLandings && storedLandings.length === hole.shots.length
+      ? storedLandings
+      : buildHoleLandings(hole);
 
   function onLandingChange(shotIndex: number, latLng: LatLng) {
     setLandingsByHole(prev => {

@@ -360,8 +360,9 @@ export default function RoundSummaryPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="bg-card border-b border-border sticky top-0 z-20">
-        <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center gap-3 flex-wrap">
+      <nav className="bg-card border-b border-border sticky top-0 z-30 shadow-sm">
+        <div className="max-w-[1600px] mx-auto px-4 py-3 space-y-2">
+          <div className="flex items-center gap-3 flex-wrap">
           <Link href="/analytics">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="w-4 h-4" />
@@ -395,9 +396,10 @@ export default function RoundSummaryPage() {
             </select>
             {roundLoading && <span className="text-text-secondary text-xs">loading…</span>}
           </label>
+          </div>
 
           {!notFound && (
-            <div className="ml-auto flex items-center gap-4 text-xs text-text-secondary">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-text-secondary">
               <div><span className="uppercase tracking-wider">Course</span> · {activeCourseName}</div>
               <div><span className="uppercase tracking-wider">Date</span> · {activeDate}</div>
               <div><span className="uppercase tracking-wider">Player</span> · {user?.displayName ?? user?.email ?? 'You'}</div>

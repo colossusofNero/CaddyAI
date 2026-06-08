@@ -350,10 +350,15 @@ async function buildCallsRound(
     };
     holes.push(resolved);
 
-    const landings: HoleLanding[] = calls.map(c => ({
-      land: { lat: c.gpsPosition!.latitude, lng: c.gpsPosition!.longitude },
-      lie: 'fairway' as Lie,
-    }));
+    // Place each marker at the recommended AIM point — the carry distance down
+    // the tee→pin line (clamped to the hole length). This is the recommendation
+    // itself (club + carry), shown where the optimizer told the player to aim,
+    // so it's clearly visible on the map rather than buried on the tee.
+    const landings: HoleLanding[] = calls.map(c => {
+      const carry = c.payload?.primaryCarryYards ?? Math.round(lengthYds * 0.6);
+      const aim = destinationPoint(g.tee!, bearing, Math.min(carry, lengthYds));
+      return { land: aim, lie: 'fairway' as Lie };
+    });
     landingsByHole[holeNum] = landings;
     landings.forEach((l, i) => {
       const pos = dispersionFor(resolved, l.land);

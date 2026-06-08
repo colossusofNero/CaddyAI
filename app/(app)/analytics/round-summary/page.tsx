@@ -531,7 +531,8 @@ export default function RoundSummaryPage() {
                   key={`${selectedRoundId}-${currentHole}`}
                   hole={hole}
                   landings={landings}
-                  onLandingChange={onLandingChange}
+                  recommendationOnly={isCallsMode}
+                  onLandingChange={isCallsMode ? undefined : onLandingChange}
                 />
               )}
             </div>

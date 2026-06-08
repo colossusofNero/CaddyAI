@@ -72,6 +72,19 @@ const greenIcon = L.divIcon({
   iconAnchor: [8, 8],
 });
 
+// "+" marker for where an optimizer recommendation ends (calls mode). Bright
+// blue with a dark drop-shadow so it stands out on satellite imagery.
+const RECOMMENDATION_COLOR = '#38bdf8';
+const recommendationEndIcon = L.divIcon({
+  className: '',
+  html: `<svg width="26" height="26" viewBox="0 0 26 26" style="filter:drop-shadow(0 0 2px rgba(0,0,0,0.9))">
+    <line x1="13" y1="2" x2="13" y2="24" stroke="${RECOMMENDATION_COLOR}" stroke-width="5" stroke-linecap="round"/>
+    <line x1="2" y1="13" x2="24" y2="13" stroke="${RECOMMENDATION_COLOR}" stroke-width="5" stroke-linecap="round"/>
+  </svg>`,
+  iconSize: [26, 26],
+  iconAnchor: [13, 13],
+});
+
 const toLL = (p: LatLng): [number, number] => [p.lat, p.lng];
 
 // Fit the map exactly ONCE per hole change AND set the bearing so the
@@ -117,9 +130,16 @@ interface Props {
    * otherwise skew into an odd diamond.
    */
   fairwayPolygon?: LatLng[];
+  /**
+   * Calls mode: the player never recorded a shot, only an optimizer
+   * recommendation. Show ONLY the recommendation — a dashed line ending in a
+   * plus marker — and not the solid "actual shot" line, which would imply a
+   * tracked shot that doesn't exist.
+   */
+  recommendationOnly?: boolean;
 }
 
-export default function HoleChainMap({ hole, landings, onLandingChange, fairwayPolygon }: Props) {
+export default function HoleChainMap({ hole, landings, onLandingChange, fairwayPolygon, recommendationOnly }: Props) {
   // Throttle drag state updates to one per animation frame. The marker
   // itself moves smoothly because Leaflet updates it directly; what was
   // jumpy is React re-rendering the 57-label dispersion chart + lines on
@@ -292,6 +312,29 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         const land = landing.land;
         const predicted = destinationPoint(origin, hole.bearing, shot.planned);
         const isLast = i === hole.shots.length - 1;
+
+        // Calls mode: show ONLY the recommendation — a bright dashed line from
+        // where the player stood to where the recommendation ends, capped with
+        // a "+". No solid "actual shot" line (no shot was tracked).
+        if (recommendationOnly) {
+          return (
+            <Fragment key={i}>
+              <Polyline
+                positions={[toLL(origin), toLL(land)]}
+                pathOptions={{ color: RECOMMENDATION_COLOR, weight: 4, opacity: 0.95, dashArray: '9 9' }}
+              />
+              <Marker position={toLL(land)} icon={recommendationEndIcon}>
+                <Popup>
+                  <div style={{ fontSize: 12, lineHeight: 1.4 }}>
+                    <strong>H{hole.holeNumber} · recommendation</strong>
+                    <br />
+                    {shot.club}{shot.planned ? ` · ${Math.round(shot.planned)}y` : ''}
+                  </div>
+                </Popup>
+              </Marker>
+            </Fragment>
+          );
+        }
         return (
           <Fragment key={i}>
             <Polyline

@@ -32,6 +32,7 @@ import {
   Flag,
   Trophy,
   Upload,
+  Crosshair,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -215,6 +216,58 @@ export default function DashboardPage() {
             </div>
           </div>
         )}
+
+        {/* Featured Actions — the most engaging parts of the app, front and center */}
+        <div className="mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link
+              href={
+                recentRounds[0]
+                  ? `/analytics/round-summary?round=${encodeURIComponent(recentRounds[0].id)}`
+                  : '/analytics/round-summary'
+              }
+              className="group"
+            >
+              <div className="h-full p-6 rounded-xl bg-secondary-800 border border-secondary-700 hover:border-accent hover:bg-secondary-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 rounded-xl bg-accent bg-opacity-10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-opacity-20">
+                  <Trophy className="w-7 h-7 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold text-text-primary mb-1">Round Summary</h3>
+                <p className="text-sm text-text-secondary">Replay &amp; share any round</p>
+              </div>
+            </Link>
+
+            <Link href="/analytics" className="group">
+              <div className="h-full p-6 rounded-xl bg-secondary-800 border border-secondary-700 hover:border-primary hover:bg-secondary-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 rounded-xl bg-primary bg-opacity-10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-opacity-20">
+                  <BarChart3 className="w-7 h-7 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold text-text-primary mb-1">Analytics</h3>
+                <p className="text-sm text-text-secondary">See your trends &amp; insights</p>
+              </div>
+            </Link>
+
+            <Link href="/clubs" className="group">
+              <div className="h-full p-6 rounded-xl bg-secondary-800 border border-secondary-700 hover:border-primary hover:bg-secondary-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 rounded-xl bg-primary bg-opacity-10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-opacity-20">
+                  <Settings className="w-7 h-7 text-primary" />
+                </div>
+                <h3 className="text-lg font-bold text-text-primary mb-1">Clubs</h3>
+                <p className="text-sm text-text-secondary">Dial in your bag &amp; distances</p>
+              </div>
+            </Link>
+
+            <Link href="/shots" className="group">
+              <div className="h-full p-6 rounded-xl bg-secondary-800 border border-secondary-700 hover:border-success hover:bg-secondary-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 rounded-xl bg-success bg-opacity-10 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-opacity-20">
+                  <Crosshair className="w-7 h-7 text-success" />
+                </div>
+                <h3 className="text-lg font-bold text-text-primary mb-1">Shots</h3>
+                <p className="text-sm text-text-secondary">Build your shot library</p>
+              </div>
+            </Link>
+          </div>
+        </div>
 
         {/* Stats Overview Section */}
         <div className="mb-8">
@@ -443,45 +496,12 @@ export default function DashboardPage() {
               </button>
             </Link>
 
-            <Link
-              href={
-                recentRounds[0]
-                  ? `/analytics/round-summary?round=${encodeURIComponent(recentRounds[0].id)}`
-                  : '/analytics/round-summary'
-              }
-            >
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-accent/50 hover:shadow-lg hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
-                  <Trophy className="w-6 h-6 text-accent" />
-                </div>
-                <h4 className="font-medium text-text-primary">Round Summary</h4>
-              </button>
-            </Link>
-
-            <Link href="/analytics">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
-                  <BarChart3 className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-medium text-text-primary">View Analytics</h4>
-              </button>
-            </Link>
-
             <Link href="/recommendations">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-accent/50 hover:shadow-lg hover:-translate-y-1 group">
                 <div className="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
                   <Sparkles className="w-6 h-6 text-accent" />
                 </div>
                 <h4 className="font-medium text-text-primary">AI Recommendations</h4>
-              </button>
-            </Link>
-
-            <Link href="/clubs">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
-                  <Settings className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-medium text-text-primary">Manage Clubs</h4>
               </button>
             </Link>
 

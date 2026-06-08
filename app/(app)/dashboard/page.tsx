@@ -24,7 +24,6 @@ import {
   BarChart3,
   Settings,
   History,
-  MapPin,
   User,
   CheckCircle,
   AlertCircle,
@@ -32,6 +31,7 @@ import {
   Smartphone,
   Flag,
   Trophy,
+  Upload,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -141,6 +141,12 @@ export default function DashboardPage() {
               </span>
             </Link>
             <div className="flex items-center gap-4">
+              <Link href="/clubs/import">
+                <Button variant="outline" size="sm">
+                  <Upload className="w-4 h-4 mr-2" />
+                  Import Stats
+                </Button>
+              </Link>
               <span className="text-text-secondary text-sm">
                 {user.displayName || user.email}
               </span>
@@ -189,16 +195,6 @@ export default function DashboardPage() {
                 >
                   <Circle className="w-5 h-5 mr-2" />
                   Start New Round
-                </Button>
-              </Link>
-              <Link href="/courses">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm shadow-xl"
-                >
-                  <MapPin className="w-5 h-5 mr-2" />
-                  Find Courses Near You
                 </Button>
               </Link>
             </div>
@@ -495,15 +491,6 @@ export default function DashboardPage() {
                   <History className="w-6 h-6 text-primary" />
                 </div>
                 <h4 className="font-medium text-text-primary">Score History</h4>
-              </button>
-            </Link>
-
-            <Link href="/courses">
-              <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-success/50 hover:shadow-lg hover:-translate-y-1 group">
-                <div className="w-12 h-12 bg-success bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">
-                  <MapPin className="w-6 h-6 text-success" />
-                </div>
-                <h4 className="font-medium text-text-primary">Find Courses</h4>
               </button>
             </Link>
 

@@ -77,12 +77,12 @@ const greenIcon = L.divIcon({
 const RECOMMENDATION_COLOR = '#38bdf8';
 const recommendationEndIcon = L.divIcon({
   className: '',
-  html: `<svg width="26" height="26" viewBox="0 0 26 26" style="filter:drop-shadow(0 0 2px rgba(0,0,0,0.9))">
-    <line x1="13" y1="2" x2="13" y2="24" stroke="${RECOMMENDATION_COLOR}" stroke-width="5" stroke-linecap="round"/>
-    <line x1="2" y1="13" x2="24" y2="13" stroke="${RECOMMENDATION_COLOR}" stroke-width="5" stroke-linecap="round"/>
+  html: `<svg width="16" height="16" viewBox="0 0 16 16" style="filter:drop-shadow(0 0 1.5px rgba(0,0,0,0.9))">
+    <line x1="8" y1="1.5" x2="8" y2="14.5" stroke="${RECOMMENDATION_COLOR}" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="1.5" y1="8" x2="14.5" y2="8" stroke="${RECOMMENDATION_COLOR}" stroke-width="2.5" stroke-linecap="round"/>
   </svg>`,
-  iconSize: [26, 26],
-  iconAnchor: [13, 13],
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
 });
 
 const toLL = (p: LatLng): [number, number] => [p.lat, p.lng];
@@ -301,7 +301,10 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         </Popup>
       </Marker>
 
-      {/* Per-shot lines + markers */}
+      {/* Per-shot lines + markers. The recommendation (bright dashed line +
+          "+") renders on EVERY round for consistency. Scorecard rounds also
+          draw the solid green actual-shot line + landing dot; calls rounds omit
+          that layer because no shot was tracked. */}
       {hole.shots.map((shot, i) => {
         // Defensive: if landings is shorter than shots (e.g. a stale array from
         // a just-switched round, before the parent rebuilds), skip rather than
@@ -310,76 +313,74 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         if (!landing) return null;
         const origin = origins[i];
         const land = landing.land;
-        const predicted = destinationPoint(origin, hole.bearing, shot.planned);
+        // Where the optimizer recommended this shot end up. In calls mode the
+        // landing IS the recommendation; in scorecard mode it's the planned
+        // carry straight down the target line.
+        const recommendationEnd = recommendationOnly
+          ? land
+          : destinationPoint(origin, hole.bearing, shot.planned);
         const isLast = i === hole.shots.length - 1;
-
-        // Calls mode: show ONLY the recommendation — a bright dashed line from
-        // where the player stood to where the recommendation ends, capped with
-        // a "+". No solid "actual shot" line (no shot was tracked).
-        if (recommendationOnly) {
-          return (
-            <Fragment key={i}>
-              <Polyline
-                positions={[toLL(origin), toLL(land)]}
-                pathOptions={{ color: RECOMMENDATION_COLOR, weight: 4, opacity: 0.95, dashArray: '9 9' }}
-              />
-              <Marker position={toLL(land)} icon={recommendationEndIcon}>
-                <Popup>
-                  <div style={{ fontSize: 12, lineHeight: 1.4 }}>
-                    <strong>H{hole.holeNumber} · recommendation</strong>
-                    <br />
-                    {shot.club}{shot.planned ? ` · ${Math.round(shot.planned)}y` : ''}
-                  </div>
-                </Popup>
-              </Marker>
-            </Fragment>
-          );
-        }
         return (
           <Fragment key={i}>
+            {/* Recommendation — shown on all rounds */}
             <Polyline
-              positions={[toLL(origin), toLL(predicted)]}
-              pathOptions={{ color: '#a78bfa', weight: 2, opacity: 0.6, dashArray: '6 6' }}
+              positions={[toLL(origin), toLL(recommendationEnd)]}
+              pathOptions={{ color: RECOMMENDATION_COLOR, weight: 3, opacity: 0.9, dashArray: '8 8' }}
             />
-            <Polyline
-              positions={[toLL(origin), toLL(land)]}
-              pathOptions={{ color: '#22c55e', weight: 3, opacity: 0.9 }}
-            />
-            <Marker
-              position={toLL(land)}
-              icon={getLandingIcon(landing.lie, isLast)}
-              draggable={!!onLandingChange}
-              eventHandlers={
-                onLandingChange
-                  ? {
-                      drag: (e: L.LeafletEvent) => {
-                        const ll = (e.target as L.Marker).getLatLng();
-                        queueDrag(i, { lat: ll.lat, lng: ll.lng });
-                      },
-                      dragend: (e: L.LeafletEvent) => {
-                        const ll = (e.target as L.Marker).getLatLng();
-                        flushDrag(i, { lat: ll.lat, lng: ll.lng });
-                      },
-                    }
-                  : undefined
-              }
-            >
+            <Marker position={toLL(recommendationEnd)} icon={recommendationEndIcon}>
               <Popup>
                 <div style={{ fontSize: 12, lineHeight: 1.4 }}>
-                  <strong>
-                    H{hole.holeNumber} · Shot {i + 1} — {shot.club}
-                  </strong>
+                  <strong>H{hole.holeNumber} · recommendation</strong>
                   <br />
-                  Lie: {landing.lie || '—'}
-                  {onLandingChange && (
-                    <>
-                      <br />
-                      <em>Drag to reposition</em>
-                    </>
-                  )}
+                  {shot.club}{shot.planned ? ` · ${Math.round(shot.planned)}y` : ''}
                 </div>
               </Popup>
             </Marker>
+
+            {/* Actual shot — scorecard rounds only */}
+            {!recommendationOnly && (
+              <>
+                <Polyline
+                  positions={[toLL(origin), toLL(land)]}
+                  pathOptions={{ color: '#22c55e', weight: 3, opacity: 0.9 }}
+                />
+                <Marker
+                  position={toLL(land)}
+                  icon={getLandingIcon(landing.lie, isLast)}
+                  draggable={!!onLandingChange}
+                  eventHandlers={
+                    onLandingChange
+                      ? {
+                          drag: (e: L.LeafletEvent) => {
+                            const ll = (e.target as L.Marker).getLatLng();
+                            queueDrag(i, { lat: ll.lat, lng: ll.lng });
+                          },
+                          dragend: (e: L.LeafletEvent) => {
+                            const ll = (e.target as L.Marker).getLatLng();
+                            flushDrag(i, { lat: ll.lat, lng: ll.lng });
+                          },
+                        }
+                      : undefined
+                  }
+                >
+                  <Popup>
+                    <div style={{ fontSize: 12, lineHeight: 1.4 }}>
+                      <strong>
+                        H{hole.holeNumber} · Shot {i + 1} — {shot.club}
+                      </strong>
+                      <br />
+                      Lie: {landing.lie || '—'}
+                      {onLandingChange && (
+                        <>
+                          <br />
+                          <em>Drag to reposition</em>
+                        </>
+                      )}
+                    </div>
+                  </Popup>
+                </Marker>
+              </>
+            )}
           </Fragment>
         );
       })}

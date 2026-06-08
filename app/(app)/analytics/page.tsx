@@ -773,10 +773,10 @@ export default function AnalyticsPage() {
                 {rounds.slice(0, 5).map((round) => (
                   <div
                     key={round.id}
-                    className="flex items-center justify-between p-4 bg-secondary-800 rounded-lg hover:bg-secondary-700 transition-colors"
+                    className="flex items-center justify-between gap-4 p-4 bg-secondary-800 rounded-lg hover:bg-secondary-700 transition-colors"
                   >
-                    <div className="flex-1">
-                      <h4 className="font-medium text-text-primary mb-1">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-medium text-text-primary mb-1 truncate">
                         {round.courseName}
                       </h4>
                       <div className="flex items-center gap-4 text-xs text-text-secondary">
@@ -791,6 +791,15 @@ export default function AnalyticsPage() {
                       <p className="text-2xl font-bold text-primary">{round.score}</p>
                       <p className="text-xs text-text-secondary">strokes</p>
                     </div>
+                    <Link
+                      href={`/analytics/round-summary?round=${encodeURIComponent(round.id)}`}
+                      className="flex-shrink-0"
+                    >
+                      <Button variant="outline" size="sm">
+                        <Award className="w-4 h-4 mr-2" />
+                        Round Summary
+                      </Button>
+                    </Link>
                   </div>
                 ))}
               </div>

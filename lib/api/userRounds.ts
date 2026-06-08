@@ -49,6 +49,44 @@ interface RawScoreDoc {
   holes?: RawScoreHole[];
 }
 
+// Shape of a doc in the web-native `rounds` collection (see lib/api/types.ts `Round`).
+// Holes use `score` instead of `strokes`, and the course is flattened onto the doc.
+interface RawRoundDoc {
+  userId: string;
+  date: string;
+  courseId?: string;
+  courseName?: string;
+  score?: number;
+  holes?: Array<{
+    holeNumber: number;
+    par: number;
+    score?: number;
+    putts?: number;
+    fairwayHit?: boolean;
+    greenInRegulation?: boolean;
+    yardage?: number;
+  }>;
+}
+
+// Normalize a `rounds` doc into the same RawScoreDoc shape the loader pipeline expects.
+function roundDocToRawScore(r: RawRoundDoc): RawScoreDoc {
+  return {
+    userId: r.userId,
+    date: r.date,
+    course: { id: r.courseId, name: r.courseName ?? '(unknown course)' },
+    stats: { grossScore: r.score },
+    holes: (r.holes ?? []).map(h => ({
+      holeNumber: h.holeNumber,
+      par: h.par,
+      strokes: h.score,
+      putts: h.putts,
+      fairwayHit: h.fairwayHit,
+      greenInRegulation: h.greenInRegulation,
+      yardage: h.yardage,
+    })),
+  };
+}
+
 // ----- list -----
 
 export async function listUserRounds(userId: string, max = 50): Promise<RoundListItem[]> {
@@ -96,9 +134,21 @@ export interface LoadedRound {
 
 export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
   if (!db) return null;
+
+  // Look in `scores` (mobile) first, then fall back to `rounds` (web-native).
+  // The analytics list merges both collections, so an id from there can live in
+  // either one — mirrors roundsApi.getRoundById in lib/api/rounds.ts.
+  let score: RawScoreDoc | null = null;
   const scoreSnap = await getDoc(doc(db, 'scores', scoreId));
-  if (!scoreSnap.exists()) return null;
-  const score = scoreSnap.data() as RawScoreDoc;
+  if (scoreSnap.exists()) {
+    score = scoreSnap.data() as RawScoreDoc;
+  } else {
+    const roundSnap = await getDoc(doc(db, 'rounds', scoreId));
+    if (roundSnap.exists()) {
+      score = roundDocToRawScore(roundSnap.data() as RawRoundDoc);
+    }
+  }
+  if (!score) return null;
   const scoreHoles = (score.holes ?? []).slice().sort((a, b) => a.holeNumber - b.holeNumber);
 
   // Look up course geometry (per-hole tee + green coords) from /courses/{courseId}

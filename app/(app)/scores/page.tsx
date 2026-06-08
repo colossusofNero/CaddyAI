@@ -6,6 +6,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
@@ -24,6 +25,7 @@ import {
   Filter,
   ChevronRight,
   Activity,
+  Award,
 } from 'lucide-react';
 
 import type { FirebaseScore } from '@/types/scores';
@@ -229,6 +231,16 @@ export default function ScoresPage() {
                               {score.stats.scoreDifferential.toFixed(1)}
                             </div>
                           </div>
+
+                          <Link
+                            href={`/analytics/round-summary?round=${encodeURIComponent(score.id)}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Button variant="outline" size="sm">
+                              <Award className="w-4 h-4 mr-2" />
+                              Round Summary
+                            </Button>
+                          </Link>
 
                           <ChevronRight className="w-6 h-6 text-text-muted" />
                         </div>

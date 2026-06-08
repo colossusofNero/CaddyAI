@@ -75,6 +75,7 @@ export default function RoundSummaryPage() {
     hasFullGeometry: boolean;
   } | null>(null);
   const [roundLoading, setRoundLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   // Active round data (demo or loaded)
   const activeHoles = loadedHoles ?? DEMO_HOLES;
@@ -105,6 +106,7 @@ export default function RoundSummaryPage() {
   // When the selection changes, load that round (or revert to demo)
   useEffect(() => {
     setLandingsByHole({}); // wipe landings whenever the round changes
+    setNotFound(false);
     if (selectedRoundId === 'demo') {
       setLoadedHoles(null);
       setLoadedMeta(null);
@@ -115,12 +117,25 @@ export default function RoundSummaryPage() {
     setRoundLoading(true);
     loadRound(selectedRoundId)
       .then(r => {
-        if (cancelled || !r) return;
+        if (cancelled) return;
+        if (!r) {
+          // Don't silently fall back to the demo — tell the user the round is missing.
+          setLoadedHoles(null);
+          setLoadedMeta(null);
+          setNotFound(true);
+          return;
+        }
         setLoadedHoles(r.holes);
         setLoadedMeta(r.meta);
         setCurrentHole(1);
       })
-      .catch(err => console.warn('[round-summary] load round failed:', err))
+      .catch(err => {
+        if (cancelled) return;
+        console.warn('[round-summary] load round failed:', err);
+        setLoadedHoles(null);
+        setLoadedMeta(null);
+        setNotFound(true);
+      })
       .finally(() => { if (!cancelled) setRoundLoading(false); });
     return () => { cancelled = true; };
   }, [selectedRoundId]);
@@ -359,12 +374,14 @@ export default function RoundSummaryPage() {
             {roundLoading && <span className="text-text-secondary text-xs">loading…</span>}
           </label>
 
-          <div className="ml-auto flex items-center gap-4 text-xs text-text-secondary">
-            <div><span className="uppercase tracking-wider">Course</span> · {activeCourseName}</div>
-            <div><span className="uppercase tracking-wider">Date</span> · {activeDate}</div>
-            <div><span className="uppercase tracking-wider">Player</span> · {user?.displayName ?? user?.email ?? 'You'}</div>
-            <div><span className="uppercase tracking-wider">Score</span> · <strong className="text-text-primary">{scoreLabel}</strong></div>
-          </div>
+          {!notFound && (
+            <div className="ml-auto flex items-center gap-4 text-xs text-text-secondary">
+              <div><span className="uppercase tracking-wider">Course</span> · {activeCourseName}</div>
+              <div><span className="uppercase tracking-wider">Date</span> · {activeDate}</div>
+              <div><span className="uppercase tracking-wider">Player</span> · {user?.displayName ?? user?.email ?? 'You'}</div>
+              <div><span className="uppercase tracking-wider">Score</span> · <strong className="text-text-primary">{scoreLabel}</strong></div>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -392,6 +409,21 @@ export default function RoundSummaryPage() {
           </Link>
         </div>
 
+        {notFound && (
+          <div className="bg-card border border-border rounded-lg p-8 text-center">
+            <h2 className="text-lg font-semibold text-text-primary mb-2">Round not found</h2>
+            <p className="text-sm text-text-secondary mb-4">
+              We couldn&apos;t load this round — it may have been deleted, or it belongs to another
+              account. Pick a different round from the selector above, or head back to your analytics.
+            </p>
+            <Link href="/analytics">
+              <Button variant="outline" size="sm">Back to analytics</Button>
+            </Link>
+          </div>
+        )}
+
+        {!notFound && (
+        <>
         {selectedRoundId !== 'demo' && loadedMeta && !loadedMeta.hasFullGeometry && (
           <div className="text-xs bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 rounded-lg p-3">
             <strong>Heads up:</strong> course geometry for this round isn&apos;t in Firestore yet,
@@ -581,6 +613,8 @@ export default function RoundSummaryPage() {
             The other two buttons are fallbacks: download the chart PNG, then open in your own email app.
           </p>
         </div>
+        </>
+        )}
       </div>
     </div>
   );

@@ -146,21 +146,30 @@ export interface LoadedRound {
   fairwayByHole?: Record<number, LatLng[]>;
 }
 
-// Fetch generated/real fairway polygons for a course from /courseHoles,
-// keyed by hole number. Empty when the course has no geometry docs.
+// Read real iGolf hole-boundary polygons from the course doc, keyed by hole
+// number. The mobile app (the iGolf-connected backend) fetches
+// CourseGPSVectorDetails and writes each hole's boundary to
+// courses/{id}.holes[].gpsData.holeBoundary as [{latitude, longitude}]. Empty
+// when the course hasn't been synced with vectors yet.
 async function loadFairwaysByHole(courseId: string | undefined): Promise<Record<number, LatLng[]>> {
   if (!db || !courseId) return {};
   const out: Record<number, LatLng[]> = {};
   try {
-    const snap = await getDocs(query(collection(db, 'courseHoles'), where('courseId', '==', courseId)));
-    for (const d of snap.docs) {
-      const v = d.data() as { holeNumber?: number; fairwayPolygon?: Array<{ latitude: number; longitude: number }> };
-      if (v.holeNumber && Array.isArray(v.fairwayPolygon) && v.fairwayPolygon.length >= 3) {
-        out[v.holeNumber] = v.fairwayPolygon.map(p => ({ lat: p.latitude, lng: p.longitude }));
+    const snap = await getDoc(doc(db, 'courses', courseId));
+    if (snap.exists()) {
+      const holes = (snap.data().holes ?? []) as Array<{
+        number?: number;
+        gpsData?: { holeBoundary?: Array<{ latitude: number; longitude: number }> };
+      }>;
+      for (const h of holes) {
+        const hb = h.gpsData?.holeBoundary;
+        if (h.number && Array.isArray(hb) && hb.length >= 3) {
+          out[h.number] = hb.map(p => ({ lat: p.latitude, lng: p.longitude }));
+        }
       }
     }
   } catch (err) {
-    console.warn('[userRounds] fairway lookup failed:', err);
+    console.warn('[userRounds] hole-boundary lookup failed:', err);
   }
   return out;
 }

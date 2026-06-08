@@ -81,6 +81,8 @@ export default function RoundSummaryPage() {
   const [notFound, setNotFound] = useState(false);
   // Calls mode: primary + secondary recommendation(s) per hole number.
   const [recsByHole, setRecsByHole] = useState<Record<number, CallRecommendation[]>>({});
+  // Real fairway polygon per hole (from /courseHoles) for the map boundary.
+  const [fairwayByHole, setFairwayByHole] = useState<Record<number, LatLng[]>>({});
 
   // Active round data (demo or loaded)
   const activeHoles = loadedHoles ?? DEMO_HOLES;
@@ -112,6 +114,7 @@ export default function RoundSummaryPage() {
   useEffect(() => {
     setLandingsByHole({}); // wipe landings whenever the round changes
     setRecsByHole({});
+    setFairwayByHole({});
     setNotFound(false);
     if (selectedRoundId === 'demo') {
       setLoadedHoles(null);
@@ -138,6 +141,7 @@ export default function RoundSummaryPage() {
         // of synthesizing a shot chain.
         if (r.landingsByHole) setLandingsByHole(r.landingsByHole);
         setRecsByHole(r.recommendationsByHole ?? {});
+        setFairwayByHole(r.fairwayByHole ?? {});
         setCurrentHole(1);
       })
       .catch(err => {
@@ -533,6 +537,7 @@ export default function RoundSummaryPage() {
                   key={`${selectedRoundId}-${currentHole}`}
                   hole={hole}
                   landings={landings}
+                  fairwayPolygon={fairwayByHole[hole.holeNumber]}
                   recommendationOnly={isCallsMode}
                   onLandingChange={isCallsMode ? undefined : onLandingChange}
                 />

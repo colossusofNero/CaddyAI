@@ -142,6 +142,27 @@ export interface LoadedRound {
   landingsByHole?: Record<number, HoleLanding[]>;
   /** In 'calls' mode, the primary + secondary recommendation(s) per hole. */
   recommendationsByHole?: Record<number, CallRecommendation[]>;
+  /** Real fairway polygon per hole (from /courseHoles), for the map boundary. */
+  fairwayByHole?: Record<number, LatLng[]>;
+}
+
+// Fetch generated/real fairway polygons for a course from /courseHoles,
+// keyed by hole number. Empty when the course has no geometry docs.
+async function loadFairwaysByHole(courseId: string | undefined): Promise<Record<number, LatLng[]>> {
+  if (!db || !courseId) return {};
+  const out: Record<number, LatLng[]> = {};
+  try {
+    const snap = await getDocs(query(collection(db, 'courseHoles'), where('courseId', '==', courseId)));
+    for (const d of snap.docs) {
+      const v = d.data() as { holeNumber?: number; fairwayPolygon?: Array<{ latitude: number; longitude: number }> };
+      if (v.holeNumber && Array.isArray(v.fairwayPolygon) && v.fairwayPolygon.length >= 3) {
+        out[v.holeNumber] = v.fairwayPolygon.map(p => ({ lat: p.latitude, lng: p.longitude }));
+      }
+    }
+  } catch (err) {
+    console.warn('[userRounds] fairway lookup failed:', err);
+  }
+  return out;
 }
 
 export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
@@ -259,6 +280,7 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
     },
     holes,
     dispersionShots,
+    fairwayByHole: await loadFairwaysByHole(score.course?.id),
   };
 }
 
@@ -413,6 +435,7 @@ async function buildCallsRound(
     dispersionShots,
     landingsByHole,
     recommendationsByHole,
+    fairwayByHole: await loadFairwaysByHole(courseId),
   };
 }
 

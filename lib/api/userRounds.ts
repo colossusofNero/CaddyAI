@@ -140,6 +140,8 @@ export interface LoadedRound {
    * made), so the page plots actual data instead of synthesizing a shot chain.
    */
   landingsByHole?: Record<number, HoleLanding[]>;
+  /** In 'calls' mode, the primary + secondary recommendation(s) per hole. */
+  recommendationsByHole?: Record<number, CallRecommendation[]>;
 }
 
 export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
@@ -267,7 +269,21 @@ interface RawCallEvent {
   holeNumber?: number;
   timestamp?: number;
   gpsPosition?: { latitude: number; longitude: number } | null;
-  payload?: { primaryClub?: string; primaryCarryYards?: number; targetType?: string };
+  payload?: {
+    primaryClub?: string;
+    primaryCarryYards?: number;
+    secondaryClub?: string;
+    secondaryCarryYards?: number;
+    targetType?: string;
+  };
+}
+
+export interface CallRecommendation {
+  primaryClub: string;
+  primaryCarry?: number;
+  secondaryClub?: string;
+  secondaryCarry?: number;
+  target?: string;
 }
 
 // Builds a LoadedRound from the round's optimizer calls. Each call becomes one
@@ -322,6 +338,7 @@ async function buildCallsRound(
   const holes: ResolvedHole[] = [];
   const landingsByHole: Record<number, HoleLanding[]> = {};
   const dispersionShots: DispersionShot[] = [];
+  const recommendationsByHole: Record<number, CallRecommendation[]> = {};
 
   for (const holeNum of [...callsByHole.keys()].sort((a, b) => a - b)) {
     const g = geom[holeNum];
@@ -371,6 +388,14 @@ async function buildCallsRound(
         lateral: pos.lateral,
       });
     });
+
+    recommendationsByHole[holeNum] = calls.map(c => ({
+      primaryClub: c.payload?.primaryClub ?? 'Optimizer',
+      primaryCarry: c.payload?.primaryCarryYards,
+      secondaryClub: c.payload?.secondaryClub,
+      secondaryCarry: c.payload?.secondaryCarryYards,
+      target: c.payload?.targetType,
+    }));
   }
 
   return {
@@ -387,6 +412,7 @@ async function buildCallsRound(
     holes,
     dispersionShots,
     landingsByHole,
+    recommendationsByHole,
   };
 }
 

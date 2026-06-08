@@ -18,6 +18,8 @@ import {
 } from 'react-leaflet';
 import {
   destinationPoint,
+  bearingBetween,
+  distanceYards,
   type ResolvedHole,
   type HoleLanding,
   type LatLng,
@@ -108,9 +110,16 @@ interface Props {
   landings: HoleLanding[];
   /** Called continuously as the user drags a landing marker. */
   onLandingChange?: (shotIndex: number, latLng: LatLng) => void;
+  /**
+   * Real detected fairway shape, if available for this hole. When absent we
+   * fall back to a clean hole-aligned corridor (a proper rectangle running
+   * tee→green) instead of a lat/lng bounding box, which the map rotation would
+   * otherwise skew into an odd diamond.
+   */
+  fairwayPolygon?: LatLng[];
 }
 
-export default function HoleChainMap({ hole, landings, onLandingChange }: Props) {
+export default function HoleChainMap({ hole, landings, onLandingChange, fairwayPolygon }: Props) {
   // Throttle drag state updates to one per animation frame. The marker
   // itself moves smoothly because Leaflet updates it directly; what was
   // jumpy is React re-rendering the 57-label dispersion chart + lines on
@@ -164,6 +173,38 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
   const west = minLng - padLng;
   const east = maxLng + padLng;
 
+  // Lit region: the real fairway polygon when we have one, otherwise a clean
+  // rectangle ALIGNED TO THE HOLE (tee→pin axis), sized to contain every point
+  // (tee, green, all landings) plus padding. Aligning to the hole means the
+  // map rotation renders it as an upright rectangle instead of skewing a
+  // lat/lng box into an odd diamond; sizing to the points means a wide shot is
+  // never clipped into the dark mask.
+  const corridorRect = (): [number, number][] => {
+    const framePts = [hole.tee, hole.green, ...landings.map(l => l.land)].map(p => {
+      const d = distanceYards(hole.tee, p);
+      const ang = ((bearingBetween(hole.tee, p) - hole.bearing) * Math.PI) / 180;
+      return { f: d * Math.cos(ang), l: d * Math.sin(ang) }; // forward, lateral (yds)
+    });
+    let minF = Infinity, maxF = -Infinity, minL = Infinity, maxL = -Infinity;
+    for (const { f, l } of framePts) {
+      minF = Math.min(minF, f); maxF = Math.max(maxF, f);
+      minL = Math.min(minL, l); maxL = Math.max(maxL, l);
+    }
+    const PAD_FWD = 25, PAD_LAT = 35;
+    minF -= PAD_FWD; maxF += PAD_FWD; minL -= PAD_LAT; maxL += PAD_LAT;
+    // tee + forward F along bearing, then lateral L along bearing±90
+    const corner = (f: number, l: number): [number, number] => {
+      const along = destinationPoint(hole.tee, f >= 0 ? hole.bearing : hole.bearing + 180, Math.abs(f));
+      const pt = destinationPoint(along, l >= 0 ? hole.bearing + 90 : hole.bearing - 90, Math.abs(l));
+      return [pt.lat, pt.lng];
+    };
+    return [corner(minF, minL), corner(minF, maxL), corner(maxF, maxL), corner(maxF, minL)];
+  };
+  const litRegion: [number, number][] =
+    fairwayPolygon && fairwayPolygon.length >= 3
+      ? fairwayPolygon.map(p => [p.lat, p.lng] as [number, number])
+      : corridorRect();
+
   const HALO = 0.5;
   const maskPositions: [number, number][][] = [
     [
@@ -172,12 +213,7 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
       [south - HALO, east + HALO],
       [south - HALO, west - HALO],
     ],
-    [
-      [south, west],
-      [south, east],
-      [north, east],
-      [north, west],
-    ],
+    litRegion,
   ];
 
   const origins: LatLng[] = [hole.tee, ...landings.slice(0, -1).map(l => l.land)];

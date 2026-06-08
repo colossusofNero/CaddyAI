@@ -24,6 +24,7 @@ import {
   listUserRounds,
   loadRound,
   type RoundListItem,
+  type CallRecommendation,
 } from '@/lib/api/userRounds';
 import { DispersionChart, type DispersionChartHandle } from '@/components/analytics/DispersionChart';
 
@@ -78,6 +79,8 @@ export default function RoundSummaryPage() {
   } | null>(null);
   const [roundLoading, setRoundLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  // Calls mode: primary + secondary recommendation(s) per hole number.
+  const [recsByHole, setRecsByHole] = useState<Record<number, CallRecommendation[]>>({});
 
   // Active round data (demo or loaded)
   const activeHoles = loadedHoles ?? DEMO_HOLES;
@@ -108,6 +111,7 @@ export default function RoundSummaryPage() {
   // When the selection changes, load that round (or revert to demo)
   useEffect(() => {
     setLandingsByHole({}); // wipe landings whenever the round changes
+    setRecsByHole({});
     setNotFound(false);
     if (selectedRoundId === 'demo') {
       setLoadedHoles(null);
@@ -133,6 +137,7 @@ export default function RoundSummaryPage() {
         // was made) — seed them so the map/dispersion plot actual data instead
         // of synthesizing a shot chain.
         if (r.landingsByHole) setLandingsByHole(r.landingsByHole);
+        setRecsByHole(r.recommendationsByHole ?? {});
         setCurrentHole(1);
       })
       .catch(err => {
@@ -477,9 +482,22 @@ export default function RoundSummaryPage() {
             </div>
             <div className="text-xs text-text-secondary">
               {isCallsMode
-                ? `Par ${hole.par} · ${hole.lengthYds} yd · ${hole.shots.length} caddy call${hole.shots.length === 1 ? '' : 's'} — recommended ${[...new Set(hole.shots.map(s => s.club))].join(', ')}`
+                ? `Par ${hole.par} · ${hole.lengthYds} yd · ${hole.shots.length} caddy call${hole.shots.length === 1 ? '' : 's'}`
                 : `Par ${hole.par} · ${hole.lengthYds} yd · Scored ${hole.score} (${hole.putts} putts)`}
             </div>
+            {isCallsMode && (recsByHole[hole.holeNumber] ?? []).map((rec, i) => (
+              <div key={i} className="text-xs mt-0.5">
+                <span className="text-primary font-semibold">{rec.primaryClub}</span>
+                {rec.primaryCarry ? <span className="text-text-secondary"> {rec.primaryCarry}y</span> : null}
+                {rec.secondaryClub && (
+                  <span className="text-text-secondary">
+                    {' '}· backup <span className="text-text-primary">{rec.secondaryClub}</span>
+                    {rec.secondaryCarry ? ` ${rec.secondaryCarry}y` : ''}
+                  </span>
+                )}
+                {rec.target ? <span className="text-text-secondary"> · {rec.target}</span> : null}
+              </div>
+            ))}
           </div>
           <Button
             variant="outline"

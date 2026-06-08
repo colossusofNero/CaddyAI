@@ -50,8 +50,13 @@ class RoundsApi extends ApiClient {
         }
       };
 
-      // Fetch from rounds collection (web app format)
-      const rounds = await queryWithFallback<Round>(this.COLLECTION);
+      // Fetch from rounds collection (web app format).
+      // Normalize `holes` to always be an array — legacy/partial docs can omit it,
+      // and consumers (dashboard, analytics, history) call .reduce/.filter/.length on it.
+      const rounds = (await queryWithFallback<Round>(this.COLLECTION)).map((r) => ({
+        ...r,
+        holes: Array.isArray(r.holes) ? r.holes : [],
+      }));
       console.log(`[RoundsAPI] Loaded ${rounds.length} rounds from 'rounds' collection`);
 
       // Also fetch from scores collection (mobile app format)

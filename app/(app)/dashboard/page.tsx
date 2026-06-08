@@ -361,11 +361,12 @@ export default function DashboardPage() {
             <div className="space-y-4">
               {recentRounds.map((round) => {
                 const roundDate = new Date(round.date);
-                const par = round.holes.reduce((sum, h) => sum + h.par, 0);
-                const fairwaysHit = round.holes.filter(h => h.fairwayHit).length;
-                const totalFairways = round.holes.filter(h => h.fairwayHit !== undefined).length;
-                const gir = round.holes.filter(h => h.greenInRegulation).length;
-                const totalPutts = round.holes.reduce((sum, h) => sum + (h.putts || 0), 0);
+                const holes = Array.isArray(round.holes) ? round.holes : [];
+                const par = holes.reduce((sum, h) => sum + h.par, 0);
+                const fairwaysHit = holes.filter(h => h.fairwayHit).length;
+                const totalFairways = holes.filter(h => h.fairwayHit !== undefined).length;
+                const gir = holes.filter(h => h.greenInRegulation).length;
+                const totalPutts = holes.reduce((sum, h) => sum + (h.putts || 0), 0);
 
                 return (
                   <Card key={round.id} variant="default" padding="lg" className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/50">

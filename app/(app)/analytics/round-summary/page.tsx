@@ -482,12 +482,22 @@ export default function RoundSummaryPage() {
               Map · current hole only
             </div>
             <div className="h-[560px]">
-              <HoleChainMap
-                key={`${selectedRoundId}-${currentHole}`}
-                hole={hole}
-                landings={landings}
-                onLandingChange={onLandingChange}
-              />
+              {roundLoading ? (
+                // Don't render the map with the previous round's holes while the
+                // newly-selected round is still loading — otherwise it mounts on
+                // the old course's coordinates (e.g. shows Flagstaff for a
+                // Scottsdale round) until the data arrives.
+                <div className="h-full w-full flex items-center justify-center text-text-secondary text-sm">
+                  Loading map…
+                </div>
+              ) : (
+                <HoleChainMap
+                  key={`${selectedRoundId}-${currentHole}`}
+                  hole={hole}
+                  landings={landings}
+                  onLandingChange={onLandingChange}
+                />
+              )}
             </div>
           </div>
 

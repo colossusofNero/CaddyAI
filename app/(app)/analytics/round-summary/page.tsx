@@ -365,9 +365,9 @@ export default function RoundSummaryPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* z-index must clear Leaflet's panes/controls (up to ~1000) or the map's
-          zoom buttons and popups punch up through the sticky header on scroll. */}
-      <nav className="bg-card border-b border-border sticky top-0 z-[1100] shadow-sm">
+      {/* Non-sticky: scrolls away with the page so it never overlaps the map /
+          dispersion content below (a sticky header bled through over Leaflet). */}
+      <nav className="bg-card border-b border-border shadow-sm">
         <div className="max-w-[1600px] mx-auto px-4 py-3 space-y-2">
           <div className="flex items-center gap-3 flex-wrap">
           <Link href="/analytics">

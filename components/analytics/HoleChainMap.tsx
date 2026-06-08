@@ -208,7 +208,14 @@ export default function HoleChainMap({ hole, landings, onLandingChange }: Props)
         maxZoom={19}
       />
 
-      <BoundsFitter holeKey={hole.holeNumber} bounds={[[south, west], [north, east]]} bearing={hole.bearing} />
+      <BoundsFitter
+        // Key on the actual tee coordinates, not just the hole number: switching
+        // rounds reuses hole numbers (both have a "hole 1"), so a number-only key
+        // would skip the refit and leave the view parked on the previous course.
+        holeKey={`${hole.holeNumber}@${hole.tee.lat.toFixed(5)},${hole.tee.lng.toFixed(5)}`}
+        bounds={[[south, west], [north, east]]}
+        bearing={hole.bearing}
+      />
 
       {/* Dark mask outside the hole */}
       <Polygon

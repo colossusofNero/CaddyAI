@@ -130,6 +130,14 @@
         { "fieldPath": "timestamp", "order": "DESCENDING" }
       ]
     },
+    {
+      "collectionGroup": "shots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "timestamp", "order": "DESCENDING" },
+        { "fieldPath": "recommendationSnapshot", "order": "DESCENDING" }
+      ]
+    },
 
     {
       "collectionGroup": "clubAnalytics",

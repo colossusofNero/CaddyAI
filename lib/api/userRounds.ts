@@ -18,6 +18,7 @@ import {
   type RoundShot,
   type Lie,
   type DispersionShot,
+  type HoleLanding,
 } from '@/lib/demo/kingRound';
 
 export interface RoundListItem {
@@ -127,9 +128,18 @@ export interface LoadedRound {
     totalScore: number;
     totalPar: number;
     hasFullGeometry: boolean; // false when the course's gpsData is missing
+    /** 'calls' = reconstructed from optimizer calls only (no scorecard). */
+    mode?: 'scorecard' | 'calls';
+    /** In 'calls' mode: how many optimizer calls were captured. */
+    callCount?: number;
   };
   holes: ResolvedHole[];
   dispersionShots: DispersionShot[];
+  /**
+   * In 'calls' mode, the REAL landing positions (where each optimizer call was
+   * made), so the page plots actual data instead of synthesizing a shot chain.
+   */
+  landingsByHole?: Record<number, HoleLanding[]>;
 }
 
 export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
@@ -141,7 +151,13 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
   let score: RawScoreDoc | null = null;
   const scoreSnap = await getDoc(doc(db, 'scores', scoreId));
   if (scoreSnap.exists()) {
-    score = scoreSnap.data() as RawScoreDoc;
+    const raw = scoreSnap.data() as RawScoreDoc & { analysisMode?: string; callsRoundId?: string };
+    // Calls round: reconstruct from real optimizer-call shotEvents, not a
+    // synthesized scorecard. Only the recommendations are real data.
+    if (raw.analysisMode === 'calls') {
+      return buildCallsRound(scoreId, raw);
+    }
+    score = raw;
   } else {
     const roundSnap = await getDoc(doc(db, 'rounds', scoreId));
     if (roundSnap.exists()) {
@@ -241,6 +257,131 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
     },
     holes,
     dispersionShots,
+  };
+}
+
+// ----- calls round (reconstruct from optimizer-call shotEvents) -----
+
+interface RawCallEvent {
+  eventType?: string;
+  holeNumber?: number;
+  timestamp?: number;
+  gpsPosition?: { latitude: number; longitude: number } | null;
+  payload?: { primaryClub?: string; primaryCarryYards?: number; targetType?: string };
+}
+
+// Builds a LoadedRound from the round's optimizer calls. Each call becomes one
+// marker at its real GPS position, labelled with the club we recommended. We do
+// NOT synthesize a shot chain — only the calls we actually captured are shown.
+async function buildCallsRound(
+  scoreId: string,
+  meta: RawScoreDoc & { callsRoundId?: string },
+): Promise<LoadedRound | null> {
+  if (!db) return null;
+  const courseId = meta.course?.id;
+  const callsRoundId = meta.callsRoundId;
+  if (!courseId || !callsRoundId) return null;
+
+  // Course geometry (par, tee, green, distance per hole).
+  interface RawCoord { latitude: number; longitude: number }
+  const geom: Record<number, { par?: number; tee?: LatLng; green?: LatLng; dist?: number }> = {};
+  const courseSnap = await getDoc(doc(db, 'courses', courseId));
+  if (courseSnap.exists()) {
+    const cd = courseSnap.data() as {
+      holes?: Array<{ number?: number; par?: number; distance?: number; gpsData?: { teeBox?: RawCoord; greenCenter?: RawCoord } }>;
+    };
+    for (const h of cd.holes ?? []) {
+      if (!h.number) continue;
+      geom[h.number] = {
+        par: h.par,
+        dist: h.distance,
+        tee: h.gpsData?.teeBox ? { lat: h.gpsData.teeBox.latitude, lng: h.gpsData.teeBox.longitude } : undefined,
+        green: h.gpsData?.greenCenter ? { lat: h.gpsData.greenCenter.latitude, lng: h.gpsData.greenCenter.longitude } : undefined,
+      };
+    }
+  }
+
+  // The real optimizer calls for this round.
+  const snap = await getDocs(
+    query(
+      collection(db, 'shotEvents'),
+      where('userId', '==', meta.userId),
+      where('roundId', '==', callsRoundId),
+    )
+  );
+  const callsByHole = new Map<number, RawCallEvent[]>();
+  let callCount = 0;
+  for (const d of snap.docs) {
+    const v = d.data() as RawCallEvent;
+    if (v.eventType !== 'optimizer_run' || !v.gpsPosition || v.holeNumber == null) continue;
+    callCount++;
+    if (!callsByHole.has(v.holeNumber)) callsByHole.set(v.holeNumber, []);
+    callsByHole.get(v.holeNumber)!.push(v);
+  }
+
+  const holes: ResolvedHole[] = [];
+  const landingsByHole: Record<number, HoleLanding[]> = {};
+  const dispersionShots: DispersionShot[] = [];
+
+  for (const holeNum of [...callsByHole.keys()].sort((a, b) => a - b)) {
+    const g = geom[holeNum];
+    if (!g?.tee || !g?.green) continue; // need geometry to place on a map
+    const calls = callsByHole.get(holeNum)!.sort((a, b) => (a.timestamp ?? 0) - (b.timestamp ?? 0));
+    const bearing = bearingBetween(g.tee, g.green);
+    const lengthYds = g.dist ?? distanceYards(g.tee, g.green);
+
+    const shots: RoundShot[] = calls.map(c => ({
+      club: c.payload?.primaryClub ?? 'Optimizer',
+      planned: c.payload?.primaryCarryYards ?? 200,
+      shortPct: 1,
+      offsetDeg: 0,
+      lie: 'fairway' as Lie,
+    }));
+    const resolved: ResolvedHole = {
+      holeNumber: holeNum,
+      par: g.par ?? 4,
+      tee: g.tee,
+      green: g.green,
+      bearing,
+      lengthYds,
+      shots,
+      score: 0,
+      putts: 0,
+    };
+    holes.push(resolved);
+
+    const landings: HoleLanding[] = calls.map(c => ({
+      land: { lat: c.gpsPosition!.latitude, lng: c.gpsPosition!.longitude },
+      lie: 'fairway' as Lie,
+    }));
+    landingsByHole[holeNum] = landings;
+    landings.forEach((l, i) => {
+      const pos = dispersionFor(resolved, l.land);
+      dispersionShots.push({
+        holeNumber: holeNum,
+        shotNumber: i + 1,
+        label: `${holeNum}/${i + 1}`,
+        lie: l.lie,
+        distFromPin: pos.distFromPin,
+        lateral: pos.lateral,
+      });
+    });
+  }
+
+  return {
+    meta: {
+      id: scoreId,
+      courseName: meta.course?.name ?? '(unknown course)',
+      date: meta.date,
+      totalScore: callCount,
+      totalPar: 0,
+      hasFullGeometry: true,
+      mode: 'calls',
+      callCount,
+    },
+    holes,
+    dispersionShots,
+    landingsByHole,
   };
 }
 

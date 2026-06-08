@@ -73,6 +73,8 @@ export default function RoundSummaryPage() {
     totalScore: number;
     totalPar: number;
     hasFullGeometry: boolean;
+    mode?: 'scorecard' | 'calls';
+    callCount?: number;
   } | null>(null);
   const [roundLoading, setRoundLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -127,6 +129,10 @@ export default function RoundSummaryPage() {
         }
         setLoadedHoles(r.holes);
         setLoadedMeta(r.meta);
+        // Calls mode provides real landing positions (where each optimizer call
+        // was made) — seed them so the map/dispersion plot actual data instead
+        // of synthesizing a shot chain.
+        if (r.landingsByHole) setLandingsByHole(r.landingsByHole);
         setCurrentHole(1);
       })
       .catch(err => {
@@ -217,9 +223,13 @@ export default function RoundSummaryPage() {
     });
   }
 
+  const isCallsMode = loadedMeta?.mode === 'calls';
   const totalScore = loadedMeta?.totalScore ?? activeHoles.reduce((s, h) => s + h.score, 0);
   const totalPar = loadedMeta?.totalPar ?? activeHoles.reduce((s, h) => s + h.par, 0);
-  const scoreLabel = `${totalScore} (${totalScore - totalPar >= 0 ? '+' : ''}${totalScore - totalPar} vs par ${totalPar})`;
+  // In calls mode there is no score — show how many caddy calls we captured.
+  const scoreLabel = isCallsMode
+    ? `${loadedMeta?.callCount ?? totalScore} caddy calls · round not finished`
+    : `${totalScore} (${totalScore - totalPar >= 0 ? '+' : ''}${totalScore - totalPar} vs par ${totalPar})`;
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const activeCourseName = loadedMeta?.courseName ?? COURSE_INFO.name;
   const activeDate = loadedMeta?.date ?? today;
@@ -458,9 +468,15 @@ export default function RoundSummaryPage() {
             Prev hole
           </Button>
           <div className="flex-1 text-center">
-            <div className="font-semibold">Hole {currentHole} / {activeHoles.length}</div>
+            <div className="font-semibold">
+              {isCallsMode
+                ? `Hole ${hole.holeNumber} (${currentHole} of ${activeHoles.length} engaged)`
+                : `Hole ${currentHole} / ${activeHoles.length}`}
+            </div>
             <div className="text-xs text-text-secondary">
-              Par {hole.par} · {hole.lengthYds} yd · Scored {hole.score} ({hole.putts} putts)
+              {isCallsMode
+                ? `Par ${hole.par} · ${hole.lengthYds} yd · ${hole.shots.length} caddy call${hole.shots.length === 1 ? '' : 's'} — recommended ${[...new Set(hole.shots.map(s => s.club))].join(', ')}`
+                : `Par ${hole.par} · ${hole.lengthYds} yd · Scored ${hole.score} (${hole.putts} putts)`}
             </div>
           </div>
           <Button

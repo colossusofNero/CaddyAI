@@ -306,6 +306,10 @@ interface RawCallEvent {
     secondaryClub?: string;
     secondaryCarryYards?: number;
     targetType?: string;
+    // The actual aim point the optimizer targeted (fairway centerline for
+    // doglegs, pin when reachable). Present on calls recorded after the
+    // tracking fix; older calls don't have it.
+    targetPosition?: { latitude: number; longitude: number } | null;
   };
 }
 
@@ -398,11 +402,14 @@ async function buildCallsRound(
     };
     holes.push(resolved);
 
-    // Place each marker at the recommended AIM point — the carry distance down
-    // the tee→pin line (clamped to the hole length). This is the recommendation
-    // itself (club + carry), shown where the optimizer told the player to aim,
-    // so it's clearly visible on the map rather than buried on the tee.
+    // Prefer the optimizer's ACTUAL target (follows the fairway centerline) when
+    // it was captured. Fall back to a straight tee→pin aim point at the carry
+    // distance for older calls recorded before target tracking existed.
     const landings: HoleLanding[] = calls.map(c => {
+      const tp = c.payload?.targetPosition;
+      if (tp && typeof tp.latitude === 'number' && typeof tp.longitude === 'number') {
+        return { land: { lat: tp.latitude, lng: tp.longitude }, lie: 'fairway' as Lie };
+      }
       const carry = c.payload?.primaryCarryYards ?? Math.round(lengthYds * 0.6);
       const aim = destinationPoint(g.tee!, bearing, Math.min(carry, lengthYds));
       return { land: aim, lie: 'fairway' as Lie };

@@ -300,6 +300,10 @@ interface RawCallEvent {
   holeNumber?: number;
   timestamp?: number;
   gpsPosition?: { latitude: number; longitude: number } | null;
+  // Written by the Firebase reconcile pipeline (rules-v1 + LLM judge). When
+  // present, kept===false means this call was judged a duplicate / not a real
+  // shot. Absent means the hole hasn't been reconciled yet.
+  agentDecision?: { kept?: boolean };
   payload?: {
     primaryClub?: string;
     primaryCarryYards?: number;
@@ -364,7 +368,14 @@ async function buildCallsRound(
   let callCount = 0;
   for (const d of snap.docs) {
     const v = d.data() as RawCallEvent;
+    // Need a real position (null = no GPS fix; the app no longer writes a
+    // bogus default) and a hole.
     if (v.eventType !== 'optimizer_run' || !v.gpsPosition || v.holeNumber == null) continue;
+    // Rely on the reconcile pipeline's output, not the raw call stream: the
+    // mobile app records every invocation (duplicates expected), and the
+    // rules+LLM judge mark non-real / duplicate calls with kept:false. Drop
+    // those. Calls without an agentDecision yet (hole not reconciled) are kept.
+    if (v.agentDecision?.kept === false) continue;
     callCount++;
     if (!callsByHole.has(v.holeNumber)) callsByHole.set(v.holeNumber, []);
     callsByHole.get(v.holeNumber)!.push(v);

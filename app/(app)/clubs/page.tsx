@@ -319,7 +319,7 @@ export default function ClubsPage() {
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <Link href="/clubs/import">
+                  <Link href="/clubs/import/launch-monitor">
                     <Button type="button" variant="outline" size="md">
                       <Upload className="w-4 h-4 mr-2" />
                       Launch Monitor

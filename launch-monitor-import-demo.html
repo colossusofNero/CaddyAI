@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CaddyAI — Launch Monitor Import (Demo)</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --bg: #0e1726; --card: #16223a; --card2: #1d2c47; --line: #2a3a59;
+    --text: #e6edf6; --muted: #93a4c0; --primary: #22c55e; --primary-d: #16a34a;
+    --amber: #f59e0b; --red: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { border-bottom: 1px solid var(--line); padding: 0 24px; }
+  .hwrap { max-width: 1040px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-weight: 700; font-size: 18px; }
+  .brand .tag { color: var(--muted); font-weight: 500; font-size: 13px; margin-left: 8px; }
+  main { max-width: 1040px; margin: 0 auto; padding: 24px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .card h3 { margin: 0 0 4px; font-size: 16px; }
+  .card .desc { color: var(--muted); font-size: 13px; margin: 0; }
+  .row-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  button, .btn { font: inherit; cursor: pointer; border-radius: 8px; padding: 10px 16px; border: 1px solid var(--primary);
+    background: var(--primary); color: #06210f; font-weight: 700; transition: .15s; }
+  button.outline, .btn.outline { background: transparent; color: var(--primary); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  button.ghost { background: transparent; border-color: var(--line); color: var(--text); font-weight: 500; }
+  .pill { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; background: rgba(34,197,94,.18);
+    color: var(--primary); padding: 2px 7px; border-radius: 5px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .banner { padding: 14px 16px; border-radius: 10px; margin-bottom: 16px; font-weight: 600; }
+  .banner.ok { background: var(--primary-d); color: #fff; }
+  .banner.err { background: var(--red); color: #fff; white-space: pre-line; }
+  .clubhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .clubhead .title { font-size: 16px; font-weight: 700; }
+  .change { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--card2); margin-top: 8px; flex-wrap: wrap; }
+  .change.off { opacity: .5; background: #131e33; }
+  .chk { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line); background: transparent;
+    display: flex; align-items: center; justify-content: center; padding: 0; }
+  .chk.on { background: var(--primary); border-color: var(--primary); color: #06210f; }
+  .change .label { width: 168px; font-weight: 600; font-size: 14px; }
+  .change .old { color: var(--muted); font-size: 14px; min-width: 60px; }
+  .arrow { color: var(--muted); }
+  .change input[type=number], .change select, select.map { background: var(--bg); color: var(--text);
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font: inherit; }
+  .change input[type=number] { width: 92px; }
+  .delta { margin-left: auto; font-weight: 700; font-size: 13px; }
+  .delta.up { color: var(--primary); } .delta.dn { color: var(--amber); }
+  .unit { color: var(--muted); font-size: 12px; }
+  .applybar { position: sticky; bottom: 16px; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(14,23,38,.92); backdrop-filter: blur(6px); border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px 18px; margin-top: 8px; }
+  .maprow { background: var(--card2); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+  pre { background: #0a1322; border: 1px solid var(--line); border-radius: 8px; padding: 14px; overflow: auto;
+    font-size: 12px; color: #b8c7e0; max-height: 360px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; }
+  .samplebtns { display: flex; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <div class="brand">CaddyAI <span class="tag">Launch Monitor Import — local demo</span></div>
+    <span class="muted small">no data leaves this page</span>
+  </div>
+</header>
+<main>
+  <div id="banner"></div>
+
+  <div class="card">
+    <div class="row-between">
+      <div>
+        <h3>Upload a session export</h3>
+        <p class="desc">Garmin (Approach R10 / Garmin Golf) or Trackman-style CSV / Excel. We average each
+          club's shots, drop obvious mishits, and show every suggested change before anything is saved.</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <input id="file" type="file" accept=".csv,.xlsx,.xls" style="display:none" />
+        <button onclick="document.getElementById('file').click()">Choose file</button>
+      </div>
+    </div>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0" />
+    <div class="row-between">
+      <span class="muted small">No file handy? Load a sample:</span>
+      <div class="samplebtns">
+        <button class="ghost" onclick="loadSample('garmin')">Garmin sample</button>
+        <button class="ghost" onclick="loadSample('trackman')">Trackman sample</button>
+      </div>
+    </div>
+    <p id="summary" class="muted small" style="margin-top:12px;display:none"></p>
+  </div>
+
+  <div id="review"></div>
+  <div id="applybar"></div>
+  <div id="result"></div>
+</main>
+
+<script>
+// ============================================================================
+//  Port of lib/launchMonitorImport.ts (kept faithful for the demo)
+// ============================================================================
+const CLUB_LIST = [
+  {id:'club_driver',name:'Driver',sortOrder:1,category:'Woods'},
+  {id:'club_mini_driver',name:'Mini-Driver',sortOrder:2,category:'Woods'},
+  {id:'club_3w',name:'3W',sortOrder:3,category:'Woods'},
+  {id:'club_5w',name:'5W',sortOrder:4,category:'Woods'},
+  {id:'club_7w',name:'7W',sortOrder:5,category:'Woods'},
+  {id:'club_2h',name:'2H',sortOrder:6,category:'Hybrids'},
+  {id:'club_3h',name:'3H',sortOrder:7,category:'Hybrids'},
+  {id:'club_4h',name:'4H',sortOrder:8,category:'Hybrids'},
+  {id:'club_5h',name:'5H',sortOrder:9,category:'Hybrids'},
+  {id:'club_2i',name:'2i',sortOrder:10,category:'Irons'},
+  {id:'club_3i',name:'3i',sortOrder:11,category:'Irons'},
+  {id:'club_4i',name:'4i',sortOrder:12,category:'Irons'},
+  {id:'club_5i',name:'5i',sortOrder:13,category:'Irons'},
+  {id:'club_6i',name:'6i',sortOrder:14,category:'Irons'},
+  {id:'club_7i',name:'7i',sortOrder:15,category:'Irons'},
+  {id:'club_8i',name:'8i',sortOrder:16,category:'Irons'},
+  {id:'club_9i',name:'9i',sortOrder:17,category:'Irons'},
+  {id:'club_pw',name:'PW',sortOrder:18,category:'Wedges'},
+  {id:'club_52',name:'52° (GW)',sortOrder:19,category:'Wedges'},
+  {id:'club_56',name:'56° (SW)',sortOrder:20,category:'Wedges'},
+  {id:'club_58',name:'58° (LW)',sortOrder:21,category:'Wedges'},
+  {id:'club_60',name:'60°',sortOrder:22,category:'Wedges'},
+];
+// mid-handicap default bag, for the demo's "current bag" to diff against
+const MID = {club_driver:[240,20],club_mini_driver:[225,18],club_3w:[215,15],club_5w:[200,12],club_7w:[185,10],
+  club_3h:[190,10],club_4h:[180,8],club_5h:[168,7],club_5i:[165,7],club_6i:[155,6],club_7i:[145,5],
+  club_8i:[135,4],club_9i:[125,3],club_pw:[115,3],club_52:[100,2],club_56:[85,2],club_58:[72,2],club_60:[60,2]};
+function demoBag(){
+  return CLUB_LIST.map(c=>{const d=MID[c.id]||[100,5];return {id:c.id,name:c.name,face:'Square',
+    carryYards:d[0],rollYards:d[1],totalYards:d[0]+d[1],sortOrder:c.sortOrder,isDefault:true,isActive:true,category:c.category};});
+}
+
+const HEADER_ALIASES = {clubtype:'club',clubname:'clubName',club:'club',carrydistance:'carry',carryyards:'carry',
+  carry:'carry',totaldistance:'total',totalyards:'total',total:'total',apexheight:'apex',apex:'apex',height:'apex',
+  launchdirection:'launchDir',carrydeviationangle:'carryDevAngle',carrydeviationdistance:'lateralCarry',
+  side:'lateralCarry',sidecarry:'lateralCarry',smashfactor:'smash',smash:'smash'};
+const canonHeader = h => h.toLowerCase().replace(/[^a-z0-9]/g,'');
+const YARDS_PER_METER = 1.09361, FEET_PER_METER = 3.28084;
+const MIN_SMASH = .85, MAX_SMASH = 1.7, SHAPE_THRESHOLD_YARDS = 4;
+
+function byId(id){const d=CLUB_LIST.find(c=>c.id===id);return d?{clubId:d.id,clubName:d.name}:null;}
+function normalizeClubLabel(raw){
+  if(!raw) return null; const label=raw.trim(); if(!label) return null;
+  const exact=CLUB_LIST.find(c=>c.name.toLowerCase()===label.toLowerCase());
+  if(exact) return {clubId:exact.id,clubName:exact.name};
+  const l=label.toLowerCase().replace(/[°"']/g,'').replace(/[-_\/]/g,' ').replace(/\s+/g,' ').trim();
+  if(/\bmini[\s-]?driver\b/.test(l)) return byId('club_mini_driver');
+  if(/\bdriver\b/.test(l)||l==='1w'||l==='d') return byId('club_driver');
+  let m=l.match(/\b(\d{1,2})\s*(?:w|wood)\b/); if(m) return byId('club_'+m[1]+'w');
+  m=l.match(/\b(\d{1,2})\s*(?:h|hy|hybrid|rescue|utility)\b/); if(m) return byId('club_'+m[1]+'h');
+  if(/\bpitching wedge\b/.test(l)||l==='pw') return byId('club_pw');
+  if(/\bgap wedge\b/.test(l)||/\bapproach wedge\b/.test(l)||l==='gw'||l==='aw') return byId('club_52');
+  if(/\bsand wedge\b/.test(l)||l==='sw') return byId('club_56');
+  if(/\blob wedge\b/.test(l)||l==='lw') return byId('club_60');
+  m=l.match(/\b(46|48|50|52|54|56|58|60)\s*(?:deg|degree|degrees)?\b/);
+  if(m){const map={'46':'club_pw','48':'club_pw','50':'club_52','52':'club_52','54':'club_56','56':'club_56','58':'club_58','60':'club_60'};if(map[m[1]]) return byId(map[m[1]]);}
+  m=l.match(/\b(\d)\s*(?:i|iron)\b/); if(m) return byId('club_'+m[1]+'i');
+  return null;
+}
+const num = v => { if(v===null||v===undefined||v==='') return null; const n=typeof v==='number'?v:Number(String(v).replace(/[^0-9.+-]/g,'')); return Number.isFinite(n)?n:null; };
+const mean = xs => xs.reduce((a,b)=>a+b,0)/xs.length;
+const stdDev = xs => { if(xs.length<2) return 0; const m=mean(xs); return Math.sqrt(xs.reduce((a,b)=>a+(b-m)**2,0)/(xs.length-1)); };
+const quantile = (s,q)=>{const pos=(s.length-1)*q,b=Math.floor(pos),r=pos-b;return s[b+1]!==undefined?s[b]+r*(s[b+1]-s[b]):s[b];};
+const d2r = d => d*Math.PI/180, round1 = n => Math.round(n*10)/10;
+
+function parseRows(rows){
+  const errors=[]; if(!rows.length) return {shots:[],errors:['The file is empty.']};
+  const header=rows[0].map(c=>String(c??'').trim());
+  const col={}; header.forEach((h,i)=>{const k=HEADER_ALIASES[canonHeader(h)]; if(k&&col[k]===undefined) col[k]=i;});
+  const clubCol = col.club!==undefined?col.club:col.clubName;
+  if(clubCol===undefined) errors.push('Could not find a club column (expected "Club Type" or "Club Name").');
+  if(col.carry===undefined) errors.push('Could not find a "Carry Distance" column.');
+  if(errors.length) return {shots:[],errors};
+  let dataStart=1, dyd=1, apexFactor=1;
+  if(rows.length>1){
+    const second=rows[1].map(c=>String(c??'').trim());
+    if(second.filter(c=>/^\[.*\]$/.test(c)).length>=2){
+      dataStart=2;
+      const cu=(second[col.carry]||'').toLowerCase();
+      if(/m\b|meter|metre/.test(cu)&&!/yard|yd/.test(cu)) dyd=YARDS_PER_METER;
+      const au=col.apex!==undefined?(second[col.apex]||'').toLowerCase():'';
+      if(/\[m\]|meter|metre/.test(au)) apexFactor=FEET_PER_METER;
+    }
+  }
+  const shots=[];
+  for(let r=dataStart;r<rows.length;r++){
+    const row=rows[r]; const clubLabel=String(row[clubCol]??'').trim(); const carry=num(row[col.carry]);
+    if(!clubLabel||carry===null) continue;
+    const total=col.total!==undefined?num(row[col.total]):null;
+    const apex=col.apex!==undefined?num(row[col.apex]):null;
+    const lateral=col.lateralCarry!==undefined?num(row[col.lateralCarry]):null;
+    shots.push({clubLabel,carryYards:carry*dyd,totalYards:total!==null?total*dyd:carry*dyd,
+      apexFeet:apex!==null?apex*apexFactor:null,
+      launchDirectionDeg:col.launchDir!==undefined?num(row[col.launchDir]):null,
+      carryDeviationAngleDeg:col.carryDevAngle!==undefined?num(row[col.carryDevAngle]):null,
+      lateralCarryYards:lateral!==null?lateral*dyd:null,
+      smashFactor:col.smash!==undefined?num(row[col.smash]):null});
+  }
+  if(!shots.length) errors.push('No shot rows could be read from the file.');
+  return {shots,errors,rowsParsed:shots.length};
+}
+
+function filterMishits(shots){
+  let kept=shots.filter(s=>s.smashFactor===null||(s.smashFactor>=MIN_SMASH&&s.smashFactor<=MAX_SMASH));
+  if(kept.length<4) kept=shots.slice();
+  if(kept.length>=4){
+    const c=kept.map(s=>s.carryYards).sort((a,b)=>a-b);
+    const q1=quantile(c,.25),q3=quantile(c,.75),iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr;
+    kept=kept.filter(s=>s.carryYards>=lo&&s.carryYards<=hi);
+  }
+  return kept;
+}
+function faceFromCurve(c){return c>SHAPE_THRESHOLD_YARDS?'Fade':c<-SHAPE_THRESHOLD_YARDS?'Draw':'Square';}
+
+function aggregateShots(shots){
+  const groups=new Map();
+  for(const s of shots){const a=groups.get(s.clubLabel)||[];a.push(s);groups.set(s.clubLabel,a);}
+  const out=[];
+  for(const [label,gs] of groups){
+    const used=filterMishits(gs); if(!used.length) continue;
+    const carries=used.map(s=>s.carryYards), totals=used.map(s=>s.totalYards);
+    const carryMean=mean(carries), totalMean=mean(totals), roll=Math.max(0,totalMean-carryMean);
+    const laterals=used.map(s=>s.lateralCarryYards!==null?s.lateralCarryYards:
+      s.carryDeviationAngleDeg!==null?s.carryYards*Math.tan(d2r(s.carryDeviationAngleDeg)):null).filter(v=>v!==null);
+    const curves=used.map(s=>{if(s.carryDeviationAngleDeg===null) return null;
+      return s.carryYards*Math.tan(d2r(s.carryDeviationAngleDeg-(s.launchDirectionDeg??0)));}).filter(v=>v!==null);
+    const apexes=used.map(s=>s.apexFeet).filter(v=>v!==null&&v>0);
+    const curveYards=curves.length?mean(curves):0;
+    const m=normalizeClubLabel(label);
+    out.push({sourceLabel:label,clubId:m?m.clubId:null,clubName:m?m.clubName:null,
+      shotsTotal:gs.length,shotsUsed:used.length,carryYards:Math.round(carryMean),rollYards:Math.round(roll),
+      totalYards:Math.round(carryMean)+Math.round(roll),carryStdDevYards:round1(stdDev(carries)),
+      lateralDispersionYards:laterals.length?round1(stdDev(laterals)):0,curveYards:round1(curveYards),
+      apexFeet:apexes.length?Math.round(mean(apexes)):null,face:faceFromCurve(curveYards)});
+  }
+  return out.sort((a,b)=>b.carryYards-a.carryYards);
+}
+
+function buildChangeSets(agg,bag){
+  return agg.map(a=>{
+    const ex=a.clubId?bag.find(c=>c.id===a.clubId):undefined;
+    const changes=[];
+    const push=(field,label,unit,oldV,newV)=>{
+      const isNew=oldV===undefined||oldV===null;
+      const differs=isNew||(typeof oldV==='number'&&typeof newV==='number'?Math.abs(oldV-newV)>=1:oldV!==newV);
+      if(differs) changes.push({field,label,unit,oldValue:oldV,newValue:newV,isNew});
+    };
+    push('carryYards','Carry','yds',ex?.carryYards,a.carryYards);
+    push('rollYards','Roll','yds',ex?.rollYards,a.rollYards);
+    push('face','Shot shape','',ex?.face,a.face);
+    push('carryStdDevYards','Carry dispersion','± yds',ex?.carryStdDevYards,a.carryStdDevYards);
+    push('lateralDispersionYards','Lateral dispersion','± yds',ex?.lateralDispersionYards,a.lateralDispersionYards);
+    push('curveYards','Curve','yds',ex?.curveYards,a.curveYards);
+    if(a.apexFeet!==null) push('apexFeet','Apex height','ft',ex?.apexFeet,a.apexFeet);
+    return {sourceLabel:a.sourceLabel,clubId:a.clubId,clubName:a.clubName,existsInBag:!!ex,
+      shotsUsed:a.shotsUsed,shotsTotal:a.shotsTotal,changes};
+  });
+}
+
+// ============================================================================
+//  Demo UI state + rendering
+// ============================================================================
+const state = { bag: demoBag(), aggregated: null, mapping: {}, accepted: {}, edited: {} };
+const key = (label, field) => label + '::' + field;
+const isAccepted = (l, f) => state.accepted[key(l,f)] !== false;
+
+function banner(html, cls){ document.getElementById('banner').innerHTML = html ? `<div class="banner ${cls}">${html}</div>` : ''; }
+
+function ingest(rows){
+  banner('', '');
+  document.getElementById('result').innerHTML = '';
+  const parsed = parseRows(rows);
+  if(parsed.errors.length){ banner(parsed.errors.join('\n'), 'err'); state.aggregated=null; render(); return; }
+  const agg = aggregateShots(parsed.shots);
+  if(!agg.length){ banner('No usable shots were found in this file.', 'err'); state.aggregated=null; render(); return; }
+  state.aggregated = agg; state.mapping = {}; state.accepted = {}; state.edited = {};
+  const sm = document.getElementById('summary');
+  sm.style.display = 'block';
+  sm.textContent = `Parsed ${parsed.rowsParsed} shots across ${agg.length} club${agg.length===1?'':'s'}. Review the suggestions below.`;
+  render();
+}
+
+function effectiveSets(){
+  if(!state.aggregated) return [];
+  const remapped = state.aggregated.map(a=>{
+    const o = state.mapping[a.sourceLabel];
+    if(!o) return a;
+    if(o==='__skip__') return {...a, clubId:null, clubName:null};
+    const d = CLUB_LIST.find(c=>c.id===o);
+    return d?{...a, clubId:d.id, clubName:d.name}:a;
+  });
+  return buildChangeSets(remapped, state.bag);
+}
+
+function render(){
+  const sets = effectiveSets();
+  const review = document.getElementById('review');
+  if(!sets.length){ review.innerHTML=''; document.getElementById('applybar').innerHTML=''; return; }
+
+  review.innerHTML = sets.map(cs=>{
+    const dropped = cs.shotsTotal - cs.shotsUsed;
+    const unmatched = !cs.clubId;
+    const skipped = state.mapping[cs.sourceLabel] === '__skip__';
+    const sub = `Averaged ${cs.shotsUsed} of ${cs.shotsTotal} shots` +
+      (dropped>0?` · ${dropped} mishit${dropped===1?'':'s'} dropped`:'') +
+      (cs.existsInBag?'':(unmatched?'':' · new club (not in bag yet)'));
+    let body;
+    if(unmatched && !skipped){
+      body = `<div class="maprow"><div class="muted small" style="margin-bottom:6px">We couldn't auto-match this label. Map it to a club:</div>
+        <select class="map" onchange="setMap('${esc(cs.sourceLabel)}', this.value)">
+        <option value="">Select a club…</option>
+        ${CLUB_LIST.map(c=>`<option value="${c.id}" ${state.mapping[cs.sourceLabel]===c.id?'selected':''}>${c.name}</option>`).join('')}
+        <option value="__skip__">Skip this club</option></select></div>`;
+    } else if(skipped){
+      body = `<p class="muted small"><em>Skipped — won't be imported.</em></p>`;
+    } else if(!cs.changes.length){
+      body = `<p class="muted small"><em>No changes — your current values already match this session.</em></p>`;
+    } else {
+      body = cs.changes.map(ch=>{
+        const on = isAccepted(cs.sourceLabel, ch.field);
+        const ov = state.edited[key(cs.sourceLabel,ch.field)];
+        const editor = ch.field==='face'
+          ? `<select onchange="setEdit('${esc(cs.sourceLabel)}','face',this.value)" ${on?'':'disabled'}>
+             ${['Square','Draw','Fade'].map(f=>`<option ${ (ov??ch.newValue)===f?'selected':''}>${f}</option>`).join('')}</select>`
+          : `<input type="number" value="${ov!==undefined?ov:ch.newValue}" ${on?'':'disabled'}
+               oninput="setEdit('${esc(cs.sourceLabel)}','${ch.field}',this.value)"/><span class="unit">${ch.unit}</span>`;
+        let delta = '';
+        if(typeof ch.oldValue==='number' && typeof ch.newValue==='number'){
+          const d = Math.round((ch.newValue-ch.oldValue)*10)/10;
+          delta = `<span class="delta ${d>0?'up':'dn'}">${d>0?'+':''}${d} ${ch.unit}</span>`;
+        }
+        return `<div class="change ${on?'':'off'}">
+          <button class="chk ${on?'on':''}" onclick="toggle('${esc(cs.sourceLabel)}','${ch.field}')">${on?'✓':'✕'}</button>
+          <span class="label">${ch.label} ${ch.isNew?'<span class="pill">new</span>':''}</span>
+          <span class="old">${ch.oldValue===undefined?'—':ch.oldValue+(ch.unit?' '+ch.unit:'')}</span>
+          <span class="arrow">→</span> ${editor} ${delta}</div>`;
+      }).join('');
+    }
+    const title = cs.clubName ? `${cs.clubName} &nbsp;·&nbsp; from "${esc(cs.sourceLabel)}"` : `"${esc(cs.sourceLabel)}" — needs a club`;
+    return `<div class="card"><div class="clubhead"><span class="title">${title}</span>
+      <span class="muted small">${sub}</span></div><div style="margin-top:10px">${body}</div></div>`;
+  }).join('');
+
+  let count = 0;
+  for(const cs of sets){
+    if(state.mapping[cs.sourceLabel]==='__skip__' || !cs.clubId) continue;
+    for(const ch of cs.changes) if(isAccepted(cs.sourceLabel, ch.field)) count++;
+  }
+  document.getElementById('applybar').innerHTML = `<div class="applybar">
+    <span class="muted small">${count} change${count===1?'':'s'} selected</span>
+    <div style="display:flex;gap:10px">
+      <button class="ghost" onclick="resetDemo()">Reset</button>
+      <button ${count===0?'disabled':''} onclick="apply()">Apply ${count} change${count===1?'':'s'}</button>
+    </div></div>`;
+}
+
+function toggle(l,f){ state.accepted[key(l,f)] = !isAccepted(l,f); render(); }
+function setEdit(l,f,v){ state.edited[key(l,f)] = f==='face'?v:Number(v); }
+function setMap(l,v){ state.mapping[l]=v; render(); }
+function resetDemo(){ state.aggregated=null; state.bag=demoBag(); document.getElementById('summary').style.display='none';
+  document.getElementById('result').innerHTML=''; banner('',''); render(); }
+
+function apply(){
+  const sets = effectiveSets();
+  const byId = new Map(state.bag.map(c=>[c.id,{...c}]));
+  const nowIso = new Date().toISOString(); let applied=0; const touched=[];
+  for(const cs of sets){
+    if(!cs.clubId || state.mapping[cs.sourceLabel]==='__skip__') continue;
+    const accepts = cs.changes.filter(ch=>isAccepted(cs.sourceLabel,ch.field));
+    if(!accepts.length) continue;
+    const club = byId.get(cs.clubId) || {id:cs.clubId,name:cs.clubName,face:'Square',carryYards:0,rollYards:0,totalYards:0};
+    for(const ch of accepts){
+      const ov = state.edited[key(cs.sourceLabel,ch.field)];
+      const val = ov!==undefined && ov!=='' ? ov : ch.newValue;
+      club[ch.field] = ch.field==='face'?val:Number(val); applied++;
+    }
+    club.totalYards = club.carryYards + club.rollYards;
+    club.measuredAt = nowIso; club.measuredSource = 'demo';
+    byId.set(cs.clubId, club); touched.push(club);
+  }
+  state.bag = Array.from(byId.values()).sort((a,b)=>b.totalYards-a.totalYards);
+  banner(`Applied ${applied} change${applied===1?'':'s'} across your bag. (In the app this writes one updateUserClubs call.)`, 'ok');
+  const rows = touched.sort((a,b)=>b.totalYards-a.totalYards).map(c=>`<tr><td>${c.name}</td><td>${c.face}</td>
+    <td>${c.carryYards}</td><td>${c.rollYards}</td><td>${c.totalYards}</td>
+    <td>${c.carryStdDevYards??'—'}</td><td>${c.lateralDispersionYards??'—'}</td>
+    <td>${c.curveYards??'—'}</td><td>${c.apexFeet??'—'}</td></tr>`).join('');
+  document.getElementById('result').innerHTML = `<div class="card"><h3>Updated clubs</h3>
+    <table><thead><tr><th>Club</th><th>Face</th><th>Carry</th><th>Roll</th><th>Total</th>
+    <th>Carry ±</th><th>Lateral ±</th><th>Curve</th><th>Apex</th></tr></thead><tbody>${rows}</tbody></table>
+    <details style="margin-top:12px"><summary class="muted small" style="cursor:pointer">Show saved JSON</summary>
+    <pre>${esc(JSON.stringify(touched,null,2))}</pre></details></div>`;
+  state.aggregated = null; document.getElementById('summary').style.display='none'; render();
+  window.scrollTo({top:document.getElementById('result').offsetTop-20,behavior:'smooth'});
+}
+
+function esc(s){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+// ---- file upload ----
+document.getElementById('file').addEventListener('change', e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const wb = XLSX.read(new Uint8Array(ev.target.result), {type:'array'});
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1, blankrows:false, raw:true});
+      ingest(rows);
+    }catch(err){ banner('Could not read the file. Please upload a valid CSV or Excel export.','err'); }
+    e.target.value='';
+  };
+  reader.readAsArrayBuffer(f);
+});
+
+// ---- sample data ----
+const SAMPLES = {
+  trackman: `Date,Time,Player,Club,ShotType,BallSpeed,ClubSpeed,LaunchAngle,SpinRate,CarryDistance,TotalDistance,Side,ClubPath,FaceAngle,AttackAngle
+2026-06-07,14:15:22,John Doe,Driver,Standard,165.4,112.3,12.5,2200,285.1,305.4,-5.2,-2.1,-0.5,3.5
+2026-06-07,14:16:10,John Doe,7-Iron,Standard,120.2,90.1,17.5,6100,175.2,178.1,2.1,1.5,0.5,-4.2`,
+  // Garmin-format (trimmed columns) with a units row, empty Club Name + populated Club Type,
+  // and a couple of obvious mishits to demonstrate outlier dropping.
+  garmin: `Date,Player,Club Name,Club Type,Smash Factor,Launch Direction,Apex Height,Carry Distance,Carry Deviation Angle,Carry Deviation Distance,Total Distance
+,,,,,[deg],[ft],[Yards],[deg],[Yards],[Yards]
+5/31/26,Scott,,Driver,1.49,1.2,96,270.0,2.1,9.9,292.0
+5/31/26,Scott,,Driver,1.48,-0.8,94,266.0,-1.2,-5.6,288.0
+5/31/26,Scott,,Driver,1.50,0.5,98,273.0,1.8,8.6,296.0
+5/31/26,Scott,,Driver,0.70,0.0,30,95.0,0.0,0.0,110.0
+5/31/26,Scott,,Driver,1.49,1.0,95,268.0,2.5,11.7,290.0
+5/31/26,Scott,,7 Iron,1.33,-1.0,88,162.0,-2.0,-5.7,168.0
+5/31/26,Scott,,7 Iron,1.32,-0.5,86,159.0,-1.5,-4.2,165.0
+5/31/26,Scott,,7 Iron,1.34,-1.2,90,165.0,-2.4,-6.9,171.0
+5/31/26,Scott,,7 Iron,0.95,0.0,60,120.0,0.0,0.0,126.0
+5/31/26,Scott,,7 Iron,1.33,-0.8,87,161.0,-1.8,-5.1,167.0
+5/31/26,Scott,,Pitching Wedge,1.24,0.3,84,121.0,0.6,1.3,124.0
+5/31/26,Scott,,Pitching Wedge,1.25,-0.2,85,123.0,-0.4,-0.9,126.0
+5/31/26,Scott,,Pitching Wedge,1.23,0.1,83,119.0,0.2,0.4,122.0`
+};
+function loadSample(which){
+  const wb = XLSX.read(SAMPLES[which], {type:'string'});
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1, blankrows:false, raw:true});
+  ingest(rows);
+}
+</script>
+</body>
+</html>

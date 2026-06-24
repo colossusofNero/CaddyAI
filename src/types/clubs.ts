@@ -40,6 +40,15 @@ export interface Club {
   loft?: number;                 // Degrees
   shaft?: ClubShaft;
   category?: ClubCategory;       // For grouping in UI
+
+  // Optional — measured from a launch-monitor session (Trackman/Garmin import)
+  // All backward-compatible: undefined for clubs that have never been imported.
+  carryStdDevYards?: number;       // Carry distance dispersion (± yards, 1 std dev)
+  lateralDispersionYards?: number; // Left/right scatter at landing (± yards, 1 std dev)
+  curveYards?: number;             // Average shape: signed yards (+ = right/fade, − = left/draw)
+  apexFeet?: number;               // Average peak trajectory height (feet)
+  measuredAt?: string;             // ISO date of the session these stats came from
+  measuredSource?: 'trackman' | 'garmin' | 'manual'; // Where measured stats originated
 }
 
 export interface ClubDocument {

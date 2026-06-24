@@ -314,10 +314,17 @@ export default function ClubsPage() {
                     Import/Export Clubs
                   </h3>
                   <p className="text-sm text-text-secondary">
-                    Download your clubs as an Excel template or upload a filled template to import
+                    Download your clubs as an Excel template, upload a filled template, or import a
+                    launch-monitor session to update distances &amp; dispersion
                   </p>
                 </div>
                 <div className="flex gap-3">
+                  <Link href="/clubs/import">
+                    <Button type="button" variant="outline" size="md">
+                      <Upload className="w-4 h-4 mr-2" />
+                      Launch Monitor
+                    </Button>
+                  </Link>
                   <Button
                     type="button"
                     variant="outline"

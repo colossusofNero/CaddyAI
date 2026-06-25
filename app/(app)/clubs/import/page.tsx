@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
-import { ArrowLeft, Download, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Download, Upload, CheckCircle, AlertCircle, Activity, ChevronRight } from 'lucide-react';
 import { firebaseService } from '@/services/firebaseService';
 import { downloadExcelTemplate, parseExcelFile } from '@/lib/excelImportExport';
 import type { Club } from '@/src/types/clubs';
@@ -260,6 +260,35 @@ export default function ImportStatsPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Launch Monitor import entry point */}
+        <Link href="/clubs/import/launch-monitor" className="block mt-6">
+          <Card
+            variant="default"
+            padding="lg"
+            className="transition-all duration-200 hover:border-primary/50 hover:shadow-lg cursor-pointer"
+          >
+            <CardContent>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-primary bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Activity className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-text-primary">
+                      Import from a Launch Monitor / Simulator
+                    </h2>
+                    <p className="text-sm text-text-secondary mt-1">
+                      Upload a Garmin, TrackMan, or other simulator session export to update
+                      your club distances and dispersion. Review each change before it&apos;s saved.
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-text-secondary flex-shrink-0" />
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
     </div>
   );

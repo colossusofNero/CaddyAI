@@ -1,0 +1,137 @@
+<!--
+  CopperLine Golf — "Round Summary" transactional email for Loops.
+
+  HOW TO USE
+  1. In Loops, open the transactional email whose ID is in the Firebase secret
+     LOOPS_SHARE_ROUND_TXN_ID (verify with:
+        firebase functions:secrets:access LOOPS_SHARE_ROUND_TXN_ID
+     ). Edit THAT template — not a new one — or the app keeps hitting the stub.
+  2. Switch the Loops editor to HTML/code mode and paste this whole file.
+  3. In the template's Data Variables panel, add these 12 variables so Loops
+     substitutes them (names must match exactly):
+        senderName, senderEmail, recipientName, courseName, courseDate,
+        courseLocation, scoreTotal, scorePar, scoreOverUnder, shotsPlotted,
+        message, ctaUrl
+  4. Set the subject to:  {{senderName}} shared a round on CopperLine Golf
+  5. Send yourself a test (or use the app's "Send branded email"). Tokens fill
+     in from functions/src/share/shareRound.ts.
+
+  NOTES
+  - recipientName and message may be blank; the layout tolerates that.
+  - Swap LOGO_URL below for a hosted CopperLine logo if you want an image header
+    (email clients can't use local /assets paths — it must be a public URL).
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light only" />
+    <title>CopperLine Golf — Round Summary</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f4f1ee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2937;">
+    <!-- preheader (hidden preview text) -->
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">
+      {{senderName}} shared a round at {{courseName}} — {{scoreTotal}} ({{scoreOverUnder}} vs par {{scorePar}}).
+    </div>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f1ee;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+
+            <!-- Header / brand -->
+            <tr>
+              <td style="background:#1b1815;padding:22px 28px;">
+                <!-- For an image logo, replace the text below with:
+                     <img src="LOGO_URL" alt="CopperLine Golf" height="28" style="display:block;border:0;"> -->
+                <span style="font-size:20px;font-weight:700;letter-spacing:0.5px;color:#ffffff;">
+                  Copper<span style="color:#b87333;">line</span> Golf
+                </span>
+              </td>
+            </tr>
+
+            <!-- Intro -->
+            <tr>
+              <td style="padding:28px 28px 8px 28px;">
+                <p style="margin:0 0 6px 0;font-size:15px;line-height:1.5;color:#4b5563;">
+                  Hi {{recipientName}},
+                </p>
+                <h1 style="margin:0;font-size:22px;line-height:1.3;font-weight:700;color:#1f2937;">
+                  {{senderName}} shared a round summary with you
+                </h1>
+              </td>
+            </tr>
+
+            <!-- Round card -->
+            <tr>
+              <td style="padding:18px 28px 4px 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf7f3;border:1px solid #ece5dc;border-radius:12px;">
+                  <tr>
+                    <td style="padding:18px 20px;">
+                      <p style="margin:0 0 2px 0;font-size:17px;font-weight:700;color:#1f2937;">{{courseName}}</p>
+                      <p style="margin:0;font-size:13px;color:#6b7280;">{{courseDate}} &nbsp;·&nbsp; {{courseLocation}}</p>
+
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
+                        <tr>
+                          <td align="center" style="padding:6px 4px;">
+                            <div style="font-size:26px;font-weight:800;color:#b87333;line-height:1;">{{scoreTotal}}</div>
+                            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-top:4px;">Score</div>
+                          </td>
+                          <td align="center" style="padding:6px 4px;border-left:1px solid #ece5dc;">
+                            <div style="font-size:26px;font-weight:800;color:#1f2937;line-height:1;">{{scoreOverUnder}}</div>
+                            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-top:4px;">vs Par {{scorePar}}</div>
+                          </td>
+                          <td align="center" style="padding:6px 4px;border-left:1px solid #ece5dc;">
+                            <div style="font-size:26px;font-weight:800;color:#1f2937;line-height:1;">{{shotsPlotted}}</div>
+                            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-top:4px;">Shots plotted</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Personal message -->
+            <tr>
+              <td style="padding:16px 28px 0 28px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="border-left:3px solid #b87333;padding:4px 0 4px 14px;">
+                      <p style="margin:0;font-size:14px;line-height:1.55;color:#374151;font-style:italic;">{{message}}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- CTA -->
+            <tr>
+              <td align="center" style="padding:24px 28px 8px 28px;">
+                <a href="{{ctaUrl}}" style="display:inline-block;background:#b87333;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 26px;border-radius:10px;">
+                  Explore CopperLine Golf
+                </a>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:18px 28px 26px 28px;">
+                <hr style="border:none;border-top:1px solid #ece5dc;margin:0 0 14px 0;" />
+                <p style="margin:0;font-size:12px;line-height:1.5;color:#9ca3af;">
+                  Shared by {{senderName}} ({{senderEmail}}). Reply to that address to reach them directly.
+                </p>
+                <p style="margin:8px 0 0 0;font-size:12px;line-height:1.5;color:#9ca3af;">
+                  CopperLine Golf · AI caddie &amp; shot analytics
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

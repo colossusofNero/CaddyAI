@@ -3,6 +3,17 @@
 import { useMemo, useRef, forwardRef, useImperativeHandle } from 'react';
 import { DispersionShot, LIE_COLORS } from '@/lib/demo/kingRound';
 
+// Human-readable labels for each lie, in the order shown in the chart legend.
+// Keys must match LIE_COLORS in kingRound.ts.
+const LIE_LEGEND: Array<{ lie: string; label: string }> = [
+  { lie: 'fairway', label: 'Fairway / green / fringe' },
+  { lie: 'rough', label: 'Rough' },
+  { lie: 'deep-rough', label: 'Deep rough' },
+  { lie: 'sand', label: 'Sand' },
+  { lie: 'water', label: 'Water' },
+  { lie: '', label: 'Unknown' },
+];
+
 const VIEW_W = 1200;
 const VIEW_H = 880;
 const CENTER_X = VIEW_W / 2;
@@ -147,6 +158,21 @@ export const DispersionChart = forwardRef<DispersionChartHandle, Props>(
           strokeWidth={1}
           strokeDasharray="6 6"
         />
+
+        {/* Lie legend — keyed to LIE_COLORS so the dot/label colors are
+            self-explanatory. Sits in the empty top-left corner above the grid,
+            and is captured in the PNG export since it lives in the SVG. */}
+        {LIE_LEGEND.map((item, i) => {
+          const ly = 36 + i * 24;
+          return (
+            <g key={item.lie}>
+              <circle cx={GRID_LEFT + 8} cy={ly} r={7} fill={LIE_COLORS[item.lie]} stroke="#222" strokeWidth={0.75} />
+              <text x={GRID_LEFT + 24} y={ly + 5} fontSize={16} fontWeight={600} fill="#222">
+                {item.label}
+              </text>
+            </g>
+          );
+        })}
 
         {/* Plot shots */}
         {positioned.map(s => {

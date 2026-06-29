@@ -282,13 +282,16 @@ export function allDispersionShots(): DispersionShot[] {
 }
 
 export const LIE_COLORS: Record<string, string> = {
+  // fairway / green / fringe are all "on grass" lies — share one green so they
+  // read as a single category on the dispersion chart instead of three
+  // indistinguishable shades.
   fairway: '#22c55e',
+  green: '#22c55e',
+  fringe: '#22c55e',
   rough: '#ca8a04',
   'deep-rough': '#78350f',
   sand: '#eab308',
   water: '#3b82f6',
-  fringe: '#86efac',
-  green: '#15803d',
   '': '#777',
 };
 

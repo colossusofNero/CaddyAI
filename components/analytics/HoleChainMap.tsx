@@ -3,10 +3,6 @@
 import { Fragment, useCallback, useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-// Patches L.Map to support `rotate: true` + `bearing: deg`. Must be imported
-// before any L.map() is created — placed at module top so the side effect
-// runs once on first import.
-import 'leaflet-rotate';
 import {
   MapContainer,
   TileLayer,
@@ -85,32 +81,20 @@ const recommendationEndIcon = L.divIcon({
 
 const toLL = (p: LatLng): [number, number] => [p.lat, p.lng];
 
-// Fit the map exactly ONCE per hole change AND set the bearing so the
-// tee→pin axis points up the screen ("player view"). We deliberately don't
-// list `bounds`/`bearing` as deps — otherwise every landing drag triggers a
-// refit and the whole map appears to follow the cursor.
+// Fit the map exactly ONCE per hole change. We deliberately don't list
+// `bounds` as a dep — otherwise every landing drag triggers a refit and the
+// whole map appears to follow the cursor.
 function BoundsFitter({
   holeKey,
   bounds,
-  bearing,
 }: {
   holeKey: number | string;
   bounds: [[number, number], [number, number]];
-  bearing: number;
 }) {
   const map = useMap();
   useEffect(() => {
     map.invalidateSize();
-    // The hole's compass bearing is "where the pin is from the tee" (0=N).
-    // To make that direction point UP the screen, set the map's bearing to
-    // -hole.bearing (leaflet-rotate convention: positive bearing rotates
-    // the view clockwise, so we negate to spin counter-clockwise).
-    const m = map as unknown as { setBearing?: (deg: number) => void };
-    if (typeof m.setBearing === 'function') m.setBearing(-bearing);
-    // Pad bounds generously because rotated content can be cropped at the
-    // corners; ~60% extra padding ensures the inscribed circle of the
-    // rotated rectangle contains everything we care about.
-    map.fitBounds(bounds, { padding: [60, 60], maxZoom: 19 });
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 19 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, holeKey]);
   return null;
@@ -212,6 +196,7 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
   const origins: LatLng[] = [hole.tee, ...landings.slice(0, -1).map(l => l.land)];
 
   return (
+    <div style={{ position: 'relative', height: '100%', width: '100%' }}>
     <MapContainer
       center={[(north + south) / 2, (east + west) / 2]}
       zoom={17}
@@ -223,8 +208,6 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
       boxZoom={false}
       keyboard={false}
       doubleClickZoom={false}
-      // leaflet-rotate options — passed through to L.map()
-      {...({ rotate: true, bearing: -hole.bearing } as Record<string, unknown>)}
       style={{ height: '100%', width: '100%' }}
     >
       <TileLayer
@@ -246,7 +229,6 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         // would skip the refit and leave the view parked on the previous course.
         holeKey={`${hole.holeNumber}@${hole.tee.lat.toFixed(5)},${hole.tee.lng.toFixed(5)}`}
         bounds={[[south, west], [north, east]]}
-        bearing={hole.bearing}
       />
 
       {/* Dark mask outside the hole — only when we have a real fairway shape */}
@@ -363,5 +345,82 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         );
       })}
     </MapContainer>
+    <MapLegend recommendationOnly={!!recommendationOnly} />
+    </div>
+  );
+}
+
+// Static key for the marker colors so users aren't left guessing what the
+// green/red dots mean. Positioned over the map's bottom-left corner with a
+// z-index above Leaflet's panes (which top out around 700).
+function LegendDot({ background, border }: { background: string; border: string }) {
+  return (
+    <span
+      style={{
+        width: 12,
+        height: 12,
+        borderRadius: '50%',
+        background,
+        border: `2px solid ${border}`,
+        flex: '0 0 auto',
+        boxSizing: 'border-box',
+      }}
+    />
+  );
+}
+
+function MapLegend({ recommendationOnly }: { recommendationOnly: boolean }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 8,
+        left: 8,
+        zIndex: 1000,
+        background: 'rgba(255,255,255,0.92)',
+        color: '#111',
+        borderRadius: 6,
+        padding: '6px 8px',
+        fontSize: 11,
+        lineHeight: 1.5,
+        boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
+        pointerEvents: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 3,
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <LegendDot background="#fde047" border="#b45309" />
+        <span>Tee</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <LegendDot background="#fde047" border="#eab308" />
+        <span>Green / pin</span>
+      </div>
+      {!recommendationOnly && (
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <LegendDot background="#22c55e" border="#fff" />
+            <span>Shot landing</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <LegendDot background="#ef4444" border="#fde047" />
+            <span>Final landing</span>
+          </div>
+        </>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span
+          style={{
+            width: 14,
+            height: 0,
+            flex: '0 0 auto',
+            borderTop: '2px dashed #38bdf8',
+          }}
+        />
+        <span>AI recommendation</span>
+      </div>
+    </div>
   );
 }

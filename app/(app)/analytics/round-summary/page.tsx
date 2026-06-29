@@ -39,10 +39,16 @@ const HoleChainMap = dynamic(() => import('@/components/analytics/HoleChainMap')
 
 type Scope = 'round' | 'hole' | 'custom';
 
+// The branded-email flow routes through the owner's Loops account and adds
+// recipients to the owner's audience as referrals, so the Loops-specific
+// messaging is only shown to the owner. Mirrors ADMIN_EMAIL in app/admin/page.tsx.
+const OWNER_EMAIL = 'scott.roelofs@rcgvaluation.com';
+
 export default function RoundSummaryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
+  const isOwner = user?.email === OWNER_EMAIL;
 
   const [currentHole, setCurrentHole] = useState(1);
   const [scope, setScope] = useState<Scope>('round');
@@ -325,7 +331,9 @@ export default function RoundSummaryPage() {
       });
       setSendStatus({
         kind: 'ok',
-        text: `Sent — ${shareTo.trim()} also added to your Loops audience as a referral.`,
+        text: isOwner
+          ? `Sent — ${shareTo.trim()} also added to your Loops audience as a referral.`
+          : `Sent — branded email delivered to ${shareTo.trim()}.`,
       });
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Send failed';
@@ -674,9 +682,19 @@ export default function RoundSummaryPage() {
             </div>
           )}
           <p className="mt-2 text-xs text-text-secondary">
-            <strong>Send branded email</strong> goes through Loops with your CopperLine Golf template — the
-            recipient also gets added to your audience as a referral, so you can follow up from Loops.
-            The other two buttons are fallbacks: download the chart PNG, then open in your own email app.
+            {isOwner ? (
+              <>
+                <strong>Send branded email</strong> goes through Loops with your CopperLine Golf template — the
+                recipient also gets added to your audience as a referral, so you can follow up from Loops.
+                The other two buttons are fallbacks: download the chart PNG, then open in your own email app.
+              </>
+            ) : (
+              <>
+                <strong>Send branded email</strong> delivers your dispersion chart with the CopperLine Golf
+                template. The other two buttons are fallbacks: download the chart PNG, then open in your own
+                email app.
+              </>
+            )}
           </p>
         </div>
         </>

@@ -216,7 +216,10 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
       center={[(north + south) / 2, (east + west) / 2]}
       zoom={17}
       scrollWheelZoom
-      dragging={false}
+      // Pan the map by dragging empty areas. Dragging a green landing marker
+      // still repositions the shot, not the map — Leaflet routes a mousedown
+      // that starts on a marker to the marker's own drag handler.
+      dragging
       boxZoom={false}
       keyboard={false}
       doubleClickZoom={false}

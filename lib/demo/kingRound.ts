@@ -202,6 +202,12 @@ export interface ResolvedHole {
   shots: RoundShot[];
   score: number;
   putts: number;
+  /**
+   * Fairway centerline (tee→green) when known, e.g. iGolf's Centralpath.
+   * Dispersion is measured relative to this bent path so a center-of-fairway
+   * shot on a dogleg reads ~0 lateral. Absent → straight tee→pin axis.
+   */
+  centerline?: LatLng[];
 }
 
 export const HOLES: ResolvedHole[] = HOLES_RAW.map((h, i) => ({
@@ -241,13 +247,66 @@ export interface DispersionShot {
   lateral: number;     // yards right of tee→pin line (positive)
 }
 
-// Compute (distFromPin, lateral) for a single landing relative to the hole's
-// tee→pin axis. Positive distFromPin = short of pin, positive lateral = right
-// of the target line.
+// Project a landing onto a fairway centerline polyline. Returns yards-from-pin
+// measured ALONG the path and a signed lateral offset (positive = right of the
+// direction of travel toward the green). Uses a local equirectangular
+// projection to yards, which is accurate at hole scale.
+const YD_PER_DEG_LAT = 121_762; // 111_320 m / 0.9144
+function dispersionAlongPath(
+  path: LatLng[],
+  land: LatLng
+): { distFromPin: number; lateral: number } {
+  const ydPerDegLng = YD_PER_DEG_LAT * Math.cos((land.lat * Math.PI) / 180);
+  // Project to (x east, y north) yards with the landing at the origin.
+  const x = (p: LatLng) => (p.lng - land.lng) * ydPerDegLng;
+  const y = (p: LatLng) => (p.lat - land.lat) * YD_PER_DEG_LAT;
+  let bestPerp = Infinity, bestAlong = 0, bestSign = 1, total = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    const ax = x(path[i]), ay = y(path[i]);
+    const bx = x(path[i + 1]), by = y(path[i + 1]);
+    const dx = bx - ax, dy = by - ay;
+    const segLen2 = dx * dx + dy * dy;
+    if (segLen2 < 1e-9) continue;
+    const segLen = Math.sqrt(segLen2);
+    // Closest point on segment to the origin (the landing).
+    let t = (-ax * dx + -ay * dy) / segLen2;
+    t = Math.max(0, Math.min(1, t));
+    const qx = ax + t * dx, qy = ay + t * dy;
+    const perp = Math.hypot(qx, qy);
+    if (perp < bestPerp) {
+      bestPerp = perp;
+      bestAlong = total + t * segLen;
+      // cross(dir, A→land): >0 ⇒ land is LEFT of travel ⇒ negative lateral.
+      const cross = dx * -ay - dy * -ax;
+      bestSign = cross >= 0 ? -1 : 1;
+    }
+    total += segLen;
+  }
+  return { distFromPin: total - bestAlong, lateral: bestPerp * bestSign };
+}
+
+// Full tee→green path: the real centerline when known, bracketed by the tee and
+// green so the path spans the whole hole (consecutive near-duplicates dropped).
+function centerPath(hole: ResolvedHole): LatLng[] {
+  const pts = [hole.tee, ...(hole.centerline ?? []), hole.green];
+  const out: LatLng[] = [];
+  for (const p of pts) {
+    if (out.length === 0 || distanceYards(out[out.length - 1], p) > 2) out.push(p);
+  }
+  return out;
+}
+
+// Compute (distFromPin, lateral) for a single landing. When the hole has a real
+// fairway centerline we measure relative to that bent path, so a center-of-
+// fairway shot on a dogleg reads ~0 lateral; otherwise we use the straight
+// tee→pin axis. Positive distFromPin = short of pin, positive lateral = right.
 export function dispersionFor(
   hole: ResolvedHole,
   land: LatLng
 ): { distFromPin: number; lateral: number } {
+  if (hole.centerline && hole.centerline.length >= 2) {
+    return dispersionAlongPath(centerPath(hole), land);
+  }
   const teeToLandBearing = bearingBetween(hole.tee, land);
   const teeToLandDist = distanceYards(hole.tee, land);
   const angleDeg = teeToLandBearing - hole.bearing;

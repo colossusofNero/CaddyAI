@@ -13,6 +13,7 @@ import {
   bearingBetween,
   destinationPoint,
   distanceYards,
+  dispersionFor,
   type LatLng,
   type ResolvedHole,
   type RoundShot,
@@ -202,12 +203,12 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
   // Look up course geometry (per-hole tee + green coords) from /courses/{courseId}
   // Firestore stores coords as { latitude, longitude }; we convert to our { lat, lng } LatLng below.
   interface RawCoord { latitude: number; longitude: number }
-  const courseGeometry: Record<number, { tee?: RawCoord; green?: RawCoord; distance?: number }> = {};
+  const courseGeometry: Record<number, { tee?: RawCoord; green?: RawCoord; distance?: number; centerline?: LatLng[] }> = {};
   if (score.course?.id) {
     try {
       const courseSnap = await getDoc(doc(db, 'courses', score.course.id));
       if (courseSnap.exists()) {
-        const courseData = courseSnap.data() as { holes?: Array<{ number?: number; distance?: number; gpsData?: { teeBox?: RawCoord; greenCenter?: RawCoord } }> };
+        const courseData = courseSnap.data() as { holes?: Array<{ number?: number; distance?: number; gpsData?: { teeBox?: RawCoord; greenCenter?: RawCoord; centerline?: RawCoord[] } }> };
         for (const h of courseData.holes ?? []) {
           const n = h.number;
           if (!n) continue;
@@ -215,6 +216,7 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
             tee: h.gpsData?.teeBox,
             green: h.gpsData?.greenCenter,
             distance: h.distance,
+            centerline: h.gpsData?.centerline?.map(c => ({ lat: c.latitude, lng: c.longitude })),
           };
         }
       }
@@ -262,7 +264,7 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
     const green: LatLng = { lat: geom.green.latitude, lng: geom.green.longitude };
     const lenYds = geom.distance ?? sh.yardage ?? defaultLength(sh.par);
     const shots = synthesizeShots(sh, lenYds, /*hasGeometry=*/ true);
-    const resolved = buildResolvedHole(sh.holeNumber, sh.par, tee, green, lenYds, shots);
+    const resolved = buildResolvedHole(sh.holeNumber, sh.par, tee, green, lenYds, shots, geom.centerline);
     holes.push(resolved);
     const landings = buildLandingsForChain(resolved);
     for (let i = 0; i < landings.length; i++) {
@@ -339,11 +341,11 @@ async function buildCallsRound(
 
   // Course geometry (par, tee, green, distance per hole).
   interface RawCoord { latitude: number; longitude: number }
-  const geom: Record<number, { par?: number; tee?: LatLng; green?: LatLng; dist?: number }> = {};
+  const geom: Record<number, { par?: number; tee?: LatLng; green?: LatLng; dist?: number; centerline?: LatLng[] }> = {};
   const courseSnap = await getDoc(doc(db, 'courses', courseId));
   if (courseSnap.exists()) {
     const cd = courseSnap.data() as {
-      holes?: Array<{ number?: number; par?: number; distance?: number; gpsData?: { teeBox?: RawCoord; greenCenter?: RawCoord } }>;
+      holes?: Array<{ number?: number; par?: number; distance?: number; gpsData?: { teeBox?: RawCoord; greenCenter?: RawCoord; centerline?: RawCoord[] } }>;
     };
     for (const h of cd.holes ?? []) {
       if (!h.number) continue;
@@ -352,6 +354,7 @@ async function buildCallsRound(
         dist: h.distance,
         tee: h.gpsData?.teeBox ? { lat: h.gpsData.teeBox.latitude, lng: h.gpsData.teeBox.longitude } : undefined,
         green: h.gpsData?.greenCenter ? { lat: h.gpsData.greenCenter.latitude, lng: h.gpsData.greenCenter.longitude } : undefined,
+        centerline: h.gpsData?.centerline?.map(c => ({ lat: c.latitude, lng: c.longitude })),
       };
     }
   }
@@ -410,6 +413,7 @@ async function buildCallsRound(
       shots,
       score: 0,
       putts: 0,
+      centerline: g.centerline,
     };
     holes.push(resolved);
 
@@ -480,7 +484,8 @@ function buildResolvedHole(
   tee: LatLng,
   green: LatLng,
   lengthYds: number,
-  shots: RoundShot[]
+  shots: RoundShot[],
+  centerline?: LatLng[]
 ): ResolvedHole {
   return {
     holeNumber,
@@ -492,6 +497,7 @@ function buildResolvedHole(
     shots,
     score: shots.length + 2, // approximate: non-putt shots + 2 putts (caller-supplied)
     putts: 2,
+    centerline,
   };
 }
 
@@ -509,16 +515,6 @@ function buildLandingsForChain(hole: ResolvedHole): ChainLanding[] {
     origin = land;
   }
   return out;
-}
-
-function dispersionFor(hole: ResolvedHole, land: LatLng): { distFromPin: number; lateral: number } {
-  const b = bearingBetween(hole.tee, land);
-  const d = distanceYards(hole.tee, land);
-  const angleDeg = b - hole.bearing;
-  const a = ((((angleDeg + 540) % 360) - 180) * Math.PI) / 180;
-  const fwd = d * Math.cos(a);
-  const lat = d * Math.sin(a);
-  return { distFromPin: hole.lengthYds - fwd, lateral: lat };
 }
 
 // Build a plausible shot chain matching the scorecard (par, strokes, putts,

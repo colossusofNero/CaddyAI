@@ -79,6 +79,11 @@ const recommendationEndIcon = L.divIcon({
   iconAnchor: [8, 8],
 });
 
+// Reference line the dispersion chart measures against (the fairway centerline).
+// White dotted so it reads as a target line, distinct from the green shot line
+// and the sky-blue recommendation.
+const CENTERLINE_COLOR = '#ffffff';
+
 const toLL = (p: LatLng): [number, number] => [p.lat, p.lng];
 
 // Fit the map exactly ONCE per hole change. We deliberately don't list
@@ -245,6 +250,16 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         />
       )}
 
+      {/* Fairway centerline — the reference axis the dispersion chart measures
+          against, so a center-of-fairway shot on a dogleg reads ~0 offline.
+          Spans tee→green through the real bend points when iGolf supplied them. */}
+      {hole.centerline && hole.centerline.length >= 2 && (
+        <Polyline
+          positions={[hole.tee, ...hole.centerline, hole.green].map(toLL)}
+          pathOptions={{ color: CENTERLINE_COLOR, weight: 2.5, opacity: 0.6, dashArray: '2 7', interactive: false }}
+        />
+      )}
+
       {/* Tee + green */}
       <Marker position={toLL(hole.tee)} icon={teeIcon}>
         <Popup>
@@ -345,7 +360,10 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         );
       })}
     </MapContainer>
-    <MapLegend recommendationOnly={!!recommendationOnly} />
+    <MapLegend
+      recommendationOnly={!!recommendationOnly}
+      hasCenterline={!!(hole.centerline && hole.centerline.length >= 2)}
+    />
     </div>
   );
 }
@@ -369,7 +387,7 @@ function LegendDot({ background, border }: { background: string; border: string 
   );
 }
 
-function MapLegend({ recommendationOnly }: { recommendationOnly: boolean }) {
+function MapLegend({ recommendationOnly, hasCenterline }: { recommendationOnly: boolean; hasCenterline: boolean }) {
   return (
     <div
       style={{
@@ -421,6 +439,19 @@ function MapLegend({ recommendationOnly }: { recommendationOnly: boolean }) {
         />
         <span>AI recommendation</span>
       </div>
+      {hasCenterline && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span
+            style={{
+              width: 14,
+              height: 0,
+              flex: '0 0 auto',
+              borderTop: '2px dotted #777',
+            }}
+          />
+          <span>Fairway centerline</span>
+        </div>
+      )}
     </div>
   );
 }

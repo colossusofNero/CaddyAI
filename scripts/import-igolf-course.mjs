@@ -98,14 +98,25 @@ for (const vh of vHoles) {
   const teeBox = teeCandidates.slice().sort((a, b) =>
     Math.abs(distYds(a, green) - targetYds) - Math.abs(distYds(b, green) - targetYds))[0];
   const boundary = polygon(vh.Perimeter);
+  // Fairway centerline (Centralpath). Orient tee→green so dispersion measures
+  // distance-to-pin ALONG the path. Reverse if the first point is the greener end.
+  const centerline = polygon(vh.Centralpath);
+  if (centerline.length >= 2 && distYds(centerline[0], green) < distYds(centerline[centerline.length - 1], green)) {
+    centerline.reverse();
+  }
   const measured = Math.round(distYds(teeBox, green));
   out.push({
     number: n,
     par: parHole[n - 1] || 4,
     distance: targetYds || measured,
-    gpsData: { teeBox, greenCenter: green, ...(boundary.length >= 3 ? { holeBoundary: boundary } : {}) },
+    gpsData: {
+      teeBox,
+      greenCenter: green,
+      ...(boundary.length >= 3 ? { holeBoundary: boundary } : {}),
+      ...(centerline.length >= 2 ? { centerline } : {}),
+    },
   });
-  console.log(`  hole ${n}: par ${parHole[n-1]}, ${targetYds}y (map ${measured}y), boundary ${boundary.length}pts ${boundary.length >= 3 ? '✓' : '—'}`);
+  console.log(`  hole ${n}: par ${parHole[n-1]}, ${targetYds}y (map ${measured}y), boundary ${boundary.length}pts ${boundary.length >= 3 ? '✓' : '—'}, centerline ${centerline.length}pts`);
 }
 out.sort((a, b) => a.number - b.number);
 console.log(`\nbuilt ${out.length} holes with tee+green geometry`);

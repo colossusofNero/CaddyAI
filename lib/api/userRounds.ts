@@ -198,7 +198,14 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
     }
   }
   if (!score) return null;
-  const scoreHoles = (score.holes ?? []).slice().sort((a, b) => a.holeNumber - b.holeNumber);
+  // Drop empty filler holes: some sources pad a 9-hole course out to 18 with
+  // blank entries (0 strokes, 0 yardage). They have no geometry, so they'd trip
+  // the "missing geometry" banner, plot synthetic (0,0) teeboxes on the back
+  // nine, and inflate the par total. Keep only holes that were actually played
+  // (a stroke) or carry a real yardage.
+  const scoreHoles = (score.holes ?? [])
+    .filter(h => (h.strokes ?? 0) > 0 || (h.yardage ?? 0) > 0)
+    .sort((a, b) => a.holeNumber - b.holeNumber);
 
   // Look up course geometry (per-hole tee + green coords) from /courses/{courseId}
   // Firestore stores coords as { latitude, longitude }; we convert to our { lat, lng } LatLng below.

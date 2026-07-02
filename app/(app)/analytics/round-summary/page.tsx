@@ -14,6 +14,7 @@ import {
   HOLES as DEMO_HOLES,
   buildHoleLandings,
   bearingBetween,
+  distanceYards,
   dispersionFor,
   PGA_PROS,
   COURSE_INFO,
@@ -185,6 +186,11 @@ export default function RoundSummaryPage() {
   // from the previous round would otherwise be indexed against a different
   // shot chain (causing landings[i] to be undefined downstream).
   useEffect(() => {
+    // Don't seed landings from DEMO_HOLES while a real round is still loading —
+    // activeHoles falls back to the demo (Scottsdale) holes until loadRound
+    // resolves, and those coords could otherwise leak into (and get persisted
+    // for) the real round. Wait until the real holes are in.
+    if (selectedRoundId !== 'demo' && !loadedHoles) return;
     setLandingsByHole(prev => {
       const next = { ...prev };
       let changed = false;
@@ -197,7 +203,7 @@ export default function RoundSummaryPage() {
       }
       return changed ? next : prev;
     });
-  }, [activeHoles]);
+  }, [activeHoles, selectedRoundId, loadedHoles]);
 
   // Keep enabledHoles in sync with active round + scope
   useEffect(() => {
@@ -261,9 +267,14 @@ export default function RoundSummaryPage() {
     if (!db || selectedRoundId === 'demo') return;
     const holeNum = hole.holeNumber;
     const current = landingsByHole[holeNum] ?? buildHoleLandings(hole);
-    const coords = current.map((l, i) =>
-      i === shotIndex ? { lat: latLng.lat, lng: latLng.lng } : { lat: l.land.lat, lng: l.land.lng }
-    );
+    const updated = current.map((l, i) => (i === shotIndex ? { ...l, land: latLng } : l));
+    // Never persist a landing implausibly far from the tee — guards against any
+    // stale/demo coords slipping into the saved overrides. No hole is > ~1500y.
+    if (updated.some(l => distanceYards(hole.tee, l.land) > 1500)) {
+      console.warn('[round-summary] skip persist: landing far from tee');
+      return;
+    }
+    const coords = updated.map(l => ({ lat: l.land.lat, lng: l.land.lng }));
     try {
       await updateDoc(doc(db, roundSource, selectedRoundId), {
         [`landingOverrides.${holeNum}`]: coords,

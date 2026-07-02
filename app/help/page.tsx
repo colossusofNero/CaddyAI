@@ -19,6 +19,7 @@ import {
   Video,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function HelpPage() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(0);
@@ -222,9 +223,11 @@ export default function HelpPage() {
                   <p className="text-sm text-text-secondary mb-4">
                     {option.description}
                   </p>
-                  <Button variant="ghost" size="sm">
-                    {option.action}
-                  </Button>
+                  {FEATURES.helpSupportActions && (
+                    <Button variant="ghost" size="sm">
+                      {option.action}
+                    </Button>
+                  )}
                 </motion.div>
               );
             })}
@@ -324,14 +327,18 @@ export default function HelpPage() {
               Our support team is here to help you get the most out of Copperline Golf
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-neutral-50">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Start Live Chat
-              </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                <Mail className="w-5 h-5 mr-2" />
-                Email Support
-              </Button>
+              {FEATURES.helpSupportActions && (
+                <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-neutral-50">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Start Live Chat
+                </Button>
+              )}
+              {FEATURES.helpSupportActions && (
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Email Support
+                </Button>
+              )}
             </div>
           </motion.div>
         </div>

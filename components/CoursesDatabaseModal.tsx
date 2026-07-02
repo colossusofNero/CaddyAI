@@ -3,6 +3,7 @@
 import { X, Map, MapPin, Star, Search, Navigation, Flag } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 import { useState } from 'react';
 
 interface CoursesDatabaseModalProps {
@@ -215,7 +216,9 @@ export function CoursesDatabaseModal({ isOpen, onClose }: CoursesDatabaseModalPr
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6">
           <Button variant="outline" onClick={onClose}>{tCommon('close')}</Button>
-          <Button variant="primary">{t('cta')}</Button>
+          {FEATURES.featureModalCta && (
+            <Button variant="primary">{t('cta')}</Button>
+          )}
         </div>
       </div>
 

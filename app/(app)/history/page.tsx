@@ -9,6 +9,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
+import { FEATURES } from '@/lib/featureFlags';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
@@ -905,14 +906,19 @@ export default function HistoryPage() {
 
                     {/* Actions */}
                     <div className="flex flex-wrap gap-3 pt-4 border-t border-secondary-700">
-                      <Button variant="outline" size="sm" disabled>
-                        <Download className="w-4 h-4 mr-2" />
-                        Export
-                      </Button>
-                      <Button variant="outline" size="sm" disabled>
-                        <Share2 className="w-4 h-4 mr-2" />
-                        Share
-                      </Button>
+                      {/* Export/Share not wired up yet — hidden via feature flag. */}
+                      {FEATURES.historyExportShare && (
+                        <>
+                          <Button variant="outline" size="sm" disabled>
+                            <Download className="w-4 h-4 mr-2" />
+                            Export
+                          </Button>
+                          <Button variant="outline" size="sm" disabled>
+                            <Share2 className="w-4 h-4 mr-2" />
+                            Share
+                          </Button>
+                        </>
+                      )}
                       <Button
                         variant="outline"
                         size="sm"

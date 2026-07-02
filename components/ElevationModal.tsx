@@ -3,6 +3,7 @@
 import { X, Mountain, TrendingUp, TrendingDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 interface ElevationModalProps {
   isOpen: boolean;
@@ -207,7 +208,9 @@ export function ElevationModal({ isOpen, onClose }: ElevationModalProps) {
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6">
           <Button variant="outline" onClick={onClose}>{tCommon('close')}</Button>
-          <Button variant="primary">{t('cta')}</Button>
+          {FEATURES.featureModalCta && (
+            <Button variant="primary">{t('cta')}</Button>
+          )}
         </div>
       </div>
 

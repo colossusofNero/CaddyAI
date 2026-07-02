@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function HelpPage() {
   const t = useTranslations('marketing.help');
@@ -160,9 +161,11 @@ export default function HelpPage() {
                   <p className="text-sm text-text-secondary mb-4">
                     {option.description}
                   </p>
-                  <Button variant="ghost" size="sm">
-                    {option.action}
-                  </Button>
+                  {FEATURES.helpSupportActions && (
+                    <Button variant="ghost" size="sm">
+                      {option.action}
+                    </Button>
+                  )}
                 </motion.div>
               );
             })}

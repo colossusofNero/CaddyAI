@@ -3,6 +3,7 @@
 import { X, BarChart3, TrendingUp, TrendingDown, Target, Award, Zap, Trophy } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 interface PerformanceAnalyticsModalProps {
   isOpen: boolean;
@@ -249,7 +250,9 @@ export function PerformanceAnalyticsModal({ isOpen, onClose }: PerformanceAnalyt
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6">
           <Button variant="outline" onClick={onClose}>{tCommon('close')}</Button>
-          <Button variant="primary">{t('cta')}</Button>
+          {FEATURES.featureModalCta && (
+            <Button variant="primary">{t('cta')}</Button>
+          )}
         </div>
       </div>
 

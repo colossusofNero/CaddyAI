@@ -20,6 +20,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { XIcon } from '@/components/icons/XIcon';
 import { fadeInUp } from '@/lib/animations';
+import { isNavHidden } from '@/lib/featureFlags';
 
 interface FooterLink {
   label: string;
@@ -137,9 +138,14 @@ export function Footer() {
             </motion.div>
           </div>
 
-          {/* Links Columns */}
+          {/* Links Columns — hide links to pages that aren't built out yet
+              (feature-flagged in lib/featureFlags.ts), and drop any section
+              left with no links. */}
           <div className="md:col-span-2 lg:col-span-8 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {footerSections.map((section, index) => (
+            {footerSections
+              .map(section => ({ ...section, links: section.links.filter(l => !isNavHidden(l.href)) }))
+              .filter(section => section.links.length > 0)
+              .map((section, index) => (
               <motion.div
                 key={section.title}
                 initial={{ opacity: 0, y: 20 }}

@@ -43,15 +43,17 @@ export function ProtectedRoute({
         return;
       }
 
-      // Check profile requirement
+      // Check profile requirement. Onboarding is where profile setup lives —
+      // there is no dedicated /profile/setup route (would 404).
       if (requireProfile && !userMetadata?.profileComplete) {
-        router.push('/profile/setup');
+        router.push('/onboarding');
         return;
       }
 
-      // Check clubs requirement
+      // Check clubs requirement. Same — no /clubs/setup route; onboarding
+      // covers club setup.
       if (requireClubs && !userMetadata?.clubsComplete) {
-        router.push('/clubs/setup');
+        router.push('/onboarding');
         return;
       }
     }

@@ -3,6 +3,7 @@
 import { X, Target, TrendingUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 interface ShotPatternsModalProps {
   isOpen: boolean;
@@ -119,7 +120,9 @@ export function ShotPatternsModal({ isOpen, onClose }: ShotPatternsModalProps) {
         {/* Actions */}
         <div className="flex justify-end gap-3 mt-6">
           <Button variant="outline" onClick={onClose}>{tCommon('close')}</Button>
-          <Button variant="primary">{t('cta')}</Button>
+          {FEATURES.featureModalCta && (
+            <Button variant="primary">{t('cta')}</Button>
+          )}
         </div>
       </div>
 

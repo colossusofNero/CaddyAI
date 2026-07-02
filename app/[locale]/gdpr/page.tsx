@@ -19,6 +19,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function GDPRPage() {
   const rights = [
@@ -370,14 +371,18 @@ export default function GDPRPage() {
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="primary" size="lg">
-                      <FileText className="w-5 h-5 mr-2" />
-                      Submit Data Request
-                    </Button>
-                    <Button variant="outline" size="lg">
-                      <Download className="w-5 h-5 mr-2" />
-                      Download My Data
-                    </Button>
+                    {FEATURES.gdprDataRequests && (
+                      <Button variant="primary" size="lg">
+                        <FileText className="w-5 h-5 mr-2" />
+                        Submit Data Request
+                      </Button>
+                    )}
+                    {FEATURES.gdprDataRequests && (
+                      <Button variant="outline" size="lg">
+                        <Download className="w-5 h-5 mr-2" />
+                        Download My Data
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>

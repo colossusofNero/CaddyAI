@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
+import { FEATURES } from '@/lib/featureFlags';
 import { firebaseService } from '@/services/firebaseService';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -453,12 +454,15 @@ export default function PreferencesPage() {
                       description="Enable GPS tracking for course detection and weather"
                     />
 
-                    <Switch
-                      checked={false}
-                      onCheckedChange={(checked) => {}} // Feature not in unified schema
-                      label="Accept friend requests"
-                      description="Allow others to send you friend requests"
-                    />
+                    {/* Friend requests not implemented yet — hidden via feature flag. */}
+                    {FEATURES.settingsFriendRequests && (
+                      <Switch
+                        checked={false}
+                        onCheckedChange={(checked) => {}} // Feature not in unified schema
+                        label="Accept friend requests"
+                        description="Allow others to send you friend requests"
+                      />
+                    )}
                   </div>
                 </div>
               </Card>
@@ -527,12 +531,15 @@ export default function PreferencesPage() {
                   </div>
 
                   <div className="space-y-6 opacity-50 pointer-events-none">
-                    <Switch
-                      checked={false}
-                      onCheckedChange={() => {}}
-                      label="Voice assistant"
-                      description="Enable voice recommendations during rounds"
-                    />
+                    {/* Voice assistant not implemented yet — hidden via feature flag. */}
+                    {FEATURES.settingsVoiceAssistant && (
+                      <Switch
+                        checked={false}
+                        onCheckedChange={() => {}}
+                        label="Voice assistant"
+                        description="Enable voice recommendations during rounds"
+                      />
+                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-text-primary mb-3">

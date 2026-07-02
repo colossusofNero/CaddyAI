@@ -34,6 +34,7 @@ import {
   CourseReview,
 } from '@/src/types/courseExtended';
 import { useAuth } from '@/hooks/useAuth';
+import { FEATURES } from '@/lib/featureFlags';
 
 // Dynamically import map component (client-side only)
 const CourseMap = dynamic(() => import('@/components/CourseMap'), {
@@ -218,10 +219,12 @@ export default function CourseDetailPage() {
                 </button>
               )}
 
-              <button className="px-6 py-4 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-semibold flex items-center gap-2">
-                <Navigation className="w-5 h-5" />
-                Get Directions
-              </button>
+              {FEATURES.courseGetDirections && (
+                <button className="px-6 py-4 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-semibold flex items-center gap-2">
+                  <Navigation className="w-5 h-5" />
+                  Get Directions
+                </button>
+              )}
             </div>
           </div>
         </div>

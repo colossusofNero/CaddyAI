@@ -10,6 +10,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Cookie, Settings, BarChart3, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function CookiesPage() {
   return (
@@ -295,10 +296,12 @@ export default function CookiesPage() {
                       Scottsdale, AZ 85260
                     </p>
                   </div>
-                  <Button variant="primary" size="lg">
-                    <Settings className="w-5 h-5 mr-2" />
-                    Manage Cookie Preferences
-                  </Button>
+                  {FEATURES.cookiePreferences && (
+                    <Button variant="primary" size="lg">
+                      <Settings className="w-5 h-5 mr-2" />
+                      Manage Cookie Preferences
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

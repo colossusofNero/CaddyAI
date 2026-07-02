@@ -124,6 +124,7 @@ export async function listUserRounds(userId: string, max = 50): Promise<RoundLis
 export interface LoadedRound {
   meta: {
     id: string;
+    courseId?: string;
     courseName: string;
     date: string;
     totalScore: number;
@@ -145,6 +146,25 @@ export interface LoadedRound {
   recommendationsByHole?: Record<number, CallRecommendation[]>;
   /** Real fairway polygon per hole (from /courseHoles), for the map boundary. */
   fairwayByHole?: Record<number, LatLng[]>;
+  /** Which collection the round doc lives in — for persisting per-round overrides. */
+  sourceCollection?: 'scores' | 'rounds';
+  /** Saved per-shot landing overrides: holeNumber → landing coords by shot index. */
+  landingOverrides?: Record<number, LatLng[]>;
+}
+
+// Firestore stores landing overrides as { [holeNumber]: [{lat,lng}, ...] }.
+function parseLandingOverrides(raw: unknown): Record<number, LatLng[]> | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const out: Record<number, LatLng[]> = {};
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    const n = Number(k);
+    if (!Number.isFinite(n) || !Array.isArray(v)) continue;
+    const pts = v
+      .map(p => (p && typeof p === 'object' ? (p as LatLng) : null))
+      .filter((p): p is LatLng => !!p && typeof p.lat === 'number' && typeof p.lng === 'number');
+    if (pts.length) out[n] = pts;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 // Read real iGolf hole-boundary polygons from the course doc, keyed by hole
@@ -182,19 +202,26 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
   // The analytics list merges both collections, so an id from there can live in
   // either one — mirrors roundsApi.getRoundById in lib/api/rounds.ts.
   let score: RawScoreDoc | null = null;
+  let sourceCollection: 'scores' | 'rounds' | undefined;
+  let landingOverrides: Record<number, LatLng[]> | undefined;
   const scoreSnap = await getDoc(doc(db, 'scores', scoreId));
   if (scoreSnap.exists()) {
-    const raw = scoreSnap.data() as RawScoreDoc & { analysisMode?: string; callsRoundId?: string };
+    const raw = scoreSnap.data() as RawScoreDoc & { analysisMode?: string; callsRoundId?: string; landingOverrides?: unknown };
     // Calls round: reconstruct from real optimizer-call shotEvents, not a
     // synthesized scorecard. Only the recommendations are real data.
     if (raw.analysisMode === 'calls') {
       return buildCallsRound(scoreId, raw);
     }
     score = raw;
+    sourceCollection = 'scores';
+    landingOverrides = parseLandingOverrides(raw.landingOverrides);
   } else {
     const roundSnap = await getDoc(doc(db, 'rounds', scoreId));
     if (roundSnap.exists()) {
-      score = roundDocToRawScore(roundSnap.data() as RawRoundDoc);
+      const rd = roundSnap.data() as RawRoundDoc & { landingOverrides?: unknown };
+      score = roundDocToRawScore(rd);
+      sourceCollection = 'rounds';
+      landingOverrides = parseLandingOverrides(rd.landingOverrides);
     }
   }
   if (!score) return null;
@@ -290,6 +317,7 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
   return {
     meta: {
       id: scoreId,
+      courseId: score.course?.id,
       courseName: score.course?.name ?? '(unknown course)',
       date: score.date,
       totalScore,
@@ -298,6 +326,8 @@ export async function loadRound(scoreId: string): Promise<LoadedRound | null> {
     },
     holes,
     dispersionShots,
+    sourceCollection,
+    landingOverrides,
     fairwayByHole: await loadFairwaysByHole(score.course?.id),
   };
 }
@@ -461,6 +491,7 @@ async function buildCallsRound(
   return {
     meta: {
       id: scoreId,
+      courseId,
       courseName: meta.course?.name ?? '(unknown course)',
       date: meta.date,
       totalScore: callCount,
@@ -473,6 +504,7 @@ async function buildCallsRound(
     dispersionShots,
     landingsByHole,
     recommendationsByHole,
+    sourceCollection: 'scores',
     fairwayByHole: await loadFairwaysByHole(courseId),
   };
 }

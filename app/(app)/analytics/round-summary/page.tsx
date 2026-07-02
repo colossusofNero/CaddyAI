@@ -6,12 +6,14 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ArrowLeft, ChevronLeft, ChevronRight, Download, Mail, Send } from 'lucide-react';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { doc, updateDoc } from 'firebase/firestore';
 import { useAuth } from '@/hooks/useAuth';
-import { app } from '@/lib/firebase';
+import { app, db } from '@/lib/firebase';
 import { Button } from '@/components/ui/Button';
 import {
   HOLES as DEMO_HOLES,
   buildHoleLandings,
+  bearingBetween,
   dispersionFor,
   PGA_PROS,
   COURSE_INFO,
@@ -75,6 +77,7 @@ export default function RoundSummaryPage() {
   }, [searchParams]);
   const [loadedHoles, setLoadedHoles] = useState<ResolvedHole[] | null>(null);
   const [loadedMeta, setLoadedMeta] = useState<{
+    courseId?: string;
     courseName: string;
     date: string;
     totalScore: number;
@@ -83,6 +86,8 @@ export default function RoundSummaryPage() {
     mode?: 'scorecard' | 'calls';
     callCount?: number;
   } | null>(null);
+  // Which collection the loaded round lives in — for persisting shot overrides.
+  const [roundSource, setRoundSource] = useState<'scores' | 'rounds'>('scores');
   const [roundLoading, setRoundLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
   // Calls mode: primary + secondary recommendation(s) per hole number.
@@ -142,10 +147,23 @@ export default function RoundSummaryPage() {
         }
         setLoadedHoles(r.holes);
         setLoadedMeta(r.meta);
+        setRoundSource(r.sourceCollection ?? 'scores');
         // Calls mode provides real landing positions (where each optimizer call
         // was made) — seed them so the map/dispersion plot actual data instead
         // of synthesizing a shot chain.
         if (r.landingsByHole) setLandingsByHole(r.landingsByHole);
+        // Scorecard mode: apply any saved per-shot landing overrides on top of
+        // the synthesized chain, so the user's corrected positions persist.
+        else if (r.landingOverrides) {
+          const seeded: Record<number, HoleLanding[]> = {};
+          for (const h of r.holes) {
+            const ov = r.landingOverrides[h.holeNumber];
+            if (!ov) continue;
+            const base = buildHoleLandings(h);
+            seeded[h.holeNumber] = base.map((l, i) => (ov[i] ? { ...l, land: ov[i] } : l));
+          }
+          if (Object.keys(seeded).length) setLandingsByHole(seeded);
+        }
         setRecsByHole(r.recommendationsByHole ?? {});
         setFairwayByHole(r.fairwayByHole ?? {});
         setCurrentHole(1);
@@ -238,7 +256,64 @@ export default function RoundSummaryPage() {
     });
   }
 
+  // Persist a dragged shot landing onto the round doc so it survives reloads.
+  async function onLandingCommit(shotIndex: number, latLng: LatLng) {
+    if (!db || selectedRoundId === 'demo') return;
+    const holeNum = hole.holeNumber;
+    const current = landingsByHole[holeNum] ?? buildHoleLandings(hole);
+    const coords = current.map((l, i) =>
+      i === shotIndex ? { lat: latLng.lat, lng: latLng.lng } : { lat: l.land.lat, lng: l.land.lng }
+    );
+    try {
+      await updateDoc(doc(db, roundSource, selectedRoundId), {
+        [`landingOverrides.${holeNum}`]: coords,
+        updatedAt: Date.now(),
+      });
+    } catch (err) {
+      console.warn('[round-summary] persist landing failed:', err);
+    }
+  }
+
+  // Owner-only: move a hole's tee or pin and save it to the shared course
+  // geometry (via the admin route — the browser can't write /courses directly).
+  async function persistGeometry(kind: 'tee' | 'pin', latLng: LatLng) {
+    const courseId = loadedMeta?.courseId;
+    if (!courseId || !user) return;
+    // Optimistic local update so the map + dispersion react immediately.
+    setLoadedHoles(prev =>
+      prev
+        ? prev.map(h => {
+            if (h.holeNumber !== hole.holeNumber) return h;
+            const tee = kind === 'tee' ? latLng : h.tee;
+            const green = kind === 'pin' ? latLng : h.green;
+            return { ...h, tee, green, bearing: bearingBetween(tee, green) };
+          })
+        : prev
+    );
+    try {
+      const token = await user.getIdToken();
+      const body =
+        kind === 'tee'
+          ? { courseId, holeNumber: hole.holeNumber, teeBox: { latitude: latLng.lat, longitude: latLng.lng } }
+          : { courseId, holeNumber: hole.holeNumber, greenCenter: { latitude: latLng.lat, longitude: latLng.lng } };
+      const res = await fetch('/api/admin/course-geometry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        console.warn('[round-summary] geometry save failed:', j);
+      }
+    } catch (err) {
+      console.warn('[round-summary] geometry save failed:', err);
+    }
+  }
+
   const isCallsMode = loadedMeta?.mode === 'calls';
+  // Owner can drag the tee/pin to correct the shared course geometry — only
+  // when the hole has real geometry (not synthetic) and a course to save to.
+  const canEditGeometry = isOwner && !isCallsMode && !!loadedMeta?.courseId && !!loadedMeta?.hasFullGeometry;
   const totalScore = loadedMeta?.totalScore ?? activeHoles.reduce((s, h) => s + h.score, 0);
   const totalPar = loadedMeta?.totalPar ?? activeHoles.reduce((s, h) => s + h.par, 0);
   // In calls mode there is no score — show how many caddy calls we captured.
@@ -467,7 +542,9 @@ export default function RoundSummaryPage() {
 
         {!notFound && (
         <>
-        {selectedRoundId !== 'demo' && loadedMeta && !loadedMeta.hasFullGeometry && (
+        {/* Owner-only diagnostic: tells the account owner how to seed missing
+            course geometry. Other users shouldn't see this technical message. */}
+        {isOwner && selectedRoundId !== 'demo' && loadedMeta && !loadedMeta.hasFullGeometry && (
           <div className="text-xs bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 rounded-lg p-3">
             <strong>Heads up:</strong> course geometry for this round isn&apos;t in Firestore yet,
             so the per-hole map uses synthetic coords. The dispersion chart is computed from
@@ -548,6 +625,9 @@ export default function RoundSummaryPage() {
                   fairwayPolygon={fairwayByHole[hole.holeNumber]}
                   recommendationOnly={isCallsMode}
                   onLandingChange={isCallsMode ? undefined : onLandingChange}
+                  onLandingCommit={isCallsMode || selectedRoundId === 'demo' ? undefined : onLandingCommit}
+                  onTeeChange={canEditGeometry ? (ll) => persistGeometry('tee', ll) : undefined}
+                  onPinChange={canEditGeometry ? (ll) => persistGeometry('pin', ll) : undefined}
                 />
               )}
             </div>

@@ -124,9 +124,15 @@ interface Props {
    * tracked shot that doesn't exist.
    */
   recommendationOnly?: boolean;
+  /** Fired once when a shot marker is released — persist the landing. */
+  onLandingCommit?: (shotIndex: number, latLng: LatLng) => void;
+  /** When provided, the tee marker is draggable; fired on release. */
+  onTeeChange?: (latLng: LatLng) => void;
+  /** When provided, the green/pin marker is draggable; fired on release. */
+  onPinChange?: (latLng: LatLng) => void;
 }
 
-export default function HoleChainMap({ hole, landings, onLandingChange, fairwayPolygon, recommendationOnly }: Props) {
+export default function HoleChainMap({ hole, landings, onLandingChange, fairwayPolygon, recommendationOnly, onLandingCommit, onTeeChange, onPinChange }: Props) {
   // Throttle drag state updates to one per animation frame. The marker
   // itself moves smoothly because Leaflet updates it directly; what was
   // jumpy is React re-rendering the 57-label dispersion chart + lines on
@@ -260,18 +266,38 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
         />
       )}
 
-      {/* Tee + green */}
-      <Marker position={toLL(hole.tee)} icon={teeIcon}>
+      {/* Tee + green. Draggable (owner) to correct imported geometry. */}
+      <Marker
+        position={toLL(hole.tee)}
+        icon={teeIcon}
+        draggable={!!onTeeChange}
+        eventHandlers={
+          onTeeChange
+            ? { dragend: (e: L.LeafletEvent) => { const ll = (e.target as L.Marker).getLatLng(); onTeeChange({ lat: ll.lat, lng: ll.lng }); } }
+            : undefined
+        }
+      >
         <Popup>
           <div style={{ fontSize: 12 }}>
-            <strong>H{hole.holeNumber} · Tee (white)</strong>
+            <strong>H{hole.holeNumber} · Tee</strong>
+            {onTeeChange && (<><br /><em>Drag to correct the tee</em></>)}
           </div>
         </Popup>
       </Marker>
-      <Marker position={toLL(hole.green)} icon={greenIcon}>
+      <Marker
+        position={toLL(hole.green)}
+        icon={greenIcon}
+        draggable={!!onPinChange}
+        eventHandlers={
+          onPinChange
+            ? { dragend: (e: L.LeafletEvent) => { const ll = (e.target as L.Marker).getLatLng(); onPinChange({ lat: ll.lat, lng: ll.lng }); } }
+            : undefined
+        }
+      >
         <Popup>
           <div style={{ fontSize: 12 }}>
             <strong>H{hole.holeNumber} · Green / pin</strong>
+            {onPinChange && (<><br /><em>Drag to correct the pin</em></>)}
           </div>
         </Popup>
       </Marker>
@@ -333,6 +359,7 @@ export default function HoleChainMap({ hole, landings, onLandingChange, fairwayP
                           dragend: (e: L.LeafletEvent) => {
                             const ll = (e.target as L.Marker).getLatLng();
                             flushDrag(i, { lat: ll.lat, lng: ll.lng });
+                            onLandingCommit?.(i, { lat: ll.lat, lng: ll.lng });
                           },
                         }
                       : undefined

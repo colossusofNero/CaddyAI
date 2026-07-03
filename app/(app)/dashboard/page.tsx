@@ -184,21 +184,10 @@ export default function DashboardPage() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               Welcome back, {user.displayName?.split(' ')[0] || 'Golfer'}!
             </h1>
-            <p className="text-xl md:text-2xl text-white/95 mb-6 drop-shadow-md flex items-center gap-2">
+            <p className="text-xl md:text-2xl text-white/95 drop-shadow-md flex items-center gap-2">
               <Flag className="w-6 h-6" />
               Perfect day for golf in the Southwest
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/round/new">
-                <Button
-                  size="lg"
-                  className="bg-white text-primary hover:bg-white/90 font-semibold shadow-xl"
-                >
-                  <Circle className="w-5 h-5 mr-2" />
-                  Start New Round
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </div>
@@ -397,11 +386,11 @@ export default function DashboardPage() {
                 </div>
                 <h3 className="text-xl font-bold text-text-primary mb-2">No rounds yet</h3>
                 <p className="text-text-secondary mb-6">
-                  Start tracking your golf game and see your progress here
+                  Play a round in the Copperline Golf app and your progress shows up here
                 </p>
-                <Link href="/round/new">
+                <Link href="/download">
                   <Button variant="primary" size="md">
-                    Start Your First Round
+                    Download App
                   </Button>
                 </Link>
               </div>
@@ -487,15 +476,6 @@ export default function DashboardPage() {
         <div className="mb-8">
           <h2 className="text-xl font-bold text-text-primary mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Link href="/round/new">
-              <button className="w-full p-6 text-center bg-primary hover:bg-primary-600 rounded-lg transition-all duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300">
-                  <Circle className="w-6 h-6 text-white" />
-                </div>
-                <h4 className="font-medium text-white">Start Round</h4>
-              </button>
-            </Link>
-
             <Link href="/recommendations">
               <button className="w-full p-6 text-center bg-secondary-800 hover:bg-secondary-700 rounded-lg transition-all duration-300 border border-secondary-700 hover:border-accent/50 hover:shadow-lg hover:-translate-y-1 group">
                 <div className="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:bg-opacity-20">

@@ -110,10 +110,10 @@ export default function RecommendationAnalyticsPage() {
               <BarChart3 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-2">No Data Yet</h2>
               <p className="text-muted-foreground mb-6">
-                Start using AI recommendations or the Optimizer to build your analytics.
+                Use AI recommendations or the Optimizer in the Copperline Golf app to build your analytics.
               </p>
-              <Link href="/round/new">
-                <Button variant="primary">Start a Round</Button>
+              <Link href="/download">
+                <Button variant="primary">Download App</Button>
               </Link>
             </CardContent>
           </Card>

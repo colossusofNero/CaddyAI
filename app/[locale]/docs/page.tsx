@@ -21,8 +21,12 @@ import {
   Check,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function DocsPage() {
+  if (!FEATURES.marketingDocs) notFound();
+
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const sections = [

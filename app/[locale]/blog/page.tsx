@@ -17,8 +17,12 @@ import {
   Tag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function BlogPage() {
+  if (!FEATURES.marketingBlog) notFound();
+
   const posts = [
     {
       title: '5 Ways AI is Revolutionizing Golf',

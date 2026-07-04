@@ -20,8 +20,12 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function CommunityPage() {
+  if (!FEATURES.marketingCommunity) notFound();
+
   const posts = [
     {
       author: 'Mike Johnson',

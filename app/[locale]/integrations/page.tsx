@@ -18,8 +18,12 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function IntegrationsPage() {
+  if (!FEATURES.marketingIntegrations) notFound();
+
   const integrations = [
     {
       name: 'Apple Health',

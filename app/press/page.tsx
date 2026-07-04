@@ -18,8 +18,12 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function PressPage() {
+  if (!FEATURES.marketingPress) notFound();
+
   const pressReleases = [
     {
       title: 'Copperline Golf Reaches 100,000 Active Users Milestone',

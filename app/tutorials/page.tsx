@@ -19,8 +19,12 @@ import {
   Award,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function TutorialsPage() {
+  if (!FEATURES.marketingTutorials) notFound();
+
   const videos = [
     {
       title: 'Getting Started with Copperline Golf',

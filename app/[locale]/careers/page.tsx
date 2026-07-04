@@ -20,8 +20,12 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { notFound } from 'next/navigation';
+import { FEATURES } from '@/lib/featureFlags';
 
 export default function CareersPage() {
+  if (!FEATURES.marketingCareers) notFound();
+
   const jobs = [
     {
       title: 'Senior Full Stack Engineer',

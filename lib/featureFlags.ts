@@ -16,6 +16,9 @@ export const FEATURES = {
   marketingDocs: false,
   marketingIntegrations: false,
 
+  // Orphaned analytics page — functional but not surfaced. Hidden (404) until surfaced.
+  quadAnalysis: false,
+
   // --- In-app controls that aren't wired up yet ---
   historyExportShare: false, // History page Export / Share buttons
   featureModalCta: false, // primary CTA on the feature-preview modals (Close still works)

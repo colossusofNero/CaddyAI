@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { QuadAnalysisDashboard } from '@/components/analytics/QuadAnalysisDashboard';
+import { FEATURES } from '@/lib/featureFlags';
 
 export const metadata: Metadata = {
   title: 'Quad Analysis - Copperline Golf',
@@ -7,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function QuadAnalysisPage() {
+  if (!FEATURES.quadAnalysis) notFound();
   return (
     <div className="min-h-screen bg-gradient-to-br from-secondary-50 to-white dark:from-gray-900 dark:to-gray-800 py-8 px-4">
       <div className="max-w-7xl mx-auto">

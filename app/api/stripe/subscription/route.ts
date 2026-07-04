@@ -11,6 +11,13 @@ import { getAuth } from 'firebase-admin/auth';
 import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import type { SubscriptionStatusResponse } from '@/types/subscription';
 
+// Owner/admin accounts always have full access — never paywalled. Mirrors the
+// ADMIN_EMAILS list in the other /api/admin routes.
+const ADMIN_EMAILS = [
+  'scott.roelofs@rcgvaluation.com',
+  'scottroelofs@icloud.com',
+];
+
 // Simple in-memory rate limiter: max 20 requests per minute per UID
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 function isRateLimited(uid: string): boolean {
@@ -57,6 +64,20 @@ export async function GET(request: NextRequest) {
     // Ensure the authenticated user is only accessing their own data (IDOR prevention)
     if (decodedToken.uid !== userId) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Owner/admin accounts bypass the paywall entirely — always active Pro.
+    if (ADMIN_EMAILS.includes(decodedToken.email || '')) {
+      const response: SubscriptionStatusResponse = {
+        hasActiveSubscription: true,
+        plan: 'pro',
+        status: 'active',
+        currentPeriodEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        cancelAtPeriodEnd: false,
+        billingPeriod: 'monthly',
+        trialEnd: null,
+      };
+      return NextResponse.json(response, { status: 200 });
     }
 
     // Rate limit per UID

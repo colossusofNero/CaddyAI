@@ -13,7 +13,32 @@ import { headers } from 'next/headers';
 import { stripe, WEBHOOK_EVENTS, STRIPE_PRICE_IDS } from '@/lib/stripe';
 import { updateSubscriptionInFirestoreAdmin } from '@/services/subscriptionServiceAdmin';
 import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
+import { upsertLoopsContact, sendLoopsTransactional } from '@/services/loopsService';
+import { getAuth } from 'firebase-admin/auth';
 import type Stripe from 'stripe';
+
+/**
+ * Sync a user's subscription state onto their Loops contact so Loops-side
+ * automations (trial-started, trial-ending, win-back) can fire on it. Best-
+ * effort: resolves the email via Admin Auth and never throws — a Loops issue
+ * must never fail the webhook (which would make Stripe retry).
+ */
+async function syncSubscriptionToLoops(
+  userId: string,
+  props: { subscriptionStatus: string; subscriptionPlan: string; trialEndDate?: string | null }
+): Promise<void> {
+  try {
+    const email = (await getAuth().getUser(userId)).email;
+    if (!email) return;
+    await upsertLoopsContact(email, {
+      subscriptionStatus: props.subscriptionStatus,
+      subscriptionPlan: props.subscriptionPlan,
+      ...(props.trialEndDate ? { trialEndDate: props.trialEndDate } : {}),
+    });
+  } catch (err) {
+    console.warn('[webhook] Loops subscription sync failed (non-blocking):', err);
+  }
+}
 
 /**
  * Verify and process Stripe webhook events
@@ -202,6 +227,13 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   }, { merge: true });
 
   console.log(`Subscription synced for user ${userId} in both collections`);
+
+  // Sync state onto the Loops contact (trial/subscription automations key on this).
+  await syncSubscriptionToLoops(userId, {
+    subscriptionStatus: subscription.status,
+    subscriptionPlan: plan,
+    trialEndDate: trialEnd ? new Date(trialEnd * 1000).toISOString() : null,
+  });
 }
 
 /**
@@ -258,6 +290,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   }, { merge: true });
 
   console.log(`Subscription canceled for user ${userId} in both collections`);
+
+  // Reflect the cancellation on the Loops contact for win-back automations.
+  await syncSubscriptionToLoops(userId, {
+    subscriptionStatus: 'canceled',
+    subscriptionPlan: 'free',
+    trialEndDate: null,
+  });
 }
 
 /**
@@ -276,8 +315,22 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   console.log('Invoice payment failed:', invoice.id);
 
-  // You might want to send an email notification here
-  // The subscription status will be updated via subscription.updated event
+  // Dunning email. Dormant until the template + LOOPS_PAYMENT_FAILED_TXN_ID are
+  // provisioned (same pattern as the caddy-recap email). Best-effort.
+  const txnId = process.env.LOOPS_PAYMENT_FAILED_TXN_ID;
+  const email = invoice.customer_email;
+  if (!txnId || !email) return;
+  try {
+    const amountDue = ((invoice.amount_due ?? 0) / 100).toFixed(2);
+    await sendLoopsTransactional(email, txnId, {
+      amountDue,
+      currency: (invoice.currency ?? 'usd').toUpperCase(),
+      updatePaymentUrl: 'https://copperlinegolf.com/settings/subscription',
+    });
+  } catch (err) {
+    console.warn('[webhook] Dunning email failed (non-blocking):', err);
+  }
+  // Subscription status itself is updated via the subscription.updated event.
 }
 
 /**

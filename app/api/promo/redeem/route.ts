@@ -13,6 +13,7 @@ import { getAuth } from 'firebase-admin/auth';
 import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { stripe, STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { upsertLoopsContact } from '@/services/loopsService';
 
 export async function POST(request: NextRequest) {
   try {
@@ -118,6 +119,14 @@ export async function POST(request: NextRequest) {
       durationDays: trialDays,
     });
     await batch.commit();
+
+    // Attribute this contact in Loops so QR/promo signups can be segmented and
+    // welcomed differently. A promo doc can set signupSource:'qr' for QR-
+    // distributed codes; everything else counts as 'promo'. Best-effort.
+    await upsertLoopsContact(customerEmail || decodedToken.email, {
+      signupSource: promo.signupSource === 'qr' ? 'qr' : 'promo',
+      promoCode: upperCode,
+    });
 
     return NextResponse.json({
       success: true,

@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { firebaseService } from '@/services/firebaseService';
 import { initializeMissingData } from '@/services/initializationService';
 import { updateUserSetupFlags } from '@/services/authService';
+import { notifyLoops } from '@/services/loopsClient';
 import type { UserProfile } from '@/src/types/user';
 
 export default function ProfilePage() {
@@ -140,6 +141,7 @@ export default function ProfilePage() {
 
       // Mark profile as complete
       await updateUserSetupFlags(user.uid, { profileComplete: true });
+      notifyLoops({ profileComplete: true }); // keep Loops in sync (best-effort)
 
       setSuccess(true);
 

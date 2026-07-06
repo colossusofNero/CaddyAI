@@ -84,3 +84,45 @@ export async function upsertLoopsContact(
     return false;
   }
 }
+
+/**
+ * Send a Loops transactional email. `transactionalId` is the id Loops assigns
+ * to a transactional template you build in their dashboard; `dataVariables`
+ * keys must match the {{handlebars}} in that template. Best-effort — never
+ * throws, so a Loops outage can't break the caller (e.g. the Stripe webhook).
+ */
+export async function sendLoopsTransactional(
+  email: string | null | undefined,
+  transactionalId: string | null | undefined,
+  dataVariables: Record<string, string | number | boolean> = {}
+): Promise<boolean> {
+  const apiKey = process.env.LOOPS_API_KEY;
+  if (!apiKey) {
+    console.warn('[Loops] LOOPS_API_KEY not configured — skipping transactional send');
+    return false;
+  }
+  if (!email || !transactionalId) {
+    console.warn('[Loops] email + transactionalId required — skipping transactional send');
+    return false;
+  }
+
+  try {
+    const res = await fetch(`${LOOPS_API_BASE}/transactional`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ transactionalId, email, dataVariables }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      console.error('[Loops] Transactional send failed:', res.status, body);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error('[Loops] Transactional send error (non-blocking):', err);
+    return false;
+  }
+}

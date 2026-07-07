@@ -79,6 +79,7 @@ export function Footer() {
         { label: t('linkTermsOfService'), href: '/terms' },
         { label: t('linkCookiePolicy'), href: '/cookies' },
         { label: t('linkGdpr'), href: '/gdpr' },
+        { label: 'SMS Program', href: '/sms' },
       ],
     },
   ];

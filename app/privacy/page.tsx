@@ -158,6 +158,41 @@ export default function PrivacyPage() {
                 </div>
               </div>
 
+              {/* SMS / Text Messaging */}
+              <div>
+                <h2 className="text-3xl font-bold text-text-primary mb-4">
+                  SMS / Text Messaging
+                </h2>
+                <div className="text-text-secondary leading-relaxed space-y-4">
+                  <p>
+                    If you opt in, Copperline Golf sends you a one-time
+                    transactional text message containing a link to your group
+                    scorecard after a round. You opt in within the Copperline
+                    Golf mobile app by entering your mobile number and agreeing
+                    to receive the message; texting a keyword is not required.
+                    Message frequency is approximately one message per round you
+                    play. Message and data rates may apply.
+                  </p>
+                  <p>
+                    <strong>
+                      We do not sell, rent, or share your mobile number with any
+                      third party for that party&apos;s marketing.
+                    </strong>{' '}
+                    Your number is used only to deliver your scorecard, and your
+                    consent is recorded with a timestamp.
+                  </p>
+                  <p>
+                    Reply <strong>STOP</strong> to any message to unsubscribe at
+                    any time, or <strong>HELP</strong> for help. Full program
+                    details are available at{' '}
+                    <a href="/sms" className="text-primary hover:underline">
+                      copperlinegolf.com/sms
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
+
               {/* Your Rights */}
               <div>
                 <h2 className="text-3xl font-bold text-text-primary mb-4">

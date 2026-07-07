@@ -171,7 +171,9 @@ async function emailRecap(session: CaddySession): Promise<boolean> {
     'https://copperlinegolf.com/analytics/caddy-recap?utm_source=loops&utm_medium=email&utm_campaign=caddy-recap';
 
   const result = await sendLoopsTransactional(email, transactionalId, {
-    firstName,
+    // NB: not "firstName" — Loops reserves that as a contact property and
+    // rejects it as a transactional data variable.
+    playerName: firstName,
     courseName: session.courseName ?? 'the course',
     date: session.date,
     totalAsks: session.totalAsks,

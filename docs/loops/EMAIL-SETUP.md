@@ -44,8 +44,9 @@ template's transactional ID into the env var above.
 
 ### b) Caddy Recap (abandoned-round win-back) — `LOOPS_CADDY_RECAP_TXN_ID`
 - **Subject:** `Your round at {{courseName}} — here's what your caddy saw`
-- **Data variables (7):** firstName, courseName, date, totalAsks, holesEngaged, highlight, recapUrl
-- **Body gist:** "Hi {{firstName}} — you asked your caddy {{totalAsks}} times across {{holesEngaged}} holes at {{courseName}} on {{date}}. {{highlight}}. Finish logging your round →  {{recapUrl}}."
+- **Data variables (7):** playerName, courseName, date, totalAsks, holesEngaged, highlight, recapUrl
+  - NB: it's `playerName`, **not** `firstName` — Loops reserves `firstName` as a contact property and rejects it as a transactional data variable.
+- **Body gist:** "Hi {{playerName}} — you asked your caddy {{totalAsks}} times across {{holesEngaged}} holes at {{courseName}} on {{date}}. {{highlight}}. Finish logging your round →  {{recapUrl}}."
 
 ### c) Payment Failed (dunning) — `LOOPS_PAYMENT_FAILED_TXN_ID`
 - **Subject:** `Your CopperLine Golf payment didn't go through`

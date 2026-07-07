@@ -1,7 +1,7 @@
 <mjml>
   <mj-head>
     <mj-title>CopperLine Golf — Caddy Recap</mj-title>
-    <mj-preview>Your caddy tracked {{totalAsks}} calls across {{holesEngaged}} holes at {{courseName}}</mj-preview>
+    <mj-preview>Your caddy tracked {DATA_VARIABLE:totalAsks} calls across {DATA_VARIABLE:holesEngaged} holes at {DATA_VARIABLE:courseName}</mj-preview>
     <mj-attributes>
       <mj-all font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" />
       <mj-text color="#1f2937" font-size="14px" line-height="1.5" padding="0" />
@@ -23,9 +23,9 @@
       <!-- Intro -->
       <mj-section padding="28px 28px 6px">
         <mj-column>
-          <mj-text color="#4b5563" font-size="15px" padding-bottom="6px">Hi {{playerName}},</mj-text>
-          <mj-text font-size="22px" font-weight="700" line-height="1.3">Here's what your caddy saw at {{courseName}}</mj-text>
-          <mj-text font-size="13px" color="#6b7280" padding-top="6px">{{date}}</mj-text>
+          <mj-text color="#4b5563" font-size="15px" padding-bottom="6px">Hi {DATA_VARIABLE:playerName},</mj-text>
+          <mj-text font-size="22px" font-weight="700" line-height="1.3">Here's what your caddy saw at {DATA_VARIABLE:courseName}</mj-text>
+          <mj-text font-size="13px" color="#6b7280" padding-top="6px">{DATA_VARIABLE:date}</mj-text>
         </mj-column>
       </mj-section>
 
@@ -33,11 +33,11 @@
       <mj-section padding="14px 28px 0">
         <mj-group>
           <mj-column background-color="#faf7f3" border="1px solid #ece5dc" border-radius="12px 0 0 12px" padding="16px 0">
-            <mj-text align="center" font-size="26px" font-weight="800" color="#b87333">{{totalAsks}}</mj-text>
+            <mj-text align="center" font-size="26px" font-weight="800" color="#b87333">{DATA_VARIABLE:totalAsks}</mj-text>
             <mj-text align="center" font-size="11px" color="#9ca3af">CADDY CALLS</mj-text>
           </mj-column>
           <mj-column background-color="#faf7f3" border-top="1px solid #ece5dc" border-right="1px solid #ece5dc" border-bottom="1px solid #ece5dc" border-radius="0 12px 12px 0" padding="16px 0">
-            <mj-text align="center" font-size="26px" font-weight="800">{{holesEngaged}}</mj-text>
+            <mj-text align="center" font-size="26px" font-weight="800">{DATA_VARIABLE:holesEngaged}</mj-text>
             <mj-text align="center" font-size="11px" color="#9ca3af">HOLES</mj-text>
           </mj-column>
         </mj-group>
@@ -46,7 +46,7 @@
       <!-- Highlight -->
       <mj-section padding="18px 28px 0">
         <mj-column border-left="3px solid #b87333" padding-left="14px">
-          <mj-text font-size="14px" line-height="1.55" color="#374151">{{highlight}}</mj-text>
+          <mj-text font-size="14px" line-height="1.55" color="#374151">{DATA_VARIABLE:highlight}</mj-text>
         </mj-column>
       </mj-section>
 
@@ -60,7 +60,7 @@
       <!-- CTA -->
       <mj-section padding="22px 28px 6px">
         <mj-column>
-          <mj-button href="{{recapUrl}}" background-color="#b87333" color="#ffffff" font-size="15px" font-weight="700" border-radius="10px" inner-padding="13px 26px">
+          <mj-button href="{DATA_VARIABLE:recapUrl}" background-color="#b87333" color="#ffffff" font-size="15px" font-weight="700" border-radius="10px" inner-padding="13px 26px">
             Finish your round
           </mj-button>
         </mj-column>

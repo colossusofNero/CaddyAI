@@ -54,7 +54,7 @@ function splitDisplayName(displayName: string | null | undefined): {
 }
 
 export const onUserCreated = functions
-  .runWith({ secrets: ['LOOPS_API_KEY'] })
+  .runWith({ secrets: ['LOOPS_API_KEY', 'LOOPS_TEST_ONLY_EMAILS'] })
   .auth.user()
   .onCreate(async (user) => {
     const email = user.email;

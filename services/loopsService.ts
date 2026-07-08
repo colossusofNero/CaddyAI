@@ -13,6 +13,17 @@ import 'server-only';
 
 const LOOPS_API_BASE = 'https://app.loops.so/api/v1';
 
+// Test-mode allowlist. When LOOPS_TEST_ONLY_EMAILS is set (comma-separated),
+// only those addresses get contacts synced / emails sent; everyone else is
+// skipped. Clear the env var to resume normal behaviour for all users.
+function emailAllowed(email: string | null | undefined): boolean {
+  const allow = process.env.LOOPS_TEST_ONLY_EMAILS;
+  if (!allow || allow.trim() === '*') return true; // unset or '*' = allow everyone (live)
+  if (!email) return false;
+  const list = allow.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+  return list.includes(email.toLowerCase());
+}
+
 export type LoopsSignupSource = 'organic' | 'qr' | 'promo';
 
 export type LoopsContactProperties = {
@@ -52,6 +63,10 @@ export async function upsertLoopsContact(
   }
   if (!email) {
     console.warn('[Loops] No email provided — skipping contact upsert');
+    return false;
+  }
+  if (!emailAllowed(email)) {
+    console.log('[Loops] test mode (LOOPS_TEST_ONLY_EMAILS) — skipping contact upsert for', email);
     return false;
   }
 
@@ -103,6 +118,10 @@ export async function sendLoopsTransactional(
   }
   if (!email || !transactionalId) {
     console.warn('[Loops] email + transactionalId required — skipping transactional send');
+    return false;
+  }
+  if (!emailAllowed(email)) {
+    console.log('[Loops] test mode (LOOPS_TEST_ONLY_EMAILS) — skipping transactional send to', email);
     return false;
   }
 

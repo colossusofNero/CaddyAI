@@ -225,7 +225,7 @@ async function closeStaleLegacyRounds(nowMs: number, summary: ClosureSummary): P
 // ─── Scheduled entry point ──────────────────────────────────────────────────
 
 export const autoCloseRoundsFn = functions
-  .runWith({ secrets: ['LOOPS_API_KEY', 'LOOPS_CADDY_RECAP_TXN_ID'], timeoutSeconds: 300, memory: '512MB' })
+  .runWith({ secrets: ['LOOPS_API_KEY', 'LOOPS_CADDY_RECAP_TXN_ID', 'LOOPS_TEST_ONLY_EMAILS'], timeoutSeconds: 300, memory: '512MB' })
   .pubsub.schedule('every 60 minutes')
   .timeZone('America/Phoenix')
   .onRun(async () => {

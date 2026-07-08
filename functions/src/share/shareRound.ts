@@ -44,7 +44,7 @@ async function checkRateLimit(uid: string): Promise<boolean> {
 }
 
 export const sendShareRoundEmailFn = functions
-  .runWith({ secrets: ['LOOPS_API_KEY', 'LOOPS_SHARE_ROUND_TXN_ID'] })
+  .runWith({ secrets: ['LOOPS_API_KEY', 'LOOPS_SHARE_ROUND_TXN_ID', 'LOOPS_TEST_ONLY_EMAILS'] })
   .https.onCall(async (data: ShareRoundRequest, context): Promise<ShareRoundResponse> => {
     if (!context.auth?.uid) {
       throw new functions.https.HttpsError('unauthenticated', 'Sign in required');

@@ -9,6 +9,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -131,13 +132,13 @@ export default function SmsProgramPage() {
                     <strong>Privacy:</strong> We do not sell, rent, or share your
                     mobile number with any third party for their marketing. See
                     our{' '}
-                    <a href="/privacy" className="text-primary hover:underline">
+                    <Link href="/privacy" className="text-primary hover:underline">
                       Privacy Policy
-                    </a>{' '}
+                    </Link>{' '}
                     and{' '}
-                    <a href="/terms" className="text-primary hover:underline">
+                    <Link href="/terms" className="text-primary hover:underline">
                       Terms of Service
-                    </a>
+                    </Link>
                     .
                   </li>
                 </ul>

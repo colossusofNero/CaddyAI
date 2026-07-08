@@ -5,6 +5,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -185,9 +186,9 @@ export default function PrivacyPage() {
                     Reply <strong>STOP</strong> to any message to unsubscribe at
                     any time, or <strong>HELP</strong> for help. Full program
                     details are available at{' '}
-                    <a href="/sms" className="text-primary hover:underline">
+                    <Link href="/sms" className="text-primary hover:underline">
                       copperlinegolf.com/sms
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>

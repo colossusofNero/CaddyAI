@@ -8,6 +8,7 @@
  * when reviewing the A2P campaign, so it must resolve with no login.
  */
 
+import Link from 'next/link';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { initializeFirebaseAdmin } from '@/services/firebaseAdmin';
@@ -143,9 +144,9 @@ export default async function RecapPage({
               <p className="text-center text-sm text-text-muted mt-8">
                 Scored with Copperline Golf. Want your own AI caddie and shared
                 scorecards?{' '}
-                <a href="/" className="text-primary hover:underline">
+                <Link href="/" className="text-primary hover:underline">
                   Get the app
-                </a>
+                </Link>
                 .
               </p>
             </>

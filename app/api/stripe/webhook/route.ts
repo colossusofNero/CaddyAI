@@ -25,7 +25,7 @@ import type Stripe from 'stripe';
  */
 async function syncSubscriptionToLoops(
   userId: string,
-  props: { subscriptionStatus: string; subscriptionPlan: string; trialEndDate?: string | null }
+  props: { subscriptionStatus: string; subscriptionPlan: string; trialEndDate?: string | null; renewalDate?: string | null }
 ): Promise<void> {
   try {
     const email = (await getAuth().getUser(userId)).email;
@@ -34,6 +34,7 @@ async function syncSubscriptionToLoops(
       subscriptionStatus: props.subscriptionStatus,
       subscriptionPlan: props.subscriptionPlan,
       ...(props.trialEndDate ? { trialEndDate: props.trialEndDate } : {}),
+      ...(props.renewalDate ? { renewalDate: props.renewalDate } : {}),
     });
   } catch (err) {
     console.warn('[webhook] Loops subscription sync failed (non-blocking):', err);
@@ -233,6 +234,7 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     subscriptionStatus: subscription.status,
     subscriptionPlan: plan,
     trialEndDate: trialEnd ? new Date(trialEnd * 1000).toISOString() : null,
+    renewalDate: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
   });
 }
 

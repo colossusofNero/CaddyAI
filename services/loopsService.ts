@@ -38,6 +38,7 @@ export type LoopsContactProperties = {
   subscriptionStatus?: string;
   subscriptionPlan?: string;
   trialEndDate?: string;
+  renewalDate?: string;
   handicap?: number;
   skillLevel?: string;
   playFrequency?: string;

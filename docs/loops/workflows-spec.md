@@ -78,9 +78,9 @@ to every workflow so nothing reaches real users (belt-and-suspenders with the
 - **Body:**
   > Last reminder, {{firstName}} — your CopperLine Pro trial ends tomorrow and your plan begins. Keep everything as-is to stay Pro, or make changes here. **[Manage subscription →]** (/settings/subscription)
 
-## 6. Renewal  ⚠️ needs a small code add
-- **Trigger:** ~7 days **before** `renewalDate` (date-based)
-- **Blocker:** the code syncs `trialEndDate` but **not** `currentPeriodEnd`. To power this I'll add `renewalDate` (= currentPeriodEnd) to the webhook sync (~2 lines). Say the word.
+## 6. Renewal
+- **Trigger:** ~7 days **before** `renewalDate` (date-based). *(`renewalDate` = Stripe `currentPeriodEnd`, now synced by the webhook.)*
+- **Audience filter:** `subscriptionStatus is active` — canceled contacts keep their last `renewalDate`, so filter them out or they'd get a renewal reminder.
 - **Subject:** Your CopperLine Pro renews in 7 days
 - **Body:**
   > {{firstName}}, your Pro plan renews on {{renewalDate}}. No action needed to continue. Want to switch plans or cancel? **[Manage subscription →]** (/settings/subscription)

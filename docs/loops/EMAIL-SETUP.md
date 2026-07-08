@@ -81,7 +81,7 @@ Contact **upserts** (feed the automations above):
 - **Profile save** → `profile/page.tsx` now syncs `profileComplete`. *(new)*
 - **Clubs save** → `clubs/page.tsx` now syncs `clubsComplete`. *(new)*
 - **Promo/QR redeem** → `api/promo/redeem` now sets `signupSource` (`qr` if the promo doc has `signupSource:'qr'`, else `promo`) + `promoCode`. *(new)*
-- **Stripe webhook** → on subscription create/update/cancel, syncs `subscriptionStatus`, `subscriptionPlan`, `trialEndDate` onto the contact (resolves email via Admin Auth). *(new — this was the missing linchpin)*
+- **Stripe webhook** → on subscription create/update/cancel, syncs `subscriptionStatus`, `subscriptionPlan`, `trialEndDate`, and `renewalDate` (= currentPeriodEnd) onto the contact (resolves email via Admin Auth). *(the missing linchpin — powers trial, renewal & win-back automations)*
 
 Transactional **sends**:
 - **Share round** (Cloud Function, already wired).

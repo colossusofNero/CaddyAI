@@ -11,12 +11,10 @@
   <mj-body background-color="#f4f1ee">
     <mj-wrapper background-color="#ffffff" border-radius="14px" padding="0">
 
-      <!-- Brand header -->
-      <mj-section background-color="#1b1815" padding="20px 28px" border-radius="14px 14px 0 0">
+      <!-- Brand header — logo centered on white -->
+      <mj-section padding="26px 28px 10px" border-radius="14px 14px 0 0">
         <mj-column>
-          <mj-text font-size="20px" font-weight="700" color="#ffffff" letter-spacing="0.5px">
-            Copper<span style="color:#b87333;">line</span> Golf
-          </mj-text>
+          <mj-image src="https://copperlinegolf.com/logo.png" alt="Copperline Golf" width="150px" align="center" padding="0" />
         </mj-column>
       </mj-section>
 
